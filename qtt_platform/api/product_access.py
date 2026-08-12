@@ -10,6 +10,7 @@ tenant-governed path.
 import frappe
 from frappe import _
 
+from qtt_platform.audit import write_audit_event
 from qtt_platform.tenant.guards import require_tenant_role
 
 _GOVERNANCE_ROLES = ["Tenant Owner", "Tenant Admin"]
@@ -57,8 +58,14 @@ def grant_product_access(tenant: str, target_user: str, product: str, product_ro
 		)
 		access.insert(ignore_permissions=True)
 
-	# TODO(Phase 8+ audit): write a `product_access_granted` QTT Audit Log
-	# event here once that doctype ships.
+	write_audit_event(
+		"product_access_granted",
+		tenant=tenant,
+		product=product,
+		target_doctype="QTT Product Access",
+		target_name=access.name,
+		metadata={"target_user": target_user, "product_role": product_role},
+	)
 
 	return {"name": access.name, "product_role": access.product_role, "status": access.status}
 
@@ -85,7 +92,14 @@ def revoke_product_access(tenant: str, target_user: str, product: str) -> dict:
 	access.status = "removed"
 	access.save(ignore_permissions=True)
 
-	# TODO(Phase 8+ audit): `product_access_removed` event.
+	write_audit_event(
+		"product_access_removed",
+		tenant=tenant,
+		product=product,
+		target_doctype="QTT Product Access",
+		target_name=access.name,
+		metadata={"target_user": target_user},
+	)
 
 	return {"name": access.name, "status": access.status}
 
@@ -109,7 +123,14 @@ def change_product_role(tenant: str, target_user: str, product: str, new_role: s
 	access.product_role = new_role  # re-validated against the role catalog in validate()
 	access.save(ignore_permissions=True)
 
-	# TODO(Phase 8+ audit): `product_role_changed` event.
+	write_audit_event(
+		"product_role_changed",
+		tenant=tenant,
+		product=product,
+		target_doctype="QTT Product Access",
+		target_name=access.name,
+		metadata={"target_user": target_user, "new_role": new_role},
+	)
 
 	return {"name": access.name, "product_role": access.product_role}
 

@@ -4,3 +4,4 @@ qtt_platform.patches.v0_2.add_product_access_constraints
 qtt_platform.patches.v0_3.add_subscription_constraints
 qtt_platform.patches.v0_4.add_feature_override_constraint
 qtt_platform.patches.v0_5.add_ai_constraints
+qtt_platform.patches.v0_6.add_billing_indexes

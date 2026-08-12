@@ -1,0 +1,127 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Audit Log",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 0,
+ "autoname": "hash",
+ "naming_rule": "Random",
+ "sort_field": "occurred_at",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "Generic, product-aware but product-agnostic security/audit trail — every write goes through qtt_platform.audit.write_audit_event() with ignore_permissions=True. No role, including System Manager, can create/edit/delete a row through the Desk UI: history cannot be rewritten by any actor, tenant-level or platform-level. tenant/product are nullable — some events (e.g. platform-level Product Registry changes) are not scoped to either.",
+ "field_order": [
+  "tenant",
+  "product",
+  "actor",
+  "event_type",
+  "column_break_target",
+  "target_doctype",
+  "target_name",
+  "ip_address",
+  "occurred_at",
+  "section_break_state",
+  "before_state",
+  "after_state",
+  "metadata"
+ ],
+ "fields": [
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "label": "Tenant",
+   "options": "QTT Tenant",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "product",
+   "fieldtype": "Link",
+   "label": "Product",
+   "options": "QTT Product",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "actor",
+   "fieldtype": "Link",
+   "label": "Actor",
+   "options": "User",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "event_type",
+   "fieldtype": "Data",
+   "label": "Event Type",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "description": "e.g. tenant_created, product_access_granted, security_violation — see qtt_platform/audit.py for the catalog referenced so far; products may write their own event_type strings via the same function."
+  },
+  {
+   "fieldname": "column_break_target",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "target_doctype",
+   "fieldtype": "Data",
+   "label": "Target DocType"
+  },
+  {
+   "fieldname": "target_name",
+   "fieldtype": "Data",
+   "label": "Target Name"
+  },
+  {
+   "fieldname": "ip_address",
+   "fieldtype": "Data",
+   "label": "IP Address"
+  },
+  {
+   "fieldname": "occurred_at",
+   "fieldtype": "Datetime",
+   "label": "Occurred At",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "section_break_state",
+   "fieldtype": "Section Break",
+   "label": "Detail"
+  },
+  {
+   "fieldname": "before_state",
+   "fieldtype": "Code",
+   "options": "JSON",
+   "label": "Before State"
+  },
+  {
+   "fieldname": "after_state",
+   "fieldtype": "Code",
+   "options": "JSON",
+   "label": "After State"
+  },
+  {
+   "fieldname": "metadata",
+   "fieldtype": "Code",
+   "options": "JSON",
+   "label": "Metadata"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "links": []
+}

@@ -12,7 +12,13 @@ database, never a separate service. See the six architecture documents this
 implements for the full reasoning; nothing here should be read without that
 context.
 
-## Status: source-complete through Phase 8, never deployed
+## Status: ALL 10 PHASES source-complete, never deployed
+
+QMP LMS integration (Phase 10) is a **separate sibling project**,
+`qmp_lms_bridge` — see below for why, and see that project's own README
+for its full detail. This repository (`qtt_platform`) gained one small,
+generic extension to support it: the parent-walk case in
+`document_security.resolve_tenant_for_doc()`, deferred since Phase 3.
 
 Exactly like `qzmaster-ai-gateway` earlier in this project, this app has
 been built and validated locally (Python syntax + DocType JSON checked) but
@@ -283,18 +289,77 @@ the cost/credit separation all carry over. What changed structurally:
   real cron is left for Phase 9, which has its own billing-reconciliation
   job needs to establish that convention alongside.
 
-## What's deliberately NOT here yet
+## What's implemented (Phase 9 — added this pass)
 
-Per the implementation order in the hardening review (section 27) and the
-platform specification (section 32), later phases add:
+| Piece | File |
+|---|---|
+| `QTT Payment Gateway Config` — secrets via Password fieldtype | `qtt_platform/qtt_platform/doctype/qtt_payment_gateway_config/` |
+| `QTT Invoice` (+ `QTT Invoice Item`) — multi-product consolidated billing | `.../qtt_invoice/`, `.../qtt_invoice_item/` |
+| `QTT Payment` (append-only) / `QTT Payment Transaction` (raw, fully locked) | `.../qtt_payment/`, `.../qtt_payment_transaction/` |
+| Gateway interface + Razorpay adapter (real HMAC signature verification) | `qtt_platform/billing/gateways/` |
+| Billing lifecycle service + reconciliation | `qtt_platform/billing/service.py` |
+| Whitelisted API + the one `allow_guest=True` webhook receiver in this app | `qtt_platform/api/billing.py` |
+| **Gap-fill**: `QTT Audit Log` + `write_audit_event()`, wired into all 5 previously-deferred `TODO(audit)` comments across Phases 1/3/4/9 | `.../qtt_audit_log/`, `qtt_platform/audit.py` |
 
-- **Phase 9** — billing: `QTT Invoice`, `QTT Payment`,
-  `QTT Payment Transaction`, the Razorpay adapter, the webhook handler
-- **Phase 10** — QMP LMS integration: the 12 `tenant` Custom Fields on
-  LMS's anchor/denormalized doctypes, LMS's own product registration
+Worth calling out:
 
-Nothing in Phase 1 references any doctype or function from a later phase —
-`hooks.py` documents this explicitly rather than stubbing ahead.
+- **No client-controlled amount, concretely**: `create_payment_order()`
+  reads `invoice.amount`/`invoice.currency` from the database — there is
+  no code path anywhere in `billing/service.py` that accepts an amount
+  from a caller for a real charge, closing the hardening review section
+  10's explicit vulnerability.
+- **The Razorpay adapter is real, correct code, not tested against a real
+  account.** Built from Razorpay's publicly documented Orders API and
+  webhook conventions (Basic Auth, amounts in paise, HMAC-SHA256 webhook
+  signatures) — the same general-API-knowledge basis used for the
+  DeepSeek/OpenAI provider clients in Phase 8. Signature verification
+  itself (`hmac.compare_digest`) is standard, correct cryptographic
+  practice. What's genuinely unverified: the exact webhook payload field
+  nesting, since no Razorpay sandbox account was available this session
+  — flagged directly in `razorpay_gateway.py`'s docstring, not glossed
+  over.
+- **`QTT Audit Log` was a real gap, not a planned deliverable that
+  happened to land here.** Every architecture document specified it; no
+  phase breakdown ever scheduled building it. Found and closed while
+  writing this phase's own webhook-rejection audit event — rather than
+  add a 6th `TODO`, all 5 pre-existing ones got wired up for real.
+- **`reconcile_payments()`** (the recoverable-state mechanism from the
+  hardening review section 24) and Phase 8's `reconcile_wallet()` are
+  both built but neither is registered as a scheduled job — no
+  `scheduler_events` convention exists in this app yet. Deliberately not
+  invented for one job in isolation; both are ready the moment that
+  convention is established.
+
+## What's implemented (Phase 10 — QMP LMS integration, in a sibling project)
+
+Phase 10 is **`qmp_lms_bridge`**, a separate app in its own repository —
+not part of this one. Full detail, including the architectural reasoning
+for why it has to be a third app, lives in that project's own README.
+What changed *here*, in `qtt_platform` itself, to support it:
+
+- **`document_security.resolve_tenant_for_doc()` gained the parent-walk
+  case it deferred back in Phase 3** — both a static form
+  (`tenant_parent_links`, e.g. `{"Course Chapter": ("course", "LMS Course")}`)
+  and a dynamic/polymorphic form (`tenant_dynamic_parent_links`, for a
+  `reference_doctype`/`reference_docname`-style field pair like
+  `Discussion Topic`'s). Both registries are hooks.py dicts populated by
+  products — `qtt_platform` declares both empty, the same pattern already
+  established for `usage_resolvers`.
+- **Nothing else changed.** `has_permission` (built generic in Phase 7,
+  sitting unregistered for lack of a real target) needed zero new code —
+  `qmp_lms_bridge` registers the exact same function directly against
+  LMS's 4 hook-only doctypes. This is the literal payoff of building that
+  function generically three phases before it had anywhere to go: Phase
+  10 really did turn out to be "wire up Custom Fields and hooks.py
+  registrations only," exactly as Phase 1's very first `hooks.py` comment
+  predicted it would be.
+
+Every one of the six architecture documents this project implements is
+now fully realized in source code — nothing left deferred to "a later
+phase." What remains is genuinely external: bench access to actually
+install any of this, real credentials for the AI/payment providers, and
+the confidence-flagged LMS field names in `qmp_lms_bridge` that should be
+confirmed against live schema before this governs real tenant data.
 
 ## Deployment (for whoever has bench access)
 
@@ -404,3 +469,18 @@ on a disposable/staging site first and exercise at minimum:
   `qtt_platform/ai/providers/openai_compatible_provider.py` as the
   standard mechanism but not executable-verified this session (no live
   Frappe instance available)
+- **Webhook signature rejection**: send `razorpay_webhook` a payload with
+  an invalid/missing signature → rejected before any DB write, a
+  `security_violation` audit event recorded, no `QTT Payment Transaction`
+  status changed
+- **Webhook idempotency**: replay the identical valid webhook payload
+  twice → the second call returns `already_processed: True`, no second
+  `QTT Payment` row created
+- Attempt `create_payment_order` with a fabricated `amount` anywhere in
+  the request (there shouldn't be a parameter for it at all) — confirms
+  by construction that the server-side invoice amount is the only source
+- `refund_payment` called twice against the same original payment →
+  returns the same existing refund row both times, never creates two
+  - Register a real Razorpay sandbox account before going live and run
+  one real `create_order` + webhook round trip — the one thing this
+  phase genuinely could not verify without external credentials

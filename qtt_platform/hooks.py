@@ -149,12 +149,54 @@ has_permission = {}
 # accepted for now, same capacity question the single-application
 # specification already flagged as open, not re-litigated here.
 #
-# NOT yet implemented (later phases — see the implementation-order section
-# of the hardening review):
-#   Phase 9  Billing (Invoice/Payment/Payment Transaction, Razorpay adapter,
-#            webhook handler)
-#   Phase 10 QMP LMS integration (Custom Fields on the 12 anchor/denormalized
-#            LMS doctypes, LMS's own product registration)
+# PHASE 9 — implemented: QTT Payment Gateway Config (secrets via Password
+# fieldtype, same trust boundary as QTT AI Provider), QTT Invoice (+ QTT
+# Invoice Item, supporting multi-product consolidated billing), QTT
+# Payment (append-only — a refund is a NEW row with refund_of set, never
+# a mutation), QTT Payment Transaction (raw gateway records, fully
+# locked). The provider-agnostic gateway interface lives in
+# qtt_platform/billing/gateways/base.py; Razorpay is the first real
+# implementation (real HMAC-SHA256 webhook signature verification via
+# hmac.compare_digest — not guessed cryptography, but built from
+# Razorpay's publicly documented conventions rather than tested against a
+# real sandbox account, which wasn't available this session — see that
+# file's own docstring). billing/service.py owns the full lifecycle
+# (create_invoice, create_payment_order — amount always read server-side
+# from the invoice, never a request parameter — process_webhook,
+# refund_payment, reconcile_payments). The one allow_guest=True
+# whitelisted method in this entire app is the webhook receiver
+# (api/billing.py's razorpay_webhook) — its signature check is the only
+# authentication, matching the hardening review section 10's explicit
+# design.
+#
+# Also this phase: QTT Audit Log — a real gap found while writing this
+# phase. Every prior phase (1/3/4) had left a `TODO(Phase 8+ audit)`
+# comment deferring it, and it had never actually been scheduled as its
+# own deliverable in this phase breakdown. Built now: the doctype itself
+# (fully locked down, insert-only via qtt_platform.audit.write_audit_event,
+# no role can rewrite history) and every one of those deferred TODOs
+# wired up for real, not left pending again.
+#
+# PHASE 10 — implemented, in a SEPARATE app: qmp_lms_bridge (a sibling
+# project, not part of this repository). qtt_platform itself gained one
+# small, generic extension this phase: resolve_tenant_for_doc()
+# (document_security.py) now implements the parent-walk case it deferred
+# in Phase 3 — both a static registry (tenant_parent_links, below) and a
+# dynamic/polymorphic one (tenant_dynamic_parent_links, for a
+# reference_doctype/reference_docname-style field pair). Both dicts are
+# declared empty here, same pattern as usage_resolvers: qtt_platform
+# registers neither, qmp_lms_bridge populates both with real LMS data.
+# has_permission (Phase 7, built generic, never registered anywhere) is
+# now genuinely load-bearing — qmp_lms_bridge registers the exact same
+# function against LMS's 4 hook-only doctypes with zero new platform code
+# needed, exactly the "Phase 10 wires up Custom Fields and hooks.py
+# registrations only" outcome Phase 1's very first comment predicted.
+#
+# See qmp_lms_bridge's own README for why this had to be a third app
+# (never inside `lms` — vendor code; never inside qtt_platform — must
+# stay product-agnostic) and for its explicit confidence notes on which
+# LMS field names were freshly verified this project vs. carried forward
+# from earlier work and flagged for confirmation before a real deploy.
 #
 # Nothing below this comment references a doctype that doesn't exist yet —
 # each phase's hook registrations are added when that phase's doctypes ship,
@@ -172,3 +214,17 @@ has_permission = {}
 # domain features of its own); populated once a product — LMS in Phase 10
 # — declares its own, e.g. {"QMP_LMS::max_students": "lms.usage.count_students"}.
 usage_resolvers = {}
+
+# Tenant parent-link registries — read by
+# qtt_platform.document_security.resolve_tenant_for_doc() to walk from a
+# hook-only doctype (no direct `tenant` field) up to its tenant-bearing
+# parent. Same aggregation mechanism and the same open shape-verification
+# note as usage_resolvers above. qtt_platform registers neither; LMS
+# (Phase 10, via qmp_lms_bridge — a separate app, not this one or `lms`
+# itself, since neither may know about the other's doctypes) declares
+# both kinds:
+#   tenant_parent_links — static: {"Course Chapter": ("course", "LMS Course")}
+#   tenant_dynamic_parent_links — polymorphic, e.g. a reference_doctype/
+#   reference_docname pair: {"Discussion Topic": ("reference_doctype", "reference_docname")}
+tenant_parent_links = {}
+tenant_dynamic_parent_links = {}

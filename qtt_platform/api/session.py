@@ -15,6 +15,7 @@ exist here and should not be re-added without a new, real reason.
 import frappe
 from frappe import _
 
+from qtt_platform.audit import write_audit_event
 from qtt_platform.tenant.context import switch_tenant as _switch_tenant
 from qtt_platform.tenant.context import resolve_active_tenant
 
@@ -63,8 +64,7 @@ def create_tenant(tenant_name: str, slug: str) -> dict:
 		}
 	).insert(ignore_permissions=True)
 
-	# TODO(Phase 8+ audit): write a `tenant_created` QTT Audit Log event
-	# here once that doctype ships — not yet implemented in Phase 1.
+	write_audit_event("tenant_created", tenant=tenant.name, target_doctype="QTT Tenant", target_name=tenant.name)
 
 	result = _switch_tenant(tenant.name, user=user)
 	return {"tenant": tenant.name, **result}
