@@ -1,0 +1,15 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+recursive-include qtt_platform *.css
+recursive-include qtt_platform *.csv
+recursive-include qtt_platform *.html
+recursive-include qtt_platform *.ico
+recursive-include qtt_platform *.js
+recursive-include qtt_platform *.json
+recursive-include qtt_platform *.md
+recursive-include qtt_platform *.png
+recursive-include qtt_platform *.py
+recursive-include qtt_platform *.svg
+recursive-include qtt_platform *.txt
+recursive-exclude qtt_platform *.pyc

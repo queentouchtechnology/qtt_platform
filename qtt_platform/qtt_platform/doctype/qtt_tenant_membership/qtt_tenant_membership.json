@@ -1,0 +1,86 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Tenant Membership",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 1,
+ "autoname": "hash",
+ "naming_rule": "Random",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "Coarse: 'is this person part of this org.' Governance role only — product-specific roles (Instructor, HR Manager, ...) live on QTT Product Access, never here. This is also the source User Permission reads from for tenant-level document scoping.",
+ "field_order": [
+  "user",
+  "tenant",
+  "column_break_role",
+  "tenant_role",
+  "status",
+  "invited_by"
+ ],
+ "fields": [
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "label": "Tenant",
+   "options": "QTT Tenant",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "column_break_role",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "tenant_role",
+   "fieldtype": "Select",
+   "label": "Tenant Role",
+   "options": "Tenant Owner\nTenant Admin\nMember",
+   "default": "Member",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "Governance authority only (billing, membership, settings) — never a product-specific role. See the hardening review section 5's authorization matrix."
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "invited\nactive\nsuspended\nremoved",
+   "default": "invited",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "invited_by",
+   "fieldtype": "Link",
+   "label": "Invited By",
+   "options": "User"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "links": []
+}

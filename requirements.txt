@@ -1,0 +1,4 @@
+# qtt_platform depends only on frappe itself; it is installed on a bench
+# where frappe (and the lms app it extends without modifying) are already
+# present. No third-party Python packages beyond what frappe already
+# bundles (requests, etc.) are required for Phase 1.

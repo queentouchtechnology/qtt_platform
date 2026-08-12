@@ -1,0 +1,136 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Tenant",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 1,
+ "autoname": "hash",
+ "naming_rule": "Random",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "The billable organization — the generic SaaS customer. Deliberately product-blind: no student/course/employee/payroll fields belong here. See the QTT SaaS Platform architecture document, section 4.",
+ "field_order": [
+  "tenant_name",
+  "legal_name",
+  "slug",
+  "column_break_status",
+  "status",
+  "owner_user",
+  "trial_ends_on",
+  "section_break_branding",
+  "logo",
+  "column_break_locale",
+  "timezone",
+  "currency",
+  "language",
+  "country"
+ ],
+ "fields": [
+  {
+   "fieldname": "tenant_name",
+   "fieldtype": "Data",
+   "label": "Tenant Name",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "legal_name",
+   "fieldtype": "Data",
+   "label": "Legal Name",
+   "description": "Optional — the registered business name, if different from the display name."
+  },
+  {
+   "fieldname": "slug",
+   "fieldtype": "Data",
+   "label": "Slug",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1,
+   "description": "URL-safe identifier. Lowercase letters, numbers, hyphens only — enforced in validate()."
+  },
+  {
+   "fieldname": "column_break_status",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "trial\nactive\nsuspended\ncancelled\narchived",
+   "default": "trial",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "description": "Lifecycle field. suspended/cancelled/archived all lock out every member — see the hardening review section 22 for the exact distinctions."
+  },
+  {
+   "fieldname": "owner_user",
+   "fieldtype": "Link",
+   "label": "Owner User",
+   "options": "User",
+   "reqd": 1,
+   "description": "The user who created this tenant — the bootstrap Tenant Owner. Set once at creation, not intended to be reassigned casually (ownership transfer is a deliberate, auditable action, not a plain field edit)."
+  },
+  {
+   "fieldname": "trial_ends_on",
+   "fieldtype": "Date",
+   "label": "Trial Ends On",
+   "description": "Null once the tenant converts to a paid subscription on any product."
+  },
+  {
+   "fieldname": "section_break_branding",
+   "fieldtype": "Section Break",
+   "label": "Branding"
+  },
+  {
+   "fieldname": "logo",
+   "fieldtype": "Attach Image",
+   "label": "Logo"
+  },
+  {
+   "fieldname": "column_break_locale",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "timezone",
+   "fieldtype": "Select",
+   "label": "Timezone",
+   "options": "\nAsia/Kolkata\nAsia/Dubai\nAsia/Singapore\nEurope/London\nAmerica/New_York\nUTC"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency"
+  },
+  {
+   "fieldname": "language",
+   "fieldtype": "Link",
+   "label": "Language",
+   "options": "Language"
+  },
+  {
+   "fieldname": "country",
+   "fieldtype": "Link",
+   "label": "Country",
+   "options": "Country"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "links": []
+}
