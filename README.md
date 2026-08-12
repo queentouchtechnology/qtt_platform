@@ -811,6 +811,99 @@ an inviter must deliberately elevate it.
 envelope instead, for the same reason `signup()` uses it — a guest
 caller needs a response shape it can safely branch on.
 
+## What's implemented (SaaS Lifecycle Phase G) — one small function, everything else lives in `qmp_lms_bridge`
+
+Almost no code in this repository — QMP_LMS's actual role-based feature
+enforcement (which product role may create/edit/delete which LMS
+doctype) is 100% QMP_LMS business policy and lives entirely in
+`qmp_lms_bridge/roles.py` (see that project's own README). This repo
+gained exactly one new generic function:
+**`document_security.resolve_tenant_for_new_doc(doc)`** — like the
+existing `resolve_tenant_for_doc(doctype, name)` (Phase 10), but
+resolves from an in-memory, possibly-unsaved document's own field
+values instead of re-querying the database for it. Needed because a
+`validate()` hook (which is what a role-enforcement check has to run as,
+to fire on both create and edit) runs before a new document is
+committed — the existing function's database-lookup-by-name approach
+cannot work for a document that may not have a row yet. Same
+three-case precedence (direct field, dynamic parent link, static parent
+link) as the function it's modeled on; the parent-lookup step still
+queries the database, since the parent is assumed to already exist.
+
+## What's implemented (SaaS Lifecycle Phase H — dashboard APIs)
+
+No new DocType, no new field. Inspected every existing API first (per
+this phase's own instruction to extend rather than duplicate) — most of
+the dashboard's sections already existed:
+
+| Dashboard section | Source |
+|---|---|
+| Organization, current user, tenant role | Already resolvable (`QTT Tenant`, `require_tenant_membership()`) — just not assembled anywhere |
+| Product role | `product/guards.py::require_product_access()` (unchanged) |
+| Subscription, current plan, trial dates, cancellation state | `api/subscription.py::get_my_subscription()` (Phase E, unchanged) |
+| Invoices | `api/billing.py::get_my_invoices()` (Phase C, unchanged) |
+| Entitlements/limits/usage | **new** — see below |
+| Payments | **new** — see below |
+| Team members | **new** — see below |
+
+Three real gaps, each added to its own most-natural existing home, not a
+new module each:
+
+- **`qtt_platform.entitlement.engine.get_entitlements_with_usage(tenant,
+  product)`** — one row per entitlement (`feature_key`, `allowed`,
+  `limit`, `used`, `remaining`). Pure composition of `get_entitlements()`/
+  `can_i()` (both unchanged) — zero new limit-comparison logic, same
+  discipline as Phase E's `get_over_limit_features()`. Deliberately
+  serves BOTH the dashboard's "usage" and "entitlements" sections — a
+  numeric feature's limit/used/remaining *is* its usage; building two
+  near-identical functions for the same data was judged worse than one
+  function used twice.
+- **`api/billing.py::get_my_payments(tenant)`** — `QTT Payment` has no
+  `tenant` field of its own (append-only, gateway-neutral by design), so
+  this joins through `QTT Invoice.tenant` rather than adding one; a
+  payment's tenant is always its invoice's tenant.
+- **`api/product_access.py::get_team_members(tenant)`** — every active
+  member with their tenant role and active product access rows. Visible
+  to any active member, not gated to Owner/Admin — a read-only roster is
+  materially less sensitive than the governance actions
+  (grant/revoke/change) in that same file, which stay Owner/Admin-only,
+  unchanged.
+
+**`api/dashboard.py::get_dashboard(product)`** — the aggregator, and the
+ONLY new file this phase added. Calls all of the above directly (not
+over HTTP) and assembles one response. Adds no business logic of its
+own — if this file were deleted, every piece of data in its response
+would still be independently available through the APIs above; it only
+saves a dashboard screen from making 6 separate calls. `product` is a
+required parameter with no default — `qtt_platform` stays
+product-agnostic even here, matching Part 50's rule; nothing assumes
+QMP_LMS. Tenant is resolved from the active session
+(`resolve_active_tenant()`), matching Phase E's `change_plan()`/
+`resume()` convention for "show me me" endpoints, not the older
+tenant-as-parameter convention `get_my_subscription()`/
+`get_my_invoices()` still use (same disclosed inconsistency Phase E's
+README already flagged, not repeated in full here).
+
+Response shape:
+```json
+{
+  "success": true,
+  "data": {
+    "organization": {"tenant": "...", "tenant_name": "...", "status": "active", "owner": "..."},
+    "user": {"email": "...", "tenant_role": "Tenant Owner"},
+    "product": {"product": "QMP_LMS", "product_role": "Manager", "status": "active"},
+    "subscription": { "...everything get_my_subscription() already returns..." },
+    "next_billing_date": "2026-08-31",
+    "entitlements": [{"feature_key": "max_students", "allowed": true, "limit": 25, "used": 5, "remaining": 20}, "..."],
+    "billing": {"invoices": ["..."], "payments": ["..."]},
+    "team_members": [{"user": "...", "tenant_role": "...", "product_access": ["..."]}]
+  }
+}
+```
+If the caller has no product access at all, `"product"` is `null` and
+`"entitlements"` is `[]` — the other sections (organization, team,
+billing) are still returned, since those aren't product-gated.
+
 ## Deployment (for whoever has bench access)
 
 ```bash
@@ -1446,3 +1539,54 @@ exercise:
   accepted invitation is only marked `expired` lazily, the next time
   someone tries to accept it past `expires_on`. Same "Phase I will need a
   real scheduler" pattern already noted for Phase D/E.
+
+## Testing — SaaS Lifecycle Phase G
+
+`python -m unittest discover -s qtt_platform/tests -p "test_*.py"` was
+actually run this pass: **118 tests, 113 pass** (6 new —
+`test_document_security_new_doc.py`, a fresh file since
+`document_security` had never been imported by any other test file in
+this suite yet, so no cross-file fake-`frappe` binding risk applied
+here — see Phase D/F's own notes on that class of bug for the general
+pattern being avoided). The other 5 failures are the expected,
+unavoidable bench-only `FrappeTestCase` import errors, one per phase's
+own integration file. The actual role-matrix logic (Manager/Instructor/
+Staff/Student, per doctype) is tested in `qmp_lms_bridge`'s own suite
+(`test_roles.py`, 15 tests) — see that project's README, since that's
+where the matrix itself lives.
+
+## Deployment — SaaS Lifecycle Phase H
+
+No schema change at all — nothing to migrate:
+
+```bash
+cd apps/qtt_platform
+git pull origin main
+bench restart
+```
+
+### curl — Phase H
+
+```bash
+curl -s -b cookies.txt \
+  "https://app.quizmasterplus.in/api/method/qtt_platform.api.dashboard.get_dashboard?product=QMP_LMS"
+```
+Expected: the full response shape documented above, `message` being the
+usual Frappe REST wrapper around it (`{"message": {"success": true, "data": {...}}}`).
+
+## Testing — SaaS Lifecycle Phase H
+
+`python -m unittest discover -s qtt_platform/tests -p "test_*.py"` was
+actually run this pass: **128 tests, 123 pass** (10 new — added to
+`test_billing_subscriptions.py`, same canonical-fake reasoning as every
+phase since D). The other 5 failures are the expected bench-only
+`FrappeTestCase` import errors — `test_dashboard_integration.py` is this
+phase's, written but not executed (no bench).
+
+On a real bench, run `test_dashboard_integration.py` and additionally
+exercise: a tenant with NO product access calling `get_dashboard` (
+`"product"` should come back `null`, everything else populated); a
+tenant with an open invoice and a successful payment against it (both
+should appear in `billing`); a tenant with 3 team members holding
+different tenant roles and product roles (all 3 should appear with the
+right `product_access` arrays, not just the caller's own).

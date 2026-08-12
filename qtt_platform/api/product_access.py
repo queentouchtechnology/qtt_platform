@@ -11,7 +11,7 @@ import frappe
 from frappe import _
 
 from qtt_platform.audit import write_audit_event
-from qtt_platform.tenant.guards import require_tenant_role
+from qtt_platform.tenant.guards import require_tenant_membership, require_tenant_role
 
 _GOVERNANCE_ROLES = ["Tenant Owner", "Tenant Admin"]
 
@@ -173,4 +173,44 @@ def get_my_product_access(tenant: str) -> list[dict]:
 			"product_role": row.product_role,
 		}
 		for row in rows
+	]
+
+
+@frappe.whitelist()
+def get_team_members(tenant: str) -> list[dict]:
+	"""SaaS lifecycle Phase H (dashboard "team members" section). Every
+	active member of `tenant` with their tenant role and whatever active
+	product access rows they hold. Visible to any active member, not
+	gated to Owner/Admin — a team roster is read-only and materially less
+	sensitive than the governance actions above (grant/revoke/change),
+	which stay Owner/Admin-only, unchanged."""
+	require_tenant_membership(tenant)
+
+	memberships = frappe.get_all(
+		"QTT Tenant Membership",
+		filters={"tenant": tenant, "status": "active"},
+		fields=["name", "user", "tenant_role"],
+	)
+	if not memberships:
+		return []
+
+	membership_names = [m.name for m in memberships]
+	access_rows = frappe.get_all(
+		"QTT Product Access",
+		filters={"membership": ["in", membership_names], "status": "active"},
+		fields=["membership", "product", "product_role"],
+	)
+	access_by_membership: dict[str, list[dict]] = {}
+	for row in access_rows:
+		access_by_membership.setdefault(row.membership, []).append(
+			{"product": row.product, "product_role": row.product_role}
+		)
+
+	return [
+		{
+			"user": m.user,
+			"tenant_role": m.tenant_role,
+			"product_access": access_by_membership.get(m.name, []),
+		}
+		for m in memberships
 	]

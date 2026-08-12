@@ -34,6 +34,26 @@ def get_my_invoices(tenant: str) -> list[dict]:
 
 
 @frappe.whitelist()
+def get_my_payments(tenant: str) -> list[dict]:
+	"""SaaS lifecycle Phase H (dashboard "payments" section). Read-only,
+	same any-active-member visibility as get_my_invoices() above — QTT
+	Payment has no `tenant` field of its own (append-only, gateway-
+	neutral, per Phase C/D's immutability design), so this joins through
+	QTT Invoice.tenant rather than adding one; a payment's tenant is
+	always its invoice's tenant, never independently meaningful."""
+	require_tenant_membership(tenant)
+	invoice_names = frappe.get_all("QTT Invoice", filters={"tenant": tenant}, pluck="name")
+	if not invoice_names:
+		return []
+	return frappe.get_all(
+		"QTT Payment",
+		filters={"invoice": ["in", invoice_names]},
+		fields=["name", "invoice", "amount", "currency", "status", "paid_at", "refund_of"],
+		order_by="paid_at desc",
+	)
+
+
+@frappe.whitelist()
 def create_payment_order(tenant: str, invoice: str, *, gateway_key: str = "razorpay") -> dict:
 	require_tenant_role(tenant, _BILLING_MANAGER_ROLES)
 

@@ -70,6 +70,40 @@ def resolve_tenant_for_doc(doctype: str, name: str) -> str | None:
 	return None
 
 
+def resolve_tenant_for_new_doc(doc) -> str | None:
+	"""Like resolve_tenant_for_doc(), but resolves from an IN-MEMORY
+	document object's own field values rather than re-querying the
+	database for `doc` itself — the correct approach inside a validate()/
+	before_insert hook (SaaS lifecycle Phase G's role-enforcement hooks
+	are the first caller), where a new document may not be committed —
+	or even fully named — yet. Only the PARENT lookup (for a parent-link
+	doctype) still hits the database, since the parent is assumed to
+	already exist. Same three-case precedence as resolve_tenant_for_doc():
+	direct field, dynamic parent link, static parent link."""
+	meta = frappe.get_meta(doc.doctype)
+	if meta.has_field("tenant"):
+		return doc.get("tenant")
+
+	dynamic_link = _get_dynamic_parent_link(doc.doctype)
+	if dynamic_link:
+		doctype_field, name_field = dynamic_link
+		parent_doctype = doc.get(doctype_field)
+		parent_name = doc.get(name_field)
+		if not parent_doctype or not parent_name:
+			return None
+		return resolve_tenant_for_doc(parent_doctype, parent_name)
+
+	static_link = _get_static_parent_link(doc.doctype)
+	if static_link:
+		parent_field, parent_doctype = static_link
+		parent_name = doc.get(parent_field)
+		if not parent_name:
+			return None
+		return resolve_tenant_for_doc(parent_doctype, parent_name)
+
+	return None
+
+
 def _build_link_registry(hook_name: str) -> dict:
 	merged: dict = {}
 	raw = frappe.get_hooks(hook_name) or {}

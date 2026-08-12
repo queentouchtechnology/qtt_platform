@@ -127,7 +127,10 @@ def _fake_response(json_body, status_code=200):
 
 fake_frappe, fake_requests = _install_fake_modules()
 
+from qtt_platform.api import billing as api_billing  # noqa: E402
+from qtt_platform.api import dashboard as api_dashboard  # noqa: E402
 from qtt_platform.api import invitation as api_invitation  # noqa: E402
+from qtt_platform.api import product_access as api_product_access  # noqa: E402
 from qtt_platform.api import subscription as api_subscription  # noqa: E402
 from qtt_platform.billing import service as billing_service  # noqa: E402
 from qtt_platform.billing.gateways.base import SubscriptionCapableGateway, SubscriptionWebhookEvent  # noqa: E402
@@ -1364,6 +1367,159 @@ class AcceptInvitationTest(unittest.TestCase):
 
 		self.assertTrue(result["success"], result)
 		self.assertIsNone(result["data"]["product_role"])
+
+
+# ---------------------------------------------------------------------------
+# SaaS lifecycle Phase H — dashboard APIs. Pure composition of already-
+# tested functions; these tests confirm the composition wiring, not the
+# underlying logic (each piece has its own tests elsewhere already).
+# ---------------------------------------------------------------------------
+
+
+class GetEntitlementsWithUsageTest(unittest.TestCase):
+	def test_composes_can_i_for_every_entitlement(self):
+		with mock.patch.object(
+			entitlement_engine, "get_entitlements", return_value={"max_students": 25, "live_classes_enabled": 1}
+		):
+			with mock.patch.object(
+				entitlement_engine, "get_usage_resolver", side_effect=_resolver_only_for("max_students")
+			):
+				with mock.patch.object(entitlement_engine, "get_usage", return_value=10):
+					rows = entitlement_engine.get_entitlements_with_usage("tenant-1", "QMP_LMS")
+
+		by_key = {r["feature_key"]: r for r in rows}
+		self.assertEqual(by_key["max_students"]["used"], 10)
+		self.assertEqual(by_key["max_students"]["limit"], 25)
+		self.assertTrue(by_key["live_classes_enabled"]["allowed"])
+		self.assertIsNone(by_key["live_classes_enabled"]["limit"])
+
+	def test_empty_when_no_entitlements(self):
+		with mock.patch.object(entitlement_engine, "get_entitlements", return_value={}):
+			rows = entitlement_engine.get_entitlements_with_usage("tenant-1", "QMP_LMS")
+		self.assertEqual(rows, [])
+
+
+class GetMyPaymentsTest(unittest.TestCase):
+	def test_empty_when_no_invoices(self):
+		with mock.patch.object(api_billing, "require_tenant_membership"):
+			fake_frappe.get_all = mock.Mock(return_value=[])
+			result = api_billing.get_my_payments("tenant-1")
+		self.assertEqual(result, [])
+
+	def test_joins_through_invoice_ids(self):
+		with mock.patch.object(api_billing, "require_tenant_membership"):
+			fake_frappe.get_all = mock.Mock(
+				side_effect=[
+					["inv-1", "inv-2"],
+					[
+						{
+							"name": "pay-1",
+							"invoice": "inv-1",
+							"amount": 99,
+							"currency": "INR",
+							"status": "succeeded",
+							"paid_at": "2026-08-01",
+							"refund_of": None,
+						}
+					],
+				]
+			)
+			result = api_billing.get_my_payments("tenant-1")
+		self.assertEqual(len(result), 1)
+		self.assertEqual(result[0]["invoice"], "inv-1")
+
+
+class GetTeamMembersTest(unittest.TestCase):
+	def test_aggregates_membership_and_product_access(self):
+		# frappe.get_all() rows are dot-accessible (frappe._dict) in real
+		# use — types.SimpleNamespace mirrors that, unlike a plain dict.
+		with mock.patch.object(api_product_access, "require_tenant_membership"):
+			fake_frappe.get_all = mock.Mock(
+				side_effect=[
+					[types.SimpleNamespace(name="membership-1", user="a@example.com", tenant_role="Tenant Owner")],
+					[types.SimpleNamespace(membership="membership-1", product="QMP_LMS", product_role="Manager")],
+				]
+			)
+			result = api_product_access.get_team_members("tenant-1")
+
+		self.assertEqual(len(result), 1)
+		self.assertEqual(result[0]["user"], "a@example.com")
+		self.assertEqual(result[0]["tenant_role"], "Tenant Owner")
+		self.assertEqual(result[0]["product_access"], [{"product": "QMP_LMS", "product_role": "Manager"}])
+
+	def test_member_with_no_product_access_still_listed(self):
+		with mock.patch.object(api_product_access, "require_tenant_membership"):
+			fake_frappe.get_all = mock.Mock(
+				side_effect=[
+					[types.SimpleNamespace(name="membership-1", user="a@example.com", tenant_role="Member")],
+					[],
+				]
+			)
+			result = api_product_access.get_team_members("tenant-1")
+		self.assertEqual(result[0]["product_access"], [])
+
+	def test_empty_tenant_returns_empty_list(self):
+		with mock.patch.object(api_product_access, "require_tenant_membership"):
+			fake_frappe.get_all = mock.Mock(return_value=[])
+			result = api_product_access.get_team_members("tenant-1")
+		self.assertEqual(result, [])
+
+
+class GetDashboardTest(unittest.TestCase):
+	def test_no_active_tenant_rejected(self):
+		with mock.patch.object(api_dashboard, "resolve_active_tenant", return_value=None):
+			result = api_dashboard.get_dashboard("QMP_LMS")
+		self.assertEqual(result["error"]["code"], "TENANT_ACCESS_DENIED")
+
+	def test_full_composition_happy_path(self):
+		membership = mock.Mock(tenant_role="Tenant Owner")
+		tenant_doc = mock.Mock(tenant_name="Acme", status="active", owner_user="owner@example.com")
+		access = mock.Mock(product_role="Manager", status="active")
+
+		with mock.patch.object(api_dashboard, "resolve_active_tenant", return_value="tenant-1"):
+			with mock.patch.object(api_dashboard, "require_tenant_membership", return_value=membership):
+				fake_frappe.db.get_value = mock.Mock(return_value=tenant_doc)
+				with mock.patch.object(api_dashboard, "has_product_access", return_value=True):
+					with mock.patch.object(api_dashboard, "require_product_access", return_value=access):
+						with mock.patch.object(
+							api_dashboard,
+							"get_my_subscription",
+							return_value={"plan_code": "STARTER", "current_period_end": "2026-08-31"},
+						):
+							with mock.patch.object(
+								api_dashboard,
+								"get_entitlements_with_usage",
+								return_value=[{"feature_key": "max_students", "used": 5, "limit": 25}],
+							):
+								with mock.patch.object(api_dashboard, "get_my_invoices", return_value=[]):
+									with mock.patch.object(api_dashboard, "get_my_payments", return_value=[]):
+										with mock.patch.object(api_dashboard, "get_team_members", return_value=[]):
+											result = api_dashboard.get_dashboard("QMP_LMS")
+
+		self.assertTrue(result["success"], result)
+		self.assertEqual(result["data"]["organization"]["tenant_name"], "Acme")
+		self.assertEqual(result["data"]["product"]["product_role"], "Manager")
+		self.assertEqual(result["data"]["next_billing_date"], "2026-08-31")
+		self.assertEqual(len(result["data"]["entitlements"]), 1)
+
+	def test_no_product_access_still_returns_other_sections(self):
+		membership = mock.Mock(tenant_role="Member")
+		tenant_doc = mock.Mock(tenant_name="Acme", status="active", owner_user="owner@example.com")
+
+		with mock.patch.object(api_dashboard, "resolve_active_tenant", return_value="tenant-1"):
+			with mock.patch.object(api_dashboard, "require_tenant_membership", return_value=membership):
+				fake_frappe.db.get_value = mock.Mock(return_value=tenant_doc)
+				with mock.patch.object(api_dashboard, "has_product_access", return_value=False):
+					with mock.patch.object(api_dashboard, "get_my_subscription", return_value=None):
+						with mock.patch.object(api_dashboard, "get_my_invoices", return_value=[]):
+							with mock.patch.object(api_dashboard, "get_my_payments", return_value=[]):
+								with mock.patch.object(api_dashboard, "get_team_members", return_value=[]):
+									result = api_dashboard.get_dashboard("QMP_LMS")
+
+		self.assertTrue(result["success"], result)
+		self.assertIsNone(result["data"]["product"])
+		self.assertEqual(result["data"]["entitlements"], [])
+		self.assertIsNone(result["data"]["next_billing_date"])
 
 
 if __name__ == "__main__":

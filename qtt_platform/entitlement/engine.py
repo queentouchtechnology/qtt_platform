@@ -136,6 +136,18 @@ def can_i(tenant: str, product: str, feature_key: str) -> dict:
 	return {"allowed": used < limit, "limit": limit, "used": used, "remaining": max(limit - used, 0)}
 
 
+def get_entitlements_with_usage(tenant: str, product: str) -> list[dict]:
+	"""One row per entitlement — {feature_key, allowed, limit, used,
+	remaining} — SaaS lifecycle Phase H: the dashboard's "usage" and
+	"entitlements" sections are the same underlying data (a numeric
+	feature's limit/used/remaining IS its usage), so this single function
+	serves both rather than two near-duplicate ones. Pure composition of
+	get_entitlements()/can_i(), both unchanged — no new limit-comparison
+	logic, same discipline as get_over_limit_features()."""
+	entitlements = get_entitlements(tenant, product)
+	return [{"feature_key": feature_key, **can_i(tenant, product, feature_key)} for feature_key in entitlements]
+
+
 def get_over_limit_features(tenant: str, product: str) -> list[dict]:
 	"""Numeric entitlements where CURRENT usage already exceeds the
 	CURRENT limit — SaaS lifecycle Phase E, section 10: a downgrade must
