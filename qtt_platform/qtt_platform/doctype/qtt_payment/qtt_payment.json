@@ -1,0 +1,84 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Payment",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 0,
+ "autoname": "hash",
+ "naming_rule": "Random",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "A successful payment, gateway-neutral. Append-only after creation, per the hardening review section 11 — a refund is a NEW QTT Payment row (status=refunded, refund_of pointing at the original), never a mutation of the original row.",
+ "field_order": [
+  "invoice",
+  "amount",
+  "currency",
+  "status",
+  "paid_at",
+  "refund_of"
+ ],
+ "fields": [
+  {
+   "fieldname": "invoice",
+   "fieldtype": "Link",
+   "label": "Invoice",
+   "options": "QTT Invoice",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Amount",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency",
+   "reqd": 1,
+   "default": "INR"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "succeeded\nrefunded",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "paid_at",
+   "fieldtype": "Datetime",
+   "label": "Paid At",
+   "reqd": 1
+  },
+  {
+   "fieldname": "refund_of",
+   "fieldtype": "Link",
+   "label": "Refund Of",
+   "options": "QTT Payment",
+   "description": "Set only on a status=refunded row — points at the original succeeded payment this row refunds."
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "links": []
+}

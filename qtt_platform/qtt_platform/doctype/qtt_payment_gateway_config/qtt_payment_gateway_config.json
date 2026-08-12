@@ -1,0 +1,69 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Payment Gateway Config",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 1,
+ "autoname": "field:gateway_key",
+ "naming_rule": "By fieldname",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "Platform config, not tenant data — one row per payment gateway integration (razorpay, stripe, ...). System-Manager-only; key_secret/webhook_secret are never returned by any REST response (Password fieldtype). Mirrors QTT AI Provider's shape deliberately — same trust boundary, same pattern.",
+ "field_order": [
+  "gateway_key",
+  "enabled",
+  "key_id",
+  "key_secret",
+  "webhook_secret"
+ ],
+ "fields": [
+  {
+   "fieldname": "gateway_key",
+   "fieldtype": "Data",
+   "label": "Gateway Key",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "e.g. 'razorpay' — matches the gateway adapter class's own gateway_key constant."
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "default": "1",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "key_id",
+   "fieldtype": "Data",
+   "label": "Key ID",
+   "description": "Public API key/identifier — not secret, but still only exposed to System Manager here for simplicity."
+  },
+  {
+   "fieldname": "key_secret",
+   "fieldtype": "Password",
+   "label": "Key Secret"
+  },
+  {
+   "fieldname": "webhook_secret",
+   "fieldtype": "Password",
+   "label": "Webhook Secret",
+   "description": "Used to verify inbound webhook signatures — see billing/webhooks.py."
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "links": []
+}

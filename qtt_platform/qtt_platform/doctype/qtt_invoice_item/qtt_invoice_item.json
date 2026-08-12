@@ -1,0 +1,40 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Invoice Item",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 1,
+ "issingle": 0,
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "description": "One line item on a QTT Invoice — lets one invoice consolidate several product subscriptions (e.g. LMS + a future HRMS) rather than forcing one invoice per product.",
+ "field_order": [
+  "subscription",
+  "description",
+  "amount"
+ ],
+ "fields": [
+  {
+   "fieldname": "subscription",
+   "fieldtype": "Link",
+   "label": "Subscription",
+   "options": "QTT Product Subscription",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "label": "Description",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Amount",
+   "reqd": 1,
+   "in_list_view": 1
+  }
+ ],
+ "permissions": []
+}

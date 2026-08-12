@@ -1,0 +1,86 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Payment Transaction",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 0,
+ "autoname": "hash",
+ "naming_rule": "Random",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "Raw record of what the payment gateway actually said — one invoice can have several failed/retried transactions before one QTT Payment succeeds. gateway_reference is unique, which is what makes webhook redelivery a safe no-op (hardening review section 10) rather than a duplicate-payment bug. Fully immutable, insert-only.",
+ "field_order": [
+  "invoice",
+  "payment",
+  "gateway",
+  "gateway_reference",
+  "status",
+  "raw_payload"
+ ],
+ "fields": [
+  {
+   "fieldname": "invoice",
+   "fieldtype": "Link",
+   "label": "Invoice",
+   "options": "QTT Invoice",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "payment",
+   "fieldtype": "Link",
+   "label": "Payment",
+   "options": "QTT Payment",
+   "description": "Null until the transaction actually succeeds and a QTT Payment is created for it."
+  },
+  {
+   "fieldname": "gateway",
+   "fieldtype": "Data",
+   "label": "Gateway",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "e.g. 'razorpay' — matches QTT Payment Gateway Config.gateway_key."
+  },
+  {
+   "fieldname": "gateway_reference",
+   "fieldtype": "Data",
+   "label": "Gateway Reference",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1,
+   "description": "The gateway's own order/payment id — the webhook idempotency key."
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "created\npending\nfailed\nsucceeded",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "raw_payload",
+   "fieldtype": "Code",
+   "options": "JSON",
+   "label": "Raw Payload",
+   "description": "The gateway's own webhook/response payload, kept for reconciliation and dispute debugging."
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "links": []
+}
