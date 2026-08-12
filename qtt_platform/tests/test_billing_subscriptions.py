@@ -117,6 +117,20 @@ def _make_get_doc_with_construction(existing: dict):
 	return _get_doc
 
 
+class _FrappeDict(dict):
+	"""A minimal stand-in for real Frappe's frappe._dict — a dict that
+	ALSO supports attribute access (t.name) — needed wherever production
+	code uses both t.name and t.get(...) on the same frappe.get_all()
+	row, which plain dict (no attribute access) or types.SimpleNamespace
+	(no .get()) each only satisfy half of."""
+
+	def __getattr__(self, name):
+		try:
+			return self[name]
+		except KeyError:
+			return None
+
+
 def _fake_response(json_body, status_code=200):
 	resp = mock.Mock()
 	resp.status_code = status_code
@@ -131,6 +145,7 @@ from qtt_platform.api import billing as api_billing  # noqa: E402
 from qtt_platform.api import dashboard as api_dashboard  # noqa: E402
 from qtt_platform.api import invitation as api_invitation  # noqa: E402
 from qtt_platform.api import product_access as api_product_access  # noqa: E402
+from qtt_platform.api import session as api_session  # noqa: E402
 from qtt_platform.api import subscription as api_subscription  # noqa: E402
 from qtt_platform.billing import service as billing_service  # noqa: E402
 from qtt_platform.billing.gateways.base import SubscriptionCapableGateway, SubscriptionWebhookEvent  # noqa: E402
@@ -453,6 +468,43 @@ class ProcessSubscriptionWebhookEndToEndTest(unittest.TestCase):
 			billing_service.process_webhook("razorpay", b'{"event": "subscription.halted"}', "sig", gateway_event_id="evt_3")
 
 		self.assertEqual(self.sub.status, "suspended")
+
+	def test_payment_failure_pending_event_transitions_to_past_due(self):
+		# Razorpay's own mid-retry-grace-period state (SaaS lifecycle
+		# Phase D's own documented mapping) — "payment failure" from the
+		# customer's perspective.
+		self.sub.status = "active"
+		self.gateway.parse_subscription_webhook_event.return_value = _subscription_event(
+			"subscription.pending", status="pending"
+		)
+		fake_frappe.get_doc = _make_get_doc({("QTT Product Subscription", "sub-1"): self.sub})
+		fake_frappe.db.get_value = mock.Mock(return_value="sub-1")
+
+		with mock.patch.object(billing_service, "get_gateway", return_value=self.gateway):
+			billing_service.process_webhook("razorpay", b'{"event": "subscription.pending"}', "sig", gateway_event_id="evt_pending_1")
+
+		self.assertEqual(self.sub.status, "past_due")
+
+	def test_subscription_recovery_from_past_due_to_active(self):
+		# A retried charge succeeding — "subscription recovery" — is the
+		# SAME subscription.charged event that also records the payment
+		# (RecordSubscriptionChargeTest, tested separately); this test's
+		# only job is confirming the STATUS half of recovery.
+		self.sub.status = "past_due"
+		self.gateway.parse_subscription_webhook_event.return_value = _subscription_event(
+			"subscription.charged", status="active", raw_payload={"payload": {}}
+		)
+		fake_frappe.get_doc = _make_get_doc({("QTT Product Subscription", "sub-1"): self.sub})
+		fake_frappe.db.get_value = mock.Mock(return_value="sub-1")
+		fake_frappe.db.exists = mock.Mock(return_value=False)
+
+		with mock.patch.object(billing_service, "get_gateway", return_value=self.gateway):
+			with mock.patch.object(subscription_service, "apply_scheduled_plan_change"):
+				billing_service.process_webhook(
+					"razorpay", b'{"event": "subscription.charged"}', "sig", gateway_event_id="evt_recovery_1"
+				)
+
+		self.assertEqual(self.sub.status, "active")
 
 	def test_unknown_subscription_id_is_a_safe_no_op(self):
 		self.gateway.parse_subscription_webhook_event.return_value = _subscription_event("subscription.activated")
@@ -1671,6 +1723,187 @@ class ExpireStaleInvitationsTest(unittest.TestCase):
 
 		self.assertEqual(result, [{"invitation": "inv-good"}])
 		fake_frappe.log_error.assert_called()
+
+
+# ---------------------------------------------------------------------------
+# SaaS lifecycle Phase J — closing the remaining gaps in the master
+# checklist (Membership, Product access) that no earlier phase's own
+# testing wave happened to cover, since api/session.py and the
+# governance half of api/product_access.py are pre-Phase-A code.
+# ---------------------------------------------------------------------------
+
+
+class CreateTenantApiTest(unittest.TestCase):
+	def test_guest_rejected(self):
+		with mock.patch.object(fake_frappe, "session", types.SimpleNamespace(user="Guest")):
+			with self.assertRaises(Exception):
+				api_session.create_tenant("Acme", "acme")
+
+	def test_missing_tenant_name_rejected(self):
+		with self.assertRaises(Exception):
+			api_session.create_tenant("   ", "acme")
+
+	def test_missing_slug_rejected(self):
+		with self.assertRaises(Exception):
+			api_session.create_tenant("Acme", "   ")
+
+	def test_duplicate_slug_rejected(self):
+		fake_frappe.db.exists = mock.Mock(return_value=True)
+		with self.assertRaises(Exception):
+			api_session.create_tenant("Acme", "acme")
+
+	def test_success_creates_tenant_and_owner_membership_atomically(self):
+		fake_frappe.db.exists = mock.Mock(return_value=False)
+		tenant_doc = mock.Mock()
+		tenant_doc.name = "tenant-1"
+		membership_doc = mock.Mock()
+		membership_doc.name = "membership-1"
+
+		captured_payloads = []
+
+		def _get_doc(payload):
+			# A third shape (QTT Audit Log, from write_audit_event()) also
+			# hits this mock — must not be mistaken for the membership doc.
+			captured_payloads.append(payload)
+			if payload["doctype"] == "QTT Tenant":
+				return tenant_doc
+			if payload["doctype"] == "QTT Tenant Membership":
+				return membership_doc
+			return mock.Mock()
+
+		fake_frappe.get_doc = mock.Mock(side_effect=_get_doc)
+
+		with mock.patch.object(api_session, "_switch_tenant", return_value={"tenant_role": "Tenant Owner"}) as switch_mock:
+			result = api_session.create_tenant("Acme Academy", "acme-academy")
+
+		self.assertEqual(result["tenant"], "tenant-1")
+		self.assertEqual(result["tenant_role"], "Tenant Owner")
+		tenant_doc.insert.assert_called_once_with(ignore_permissions=True)
+		membership_doc.insert.assert_called_once_with(ignore_permissions=True)
+		membership_payload = next(p for p in captured_payloads if p["doctype"] == "QTT Tenant Membership")
+		self.assertEqual(membership_payload["tenant_role"], "Tenant Owner")
+		self.assertEqual(membership_payload["status"], "active")
+		switch_mock.assert_called_once_with("tenant-1", user=fake_frappe.session.user)
+
+
+class GetMyMembershipsApiTest(unittest.TestCase):
+	def test_empty_when_no_memberships(self):
+		fake_frappe.get_all = mock.Mock(return_value=[])
+		self.assertEqual(api_session.get_my_memberships(), [])
+
+	def test_returns_memberships_with_tenant_info_attached(self):
+		fake_frappe.get_all = mock.Mock(
+			side_effect=[
+				[types.SimpleNamespace(tenant="tenant-1", tenant_role="Tenant Owner")],
+				[_FrappeDict(name="tenant-1", tenant_name="Acme", status="active")],
+			]
+		)
+		result = api_session.get_my_memberships()
+		self.assertEqual(
+			result,
+			[{"tenant": "tenant-1", "tenant_name": "Acme", "tenant_status": "active", "tenant_role": "Tenant Owner"}],
+		)
+
+
+class GetActiveTenantApiTest(unittest.TestCase):
+	def test_none_when_no_active_tenant(self):
+		with mock.patch.object(api_session, "resolve_active_tenant", return_value=None):
+			self.assertIsNone(api_session.get_active_tenant())
+
+	def test_returns_tenant_info_when_active(self):
+		with mock.patch.object(api_session, "resolve_active_tenant", return_value="tenant-1"):
+			fake_frappe.db.get_value = mock.Mock(
+				return_value=types.SimpleNamespace(tenant_name="Acme", status="active")
+			)
+			result = api_session.get_active_tenant()
+		self.assertEqual(result, {"tenant": "tenant-1", "tenant_name": "Acme", "tenant_status": "active"})
+
+	def test_none_when_active_tenant_pointer_is_stale(self):
+		# Cache says a tenant is active, but the QTT Tenant row can't be
+		# found (deleted, or the cache is simply stale) — fail closed to
+		# None, never raise.
+		with mock.patch.object(api_session, "resolve_active_tenant", return_value="tenant-deleted"):
+			fake_frappe.db.get_value = mock.Mock(return_value=None)
+			self.assertIsNone(api_session.get_active_tenant())
+
+
+class GrantProductAccessTest(unittest.TestCase):
+	def test_creates_new_access_when_none_exists(self):
+		with mock.patch.object(api_product_access, "require_tenant_role"):
+			fake_frappe.db.get_value = mock.Mock(return_value="membership-1")
+			fake_frappe.db.exists = mock.Mock(return_value=False)
+			new_access = mock.Mock(product_role="Manager", status="active")
+			new_access.name = "access-1"
+
+			def _get_doc(payload):
+				return new_access if payload["doctype"] == "QTT Product Access" else mock.Mock()
+
+			fake_frappe.get_doc = mock.Mock(side_effect=_get_doc)
+
+			result = api_product_access.grant_product_access("tenant-1", "user@example.com", "QMP_LMS", "Manager")
+
+		self.assertEqual(result["name"], "access-1")
+		new_access.insert.assert_called_once_with(ignore_permissions=True)
+
+	def test_reactivates_existing_access_instead_of_duplicating(self):
+		with mock.patch.object(api_product_access, "require_tenant_role"):
+			fake_frappe.db.get_value = mock.Mock(return_value="membership-1")
+			fake_frappe.db.exists = mock.Mock(return_value="access-existing")
+			existing_access = mock.Mock()
+			existing_access.name = "access-existing"
+			fake_frappe.get_doc = _make_get_doc({("QTT Product Access", "access-existing"): existing_access})
+
+			api_product_access.grant_product_access("tenant-1", "user@example.com", "QMP_LMS", "Instructor")
+
+		self.assertEqual(existing_access.product_role, "Instructor")
+		self.assertEqual(existing_access.status, "active")
+		existing_access.save.assert_called_once_with(ignore_permissions=True)
+		existing_access.insert.assert_not_called()
+
+	def test_target_user_not_an_active_member_is_rejected(self):
+		with mock.patch.object(api_product_access, "require_tenant_role"):
+			fake_frappe.db.get_value = mock.Mock(return_value=None)  # no active membership found
+			with self.assertRaises(Exception):
+				api_product_access.grant_product_access("tenant-1", "stranger@example.com", "QMP_LMS", "Manager")
+
+
+class RevokeProductAccessTest(unittest.TestCase):
+	def test_soft_revokes_without_deleting(self):
+		with mock.patch.object(api_product_access, "require_tenant_role"):
+			fake_frappe.db.get_value = mock.Mock(return_value="membership-1")
+			fake_frappe.db.exists = mock.Mock(return_value="access-1")
+			access = mock.Mock()
+			access.name = "access-1"
+			fake_frappe.get_doc = _make_get_doc({("QTT Product Access", "access-1"): access})
+
+			result = api_product_access.revoke_product_access("tenant-1", "user@example.com", "QMP_LMS")
+
+		self.assertEqual(access.status, "removed")
+		access.save.assert_called_once_with(ignore_permissions=True)
+		self.assertEqual(result["status"], "removed")
+
+	def test_no_existing_access_record_is_rejected(self):
+		with mock.patch.object(api_product_access, "require_tenant_role"):
+			fake_frappe.db.get_value = mock.Mock(return_value="membership-1")
+			fake_frappe.db.exists = mock.Mock(return_value=None)
+			with self.assertRaises(Exception):
+				api_product_access.revoke_product_access("tenant-1", "user@example.com", "QMP_LMS")
+
+
+class ChangeProductRoleTest(unittest.TestCase):
+	def test_changes_role_re_validated_by_the_doctype_itself(self):
+		with mock.patch.object(api_product_access, "require_tenant_role"):
+			fake_frappe.db.get_value = mock.Mock(return_value="membership-1")
+			fake_frappe.db.exists = mock.Mock(return_value="access-1")
+			access = mock.Mock(product_role="Instructor")
+			access.name = "access-1"
+			fake_frappe.get_doc = _make_get_doc({("QTT Product Access", "access-1"): access})
+
+			result = api_product_access.change_product_role("tenant-1", "user@example.com", "QMP_LMS", "Manager")
+
+		self.assertEqual(access.product_role, "Manager")
+		access.save.assert_called_once_with(ignore_permissions=True)
+		self.assertEqual(result["product_role"], "Manager")
 
 
 if __name__ == "__main__":

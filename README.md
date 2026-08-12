@@ -960,6 +960,65 @@ batch. All three new functions were built with this from the start
 (matching `reconcile_subscriptions()`'s own existing per-row try/except
 pattern), not added after a review found a gap.
 
+## What's implemented (SaaS Lifecycle Phase J — test completion)
+
+No production code changed except where testing it exposed a real gap
+(none did this phase — Phase E's own test suite already caught the one
+real bug this whole project's testing found, the flag-vs-numeric
+mistake in `get_over_limit_features()`). Phase J's job was auditing
+coverage against this project's own master test checklist and filling
+the genuine gaps — not re-testing what Phases A–I already covered.
+
+**The master checklist**, and where each item is actually covered:
+
+| Item | Covered by |
+|---|---|
+| Signup | `test_saas_signup.py` (27) |
+| **Tenant isolation** | **new** — `test_document_security_new_doc.py`'s `ResolveTenantForDocTest`/`RequireDocumentTenantAndProductTest`/`RequireSameTenantReferenceTest`/`AssertTenantAccessTest` |
+| **Membership** | **new** — `CreateTenantApiTest`/`GetMyMembershipsApiTest`/`GetActiveTenantApiTest` |
+| **Product access** | **new** — `GrantProductAccessTest`/`RevokeProductAccessTest`/`ChangeProductRoleTest` (governance actions); `GetTeamMembersTest` already existed (Phase H) |
+| Product roles | `qmp_lms_bridge/tests/test_roles.py` (15) |
+| Plans | `qmp_lms_bridge/tests/test_plans.py` (9) |
+| Trial | `SubscriptionServiceChangePlanCarryForwardTest`, `ExpireStaleTrialsTest` |
+| Entitlements | `GetEntitlementsWithUsageTest`, `GetOverLimitFeaturesTest` |
+| Usage limits | `GetOverLimitFeaturesTest` (the comparison logic); `qmp_lms_bridge/usage.py`'s resolvers themselves are thin `frappe.db.count` one-liners, not separately unit-tested — flagged as low-risk, not silently assumed |
+| Upgrade / Downgrade | Phase E's suite (`ChangePlanOrchestrationTest` + 6 more classes, 35 tests) |
+| Cancellation | `CancelSubscriptionFieldsTest`, `ResumeSubscriptionTest`, `FinalizePendingCancellationsTest` |
+| Razorpay webhook | `ProcessWebhookRoutingTest`, `Razorpay*Test` classes |
+| Webhook idempotency | `RecordWebhookEventOnceTest`, `RecordSubscriptionChargeTest` |
+| **Payment failure** | **new** — `test_payment_failure_pending_event_transitions_to_past_due` |
+| **Subscription recovery** | **new** — `test_subscription_recovery_from_past_due_to_active` |
+| Invitation | Phase F's suite (21 tests) |
+| **Cross-tenant security** | **new** — same `document_security.py` tests as "Tenant isolation" above; this IS that mechanism |
+| Concurrency | See below — genuinely partial, stated plainly |
+
+**Concurrency, honestly**: every concurrency-relevant test in this
+project (across all ten phases) proves how THIS code reacts to a
+database constraint violation (`UniqueValidationError` on the pointer,
+on `QTT Webhook Event.gateway_event_id`, on `User.name`) — never actual
+simultaneous execution, which a single-threaded bench-independent unit
+test structurally cannot produce. That distinction has been stated at
+every phase that touched it (Phase D's webhook idempotency, Phase E's
+`ConcurrentPlanChangeTest`, Phase A's duplicate-email test) and is
+repeated here rather than allowed to blur into "concurrency is tested."
+Real concurrent-request verification needs a live bench — every
+phase's own README already lists the specific scenario worth running
+there (two parallel `change_plan` calls, two parallel webhook
+deliveries with the same event id, two parallel `signup` calls for the
+same email); Phase J did not re-list them, only confirm they're already
+documented.
+
+**`document_security.py`'s own test file** was extended, not
+duplicated into a new one — it already existed from Phase G
+(`resolve_tenant_for_new_doc()`) and was the only file in the project
+positioned to test the module's OTHER functions safely: `document_security`
+itself was still unimported by any other test file, so no cross-file
+`frappe` binding risk applied, and its sibling-module calls
+(`require_product_access`, `resolve_product_for_doctype`,
+`resolve_active_tenant`) were patched "where used" (on
+`document_security`'s own namespace) rather than relied upon for real —
+sidestepping that risk entirely rather than needing to reason about it.
+
 ## Deployment (for whoever has bench access)
 
 ```bash
@@ -1694,3 +1753,41 @@ existing entitlement engine, unchanged) — this is the first time this
 whole cancellation flow has ever been exercised end-to-end including its
 deferred half, since every earlier phase's own tests necessarily stopped
 at "the request was recorded."
+
+## Testing — SaaS Lifecycle Phase J (final numbers)
+
+No new deployment step, no new curl flow — this phase added zero new
+API surface. Final counts, both actually run this pass:
+
+```
+qtt_platform:    python -m unittest discover -s qtt_platform/tests -p "test_*.py"
+                 -> 173 tests, 166 pass, 7 expected bench-only FrappeTestCase
+                    import errors (one per phase's own integration file:
+                    saas_signup, billing_subscriptions, plan_change,
+                    subscription_lifecycle, invitation, dashboard, scheduler)
+
+qmp_lms_bridge:  python -m unittest discover -s qmp_lms_bridge/tests -p "test_*.py"
+                 -> 34 tests, 33 pass, 1 expected bench-only import error
+                    (install_integration)
+```
+
+**199 bench-independent tests pass across both apps.** `py_compile` and
+JSON validation are clean across both repos. Every `*_integration.py`
+file across both apps (8 total) is real, written `FrappeTestCase` code,
+not executed at any point in this project — no bench access was
+available in any session across all ten phases. Whoever has bench
+access should run all 8 before this governs real tenant data; each
+integration file's own module docstring states exactly which bench
+command runs it.
+
+**Razorpay**: no live or sandbox Razorpay call was made at any point in
+this entire ten-phase project. Every gateway-facing test uses a
+`spec=RazorpayGateway`-shaped mock standing in for the real HTTP calls.
+The Razorpay-specific API shapes themselves (Orders, Subscriptions,
+webhook payloads) were fetched fresh from Razorpay's own current
+documentation while building Phases C–E, not from memory — but "matches
+the documented shape" and "verified against a real Razorpay account"
+are different claims, and only the first one is true here. Before this
+governs real billing: register a Razorpay TEST account and run one real
+signup → trial → first charge → cancellation cycle against it, exactly
+as every phase's own README has already asked for.
