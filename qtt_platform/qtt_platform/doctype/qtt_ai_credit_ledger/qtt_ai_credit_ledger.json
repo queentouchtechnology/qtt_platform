@@ -1,0 +1,97 @@
+{
+ "doctype": "DocType",
+ "name": "QTT AI Credit Ledger",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 0,
+ "autoname": "hash",
+ "naming_rule": "Random",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "Append-only credit movement history — the audit-grade source of truth. QTT Tenant Product Wallet.balance is a derived, atomically-maintained cache of SUM(amount) over this table, not a separate source of truth — see the hardening review section 8 and qtt_platform/ai/services/credit_service.py. No role, including System Manager, can create/edit a row through the Desk UI; every write goes through credit_service.py with ignore_permissions=True.",
+ "field_order": [
+  "tenant",
+  "product",
+  "user",
+  "column_break_amount",
+  "source",
+  "amount",
+  "reference",
+  "expires_on"
+ ],
+ "fields": [
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "label": "Tenant",
+   "options": "QTT Tenant",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "product",
+   "fieldtype": "Link",
+   "label": "Product",
+   "options": "QTT Product",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User",
+   "description": "Null when the credit movement is tenant-pooled rather than attributable to one user (e.g. a subscription grant)."
+  },
+  {
+   "fieldname": "column_break_amount",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "source",
+   "fieldtype": "Select",
+   "label": "Source",
+   "options": "purchase\nsubscription_grant\nbonus\nconsumption\nrefund\nexpiry",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Float",
+   "label": "Amount",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "Positive for grants (purchase/subscription_grant/bonus/refund), negative for consumption."
+  },
+  {
+   "fieldname": "reference",
+   "fieldtype": "Data",
+   "label": "Reference",
+   "description": "Idempotency key for a consumption/refund pair, or a subscription event id for a grant — see credit_service.py."
+  },
+  {
+   "fieldname": "expires_on",
+   "fieldtype": "Date",
+   "label": "Expires On"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "links": []
+}

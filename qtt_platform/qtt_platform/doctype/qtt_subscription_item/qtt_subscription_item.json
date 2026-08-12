@@ -1,0 +1,50 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Subscription Item",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 1,
+ "issingle": 0,
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "description": "An add-on purchased on top of a Product Subscription's base plan (extra seats, extra AI credits, ...) — additive to the plan's own QTT Plan Feature limits inside the entitlement engine (Phase 5), via the optional feature_key link.",
+ "field_order": [
+  "item_type",
+  "feature_key",
+  "quantity",
+  "unit_price"
+ ],
+ "fields": [
+  {
+   "fieldname": "item_type",
+   "fieldtype": "Data",
+   "label": "Item Type",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "e.g. 'extra_instructor_seats', 'extra_ai_credits' — product-defined, never a platform-hardcoded list."
+  },
+  {
+   "fieldname": "feature_key",
+   "fieldtype": "Data",
+   "label": "Feature Key",
+   "in_list_view": 1,
+   "description": "Which QTT Plan Feature.feature_key this add-on's `quantity` is added to (e.g. an 'extra_instructor_seats' item with feature_key 'max_instructors'). Left blank for a pure billing line item with no entitlement effect (e.g. a one-time setup fee)."
+  },
+  {
+   "fieldname": "quantity",
+   "fieldtype": "Int",
+   "label": "Quantity",
+   "reqd": 1,
+   "default": "1",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "unit_price",
+   "fieldtype": "Currency",
+   "label": "Unit Price",
+   "reqd": 1,
+   "in_list_view": 1
+  }
+ ],
+ "permissions": []
+}

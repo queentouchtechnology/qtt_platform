@@ -1,0 +1,82 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Tenant Feature Override",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 1,
+ "autoname": "hash",
+ "naming_rule": "Random",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "A one-off grant or revoke of a feature_key for one tenant+product, layered on top of the plan's own QTT Plan Feature defaults inside get_entitlements(). Sales/support exception mechanism — never tenant self-service (see permissions below).",
+ "field_order": [
+  "tenant",
+  "product",
+  "feature_key",
+  "override_value",
+  "reason",
+  "expires_on"
+ ],
+ "fields": [
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "label": "Tenant",
+   "options": "QTT Tenant",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "product",
+   "fieldtype": "Link",
+   "label": "Product",
+   "options": "QTT Product",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "feature_key",
+   "fieldtype": "Data",
+   "label": "Feature Key",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "override_value",
+   "fieldtype": "Data",
+   "label": "Override Value",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "Same convention as QTT Plan Feature.limit_value — replaces the plan's own value for this feature_key entirely, never merged/added."
+  },
+  {
+   "fieldname": "reason",
+   "fieldtype": "Small Text",
+   "label": "Reason"
+  },
+  {
+   "fieldname": "expires_on",
+   "fieldtype": "Date",
+   "label": "Expires On",
+   "description": "An expired override is ignored by get_entitlements() — never deleted automatically, so the record of why it was granted is retained."
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "links": []
+}

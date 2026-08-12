@@ -1,0 +1,34 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Plan Feature",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 1,
+ "issingle": 0,
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "description": "One limit/flag row under a Plan — e.g. max_students=1000, live_classes_enabled=1. No usage_resolver field here: per the hardening review section 2, resolvers are registered in each product's own hooks.py (code, not database data), never editable through this doctype — see qtt_platform/hooks.py's usage_resolvers dict, populated in Phase 6.",
+ "field_order": [
+  "feature_key",
+  "limit_value"
+ ],
+ "fields": [
+  {
+   "fieldname": "feature_key",
+   "fieldtype": "Data",
+   "label": "Feature Key",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "e.g. 'max_students', 'live_classes_enabled'. Scoped implicitly by the parent Plan's own product — no cross-product collision risk."
+  },
+  {
+   "fieldname": "limit_value",
+   "fieldtype": "Data",
+   "label": "Limit Value",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "Numeric limit as a string, or '0'/'1' for a boolean flag — interpreted by the entitlement engine (Phase 5), never by this doctype itself."
+  }
+ ],
+ "permissions": []
+}

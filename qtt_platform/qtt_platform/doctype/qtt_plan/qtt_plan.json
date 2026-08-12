@@ -1,0 +1,109 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Plan",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 1,
+ "autoname": "hash",
+ "naming_rule": "Random",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "A sellable plan, always for exactly one product. plan_code is unique per (product, plan_code) — NOT globally, so 'Professional' can exist once for QMP_LMS and once for QTT_HRMS without collision. See the QTT SaaS Platform architecture document, section 10.",
+ "field_order": [
+  "plan_code",
+  "product",
+  "display_name",
+  "column_break_pricing",
+  "base_price",
+  "billing_period",
+  "trial_days",
+  "is_public",
+  "section_break_features",
+  "features"
+ ],
+ "fields": [
+  {
+   "fieldname": "plan_code",
+   "fieldtype": "Data",
+   "label": "Plan Code",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "Unique within its product, e.g. 'starter', 'professional', 'enterprise' — not globally unique. See patches/v0_3 for the DB-level (product, plan_code) constraint."
+  },
+  {
+   "fieldname": "product",
+   "fieldtype": "Link",
+   "label": "Product",
+   "options": "QTT Product",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "display_name",
+   "fieldtype": "Data",
+   "label": "Display Name",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "column_break_pricing",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "base_price",
+   "fieldtype": "Currency",
+   "label": "Base Price",
+   "default": "0",
+   "reqd": 1
+  },
+  {
+   "fieldname": "billing_period",
+   "fieldtype": "Select",
+   "label": "Billing Period",
+   "options": "monthly\nyearly",
+   "default": "monthly",
+   "reqd": 1
+  },
+  {
+   "fieldname": "trial_days",
+   "fieldtype": "Int",
+   "label": "Trial Days",
+   "default": "14"
+  },
+  {
+   "fieldname": "is_public",
+   "fieldtype": "Check",
+   "label": "Is Public",
+   "default": "1",
+   "description": "Unpublished plans (0) can still be assigned to a tenant manually but won't appear in a self-service plan picker."
+  },
+  {
+   "fieldname": "section_break_features",
+   "fieldtype": "Section Break",
+   "label": "Features"
+  },
+  {
+   "fieldname": "features",
+   "fieldtype": "Table",
+   "label": "Features",
+   "options": "QTT Plan Feature"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "links": []
+}

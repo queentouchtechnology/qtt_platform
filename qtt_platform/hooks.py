@@ -51,17 +51,106 @@ required_apps = []
 # get_my_product_access) lives in api/product_access.py, gated to Tenant
 # Owner/Admin governance authority per the hardening review's role matrix.
 #
+# PHASE 4 — implemented: QTT Plan (+ QTT Plan Feature child table, no
+# usage_resolver field per the Phase 2/3 hardening fix), QTT Product
+# Subscription (+ QTT Subscription Item child table), QTT Subscription
+# Event (append-only, 100% system-generated), and QTT Tenant Product
+# Subscription Pointer — the hardening review's section 9 fix for
+# subscription concurrency: a real database unique constraint on
+# (tenant, product), not an application-level check alone. The lifecycle
+# service (create / change plan / cancel, plus the atomic pointer
+# activation) lives in qtt_platform/subscription/service.py; the
+# whitelisted, Tenant-Owner-gated API lives in api/subscription.py.
+#
+# PHASE 5/6 — implemented together, deliberately: get_entitlements() for a
+# numeric feature is non-functional without a real usage-counting
+# mechanism to call, so shipping Phase 5 alone would have been a
+# half-working engine. QTT Tenant Feature Override (one-off grant/revoke,
+# System-Manager-only), the feature_key field added to QTT Subscription
+# Item (so an add-on can augment a numeric plan limit), the usage resolver
+# registry (qtt_platform.usage.registry — reads the usage_resolvers dict
+# below, aggregated across every installed app's own hooks.py, never a
+# DocType field), and the entitlement engine itself
+# (qtt_platform.entitlement.engine: get_entitlements / check_limit /
+# is_feature_enabled / can_i) all shipped this pass. The whitelisted
+# can_i endpoint lives in api/entitlements.py.
+#
+# No product has registered a usage resolver yet — LMS integration is
+# Phase 10 — so numeric-feature checks currently fail closed for every
+# feature_key (FeatureNotConfigured -> check_limit()/can_i() return
+# False/not-allowed) until LMS registers its own resolvers. Flag-shaped
+# features (no resolver expected) already work correctly today via
+# is_feature_enabled().
+#
+# PHASE 7 — implemented, with an honest scope correction: every doctype
+# shipped through Phase 6 grants NO DocPerm to any tenant-facing role
+# (System Manager only). has_permission/permission_query_conditions hooks
+# only ever run for a caller who has already cleared the coarse DocPerm
+# check — since no tenant-facing role can clear it for any doctype in this
+# app today, REGISTERING either hook against them would be dead code, not
+# real protection (the real protection is the whitelisted API layer's own
+# explicit checks, already shipped in Phases 1/3/4/5). See
+# qtt_platform/permissions/handlers.py's module docstring for the full
+# reasoning.
+#
+# What actually shipped this phase:
+#   - A generic, doctype-agnostic has_permission handler (real, tested
+#     shape, zero registrations yet — ready the moment Phase 10 gives it a
+#     real target, e.g. a hook-only LMS doctype with broader DocPerm).
+#   - permission_query_conditions deliberately NOT implemented generically
+#     — its SQL-fragment shape is inherently doctype-specific; writing one
+#     for a doctype that doesn't exist yet would be exactly the kind of
+#     guessed API this project has avoided throughout.
+#   - A REAL gap found and fixed: neither QTT Product Subscription nor QTT
+#     Tenant Feature Override previously guarded against their own
+#     `tenant` field being edited after creation. QTT Product Access
+#     needed no such fix — its validate() already unconditionally
+#     re-derives `tenant` from the referenced membership on every save, a
+#     stronger, self-healing guarantee.
+doc_events = {
+    "QTT Product Subscription": {
+        "before_save": "qtt_platform.permissions.handlers.guard_tenant_change_before_save",
+    },
+    "QTT Tenant Feature Override": {
+        "before_save": "qtt_platform.permissions.handlers.guard_tenant_change_before_save",
+    },
+}
+permission_query_conditions = {}
+has_permission = {}
+
+# PHASE 8 — implemented: the full AI core layer ported from
+# qzmaster-ai-gateway (qtt_platform/ai/core/: AiRequest/AiResponse,
+# AiProvider interface, AiProviderRegistry, AiGateway with retry+fallback,
+# task->model routing now sourced from QTT AI Model instead of static
+# config), six providers (Mock — real, deterministic, no network;
+# DeepSeek/OpenAI/OpenRouter — real, OpenAI-compatible, via a shared HTTP
+# client; Gemini/Anthropic — registered stubs, same status as the
+# original Node gateway), QTT AI Provider/QTT AI Model (config, secrets
+# via Password fieldtype, System-Manager-only), QTT AI Credit Ledger +
+# QTT AI Usage Record (append-only, 100% system-generated), and QTT
+# Tenant Product Wallet — the hardening review's section 8 fix: a real,
+# atomically-updated concurrency-control cache (not a replacement source
+# of truth — the ledger stays authoritative, see that doctype's own
+# description). The credit/cost/usage services live in
+# qtt_platform/ai/services/; the top-level orchestration
+# (generate_and_track — reserve credits, call the gateway, refund on
+# failure, record usage) lives in qtt_platform/ai/service.py.
+#
+# No whitelisted "generate" endpoint exists yet — api/ai.py exposes only
+# a balance-check endpoint. An AI feature needs a real prompt and
+# feature_key, both product-specific business logic; the platform
+# deliberately doesn't invent a fake one to expose. That's Phase 10's
+# first real caller (a future LMS QuizAiService calling
+# qtt_platform.ai.service.generate_and_track() directly).
+#
+# One real porting difference from the Node gateway, named not hidden:
+# provider HTTP calls are synchronous (requests, not fetch/await) since
+# Frappe whitelisted methods run in a WSGI worker, not an event loop —
+# accepted for now, same capacity question the single-application
+# specification already flagged as open, not re-litigated here.
+#
 # NOT yet implemented (later phases — see the implementation-order section
 # of the hardening review):
-#   Phase 4  Plan / Product Subscription / Subscription Item
-#   Phase 5  Entitlement engine (get_entitlements / check_limit / can_i)
-#   Phase 6  Usage engine (hooks.py-registered resolvers, per the hardening
-#            review's fix — usage_resolvers = {...} will be declared here)
-#   Phase 7  permission_query_conditions / has_permission / validate hooks
-#            against LMS and this app's own doctypes
-#   Phase 8  AI platform (ported gateway, AI Provider/Model/Credit
-#            Ledger/Usage Record, the QTT Tenant Product Wallet concurrency
-#            fix)
 #   Phase 9  Billing (Invoice/Payment/Payment Transaction, Razorpay adapter,
 #            webhook handler)
 #   Phase 10 QMP LMS integration (Custom Fields on the 12 anchor/denormalized
@@ -72,14 +161,14 @@ required_apps = []
 # not stubbed in advance.
 # --------------------------------------------------------------------------
 
-doc_events = {}
-permission_query_conditions = {}
-has_permission = {}
-
-# Usage-resolver registry (Phase 6) — populated by qtt_platform's own
-# resolvers (none yet) and by every product's hooks.py via Frappe's
-# frappe.get_hooks("usage_resolvers") aggregation. Deliberately a hooks.py
-# dict, never a DocType field — see the hardening review §2 for why a
-# database-editable dotted-import-path field is an arbitrary-code-execution
-# risk this design specifically avoids.
+# Usage-resolver registry — read by qtt_platform.usage.registry via
+# frappe.get_hooks("usage_resolvers"), aggregated across every installed
+# app's own declaration of this same dict (see that module for the exact
+# merge logic and an open question about its precise shape, flagged there
+# rather than assumed). Deliberately a hooks.py dict, never a DocType
+# field — see the hardening review §2 for why a database-editable
+# dotted-import-path field is an arbitrary-code-execution risk this design
+# specifically avoids. qtt_platform itself registers none (it has no
+# domain features of its own); populated once a product — LMS in Phase 10
+# — declares its own, e.g. {"QMP_LMS::max_students": "lms.usage.count_students"}.
 usage_resolvers = {}

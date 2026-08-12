@@ -1,0 +1,59 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Tenant Product Subscription Pointer",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 1,
+ "autoname": "hash",
+ "naming_rule": "Random",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "The real, database-enforced 'at most one active subscription per (tenant, product)' guarantee — hardening review section 9. MariaDB has no partial/filtered unique index, and historical QTT Product Subscription rows must be allowed to coexist for audit purposes, so the constraint lives here instead, on a table that only ever holds the CURRENT pointer. All writes go through qtt_platform.subscription.service.activate_pointer(); no role holds write/create/delete DocPerm.",
+ "field_order": [
+  "tenant",
+  "product",
+  "current_subscription"
+ ],
+ "fields": [
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "label": "Tenant",
+   "options": "QTT Tenant",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "product",
+   "fieldtype": "Link",
+   "label": "Product",
+   "options": "QTT Product",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "current_subscription",
+   "fieldtype": "Link",
+   "label": "Current Subscription",
+   "options": "QTT Product Subscription",
+   "reqd": 1,
+   "in_list_view": 1
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "links": []
+}

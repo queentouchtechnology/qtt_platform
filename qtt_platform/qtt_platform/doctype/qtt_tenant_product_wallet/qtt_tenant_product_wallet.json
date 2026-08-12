@@ -1,0 +1,59 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Tenant Product Wallet",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 0,
+ "autoname": "hash",
+ "naming_rule": "Random",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "The hardening review section 8 fix: a real, atomically-updated concurrency-control cache, NOT a replacement source of truth for QTT AI Credit Ledger. balance is always kept equal to SUM(QTT AI Credit Ledger.amount) for the same (tenant, product) — every credit_service.py write updates both in the same DB transaction, and a periodic reconciliation function (credit_service.reconcile_wallet) corrects any drift. The (tenant, product) unique constraint (patches/v0_5) is what makes a raw atomic UPDATE...WHERE balance>=amount race-free across concurrent requests — see credit_service.deduct_credits(). This is deliberately NOT the same design as the earlier-rejected naive 'Tenant AI Wallet' concept from the original architecture proposal, which was rejected specifically for being a mutable counter with no ledger backing at all.",
+ "field_order": [
+  "tenant",
+  "product",
+  "balance"
+ ],
+ "fields": [
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "label": "Tenant",
+   "options": "QTT Tenant",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "product",
+   "fieldtype": "Link",
+   "label": "Product",
+   "options": "QTT Product",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "balance",
+   "fieldtype": "Float",
+   "label": "Balance",
+   "reqd": 1,
+   "default": "0",
+   "in_list_view": 1
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "links": []
+}

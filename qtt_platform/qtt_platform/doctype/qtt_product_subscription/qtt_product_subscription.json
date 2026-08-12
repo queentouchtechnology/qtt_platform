@@ -1,0 +1,112 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Product Subscription",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 1,
+ "autoname": "hash",
+ "naming_rule": "Random",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "The row that actually governs a tenant's access to one product right now. A tenant can hold several — one per product it has subscribed to. Historical (superseded/cancelled) rows are never deleted; QTT Tenant Product Subscription Pointer tracks which one is current. No DocPerm is granted to any tenant-facing role — every read/write goes through qtt_platform.api.subscription, per the hardening review section 11's billing-doctype immutability pattern.",
+ "field_order": [
+  "tenant",
+  "product",
+  "plan",
+  "column_break_status",
+  "status",
+  "current_period_start",
+  "current_period_end",
+  "cancel_at_period_end",
+  "section_break_items",
+  "items"
+ ],
+ "fields": [
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "label": "Tenant",
+   "options": "QTT Tenant",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "product",
+   "fieldtype": "Link",
+   "label": "Product",
+   "options": "QTT Product",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "plan",
+   "fieldtype": "Link",
+   "label": "Plan",
+   "options": "QTT Plan",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "Must belong to the same product as this subscription — enforced in validate()."
+  },
+  {
+   "fieldname": "column_break_status",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "trialing\nactive\npast_due\ncancelled",
+   "default": "trialing",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "current_period_start",
+   "fieldtype": "Date",
+   "label": "Current Period Start",
+   "reqd": 1
+  },
+  {
+   "fieldname": "current_period_end",
+   "fieldtype": "Date",
+   "label": "Current Period End",
+   "reqd": 1
+  },
+  {
+   "fieldname": "cancel_at_period_end",
+   "fieldtype": "Check",
+   "label": "Cancel At Period End",
+   "default": "0"
+  },
+  {
+   "fieldname": "section_break_items",
+   "fieldtype": "Section Break",
+   "label": "Add-ons"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Subscription Items",
+   "options": "QTT Subscription Item"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "links": []
+}
