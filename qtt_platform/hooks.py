@@ -31,10 +31,28 @@ required_apps = []
 # model, and the bootstrap session API (create_tenant / switch_tenant /
 # get_my_memberships).
 #
+# PHASE 2 — implemented: QTT Product, QTT Product Role (child table),
+# QTT Product DocType (the static doctype→product registry, deliberately
+# grantless — no write/create/delete DocPerm for any role, see
+# qtt_product_doctype.json), the registration functions products call from
+# their own install hooks (qtt_platform.product.registry — never
+# whitelisted, never reachable from a tenant or HTTP request), and the
+# public product catalog endpoint (list_available_products).
+#
+# PHASE 3 — implemented: QTT Product Access (the Membership x Product x
+# Role join, with cross-tenant-reference validation and role-catalog
+# validation), the product-level authorization guards
+# (require_product_access / require_product_role / has_product_access,
+# qtt_platform.product.guards), and the cross-cutting document_security
+# module completing the full authorization engine (resolve_tenant_for_doc /
+# require_document_tenant_and_product / require_same_tenant_reference /
+# assert_tenant_access). The whitelisted product-access management API
+# (grant_product_access / revoke_product_access / change_product_role /
+# get_my_product_access) lives in api/product_access.py, gated to Tenant
+# Owner/Admin governance authority per the hardening review's role matrix.
+#
 # NOT yet implemented (later phases — see the implementation-order section
 # of the hardening review):
-#   Phase 2  Product / Product DocType registry
-#   Phase 3  Product Access + product roles
 #   Phase 4  Plan / Product Subscription / Subscription Item
 #   Phase 5  Entitlement engine (get_entitlements / check_limit / can_i)
 #   Phase 6  Usage engine (hooks.py-registered resolvers, per the hardening

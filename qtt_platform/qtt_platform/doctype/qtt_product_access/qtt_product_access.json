@@ -1,0 +1,87 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Product Access",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 1,
+ "autoname": "hash",
+ "naming_rule": "Random",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "The join the whole product-agnostic model hinges on: Membership x Product x Role. Being a member of a tenant grants no product access by itself — a real, active row here is required. See the QTT SaaS Platform architecture document, section 7, and the hardening review, section 4.",
+ "field_order": [
+  "membership",
+  "tenant",
+  "product",
+  "column_break_role",
+  "product_role",
+  "status"
+ ],
+ "fields": [
+  {
+   "fieldname": "membership",
+   "fieldtype": "Link",
+   "label": "Tenant Membership",
+   "options": "QTT Tenant Membership",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "label": "Tenant",
+   "options": "QTT Tenant",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "description": "Denormalized from `membership` for direct indexed queries — kept in sync in validate(), never independently editable in practice."
+  },
+  {
+   "fieldname": "product",
+   "fieldtype": "Link",
+   "label": "Product",
+   "options": "QTT Product",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "column_break_role",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "product_role",
+   "fieldtype": "Data",
+   "label": "Product Role",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "Must be one of the role_key values in the referenced Product's own role catalog (QTT Product.roles) — validated in validate(), never a platform-hardcoded list."
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "active\nsuspended\nremoved",
+   "default": "active",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "links": []
+}

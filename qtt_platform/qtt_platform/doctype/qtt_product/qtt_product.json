@@ -1,0 +1,113 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Product",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 1,
+ "autoname": "field:product_key",
+ "naming_rule": "By fieldname",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "One row per QTT SaaS product (QMP LMS, future QTT HRMS, future QTT CRM, ...). The platform itself never hardcodes a product's identity anywhere else — every product-aware doctype and function refers to a product only via this doctype's name. See the QTT SaaS Platform architecture document, section 6.",
+ "field_order": [
+  "product_key",
+  "display_name",
+  "column_break_status",
+  "status",
+  "version",
+  "app_name",
+  "section_break_display",
+  "icon",
+  "description",
+  "section_break_roles",
+  "roles"
+ ],
+ "fields": [
+  {
+   "fieldname": "product_key",
+   "fieldtype": "Data",
+   "label": "Product Key",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1,
+   "description": "Stable identifier, e.g. QMP_LMS, QTT_HRMS. Uppercase letters, digits, and underscores only — enforced in validate(). Never changes after creation; this is what every other doctype's `product` Link field points at."
+  },
+  {
+   "fieldname": "display_name",
+   "fieldtype": "Data",
+   "label": "Display Name",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "column_break_status",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "active\ndisabled",
+   "default": "active",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "description": "disabled locks out every tenant for this product in one change, regardless of individual QTT Product Access rows — see the hardening review section 3."
+  },
+  {
+   "fieldname": "version",
+   "fieldtype": "Data",
+   "label": "Version"
+  },
+  {
+   "fieldname": "app_name",
+   "fieldtype": "Data",
+   "label": "Frappe App",
+   "reqd": 1,
+   "description": "The installed Frappe app that implements this product, e.g. 'lms'."
+  },
+  {
+   "fieldname": "section_break_display",
+   "fieldtype": "Section Break",
+   "label": "Display"
+  },
+  {
+   "fieldname": "icon",
+   "fieldtype": "Data",
+   "label": "Icon"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "section_break_roles",
+   "fieldtype": "Section Break",
+   "label": "Role Catalog"
+  },
+  {
+   "fieldname": "roles",
+   "fieldtype": "Table",
+   "label": "Roles",
+   "options": "QTT Product Role",
+   "description": "The product's own vocabulary for QTT Product Access.product_role — the platform validates a Product Access row's role against this list, never hardcodes what a valid role is."
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "links": []
+}

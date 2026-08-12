@@ -1,0 +1,60 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Product DocType",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 1,
+ "autoname": "hash",
+ "naming_rule": "Random",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "Static registry: which product a Frappe doctype belongs to. Product ownership is a property of the DOCTYPE, not of each row it contains — this is what lets the security engine resolve 'an LMS Course belongs to QMP_LMS' without a product field on every LMS row. Deliberately immutable after creation — see this doctype's permissions (no write/create/delete DocPerm granted to any role) and the hardening review section 3.",
+ "field_order": [
+  "product",
+  "doctype_name",
+  "is_tenant_scoped"
+ ],
+ "fields": [
+  {
+   "fieldname": "product",
+   "fieldtype": "Link",
+   "label": "Product",
+   "options": "QTT Product",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "doctype_name",
+   "fieldtype": "Data",
+   "label": "DocType",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1,
+   "description": "Must name a real, already-installed DocType — checked in validate(). A doctype belongs to exactly one product."
+  },
+  {
+   "fieldname": "is_tenant_scoped",
+   "fieldtype": "Check",
+   "label": "Is Tenant Scoped",
+   "default": "1",
+   "description": "0 only for a product's rare platform-level/global doctypes that carry no per-tenant data at all."
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "links": []
+}
