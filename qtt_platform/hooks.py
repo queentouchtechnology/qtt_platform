@@ -228,3 +228,38 @@ usage_resolvers = {}
 #   reference_docname pair: {"Discussion Topic": ("reference_doctype", "reference_docname")}
 tenant_parent_links = {}
 tenant_dynamic_parent_links = {}
+
+# --------------------------------------------------------------------------
+# SaaS lifecycle Phase I — scheduled jobs. Every one of these is a plain
+# function, never @frappe.whitelist()'d (a scheduled job is never meant
+# to be callable over HTTP) — Frappe's scheduler calls the dotted path
+# directly with no arguments, which is why every function below is
+# already zero-required-args. None of these were newly invented for this
+# phase in isolation: reconcile_subscriptions/reconcile_payments were
+# built in Phases D/9 and explicitly left "not registered as a scheduled
+# job yet" until this phase existed; expire_stale_trials/
+# finalize_pending_cancellations/apply_due_scheduled_downgrades/
+# expire_stale_invitations are the specific, narrowly-scoped gaps Phases
+# D/E/E/F's own READMEs each flagged by name as "Phase I will need a
+# real scheduler." This phase's only real work was building those four
+# narrow sweeps and wiring everything here for the first time.
+#
+# Cadence: reconcile_subscriptions hits Razorpay's API once per open,
+# linked subscription — hourly balances catching a missed webhook
+# reasonably promptly against not hammering that API constantly. The
+# other five are pure local-DB sweeps (no external calls), so daily is
+# more than sufficient — none of them govern anything sub-daily (a
+# trial/billing-cycle boundary is date-granular already).
+# --------------------------------------------------------------------------
+scheduler_events = {
+	"hourly": [
+		"qtt_platform.billing.service.reconcile_subscriptions",
+	],
+	"daily": [
+		"qtt_platform.billing.service.reconcile_payments",
+		"qtt_platform.billing.service.expire_stale_trials",
+		"qtt_platform.subscription.service.finalize_pending_cancellations",
+		"qtt_platform.subscription.service.apply_due_scheduled_downgrades",
+		"qtt_platform.api.invitation.expire_stale_invitations",
+	],
+}

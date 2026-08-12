@@ -293,6 +293,80 @@ def cancel_subscription(tenant: str, product: str, *, at_period_end: bool = True
 	return current
 
 
+def finalize_pending_cancellations() -> list[dict]:
+	"""SaaS lifecycle Phase I — the scheduled sweep cancel_subscription()
+	itself deferred to this phase (see that function's own docstring
+	above): for every subscription with cancel_at_period_end=1 whose
+	effective_end_date has now passed, actually flips status to
+	'cancelled' and sets cancelled_at. The REQUEST already happened
+	(cancellation_requested_at, at request time); this is only the
+	delayed part of it finally taking effect. Never @frappe.whitelist()'d
+	— called only by the scheduler (hooks.py's scheduler_events) or
+	directly for testing. Per-row failures are logged and skipped, never
+	allowed to abort the rest of the sweep."""
+	finalized = []
+	pending = frappe.get_all(
+		"QTT Product Subscription",
+		filters={"cancel_at_period_end": 1, "status": ["!=", "cancelled"], "effective_end_date": ["<=", today()]},
+		fields=["name"],
+	)
+	for row in pending:
+		try:
+			subscription = frappe.get_doc("QTT Product Subscription", row.name)
+			subscription.status = "cancelled"
+			subscription.cancelled_at = now_datetime()
+			subscription.save(ignore_permissions=True)
+			_write_subscription_event(subscription.name, "cancelled", from_plan=subscription.plan)
+			write_audit_event(
+				"subscription_cancellation_finalized",
+				tenant=subscription.tenant,
+				product=subscription.product,
+				target_doctype="QTT Product Subscription",
+				target_name=subscription.name,
+			)
+			finalized.append({"subscription": row.name})
+		except Exception:
+			frappe.log_error(
+				title=f"qtt_platform.subscription.service.finalize_pending_cancellations failed for {row.name}",
+				message=frappe.get_traceback(),
+			)
+	return finalized
+
+
+def apply_due_scheduled_downgrades() -> list[dict]:
+	"""SaaS lifecycle Phase I — the backstop for a scheduled downgrade
+	(Phase E's scheduled_plan/scheduled_plan_effective_date) that never
+	got applied because its subscription never fired another
+	subscription.charged webhook (billing/service.py's own trigger for
+	apply_scheduled_plan_change()) — e.g. a subscription that lapses
+	mid-trial or is otherwise never charged again. Phase E's own README
+	flagged this exact gap as "Phase I will need a real scheduler."
+	apply_scheduled_plan_change() itself already no-ops safely if nothing
+	is actually due; this function's only job is finding the candidates
+	and isolating per-row failures."""
+	applied = []
+	due = frappe.get_all(
+		"QTT Product Subscription",
+		filters={
+			"scheduled_plan": ["is", "set"],
+			"scheduled_plan_effective_date": ["<=", today()],
+			"status": ["!=", "cancelled"],
+		},
+		fields=["name"],
+	)
+	for row in due:
+		try:
+			new_subscription = apply_scheduled_plan_change(row.name)
+			if new_subscription:
+				applied.append({"subscription": row.name, "new_subscription": new_subscription.name})
+		except Exception:
+			frappe.log_error(
+				title=f"qtt_platform.subscription.service.apply_due_scheduled_downgrades failed for {row.name}",
+				message=frappe.get_traceback(),
+			)
+	return applied
+
+
 def activate_pointer(tenant: str, product: str, subscription_name: str) -> None:
 	"""The atomic operation the hardening review section 9 requires: at
 	most one pointer row per (tenant, product), enforced by a real

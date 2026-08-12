@@ -1522,5 +1522,156 @@ class GetDashboardTest(unittest.TestCase):
 		self.assertIsNone(result["data"]["next_billing_date"])
 
 
+# ---------------------------------------------------------------------------
+# SaaS lifecycle Phase I — scheduled jobs. Each sweep is tested for: the
+# happy path (a due row gets acted on), the not-due path (left alone),
+# and per-row failure isolation (one bad row doesn't abort the sweep).
+# ---------------------------------------------------------------------------
+
+
+class FinalizePendingCancellationsTest(unittest.TestCase):
+	def test_finalizes_due_cancellations(self):
+		fake_frappe.get_all = mock.Mock(return_value=[types.SimpleNamespace(name="sub-1")])
+		sub = mock.Mock(status="active", plan="plan-1", tenant="tenant-1", product="QMP_LMS")
+		sub.name = "sub-1"
+		fake_frappe.get_doc = _make_get_doc({("QTT Product Subscription", "sub-1"): sub})
+
+		with mock.patch.object(subscription_service, "_write_subscription_event"):
+			result = subscription_service.finalize_pending_cancellations()
+
+		self.assertEqual(result, [{"subscription": "sub-1"}])
+		self.assertEqual(sub.status, "cancelled")
+		sub.save.assert_called_once_with(ignore_permissions=True)
+
+	def test_empty_when_nothing_due(self):
+		fake_frappe.get_all = mock.Mock(return_value=[])
+		result = subscription_service.finalize_pending_cancellations()
+		self.assertEqual(result, [])
+
+	def test_one_bad_row_does_not_abort_the_sweep(self):
+		fake_frappe.get_all = mock.Mock(
+			return_value=[types.SimpleNamespace(name="sub-bad"), types.SimpleNamespace(name="sub-good")]
+		)
+		good_sub = mock.Mock(status="active", plan="plan-1", tenant="tenant-1", product="QMP_LMS")
+		good_sub.name = "sub-good"
+
+		def _get_doc(*args, **kwargs):
+			# Two call shapes hit this mock: the (doctype, name) lookup
+			# below, AND write_audit_event()'s own frappe.get_doc({...})
+			# construction call — the latter must not also raise, or
+			# "sub-good"'s otherwise-successful processing would be
+			# wrongly swallowed by the same try/except this test exists
+			# to prove doesn't swallow the WRONG row.
+			if len(args) == 2:
+				if args[1] == "sub-bad":
+					raise Exception("boom")
+				return good_sub
+			return mock.Mock()
+
+		fake_frappe.get_doc = mock.Mock(side_effect=_get_doc)
+
+		with mock.patch.object(subscription_service, "_write_subscription_event"):
+			result = subscription_service.finalize_pending_cancellations()
+
+		self.assertEqual(result, [{"subscription": "sub-good"}])
+		fake_frappe.log_error.assert_called()
+
+
+class ApplyDueScheduledDowngradesTest(unittest.TestCase):
+	def test_applies_due_downgrade(self):
+		fake_frappe.get_all = mock.Mock(return_value=[types.SimpleNamespace(name="sub-1")])
+		new_sub = mock.Mock()
+		new_sub.name = "sub-2"
+		with mock.patch.object(subscription_service, "apply_scheduled_plan_change", return_value=new_sub) as apply_mock:
+			result = subscription_service.apply_due_scheduled_downgrades()
+
+		apply_mock.assert_called_once_with("sub-1")
+		self.assertEqual(result, [{"subscription": "sub-1", "new_subscription": "sub-2"}])
+
+	def test_noop_row_is_not_reported_as_applied(self):
+		fake_frappe.get_all = mock.Mock(return_value=[types.SimpleNamespace(name="sub-1")])
+		with mock.patch.object(subscription_service, "apply_scheduled_plan_change", return_value=None):
+			result = subscription_service.apply_due_scheduled_downgrades()
+		self.assertEqual(result, [])
+
+	def test_one_bad_row_does_not_abort_the_sweep(self):
+		fake_frappe.get_all = mock.Mock(
+			return_value=[types.SimpleNamespace(name="sub-bad"), types.SimpleNamespace(name="sub-good")]
+		)
+		new_sub = mock.Mock()
+		new_sub.name = "sub-good-2"
+
+		def _apply(name):
+			if name == "sub-bad":
+				raise Exception("boom")
+			return new_sub
+
+		with mock.patch.object(subscription_service, "apply_scheduled_plan_change", side_effect=_apply):
+			result = subscription_service.apply_due_scheduled_downgrades()
+
+		self.assertEqual(result, [{"subscription": "sub-good", "new_subscription": "sub-good-2"}])
+		fake_frappe.log_error.assert_called()
+
+
+class ExpireStaleTrialsTest(unittest.TestCase):
+	def test_suspends_unlinked_stale_trial(self):
+		fake_frappe.get_all = mock.Mock(return_value=[types.SimpleNamespace(name="sub-1")])
+		sub = mock.Mock(status="trialing", tenant="tenant-1", product="QMP_LMS")
+		sub.name = "sub-1"
+		fake_frappe.get_doc = _make_get_doc({("QTT Product Subscription", "sub-1"): sub})
+
+		result = billing_service.expire_stale_trials()
+
+		self.assertEqual(result, [{"subscription": "sub-1"}])
+		self.assertEqual(sub.status, "suspended")
+
+	def test_only_queries_unlinked_trialing_subscriptions(self):
+		fake_frappe.get_all = mock.Mock(return_value=[])
+		billing_service.expire_stale_trials()
+		_, kwargs = fake_frappe.get_all.call_args
+		self.assertEqual(kwargs["filters"]["status"], "trialing")
+		self.assertEqual(kwargs["filters"]["razorpay_subscription_id"], ["is", "not set"])
+
+	def test_empty_when_nothing_stale(self):
+		fake_frappe.get_all = mock.Mock(return_value=[])
+		self.assertEqual(billing_service.expire_stale_trials(), [])
+
+
+class ExpireStaleInvitationsTest(unittest.TestCase):
+	def test_expires_stale_pending_invitations(self):
+		fake_frappe.get_all = mock.Mock(
+			return_value=[types.SimpleNamespace(name="inv-1", tenant="tenant-1")]
+		)
+		fake_frappe.db.set_value = mock.Mock()
+
+		result = api_invitation.expire_stale_invitations()
+
+		self.assertEqual(result, [{"invitation": "inv-1"}])
+		fake_frappe.db.set_value.assert_called_once_with("QTT Invitation", "inv-1", "status", "expired")
+
+	def test_empty_when_nothing_stale(self):
+		fake_frappe.get_all = mock.Mock(return_value=[])
+		self.assertEqual(api_invitation.expire_stale_invitations(), [])
+
+	def test_one_bad_row_does_not_abort_the_sweep(self):
+		fake_frappe.get_all = mock.Mock(
+			return_value=[
+				types.SimpleNamespace(name="inv-bad", tenant="tenant-1"),
+				types.SimpleNamespace(name="inv-good", tenant="tenant-1"),
+			]
+		)
+
+		def _set_value(doctype, name, field, value):
+			if name == "inv-bad":
+				raise Exception("boom")
+
+		fake_frappe.db.set_value = mock.Mock(side_effect=_set_value)
+
+		result = api_invitation.expire_stale_invitations()
+
+		self.assertEqual(result, [{"invitation": "inv-good"}])
+		fake_frappe.log_error.assert_called()
+
+
 if __name__ == "__main__":
 	unittest.main()

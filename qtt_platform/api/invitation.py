@@ -121,6 +121,34 @@ def get_pending_invitations(tenant: str) -> list[dict]:
 	)
 
 
+def expire_stale_invitations() -> list[dict]:
+	"""SaaS lifecycle Phase I — the scheduled sweep this app's own README
+	flagged as missing: proactively marks any 'pending' QTT Invitation
+	whose expires_on has passed as 'expired', rather than relying only on
+	the lazy check already inside accept_invitation() (which only catches
+	it if someone actually tries to use the expired token — harmless, but
+	leaves a stale-looking 'pending' row sitting in get_pending_
+	invitations() indefinitely otherwise). Never @frappe.whitelist()'d —
+	called only by the scheduler (hooks.py's scheduler_events)."""
+	expired = []
+	stale = frappe.get_all(
+		"QTT Invitation", filters={"status": "pending", "expires_on": ["<", now_datetime()]}, fields=["name", "tenant"]
+	)
+	for row in stale:
+		try:
+			frappe.db.set_value("QTT Invitation", row.name, "status", "expired")
+			write_audit_event(
+				"invitation_expired", tenant=row.tenant, target_doctype="QTT Invitation", target_name=row.name
+			)
+			expired.append({"invitation": row.name})
+		except Exception:
+			frappe.log_error(
+				title=f"qtt_platform.api.invitation.expire_stale_invitations failed for {row.name}",
+				message=frappe.get_traceback(),
+			)
+	return expired
+
+
 @frappe.whitelist(allow_guest=True, methods=["POST"])
 def accept_invitation(token: str, full_name: str | None = None, password: str | None = None) -> dict:
 	"""Guest-accessible — the invitee may not have a session yet. Two

@@ -904,6 +904,62 @@ If the caller has no product access at all, `"product"` is `null` and
 `"entitlements"` is `[]` — the other sections (organization, team,
 billing) are still returned, since those aren't product-gated.
 
+## What's implemented (SaaS Lifecycle Phase I — scheduled jobs)
+
+No new DocType, no new field. This phase's real job was closing five
+specific gaps every earlier phase had already named and deliberately
+deferred "to Phase I" — not inventing new scope:
+
+| `hooks.py` cadence | Function | What it closes |
+|---|---|---|
+| hourly | `billing/service.py::reconcile_subscriptions()` | Phase D, built, never scheduled — payment recovery + general drift correction for any Razorpay-linked subscription |
+| daily | `billing/service.py::reconcile_payments()` | Phase 9, built, never scheduled |
+| daily | `billing/service.py::expire_stale_trials()` **(new)** | trial expiration for a subscription with NO Razorpay link at all |
+| daily | `subscription/service.py::finalize_pending_cancellations()` **(new)** | `cancel_subscription()`'s own docstring (Phase D): "a scheduled sweep (Phase I) is what flips status to cancelled" |
+| daily | `subscription/service.py::apply_due_scheduled_downgrades()` **(new)** | Phase E's own README: "a subscription that never charges again... will not have its scheduled downgrade applied until Phase I's scheduler exists" |
+| daily | `api/invitation.py::expire_stale_invitations()` **(new)** | Phase F's own README: "Invitations do not expire via a scheduled job" |
+
+**`reconcile_subscriptions()`/`reconcile_payments()` are unchanged** —
+only `hooks.py`'s `scheduler_events` gave them their first real trigger.
+None of the three genuinely new functions are `@frappe.whitelist()`'d —
+a scheduled job is never meant to be callable over HTTP, and Frappe's
+scheduler calls a plain dotted path directly.
+
+**Trial expiration split, explained**: `reconcile_subscriptions()`
+already correctly handles trial expiration for any subscription that
+was ever linked to Razorpay (Phase C onward — Razorpay's own real
+`status` field already reflects whether the customer completed payment
+setup). `expire_stale_trials()` handles the one case that function
+structurally cannot: a subscription with `razorpay_subscription_id`
+blank has no external state to check at all — there's nothing to ask
+"did they set up payment," because no gateway subscription exists for
+it. Past `trial_end` plus a 1-day grace period, the safe, fail-closed
+default is `suspended`, never a silent indefinite free trial.
+
+**Downgrade backstop, explained**: `apply_scheduled_plan_change()`
+(Phase E) is normally triggered by the `subscription.charged` webhook —
+a new billing cycle starting is exactly when a pending downgrade should
+apply. But a subscription that never charges again (lapses mid-trial,
+gets suspended, etc.) never fires that event. `apply_due_scheduled_
+downgrades()` is the daily backstop: finds every subscription with a
+`scheduled_plan` whose effective date has passed and calls the SAME
+`apply_scheduled_plan_change()` the webhook already uses — one
+application path, two triggers.
+
+**Cancellation finalization, explained**: `cancel_subscription(at_period_end=True)`
+(Phase D) always left `status` untouched and `cancelled_at` unset,
+by design — "the request has been made, but cancellation hasn't taken
+effect yet." `finalize_pending_cancellations()` is that deferred effect
+actually happening: `cancel_at_period_end=1` rows whose
+`effective_end_date` has passed get `status='cancelled'` and
+`cancelled_at` set, now, for real.
+
+**Every sweep isolates per-row failures** — one bad subscription/
+invitation logs an error and is skipped, never aborts the rest of the
+batch. All three new functions were built with this from the start
+(matching `reconcile_subscriptions()`'s own existing per-row try/except
+pattern), not added after a review found a gap.
+
 ## Deployment (for whoever has bench access)
 
 ```bash
@@ -1410,10 +1466,12 @@ exercise:
 
 - `resume()` does not call Razorpay — no confirmed Razorpay API for
   un-cancelling a scheduled cancellation was found this session.
-- Applying a scheduled downgrade is triggered only by the
+- ~~Applying a scheduled downgrade is triggered only by the
   `subscription.charged` webhook event — a subscription that never
   charges again (e.g. abandoned mid-trial) will not have its scheduled
-  downgrade applied until Phase I's scheduler exists.
+  downgrade applied until Phase I's scheduler exists.~~ **Resolved in
+  Phase I** — `subscription/service.py::apply_due_scheduled_downgrades()`
+  is the daily backstop for exactly this case.
 - An upgrade requested while a downgrade is already scheduled for a
   DIFFERENT plan is blocked (`PLAN_CHANGE_ALREADY_PENDING`) rather than
   auto-resolved (e.g. by cancelling the pending downgrade) — the
@@ -1535,10 +1593,10 @@ exercise:
   `_send_invitation_email()` — matches this project's own scope (backend
   only) but flagged since a real deployment will want a proper branded
   template.
-- Invitations do not expire via a scheduled job — an expired-but-never-
+- ~~Invitations do not expire via a scheduled job — an expired-but-never-
   accepted invitation is only marked `expired` lazily, the next time
-  someone tries to accept it past `expires_on`. Same "Phase I will need a
-  real scheduler" pattern already noted for Phase D/E.
+  someone tries to accept it past `expires_on`.~~ **Resolved in Phase I**
+  — `api/invitation.py::expire_stale_invitations()` runs daily.
 
 ## Testing — SaaS Lifecycle Phase G
 
@@ -1590,3 +1648,49 @@ tenant with an open invoice and a successful payment against it (both
 should appear in `billing`); a tenant with 3 team members holding
 different tenant roles and product roles (all 3 should appear with the
 right `product_access` arrays, not just the caller's own).
+
+## Deployment — SaaS Lifecycle Phase I
+
+No schema change — this phase is pure Python + a `hooks.py` dict change:
+
+```bash
+cd apps/qtt_platform
+git pull origin main
+bench --site app.quizmasterplus.in migrate
+bench restart
+```
+
+**Confirm the scheduler is actually enabled on the target site** — this
+is a real, separate operational step `bench restart` alone does not
+cover: `bench --site app.quizmasterplus.in scheduler enable` and confirm
+`bench --site app.quizmasterplus.in scheduler status` reports enabled;
+if this bench uses supervisor/systemd, confirm the scheduler
+worker/cron entry is actually running (`bench doctor` is the standard
+Frappe command for checking this). A registered `scheduler_events` entry
+does nothing on a site where the scheduler itself is disabled.
+
+## Testing — SaaS Lifecycle Phase I
+
+`python -m unittest discover -s qtt_platform/tests -p "test_*.py"` was
+actually run this pass: **141 tests, 135 pass** (12 new, added to
+`test_billing_subscriptions.py` — same canonical-fake reasoning as every
+phase since D). The other 6 failures are the expected bench-only
+`FrappeTestCase` import errors — `test_scheduler_integration.py` is this
+phase's, written but not executed (no bench). `reconcile_subscriptions()`/
+`reconcile_payments()` were not retested this phase (unchanged code,
+already covered by Phases D/9's own tests) — only their new
+`scheduler_events` registration is new, and that can only genuinely be
+proven by watching a real site's scheduler actually invoke them, which
+needs a live bench with the scheduler enabled (see the deployment note
+above) — not something any unit test can substitute for.
+
+On a real bench, run `test_scheduler_integration.py` and additionally
+exercise: let a full day pass (or manually trigger `bench --site
+<test-site> execute qtt_platform.subscription.service.finalize_pending_cancellations`)
+against a tenant with a real `cancel_at_period_end=1` subscription past
+its `effective_end_date` → confirm `status` actually flips and the
+tenant's product access becomes correctly restricted afterward (via the
+existing entitlement engine, unchanged) — this is the first time this
+whole cancellation flow has ever been exercised end-to-end including its
+deferred half, since every earlier phase's own tests necessarily stopped
+at "the request was recorded."

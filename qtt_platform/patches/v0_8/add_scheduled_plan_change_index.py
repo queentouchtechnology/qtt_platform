@@ -2,9 +2,10 @@ import frappe
 
 
 def execute():
-	"""SaaS lifecycle Phase E — supports the lookup shape a future
-	scheduled job (Phase I) will need: 'every QTT Product Subscription
-	with a scheduled_plan whose effective date has arrived.' Not a
+	"""SaaS lifecycle Phase E — supports the lookup shape the Phase I
+	scheduled job (subscription/service.py::apply_due_scheduled_downgrades(),
+	now built) needs: 'every QTT Product Subscription with a
+	scheduled_plan whose effective date has arrived.' Not a
 	uniqueness constraint — scheduled_plan/scheduled_plan_effective_date
 	are plain fields on the single current subscription row per
 	(tenant, product), already protected from duplication by the

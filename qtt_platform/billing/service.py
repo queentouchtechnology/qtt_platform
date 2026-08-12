@@ -229,9 +229,10 @@ def reconcile_payments() -> list[dict]:
 	marked paid (the rare case where the payment write succeeded but the
 	invoice-status write that should accompany it didn't — normally
 	impossible given both happen in one Frappe request transaction, but
-	this is the safety net for whatever edge case defeats that). Not
-	registered as a scheduled job yet — same open scheduler_events
-	convention gap noted in Phase 8's reconcile_wallet()."""
+	this is the safety net for whatever edge case defeats that).
+	Registered as a daily scheduled job in hooks.py (SaaS lifecycle
+	Phase I) — Phase 8's reconcile_wallet() (AI credits, a different
+	subsystem) remains unscheduled, out of this phase's scope."""
 	corrections = []
 	succeeded_payments = frappe.get_all(
 		"QTT Payment", filters={"status": "succeeded"}, fields=["name", "invoice"]
@@ -677,10 +678,11 @@ def reconcile_subscriptions(*, gateway_key: str = "razorpay") -> list[dict]:
 	for a webhook Razorpay never successfully delivered, or one this app
 	somehow failed to record. Applies the exact same
 	_apply_subscription_status_transition() the webhook handler uses, so
-	there is exactly one place the status-mapping logic lives. Not
-	registered as a scheduled job yet — that's Phase I, same open
-	scheduler_events convention gap already noted for reconcile_payments()
-	and Phase 8's reconcile_wallet()."""
+	there is exactly one place the status-mapping logic lives. Registered
+	as an hourly scheduled job in hooks.py (SaaS lifecycle Phase I) — the
+	scheduler_events convention gap this docstring used to flag is
+	closed for this function; Phase 8's reconcile_wallet() (AI credits,
+	a different subsystem) remains unscheduled, out of this phase's scope."""
 	gateway = _require_subscription_capable_gateway(gateway_key)
 	corrections = []
 
@@ -714,3 +716,44 @@ def reconcile_subscriptions(*, gateway_key: str = "razorpay") -> list[dict]:
 		corrections.append({"subscription": row.name, "from": row.status, "to": target_status})
 
 	return corrections
+
+
+#: How long a "trialing" subscription with NO Razorpay linkage at all
+#: (razorpay_subscription_id blank — nothing external reconcile_
+#: subscriptions() above could check) is allowed to sit past its own
+#: trial_end before expire_stale_trials() gives up and suspends it.
+_UNLINKED_TRIAL_GRACE_DAYS = 1
+
+
+def expire_stale_trials() -> list[dict]:
+	"""SaaS lifecycle Phase I — trial expiration, for the ONE case
+	reconcile_subscriptions() above cannot cover: a "trialing"
+	subscription that was NEVER linked to Razorpay at all has no external
+	state to check — there is nothing to ask "did they ever set up
+	payment," because no gateway subscription exists for it. Once
+	trial_end plus a short grace period has passed with no linkage, the
+	safe, fail-closed default is suspended, never a silent indefinite
+	free trial. A Razorpay-linked trial subscription is deliberately left
+	to reconcile_subscriptions() instead, which has a REAL external
+	status to check rather than guessing what "expired" should mean for
+	it locally."""
+	expired = []
+	cutoff = add_days(today(), -_UNLINKED_TRIAL_GRACE_DAYS)
+	stale = frappe.get_all(
+		"QTT Product Subscription",
+		filters={"status": "trialing", "trial_end": ["<", cutoff], "razorpay_subscription_id": ["is", "not set"]},
+		fields=["name"],
+	)
+	for row in stale:
+		try:
+			subscription = frappe.get_doc("QTT Product Subscription", row.name)
+			_apply_subscription_status_transition(
+				subscription, "suspended", source="scheduler.expire_stale_trials", gateway_status="none"
+			)
+			expired.append({"subscription": row.name})
+		except Exception:
+			frappe.log_error(
+				title=f"qtt_platform.billing.service.expire_stale_trials failed for {row.name}",
+				message=frappe.get_traceback(),
+			)
+	return expired
