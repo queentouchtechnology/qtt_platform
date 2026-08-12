@@ -12,7 +12,19 @@ database, never a separate service. See the six architecture documents this
 implements for the full reasoning; nothing here should be read without that
 context.
 
-## Status: ALL 10 PHASES source-complete, never deployed
+## Status: ALL 10 PHASES source-complete, never deployed — SaaS Customer Lifecycle build underway (Phase A done)
+
+A second, lettered phase sequence (A, B, C, ...) is now layered on top of
+the 10 numbered phases below — the end-to-end customer signup → trial →
+paid → upgrade/downgrade → cancellation lifecycle, phase-gated the same
+way the numbered phases were. See "What's implemented (SaaS Lifecycle
+Phase A)" further down for the first of these.
+
+**Phase B (the 3 SaaS plans + entitlement limits) has no code in this
+repository at all** — it's entirely in `qmp_lms_bridge/plans.py`, since
+which plans exist and what they cost is QMP_LMS business data, not
+generic platform infrastructure. See that project's own README for the
+full plan/entitlement table.
 
 QMP LMS integration (Phase 10) is a **separate sibling project**,
 `qmp_lms_bridge` — see below for why, and see that project's own README
@@ -361,6 +373,384 @@ install any of this, real credentials for the AI/payment providers, and
 the confidence-flagged LMS field names in `qmp_lms_bridge` that should be
 confirmed against live schema before this governs real tenant data.
 
+## What's implemented (SaaS Lifecycle Phase A — added this pass)
+
+The first phase of the customer-facing signup/onboarding lifecycle,
+built strictly on top of the 10 numbered phases above — no existing
+DocType, guard function, or engine was changed. Two new files:
+
+- **`qtt_platform/errors.py`** — a small `{"success": bool, ...}`
+  response envelope (`ok()`/`fail()`) and a `QttApiError(code, message)`
+  exception, scoped ONLY to the new `api/saas.py` module. Every other
+  existing whitelisted method in this app still raises
+  `frappe.PermissionError`/`frappe.ValidationError` directly and relies
+  on Frappe's own non-2xx + `exc_type` response — unchanged, still
+  authoritative everywhere else.
+- **`qtt_platform/api/saas.py`** — `signup()` (the only other
+  `allow_guest=True` endpoint in this app besides the Razorpay webhook)
+  and `get_plans()`. `signup()` composes, in one request transaction (no
+  `frappe.db.commit()` anywhere in this module — same reliance on
+  Frappe's own commit-at-end-of-request/rollback-on-exception behaviour
+  `api/session.py::create_tenant()` already depended on):
+
+  Frappe `User` → `QTT Tenant` (status=`trial`) → `QTT Tenant Membership`
+  (`tenant_role=Tenant Owner`) →
+  `qtt_platform.subscription.service.create_subscription()` (reused,
+  unmodified — trial length comes from the plan's own `trial_days`) →
+  `QTT Product Access` (`product_role=Manager`).
+
+  **Role decision, explicit and deliberate**: QMP_LMS's real product
+  role catalog (registered by `qmp_lms_bridge/install.py`) is
+  `Instructor / Manager / Staff / Student` — no `Owner`, no
+  `administrator`. Nothing was renamed or added. Signup grants the new
+  Tenant Owner **`Manager`** product access, not `Owner` — the platform's
+  Tenant Owner (billing/membership/tenant governance) and QMP_LMS's
+  Manager (product-level administration) are deliberately different
+  roles on different doctypes; `_INITIAL_PRODUCT_ROLE = {"QMP_LMS":
+  "Manager"}` lives in `api/saas.py`, not in `qtt_platform`'s generic
+  product registry, which still knows nothing product-specific.
+
+  Every failure mode `signup()` checks for itself returns a clean code
+  via the new envelope: `VALIDATION_ERROR`, `INVALID_EMAIL`,
+  `WEAK_PASSWORD`, `DUPLICATE_EMAIL`, `INVALID_PRODUCT`, `INVALID_PLAN`,
+  `INVALID_COUNTRY`, `INVALID_LANGUAGE`; anything unexpected is logged
+  server-side (`frappe.log_error`) and reported only as `INTERNAL_ERROR`
+  — no stack trace crosses the API boundary. Password strength is
+  enforced by Frappe's own `User.password_strength_test()` (active only
+  if the site's System Settings → `enable_password_policy` is on — not
+  changed here); hashing is Frappe's own `_update_password()`, triggered
+  by setting `new_password` before insert — nothing custom.
+
+  Two concurrency-relevant retry behaviours, both real, both tested:
+  duplicate-email races are caught as `frappe.DuplicateEntryError` on
+  `User.name` (the email itself is the primary key) and mapped to
+  `DUPLICATE_EMAIL`; slug collisions on `QTT Tenant.slug` (unique) are
+  retried up to 5 times with an incrementing suffix before failing
+  closed with `INTERNAL_ERROR`.
+
+  **Deliberately NOT done in Phase A** (per the phase brief): no
+  Razorpay call of any kind — `create_subscription()` only ever writes
+  local rows; a genuinely external Razorpay customer/subscription is
+  Phase C. `signup()` also does not log the new user in — the client
+  calls Frappe's standard `/api/method/login` afterward with the same
+  credentials; building session-establishment inside a guest endpoint
+  was judged out of scope for this phase rather than guessed at.
+
+## What's implemented (SaaS Lifecycle Phase C — Razorpay Subscriptions)
+
+Extends the existing Orders-only Razorpay adapter with a second,
+optional capability — the Orders implementation (`create_order`,
+`verify_webhook_signature`, `parse_webhook_event`) is **completely
+unchanged**, still the entire contract for `PaymentGateway`.
+
+- **New fields, additive only, nothing existing removed or renamed**:
+  `QTT Plan.razorpay_plan_id`, `QTT Payment Gateway Config.mode`
+  (test/live, descriptive-only — Razorpay's API distinguishes test/live
+  purely by which key pair is used, not a separate endpoint, so nothing
+  branches on this field), `QTT Tenant.razorpay_customer_id`,
+  `QTT Product Subscription.{razorpay_subscription_id, trial_start,
+  trial_end, cancellation_requested_at, cancel_reason, cancelled_at,
+  effective_end_date}`. `subscription/service.py::create_subscription()`
+  (unchanged otherwise) now also populates `trial_start`/`trial_end`
+  when a subscription starts `trialing`.
+- **`billing/gateways/base.py`** gained a second, optional ABC —
+  `SubscriptionCapableGateway` (`create_plan`, `create_subscription`,
+  `cancel_subscription`, `parse_subscription_webhook_event`) — kept
+  deliberately separate from `PaymentGateway` so a gateway that only
+  does one-time orders is never forced to implement subscription
+  methods it doesn't have.
+- **`RazorpayGateway` now implements both** `PaymentGateway` and
+  `SubscriptionCapableGateway`. The Subscriptions API shape
+  (`POST /v1/plans`, `POST /v1/subscriptions`, `POST
+  /v1/subscriptions/:id/cancel`, and the `subscription.*` webhook event
+  names/payload shape) was fetched fresh from Razorpay's own current API
+  documentation while building this phase — not from memory — given how
+  costly a wrong field name would be here. One finding from that lookup
+  that changed the design from what was originally assumed: **Razorpay's
+  Create Subscription request does not accept a `customer_id`** — the
+  customer is captured automatically once they complete checkout
+  authorization. `QTT Tenant.razorpay_customer_id` is therefore NOT
+  populated by pre-creating a Razorpay Customer at subscription time (an
+  earlier draft of this phase would have done exactly that, and the
+  created customer would have gone unused) — it's backfilled from the
+  first subscription webhook that reports a `customer_id`, which is
+  Phase D's job (`parse_subscription_webhook_event()` already surfaces
+  it; nothing writes it yet).
+- **`billing/service.py`** gained three new functions, all additive —
+  every existing Orders/Invoice/Payment function is untouched:
+  - `ensure_razorpay_plan(plan_name)` — reuse-first (Part 12): returns
+    the existing `razorpay_plan_id` if set, otherwise creates the
+    Razorpay Plan exactly once and stores it. Safe to call on every
+    subscription creation for the same `QTT Plan`.
+  - `create_razorpay_subscription(subscription_name)` — links an
+    already-created LOCAL `QTT Product Subscription`
+    (`subscription/service.py::create_subscription()`, unmodified) to a
+    NEW external Razorpay subscription. If the local subscription is
+    `trialing`, its `trial_end` becomes Razorpay's `start_at` (Unix
+    timestamp) — the trial mechanism: the customer authorizes now, the
+    first real charge happens at `trial_end`. Refuses to double-link an
+    already-linked subscription.
+  - `cancel_razorpay_subscription(subscription_name)` — cancels the
+    linked external subscription; a safe no-op (not an error) if the
+    local subscription was never linked to Razorpay at all.
+  - Deliberately **not** included this phase: webhook event
+    *processing* / the trial→active→past_due→suspended state machine —
+    that's Phase D's explicit scope.  `_UNBOUNDED_TOTAL_COUNT = 120`
+    (10 years of monthly cycles) is this phase's stated, deliberate
+    stand-in for "recurring until cancelled" — Razorpay requires either
+    `total_count` or `end_at` to bound every subscription; there is no
+    "forever" option, and this app never lets the count run out in
+    practice since cancellation is always driven by
+    `cancel_razorpay_subscription()`.
+- Never fakes success anywhere — every function above either returns a
+  real gateway response (or, in tests, a response from a
+  `spec=SubscriptionCapableGateway` mock standing in for one) or raises.
+
+## What's implemented (SaaS Lifecycle Phase D — webhook, state machine, reconciliation)
+
+**New DocType**: `QTT Webhook Event` — the idempotency ledger for
+subscription lifecycle webhooks, keyed on Razorpay's `X-Razorpay-Event-Id`
+header (confirmed unique-per-delivery against Razorpay's own webhook
+docs — not guessed). Deliberately separate from `QTT Payment
+Transaction`, which stays the idempotency mechanism for the existing
+Orders webhook flow, unchanged — a bare lifecycle event like
+`subscription.halted` often has no payment at all, so reusing a
+payment-shaped doctype for it would be a conflation. Same
+insert-then-catch-`UniqueValidationError` concurrency pattern already
+established by `QTT Tenant Product Subscription Pointer`. New patch
+`v0_7` adds the supporting index (`gateway_event_id`'s own uniqueness
+comes free from its `"unique": 1` in the JSON, same as `QTT Payment
+Transaction.gateway_reference` — no patch needed for that part).
+
+**`status` gained a 5th value**: `"suspended"` (was `trialing/active/
+past_due/cancelled`) — the terminal state after Razorpay's own
+retry/grace period is exhausted, distinct from `past_due` (still
+retrying).
+
+**`billing/service.py::process_webhook()`** now dispatches by event-name
+prefix — Razorpay delivers both one-time-payment events and
+`subscription.*` events to the same URL. The existing order/payment
+logic was extracted verbatim into `_process_order_webhook()`, not
+rewritten; a payment-event webhook takes the exact same path it always
+did.
+
+**The subscription state machine** (`_SUBSCRIPTION_EVENT_TO_LOCAL_STATUS`)
+is this project's own deliberate, documented mapping — Razorpay
+publishes no canonical "map our events to your states" table:
+
+| Razorpay event | Local status |
+|---|---|
+| `subscription.authenticated` | *(no change — customer_id backfill only)* |
+| `subscription.activated` / `subscription.charged` / `subscription.resumed` | `active` |
+| `subscription.pending` | `past_due` |
+| `subscription.halted` | `suspended` |
+| `subscription.paused` | `suspended` *(no separate local "paused" state)* |
+| `subscription.cancelled` / `subscription.completed` | `cancelled` |
+| `subscription.updated` | *(no change — informational)* |
+
+`subscription.pending` = mid-retry inside Razorpay's own grace period;
+`subscription.halted` = grace period exhausted — this maps Part 25's
+"grace period" onto Razorpay's real, confirmed retry semantics rather
+than inventing a separate local timer.
+
+- `_record_webhook_event_once()` — the ledger insert; returns whether
+  this is a fresh delivery.
+- `_apply_subscription_status_transition()` — the ONE place that writes
+  `QTT Product Subscription.status` and audits it; a no-op if the target
+  status already matches (no duplicate audit noise on a redundant
+  confirmation). Used by both the webhook handler and reconciliation.
+- `_backfill_tenant_razorpay_customer_id()` — where `QTT Tenant.
+  razorpay_customer_id` (Phase C field, deliberately left unset at
+  subscription-creation time) actually gets set: the first webhook that
+  reports one.
+- `_record_subscription_charge()` — a successful `subscription.charged`
+  reuses the existing `QTT Invoice`/`QTT Payment`/`QTT Payment
+  Transaction` architecture exactly as the Orders flow does (Part 19/20),
+  idempotent on the gateway payment id.
+- **`reconcile_subscriptions()`** (Part 42) — for every locally "open"
+  subscription linked to Razorpay, fetches Razorpay's own current status
+  (`RazorpayGateway.fetch_subscription_status()`, `GET
+  /v1/subscriptions/:id`, confirmed against Razorpay's docs) and repairs
+  drift via the SAME `_apply_subscription_status_transition()` the
+  webhook handler uses — one mapping, two entry points. A fetch failure
+  for one subscription is logged and skipped, never raised — one
+  unreachable subscription doesn't abort reconciling the rest. Not
+  registered as a scheduled job yet — that's Phase I.
+- **`subscription/service.py::cancel_subscription()`** (unchanged
+  function, extended signature) now also records
+  `cancellation_requested_at`/`cancel_reason`/`effective_end_date`
+  (Phase C fields) and, for an immediate cancellation only, `cancelled_at`
+  — for `at_period_end=True` (the default), `cancelled_at` is
+  deliberately left unset until Phase I's scheduled sweep actually flips
+  `status` to `cancelled` once `current_period_end` passes.
+- **`api/subscription.py::cancel()`** now also calls
+  `billing.service.cancel_razorpay_subscription()` for the linked
+  external subscription. The local cancellation is NOT rolled back if
+  the external call fails — the failure is logged
+  (`frappe.log_error`), and `reconcile_subscriptions()` is the stated
+  safety net for the local/external mismatch this could leave behind.
+
+## What's implemented (SaaS Lifecycle Phase E — plan upgrade/downgrade)
+
+**No new DocType.** Two new fields on the existing `QTT Product
+Subscription` (`scheduled_plan`, `scheduled_plan_effective_date`) —
+inspected first whether the existing model could represent "a downgrade
+is pending" (it couldn't: nothing on `QTT Plan`/`QTT Subscription
+Item`/`QTT Tenant Product Subscription Pointer` records a *future* plan)
+before adding them, mirroring the exact pattern `cancel_at_period_end`
+already established for deferred cancellation.
+
+**Plan comparison**: `base_price` ascending, never a plan-name/plan-code
+string comparison anywhere. This is not a new decision — `qmp_lms_bridge/
+plans.py` (Phase B) already documented base_price as the architecture's
+own ordering mechanism when it deliberately chose not to add a
+`plan_order` field; Phase E reuses that decision rather than re-deciding
+it.
+
+**Upgrade — immediate** (`api/subscription.py::change_plan()` →
+`_apply_upgrade()`): Razorpay is synced FIRST
+(`billing.service.sync_razorpay_plan_change(..., immediate=True)` →
+`RazorpayGateway.update_subscription_plan()`, `PATCH
+/v1/subscriptions/:id` with `schedule_change_at="now"`, confirmed
+against Razorpay's current API docs) — only on success does the LOCAL
+`subscription/service.py::change_plan()` run (unchanged function,
+reused exactly as Phase 4 built it: creates a new current row, repoints
+the existing pointer, writes the existing `upgraded` `QTT Subscription
+Event`). If the Razorpay call fails, the local plan is never touched —
+`PLAN_CHANGE_FAILED` is returned and a `plan_change_failed` audit event
+is written.
+
+**A real gap this phase found and fixed in `change_plan()` itself**: the
+new row it creates now carries forward `razorpay_subscription_id`,
+`trial_start`, `trial_end`, and `status` from the row it supersedes.
+Previously (Phase 4-era code, never exercised by Razorpay integration
+since that didn't exist until Phase C) the new row left
+`razorpay_subscription_id` blank and hardcoded `status='active'` — which
+would have silently orphaned the Razorpay linkage on every plan change
+and silently ended an in-progress trial early. Both are fixed at the
+source (`subscription/service.py::change_plan()`), not worked around in
+the API layer, so every caller of `change_plan()` benefits, not just
+Phase E's own.
+
+**Downgrade — scheduled for next billing cycle** (`_schedule_downgrade()`):
+same Razorpay-first ordering, with `schedule_change_at="cycle_end"` —
+Razorpay's own native deferred-plan-change mechanism, not something this
+app invented. Only on success are the local `scheduled_plan`/
+`scheduled_plan_effective_date` fields set
+(`subscription/service.py::schedule_plan_change()`, which also writes a
+`plan_downgrade_scheduled` `QTT Audit Log` event — deliberately audit
+log, not `QTT Subscription Event`: nothing about the subscription's
+actual plan changed yet, so recording it in the doctype meant for real
+plan-lifecycle transitions would misrepresent what happened). The
+CURRENT plan field is never touched by scheduling — old-plan
+entitlements remain in effect exactly until the scheduled date, for
+free, because `qtt_platform.entitlement.engine.get_entitlements()`
+still reads the unchanged `plan` field.
+
+**Applying a scheduled downgrade** (`subscription/service.py::
+apply_scheduled_plan_change()`): a no-op unless `scheduled_plan` is set
+and its effective date has arrived; when due, calls the SAME
+`change_plan()` upgrades use (creating a new current row, same history
+pattern) and writes a `plan_downgrade_applied` audit event alongside the
+`downgraded` `QTT Subscription Event` `change_plan()` itself already
+writes. **Trigger**: extended the EXISTING `subscription.charged`
+webhook handler (Phase D) to call this immediately after recording the
+charge — a new billing cycle actually starting is exactly when a
+pending downgrade should apply, per this phase's own instruction to
+extend the existing webhook processor rather than build a second one.
+No scheduled job was added for this (Phase I's territory, same
+`reconcile_payments()`/`reconcile_subscriptions()` precedent) — in
+practice this means an in-trial or already-fully-cancelled subscription
+that never fires another `subscription.charged` event won't apply its
+scheduled downgrade until Phase I's scheduler exists; documented as a
+known limitation below, not silently accepted.
+
+**Trial plan change**: the SAME Razorpay subscription id is reused for
+every plan change (never a second Razorpay subscription — there is
+structurally no code path that creates one for a plan change, upgrade
+or downgrade); `trial_start`/`trial_end` are carried forward verbatim
+by the `change_plan()` fix above, so the trial is never restarted or
+extended. An upgrade during trial keeps `status='trialing'` on the new
+row (carried forward, not hardcoded to `'active'`) — the trial
+continues exactly as before, just on the new plan's entitlements.
+
+**Cancellation interaction**: `change_plan()` checks
+`cancel_at_period_end`/`cancellation_requested_at` before anything else
+plan-related and returns `CANCELLATION_PENDING` — no silent state
+transition. New `resume()` endpoint (Owner-only, matching `cancel()`'s
+own gate) clears the local cancellation fields
+(`subscription/service.py::resume_subscription()`). **Known
+limitation, stated plainly**: `resume()` does not call Razorpay — no
+confirmed "un-cancel a scheduled cancellation" Razorpay endpoint was
+found this session, and this project does not implement unconfirmed
+APIs. `reconcile_subscriptions()` (Phase D) is the stated safety net for
+whatever local/external divergence this leaves if the subscription was
+ever cancelled via `cancel_razorpay_subscription()` with
+`cancel_at_cycle_end=True`.
+
+**Usage over limit**: `qtt_platform.entitlement.engine.
+get_over_limit_features()` (new — pure composition of
+`get_entitlements()`/`get_usage()`, no new limit-comparison logic) is
+checked at TWO points: a preview against the TARGET plan at request
+time (`api/subscription.py::_preview_over_limit_features()`, surfaced
+in the response as `usage_warning` and audited as
+`plan_change_usage_exceeded` if non-empty), and implicitly, for free,
+the moment a downgrade actually applies — `check_limit()` (unchanged)
+naturally starts returning `False` for new creation the instant the
+lower plan's entitlements take effect. Nothing is ever deleted or
+auto-suspended; both checks correctly exclude flag-shaped features
+(distinguishing "has a registered usage resolver" from "the stored
+value happens to parse as an int," the same rule `can_i()` already
+uses — a real bug caught and fixed while building this phase's own
+tests, not shipped and found later).
+
+**Concurrency**: no new locking was added, deliberately — `change_plan()`
+(upgrade and applied-downgrade both go through it) already inherits
+`activate_pointer()`'s existing, already-reviewed protection (a real
+database unique constraint on `QTT Tenant Product Subscription
+Pointer(tenant, product)`, patches/v0_3): two concurrent upgrade calls
+can each insert their own new `QTT Product Subscription` row, but only
+one wins the pointer, exactly the accepted "last write wins, not a
+security/financial defect" reasoning that constraint's own docstring
+already established. A pending downgrade schedule is a single field on
+a single row (`scheduled_plan`), not a list — there is no schema shape
+in which "two scheduled changes" for the same subscription can exist
+simultaneously; a second `schedule_plan_change()` call before the first
+applies is a benign last-write-wins field overwrite, and
+`api/subscription.py`'s own `PLAN_CHANGE_ALREADY_PENDING` check is what
+decides whether that overwrite is even allowed to reach that point.
+
+**Authorization**: `change_plan()` requires Tenant Owner OR Tenant Admin
+(`_PLAN_CHANGE_ROLES`, new — every other action in this file stays
+Owner-only, unchanged). `require_tenant_role()` only ever reads
+`QTT Tenant Membership.tenant_role` — it has no code path that looks at
+`QTT Product Access.product_role` at all, so a QMP_LMS Manager/
+Instructor/Staff/Student role cannot substitute for tenant billing
+authorization as a structural fact, not a policy choice that could be
+bypassed.
+
+**API response envelope**: reuses `qtt_platform.errors`
+(`ok()`/`fail()`/`QttApiError`, built in Phase A) — the same
+`{"success": true/false, ...}` shape, extended with this phase's own
+codes: `BILLING_ROLE_REQUIRED`, `PRODUCT_ACCESS_DENIED`, `INVALID_PLAN`,
+`INVALID_PRODUCT`, `SUBSCRIPTION_NOT_FOUND`, `SUBSCRIPTION_CANCELLED`,
+`CANCELLATION_PENDING`, `PLAN_UNCHANGED`, `PLAN_CHANGE_ALREADY_PENDING`,
+`PLAN_CHANGE_FAILED`.
+
+**A deliberate inconsistency, flagged rather than hidden**: `change_plan()`
+and `resume()` resolve `tenant` from the caller's active tenant session
+(`resolve_active_tenant()`), per this phase's own explicit instruction
+never to accept `tenant` as a request parameter. Every other endpoint in
+`api/subscription.py` (`subscribe`, `cancel`, `get_my_subscription`, all
+pre-Phase-E) still takes `tenant` as an explicit parameter — safe by a
+different, equally valid mechanism (`require_tenant_role` re-validates
+real membership regardless of where the tenant value came from), but
+genuinely a different convention now living in the same file. Not
+unified in this pass — doing so would mean changing `subscribe()`/
+`cancel()`'s existing signatures, which Phase E did not ask for and
+which would be exactly the kind of "redo work already shipped" this
+project's phase-gating exists to avoid.
+
 ## Deployment (for whoever has bench access)
 
 ```bash
@@ -484,3 +874,403 @@ on a disposable/staging site first and exercise at minimum:
   - Register a real Razorpay sandbox account before going live and run
   one real `create_order` + webhook round trip — the one thing this
   phase genuinely could not verify without external credentials
+
+**SaaS Lifecycle Phase A** — `python -m unittest qtt_platform.tests.test_saas_signup -v`
+was actually run this pass (27 tests, all pass — pure-logic validation,
+error-code mapping, slug-retry, duplicate-email-race mapping, no DB
+needed). `test_saas_signup_integration.py` was written but NOT executed
+(no bench). On a real site, run it (`bench --site <test-site> run-tests
+--app qtt_platform --module qtt_platform.tests.test_saas_signup_integration`)
+and additionally exercise:
+- The full curl flow below end-to-end against a disposable site
+- `signup` twice with the same email concurrently (two real parallel
+  requests, not two threads in one process) → exactly one succeeds, the
+  other gets a clean `DUPLICATE_EMAIL`, never a raw DB error or two
+  `QTT Tenant` rows
+- Confirm the granted `QTT Product Access.product_role` is exactly
+  `"Manager"` and that `QTT Tenant Membership.tenant_role` is exactly
+  `"Tenant Owner"` — the two must never be equal, never swapped
+- Confirm no response from `signup` — success or failure — ever contains
+  `password`, `new_password`, or any secret field
+- With System Settings → `enable_password_policy` turned on, confirm a
+  weak password is rejected with `WEAK_PASSWORD` (Phase A did not turn
+  this on itself — verify against whatever the target site already has
+  configured)
+
+## Deployment — SaaS Lifecycle Phase A
+
+No new DocType, no new patch, no schema change — `signup()`/`get_plans()`
+are plain whitelisted Python functions, discovered by their dotted path.
+Deploying this phase is just shipping the updated source:
+
+```bash
+cd apps/qtt_platform
+git pull origin main      # or however this bench's copy of qtt_platform is updated
+bench --site app.quizmasterplus.in migrate
+bench restart
+```
+
+`migrate` is not strictly required (no patch was added this phase) but
+costs nothing to run; `bench restart` (or a worker reload) is what
+actually picks up the two new Python files.
+
+### curl — Phase A
+
+Requires at least one real `QTT Product` (`QMP_LMS`) and one `QTT Plan`
+under it. As of Phase B, both are real and already deployed the moment
+`qmp_lms_bridge` is installed/migrated — `qmp_lms_bridge/plans.py`
+seeds the actual `STARTER` / `PROFESSIONAL` / `ENTERPRISE` catalog
+automatically (see that project's own README). No manual plan creation
+is needed anymore; the snippet below is only for a bare
+`qtt_platform`-only site with `qmp_lms_bridge` not yet installed:
+
+```python
+# only if qmp_lms_bridge is not installed on this site yet
+frappe.get_doc({
+    "doctype": "QTT Plan", "plan_code": "STARTER", "product": "QMP_LMS",
+    "display_name": "Starter", "base_price": 99, "billing_period": "monthly",
+    "trial_days": 7, "is_public": 1,
+}).insert(ignore_permissions=True)
+frappe.db.commit()
+```
+
+**1. Get available plans (no auth required)**
+
+```bash
+curl -s -X GET \
+  "https://app.quizmasterplus.in/api/method/qtt_platform.api.saas.get_plans?product_key=QMP_LMS"
+```
+Expected:
+```json
+{"message": {"success": true, "data": {"plans": [
+  {"name": "<hash>", "plan_code": "STARTER", "display_name": "Starter",
+   "base_price": 99.0, "billing_period": "monthly", "trial_days": 7}
+]}}}
+```
+
+**2. Signup**
+
+```bash
+curl -s -X POST \
+  https://app.quizmasterplus.in/api/method/qtt_platform.api.saas.signup \
+  -H "Content-Type: application/json" \
+  -d '{
+    "full_name": "John Doe",
+    "email": "john@example.com",
+    "password": "StrongPassword123!",
+    "organization_name": "John Academy",
+    "country": "India",
+    "language": "en",
+    "product_key": "QMP_LMS",
+    "plan_key": "STARTER"
+  }'
+```
+Expected:
+```json
+{"message": {"success": true, "data": {
+  "user": "john@example.com", "tenant": "<hash>", "tenant_name": "John Academy",
+  "tenant_role": "Tenant Owner", "product": "QMP_LMS", "product_role": "Manager",
+  "subscription": "<hash>", "plan": "<hash>", "plan_code": "STARTER",
+  "subscription_status": "trialing", "trial_ends_on": "2026-08-19",
+  "current_period_end": "2026-08-19"
+}}}
+```
+
+**3. Signup again with the same email (expected failure)**
+
+```bash
+curl -s -X POST \
+  https://app.quizmasterplus.in/api/method/qtt_platform.api.saas.signup \
+  -H "Content-Type: application/json" \
+  -d '{"full_name":"John Doe","email":"john@example.com","password":"StrongPassword123!","organization_name":"Another Org","product_key":"QMP_LMS","plan_key":"STARTER"}'
+```
+Expected: `{"message": {"success": false, "error": {"code": "DUPLICATE_EMAIL", "message": "..."}}}`
+
+**4. Log in as the new user (standard Frappe auth — nothing new)**
+
+```bash
+curl -s -c cookies.txt -X POST \
+  https://app.quizmasterplus.in/api/method/login \
+  -H "Content-Type: application/json" \
+  -d '{"usr": "john@example.com", "pwd": "StrongPassword123!"}'
+```
+
+**5. Confirm the new tenant/membership/product access, as that user**
+
+```bash
+curl -s -b cookies.txt \
+  "https://app.quizmasterplus.in/api/method/qtt_platform.api.session.get_my_memberships"
+
+curl -s -b cookies.txt \
+  "https://app.quizmasterplus.in/api/method/qtt_platform.api.product_access.get_my_product_access?tenant=<tenant-from-step-2>"
+```
+Expected: one membership (`tenant_role: "Tenant Owner"`), one product
+access row (`product: "QMP_LMS"`, `product_role: "Manager"`).
+
+## Deployment — SaaS Lifecycle Phase C
+
+New fields on four existing DocTypes, no new DocType, no new patch — a
+plain `bench migrate` syncs the field changes (Frappe diffs each
+DocType's JSON against the DB schema automatically on migrate):
+
+```bash
+cd apps/qtt_platform
+git pull origin main
+bench --site app.quizmasterplus.in migrate
+bench restart
+```
+
+Confirm afterward: `QTT Plan`, `QTT Payment Gateway Config`,
+`QTT Tenant`, and `QTT Product Subscription` each show their new
+column(s) in the Desk / via `frappe.db.describe_table` — and that no
+existing field on any of the four was renamed or dropped (`bench
+migrate` should report 4 columns added across the run, nothing else).
+
+## Testing — SaaS Lifecycle Phase C
+
+`python -m unittest discover -s qtt_platform/tests -p "test_*.py"` was
+actually run this pass: **42 tests, 40 pass** (13 of them new —
+`test_billing_subscriptions.py`), the other 2 fail to *import* for the
+same, expected, unavoidable reason as `test_saas_signup_integration.py`
+in Phase A — `test_billing_subscriptions_integration.py` needs a real
+`frappe` package (`frappe.tests.utils.FrappeTestCase`), not available
+this session.
+
+**A caveat about running individual test files together, not through
+`discover`**: `test_saas_signup.py` and `test_billing_subscriptions.py`
+each install their own independent fake `frappe`/`requests` modules at
+import time. Run as `python -m unittest discover ...` (imports files in
+a stable, consistent order) or one file at a time, both of which were
+actually run and pass cleanly. Running them via `python -m unittest
+qtt_platform.tests.test_saas_signup qtt_platform.tests.
+test_billing_subscriptions` (arbitrary file order as direct arguments)
+can leave `qtt_platform.audit` — cached from whichever file imported
+first — bound to a stale, already-reconfigured fake from that file's
+last-run test, since Python caches module imports and a later file's
+fresh fake object doesn't retroactively rebind an already-imported
+module's `frappe` reference. This is a property of the test harness's
+module-level mocking, not a bug in `qtt_platform.audit`,
+`qtt_platform.billing.service`, or any production code — `discover` is
+the supported, verified way to run this suite as a whole.
+
+Real Razorpay Subscriptions API calls were **not** made — no sandbox
+account/credentials available this session, per Part 38's own
+instruction to mock the gateway for automated tests and build the
+credentialed integration path separately. Before this governs real
+billing: register a Razorpay TEST account, configure
+`QTT Payment Gateway Config` (`mode=test`), and manually run
+`ensure_razorpay_plan()` / `create_razorpay_subscription()` /
+`cancel_razorpay_subscription()` from `bench console` against it —
+confirm the created Plan/Subscription actually appear in the Razorpay
+Dashboard's test mode, and that `create_subscription()`'s `start_at`
+produces the expected trial delay on a real subscription's `charge_at`.
+
+## Deployment — SaaS Lifecycle Phase D
+
+One new DocType this time — `bench migrate` both creates it and syncs
+the `status` field's new `suspended` option:
+
+```bash
+cd apps/qtt_platform
+git pull origin main
+bench --site app.quizmasterplus.in migrate
+bench restart
+```
+
+Confirm afterward: `QTT Webhook Event` exists as a Desk list (System
+Manager only, no create/write DocPerm to anyone); `QTT Product
+Subscription`'s status dropdown shows 5 options including `suspended`.
+
+**Razorpay Dashboard configuration** (not something this code can do —
+a one-time manual step wherever Razorpay credentials are configured):
+point the webhook URL
+(`https://app.quizmasterplus.in/api/method/qtt_platform.api.billing.razorpay_webhook`)
+at BOTH the payment events already in use (`payment.captured`, ...) AND
+the subscription events this phase handles: `subscription.authenticated`,
+`subscription.activated`, `subscription.charged`, `subscription.pending`,
+`subscription.halted`, `subscription.paused`, `subscription.resumed`,
+`subscription.cancelled`, `subscription.completed`, `subscription.updated`.
+
+## Testing — SaaS Lifecycle Phase D
+
+`python -m unittest discover -s qtt_platform/tests -p "test_*.py"` was
+actually run this pass: **64 tests, 61 pass** (34 of them in
+`test_billing_subscriptions.py`, which now also covers Phase D — see
+that file's own module docstring for why Phase D's tests were added
+there rather than a new file: `qtt_platform.audit`/`qtt_platform.
+subscription.service`/`qtt_platform.billing.service` all get bound to
+whichever fake `frappe` module was live at THEIR first import, so a new
+self-mocking file risks the exact cross-file staleness already
+documented for Phase C — adding to the file that already establishes
+the canonical fake sidesteps it entirely). The other 3 failures are the
+expected, unavoidable bench-only `FrappeTestCase` import errors (one per
+phase's own integration file: `test_saas_signup_integration.py`,
+`test_billing_subscriptions_integration.py`,
+`test_subscription_lifecycle_integration.py` — this phase's).
+
+On a real bench, run `test_subscription_lifecycle_integration.py`
+(`bench --site <test-site> run-tests --app qtt_platform --module
+qtt_platform.tests.test_subscription_lifecycle_integration`) and
+additionally exercise:
+- **Two genuinely concurrent webhook deliveries with the same
+  `X-Razorpay-Event-Id`** (real parallel HTTP requests, not two calls in
+  one process) → exactly one inserts into `QTT Webhook Event` and
+  processes the status transition; the other's insert hits the real DB
+  unique constraint and returns `already_processed`
+- Send `razorpay_webhook` a `subscription.*` payload with a valid
+  signature but no `X-Razorpay-Event-Id` header → rejected, no
+  `QTT Webhook Event` row, no status change
+- A `subscription.charged` event with a real `payload.payment.entity` →
+  confirms a `QTT Invoice` (status `paid`) and `QTT Payment` are created,
+  and that redelivering the identical event is a no-op (no second
+  Invoice/Payment)
+- `reconcile_subscriptions()` against a subscription whose Razorpay
+  status has drifted from local (e.g. manually halt one in the Razorpay
+  Dashboard test mode) → local `status` corrects to `suspended`, an
+  audit event is recorded with `source: "reconciliation"`
+- Cancel a subscription via `api/subscription.py::cancel()` while
+  temporarily misconfiguring `QTT Payment Gateway Config` (e.g. blank
+  `key_secret`) → the LOCAL cancellation still succeeds
+  (`cancel_at_period_end`/`cancellation_requested_at` set), the Razorpay
+  call fails and is logged via `frappe.log_error`, nothing crashes back
+  to the caller
+
+Real Razorpay webhook deliveries were **not** tested — no sandbox
+account/credentials available this session, consistent with every prior
+phase's own honest disclosure.
+
+## Deployment — SaaS Lifecycle Phase E
+
+Two new fields on one existing DocType, plus a query-performance index —
+`bench migrate` handles both, no new patch logic beyond the index patch
+already shipped (`v0_8`):
+
+```bash
+cd apps/qtt_platform
+git pull origin main
+bench --site app.quizmasterplus.in migrate
+bench restart
+```
+
+`bench list-apps` should show `frappe`, `lms`, `qtt_platform`,
+`qmp_lms_bridge` — no new app this phase.
+
+### curl — Phase E
+
+```bash
+# Upgrade (immediate) — tenant comes from the session, log in first
+curl -s -b cookies.txt -X POST \
+  https://app.quizmasterplus.in/api/method/qtt_platform.api.subscription.change_plan \
+  -H "Content-Type: application/json" \
+  -d '{"product": "QMP_LMS", "new_plan": "PROFESSIONAL"}'
+```
+Expected:
+```json
+{"message": {"success": true, "data": {
+  "subscription": "<hash>", "old_plan": "STARTER", "new_plan": "PROFESSIONAL",
+  "change_type": "upgrade", "effective": "immediate"
+}}}
+```
+
+```bash
+# Downgrade (scheduled)
+curl -s -b cookies.txt -X POST \
+  https://app.quizmasterplus.in/api/method/qtt_platform.api.subscription.change_plan \
+  -H "Content-Type: application/json" \
+  -d '{"product": "QMP_LMS", "new_plan": "STARTER"}'
+```
+Expected:
+```json
+{"message": {"success": true, "data": {
+  "subscription": "<hash>", "old_plan": "PROFESSIONAL", "new_plan": "STARTER",
+  "change_type": "downgrade", "effective": "next_billing_cycle",
+  "effective_date": "2026-08-31", "usage_warning": null
+}}}
+```
+
+```bash
+# Trying to change plan while a cancellation is pending
+curl -s -b cookies.txt -X POST \
+  https://app.quizmasterplus.in/api/method/qtt_platform.api.subscription.change_plan \
+  -H "Content-Type: application/json" \
+  -d '{"product": "QMP_LMS", "new_plan": "PROFESSIONAL"}'
+# -> {"message": {"success": false, "error": {"code": "CANCELLATION_PENDING", ...}}}
+
+curl -s -b cookies.txt -X POST \
+  https://app.quizmasterplus.in/api/method/qtt_platform.api.subscription.resume \
+  -H "Content-Type: application/json" -d '{"product": "QMP_LMS"}'
+# -> {"message": {"success": true, "data": {"subscription": "<hash>", "status": "active", ...}}}
+```
+
+```bash
+# Extended subscription info (Phase E fields)
+curl -s -b cookies.txt \
+  "https://app.quizmasterplus.in/api/method/qtt_platform.api.subscription.get_my_subscription?tenant=<tenant>&product=QMP_LMS"
+```
+
+## Testing — SaaS Lifecycle Phase E
+
+`python -m unittest discover -s qtt_platform/tests -p "test_*.py"` was
+actually run this pass: **99 tests, 96 pass** (35 of them new, in
+`test_billing_subscriptions.py` — the same "add to the file that
+already establishes the canonical fake `frappe`" reasoning as Phase D,
+now covering upgrade/downgrade/trial/cancellation/usage/concurrency/
+audit end to end). The other 3 failures are the expected, unavoidable
+bench-only `FrappeTestCase` import errors, one per phase's own
+integration file — `test_plan_change_integration.py` is this phase's,
+written but not executed (no bench).
+
+A genuine bug this phase's OWN tests caught before it shipped: an
+earlier draft of `get_over_limit_features()` / `_preview_over_limit_
+features()` used `int(limit_value)` alone to decide whether a feature
+was "numeric" — which incorrectly treated a flag stored as `"1"` (e.g.
+`live_classes_enabled`) as if it were a real countable limit of 1.
+Fixed to require a REGISTERED usage resolver first, the exact same rule
+`can_i()` already used — caught by `GetOverLimitFeaturesTest` failing
+before any other code depended on the wrong behavior.
+
+On a real bench, run `test_plan_change_integration.py` (`bench --site
+<test-site> run-tests --app qtt_platform --module
+qtt_platform.tests.test_plan_change_integration`) and additionally
+exercise:
+- **Two genuinely concurrent `change_plan` upgrade requests** (real
+  parallel HTTP requests) for the same tenant+product → exactly one
+  `QTT Tenant Product Subscription Pointer` row exists afterward,
+  pointing at whichever new `QTT Product Subscription` row won; the
+  loser's row is orphaned (never referenced by the pointer, never
+  granted) — expected, matches `activate_pointer()`'s own documented
+  last-write-wins reasoning
+- A downgrade scheduled, then upgraded instead before the effective
+  date → confirm the eventual behavior matches whichever of upgrade/
+  downgrade ran last (this phase's own `PLAN_CHANGE_ALREADY_PENDING`
+  check blocks a second DIFFERENT scheduled downgrade, but does not
+  currently special-case "upgrade over a pending downgrade" — verify
+  this resolves sensibly against real data, flagged as untested combi
+  nation below)
+- Register a Razorpay TEST subscription, then call `change_plan` for
+  real and confirm in the Razorpay Dashboard that `PATCH
+  /v1/subscriptions/:id` actually produced `has_scheduled_changes`/
+  `schedule_change_at` matching what this app expected — the one thing
+  this phase genuinely could not verify without a sandbox account
+
+### Known limitations (Phase E)
+
+- `resume()` does not call Razorpay — no confirmed Razorpay API for
+  un-cancelling a scheduled cancellation was found this session.
+- Applying a scheduled downgrade is triggered only by the
+  `subscription.charged` webhook event — a subscription that never
+  charges again (e.g. abandoned mid-trial) will not have its scheduled
+  downgrade applied until Phase I's scheduler exists.
+- An upgrade requested while a downgrade is already scheduled for a
+  DIFFERENT plan is blocked (`PLAN_CHANGE_ALREADY_PENDING`) rather than
+  auto-resolved (e.g. by cancelling the pending downgrade) — the
+  customer must be told to resolve it, no endpoint for "cancel my
+  pending scheduled downgrade" was built this phase (the underlying
+  `subscription/service.py::clear_scheduled_plan_change()` function
+  exists and is ready, just not wired to a whitelisted endpoint yet).
+- `reconcile_subscriptions()` (Phase D) reconciles STATUS drift, not
+  PLAN drift — if Razorpay's own plan and this app's local `plan` field
+  were ever to diverge (e.g. the local `change_plan()` write failing
+  after a successful Razorpay sync, an edge case Part 14's own ordering
+  is designed to make rare, not impossible), nothing currently detects
+  that specific divergence automatically.

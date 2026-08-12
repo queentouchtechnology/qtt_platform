@@ -22,6 +22,8 @@
   "billing_period",
   "trial_days",
   "is_public",
+  "section_break_razorpay",
+  "razorpay_plan_id",
   "section_break_features",
   "features"
  ],
@@ -81,6 +83,18 @@
    "label": "Is Public",
    "default": "1",
    "description": "Unpublished plans (0) can still be assigned to a tenant manually but won't appear in a self-service plan picker."
+  },
+  {
+   "fieldname": "section_break_razorpay",
+   "fieldtype": "Section Break",
+   "label": "Razorpay"
+  },
+  {
+   "fieldname": "razorpay_plan_id",
+   "fieldtype": "Data",
+   "label": "Razorpay Plan ID",
+   "read_only": 1,
+   "description": "Set once, reused for every subscription on this plan — never re-created per signup (SaaS lifecycle Phase C). Populated by qtt_platform.billing.service.ensure_razorpay_plan() the first time it's needed; blank until then. System-Manager-visible only, same trust boundary as the rest of this doctype."
   },
   {
    "fieldname": "section_break_features",

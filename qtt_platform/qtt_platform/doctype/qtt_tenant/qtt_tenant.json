@@ -21,6 +21,8 @@
   "status",
   "owner_user",
   "trial_ends_on",
+  "section_break_billing",
+  "razorpay_customer_id",
   "section_break_branding",
   "logo",
   "column_break_locale",
@@ -81,6 +83,18 @@
    "fieldtype": "Date",
    "label": "Trial Ends On",
    "description": "Null once the tenant converts to a paid subscription on any product."
+  },
+  {
+   "fieldname": "section_break_billing",
+   "fieldtype": "Section Break",
+   "label": "Billing"
+  },
+  {
+   "fieldname": "razorpay_customer_id",
+   "fieldtype": "Data",
+   "label": "Razorpay Customer ID",
+   "read_only": 1,
+   "description": "SaaS lifecycle Phase C. NOT set by qtt_platform.billing pre-creating a Razorpay Customer at subscription-creation time — Razorpay's own Create Subscription API does not accept a customer_id (confirmed against Razorpay's current API docs): the customer is captured automatically once they complete checkout authorization. This field is backfilled from the first subscription webhook whose payload includes a customer_id (Phase D), and only ever overwritten with a same-tenant value after that — never created via a separate, unlinked API call that Razorpay's own checkout would just ignore and recreate anyway."
   },
   {
    "fieldname": "section_break_branding",

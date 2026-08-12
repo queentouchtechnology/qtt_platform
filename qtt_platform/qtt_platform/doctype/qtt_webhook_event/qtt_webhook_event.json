@@ -1,0 +1,97 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Webhook Event",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 0,
+ "autoname": "hash",
+ "naming_rule": "Random",
+ "sort_field": "received_at",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "SaaS lifecycle Phase D — the idempotency ledger for gateway-delivered SUBSCRIPTION lifecycle events (Razorpay's subscription.* webhooks), keyed on the gateway's own per-delivery event id (Razorpay: the X-Razorpay-Event-Id header, confirmed unique-per-event against Razorpay's own webhook documentation). Deliberately separate from QTT Payment Transaction, which remains the idempotency mechanism for the existing Orders/one-time-payment webhook flow, unchanged — a subscription lifecycle event (e.g. subscription.halted) often has no payment at all, so reusing a payment-shaped doctype for it would be a conflation, not a reuse. Insert-then-catch-UniqueValidationError-on (gateway, gateway_event_id) is the same concurrency-safe pattern already established by QTT Tenant Product Subscription Pointer. Fully locked down — no role, including System Manager, can create/edit/delete a row through the Desk UI; every write goes through qtt_platform.billing.service, mirroring QTT Payment Transaction's own trust boundary.",
+ "field_order": [
+  "gateway",
+  "gateway_event_id",
+  "event_type",
+  "column_break_target",
+  "gateway_subscription_id",
+  "received_at",
+  "section_break_payload",
+  "raw_payload"
+ ],
+ "fields": [
+  {
+   "fieldname": "gateway",
+   "fieldtype": "Data",
+   "label": "Gateway",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "e.g. 'razorpay' — matches QTT Payment Gateway Config.gateway_key."
+  },
+  {
+   "fieldname": "gateway_event_id",
+   "fieldtype": "Data",
+   "label": "Gateway Event ID",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1,
+   "description": "The gateway's own per-delivery event identifier (Razorpay: X-Razorpay-Event-Id header) — the webhook idempotency key for this ledger. A redelivered webhook with the same id fails this doctype's own database-level unique constraint, which is what makes reprocessing a safe no-op rather than an application-level check alone."
+  },
+  {
+   "fieldname": "event_type",
+   "fieldtype": "Data",
+   "label": "Event Type",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "description": "The gateway's own raw event name, e.g. 'subscription.activated' — free text, not a platform-defined enum, since the set of events a gateway may send is that gateway's own vocabulary, not this app's."
+  },
+  {
+   "fieldname": "column_break_target",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "gateway_subscription_id",
+   "fieldtype": "Data",
+   "label": "Gateway Subscription ID",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "description": "Matches QTT Product Subscription.razorpay_subscription_id — for correlation/debugging, not itself a uniqueness key (a subscription has many events over its lifetime)."
+  },
+  {
+   "fieldname": "received_at",
+   "fieldtype": "Datetime",
+   "label": "Received At",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "section_break_payload",
+   "fieldtype": "Section Break",
+   "label": "Payload"
+  },
+  {
+   "fieldname": "raw_payload",
+   "fieldtype": "Code",
+   "options": "JSON",
+   "label": "Raw Payload",
+   "description": "The gateway's full webhook payload, kept for reconciliation and dispute debugging — same reasoning as QTT Payment Transaction.raw_payload."
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "links": []
+}

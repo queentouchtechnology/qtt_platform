@@ -11,6 +11,8 @@ import frappe
 from frappe import _
 from frappe.utils import add_days, now_datetime, today
 
+from qtt_platform.audit import write_audit_event
+
 #: Subscription statuses under which a subscription is considered "open" —
 #: governs access via the entitlement engine (Phase 5) and blocks a second
 #: `subscribe()` call for the same (tenant, product) in api/subscription.py.
@@ -46,6 +48,13 @@ def create_subscription(tenant: str, product: str, plan: str, *, period_days: in
 			"status": status,
 			"current_period_start": start,
 			"current_period_end": end,
+			# trial_start/trial_end (SaaS lifecycle Phase C) — fixed once at
+			# creation, independent of current_period_start/end which keep
+			# moving forward on every renewal (see that field's own
+			# description). Left blank for a subscription that started
+			# 'active' with no trial at all.
+			"trial_start": start if status == "trialing" else None,
+			"trial_end": end if status == "trialing" else None,
 		}
 	)
 	subscription.insert(ignore_permissions=True)
@@ -73,10 +82,28 @@ def get_current_subscription(tenant: str, product: str):
 
 
 def change_plan(tenant: str, product: str, new_plan: str):
-	"""Upgrade or downgrade: creates a NEW QTT Product Subscription row
-	(the old one is never mutated — it becomes historical purely by virtue
-	of the pointer no longer referencing it, not by a status change) and
-	atomically repoints the tenant's (tenant, product) pointer at it."""
+	"""Applies a plan change RIGHT NOW: creates a NEW QTT Product
+	Subscription row (the old one is never mutated — it becomes
+	historical purely by virtue of the pointer no longer referencing it,
+	not by a status change) and atomically repoints the tenant's
+	(tenant, product) pointer at it. Used directly for an immediate
+	upgrade (api/subscription.py::change_plan()); also the function
+	apply_scheduled_plan_change() below calls once a scheduled
+	downgrade's effective date has arrived — "applying a plan change" is
+	always this same operation, whether it happens immediately or late.
+
+	SaaS lifecycle Phase E: the new row now CARRIES FORWARD
+	razorpay_subscription_id/trial_start/trial_end/status from the row it
+	supersedes, rather than leaving razorpay_subscription_id blank and
+	hardcoding status='active'. Both were real gaps this phase found: a
+	plan change previously orphaned the Razorpay linkage entirely (the
+	new "current" row had no razorpay_subscription_id, breaking every
+	later cancel/reconcile/plan-change call for that lineage), and
+	hardcoding 'active' would have silently ended a trial early the
+	moment a customer changed plans while still trialing (Part 11's
+	explicit "do not restart the trial" only half-covers this — the
+	original code didn't restart it, but WOULD have ended it prematurely
+	by converting 'trialing' straight to 'active')."""
 	current = get_current_subscription(tenant, product)
 	if not current:
 		frappe.throw(_("No active subscription to change for this product."))
@@ -94,9 +121,12 @@ def change_plan(tenant: str, product: str, new_plan: str):
 			"tenant": tenant,
 			"product": product,
 			"plan": new_plan,
-			"status": "active",
+			"status": current.status,
 			"current_period_start": current.current_period_start,
 			"current_period_end": current.current_period_end,
+			"razorpay_subscription_id": current.razorpay_subscription_id,
+			"trial_start": current.trial_start,
+			"trial_end": current.trial_end,
 		}
 	)
 	new_subscription.insert(ignore_permissions=True)
@@ -107,20 +137,156 @@ def change_plan(tenant: str, product: str, new_plan: str):
 	return new_subscription
 
 
-def cancel_subscription(tenant: str, product: str, *, at_period_end: bool = True):
+def schedule_plan_change(tenant: str, product: str, new_plan: str, effective_date) -> "frappe.model.document.Document":
+	"""SaaS lifecycle Phase E — the downgrade path: records the pending
+	change directly on the CURRENT subscription row (scheduled_plan/
+	scheduled_plan_effective_date, Phase E fields) rather than creating a
+	new row prematurely. No new QTT Product Subscription row exists until
+	apply_scheduled_plan_change() actually applies it, at or after
+	effective_date. A single row can hold at most one scheduled change by
+	construction (scheduled_plan is a single field, not a list) — a
+	second schedule_plan_change() call before the first is applied simply
+	overwrites it (last-write-wins on a single-row UPDATE, the same
+	low-severity race class already accepted by activate_pointer()'s own
+	documented reasoning); api/subscription.py's own validation is what
+	decides whether that overwrite should even be allowed to happen."""
+	current = get_current_subscription(tenant, product)
+	if not current:
+		frappe.throw(_("No active subscription to change for this product."))
+
+	new_plan_doc = frappe.get_doc("QTT Plan", new_plan)
+	if new_plan_doc.product != product:
+		frappe.throw(_("Plan {0} does not belong to product {1}.").format(new_plan, product))
+
+	current.scheduled_plan = new_plan
+	current.scheduled_plan_effective_date = effective_date
+	current.save(ignore_permissions=True)
+
+	# QTT Subscription Event's event_type enum (created/renewed/upgraded/
+	# downgraded/cancelled) has no "scheduled" concept — a schedule
+	# request doesn't change the plan yet, so recording it there would
+	# misrepresent what actually happened to the subscription at this
+	# timestamp. QTT Audit Log's free-text event_type is the right fit,
+	# and matches the exact event name this phase's own spec asks for.
+	write_audit_event(
+		"plan_downgrade_scheduled",
+		tenant=tenant,
+		product=product,
+		target_doctype="QTT Product Subscription",
+		target_name=current.name,
+		metadata={"from_plan": current.plan, "to_plan": new_plan, "effective_date": str(effective_date)},
+	)
+	return current
+
+
+def clear_scheduled_plan_change(tenant: str, product: str) -> None:
+	"""Clears a pending scheduled downgrade without applying it — used
+	when a plan change resolves differently before its effective date
+	(e.g. the tenant upgrades instead, or apply_scheduled_plan_change()
+	has just consumed it)."""
+	current = get_current_subscription(tenant, product)
+	if not current or not current.scheduled_plan:
+		return
+	current.scheduled_plan = None
+	current.scheduled_plan_effective_date = None
+	current.save(ignore_permissions=True)
+
+
+def apply_scheduled_plan_change(subscription_name: str) -> "frappe.model.document.Document | None":
+	"""Applies a pending scheduled downgrade if its effective date has
+	arrived — called from the subscription.charged webhook handler
+	(billing/service.py, Phase D extension) once Razorpay confirms a new
+	billing cycle has actually started, per SaaS lifecycle Phase E
+	section 15 ("webhook processing must reconcile ... scheduled plan").
+	Returns the new current subscription if a change was applied, else
+	None (nothing scheduled, or not due yet — checked defensively even
+	though the webhook-driven caller should only invoke this on/after the
+	right cycle boundary)."""
+	subscription = frappe.get_doc("QTT Product Subscription", subscription_name)
+	if not subscription.scheduled_plan:
+		return None
+	if subscription.scheduled_plan_effective_date and str(subscription.scheduled_plan_effective_date) > today():
+		return None
+
+	scheduled_plan = subscription.scheduled_plan
+	old_plan = subscription.plan
+	# change_plan() itself already writes the real "downgraded"
+	# QTT Subscription Event (existing, valid enum value) — no separate
+	# event needed there. This audit entry is the distinct "the scheduled
+	# change was actually applied now" record (section 17's own vocabulary).
+	new_subscription = change_plan(subscription.tenant, subscription.product, scheduled_plan)
+	write_audit_event(
+		"plan_downgrade_applied",
+		tenant=subscription.tenant,
+		product=subscription.product,
+		target_doctype="QTT Product Subscription",
+		target_name=new_subscription.name,
+		metadata={"from_plan": old_plan, "to_plan": scheduled_plan},
+	)
+	return new_subscription
+
+
+def resume_subscription(tenant: str, product: str) -> "frappe.model.document.Document":
+	"""Reverses a pending cancel_at_period_end request (SaaS lifecycle
+	Phase E section 12) — only valid while the subscription hasn't
+	actually lapsed yet (status is still open; a genuinely 'cancelled'
+	subscription has no local state left to resume and needs a fresh
+	subscribe() call instead, which api/subscription.py is responsible
+	for rejecting before calling this). Clears exactly the fields
+	cancel_subscription() sets, nothing else."""
+	current = get_current_subscription(tenant, product)
+	if not current:
+		frappe.throw(_("No subscription to resume for this product."))
+	if current.status == "cancelled":
+		frappe.throw(_("This subscription has already been cancelled — subscribe again instead of resuming."))
+
+	current.cancel_at_period_end = 0
+	current.cancellation_requested_at = None
+	current.cancel_reason = None
+	current.effective_end_date = None
+	current.save(ignore_permissions=True)
+
+	# Same reasoning as schedule_plan_change() above — "resumed" isn't in
+	# QTT Subscription Event's enum and doesn't belong there (the plan
+	# itself never changed); QTT Audit Log is the right mechanism.
+	write_audit_event(
+		"subscription_resumed",
+		tenant=tenant,
+		product=product,
+		target_doctype="QTT Product Subscription",
+		target_name=current.name,
+	)
+	return current
+
+
+def cancel_subscription(tenant: str, product: str, *, at_period_end: bool = True, reason: str | None = None):
 	"""`at_period_end=True` (the default) marks the subscription to lapse
 	at current_period_end without an immediate access change — the
 	entitlement engine (Phase 5) is what actually enforces the period
-	boundary. `at_period_end=False` cancels immediately."""
+	boundary. `at_period_end=False` cancels immediately.
+
+	SaaS lifecycle Phase D: also records cancellation_requested_at/
+	cancel_reason/effective_end_date (Phase C fields). For
+	at_period_end=True, cancelled_at is intentionally left unset here —
+	the request has been made, but cancellation hasn't taken effect yet;
+	a scheduled sweep (Phase I) is what flips status to 'cancelled' and
+	sets cancelled_at once current_period_end actually passes. For an
+	immediate cancellation, both happen together, now."""
 	current = get_current_subscription(tenant, product)
 	if not current:
 		frappe.throw(_("No active subscription to cancel for this product."))
 
+	current.cancellation_requested_at = now_datetime()
+	current.cancel_reason = reason
+
 	if at_period_end:
 		current.cancel_at_period_end = 1
+		current.effective_end_date = current.current_period_end
 	else:
 		current.status = "cancelled"
 		current.cancel_at_period_end = 0
+		current.cancelled_at = now_datetime()
+		current.effective_end_date = today()
 	current.save(ignore_permissions=True)
 
 	_write_subscription_event(current.name, "cancelled", from_plan=current.plan)

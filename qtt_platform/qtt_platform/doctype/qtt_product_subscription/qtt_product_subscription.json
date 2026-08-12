@@ -22,6 +22,21 @@
   "current_period_start",
   "current_period_end",
   "cancel_at_period_end",
+  "section_break_plan_change",
+  "scheduled_plan",
+  "column_break_plan_change",
+  "scheduled_plan_effective_date",
+  "section_break_razorpay",
+  "razorpay_subscription_id",
+  "trial_start",
+  "column_break_trial",
+  "trial_end",
+  "section_break_cancellation",
+  "cancellation_requested_at",
+  "cancel_reason",
+  "column_break_cancellation",
+  "cancelled_at",
+  "effective_end_date",
   "section_break_items",
   "items"
  ],
@@ -61,11 +76,12 @@
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "trialing\nactive\npast_due\ncancelled",
+   "options": "trialing\nactive\npast_due\nsuspended\ncancelled",
    "default": "trialing",
    "reqd": 1,
    "in_list_view": 1,
-   "in_standard_filter": 1
+   "in_standard_filter": 1,
+   "description": "'suspended' added in SaaS lifecycle Phase D — the terminal state after a subscription's Razorpay-side retry/grace period is exhausted (Razorpay's own subscription.halted event), distinct from 'past_due' (still within the grace period, actively retrying). See qtt_platform.billing.service's RAZORPAY_STATUS_TO_LOCAL mapping for exactly which Razorpay event/status drives which local value."
   },
   {
    "fieldname": "current_period_start",
@@ -84,6 +100,87 @@
    "fieldtype": "Check",
    "label": "Cancel At Period End",
    "default": "0"
+  },
+  {
+   "fieldname": "section_break_plan_change",
+   "fieldtype": "Section Break",
+   "label": "Pending Plan Change"
+  },
+  {
+   "fieldname": "scheduled_plan",
+   "fieldtype": "Link",
+   "label": "Scheduled Plan",
+   "options": "QTT Plan",
+   "description": "SaaS lifecycle Phase E. Set only for a DOWNGRADE, which takes effect at the next billing cycle rather than immediately (an upgrade applies right away via change_plan(), never touches this field). Blank means no plan change is pending. Applied by qtt_platform.subscription.service.apply_scheduled_plan_change() — triggered from the subscription.charged webhook handler once a new billing cycle has actually started (billing/service.py), not by mutating this row's own `plan` field directly; applying a scheduled change creates a NEW QTT Product Subscription row via change_plan(), the same historical-row-per-plan-change pattern every other plan change already uses."
+  },
+  {
+   "fieldname": "column_break_plan_change",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "scheduled_plan_effective_date",
+   "fieldtype": "Date",
+   "label": "Scheduled Plan Effective Date",
+   "description": "Set together with scheduled_plan — normally equal to current_period_end at the time the downgrade was requested."
+  },
+  {
+   "fieldname": "section_break_razorpay",
+   "fieldtype": "Section Break",
+   "label": "Razorpay & Trial"
+  },
+  {
+   "fieldname": "razorpay_subscription_id",
+   "fieldtype": "Data",
+   "label": "Razorpay Subscription ID",
+   "read_only": 1,
+   "in_list_view": 1,
+   "description": "SaaS lifecycle Phase C, corrected in Phase E: a plan change (subscription/service.py::change_plan()) now CARRIES THIS FORWARD onto the new row rather than leaving it blank — the new row represents a continuation of the SAME external Razorpay subscription (billing.service.sync_razorpay_plan_change() PATCHes the existing Razorpay subscription's plan_id in place; a plan change never creates a second Razorpay subscription, per SaaS lifecycle Phase E section 11). Blank only for a subscription that has never been linked to Razorpay at all (e.g. a purely local test subscription)."
+  },
+  {
+   "fieldname": "trial_start",
+   "fieldtype": "Date",
+   "label": "Trial Start"
+  },
+  {
+   "fieldname": "column_break_trial",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "trial_end",
+   "fieldtype": "Date",
+   "label": "Trial End",
+   "description": "Independent of current_period_end (unchanged) — current_period_end tracks the CURRENT billing cycle boundary and moves forward every renewal; trial_start/trial_end are fixed once, set at the ORIGINAL subscription's creation, and record the original trial window even after the subscription converts to a paid, actively-billing cycle. Carried forward verbatim by change_plan() (Phase E) onto every subsequent plan-change row in this lineage — a plan change during trial must never restart the trial (SaaS lifecycle Phase E section 11)."
+  },
+  {
+   "fieldname": "section_break_cancellation",
+   "fieldtype": "Section Break",
+   "label": "Cancellation"
+  },
+  {
+   "fieldname": "cancellation_requested_at",
+   "fieldtype": "Datetime",
+   "label": "Cancellation Requested At"
+  },
+  {
+   "fieldname": "cancel_reason",
+   "fieldtype": "Small Text",
+   "label": "Cancel Reason"
+  },
+  {
+   "fieldname": "column_break_cancellation",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "cancelled_at",
+   "fieldtype": "Datetime",
+   "label": "Cancelled At",
+   "description": "Set only once the cancellation actually takes effect (status becomes 'cancelled') — for cancel_at_period_end=1 (unchanged field), this is set later than cancellation_requested_at, at effective_end_date; for an immediate cancellation, the two happen together."
+  },
+  {
+   "fieldname": "effective_end_date",
+   "fieldtype": "Date",
+   "label": "Effective End Date",
+   "description": "When access actually ends. Equals current_period_end (unchanged) for a cancel_at_period_end=1 request; equals the cancellation date itself for an immediate cancellation."
   },
   {
    "fieldname": "section_break_items",

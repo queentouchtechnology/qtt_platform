@@ -16,6 +16,7 @@
  "field_order": [
   "gateway_key",
   "enabled",
+  "mode",
   "key_id",
   "key_secret",
   "webhook_secret"
@@ -35,6 +36,16 @@
    "label": "Enabled",
    "default": "1",
    "in_list_view": 1
+  },
+  {
+   "fieldname": "mode",
+   "fieldtype": "Select",
+   "label": "Mode",
+   "options": "test\nlive",
+   "default": "test",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "Descriptive/tracking only (SaaS lifecycle Phase C) — Razorpay's API determines test-vs-live purely from which key pair (key_id/key_secret) is used, not from a separate endpoint, so nothing in the gateway adapter branches on this field. It exists so an admin UI can show a 'TEST MODE' indicator and so switching to live is a deliberate, visible action rather than inferred from which keys happen to be pasted in."
   },
   {
    "fieldname": "key_id",

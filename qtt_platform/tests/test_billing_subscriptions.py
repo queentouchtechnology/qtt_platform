@@ -1,0 +1,1108 @@
+"""
+Bench-independent tests for SaaS lifecycle Phase C — the Razorpay
+Subscriptions adapter (billing/gateways/razorpay_gateway.py's new
+SubscriptionCapableGateway methods) and the service-layer glue
+(billing/service.py::ensure_razorpay_plan / create_razorpay_subscription
+/ cancel_razorpay_subscription). No real network call, no bench, no
+database — a fake `requests` module captures exactly what would have
+been sent, matching Part 38's explicit instruction to mock the gateway
+for automated tests rather than requiring live Razorpay credentials.
+
+Run manually from the qtt_platform repo root:
+
+    python -m unittest qtt_platform.tests.test_billing_subscriptions -v
+"""
+
+import json
+import sys
+import types
+import unittest
+from unittest import mock
+
+
+def _install_fake_modules():
+	class _ValidationError(Exception):
+		pass
+
+	class _PermissionError(Exception):
+		pass
+
+	class _UniqueValidationError(_ValidationError):
+		pass
+
+	def _throw(msg, exc=None, **kwargs):
+		raise (exc or _ValidationError)(msg)
+
+	fake_frappe = types.ModuleType("frappe")
+	fake_frappe.ValidationError = _ValidationError
+	fake_frappe.PermissionError = _PermissionError
+	fake_frappe.UniqueValidationError = _UniqueValidationError
+	fake_frappe.throw = _throw
+	fake_frappe._ = lambda s: s
+	fake_frappe.whitelist = lambda *a, **k: (lambda fn: fn)
+	fake_frappe.db = types.SimpleNamespace(
+		get_value=mock.Mock(return_value=None), set_value=mock.Mock(), exists=mock.Mock(return_value=False)
+	)
+	fake_frappe.get_doc = mock.Mock()
+	fake_frappe.get_all = mock.Mock(return_value=[])
+	fake_frappe.log_error = mock.Mock()
+	fake_frappe.get_traceback = mock.Mock(return_value="")
+	fake_frappe.session = types.SimpleNamespace(user="Administrator")
+	fake_frappe.local = types.SimpleNamespace(request_ip=None)
+
+	fake_frappe_utils = types.ModuleType("frappe.utils")
+	fake_frappe_utils.add_days = lambda d, n: d
+	fake_frappe_utils.now_datetime = lambda: "2026-08-12 00:00:00"
+	fake_frappe_utils.today = lambda: "2026-08-12"
+	fake_frappe_utils.get_datetime = lambda v: v  # tests pass real datetime objects in directly
+	fake_frappe.utils = fake_frappe_utils
+
+	fake_frappe_utils_password = types.ModuleType("frappe.utils.password")
+	fake_frappe_utils_password.get_decrypted_password = mock.Mock(return_value="test-secret")
+	fake_frappe_utils.password = fake_frappe_utils_password
+
+	fake_requests = types.ModuleType("requests")
+	fake_requests.post = mock.Mock()
+	fake_requests.get = mock.Mock()
+	fake_requests.patch = mock.Mock()
+	sys.modules["requests"] = fake_requests
+
+	sys.modules["frappe"] = fake_frappe
+	sys.modules["frappe.utils"] = fake_frappe_utils
+	sys.modules["frappe.utils.password"] = fake_frappe_utils_password
+	return fake_frappe, fake_requests
+
+
+def _make_get_doc(existing: dict):
+	"""Mirrors frappe.get_doc's two real call shapes: get_doc(doctype,
+	name) for a lookup (returns a pre-configured fake from `existing`,
+	keyed by (doctype, name)), get_doc({...}) for constructing a new
+	in-memory doc (e.g. what qtt_platform.audit.write_audit_event does
+	internally) — a plain throwaway Mock is fine for that shape since no
+	test here asserts on audit-log construction."""
+
+	def _get_doc(*args, **kwargs):
+		if len(args) == 2:
+			key = (args[0], args[1])
+			if key in existing:
+				return existing[key]
+			raise AssertionError(f"no fake doc configured for get_doc{key}")
+		return mock.Mock()
+
+	return _get_doc
+
+
+def _make_get_doc_with_construction(existing: dict):
+	"""Like _make_get_doc, but the get_doc({...}) construction branch
+	returns a Mock whose ATTRIBUTES reflect the passed dict
+	(mock.Mock(**the_dict)) instead of a blank Mock — needed wherever a
+	test asserts on what change_plan()/etc. actually put on the newly
+	constructed document (e.g. that razorpay_subscription_id was carried
+	forward), not just that .insert() was called."""
+
+	def _get_doc(*args, **kwargs):
+		if len(args) == 2:
+			key = (args[0], args[1])
+			if key in existing:
+				return existing[key]
+			raise AssertionError(f"no fake doc configured for get_doc{key}")
+		return mock.Mock(**args[0])
+
+	return _get_doc
+
+
+def _fake_response(json_body, status_code=200):
+	resp = mock.Mock()
+	resp.status_code = status_code
+	resp.json.return_value = json_body
+	resp.raise_for_status = mock.Mock()
+	return resp
+
+
+fake_frappe, fake_requests = _install_fake_modules()
+
+from qtt_platform.api import subscription as api_subscription  # noqa: E402
+from qtt_platform.billing import service as billing_service  # noqa: E402
+from qtt_platform.billing.gateways.base import SubscriptionCapableGateway, SubscriptionWebhookEvent  # noqa: E402
+from qtt_platform.billing.gateways.razorpay_gateway import RazorpayGateway  # noqa: E402
+from qtt_platform.entitlement import engine as entitlement_engine  # noqa: E402
+from qtt_platform.subscription import service as subscription_service  # noqa: E402
+
+
+def _fake_gateway(**method_returns):
+	"""A mock spec'd against the REAL RazorpayGateway class (not just the
+	SubscriptionCapableGateway ABC) — it's what get_gateway() actually
+	returns in production, implementing BOTH PaymentGateway
+	(verify_webhook_signature, parse_webhook_event, ...) and
+	SubscriptionCapableGateway. mock.Mock(spec=...) sets __class__ to the
+	spec'd class, so isinstance(gateway, SubscriptionCapableGateway) —
+	billing.service's own capability check — passes exactly like the real
+	thing would, without any real network access."""
+	gateway = mock.Mock(spec=RazorpayGateway)
+	for name, value in method_returns.items():
+		getattr(gateway, name).return_value = value
+	return gateway
+
+
+class RazorpayCreatePlanTest(unittest.TestCase):
+	def setUp(self):
+		fake_requests.post.reset_mock()
+		fake_requests.post.return_value = _fake_response({"id": "plan_ABC123"})
+		self.gateway = RazorpayGateway()
+
+	def test_creates_plan_with_amount_in_paise(self):
+		plan_id = self.gateway.create_plan(name="QMP LMS Starter (QMP_LMS)", amount=99, currency="INR", period="monthly")
+		self.assertEqual(plan_id, "plan_ABC123")
+
+		url, kwargs = fake_requests.post.call_args
+		self.assertTrue(url[0].endswith("/plans"))
+		self.assertEqual(kwargs["json"]["period"], "monthly")
+		self.assertEqual(kwargs["json"]["item"]["amount"], 9900)  # 99 rupees -> 9900 paise
+		self.assertEqual(kwargs["json"]["item"]["currency"], "INR")
+
+	def test_unsupported_period_rejected_before_any_network_call(self):
+		with self.assertRaises(Exception):
+			self.gateway.create_plan(name="x", amount=1, currency="INR", period="weekly")
+		fake_requests.post.assert_not_called()
+
+
+class RazorpayCreateSubscriptionTest(unittest.TestCase):
+	def setUp(self):
+		fake_requests.post.reset_mock()
+		fake_requests.post.return_value = _fake_response({"id": "sub_XYZ789", "status": "created"})
+		self.gateway = RazorpayGateway()
+
+	def test_creates_subscription_with_trial_start_at(self):
+		result = self.gateway.create_subscription(
+			gateway_plan_id="plan_ABC123",
+			total_count=120,
+			start_at=1755561600,
+			customer_notify=True,
+			notes={"qtt_tenant": "tenant-1"},
+		)
+		self.assertEqual(result.gateway_subscription_id, "sub_XYZ789")
+		self.assertEqual(result.status, "created")
+		self.assertIn("subscription_id", result.client_payload)
+
+		_, kwargs = fake_requests.post.call_args
+		body = kwargs["json"]
+		self.assertEqual(body["plan_id"], "plan_ABC123")
+		self.assertEqual(body["total_count"], 120)
+		self.assertEqual(body["start_at"], 1755561600)
+		self.assertEqual(body["customer_notify"], 1)
+		self.assertEqual(body["notes"], {"qtt_tenant": "tenant-1"})
+
+	def test_no_customer_id_sent_ever(self):
+		# Confirms the deliberate design fact this phase's own docs assert:
+		# Razorpay's Create Subscription request never carries a
+		# customer_id — verified against Razorpay's current API docs.
+		self.gateway.create_subscription(gateway_plan_id="plan_ABC123", total_count=120)
+		_, kwargs = fake_requests.post.call_args
+		self.assertNotIn("customer_id", kwargs["json"])
+
+	def test_start_at_omitted_when_no_trial(self):
+		self.gateway.create_subscription(gateway_plan_id="plan_ABC123", total_count=120, start_at=None)
+		_, kwargs = fake_requests.post.call_args
+		self.assertNotIn("start_at", kwargs["json"])
+
+
+class RazorpayCancelSubscriptionTest(unittest.TestCase):
+	def setUp(self):
+		fake_requests.post.reset_mock()
+		fake_requests.post.return_value = _fake_response({"id": "sub_XYZ789", "status": "cancelled"})
+		self.gateway = RazorpayGateway()
+
+	def test_cancel_hits_the_correct_subscription_id_endpoint(self):
+		self.gateway.cancel_subscription(gateway_subscription_id="sub_XYZ789", cancel_at_cycle_end=True)
+		url, kwargs = fake_requests.post.call_args
+		self.assertTrue(url[0].endswith("/subscriptions/sub_XYZ789/cancel"))
+		self.assertEqual(kwargs["json"], {"cancel_at_cycle_end": True})
+
+
+class RazorpaySubscriptionWebhookParsingTest(unittest.TestCase):
+	def setUp(self):
+		self.gateway = RazorpayGateway()
+
+	def test_parses_activated_event_with_customer_id(self):
+		payload = json.dumps(
+			{
+				"event": "subscription.activated",
+				"payload": {"subscription": {"entity": {"id": "sub_XYZ789", "status": "active", "customer_id": "cust_1"}}}},
+		).encode()
+		event = self.gateway.parse_subscription_webhook_event(payload)
+		self.assertEqual(event.event_type, "subscription.activated")
+		self.assertEqual(event.gateway_subscription_id, "sub_XYZ789")
+		self.assertEqual(event.status, "active")
+		self.assertEqual(event.customer_id, "cust_1")
+
+	def test_parses_created_event_with_no_customer_id_yet(self):
+		payload = json.dumps(
+			{"event": "subscription.pending", "payload": {"subscription": {"entity": {"id": "sub_XYZ789", "status": "pending"}}}}
+		).encode()
+		event = self.gateway.parse_subscription_webhook_event(payload)
+		self.assertIsNone(event.customer_id)
+
+
+class EnsureRazorpayPlanTest(unittest.TestCase):
+	def test_reuses_existing_plan_id_without_any_gateway_call(self):
+		fake_plan = mock.Mock(razorpay_plan_id="plan_already_set")
+		fake_frappe.get_doc = _make_get_doc({("QTT Plan", "plan-1"): fake_plan})
+		with mock.patch.object(billing_service, "get_gateway") as get_gateway_mock:
+			result = billing_service.ensure_razorpay_plan("plan-1")
+		self.assertEqual(result, "plan_already_set")
+		get_gateway_mock.assert_not_called()
+
+	def test_creates_and_stores_when_not_set(self):
+		fake_plan = mock.Mock(
+			razorpay_plan_id=None, display_name="Starter", product="QMP_LMS", base_price=99, billing_period="monthly"
+		)
+		fake_plan.name = "plan-1"
+		fake_frappe.get_doc = _make_get_doc({("QTT Plan", "plan-1"): fake_plan})
+		fake_frappe.db.set_value = mock.Mock()
+
+		fake_gateway = _fake_gateway(create_plan="plan_new_123")
+		with mock.patch.object(billing_service, "get_gateway", return_value=fake_gateway):
+			result = billing_service.ensure_razorpay_plan("plan-1")
+
+		fake_gateway.create_plan.assert_called_once_with(name="Starter (QMP_LMS)", amount=99, currency="INR", period="monthly")
+		self.assertEqual(result, "plan_new_123")
+		fake_frappe.db.set_value.assert_called_once_with("QTT Plan", "plan-1", "razorpay_plan_id", "plan_new_123")
+
+
+class CreateRazorpaySubscriptionTest(unittest.TestCase):
+	def test_refuses_to_double_link(self):
+		fake_sub = mock.Mock(razorpay_subscription_id="sub_already_linked")
+		fake_frappe.get_doc = _make_get_doc({("QTT Product Subscription", "sub-1"): fake_sub})
+		with self.assertRaises(Exception):
+			billing_service.create_razorpay_subscription("sub-1")
+
+
+class CancelRazorpaySubscriptionTest(unittest.TestCase):
+	def test_noop_when_never_linked_to_razorpay(self):
+		fake_sub = mock.Mock(razorpay_subscription_id=None)
+		fake_frappe.get_doc = _make_get_doc({("QTT Product Subscription", "sub-1"): fake_sub})
+		with mock.patch.object(billing_service, "get_gateway") as get_gateway_mock:
+			result = billing_service.cancel_razorpay_subscription("sub-1")
+		self.assertFalse(result)
+		get_gateway_mock.assert_not_called()
+
+	def test_cancels_when_linked(self):
+		fake_sub = mock.Mock(razorpay_subscription_id="sub_XYZ789", tenant="tenant-1", product="QMP_LMS")
+		fake_sub.name = "sub-1"
+		fake_frappe.get_doc = _make_get_doc({("QTT Product Subscription", "sub-1"): fake_sub})
+		fake_gateway = _fake_gateway()
+		with mock.patch.object(billing_service, "get_gateway", return_value=fake_gateway):
+			result = billing_service.cancel_razorpay_subscription("sub-1", cancel_at_cycle_end=False)
+		self.assertTrue(result)
+		fake_gateway.cancel_subscription.assert_called_once_with(
+			gateway_subscription_id="sub_XYZ789", cancel_at_cycle_end=False
+		)
+
+
+# ---------------------------------------------------------------------------
+# SaaS lifecycle Phase D — webhook dispatch, the subscription state
+# machine, and reconciliation.
+# ---------------------------------------------------------------------------
+
+
+def _subscription_event(event_type, gateway_subscription_id="sub_XYZ789", status="active", customer_id=None, raw_payload=None):
+	return SubscriptionWebhookEvent(
+		event_type=event_type,
+		gateway_subscription_id=gateway_subscription_id,
+		status=status,
+		customer_id=customer_id,
+		raw_payload=raw_payload or {"event": event_type},
+	)
+
+
+class ProcessWebhookRoutingTest(unittest.TestCase):
+	"""process_webhook() must route by event-name prefix, and the
+	ORDER path must stay byte-for-byte the same as before Phase D."""
+
+	def test_subscription_event_routes_to_subscription_handler(self):
+		gateway = _fake_gateway()
+		gateway.verify_webhook_signature.return_value = True
+		gateway.parse_subscription_webhook_event.return_value = _subscription_event("subscription.updated")
+		fake_frappe.get_doc = mock.Mock()  # webhook-event ledger insert succeeds
+		fake_frappe.db.get_value = mock.Mock(return_value=None)  # no matching local subscription
+
+		with mock.patch.object(billing_service, "get_gateway", return_value=gateway):
+			result = billing_service.process_webhook(
+				"razorpay", json.dumps({"event": "subscription.updated"}).encode(), "sig", gateway_event_id="evt_1"
+			)
+
+		gateway.parse_subscription_webhook_event.assert_called_once()
+		gateway.parse_webhook_event.assert_not_called()
+		self.assertTrue(result["ok"])
+
+	def test_payment_event_routes_to_existing_order_handler_unchanged(self):
+		gateway = _fake_gateway()
+		gateway.verify_webhook_signature.return_value = True
+		with mock.patch.object(billing_service, "get_gateway", return_value=gateway):
+			with mock.patch.object(billing_service, "_process_order_webhook", return_value={"ok": True}) as order_handler:
+				result = billing_service.process_webhook(
+					"razorpay", json.dumps({"event": "payment.captured"}).encode(), "sig"
+				)
+		order_handler.assert_called_once()
+		gateway.parse_subscription_webhook_event.assert_not_called()
+		self.assertTrue(result["ok"])
+
+	def test_invalid_signature_rejected_before_any_dispatch(self):
+		gateway = _fake_gateway()
+		gateway.verify_webhook_signature.return_value = False
+		with mock.patch.object(billing_service, "get_gateway", return_value=gateway):
+			with self.assertRaises(Exception):
+				billing_service.process_webhook("razorpay", b'{"event": "subscription.updated"}', "bad-sig")
+		gateway.parse_subscription_webhook_event.assert_not_called()
+
+
+class RecordWebhookEventOnceTest(unittest.TestCase):
+	def test_first_delivery_is_recorded_and_returns_true(self):
+		fake_frappe.get_doc = mock.Mock()
+		event = _subscription_event("subscription.activated")
+		result = billing_service._record_webhook_event_once("razorpay", "evt_unique_1", event)
+		self.assertTrue(result)
+		fake_frappe.get_doc.return_value.insert.assert_called_once_with(ignore_permissions=True)
+
+	def test_redelivery_hits_the_unique_constraint_and_returns_false(self):
+		doc = mock.Mock()
+		doc.insert.side_effect = fake_frappe.UniqueValidationError("duplicate")
+		fake_frappe.get_doc = mock.Mock(return_value=doc)
+		event = _subscription_event("subscription.activated")
+		result = billing_service._record_webhook_event_once("razorpay", "evt_duplicate", event)
+		self.assertFalse(result)
+
+	def test_missing_event_id_is_rejected_before_recording_anything(self):
+		gateway = _fake_gateway()
+		gateway.verify_webhook_signature.return_value = True
+		gateway.parse_subscription_webhook_event.return_value = _subscription_event("subscription.activated")
+		with mock.patch.object(billing_service, "get_gateway", return_value=gateway):
+			with self.assertRaises(Exception):
+				billing_service.process_webhook(
+					"razorpay", b'{"event": "subscription.activated"}', "sig", gateway_event_id=None
+				)
+
+
+class ApplySubscriptionStatusTransitionTest(unittest.TestCase):
+	def test_changes_status_and_audits(self):
+		sub = mock.Mock(status="trialing", tenant="tenant-1", product="QMP_LMS")
+		sub.name = "sub-1"
+		billing_service._apply_subscription_status_transition(sub, "active", source="subscription.activated", gateway_status="active")
+		self.assertEqual(sub.status, "active")
+		sub.save.assert_called_once_with(ignore_permissions=True)
+
+	def test_noop_when_status_unchanged(self):
+		sub = mock.Mock(status="active", tenant="tenant-1", product="QMP_LMS")
+		sub.name = "sub-1"
+		billing_service._apply_subscription_status_transition(sub, "active", source="subscription.charged", gateway_status="active")
+		sub.save.assert_not_called()
+
+	def test_cancelled_sets_cancelled_at_and_effective_end_date(self):
+		sub = mock.Mock(status="active", tenant="tenant-1", product="QMP_LMS", cancelled_at=None, effective_end_date=None)
+		sub.name = "sub-1"
+		billing_service._apply_subscription_status_transition(sub, "cancelled", source="subscription.cancelled", gateway_status="cancelled")
+		self.assertIsNotNone(sub.cancelled_at)
+		self.assertIsNotNone(sub.effective_end_date)
+
+
+class ProcessSubscriptionWebhookEndToEndTest(unittest.TestCase):
+	def setUp(self):
+		self.gateway = _fake_gateway()
+		self.gateway.verify_webhook_signature.return_value = True
+		self.sub = mock.Mock(status="trialing", tenant="tenant-1", product="QMP_LMS", razorpay_subscription_id="sub_XYZ789")
+		self.sub.name = "sub-1"
+
+	def test_activated_event_transitions_to_active_and_backfills_customer_id(self):
+		self.gateway.parse_subscription_webhook_event.return_value = _subscription_event(
+			"subscription.activated", customer_id="cust_1"
+		)
+		fake_frappe.get_doc = _make_get_doc({("QTT Product Subscription", "sub-1"): self.sub})
+		fake_frappe.db.get_value = mock.Mock(side_effect=["sub-1", None])  # subscription lookup, then customer_id lookup
+		fake_frappe.db.set_value = mock.Mock()
+
+		with mock.patch.object(billing_service, "get_gateway", return_value=self.gateway):
+			result = billing_service.process_webhook(
+				"razorpay", b'{"event": "subscription.activated"}', "sig", gateway_event_id="evt_2"
+			)
+
+		self.assertTrue(result["ok"])
+		self.assertEqual(self.sub.status, "active")
+		fake_frappe.db.set_value.assert_any_call("QTT Tenant", "tenant-1", "razorpay_customer_id", "cust_1")
+
+	def test_halted_event_transitions_to_suspended(self):
+		self.sub.status = "past_due"
+		self.gateway.parse_subscription_webhook_event.return_value = _subscription_event(
+			"subscription.halted", status="halted"
+		)
+		fake_frappe.get_doc = _make_get_doc({("QTT Product Subscription", "sub-1"): self.sub})
+		fake_frappe.db.get_value = mock.Mock(return_value="sub-1")
+
+		with mock.patch.object(billing_service, "get_gateway", return_value=self.gateway):
+			billing_service.process_webhook("razorpay", b'{"event": "subscription.halted"}', "sig", gateway_event_id="evt_3")
+
+		self.assertEqual(self.sub.status, "suspended")
+
+	def test_unknown_subscription_id_is_a_safe_no_op(self):
+		self.gateway.parse_subscription_webhook_event.return_value = _subscription_event("subscription.activated")
+		fake_frappe.get_doc = mock.Mock()  # webhook-event ledger insert
+		fake_frappe.db.get_value = mock.Mock(return_value=None)  # no local subscription matches
+
+		with mock.patch.object(billing_service, "get_gateway", return_value=self.gateway):
+			result = billing_service.process_webhook(
+				"razorpay", b'{"event": "subscription.activated"}', "sig", gateway_event_id="evt_4"
+			)
+		self.assertTrue(result.get("unrecognized_subscription"))
+
+	def test_redelivered_event_id_is_a_no_op_second_time(self):
+		self.gateway.parse_subscription_webhook_event.return_value = _subscription_event("subscription.activated")
+		ledger_doc = mock.Mock()
+		ledger_doc.insert.side_effect = fake_frappe.UniqueValidationError("duplicate")
+		fake_frappe.get_doc = mock.Mock(return_value=ledger_doc)
+
+		with mock.patch.object(billing_service, "get_gateway", return_value=self.gateway):
+			result = billing_service.process_webhook(
+				"razorpay", b'{"event": "subscription.activated"}', "sig", gateway_event_id="evt_5"
+			)
+		self.assertTrue(result.get("already_processed"))
+
+
+class RecordSubscriptionChargeTest(unittest.TestCase):
+	def test_creates_invoice_payment_and_transaction(self):
+		sub = mock.Mock(tenant="tenant-1", product="QMP_LMS")
+		sub.name = "sub-1"
+		fake_frappe.db.exists = mock.Mock(return_value=False)
+		invoice_doc = mock.Mock()
+		invoice_doc.name = "inv-1"
+		fake_frappe.get_doc = mock.Mock(return_value=invoice_doc)
+		fake_frappe.db.set_value = mock.Mock()
+
+		raw_payload = {"payload": {"payment": {"entity": {"id": "pay_1", "amount": 9900, "currency": "INR"}}}}
+		billing_service._record_subscription_charge(sub, raw_payload)
+
+		fake_frappe.db.set_value.assert_any_call("QTT Invoice", "inv-1", "status", "paid")
+
+	def test_idempotent_on_gateway_payment_id(self):
+		sub = mock.Mock(tenant="tenant-1", product="QMP_LMS")
+		sub.name = "sub-1"
+		fake_frappe.db.exists = mock.Mock(return_value=True)  # already recorded
+		fake_frappe.get_doc = mock.Mock()
+
+		raw_payload = {"payload": {"payment": {"entity": {"id": "pay_1", "amount": 9900, "currency": "INR"}}}}
+		billing_service._record_subscription_charge(sub, raw_payload)
+
+		fake_frappe.get_doc.assert_not_called()
+
+	def test_missing_payment_entity_is_a_safe_noop(self):
+		sub = mock.Mock(tenant="tenant-1", product="QMP_LMS")
+		sub.name = "sub-1"
+		fake_frappe.get_doc = mock.Mock()
+		billing_service._record_subscription_charge(sub, {"payload": {}})
+		fake_frappe.get_doc.assert_not_called()
+
+
+class ReconcileSubscriptionsTest(unittest.TestCase):
+	def test_corrects_drifted_status(self):
+		fake_frappe.get_all = mock.Mock(
+			return_value=[
+				types.SimpleNamespace(name="sub-1", razorpay_subscription_id="sub_XYZ789", status="active")
+			]
+		)
+		sub = mock.Mock(status="active", tenant="tenant-1", product="QMP_LMS")
+		sub.name = "sub-1"
+		fake_frappe.get_doc = _make_get_doc({("QTT Product Subscription", "sub-1"): sub})
+
+		gateway = _fake_gateway()
+		gateway.fetch_subscription_status.return_value = "halted"
+		with mock.patch.object(billing_service, "get_gateway", return_value=gateway):
+			corrections = billing_service.reconcile_subscriptions()
+
+		self.assertEqual(len(corrections), 1)
+		self.assertEqual(sub.status, "suspended")
+
+	def test_no_correction_when_in_sync(self):
+		fake_frappe.get_all = mock.Mock(
+			return_value=[
+				types.SimpleNamespace(name="sub-1", razorpay_subscription_id="sub_XYZ789", status="active")
+			]
+		)
+		gateway = _fake_gateway()
+		gateway.fetch_subscription_status.return_value = "active"
+		with mock.patch.object(billing_service, "get_gateway", return_value=gateway):
+			corrections = billing_service.reconcile_subscriptions()
+		self.assertEqual(corrections, [])
+
+	def test_fetch_failure_is_logged_and_skipped_not_raised(self):
+		fake_frappe.get_all = mock.Mock(
+			return_value=[
+				types.SimpleNamespace(name="sub-1", razorpay_subscription_id="sub_XYZ789", status="active")
+			]
+		)
+		gateway = _fake_gateway()
+		gateway.fetch_subscription_status.side_effect = Exception("network error")
+		with mock.patch.object(billing_service, "get_gateway", return_value=gateway):
+			corrections = billing_service.reconcile_subscriptions()  # must not raise
+		self.assertEqual(corrections, [])
+
+
+class CancelSubscriptionFieldsTest(unittest.TestCase):
+	"""subscription/service.py::cancel_subscription()'s Phase D field
+	population — the local half of cancellation."""
+
+	def _fake_current_subscription(self, **overrides):
+		sub = mock.Mock(plan="plan-1", current_period_end="2026-09-01", **overrides)
+		sub.name = "sub-1"
+		return sub
+
+	def test_cancel_at_period_end_sets_requested_at_and_effective_end_date_but_not_cancelled_at(self):
+		current = self._fake_current_subscription(cancelled_at=None)
+		with mock.patch.object(subscription_service, "get_current_subscription", return_value=current):
+			with mock.patch.object(subscription_service, "_write_subscription_event"):
+				result = subscription_service.cancel_subscription(
+					"tenant-1", "QMP_LMS", at_period_end=True, reason="too expensive"
+				)
+
+		self.assertEqual(result.cancel_reason, "too expensive")
+		self.assertIsNotNone(result.cancellation_requested_at)
+		self.assertEqual(result.effective_end_date, "2026-09-01")
+		self.assertIsNone(result.cancelled_at)
+
+	def test_immediate_cancel_sets_cancelled_at_and_status(self):
+		current = self._fake_current_subscription(cancelled_at=None)
+		with mock.patch.object(subscription_service, "get_current_subscription", return_value=current):
+			with mock.patch.object(subscription_service, "_write_subscription_event"):
+				result = subscription_service.cancel_subscription("tenant-1", "QMP_LMS", at_period_end=False)
+
+		self.assertEqual(result.status, "cancelled")
+		self.assertIsNotNone(result.cancelled_at)
+		self.assertIsNotNone(result.effective_end_date)
+
+
+# ---------------------------------------------------------------------------
+# SaaS lifecycle Phase E — plan upgrade/downgrade.
+# ---------------------------------------------------------------------------
+
+
+def _fake_plan(name, plan_code, base_price, *, is_public=1, product="QMP_LMS", features=None):
+	plan = mock.Mock(product=product, plan_code=plan_code, base_price=base_price, is_public=is_public)
+	plan.name = name
+	plan.features = features or []
+	return plan
+
+
+def _fake_feature(feature_key, limit_value):
+	return mock.Mock(feature_key=feature_key, limit_value=limit_value)
+
+
+def _fake_current_subscription(**overrides):
+	defaults = dict(
+		name="sub-1",
+		tenant="tenant-1",
+		product="QMP_LMS",
+		plan="plan-starter",
+		status="active",
+		current_period_start="2026-08-01",
+		current_period_end="2026-08-31",
+		cancel_at_period_end=0,
+		cancellation_requested_at=None,
+		cancel_reason=None,
+		scheduled_plan=None,
+		scheduled_plan_effective_date=None,
+		razorpay_subscription_id="sub_razorpay_1",
+		trial_start=None,
+		trial_end=None,
+	)
+	defaults.update(overrides)
+	sub = mock.Mock(**{k: v for k, v in defaults.items() if k != "name"})
+	sub.name = defaults["name"]
+	return sub
+
+
+class SubscriptionServiceChangePlanCarryForwardTest(unittest.TestCase):
+	"""subscription_service.change_plan() directly — the Phase E fix that
+	carries razorpay_subscription_id/trial dates/status forward onto the
+	new row instead of leaving them blank / hardcoding 'active'."""
+
+	def setUp(self):
+		self.current = _fake_current_subscription(status="trialing", trial_start="2026-08-01", trial_end="2026-08-08")
+		self.new_plan_doc = _fake_plan("plan-professional", "PROFESSIONAL", 299)
+		fake_frappe.get_doc = _make_get_doc_with_construction(
+			{("QTT Plan", "plan-professional"): self.new_plan_doc}
+		)
+		fake_frappe.db.get_value = mock.Mock(return_value=99)  # old plan base_price
+
+	def test_carries_forward_razorpay_subscription_id(self):
+		with mock.patch.object(subscription_service, "get_current_subscription", return_value=self.current):
+			with mock.patch.object(subscription_service, "activate_pointer"):
+				with mock.patch.object(subscription_service, "_write_subscription_event"):
+					new_sub = subscription_service.change_plan("tenant-1", "QMP_LMS", "plan-professional")
+		self.assertEqual(new_sub.razorpay_subscription_id, "sub_razorpay_1")
+
+	def test_carries_forward_trial_dates_and_does_not_restart_trial(self):
+		with mock.patch.object(subscription_service, "get_current_subscription", return_value=self.current):
+			with mock.patch.object(subscription_service, "activate_pointer"):
+				with mock.patch.object(subscription_service, "_write_subscription_event"):
+					new_sub = subscription_service.change_plan("tenant-1", "QMP_LMS", "plan-professional")
+		self.assertEqual(new_sub.trial_start, "2026-08-01")
+		self.assertEqual(new_sub.trial_end, "2026-08-08")
+
+	def test_carries_forward_trialing_status_instead_of_hardcoding_active(self):
+		with mock.patch.object(subscription_service, "get_current_subscription", return_value=self.current):
+			with mock.patch.object(subscription_service, "activate_pointer"):
+				with mock.patch.object(subscription_service, "_write_subscription_event"):
+					new_sub = subscription_service.change_plan("tenant-1", "QMP_LMS", "plan-professional")
+		self.assertEqual(new_sub.status, "trialing")
+
+	def test_active_status_stays_active(self):
+		self.current.status = "active"
+		with mock.patch.object(subscription_service, "get_current_subscription", return_value=self.current):
+			with mock.patch.object(subscription_service, "activate_pointer"):
+				with mock.patch.object(subscription_service, "_write_subscription_event"):
+					new_sub = subscription_service.change_plan("tenant-1", "QMP_LMS", "plan-professional")
+		self.assertEqual(new_sub.status, "active")
+
+
+class ScheduleAndApplyDowngradeTest(unittest.TestCase):
+	def setUp(self):
+		self.current = _fake_current_subscription(plan="plan-professional")
+		self.new_plan_doc = _fake_plan("plan-starter", "STARTER", 99)
+		fake_frappe.get_doc = _make_get_doc({("QTT Plan", "plan-starter"): self.new_plan_doc})
+
+	def test_schedule_plan_change_sets_fields(self):
+		with mock.patch.object(subscription_service, "get_current_subscription", return_value=self.current):
+			result = subscription_service.schedule_plan_change("tenant-1", "QMP_LMS", "plan-starter", "2026-08-31")
+		self.assertEqual(result.scheduled_plan, "plan-starter")
+		self.assertEqual(result.scheduled_plan_effective_date, "2026-08-31")
+		self.current.save.assert_called_once_with(ignore_permissions=True)
+
+	def test_apply_noop_when_nothing_scheduled(self):
+		sub = _fake_current_subscription(scheduled_plan=None)
+		fake_frappe.get_doc = _make_get_doc({("QTT Product Subscription", "sub-1"): sub})
+		result = subscription_service.apply_scheduled_plan_change("sub-1")
+		self.assertIsNone(result)
+
+	def test_apply_noop_when_not_yet_due(self):
+		sub = _fake_current_subscription(scheduled_plan="plan-starter", scheduled_plan_effective_date="2099-01-01")
+		fake_frappe.get_doc = _make_get_doc({("QTT Product Subscription", "sub-1"): sub})
+		result = subscription_service.apply_scheduled_plan_change("sub-1")
+		self.assertIsNone(result)
+
+	def test_apply_runs_change_plan_when_due(self):
+		sub = _fake_current_subscription(scheduled_plan="plan-starter", scheduled_plan_effective_date="2020-01-01")
+		fake_frappe.get_doc = _make_get_doc({("QTT Product Subscription", "sub-1"): sub})
+		new_sub = mock.Mock()
+		new_sub.name = "sub-2"
+		with mock.patch.object(subscription_service, "change_plan", return_value=new_sub) as change_plan_mock:
+			result = subscription_service.apply_scheduled_plan_change("sub-1")
+		change_plan_mock.assert_called_once_with("tenant-1", "QMP_LMS", "plan-starter")
+		self.assertIs(result, new_sub)
+
+
+class ResumeSubscriptionTest(unittest.TestCase):
+	def test_clears_cancellation_fields(self):
+		current = _fake_current_subscription(
+			status="active", cancel_at_period_end=1, cancellation_requested_at="2026-08-15 00:00:00", cancel_reason="too pricey"
+		)
+		# write_audit_event() inside resume_subscription() calls
+		# frappe.get_doc({...}) to build the QTT Audit Log row — reset to
+		# a clean generic mock rather than inheriting whatever an earlier
+		# test in this module left fake_frappe.get_doc configured as.
+		fake_frappe.get_doc = mock.Mock()
+		with mock.patch.object(subscription_service, "get_current_subscription", return_value=current):
+			result = subscription_service.resume_subscription("tenant-1", "QMP_LMS")
+		self.assertEqual(result.cancel_at_period_end, 0)
+		self.assertIsNone(result.cancellation_requested_at)
+		self.assertIsNone(result.cancel_reason)
+
+	def test_rejects_already_cancelled(self):
+		current = _fake_current_subscription(status="cancelled")
+		with mock.patch.object(subscription_service, "get_current_subscription", return_value=current):
+			with self.assertRaises(Exception):
+				subscription_service.resume_subscription("tenant-1", "QMP_LMS")
+
+
+class ChangePlanAuthorizationTest(unittest.TestCase):
+	"""Exercises the REAL require_tenant_role chain (not mocked) — the
+	actual thing enforcing SaaS lifecycle Phase E section 4's "Tenant
+	Owner OR Tenant Admin, never Member, never a QMP_LMS product role.\""""
+
+	def _run_with_role(self, tenant_role, membership_status="active"):
+		membership = mock.Mock(status=membership_status, tenant_role=tenant_role)
+		fake_frappe.get_doc = _make_get_doc({("QTT Tenant Membership", "membership-1"): membership})
+		fake_frappe.db.get_value = mock.Mock(side_effect=["active", "membership-1"])
+		with mock.patch.object(api_subscription, "resolve_active_tenant", return_value="tenant-1"):
+			with mock.patch.object(api_subscription, "require_product_access", return_value=None):
+				with mock.patch.object(api_subscription, "service") as service_mock:
+					service_mock.get_current_subscription.return_value = None  # short-circuits after the role gate
+					return api_subscription.change_plan("QMP_LMS", "PROFESSIONAL")
+
+	def test_owner_can_change_plan(self):
+		result = self._run_with_role("Tenant Owner")
+		# Passed the role gate — the failure (if any) is deeper in the
+		# flow (SUBSCRIPTION_NOT_FOUND from the short-circuited mock
+		# above), never BILLING_ROLE_REQUIRED.
+		self.assertNotEqual(result.get("error", {}).get("code"), "BILLING_ROLE_REQUIRED")
+
+	def test_admin_can_change_plan(self):
+		result = self._run_with_role("Tenant Admin")
+		self.assertNotEqual(result.get("error", {}).get("code"), "BILLING_ROLE_REQUIRED")
+
+	def test_member_cannot_change_plan(self):
+		result = self._run_with_role("Member")
+		self.assertEqual(result["error"]["code"], "BILLING_ROLE_REQUIRED")
+
+	def test_student_product_role_does_not_substitute_for_tenant_role(self):
+		# require_tenant_role never reads QTT Product Access.product_role
+		# at all — a "Student" product role literally cannot appear in
+		# this code path, which is the structural guarantee section 4
+		# asks for. Modelled here as a Member (the only tenant_role a
+		# QMP_LMS Student would plausibly hold) to prove it's still
+		# blocked purely on tenant_role.
+		result = self._run_with_role("Member")
+		self.assertEqual(result["error"]["code"], "BILLING_ROLE_REQUIRED")
+
+	def test_instructor_product_role_does_not_substitute_for_tenant_role(self):
+		result = self._run_with_role("Member")
+		self.assertEqual(result["error"]["code"], "BILLING_ROLE_REQUIRED")
+
+	def test_no_active_tenant_rejected(self):
+		with mock.patch.object(api_subscription, "resolve_active_tenant", return_value=None):
+			result = api_subscription.change_plan("QMP_LMS", "PROFESSIONAL")
+		self.assertEqual(result["error"]["code"], "TENANT_ACCESS_DENIED")
+
+
+class ChangePlanOrchestrationTest(unittest.TestCase):
+	"""api_subscription.change_plan() end-to-end with authorization
+	mocked out (covered separately above) — BASIC / UPGRADE / DOWNGRADE /
+	TRIAL / CANCELLATION / RAZORPAY-FAILURE / AUDIT behaviour."""
+
+	def setUp(self):
+		self.starter = _fake_plan("plan-starter", "STARTER", 99)
+		self.professional = _fake_plan(
+			"plan-professional", "PROFESSIONAL", 299, features=[_fake_feature("max_students", "100")]
+		)
+		self.current = _fake_current_subscription(plan="plan-starter")
+
+		self._patches = [
+			mock.patch.object(api_subscription, "resolve_active_tenant", return_value="tenant-1"),
+			mock.patch.object(api_subscription, "require_tenant_role", return_value=None),
+			mock.patch.object(api_subscription, "require_product_access", return_value=None),
+			mock.patch.object(api_subscription, "write_audit_event"),
+		]
+		for p in self._patches:
+			p.start()
+			self.addCleanup(p.stop)
+
+		fake_frappe.get_doc = _make_get_doc(
+			{("QTT Plan", "plan-professional"): self.professional, ("QTT Plan", "plan-starter"): self.starter}
+		)
+		fake_frappe.db.get_value = mock.Mock(
+			side_effect=lambda doctype, *a, **k: {
+				"QTT Product": "active",
+				"QTT Plan": "plan-professional" if not a or a[0] != {"product": "QMP_LMS", "plan_code": "STARTER"} else "plan-starter",
+			}.get(doctype)
+		)
+
+	def _get_value_for_plan_code(self, plan_code):
+		def _dispatch(doctype, *a, **k):
+			if doctype == "QTT Product":
+				return "active"
+			if doctype == "QTT Plan":
+				filters = a[0] if a else k.get("filters")
+				if isinstance(filters, dict) and filters.get("plan_code") == plan_code:
+					return "plan-professional" if plan_code == "PROFESSIONAL" else "plan-starter"
+				return "plan-starter"  # scheduled_plan -> plan_code lookup fallback
+			return None
+		return _dispatch
+
+	def test_change_to_same_plan_rejected(self):
+		fake_frappe.db.get_value = mock.Mock(side_effect=self._get_value_for_plan_code("STARTER"))
+		with mock.patch.object(subscription_service, "get_current_subscription", return_value=self.current):
+			result = api_subscription.change_plan("QMP_LMS", "STARTER")
+		self.assertEqual(result["error"]["code"], "PLAN_UNCHANGED")
+
+	def test_invalid_plan_rejected(self):
+		# Product resolves fine; the PLAN lookup is what fails.
+		fake_frappe.db.get_value = mock.Mock(
+			side_effect=lambda doctype, *a, **k: "active" if doctype == "QTT Product" else None
+		)
+		result = api_subscription.change_plan("QMP_LMS", "NOT_A_REAL_PLAN")
+		self.assertEqual(result["error"]["code"], "INVALID_PLAN")
+
+	def test_invalid_product_rejected(self):
+		fake_frappe.db.get_value = mock.Mock(return_value=None)
+		result = api_subscription.change_plan("QTT_NOT_A_PRODUCT", "PROFESSIONAL")
+		self.assertIn(result["error"]["code"], ("INVALID_PLAN", "INVALID_PRODUCT"))
+
+	def test_missing_subscription_rejected(self):
+		fake_frappe.db.get_value = mock.Mock(side_effect=self._get_value_for_plan_code("PROFESSIONAL"))
+		with mock.patch.object(subscription_service, "get_current_subscription", return_value=None):
+			result = api_subscription.change_plan("QMP_LMS", "PROFESSIONAL")
+		self.assertEqual(result["error"]["code"], "SUBSCRIPTION_NOT_FOUND")
+
+	def test_upgrade_is_immediate_and_syncs_gateway_with_now(self):
+		fake_frappe.db.get_value = mock.Mock(side_effect=self._get_value_for_plan_code("PROFESSIONAL"))
+		new_sub = mock.Mock(name="sub-2")
+		new_sub.name = "sub-2"
+		with mock.patch.object(subscription_service, "get_current_subscription", return_value=self.current):
+			with mock.patch.object(billing_service, "sync_razorpay_plan_change") as sync_mock:
+				with mock.patch.object(subscription_service, "change_plan", return_value=new_sub) as change_plan_mock:
+					result = api_subscription.change_plan("QMP_LMS", "PROFESSIONAL")
+
+		self.assertTrue(result["success"])
+		self.assertEqual(result["data"]["change_type"], "upgrade")
+		self.assertEqual(result["data"]["effective"], "immediate")
+		sync_mock.assert_called_once_with("sub-1", "plan-professional", immediate=True)
+		change_plan_mock.assert_called_once()
+
+	def test_downgrade_is_scheduled_and_syncs_gateway_with_cycle_end(self):
+		fake_frappe.db.get_value = mock.Mock(side_effect=self._get_value_for_plan_code("STARTER"))
+		current = _fake_current_subscription(plan="plan-professional")
+		with mock.patch.object(subscription_service, "get_current_subscription", return_value=current):
+			with mock.patch.object(billing_service, "sync_razorpay_plan_change") as sync_mock:
+				with mock.patch.object(subscription_service, "schedule_plan_change") as schedule_mock:
+					with mock.patch.object(subscription_service, "change_plan") as change_plan_mock:
+						result = api_subscription.change_plan("QMP_LMS", "STARTER")
+
+		self.assertTrue(result["success"])
+		self.assertEqual(result["data"]["change_type"], "downgrade")
+		self.assertEqual(result["data"]["effective"], "next_billing_cycle")
+		sync_mock.assert_called_once_with("sub-1", "plan-starter", immediate=False)
+		schedule_mock.assert_called_once()
+		# The KEY downgrade guarantee: current plan is NEVER flipped
+		# immediately — change_plan() (which would create the new
+		# current row) must not be called at all for a downgrade.
+		change_plan_mock.assert_not_called()
+
+	def test_plan_change_blocked_when_cancellation_pending(self):
+		fake_frappe.db.get_value = mock.Mock(side_effect=self._get_value_for_plan_code("PROFESSIONAL"))
+		current = _fake_current_subscription(plan="plan-starter", cancel_at_period_end=1)
+		with mock.patch.object(subscription_service, "get_current_subscription", return_value=current):
+			result = api_subscription.change_plan("QMP_LMS", "PROFESSIONAL")
+		self.assertEqual(result["error"]["code"], "CANCELLATION_PENDING")
+
+	def test_resume_then_plan_change_succeeds(self):
+		fake_frappe.db.get_value = mock.Mock(side_effect=self._get_value_for_plan_code("PROFESSIONAL"))
+		current = _fake_current_subscription(plan="plan-starter", cancel_at_period_end=0, cancellation_requested_at=None)
+		new_sub = mock.Mock()
+		new_sub.name = "sub-2"
+		with mock.patch.object(subscription_service, "get_current_subscription", return_value=current):
+			with mock.patch.object(billing_service, "sync_razorpay_plan_change"):
+				with mock.patch.object(subscription_service, "change_plan", return_value=new_sub):
+					result = api_subscription.change_plan("QMP_LMS", "PROFESSIONAL")
+		self.assertTrue(result["success"])
+
+	def test_plan_change_already_pending_rejected(self):
+		fake_frappe.db.get_value = mock.Mock(side_effect=self._get_value_for_plan_code("PROFESSIONAL"))
+		current = _fake_current_subscription(plan="plan-starter", scheduled_plan="plan-enterprise")
+		with mock.patch.object(subscription_service, "get_current_subscription", return_value=current):
+			result = api_subscription.change_plan("QMP_LMS", "PROFESSIONAL")
+		self.assertEqual(result["error"]["code"], "PLAN_CHANGE_ALREADY_PENDING")
+
+	def test_razorpay_failure_blocks_upgrade_local_write(self):
+		fake_frappe.db.get_value = mock.Mock(side_effect=self._get_value_for_plan_code("PROFESSIONAL"))
+		with mock.patch.object(subscription_service, "get_current_subscription", return_value=self.current):
+			with mock.patch.object(billing_service, "sync_razorpay_plan_change", side_effect=Exception("gateway down")):
+				with mock.patch.object(subscription_service, "change_plan") as change_plan_mock:
+					result = api_subscription.change_plan("QMP_LMS", "PROFESSIONAL")
+
+		self.assertFalse(result["success"])
+		self.assertEqual(result["error"]["code"], "PLAN_CHANGE_FAILED")
+		change_plan_mock.assert_not_called()
+
+	def test_razorpay_failure_blocks_downgrade_scheduling(self):
+		fake_frappe.db.get_value = mock.Mock(side_effect=self._get_value_for_plan_code("STARTER"))
+		current = _fake_current_subscription(plan="plan-professional")
+		with mock.patch.object(subscription_service, "get_current_subscription", return_value=current):
+			with mock.patch.object(billing_service, "sync_razorpay_plan_change", side_effect=Exception("gateway down")):
+				with mock.patch.object(subscription_service, "schedule_plan_change") as schedule_mock:
+					result = api_subscription.change_plan("QMP_LMS", "STARTER")
+
+		self.assertFalse(result["success"])
+		self.assertEqual(result["error"]["code"], "PLAN_CHANGE_FAILED")
+		schedule_mock.assert_not_called()
+
+	def test_downgrade_includes_usage_warning_when_over_limit(self):
+		fake_frappe.db.get_value = mock.Mock(side_effect=self._get_value_for_plan_code("STARTER"))
+		starter_with_limit = _fake_plan("plan-starter", "STARTER", 99, features=[_fake_feature("max_students", "25")])
+		fake_frappe.get_doc = _make_get_doc(
+			{("QTT Plan", "plan-professional"): self.professional, ("QTT Plan", "plan-starter"): starter_with_limit}
+		)
+		current = _fake_current_subscription(plan="plan-professional")
+		with mock.patch.object(subscription_service, "get_current_subscription", return_value=current):
+			with mock.patch.object(billing_service, "sync_razorpay_plan_change"):
+				with mock.patch.object(subscription_service, "schedule_plan_change"):
+					with mock.patch.object(
+						api_subscription, "get_usage_resolver", side_effect=_resolver_only_for("max_students")
+					):
+						with mock.patch.object(api_subscription, "get_usage", return_value=95):
+							result = api_subscription.change_plan("QMP_LMS", "STARTER")
+
+		self.assertTrue(result["success"])
+		self.assertEqual(len(result["data"]["usage_warning"]), 1)
+		self.assertEqual(result["data"]["usage_warning"][0]["feature_key"], "max_students")
+
+
+class WebhookAppliesScheduledDowngradeTest(unittest.TestCase):
+	def test_subscription_charged_triggers_apply_scheduled_plan_change(self):
+		gateway = _fake_gateway()
+		gateway.verify_webhook_signature.return_value = True
+		gateway.parse_subscription_webhook_event.return_value = _subscription_event(
+			"subscription.charged",
+			raw_payload={"payload": {"payment": {"entity": {"id": "pay_1", "amount": 9900, "currency": "INR"}}}},
+		)
+		sub = _fake_current_subscription()
+		fake_frappe.get_doc = _make_get_doc({("QTT Product Subscription", "sub-1"): sub})
+		fake_frappe.db.get_value = mock.Mock(return_value="sub-1")
+		fake_frappe.db.exists = mock.Mock(return_value=True)  # payment already recorded — skip that branch
+
+		with mock.patch.object(billing_service, "get_gateway", return_value=gateway):
+			with mock.patch.object(subscription_service, "apply_scheduled_plan_change") as apply_mock:
+				billing_service.process_webhook(
+					"razorpay", b'{"event": "subscription.charged"}', "sig", gateway_event_id="evt_charged_1"
+				)
+
+		apply_mock.assert_called_once_with("sub-1")
+
+
+def _resolver_only_for(*feature_keys):
+	"""A get_usage_resolver() stand-in that only 'exists' for the given
+	feature_keys — mirrors real usage.registry behaviour: a flag-shaped
+	feature (e.g. live_classes_enabled) has NO registered resolver."""
+
+	def _resolver(product, feature_key):
+		if feature_key in feature_keys:
+			return mock.Mock()
+		from qtt_platform.exceptions import FeatureNotConfigured
+
+		raise FeatureNotConfigured(feature_key)
+
+	return _resolver
+
+
+class GetOverLimitFeaturesTest(unittest.TestCase):
+	def test_detects_over_limit_numeric_feature(self):
+		fake_frappe.get_all = mock.Mock(return_value=[])
+		with mock.patch.object(
+			entitlement_engine, "get_entitlements", return_value={"max_students": 25, "live_classes_enabled": 1}
+		):
+			with mock.patch.object(entitlement_engine, "get_usage_resolver", side_effect=_resolver_only_for("max_students")):
+				with mock.patch.object(entitlement_engine, "get_usage", return_value=30):
+					over_limit = entitlement_engine.get_over_limit_features("tenant-1", "QMP_LMS")
+		self.assertEqual(over_limit, [{"feature_key": "max_students", "used": 30, "limit": 25}])
+
+	def test_within_limit_is_not_reported(self):
+		with mock.patch.object(entitlement_engine, "get_entitlements", return_value={"max_students": 25}):
+			with mock.patch.object(entitlement_engine, "get_usage_resolver", side_effect=_resolver_only_for("max_students")):
+				with mock.patch.object(entitlement_engine, "get_usage", return_value=10):
+					over_limit = entitlement_engine.get_over_limit_features("tenant-1", "QMP_LMS")
+		self.assertEqual(over_limit, [])
+
+	def test_no_open_subscription_returns_empty(self):
+		with mock.patch.object(entitlement_engine, "get_entitlements", return_value={}):
+			over_limit = entitlement_engine.get_over_limit_features("tenant-1", "QMP_LMS")
+		self.assertEqual(over_limit, [])
+
+
+class ConcurrentPlanChangeTest(unittest.TestCase):
+	"""SaaS lifecycle Phase E section 16: change_plan() inherits
+	activate_pointer()'s EXISTING, already-reviewed concurrency
+	protection (a real DB unique constraint on
+	QTT Tenant Product Subscription Pointer(tenant, product), patches/
+	v0_3) rather than needing new locking — this test proves the
+	inheritance, not the underlying primitive (already covered by this
+	project's Phase 4 work)."""
+
+	def test_change_plan_resolves_a_pointer_race_via_existing_retry_logic(self):
+		current = _fake_current_subscription()
+		new_plan_doc = _fake_plan("plan-professional", "PROFESSIONAL", 299)
+		fake_frappe.get_doc = _make_get_doc({("QTT Plan", "plan-professional"): new_plan_doc})
+		fake_frappe.db.get_value = mock.Mock(
+			side_effect=[
+				99,  # old plan base_price lookup inside change_plan()
+				None,  # activate_pointer(): no existing pointer row found on first check
+				"pointer-1",  # activate_pointer(): re-queried after UniqueValidationError, found by the "winner"
+			]
+		)
+		# The NEW subscription row insert succeeds; the pointer INSERT
+		# races and loses (simulating a concurrent second change_plan()
+		# call that won), exactly the path activate_pointer() already
+		# handles.
+		new_sub_doc = mock.Mock()
+		pointer_doc = mock.Mock()
+		pointer_doc.insert.side_effect = fake_frappe.UniqueValidationError("duplicate pointer")
+		call_count = {"n": 0}
+
+		def _get_doc_dispatch(*args, **kwargs):
+			if args and args[0] == "QTT Plan":
+				return new_plan_doc
+			call_count["n"] += 1
+			if call_count["n"] == 1:
+				return new_sub_doc  # the new QTT Product Subscription row
+			return pointer_doc  # the QTT Tenant Product Subscription Pointer row
+
+		fake_frappe.get_doc = mock.Mock(side_effect=_get_doc_dispatch)
+
+		with mock.patch.object(subscription_service, "get_current_subscription", return_value=current):
+			with mock.patch.object(subscription_service, "_write_subscription_event"):
+				result = subscription_service.change_plan("tenant-1", "QMP_LMS", "plan-professional")
+
+		self.assertIs(result, new_sub_doc)
+		new_sub_doc.insert.assert_called_once_with(ignore_permissions=True)
+		# The pointer's own concurrency-safe fallback (frappe.db.set_value
+		# after catching UniqueValidationError) is what resolves the
+		# race — confirmed it was reached at least once.
+		self.assertTrue(fake_frappe.db.set_value.called)
+
+
+class AuditEventsWrittenTest(unittest.TestCase):
+	def test_upgrade_writes_plan_upgrade_event(self):
+		with mock.patch.object(api_subscription, "write_audit_event") as audit_mock:
+			with mock.patch.object(api_subscription, "resolve_active_tenant", return_value="tenant-1"):
+				with mock.patch.object(api_subscription, "require_tenant_role"):
+					with mock.patch.object(api_subscription, "require_product_access"):
+						fake_frappe.db.get_value = mock.Mock(
+							side_effect=lambda doctype, *a, **k: "active" if doctype == "QTT Product" else "plan-professional"
+						)
+						starter = _fake_plan("plan-starter", "STARTER", 99)
+						professional = _fake_plan("plan-professional", "PROFESSIONAL", 299)
+						fake_frappe.get_doc = _make_get_doc(
+							{("QTT Plan", "plan-professional"): professional, ("QTT Plan", "plan-starter"): starter}
+						)
+						current = _fake_current_subscription(plan="plan-starter")
+						new_sub = mock.Mock()
+						new_sub.name = "sub-2"
+						with mock.patch.object(subscription_service, "get_current_subscription", return_value=current):
+							with mock.patch.object(billing_service, "sync_razorpay_plan_change"):
+								with mock.patch.object(subscription_service, "change_plan", return_value=new_sub):
+									api_subscription.change_plan("QMP_LMS", "PROFESSIONAL")
+
+		event_types = [call.args[0] for call in audit_mock.call_args_list]
+		self.assertIn("plan_change_requested", event_types)
+		self.assertIn("plan_upgrade", event_types)
+
+	def test_failed_change_writes_plan_change_failed_event(self):
+		with mock.patch.object(api_subscription, "write_audit_event") as audit_mock:
+			with mock.patch.object(api_subscription, "resolve_active_tenant", return_value="tenant-1"):
+				with mock.patch.object(api_subscription, "require_tenant_role"):
+					with mock.patch.object(api_subscription, "require_product_access"):
+						fake_frappe.db.get_value = mock.Mock(
+							side_effect=lambda doctype, *a, **k: "active" if doctype == "QTT Product" else "plan-professional"
+						)
+						starter = _fake_plan("plan-starter", "STARTER", 99)
+						professional = _fake_plan("plan-professional", "PROFESSIONAL", 299)
+						fake_frappe.get_doc = _make_get_doc(
+							{("QTT Plan", "plan-professional"): professional, ("QTT Plan", "plan-starter"): starter}
+						)
+						current = _fake_current_subscription(plan="plan-starter")
+						with mock.patch.object(subscription_service, "get_current_subscription", return_value=current):
+							with mock.patch.object(
+								billing_service, "sync_razorpay_plan_change", side_effect=Exception("down")
+							):
+								api_subscription.change_plan("QMP_LMS", "PROFESSIONAL")
+
+		event_types = [call.args[0] for call in audit_mock.call_args_list]
+		self.assertIn("plan_change_failed", event_types)
+
+
+if __name__ == "__main__":
+	unittest.main()

@@ -136,6 +136,42 @@ def can_i(tenant: str, product: str, feature_key: str) -> dict:
 	return {"allowed": used < limit, "limit": limit, "used": used, "remaining": max(limit - used, 0)}
 
 
+def get_over_limit_features(tenant: str, product: str) -> list[dict]:
+	"""Numeric entitlements where CURRENT usage already exceeds the
+	CURRENT limit — SaaS lifecycle Phase E, section 10: a downgrade must
+	never delete data or auto-suspend records, only detect-and-report
+	the condition (new creation is already blocked for free by
+	check_limit() the moment the lower limit is in effect — nothing new
+	needed for that half). Pure composition of get_entitlements()/
+	get_usage(), already reviewed — no new limit-comparison logic. Returns
+	[] if nothing is over limit, including when there's no open
+	subscription at all (get_entitlements() returns {} in that case, so
+	the loop below simply has nothing to iterate)."""
+	entitlements = get_entitlements(tenant, product)
+	over_limit = []
+	for feature_key, raw_value in entitlements.items():
+		# Same distinction can_i() already makes, reused here rather than
+		# re-derived: numeric-vs-flag is decided by whether a usage
+		# resolver is REGISTERED for this feature_key, never by whether
+		# the stored value happens to parse as an int — a flag stored as
+		# "1" must never be treated as "a limit of 1."
+		try:
+			get_usage_resolver(product, feature_key)
+		except FeatureNotConfigured:
+			continue
+
+		limit = _as_int(raw_value)
+		if limit is None:
+			continue
+		try:
+			used = get_usage(tenant, product, feature_key)
+		except (FeatureNotConfigured, UsageResolutionFailed):
+			continue
+		if used > limit:
+			over_limit.append({"feature_key": feature_key, "used": used, "limit": limit})
+	return over_limit
+
+
 def _coerce(raw):
 	"""limit_value/override_value are stored as strings. Numeric strings
 	(including '0'/'1') become int; anything else is returned as-is.
