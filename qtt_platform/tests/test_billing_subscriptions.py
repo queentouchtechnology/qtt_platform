@@ -30,6 +30,9 @@ def _install_fake_modules():
 	class _UniqueValidationError(_ValidationError):
 		pass
 
+	class _DuplicateEntryError(_ValidationError):
+		pass
+
 	def _throw(msg, exc=None, **kwargs):
 		raise (exc or _ValidationError)(msg)
 
@@ -37,6 +40,7 @@ def _install_fake_modules():
 	fake_frappe.ValidationError = _ValidationError
 	fake_frappe.PermissionError = _PermissionError
 	fake_frappe.UniqueValidationError = _UniqueValidationError
+	fake_frappe.DuplicateEntryError = _DuplicateEntryError
 	fake_frappe.throw = _throw
 	fake_frappe._ = lambda s: s
 	fake_frappe.whitelist = lambda *a, **k: (lambda fn: fn)
@@ -47,6 +51,8 @@ def _install_fake_modules():
 	fake_frappe.get_all = mock.Mock(return_value=[])
 	fake_frappe.log_error = mock.Mock()
 	fake_frappe.get_traceback = mock.Mock(return_value="")
+	fake_frappe.generate_hash = mock.Mock(return_value="fake-invitation-token")
+	fake_frappe.sendmail = mock.Mock()
 	fake_frappe.session = types.SimpleNamespace(user="Administrator")
 	fake_frappe.local = types.SimpleNamespace(request_ip=None)
 
@@ -121,12 +127,15 @@ def _fake_response(json_body, status_code=200):
 
 fake_frappe, fake_requests = _install_fake_modules()
 
+from qtt_platform.api import invitation as api_invitation  # noqa: E402
 from qtt_platform.api import subscription as api_subscription  # noqa: E402
 from qtt_platform.billing import service as billing_service  # noqa: E402
 from qtt_platform.billing.gateways.base import SubscriptionCapableGateway, SubscriptionWebhookEvent  # noqa: E402
 from qtt_platform.billing.gateways.razorpay_gateway import RazorpayGateway  # noqa: E402
 from qtt_platform.entitlement import engine as entitlement_engine  # noqa: E402
+from qtt_platform.errors import QttApiError  # noqa: E402
 from qtt_platform.subscription import service as subscription_service  # noqa: E402
+from qtt_platform.user_provisioning import create_user  # noqa: E402
 
 
 def _fake_gateway(**method_returns):
@@ -1102,6 +1111,259 @@ class AuditEventsWrittenTest(unittest.TestCase):
 
 		event_types = [call.args[0] for call in audit_mock.call_args_list]
 		self.assertIn("plan_change_failed", event_types)
+
+
+# ---------------------------------------------------------------------------
+# SaaS lifecycle Phase F — tenant invitation + product access.
+# ---------------------------------------------------------------------------
+
+
+class UserProvisioningCreateUserTest(unittest.TestCase):
+	"""qtt_platform.user_provisioning.create_user() — extracted from
+	api.saas's own private _create_user() once api.invitation.
+	accept_invitation() needed the identical logic. Tested HERE, not in
+	test_saas_signup.py (its own more natural home) — see that file's
+	module docstring for the reproduced cross-file fake-frappe binding
+	issue this avoids."""
+
+	def test_pre_existing_email_rejected_without_touching_get_doc(self):
+		fake_frappe.db.exists = mock.Mock(return_value=True)
+		fake_frappe.get_doc = mock.Mock()
+		with self.assertRaises(QttApiError) as ctx:
+			create_user("John Doe", "john@example.com", "StrongPassword123!")
+		self.assertEqual(ctx.exception.code, "DUPLICATE_EMAIL")
+		fake_frappe.get_doc.assert_not_called()
+
+	def test_concurrent_duplicate_at_insert_time_is_mapped_cleanly(self):
+		fake_frappe.db.exists = mock.Mock(return_value=False)
+		fake_user = mock.Mock()
+		fake_user.insert.side_effect = fake_frappe.DuplicateEntryError("already exists")
+		fake_frappe.get_doc = mock.Mock(return_value=fake_user)
+		with self.assertRaises(QttApiError) as ctx:
+			create_user("John Doe", "john@example.com", "StrongPassword123!")
+		self.assertEqual(ctx.exception.code, "DUPLICATE_EMAIL")
+
+	def test_weak_password_rejected_by_frappes_own_policy_is_mapped(self):
+		fake_frappe.db.exists = mock.Mock(return_value=False)
+		fake_user = mock.Mock()
+		fake_user.insert.side_effect = fake_frappe.ValidationError("Password not strong enough")
+		fake_frappe.get_doc = mock.Mock(return_value=fake_user)
+		with self.assertRaises(QttApiError) as ctx:
+			create_user("John Doe", "john@example.com", "weak")
+		self.assertEqual(ctx.exception.code, "WEAK_PASSWORD")
+
+	def test_success_returns_inserted_user(self):
+		fake_frappe.db.exists = mock.Mock(return_value=False)
+		fake_user = mock.Mock()
+		fake_frappe.get_doc = mock.Mock(return_value=fake_user)
+		result = create_user("John Doe", "john@example.com", "StrongPassword123!")
+		self.assertIs(result, fake_user)
+		fake_user.insert.assert_called_once_with(ignore_permissions=True)
+
+
+class InviteUserTest(unittest.TestCase):
+	def setUp(self):
+		p = mock.patch.object(api_invitation, "require_tenant_role", return_value=None)
+		p.start()
+		self.addCleanup(p.stop)
+		fake_frappe.sendmail = mock.Mock()
+		fake_frappe.generate_hash = mock.Mock(return_value="tok-123")
+
+	def test_rejects_already_active_member(self):
+		fake_frappe.db.get_value = mock.Mock(side_effect=["membership-1", "active"])
+		with self.assertRaises(Exception):
+			api_invitation.invite_user("tenant-1", "existing@example.com")
+
+	def test_creates_new_invitation_when_none_pending(self):
+		fake_frappe.db.get_value = mock.Mock(
+			side_effect=lambda doctype, *a, **k: {"QTT Tenant Membership": None, "QTT Tenant": "Acme Academy"}.get(
+				doctype
+			)
+		)
+		fake_frappe.db.exists = mock.Mock(return_value=False)
+		new_invitation = mock.Mock(token="tok-123", expires_on="2026-08-19 00:00:00")
+		new_invitation.name = "inv-1"
+
+		def _get_doc(*args, **kwargs):
+			if len(args) == 1 and isinstance(args[0], dict) and args[0]["doctype"] == "QTT Invitation":
+				return new_invitation
+			return mock.Mock()  # QTT Audit Log construction inside write_audit_event()
+
+		fake_frappe.get_doc = mock.Mock(side_effect=_get_doc)
+
+		result = api_invitation.invite_user(
+			"tenant-1", "new@example.com", product="QMP_LMS", product_role="Manager"
+		)
+
+		self.assertEqual(result["invitation"], "inv-1")
+		new_invitation.insert.assert_called_once_with(ignore_permissions=True)
+		fake_frappe.sendmail.assert_called_once()
+
+	def test_reuses_existing_pending_invitation_instead_of_duplicating(self):
+		fake_frappe.db.get_value = mock.Mock(
+			side_effect=lambda doctype, *a, **k: {"QTT Tenant Membership": None, "QTT Tenant": "Acme"}.get(doctype)
+		)
+		fake_frappe.db.exists = mock.Mock(return_value="inv-existing")
+		existing_invitation = mock.Mock(token="tok-123", expires_on="2026-08-19 00:00:00")
+		existing_invitation.name = "inv-existing"
+		fake_frappe.get_doc = _make_get_doc({("QTT Invitation", "inv-existing"): existing_invitation})
+
+		result = api_invitation.invite_user("tenant-1", "pending@example.com")
+
+		self.assertEqual(result["invitation"], "inv-existing")
+		existing_invitation.save.assert_called_once_with(ignore_permissions=True)
+		existing_invitation.insert.assert_not_called()
+
+
+class RevokeInvitationTest(unittest.TestCase):
+	def setUp(self):
+		p = mock.patch.object(api_invitation, "require_tenant_role", return_value=None)
+		p.start()
+		self.addCleanup(p.stop)
+
+	def test_revoke_sets_status(self):
+		fake_frappe.db.get_value = mock.Mock(return_value="tenant-1")
+		fake_frappe.db.set_value = mock.Mock()
+		result = api_invitation.revoke_invitation("tenant-1", "inv-1")
+		self.assertEqual(result["status"], "revoked")
+		fake_frappe.db.set_value.assert_called_once_with("QTT Invitation", "inv-1", "status", "revoked")
+
+	def test_rejects_foreign_tenant_invitation(self):
+		fake_frappe.db.get_value = mock.Mock(return_value="some-other-tenant")
+		with self.assertRaises(Exception):
+			api_invitation.revoke_invitation("tenant-1", "inv-1")
+
+
+class AcceptInvitationTest(unittest.TestCase):
+	def test_invalid_token_rejected(self):
+		fake_frappe.db.exists = mock.Mock(return_value=None)
+		result = api_invitation.accept_invitation("bad-token")
+		self.assertEqual(result["error"]["code"], "INVALID_INVITATION")
+
+	def test_expired_invitation_marks_expired_and_rejects(self):
+		fake_frappe.db.exists = mock.Mock(return_value="inv-1")
+		invitation = mock.Mock(expires_on="2000-01-01 00:00:00", email="new@example.com")
+		invitation.name = "inv-1"
+		fake_frappe.get_doc = _make_get_doc({("QTT Invitation", "inv-1"): invitation})
+
+		result = api_invitation.accept_invitation("tok-123")
+
+		self.assertEqual(result["error"]["code"], "INVITATION_EXPIRED")
+		self.assertEqual(invitation.status, "expired")
+		invitation.save.assert_called_once_with(ignore_permissions=True)
+
+	def test_existing_user_must_already_be_logged_in_as_that_user(self):
+		fake_frappe.db.exists = mock.Mock(
+			side_effect=lambda doctype, *a, **k: {"QTT Invitation": "inv-1", "User": "existing@example.com"}.get(
+				doctype
+			)
+		)
+		invitation = mock.Mock(expires_on="2099-01-01 00:00:00", email="existing@example.com")
+		invitation.name = "inv-1"
+		fake_frappe.get_doc = _make_get_doc({("QTT Invitation", "inv-1"): invitation})
+
+		with mock.patch.object(fake_frappe, "session", types.SimpleNamespace(user="Guest")):
+			result = api_invitation.accept_invitation("tok-123")
+
+		self.assertEqual(result["error"]["code"], "LOGIN_REQUIRED")
+
+	def test_new_user_requires_name_and_password(self):
+		fake_frappe.db.exists = mock.Mock(
+			side_effect=lambda doctype, *a, **k: {"QTT Invitation": "inv-1", "User": None}.get(doctype)
+		)
+		invitation = mock.Mock(expires_on="2099-01-01 00:00:00", email="new@example.com")
+		invitation.name = "inv-1"
+		fake_frappe.get_doc = _make_get_doc({("QTT Invitation", "inv-1"): invitation})
+
+		result = api_invitation.accept_invitation("tok-123")
+
+		self.assertEqual(result["error"]["code"], "ACCOUNT_DETAILS_REQUIRED")
+
+	def test_success_creates_user_membership_and_product_access(self):
+		fake_frappe.db.exists = mock.Mock(
+			side_effect=lambda doctype, *a, **k: {
+				"QTT Invitation": "inv-1",
+				"User": None,
+				"QTT Tenant Membership": None,
+				"QTT Product Access": None,
+			}.get(doctype)
+		)
+		invitation = mock.Mock(
+			expires_on="2099-01-01 00:00:00",
+			email="new@example.com",
+			tenant="tenant-1",
+			tenant_role="Member",
+			product="QMP_LMS",
+			product_role="Manager",
+		)
+		invitation.name = "inv-1"
+
+		new_user = mock.Mock()
+		new_user.name = "new@example.com"
+		new_membership = mock.Mock(tenant_role="Member")
+		new_membership.name = "membership-1"
+		new_access = mock.Mock(product_role="Manager")
+
+		def _get_doc(*args, **kwargs):
+			if args == ("QTT Invitation", "inv-1"):
+				return invitation
+			if len(args) == 1 and isinstance(args[0], dict):
+				doctype = args[0]["doctype"]
+				return {"User": new_user, "QTT Tenant Membership": new_membership, "QTT Product Access": new_access}.get(
+					doctype, mock.Mock()
+				)
+			raise AssertionError(f"unexpected get_doc call: {args!r}")
+
+		fake_frappe.get_doc = mock.Mock(side_effect=_get_doc)
+
+		result = api_invitation.accept_invitation("tok-123", full_name="New User", password="StrongPassword123!")
+
+		self.assertTrue(result["success"], result)
+		self.assertEqual(result["data"]["user"], "new@example.com")
+		self.assertEqual(result["data"]["tenant"], "tenant-1")
+		self.assertEqual(result["data"]["product_role"], "Manager")
+		new_user.insert.assert_called_once_with(ignore_permissions=True)
+		new_membership.insert.assert_called_once_with(ignore_permissions=True)
+		new_access.insert.assert_called_once_with(ignore_permissions=True)
+		self.assertEqual(invitation.status, "accepted")
+
+	def test_no_product_on_invitation_means_no_product_access_created(self):
+		fake_frappe.db.exists = mock.Mock(
+			side_effect=lambda doctype, *a, **k: {
+				"QTT Invitation": "inv-1",
+				"User": None,
+				"QTT Tenant Membership": None,
+			}.get(doctype)
+		)
+		invitation = mock.Mock(
+			expires_on="2099-01-01 00:00:00",
+			email="new@example.com",
+			tenant="tenant-1",
+			tenant_role="Member",
+			product=None,
+			product_role=None,
+		)
+		invitation.name = "inv-1"
+
+		new_user = mock.Mock()
+		new_user.name = "new@example.com"
+		new_membership = mock.Mock(tenant_role="Member")
+		new_membership.name = "membership-1"
+
+		def _get_doc(*args, **kwargs):
+			if args == ("QTT Invitation", "inv-1"):
+				return invitation
+			if len(args) == 1 and isinstance(args[0], dict):
+				doctype = args[0]["doctype"]
+				return {"User": new_user, "QTT Tenant Membership": new_membership}.get(doctype, mock.Mock())
+			raise AssertionError(f"unexpected get_doc call: {args!r}")
+
+		fake_frappe.get_doc = mock.Mock(side_effect=_get_doc)
+
+		result = api_invitation.accept_invitation("tok-123", full_name="New User", password="StrongPassword123!")
+
+		self.assertTrue(result["success"], result)
+		self.assertIsNone(result["data"]["product_role"])
 
 
 if __name__ == "__main__":

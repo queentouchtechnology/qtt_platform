@@ -33,6 +33,7 @@ import frappe
 from qtt_platform.audit import write_audit_event
 from qtt_platform.errors import QttApiError, fail, ok
 from qtt_platform.subscription import service as subscription_service
+from qtt_platform.user_provisioning import create_user as _provision_user
 
 _EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 _MIN_PASSWORD_LENGTH = 8
@@ -82,7 +83,7 @@ def signup(
 		plan = _resolve_plan(product_key, plan_key)
 		_validate_locale_refs(country, language)
 
-		user = _create_user(full_name.strip(), email.strip().lower(), password)
+		user = _provision_user(full_name.strip(), email.strip().lower(), password)
 		tenant = _create_tenant(user.name, organization_name.strip(), country, language)
 
 		membership = frappe.get_doc(
@@ -214,32 +215,6 @@ def _validate_locale_refs(country: str | None, language: str | None) -> None:
 	if language and not frappe.db.exists("Language", language):
 		raise QttApiError("INVALID_LANGUAGE", f"'{language}' is not a recognised language code.")
 
-
-def _create_user(full_name: str, email: str, password: str):
-	if frappe.db.exists("User", email):
-		raise QttApiError("DUPLICATE_EMAIL", "An account with this email already exists.")
-	try:
-		user = frappe.get_doc(
-			{
-				"doctype": "User",
-				"email": email,
-				"first_name": full_name,
-				"send_welcome_email": 0,
-				"new_password": password,
-			}
-		)
-		user.insert(ignore_permissions=True)
-		return user
-	except frappe.DuplicateEntryError as exc:
-		# Two concurrent signups for the same email: User.name is the email
-		# address itself, so the loser of the race hits Frappe's own
-		# primary-key uniqueness here, not a guessed check of ours.
-		raise QttApiError("DUPLICATE_EMAIL", "An account with this email already exists.") from exc
-	except frappe.ValidationError as exc:
-		# Covers Frappe's own password-policy rejection
-		# (User.password_strength_test(), only active if System Settings ->
-		# enable_password_policy is on for this site — not overridden here).
-		raise QttApiError("WEAK_PASSWORD", str(exc) or "Password does not meet the minimum security requirements.") from exc
 
 
 def _create_tenant(owner_email: str, organization_name: str, country: str | None, language: str | None):

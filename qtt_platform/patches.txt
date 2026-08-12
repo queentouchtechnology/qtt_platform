@@ -7,3 +7,4 @@ qtt_platform.patches.v0_5.add_ai_constraints
 qtt_platform.patches.v0_6.add_billing_indexes
 qtt_platform.patches.v0_7.add_webhook_event_index
 qtt_platform.patches.v0_8.add_scheduled_plan_change_index
+qtt_platform.patches.v0_9.add_invitation_indexes

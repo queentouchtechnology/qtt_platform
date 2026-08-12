@@ -751,6 +751,66 @@ unified in this pass — doing so would mean changing `subscribe()`/
 which would be exactly the kind of "redo work already shipped" this
 project's phase-gating exists to avoid.
 
+## What's implemented (SaaS Lifecycle Phase F — tenant invitation)
+
+**New DocType**: `QTT Invitation`. Inspected first whether `QTT Tenant
+Membership`'s own existing `status=invited` option (present since Phase
+1) could serve this instead of a new doctype — it can't: `user` is a
+required field on that doctype, and an invitee usually has no Frappe
+User yet at invite time, so a Membership row cannot be created until
+after acceptance. `QTT Invitation` exists precisely to hold the pending
+state that can't live there yet; that pre-existing `status=invited`
+option is left in place, unused by this flow, not removed (no reason to
+make a destructive schema change over it).
+
+**Flow**: `invite_user()` (Owner/Admin only, same `_GOVERNANCE_ROLES` as
+`api/product_access.py::grant_product_access()`) creates-or-refreshes a
+`QTT Invitation` row with an unguessable token
+(`frappe.generate_hash(length=48)`, Frappe's own real utility — the same
+mechanism `User.set_social_login_userid()` already uses internally, not
+invented) and emails it via `frappe.sendmail()` (Frappe's own real
+mailer, queued by default — no custom email infrastructure). Re-inviting
+the same still-pending email refreshes the existing row (new token, new
+expiry) rather than creating a duplicate. `accept_invitation()` (the
+only guest-accessible endpoint here — the invitee may have no session
+yet, same reasoning as `signup()`) validates the token, then either
+requires the caller to already be logged in as that email (if a User
+already exists — never accepts a password for an existing account,
+which would be an account-takeover-shaped surface) or creates one via
+`qtt_platform.user_provisioning.create_user()` — creates the
+`QTT Tenant Membership` and, if the invitation included one,
+`QTT Product Access`, both via the same create-or-reactivate pattern
+`grant_product_access()` already established (never a raw insert that
+could hit the existing unique constraints as an unhandled error on a
+re-accept).
+
+**A real refactor this phase made**: `api/saas.py`'s private
+`_create_user()` (Phase A) was extracted into
+`qtt_platform.user_provisioning.create_user()` once `accept_invitation()`
+needed the exact same logic (duplicate-email/weak-password mapping,
+Frappe's own password hashing via `new_password`) — same behavior,
+same tests, just no longer duplicated. `api/saas.py::signup()` now calls
+the shared function; nothing about its own behavior changed.
+
+**Product role validation**: `QTT Invitation.validate()` calls the SAME
+`qtt_platform.product.registry.get_product_roles()` `QTT Product
+Access.validate()` already uses — Manager/Instructor/Staff/Student for
+QMP_LMS falls out of that generically; nothing in this platform-agnostic
+doctype names those roles directly.
+
+**Safe defaults**: `tenant_role` defaults to `Member` (never Owner/Admin
+implicitly) on both the DocType and the `invite_user()` API signature —
+an inviter must deliberately elevate it.
+
+**API design split, consistent with the rest of this file**:
+`invite_user`/`revoke_invitation`/`get_pending_invitations` follow
+`api/product_access.py`'s existing convention (plain dicts, real
+`frappe.throw`) since they're the same class of tenant-governance action
+`grant_product_access`/`revoke_product_access` already are.
+`accept_invitation` follows `api/saas.py::signup()`'s `{"success": ...}`
+envelope instead, for the same reason `signup()` uses it — a guest
+caller needs a response shape it can safely branch on.
+
 ## Deployment (for whoever has bench access)
 
 ```bash
@@ -1274,3 +1334,115 @@ exercise:
   after a successful Razorpay sync, an edge case Part 14's own ordering
   is designed to make rare, not impossible), nothing currently detects
   that specific divergence automatically.
+
+## Deployment — SaaS Lifecycle Phase F
+
+One new DocType, one supporting index:
+
+```bash
+cd apps/qtt_platform
+git pull origin main
+bench --site app.quizmasterplus.in migrate
+bench restart
+```
+
+Confirm `QTT Invitation` exists as a Desk list (System Manager only, no
+DocPerm to any tenant-facing role) and that outgoing email is actually
+configured on the target site (`frappe.sendmail()` needs a working Email
+Account to deliver anything — this phase doesn't configure one, it only
+calls the standard API).
+
+### curl — Phase F
+
+```bash
+# Invite (Owner/Admin, logged in)
+curl -s -b cookies.txt -X POST \
+  https://app.quizmasterplus.in/api/method/qtt_platform.api.invitation.invite_user \
+  -H "Content-Type: application/json" \
+  -d '{"tenant": "<tenant>", "email": "instructor@example.com", "tenant_role": "Member", "product": "QMP_LMS", "product_role": "Instructor"}'
+```
+Expected: `{"message": {"invitation": "<hash>", "email": "instructor@example.com", "expires_on": "..."}}`
+
+```bash
+# Accept (guest — the invitee's own token, emailed to them)
+curl -s -X POST \
+  https://app.quizmasterplus.in/api/method/qtt_platform.api.invitation.accept_invitation \
+  -H "Content-Type: application/json" \
+  -d '{"token": "<token-from-email>", "full_name": "New Instructor", "password": "StrongPassword123!"}'
+```
+Expected:
+```json
+{"message": {"success": true, "data": {
+  "user": "instructor@example.com", "tenant": "<tenant>", "tenant_role": "Member",
+  "product": "QMP_LMS", "product_role": "Instructor"
+}}}
+```
+
+```bash
+# List pending invitations (Owner/Admin)
+curl -s -b cookies.txt \
+  "https://app.quizmasterplus.in/api/method/qtt_platform.api.invitation.get_pending_invitations?tenant=<tenant>"
+```
+
+## Testing — SaaS Lifecycle Phase F
+
+`python -m unittest discover -s qtt_platform/tests -p "test_*.py"` was
+actually run this pass: **111 tests, 107 pass** (21 new — `InviteUserTest`,
+`AcceptInvitationTest`, `RevokeInvitationTest`, plus
+`UserProvisioningCreateUserTest` relocated from `test_saas_signup.py`
+into `test_billing_subscriptions.py`, all in that same file, same
+canonical-fake reasoning as Phases D/E). The other 4 failures are the
+expected, unavoidable bench-only `FrappeTestCase` import errors, one per
+phase's own integration file — `test_invitation_integration.py` is this
+phase's, written but not executed (no bench).
+
+**A real cross-file test bug this phase caused and then caught before
+it shipped**: moving `UserProvisioningCreateUserTest` didn't happen by
+design up front — it was added to `test_saas_signup.py` first (where
+`create_user` is more naturally "at home"), which passed in isolation
+but broke 2 tests when run via the full `discover` suite, because
+`test_billing_subscriptions.py` (which now also transitively imports
+`qtt_platform.user_provisioning` via `api.invitation`) imports first
+alphabetically and wins the binding race for `user_provisioning`'s own
+`import frappe` reference — exactly the class of bug the Phase D README
+notes already warned about, reproduced for real this time rather than
+staying theoretical. Fixed by moving the test class to
+`test_billing_subscriptions.py` instead, and by adding the previously-
+missing `DuplicateEntryError` to that file's own fake `frappe` (needed
+once `create_user`'s own concurrency-mapping test moved there too, and
+had simply never been exercised by that file before).
+
+On a real bench, run `test_invitation_integration.py` (`bench --site
+<test-site> run-tests --app qtt_platform --module
+qtt_platform.tests.test_invitation_integration`) and additionally
+exercise:
+- A real outgoing Email Account configured, confirm the invitation
+  email actually arrives with a usable token
+- **Two genuinely concurrent `accept_invitation` calls** with the same
+  token → exactly one succeeds; the other should see `status` already
+  `accepted` (this app's own check-then-write here is NOT wrapped in the
+  same insert-then-catch-constraint pattern used elsewhere — `QTT
+  Invitation.token` is unique, but `status` is not, so a genuine tight
+  race could theoretically let two concurrent callers both pass the
+  `status == "pending"` check before either writes `accepted`; flagged
+  as an untested edge case below, not silently assumed safe)
+- Invite an email that already has a Frappe User on this site, confirm
+  `LOGIN_REQUIRED` when accepted from an unauthenticated session and
+  success when accepted from that user's own logged-in session
+
+### Known limitations (Phase F)
+
+- `accept_invitation`'s pending-status check is not concurrency-hardened
+  the way `activate_pointer()`/`QTT Webhook Event` are — a genuinely
+  simultaneous double-accept of the same token is a real, untested edge
+  case (low real-world likelihood — it requires the SAME token used
+  twice within the same narrow race window — but not proven safe the way
+  this project's other concurrency-sensitive paths are).
+- No UI/email template beyond a plain HTML string in
+  `_send_invitation_email()` — matches this project's own scope (backend
+  only) but flagged since a real deployment will want a proper branded
+  template.
+- Invitations do not expire via a scheduled job — an expired-but-never-
+  accepted invitation is only marked `expired` lazily, the next time
+  someone tries to accept it past `expires_on`. Same "Phase I will need a
+  real scheduler" pattern already noted for Phase D/E.

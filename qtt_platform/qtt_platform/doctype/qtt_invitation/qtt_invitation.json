@@ -1,0 +1,148 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Invitation",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 1,
+ "autoname": "hash",
+ "naming_rule": "Random",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "SaaS lifecycle Phase F. A pending or resolved invite for `email` to join `tenant` with `tenant_role`, optionally also granted `product_role` access to `product` on acceptance. Deliberately a standalone doctype rather than pre-creating a QTT Tenant Membership row with status='invited' (that status option already exists on QTT Tenant Membership, from Phase 1) — `user` is a required field there, and an invitee usually has no Frappe User yet at invite time, so a Membership row simply cannot be created until acceptance. No DocPerm is granted to any tenant-facing role — every read/write goes through qtt_platform.api.invitation.",
+ "field_order": [
+  "tenant",
+  "email",
+  "column_break_role",
+  "tenant_role",
+  "status",
+  "section_break_product",
+  "product",
+  "product_role",
+  "section_break_token",
+  "token",
+  "invited_by",
+  "column_break_expiry",
+  "expires_on",
+  "accepted_at",
+  "accepted_by"
+ ],
+ "fields": [
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "label": "Tenant",
+   "options": "QTT Tenant",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "description": "The invitee's email — lowercased/validated in validate(). May or may not already have a Frappe User; accept_invitation() handles both."
+  },
+  {
+   "fieldname": "column_break_role",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "tenant_role",
+   "fieldtype": "Select",
+   "label": "Tenant Role",
+   "options": "Tenant Owner\nTenant Admin\nMember",
+   "default": "Member",
+   "reqd": 1,
+   "description": "Default is the safe, narrow role — an inviter must deliberately choose Tenant Owner/Admin, never inherit it implicitly."
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "pending\naccepted\nrevoked\nexpired",
+   "default": "pending",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "section_break_product",
+   "fieldtype": "Section Break",
+   "label": "Product Access (optional)"
+  },
+  {
+   "fieldname": "product",
+   "fieldtype": "Link",
+   "label": "Product",
+   "options": "QTT Product",
+   "description": "Left blank for a tenant-governance-only invite (no product access granted on acceptance)."
+  },
+  {
+   "fieldname": "product_role",
+   "fieldtype": "Data",
+   "label": "Product Role",
+   "description": "Required if `product` is set; must be one of that product's own declared role_key values (QTT Product.roles) — validated in validate(), the same rule QTT Product Access itself enforces, never a platform-hardcoded list."
+  },
+  {
+   "fieldname": "section_break_token",
+   "fieldtype": "Section Break",
+   "label": "Token"
+  },
+  {
+   "fieldname": "token",
+   "fieldtype": "Data",
+   "label": "Token",
+   "reqd": 1,
+   "unique": 1,
+   "read_only": 1,
+   "description": "Opaque, unguessable — generated via frappe.generate_hash(). The accept_invitation() lookup key; never the document name (name is a random hash too, but token is the one deliberately designed to be emailed to an external address)."
+  },
+  {
+   "fieldname": "invited_by",
+   "fieldtype": "Link",
+   "label": "Invited By",
+   "options": "User",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_expiry",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "expires_on",
+   "fieldtype": "Datetime",
+   "label": "Expires On",
+   "reqd": 1
+  },
+  {
+   "fieldname": "accepted_at",
+   "fieldtype": "Datetime",
+   "label": "Accepted At"
+  },
+  {
+   "fieldname": "accepted_by",
+   "fieldtype": "Link",
+   "label": "Accepted By",
+   "options": "User"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "links": []
+}

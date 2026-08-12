@@ -16,6 +16,17 @@ concurrency). See test_saas_signup_integration.py in this same directory
 for that — a real FrappeTestCase, not executed this session (no bench
 access), for whoever next has one to run.
 
+qtt_platform.user_provisioning.create_user() (used internally by
+signup() via _provision_user, since Phase F extracted it for
+api.invitation.accept_invitation() to reuse too) is deliberately tested
+in test_billing_subscriptions.py instead of here, even though it's
+signup()'s own dependency — that file imports first alphabetically
+under `discover`, so it's what actually binds user_provisioning's own
+`import frappe` reference; testing it here as well would silently use a
+STALE fake_frappe left over from whichever file's tests ran last, not
+this file's own carefully-configured one (this was an actual, reproduced
+failure while building Phase F, not a hypothetical).
+
 Run manually from the qtt_platform repo root:
 
     python -m unittest qtt_platform.tests.test_saas_signup -v
@@ -186,47 +197,6 @@ class ValidateLocaleRefsTest(unittest.TestCase):
 	def test_known_values_pass(self):
 		fake_frappe.db.exists = mock.Mock(return_value=True)
 		saas._validate_locale_refs("India", "en")  # must not raise
-
-
-class CreateUserTest(unittest.TestCase):
-	def test_pre_existing_email_rejected_without_touching_get_doc(self):
-		fake_frappe.db.exists = mock.Mock(return_value=True)
-		fake_frappe.get_doc = mock.Mock()
-		with self.assertRaises(QttApiError) as ctx:
-			saas._create_user("John Doe", "john@example.com", "StrongPassword123!")
-		self.assertEqual(ctx.exception.code, "DUPLICATE_EMAIL")
-		fake_frappe.get_doc.assert_not_called()
-
-	def test_concurrent_duplicate_at_insert_time_is_mapped_cleanly(self):
-		# The real concurrency guarantee is Frappe/MySQL's own primary-key
-		# uniqueness on User.name (=email) — this test only proves OUR
-		# translation of that failure into a clean DUPLICATE_EMAIL code,
-		# reproducing "two simultaneous signups for the same email" (SaaS
-		# lifecycle brief, concurrency section) at the unit level.
-		fake_frappe.db.exists = mock.Mock(return_value=False)
-		fake_user = mock.Mock()
-		fake_user.insert.side_effect = fake_frappe.DuplicateEntryError("already exists")
-		fake_frappe.get_doc = mock.Mock(return_value=fake_user)
-		with self.assertRaises(QttApiError) as ctx:
-			saas._create_user("John Doe", "john@example.com", "StrongPassword123!")
-		self.assertEqual(ctx.exception.code, "DUPLICATE_EMAIL")
-
-	def test_weak_password_rejected_by_frappes_own_policy_is_mapped(self):
-		fake_frappe.db.exists = mock.Mock(return_value=False)
-		fake_user = mock.Mock()
-		fake_user.insert.side_effect = fake_frappe.ValidationError("Password not strong enough")
-		fake_frappe.get_doc = mock.Mock(return_value=fake_user)
-		with self.assertRaises(QttApiError) as ctx:
-			saas._create_user("John Doe", "john@example.com", "weak")
-		self.assertEqual(ctx.exception.code, "WEAK_PASSWORD")
-
-	def test_success_returns_inserted_user(self):
-		fake_frappe.db.exists = mock.Mock(return_value=False)
-		fake_user = mock.Mock()
-		fake_frappe.get_doc = mock.Mock(return_value=fake_user)
-		result = saas._create_user("John Doe", "john@example.com", "StrongPassword123!")
-		self.assertIs(result, fake_user)
-		fake_user.insert.assert_called_once_with(ignore_permissions=True)
 
 
 class CreateTenantTest(unittest.TestCase):
