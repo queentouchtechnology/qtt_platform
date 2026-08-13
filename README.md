@@ -1791,3 +1791,89 @@ are different claims, and only the first one is true here. Before this
 governs real billing: register a Razorpay TEST account and run one real
 signup → trial → first charge → cancellation cycle against it, exactly
 as every phase's own README has already asked for.
+
+## What's implemented — Production-readiness audit, P0
+
+A follow-up audit (post Phase J) found two pieces that were fully built
+but had **zero callers anywhere in the app**:
+`billing/service.py::create_razorpay_subscription()` (built in Phase C)
+and the entire AI gateway/credit-wallet stack (`ai/service.py`,
+`ai/services/credit_service.py`). This pass wires both up rather than
+leaving them dead code, plus adds the AI credit grant policy the wiring
+needed to actually mean something.
+
+- **`api/billing.py::start_subscription_checkout(product)`** — the
+  missing link between local signup (Phase A, deliberately
+  local-subscription-only) and Phase C's `create_razorpay_subscription()`.
+  Tenant Owner only, session-resolved tenant (same pattern as
+  `change_plan`/`resume`/`get_dashboard`). Idempotent: if the tenant's
+  subscription is already linked to Razorpay, does NOT call
+  `create_razorpay_subscription()` again — reconstructs a minimal
+  `{"subscription_id", "key_id"}` checkout payload from what's already
+  stored via the new `billing/service.py::get_gateway_public_key()`
+  (reads only the public `key_id`, never the secret) instead of
+  persisting a gateway-issued `short_url` that could go stale.
+- **`api/ai.py::generate(product, feature, inputs)`** — a generic
+  dispatcher, product-agnostic by construction. Resolves session tenant,
+  checks product access, then looks up `"<product>::<feature>"` in a new
+  **`ai_feature_handlers` hooks.py registry**
+  (`qtt_platform/ai/feature_registry.py` — mirrors the existing
+  `usage_resolvers` pattern exactly: a dict of dotted-import-path
+  strings, never a DocType field, same arbitrary-code-execution
+  reasoning as every other hooks.py registry in this app). This module
+  never learns what a "quiz" is — the registered handler owns its own
+  role check, prompt, credit cost, and result shape. Full error-envelope
+  mapping: `TENANT_ACCESS_DENIED`, `PRODUCT_ACCESS_DENIED`,
+  `AI_FEATURE_NOT_CONFIGURED`, `ROLE_PERMISSION_DENIED`,
+  `AI_CREDITS_EXHAUSTED` / `VALIDATION_ERROR`, `AI_PROVIDER_UNAVAILABLE`,
+  `INTERNAL_ERROR`.
+- **AI credit grant policy** — `ai/services/credit_service.py` gains
+  `grant_plan_credits(tenant, product, plan, feature_key, *, source,
+  reference=None)`, reading a plan's own `QTT Plan Feature` numeric
+  value and granting that many credits. Reuses the existing entitlement
+  catalog rather than inventing a second one, but is a fundamentally
+  different concept from every other `feature_key` (`max_students` etc.,
+  which are running-usage *limits*) — this is a one-time/per-cycle
+  *grant* amount, not compared against anything. The shared constant
+  `AI_CREDITS_GRANT_FEATURE_KEY = "ai_credits_grant"` lives in
+  `credit_service.py` (not in either caller) so both `api/saas.py`
+  (signup) and `billing/service.py` (`_record_subscription_charge`,
+  every renewal) import the same string without a service module ever
+  importing from `api/*.py`.
+- **`hooks.py`** gained `ai_feature_handlers = {}`, populated by
+  `qmp_lms_bridge` (see that app's own README section below).
+
+### Testing — Production-readiness audit, P0
+
+```
+qtt_platform:    python -m unittest discover -s qtt_platform/tests -p "test_*.py"
+                 -> 197 tests, 190 pass, 7 expected bench-only FrappeTestCase
+                    import errors (same 7 as Phase J — no new integration
+                    file added this pass)
+
+qmp_lms_bridge:  python -m unittest discover -s qmp_lms_bridge/tests -p "test_*.py"
+                 -> 38 tests, 37 pass, 1 expected bench-only import error
+                    (install_integration)
+```
+
+New bench-independent coverage added to
+`qtt_platform/tests/test_billing_subscriptions.py`:
+`StartSubscriptionCheckoutTest` (no-tenant/non-Owner/no-subscription/
+cancelled/already-linked-idempotent/not-yet-linked/unexpected-error),
+`GenerateAiFeatureTest` (every error-code mapping above, plus the
+string-vs-dict `inputs` parsing path and the success path),
+`GrantPlanCreditsTest` (reads the right `QTT Plan Feature` row, no-op on
+absent/zero/non-numeric), `AiFeatureRegistryTest` (raises
+`FeatureNotConfigured` when nothing registered, resolves a registered
+handler via `frappe.get_attr`). `py_compile` clean across every file
+touched.
+
+**Not done in this pass** (see `qmp_lms_bridge`'s own README for the
+default-provider seeding and quiz-generation feature that actually uses
+this wiring): no real DeepSeek API call was made — `bootstrap.py`'s
+provider classes and `ai/providers/deepseek.py` were read to confirm
+they already existed, not exercised end-to-end. Before this governs
+real AI usage: enter a real DeepSeek API key via the Desk UI's
+`QTT AI Provider(deepseek)` → `api_key` Password field (never in a
+repo file — see `qmp_lms_bridge/ai_setup.py`'s own docstring), then run
+one real `generate()` call for `QMP_LMS::quiz_generation` end to end.

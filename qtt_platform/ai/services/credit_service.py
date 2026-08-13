@@ -14,6 +14,15 @@ same reasoning already applied in subscription/service.py).
 
 import frappe
 
+#: Product-agnostic convention (production-readiness audit, Part 10): a
+#: plan's own QTT Plan Feature under THIS key, if defined, is granted as
+#: AI credits at signup (api/saas.py::signup()) and again on every
+#: renewal (billing/service.py::_record_subscription_charge()). Lives
+#: here (not in either caller) so both import the same constant rather
+#: than one importing it from the other — api/*.py modules must never be
+#: imported by a service module, only the reverse.
+AI_CREDITS_GRANT_FEATURE_KEY = "ai_credits_grant"
+
 
 def get_balance(tenant: str, product: str) -> float:
 	return frappe.db.get_value(
@@ -147,6 +156,42 @@ def grant_credits(
 			"expires_on": expires_on,
 		}
 	).insert(ignore_permissions=True)
+
+
+def grant_plan_credits(
+	tenant: str, product: str, plan: str, feature_key: str, *, source: str, reference: str | None = None
+) -> float:
+	"""Production-readiness audit — the AI credit grant policy (Part 10:
+	"do not hardcode a business decision if the existing architecture
+	supports configuration"). Reads `feature_key`'s numeric value off
+	`plan`'s own QTT Plan Feature rows and grants that many credits —
+	reuses the EXISTING entitlement catalog rather than inventing a
+	second one, the same "use the existing entitlement system" rule
+	Part 8 states for usage limits. Deliberately NOT read through
+	qtt_platform.entitlement.engine.get_entitlements() — that engine
+	answers "how much may you use," a running-usage concept; this is
+	"how much do we give you right now," a one-off/per-cycle grant with
+	no usage resolver and no running total to compare against. Returns
+	the amount granted (0.0 if the plan defines no such feature at all —
+	not every plan need offer AI credits; 0.0 if the plan defines it as
+	0 or a non-numeric value).
+
+	Callers choose their own `feature_key` string (this function has no
+	opinion on what it's called) and their own `reference` — this stays
+	product-agnostic; qtt_platform itself never hardcodes an AI-credit
+	feature name, matching the same discipline already applied to
+	usage_resolvers/ai_feature_handlers."""
+	limit_value = frappe.db.get_value("QTT Plan Feature", {"parent": plan, "feature_key": feature_key}, "limit_value")
+	if not limit_value:
+		return 0.0
+	try:
+		amount = float(limit_value)
+	except (TypeError, ValueError):
+		return 0.0
+	if amount <= 0:
+		return 0.0
+	grant_credits(tenant, product, amount, source, reference=reference)
+	return amount
 
 
 def reconcile_wallet(tenant: str, product: str) -> dict:

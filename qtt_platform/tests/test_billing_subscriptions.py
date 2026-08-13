@@ -55,6 +55,13 @@ def _install_fake_modules():
 	fake_frappe.sendmail = mock.Mock()
 	fake_frappe.session = types.SimpleNamespace(user="Administrator")
 	fake_frappe.local = types.SimpleNamespace(request_ip=None)
+	fake_frappe.get_hooks = mock.Mock(return_value={})
+	fake_frappe.cache = mock.Mock(
+		return_value=types.SimpleNamespace(get_value=mock.Mock(return_value=None), set_value=mock.Mock())
+	)
+	fake_frappe.get_attr = mock.Mock()
+	fake_frappe.parse_json = lambda s: __import__("json").loads(s)
+	fake_frappe.get_roles = mock.Mock(return_value=["All"])
 
 	fake_frappe_utils = types.ModuleType("frappe.utils")
 	fake_frappe_utils.add_days = lambda d, n: d
@@ -141,6 +148,9 @@ def _fake_response(json_body, status_code=200):
 
 fake_frappe, fake_requests = _install_fake_modules()
 
+from qtt_platform.ai import feature_registry  # noqa: E402
+from qtt_platform.ai.services import credit_service  # noqa: E402
+from qtt_platform.api import ai as api_ai  # noqa: E402
 from qtt_platform.api import billing as api_billing  # noqa: E402
 from qtt_platform.api import dashboard as api_dashboard  # noqa: E402
 from qtt_platform.api import invitation as api_invitation  # noqa: E402
@@ -152,6 +162,7 @@ from qtt_platform.billing.gateways.base import SubscriptionCapableGateway, Subsc
 from qtt_platform.billing.gateways.razorpay_gateway import RazorpayGateway  # noqa: E402
 from qtt_platform.entitlement import engine as entitlement_engine  # noqa: E402
 from qtt_platform.errors import QttApiError  # noqa: E402
+from qtt_platform.exceptions import FeatureNotConfigured  # noqa: E402
 from qtt_platform.subscription import service as subscription_service  # noqa: E402
 from qtt_platform.user_provisioning import create_user  # noqa: E402
 
@@ -1904,6 +1915,254 @@ class ChangeProductRoleTest(unittest.TestCase):
 		self.assertEqual(access.product_role, "Manager")
 		access.save.assert_called_once_with(ignore_permissions=True)
 		self.assertEqual(result["product_role"], "Manager")
+
+
+# ---------------------------------------------------------------------------
+# Production-readiness audit, P0 — api/billing.py::start_subscription_checkout(),
+# api/ai.py::generate(), ai/services/credit_service.py::grant_plan_credits().
+# ---------------------------------------------------------------------------
+
+
+class StartSubscriptionCheckoutTest(unittest.TestCase):
+	def test_no_active_tenant_rejected(self):
+		with mock.patch.object(api_billing, "resolve_active_tenant", return_value=None):
+			result = api_billing.start_subscription_checkout("QMP_LMS")
+		self.assertFalse(result["success"])
+		self.assertEqual(result["error"]["code"], "TENANT_ACCESS_DENIED")
+
+	def test_non_owner_rejected(self):
+		with mock.patch.object(api_billing, "resolve_active_tenant", return_value="tenant-1"):
+			with mock.patch.object(
+				api_billing, "require_tenant_role", side_effect=fake_frappe.PermissionError("nope")
+			):
+				result = api_billing.start_subscription_checkout("QMP_LMS")
+		self.assertFalse(result["success"])
+		self.assertEqual(result["error"]["code"], "BILLING_ROLE_REQUIRED")
+
+	def test_no_subscription_rejected(self):
+		with mock.patch.object(api_billing, "resolve_active_tenant", return_value="tenant-1"):
+			with mock.patch.object(api_billing, "require_tenant_role"):
+				with mock.patch.object(subscription_service, "get_current_subscription", return_value=None):
+					result = api_billing.start_subscription_checkout("QMP_LMS")
+		self.assertFalse(result["success"])
+		self.assertEqual(result["error"]["code"], "SUBSCRIPTION_NOT_FOUND")
+
+	def test_cancelled_subscription_rejected(self):
+		sub = mock.Mock(status="cancelled")
+		with mock.patch.object(api_billing, "resolve_active_tenant", return_value="tenant-1"):
+			with mock.patch.object(api_billing, "require_tenant_role"):
+				with mock.patch.object(subscription_service, "get_current_subscription", return_value=sub):
+					result = api_billing.start_subscription_checkout("QMP_LMS")
+		self.assertFalse(result["success"])
+		self.assertEqual(result["error"]["code"], "SUBSCRIPTION_CANCELLED")
+
+	def test_already_linked_reconstructs_checkout_without_relinking(self):
+		sub = mock.Mock(status="active", razorpay_subscription_id="sub_rzp_123")
+		sub.name = "sub-1"
+		with mock.patch.object(api_billing, "resolve_active_tenant", return_value="tenant-1"):
+			with mock.patch.object(api_billing, "require_tenant_role"):
+				with mock.patch.object(subscription_service, "get_current_subscription", return_value=sub):
+					with mock.patch.object(billing_service, "get_gateway_public_key", return_value="rzp_key_id"):
+						with mock.patch.object(billing_service, "create_razorpay_subscription") as create_mock:
+							result = api_billing.start_subscription_checkout("QMP_LMS")
+
+		create_mock.assert_not_called()
+		self.assertTrue(result["success"], result)
+		self.assertTrue(result["data"]["already_linked"])
+		self.assertEqual(result["data"]["checkout"], {"subscription_id": "sub_rzp_123", "key_id": "rzp_key_id"})
+
+	def test_not_yet_linked_calls_create_razorpay_subscription(self):
+		sub = mock.Mock(status="active", razorpay_subscription_id=None)
+		sub.name = "sub-1"
+		with mock.patch.object(api_billing, "resolve_active_tenant", return_value="tenant-1"):
+			with mock.patch.object(api_billing, "require_tenant_role"):
+				with mock.patch.object(subscription_service, "get_current_subscription", return_value=sub):
+					with mock.patch.object(
+						billing_service,
+						"create_razorpay_subscription",
+						return_value={"checkout": {"subscription_id": "sub_rzp_new", "key_id": "rzp_key_id"}},
+					) as create_mock:
+						result = api_billing.start_subscription_checkout("QMP_LMS")
+
+		create_mock.assert_called_once_with("sub-1")
+		self.assertTrue(result["success"], result)
+		self.assertFalse(result["data"]["already_linked"])
+		self.assertEqual(result["data"]["checkout"]["subscription_id"], "sub_rzp_new")
+
+	def test_unexpected_error_mapped_to_payment_required(self):
+		with mock.patch.object(api_billing, "resolve_active_tenant", side_effect=Exception("boom")):
+			result = api_billing.start_subscription_checkout("QMP_LMS")
+		self.assertFalse(result["success"])
+		self.assertEqual(result["error"]["code"], "PAYMENT_REQUIRED")
+
+
+class GenerateAiFeatureTest(unittest.TestCase):
+	def test_no_active_tenant_rejected(self):
+		with mock.patch.object(api_ai, "resolve_active_tenant", return_value=None):
+			result = api_ai.generate("QMP_LMS", "quiz_generation")
+		self.assertFalse(result["success"])
+		self.assertEqual(result["error"]["code"], "TENANT_ACCESS_DENIED")
+
+	def test_no_product_access_rejected(self):
+		with mock.patch.object(api_ai, "resolve_active_tenant", return_value="tenant-1"):
+			with mock.patch.object(
+				api_ai, "require_product_access", side_effect=fake_frappe.PermissionError("nope")
+			):
+				result = api_ai.generate("QMP_LMS", "quiz_generation")
+		self.assertFalse(result["success"])
+		self.assertEqual(result["error"]["code"], "PRODUCT_ACCESS_DENIED")
+
+	def test_feature_not_configured_rejected(self):
+		with mock.patch.object(api_ai, "resolve_active_tenant", return_value="tenant-1"):
+			with mock.patch.object(api_ai, "require_product_access"):
+				with mock.patch.object(
+					api_ai, "get_ai_feature_handler", side_effect=FeatureNotConfigured("no handler")
+				):
+					result = api_ai.generate("QMP_LMS", "unknown_feature")
+		self.assertFalse(result["success"])
+		self.assertEqual(result["error"]["code"], "AI_FEATURE_NOT_CONFIGURED")
+
+	def test_handler_permission_error_mapped_to_role_permission_denied(self):
+		handler = mock.Mock(side_effect=fake_frappe.PermissionError("Student cannot do this"))
+		with mock.patch.object(api_ai, "resolve_active_tenant", return_value="tenant-1"):
+			with mock.patch.object(api_ai, "require_product_access"):
+				with mock.patch.object(api_ai, "get_ai_feature_handler", return_value=handler):
+					result = api_ai.generate("QMP_LMS", "quiz_generation")
+		self.assertFalse(result["success"])
+		self.assertEqual(result["error"]["code"], "ROLE_PERMISSION_DENIED")
+
+	def test_insufficient_credits_mapped_from_plain_validation_error(self):
+		handler = mock.Mock(side_effect=fake_frappe.ValidationError("Insufficient AI credits"))
+		with mock.patch.object(api_ai, "resolve_active_tenant", return_value="tenant-1"):
+			with mock.patch.object(api_ai, "require_product_access"):
+				with mock.patch.object(api_ai, "get_ai_feature_handler", return_value=handler):
+					result = api_ai.generate("QMP_LMS", "quiz_generation")
+		self.assertFalse(result["success"])
+		self.assertEqual(result["error"]["code"], "AI_CREDITS_EXHAUSTED")
+
+	def test_other_validation_error_mapped_generically(self):
+		handler = mock.Mock(side_effect=fake_frappe.ValidationError("topic is required"))
+		with mock.patch.object(api_ai, "resolve_active_tenant", return_value="tenant-1"):
+			with mock.patch.object(api_ai, "require_product_access"):
+				with mock.patch.object(api_ai, "get_ai_feature_handler", return_value=handler):
+					result = api_ai.generate("QMP_LMS", "quiz_generation")
+		self.assertFalse(result["success"])
+		self.assertEqual(result["error"]["code"], "VALIDATION_ERROR")
+
+	def test_provider_failure_mapped_to_ai_provider_unavailable(self):
+		from qtt_platform.ai.core.exceptions import AiProviderException
+
+		handler = mock.Mock(side_effect=AiProviderException("timeout", "deepseek", "deepseek timed out"))
+		with mock.patch.object(api_ai, "resolve_active_tenant", return_value="tenant-1"):
+			with mock.patch.object(api_ai, "require_product_access"):
+				with mock.patch.object(api_ai, "get_ai_feature_handler", return_value=handler):
+					result = api_ai.generate("QMP_LMS", "quiz_generation")
+		self.assertFalse(result["success"])
+		self.assertEqual(result["error"]["code"], "AI_PROVIDER_UNAVAILABLE")
+
+	def test_string_inputs_are_json_parsed_before_dispatch(self):
+		handler = mock.Mock(return_value={"questions": []})
+		with mock.patch.object(api_ai, "resolve_active_tenant", return_value="tenant-1"):
+			with mock.patch.object(api_ai, "require_product_access"):
+				with mock.patch.object(api_ai, "get_ai_feature_handler", return_value=handler):
+					result = api_ai.generate("QMP_LMS", "quiz_generation", inputs='{"topic": "Algebra"}')
+
+		handler.assert_called_once_with(tenant="tenant-1", user="Administrator", inputs={"topic": "Algebra"})
+		self.assertTrue(result["success"], result)
+		self.assertEqual(result["data"], {"questions": []})
+
+	def test_success_path_returns_handler_result(self):
+		handler = mock.Mock(return_value={"questions": [{"question_text": "2+2?"}]})
+		with mock.patch.object(api_ai, "resolve_active_tenant", return_value="tenant-1"):
+			with mock.patch.object(api_ai, "require_product_access"):
+				with mock.patch.object(api_ai, "get_ai_feature_handler", return_value=handler):
+					result = api_ai.generate("QMP_LMS", "quiz_generation", inputs={"topic": "Algebra"})
+
+		handler.assert_called_once_with(tenant="tenant-1", user="Administrator", inputs={"topic": "Algebra"})
+		self.assertTrue(result["success"], result)
+		self.assertEqual(len(result["data"]["questions"]), 1)
+
+	def test_unexpected_error_mapped_to_internal_error(self):
+		with mock.patch.object(api_ai, "resolve_active_tenant", side_effect=Exception("boom")):
+			result = api_ai.generate("QMP_LMS", "quiz_generation")
+		self.assertFalse(result["success"])
+		self.assertEqual(result["error"]["code"], "INTERNAL_ERROR")
+
+
+class GrantPlanCreditsTest(unittest.TestCase):
+	def test_grants_the_plans_numeric_feature_value(self):
+		fake_frappe.db.get_value = mock.Mock(return_value="100")
+		with mock.patch.object(credit_service, "grant_credits") as grant_mock:
+			amount = credit_service.grant_plan_credits(
+				"tenant-1", "QMP_LMS", "plan-professional", "ai_credits_grant",
+				source="subscription_grant", reference="signup:sub-1",
+			)
+		self.assertEqual(amount, 100.0)
+		grant_mock.assert_called_once_with(
+			"tenant-1", "QMP_LMS", 100.0, "subscription_grant", reference="signup:sub-1"
+		)
+
+	def test_reads_the_correct_plan_feature_row(self):
+		fake_frappe.db.get_value = mock.Mock(return_value="20")
+		with mock.patch.object(credit_service, "grant_credits"):
+			credit_service.grant_plan_credits(
+				"tenant-1", "QMP_LMS", "plan-starter", "ai_credits_grant", source="subscription_grant"
+			)
+		fake_frappe.db.get_value.assert_called_once_with(
+			"QTT Plan Feature", {"parent": "plan-starter", "feature_key": "ai_credits_grant"}, "limit_value"
+		)
+
+	def test_no_such_feature_on_plan_returns_zero_and_does_not_grant(self):
+		fake_frappe.db.get_value = mock.Mock(return_value=None)
+		with mock.patch.object(credit_service, "grant_credits") as grant_mock:
+			amount = credit_service.grant_plan_credits(
+				"tenant-1", "QMP_LMS", "plan-basic", "ai_credits_grant", source="subscription_grant"
+			)
+		self.assertEqual(amount, 0.0)
+		grant_mock.assert_not_called()
+
+	def test_zero_valued_feature_returns_zero_and_does_not_grant(self):
+		fake_frappe.db.get_value = mock.Mock(return_value="0")
+		with mock.patch.object(credit_service, "grant_credits") as grant_mock:
+			amount = credit_service.grant_plan_credits(
+				"tenant-1", "QMP_LMS", "plan-basic", "ai_credits_grant", source="subscription_grant"
+			)
+		self.assertEqual(amount, 0.0)
+		grant_mock.assert_not_called()
+
+	def test_non_numeric_feature_value_returns_zero_and_does_not_grant(self):
+		fake_frappe.db.get_value = mock.Mock(return_value="not-a-number")
+		with mock.patch.object(credit_service, "grant_credits") as grant_mock:
+			amount = credit_service.grant_plan_credits(
+				"tenant-1", "QMP_LMS", "plan-basic", "ai_credits_grant", source="subscription_grant"
+			)
+		self.assertEqual(amount, 0.0)
+		grant_mock.assert_not_called()
+
+
+class AiFeatureRegistryTest(unittest.TestCase):
+	def test_raises_feature_not_configured_when_nothing_registered(self):
+		fake_frappe.get_hooks = mock.Mock(return_value={})
+		fake_frappe.cache = mock.Mock(
+			return_value=types.SimpleNamespace(get_value=mock.Mock(return_value=None), set_value=mock.Mock())
+		)
+		with self.assertRaises(FeatureNotConfigured):
+			feature_registry.get_ai_feature_handler("QMP_LMS", "quiz_generation")
+
+	def test_resolves_a_registered_handler_via_get_attr(self):
+		fake_frappe.get_hooks = mock.Mock(
+			return_value={"QMP_LMS::quiz_generation": "qmp_lms_bridge.ai_features.generate_quiz"}
+		)
+		fake_frappe.cache = mock.Mock(
+			return_value=types.SimpleNamespace(get_value=mock.Mock(return_value=None), set_value=mock.Mock())
+		)
+		sentinel_handler = mock.Mock()
+		fake_frappe.get_attr = mock.Mock(return_value=sentinel_handler)
+
+		handler = feature_registry.get_ai_feature_handler("QMP_LMS", "quiz_generation")
+
+		self.assertIs(handler, sentinel_handler)
+		fake_frappe.get_attr.assert_called_once_with("qmp_lms_bridge.ai_features.generate_quiz")
 
 
 if __name__ == "__main__":

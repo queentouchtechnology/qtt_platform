@@ -12,6 +12,7 @@ import frappe
 from frappe import _
 from frappe.utils import add_days, get_datetime, now_datetime, today
 
+from qtt_platform.ai.services.credit_service import AI_CREDITS_GRANT_FEATURE_KEY, grant_plan_credits
 from qtt_platform.audit import write_audit_event
 from qtt_platform.billing.gateways.base import SubscriptionCapableGateway
 from qtt_platform.billing.gateways.registry import get_gateway
@@ -374,6 +375,18 @@ def cancel_razorpay_subscription(
 	return True
 
 
+def get_gateway_public_key(gateway_key: str = "razorpay") -> str | None:
+	"""The gateway's own PUBLIC key_id only — never key_secret/
+	webhook_secret, which stay behind their Password fieldtype and are
+	only ever read server-side inside the gateway adapter itself
+	(razorpay_gateway.py). Lets a client re-open checkout for an
+	already-linked subscription (api/billing.py::start_subscription_checkout())
+	without this app persisting a gateway-issued short_url that could go
+	stale — key_id plus a stored razorpay_subscription_id is enough for
+	the Razorpay Flutter SDK to open checkout again."""
+	return frappe.db.get_value("QTT Payment Gateway Config", gateway_key, "key_id")
+
+
 def sync_razorpay_plan_change(subscription_name: str, new_plan_name: str, *, immediate: bool, gateway_key: str = "razorpay") -> dict | None:
 	"""SaaS lifecycle Phase E — the ONLY place that PATCHes Razorpay's
 	plan on an existing subscription (billing/gateways/razorpay_gateway.py's
@@ -663,6 +676,24 @@ def _record_subscription_charge(subscription, raw_payload: dict) -> None:
 		target_doctype="QTT Invoice",
 		target_name=invoice.name,
 		metadata={"subscription": subscription.name, "gateway_payment_id": gateway_payment_id, "amount": amount},
+	)
+
+	# Renewal AI credit grant (production-readiness audit, Part 10) — the
+	# SAME grant_plan_credits() call signup() makes, reused rather than
+	# duplicated, keyed by this SAME shared feature_key convention. A
+	# safe no-op if the plan defines no such feature. Idempotency is
+	# already guaranteed one layer up: this whole function only reaches
+	# here once per real gateway_payment_id (checked above), and the
+	# webhook that calls it is itself deduped by gateway_event_id before
+	# _record_subscription_charge() is ever invoked — a redelivered
+	# webhook never re-grants.
+	grant_plan_credits(
+		subscription.tenant,
+		subscription.product,
+		subscription.plan,
+		AI_CREDITS_GRANT_FEATURE_KEY,
+		source="subscription_grant",
+		reference=f"renewal:{gateway_payment_id}",
 	)
 
 

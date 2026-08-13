@@ -215,6 +215,15 @@ has_permission = {}
 # — declares its own, e.g. {"QMP_LMS::max_students": "lms.usage.count_students"}.
 usage_resolvers = {}
 
+# AI feature-handler registry — production-readiness audit. Same
+# mechanism/reasoning as usage_resolvers immediately above (a hooks.py
+# dict, never a DocType field), read by
+# qtt_platform.ai.feature_registry.get_ai_feature_handler() via
+# frappe.get_hooks("ai_feature_handlers"). qtt_platform itself registers
+# none — populated by qmp_lms_bridge, e.g.
+# {"QMP_LMS::quiz_generation": "qmp_lms_bridge.ai_features.generate_quiz"}.
+ai_feature_handlers = {}
+
 # Tenant parent-link registries — read by
 # qtt_platform.document_security.resolve_tenant_for_doc() to walk from a
 # hook-only doctype (no direct `tenant` field) up to its tenant-bearing

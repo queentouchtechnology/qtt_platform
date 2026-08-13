@@ -30,6 +30,7 @@ import re
 
 import frappe
 
+from qtt_platform.ai.services.credit_service import AI_CREDITS_GRANT_FEATURE_KEY, grant_plan_credits
 from qtt_platform.audit import write_audit_event
 from qtt_platform.errors import QttApiError, fail, ok
 from qtt_platform.subscription import service as subscription_service
@@ -131,6 +132,19 @@ def signup(
 		)
 		access.insert(ignore_permissions=True)
 
+		# AI credit grant (production-readiness audit, Part 10) — a
+		# safe no-op (returns 0.0) if this plan defines no
+		# ai_credits_grant feature at all; never blocks signup if it
+		# does nothing.
+		ai_credits_granted = grant_plan_credits(
+			tenant.name,
+			product_key,
+			plan.name,
+			AI_CREDITS_GRANT_FEATURE_KEY,
+			source="subscription_grant",
+			reference=f"signup:{subscription.name}",
+		)
+
 		_write_signup_audit_trail(tenant.name, product_key, user.name, membership, subscription)
 
 		return ok(
@@ -147,6 +161,7 @@ def signup(
 				"subscription_status": subscription.status,
 				"trial_ends_on": str(subscription.trial_end) if subscription.status == "trialing" else None,
 				"current_period_end": str(subscription.current_period_end),
+				"ai_credits_granted": ai_credits_granted,
 			}
 		)
 
