@@ -72,7 +72,7 @@ def deduct_credits(tenant: str, product: str, amount: float, *, reference: str) 
 		return {"ok": True, "already_processed": True}
 
 	_ensure_wallet(tenant, product)
-	affected = frappe.db.sql(
+	frappe.db.sql(
 		"""
 		UPDATE `tabQTT Tenant Product Wallet`
 		SET balance = balance - %(amount)s
@@ -80,6 +80,17 @@ def deduct_credits(tenant: str, product: str, amount: float, *, reference: str) 
 		""",
 		{"tenant": tenant, "product": product, "amount": amount},
 	)
+	# frappe.db.sql()'s return value is USELESS for an UPDATE — it returns
+	# cursor.fetchall(), and an UPDATE has no result set (cursor.description
+	# is None), so frappe.db.sql() returns `()` unconditionally regardless
+	# of how many rows were actually affected. The real affected-row count
+	# is only available via the underlying DB-API cursor's own .rowcount
+	# (standard PyMySQL/DB-API 2.0 behavior) — found via live production
+	# verification (P6): this conditional UPDATE reported "insufficient
+	# credits" on every call, even with a real positive balance, because
+	# `if not affected` was checking an always-empty tuple, never the
+	# actual row count.
+	affected = frappe.db._cursor.rowcount
 	if not affected:
 		return {"ok": False, "reason": "insufficient_credits"}
 

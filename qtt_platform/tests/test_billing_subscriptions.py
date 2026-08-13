@@ -45,7 +45,16 @@ def _install_fake_modules():
 	fake_frappe._ = lambda s: s
 	fake_frappe.whitelist = lambda *a, **k: (lambda fn: fn)
 	fake_frappe.db = types.SimpleNamespace(
-		get_value=mock.Mock(return_value=None), set_value=mock.Mock(), exists=mock.Mock(return_value=False)
+		get_value=mock.Mock(return_value=None),
+		set_value=mock.Mock(),
+		exists=mock.Mock(return_value=False),
+		sql=mock.Mock(return_value=()),
+		# frappe.db.sql() itself returns () for any UPDATE (see
+		# credit_service.py::deduct_credits' own comment on why — no
+		# result set to fetch) — the real affected-row count lives on
+		# the underlying DB-API cursor's .rowcount, faked here so tests
+		# can set it per-case rather than relying on db.sql()'s return.
+		_cursor=types.SimpleNamespace(rowcount=0),
 	)
 	fake_frappe.get_doc = mock.Mock()
 	fake_frappe.get_all = mock.Mock(return_value=[])
@@ -2087,6 +2096,56 @@ class GenerateAiFeatureTest(unittest.TestCase):
 			result = api_ai.generate("QMP_LMS", "quiz_generation")
 		self.assertFalse(result["success"])
 		self.assertEqual(result["error"]["code"], "INTERNAL_ERROR")
+
+
+class DeductCreditsTest(unittest.TestCase):
+	"""Regression coverage for a real bug caught via live production
+	verification (P6): frappe.db.sql() returns `()` for ANY UPDATE
+	statement (no result set to fetch — see the fix's own comment in
+	credit_service.py), so the original `if not affected:` check — where
+	`affected` was db.sql()'s own return value — was always true
+	regardless of whether the UPDATE actually matched a row. A real
+	signup + real AI generation call against production reported
+	"Insufficient AI credits" despite a real, positive wallet balance,
+	which is what surfaced this. The fix reads `frappe.db._cursor.rowcount`
+	instead — these tests pin that against both outcomes."""
+
+	def setUp(self):
+		fake_frappe.db.exists = mock.Mock(return_value=False)
+		fake_frappe.db.get_value = mock.Mock(return_value="wallet-1")
+		fake_frappe.db.sql = mock.Mock(return_value=())
+		fake_frappe.get_doc = mock.Mock()
+
+	def test_sufficient_balance_deducts_and_records_ledger_entry(self):
+		fake_frappe.db._cursor = types.SimpleNamespace(rowcount=1)
+		result = credit_service.deduct_credits("tenant-1", "QMP_LMS", 5.0, reference="ref-1")
+		self.assertEqual(result, {"ok": True})
+		fake_frappe.get_doc.assert_called_once()
+		ledger_doc = fake_frappe.get_doc.call_args[0][0]
+		self.assertEqual(ledger_doc["amount"], -5.0)
+		self.assertEqual(ledger_doc["source"], "consumption")
+
+	def test_insufficient_balance_reports_not_ok_without_writing_ledger(self):
+		fake_frappe.db._cursor = types.SimpleNamespace(rowcount=0)
+		result = credit_service.deduct_credits("tenant-1", "QMP_LMS", 5.0, reference="ref-2")
+		self.assertEqual(result, {"ok": False, "reason": "insufficient_credits"})
+		fake_frappe.get_doc.assert_not_called()
+
+	def test_retried_reference_is_a_no_op(self):
+		fake_frappe.db.exists = mock.Mock(return_value=True)
+		fake_frappe.db._cursor = types.SimpleNamespace(rowcount=0)
+		result = credit_service.deduct_credits("tenant-1", "QMP_LMS", 5.0, reference="ref-already-done")
+		self.assertEqual(result, {"ok": True, "already_processed": True})
+		fake_frappe.db.sql.assert_not_called()
+
+	def test_does_not_rely_on_db_sql_return_value(self):
+		# The specific regression: db.sql() returning its real-world `()`
+		# for an UPDATE must NOT be mistaken for "no rows affected" when
+		# rowcount says otherwise.
+		fake_frappe.db.sql = mock.Mock(return_value=())
+		fake_frappe.db._cursor = types.SimpleNamespace(rowcount=1)
+		result = credit_service.deduct_credits("tenant-1", "QMP_LMS", 5.0, reference="ref-3")
+		self.assertTrue(result["ok"])
 
 
 class GrantPlanCreditsTest(unittest.TestCase):
