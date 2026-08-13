@@ -21,18 +21,16 @@ _REGISTRY_CACHE_TTL = 60 * 60  # static per deploy — same reasoning as usage/r
 
 
 def _build_registry() -> dict:
-	merged: dict = {}
+	# CONFIRMED live against a real site (2026-08-14) — see
+	# usage/registry.py::_build_registry()'s own comment for the full
+	# explanation and empirical evidence. This was the exact reason
+	# api.ai.generate() had never worked end-to-end despite the handler
+	# itself (qmp_lms_bridge.ai_features.generate_quiz) working fine when
+	# called directly — get_ai_feature_handler() was passing a
+	# single-element LIST to frappe.get_attr(), not the dotted-path
+	# string, on every real call.
 	raw = frappe.get_hooks("ai_feature_handlers") or {}
-	# Same open question about frappe.get_hooks()'s exact merge shape for
-	# a custom dict-valued hook already flagged in usage/registry.py and
-	# document_security.py — handled defensively here for the same reason.
-	if isinstance(raw, dict):
-		merged.update(raw)
-	else:
-		for app_value in raw:
-			if isinstance(app_value, dict):
-				merged.update(app_value)
-	return merged
+	return {key: (value[-1] if isinstance(value, list) else value) for key, value in raw.items()}
 
 
 def get_ai_feature_handler(product: str, feature: str):

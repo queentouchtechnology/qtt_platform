@@ -105,18 +105,20 @@ def resolve_tenant_for_new_doc(doc) -> str | None:
 
 
 def _build_link_registry(hook_name: str) -> dict:
-	merged: dict = {}
+	# CONFIRMED live against a real site (2026-08-14) — see
+	# usage/registry.py::_build_registry()'s own comment for the full
+	# explanation; frappe.get_hooks() wraps each key's value in a list of
+	# per-declaring-app contributions even for a genuinely list/tuple-
+	# shaped value (verified: frappe.get_hooks("tenant_parent_links")
+	# returned {"Course Chapter": [["course", "LMS Course"]]} — a list
+	# CONTAINING the declared 2-element list, not the bare 2-element list
+	# itself). The old defensive "which shape is it" branching here
+	# produced a wrongly-nested tuple that silently broke tenant
+	# resolution for every hook-only doctype (Course Chapter, LMS Batch
+	# Timetable, and — via the dynamic-link variant — LMS Timetable
+	# Legend, Discussion Topic) until this was caught via live testing.
 	raw = frappe.get_hooks(hook_name) or {}
-	# Same defensive both-shapes handling as usage/registry.py, and the
-	# same open question about frappe.get_hooks()'s exact return shape
-	# for a custom dict-valued hook — see that module's comment.
-	if isinstance(raw, dict):
-		merged.update(raw)
-	else:
-		for app_value in raw:
-			if isinstance(app_value, dict):
-				merged.update(app_value)
-	return merged
+	return {key: (value[-1] if isinstance(value, list) else value) for key, value in raw.items()}
 
 
 def _get_static_parent_link(doctype: str) -> tuple[str, str] | None:

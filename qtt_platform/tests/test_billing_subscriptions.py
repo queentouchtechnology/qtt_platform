@@ -174,6 +174,7 @@ def _fake_response(json_body, status_code=200):
 fake_frappe, fake_requests = _install_fake_modules()
 
 from qtt_platform.ai import feature_registry  # noqa: E402
+from qtt_platform.usage import registry as usage_registry  # noqa: E402
 from qtt_platform.ai.services import credit_service  # noqa: E402
 from qtt_platform.api import ai as api_ai  # noqa: E402
 from qtt_platform.api import billing as api_billing  # noqa: E402
@@ -2299,6 +2300,51 @@ class AiFeatureRegistryTest(unittest.TestCase):
 
 		self.assertIs(handler, sentinel_handler)
 		fake_frappe.get_attr.assert_called_once_with("qmp_lms_bridge.ai_features.generate_quiz")
+
+	def test_resolves_the_real_list_wrapped_hook_shape(self):
+		# Regression coverage for the real bug caught via live production
+		# testing (Part C-J): frappe.get_hooks() wraps every key's value
+		# in a list of per-declaring-app contributions — confirmed live
+		# against app.quizmasterplus.in — not a bare dotted-path string.
+		# The pre-fix code passed that list straight to frappe.get_attr(),
+		# which crashed with AttributeError: 'list' object has no
+		# attribute 'split'. This is why api.ai.generate() had never
+		# worked end-to-end even though the handler itself did when
+		# called directly, bypassing this registry.
+		fake_frappe.get_hooks = mock.Mock(
+			return_value={"QMP_LMS::quiz_generation": ["qmp_lms_bridge.ai_features.generate_quiz"]}
+		)
+		fake_frappe.cache = mock.Mock(
+			return_value=types.SimpleNamespace(get_value=mock.Mock(return_value=None), set_value=mock.Mock())
+		)
+		sentinel_handler = mock.Mock()
+		fake_frappe.get_attr = mock.Mock(return_value=sentinel_handler)
+
+		handler = feature_registry.get_ai_feature_handler("QMP_LMS", "quiz_generation")
+
+		self.assertIs(handler, sentinel_handler)
+		fake_frappe.get_attr.assert_called_once_with("qmp_lms_bridge.ai_features.generate_quiz")
+
+
+class UsageRegistryRealHookShapeTest(unittest.TestCase):
+	"""Same regression as AiFeatureRegistryTest.test_resolves_the_real_list_wrapped_hook_shape,
+	pinned for usage/registry.py — the first of the three registries this
+	bug was found in."""
+
+	def test_resolves_the_real_list_wrapped_hook_shape(self):
+		fake_frappe.get_hooks = mock.Mock(
+			return_value={"QMP_LMS::max_students": ["qmp_lms_bridge.usage.count_students"]}
+		)
+		fake_frappe.cache = mock.Mock(
+			return_value=types.SimpleNamespace(get_value=mock.Mock(return_value=None), set_value=mock.Mock())
+		)
+		sentinel = mock.Mock(return_value=25)
+		fake_frappe.get_attr = mock.Mock(return_value=sentinel)
+
+		resolver = usage_registry.get_usage_resolver("QMP_LMS", "max_students")
+
+		self.assertIs(resolver, sentinel)
+		fake_frappe.get_attr.assert_called_once_with("qmp_lms_bridge.usage.count_students")
 
 
 if __name__ == "__main__":

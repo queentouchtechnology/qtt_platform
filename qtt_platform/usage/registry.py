@@ -21,25 +21,21 @@ _REGISTRY_CACHE_TTL = 60 * 60  # static per deploy — see product/registry.py's
 
 
 def _build_registry() -> dict:
-	merged: dict = {}
+	# CONFIRMED live against a real site (2026-08-14) — frappe.get_hooks()
+	# always returns a dict for a dict-shaped hook, but wraps EACH KEY'S
+	# value in a list of every declaring app's own contribution for that
+	# exact key (verified: frappe.get_hooks("usage_resolvers") returned
+	# {"QMP_LMS::max_students": ["qmp_lms_bridge.usage.count_students"]},
+	# not a bare string) — even though only qmp_lms_bridge ever declares
+	# a real value here (qtt_platform's own usage_resolvers = {} never
+	# contributes a competing entry for the same key). This replaces the
+	# previous defensive "which shape is it" branching now that the real
+	# shape is known — see this module's git history for the old code.
+	# Exactly one app is ever expected to declare a given key in
+	# practice; the last contribution wins, matching normal hook-override
+	# precedence for every other kind of Frappe hook.
 	raw = frappe.get_hooks("usage_resolvers") or {}
-	# NOTE: frappe.get_hooks() aggregates a dict-shaped hook by merging
-	# every installed app's own declaration together — but this project
-	# has not been able to confirm empirically (no live Frappe instance
-	# available this session) whether that comes back as one already-
-	# merged dict or a list of per-app dicts to merge here manually.
-	# Handled defensively for both shapes rather than assuming one —
-	# verify the actual shape on first real deploy (a `bench console`
-	# check: `frappe.get_hooks("usage_resolvers")`) and simplify this
-	# function once confirmed, rather than leaving the defensive branch
-	# in place indefinitely.
-	if isinstance(raw, dict):
-		merged.update(raw)
-	else:
-		for app_resolvers in raw:
-			if isinstance(app_resolvers, dict):
-				merged.update(app_resolvers)
-	return merged
+	return {key: (value[-1] if isinstance(value, list) else value) for key, value in raw.items()}
 
 
 def get_usage_resolver(product: str, feature_key: str):

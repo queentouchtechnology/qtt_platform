@@ -243,5 +243,51 @@ class AssertTenantAccessTest(unittest.TestCase):
 		require_mock.assert_called_once_with("LMS Course", "course-1", "tenant-1", user="someone@example.com")
 
 
+class BuildLinkRegistryTest(unittest.TestCase):
+	"""Regression coverage for a real bug caught via live production
+	testing (Part C-J multi-tenant workflow verification): frappe.get_hooks()
+	wraps EVERY key's value in a list of per-declaring-app contributions,
+	even when the declared value is itself list/tuple-shaped — confirmed
+	live: frappe.get_hooks("tenant_parent_links") returned
+	{"Course Chapter": [["course", "LMS Course"]]}, a list CONTAINING the
+	declared 2-element list, not the bare 2-element list. The previous
+	code's "which shape is it" branching treated the outer dict as
+	already-merged and left each value doubly-nested, so
+	_get_static_parent_link()/_get_dynamic_parent_link() returned a
+	1-tuple containing a list instead of unpacking to (field, doctype) —
+	silently breaking tenant resolution for every hook-only doctype
+	(Course Chapter, LMS Batch Timetable, LMS Timetable Legend,
+	Discussion Topic) until caught by an actual real-site check. No
+	existing test caught this because ResolveTenantForDocTest mocks
+	_get_static_parent_link directly, never exercising the registry-
+	building code these tests cover."""
+
+	def setUp(self):
+		# Fresh cache mock per test — _get_static_parent_link/
+		# _get_dynamic_parent_link only call _build_link_registry() when
+		# frappe.cache().get_value() reports a miss.
+		fake_frappe.cache = mock.Mock(
+			return_value=types.SimpleNamespace(get_value=mock.Mock(return_value=None), set_value=mock.Mock())
+		)
+
+	def test_static_parent_link_unwraps_the_real_list_wrapped_hook_shape(self):
+		fake_frappe.get_hooks = mock.Mock(
+			return_value={"Course Chapter": [["course", "LMS Course"]], "LMS Batch Timetable": [["batch", "LMS Batch"]]}
+		)
+		result = document_security._get_static_parent_link("Course Chapter")
+		self.assertEqual(result, ("course", "LMS Course"))
+
+	def test_dynamic_parent_link_unwraps_the_real_list_wrapped_hook_shape(self):
+		fake_frappe.get_hooks = mock.Mock(
+			return_value={"Discussion Topic": [["reference_doctype", "reference_docname"]]}
+		)
+		result = document_security._get_dynamic_parent_link("Discussion Topic")
+		self.assertEqual(result, ("reference_doctype", "reference_docname"))
+
+	def test_unregistered_doctype_returns_none(self):
+		fake_frappe.get_hooks = mock.Mock(return_value={"Course Chapter": [["course", "LMS Course"]]})
+		self.assertIsNone(document_security._get_static_parent_link("Some Other Doctype"))
+
+
 if __name__ == "__main__":
 	unittest.main()
