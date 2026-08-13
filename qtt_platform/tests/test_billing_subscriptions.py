@@ -83,6 +83,22 @@ def _install_fake_modules():
 	fake_frappe_utils_password.get_decrypted_password = mock.Mock(return_value="test-secret")
 	fake_frappe_utils.password = fake_frappe_utils_password
 
+	class _Document:
+		"""Minimal stand-in for frappe.model.document.Document — just
+		enough for a real doctype controller module (e.g.
+		qtt_tenant_membership.py) to import and subclass successfully.
+		Tests that need an instance build one via Document.__new__(...)
+		and set only the attributes their method under test reads,
+		rather than going through this class's own (absent) __init__."""
+
+	fake_frappe_model = types.ModuleType("frappe.model")
+	fake_frappe_model_document = types.ModuleType("frappe.model.document")
+	fake_frappe_model_document.Document = _Document
+	fake_frappe_model.document = fake_frappe_model_document
+	fake_frappe.model = fake_frappe_model
+	sys.modules["frappe.model"] = fake_frappe_model
+	sys.modules["frappe.model.document"] = fake_frappe_model_document
+
 	fake_requests = types.ModuleType("requests")
 	fake_requests.post = mock.Mock()
 	fake_requests.get = mock.Mock()
@@ -163,6 +179,7 @@ from qtt_platform.api import ai as api_ai  # noqa: E402
 from qtt_platform.api import billing as api_billing  # noqa: E402
 from qtt_platform.api import dashboard as api_dashboard  # noqa: E402
 from qtt_platform.api import invitation as api_invitation  # noqa: E402
+from qtt_platform.api import product as api_product  # noqa: E402
 from qtt_platform.api import product_access as api_product_access  # noqa: E402
 from qtt_platform.api import session as api_session  # noqa: E402
 from qtt_platform.api import subscription as api_subscription  # noqa: E402
@@ -172,6 +189,9 @@ from qtt_platform.billing.gateways.razorpay_gateway import RazorpayGateway  # no
 from qtt_platform.entitlement import engine as entitlement_engine  # noqa: E402
 from qtt_platform.errors import QttApiError  # noqa: E402
 from qtt_platform.exceptions import FeatureNotConfigured  # noqa: E402
+from qtt_platform.qtt_platform.doctype.qtt_tenant_membership.qtt_tenant_membership import (  # noqa: E402
+	QTTTenantMembership,
+)
 from qtt_platform.subscription import service as subscription_service  # noqa: E402
 from qtt_platform.user_provisioning import create_user  # noqa: E402
 
@@ -1924,6 +1944,63 @@ class ChangeProductRoleTest(unittest.TestCase):
 		self.assertEqual(access.product_role, "Manager")
 		access.save.assert_called_once_with(ignore_permissions=True)
 		self.assertEqual(result["product_role"], "Manager")
+
+
+class GetProductRoleOptionsTest(unittest.TestCase):
+	"""Desk UI fix — qtt_product_access.js's dynamic product_role
+	dropdown reads this endpoint. Pins the value/label reshaping: this is
+	the one place role_key and role_name are allowed to differ, so the
+	test uses a case where they do, rather than the current
+	identical-by-coincidence QMP_LMS seed data."""
+
+	def test_reshapes_role_key_and_role_name_into_value_label_pairs(self):
+		fake_frappe.get_all = mock.Mock(
+			return_value=[
+				_FrappeDict(role_key="manager", role_name="Manager"),
+				_FrappeDict(role_key="instructor", role_name="Instructor"),
+			]
+		)
+		result = api_product.get_product_role_options("QMP_LMS")
+		self.assertEqual(
+			result,
+			[{"value": "manager", "label": "Manager"}, {"value": "instructor", "label": "Instructor"}],
+		)
+		fake_frappe.get_all.assert_called_once_with(
+			"QTT Product Role", filters={"parent": "QMP_LMS"}, fields=["role_key", "role_name"], order_by="idx asc"
+		)
+
+	def test_unknown_product_returns_empty_list_not_an_error(self):
+		fake_frappe.get_all = mock.Mock(return_value=[])
+		result = api_product.get_product_role_options("NOT_A_REAL_PRODUCT")
+		self.assertEqual(result, [])
+
+
+class TenantMembershipTitleTest(unittest.TestCase):
+	"""Desk UI fix — QTT Tenant Membership.validate()'s new _set_title()."""
+
+	def test_title_combines_user_and_tenant_name(self):
+		fake_frappe.db.exists = mock.Mock(return_value=False)
+		fake_frappe.db.get_value = mock.Mock(return_value="ABC School")
+
+		membership = QTTTenantMembership.__new__(QTTTenantMembership)
+		membership.user = "nitranjith2019@gmail.com"
+		membership.tenant = "u7o73i0uao"
+		membership.name = None
+		membership.validate()
+
+		self.assertEqual(membership.membership_title, "nitranjith2019@gmail.com — ABC School")
+
+	def test_falls_back_to_tenant_id_if_tenant_name_missing(self):
+		fake_frappe.db.exists = mock.Mock(return_value=False)
+		fake_frappe.db.get_value = mock.Mock(return_value=None)
+
+		membership = QTTTenantMembership.__new__(QTTTenantMembership)
+		membership.user = "user@example.com"
+		membership.tenant = "some-tenant-id"
+		membership.name = None
+		membership.validate()
+
+		self.assertEqual(membership.membership_title, "user@example.com — some-tenant-id")
 
 
 # ---------------------------------------------------------------------------

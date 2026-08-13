@@ -9,6 +9,7 @@
  "track_changes": 1,
  "autoname": "hash",
  "naming_rule": "Random",
+ "title_field": "membership_title",
  "sort_field": "modified",
  "sort_order": "DESC",
  "engine": "InnoDB",
@@ -19,7 +20,8 @@
   "column_break_role",
   "tenant_role",
   "status",
-  "invited_by"
+  "invited_by",
+  "membership_title"
  ],
  "fields": [
   {
@@ -69,6 +71,14 @@
    "fieldtype": "Link",
    "label": "Invited By",
    "options": "User"
+  },
+  {
+   "fieldname": "membership_title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "hidden": 1,
+   "read_only": 1,
+   "description": "Computed in validate() as '<user> — <tenant name>' — exists only so this doctype's Link fields show something human-readable instead of the hashed document name. Never edited directly."
   }
  ],
  "permissions": [

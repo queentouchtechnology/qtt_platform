@@ -21,3 +21,18 @@ def list_available_products() -> list[dict]:
 		fields=["product_key", "display_name", "icon", "description"],
 		order_by="display_name asc",
 	)
+
+
+@frappe.whitelist()
+def get_product_role_options(product: str) -> list[dict]:
+	"""Desk UI helper for QTT Product Access's product_role dropdown
+	(qtt_product_access.js) — the display-label counterpart to
+	qtt_platform.product.registry.get_product_roles(), which stays a
+	validation-only key set. Distinct on purpose: a role catalog's
+	role_key is never assumed to equal its role_name (see QTT Product
+	Role's own doctype description), so the client script needs both to
+	show the label while storing the key."""
+	rows = frappe.get_all(
+		"QTT Product Role", filters={"parent": product}, fields=["role_key", "role_name"], order_by="idx asc"
+	)
+	return [{"value": row.role_key, "label": row.role_name} for row in rows]

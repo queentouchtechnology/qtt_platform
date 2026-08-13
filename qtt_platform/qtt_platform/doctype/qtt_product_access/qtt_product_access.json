@@ -55,11 +55,12 @@
   },
   {
    "fieldname": "product_role",
-   "fieldtype": "Data",
+   "fieldtype": "Select",
    "label": "Product Role",
+   "options": "",
    "reqd": 1,
    "in_list_view": 1,
-   "description": "Must be one of the role_key values in the referenced Product's own role catalog (QTT Product.roles) — validated in validate(), never a platform-hardcoded list."
+   "description": "Must be one of the role_key values in the referenced Product's own role catalog (QTT Product.roles) — validated server-side in validate(), never a platform-hardcoded list. Options are populated dynamically per the selected Product by qtt_product_access.js (api/product.py::get_product_role_options), not stored statically here."
   },
   {
    "fieldname": "status",
