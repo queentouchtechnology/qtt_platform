@@ -28,7 +28,9 @@ Python logic to write at that point.
 import frappe
 from frappe import _
 
-from qtt_platform.document_security import require_document_tenant_and_product
+from qtt_platform.document_security import require_document_tenant_and_product, resolve_tenant_for_new_doc
+from qtt_platform.product.guards import require_product_access
+from qtt_platform.product.registry import resolve_product_for_doctype
 from qtt_platform.tenant.context import resolve_active_tenant
 
 
@@ -48,12 +50,36 @@ def has_permission(doc, user: str | None = None, permission_type: str | None = N
 			"Course Chapter": "qtt_platform.permissions.handlers.has_permission",
 		}
 
-	No entries exist in hooks.py yet — see this module's own docstring.
+	A NEW (not-yet-inserted) document needs its own branch — found via
+	live testing (Part C-J multi-tenant verification): a real
+	Instructor's real Course Chapter create was rejected even after
+	native DocPerm and roles.py both correctly allowed it, because this
+	function unconditionally went through require_document_tenant_and_product()'s
+	DB-lookup path (resolve_tenant_for_doc()), which can never find a row
+	for a document that doesn't exist in the database yet — Frappe calls
+	this hook with permission_type="create" and the in-memory (unsaved)
+	doc object, not after insert. resolve_tenant_for_new_doc() (the
+	in-memory field-reading counterpart document_security.py already
+	provides for exactly this reason) is used instead whenever doc.is_new().
 	"""
 	user = user or frappe.session.user
 	tenant = resolve_active_tenant(user=user)
 	if not tenant:
 		return False
+
+	if doc.is_new():
+		doc_tenant = resolve_tenant_for_new_doc(doc)
+		if doc_tenant != tenant:
+			return False
+		product = resolve_product_for_doctype(doc.doctype)
+		if not product:
+			return True
+		try:
+			require_product_access(tenant, product, user=user)
+			return True
+		except frappe.PermissionError:
+			return False
+
 	try:
 		require_document_tenant_and_product(doc.doctype, doc.name, tenant, user=user)
 		return True
