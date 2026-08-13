@@ -9,6 +9,7 @@
  "track_changes": 1,
  "autoname": "hash",
  "naming_rule": "Random",
+ "title_field": "doctype_name",
  "sort_field": "modified",
  "sort_order": "DESC",
  "engine": "InnoDB",

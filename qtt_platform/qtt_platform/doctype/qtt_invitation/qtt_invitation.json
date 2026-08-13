@@ -9,6 +9,7 @@
  "track_changes": 1,
  "autoname": "hash",
  "naming_rule": "Random",
+ "title_field": "email",
  "sort_field": "creation",
  "sort_order": "DESC",
  "engine": "InnoDB",
