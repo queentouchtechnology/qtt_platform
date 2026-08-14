@@ -81,6 +81,7 @@ def _install_fake_modules():
 
 	fake_frappe_utils_password = types.ModuleType("frappe.utils.password")
 	fake_frappe_utils_password.get_decrypted_password = mock.Mock(return_value="test-secret")
+	fake_frappe_utils_password.update_password = mock.Mock()
 	fake_frappe_utils.password = fake_frappe_utils_password
 
 	class _Document:
@@ -194,6 +195,7 @@ from qtt_platform.qtt_platform.doctype.qtt_tenant_membership.qtt_tenant_membersh
 	QTTTenantMembership,
 )
 from qtt_platform.subscription import service as subscription_service  # noqa: E402
+from qtt_platform import user_provisioning  # noqa: E402
 from qtt_platform.user_provisioning import create_user  # noqa: E402
 
 
@@ -1252,9 +1254,30 @@ class UserProvisioningCreateUserTest(unittest.TestCase):
 		fake_frappe.db.exists = mock.Mock(return_value=False)
 		fake_user = mock.Mock()
 		fake_frappe.get_doc = mock.Mock(return_value=fake_user)
-		result = create_user("John Doe", "john@example.com", "StrongPassword123!")
+		with mock.patch.object(user_provisioning, "_set_password"):
+			result = create_user("John Doe", "john@example.com", "StrongPassword123!")
 		self.assertIs(result, fake_user)
 		fake_user.insert.assert_called_once_with(ignore_permissions=True)
+
+	def test_password_is_set_explicitly_after_insert(self):
+		# Regression test for a real bug caught via live testing (Part
+		# C-J): on this Frappe version, User.on_update() runs validate()
+		# a second time internally, which clears new_password to "" before
+		# send_password_notification() ever reads it — so relying on
+		# new_password's automatic on-insert side effect silently
+		# produced accounts nobody could ever log into (confirmed: zero
+		# rows in __Auth for a real signup-created user, traced against
+		# 100% unmodified Frappe core). create_user() must now call
+		# frappe.utils.password.update_password() itself, unconditionally,
+		# right after insert.
+		fake_frappe.db.exists = mock.Mock(return_value=False)
+		fake_user = mock.Mock()
+		fake_frappe.get_doc = mock.Mock(return_value=fake_user)
+
+		with mock.patch.object(user_provisioning, "_set_password") as set_password_mock:
+			create_user("John Doe", "john@example.com", "StrongPassword123!")
+
+		set_password_mock.assert_called_once_with("john@example.com", "StrongPassword123!")
 
 
 class InviteUserTest(unittest.TestCase):

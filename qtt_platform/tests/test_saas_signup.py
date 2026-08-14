@@ -85,8 +85,19 @@ def _install_fake_frappe():
 	fake_frappe_utils.today = lambda: "2026-08-12"
 	fake_frappe.utils = fake_frappe_utils
 
+	# qtt_platform.user_provisioning imports frappe.utils.password
+	# directly (see that module's own docstring) — needed here too so
+	# this file's own _install_fake_frappe() is self-sufficient if run
+	# in isolation, even though test_billing_subscriptions.py is what
+	# actually binds user_provisioning's `frappe` reference under
+	# `discover` (see this file's module docstring).
+	fake_frappe_utils_password = types.ModuleType("frappe.utils.password")
+	fake_frappe_utils_password.update_password = mock.Mock()
+	fake_frappe_utils.password = fake_frappe_utils_password
+
 	sys.modules["frappe"] = fake_frappe
 	sys.modules["frappe.utils"] = fake_frappe_utils
+	sys.modules["frappe.utils.password"] = fake_frappe_utils_password
 	return fake_frappe
 
 
