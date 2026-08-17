@@ -182,15 +182,26 @@ def signup(
 
 @frappe.whitelist(allow_guest=True)
 def get_plans(product_key: str = "QMP_LMS") -> dict:
-	"""Public plan catalog for the signup/pricing screen — only
-	is_public=1 plans, only display-safe fields. No session required, same
-	public-catalog reasoning as api/product.py::list_available_products."""
+	"""Public plan catalog for the signup/pricing and in-app plan-comparison
+	screens — only is_public=1 plans, only display-safe fields. No session
+	required, same public-catalog reasoning as
+	api/product.py::list_available_products.
+
+	Each plan's `features` (its `QTT Plan Feature` child rows —
+	feature_key/limit_value, the same shape
+	entitlement.engine.get_entitlements() reads to build a tenant's live
+	entitlements) is included so a caller can show what a plan actually
+	includes without a second round-trip per plan."""
 	rows = frappe.get_all(
 		"QTT Plan",
 		filters={"product": product_key, "is_public": 1},
 		fields=["name", "plan_code", "display_name", "base_price", "billing_period", "trial_days"],
 		order_by="base_price asc",
 	)
+	for row in rows:
+		row["features"] = frappe.get_all(
+			"QTT Plan Feature", filters={"parent": row.name}, fields=["feature_key", "limit_value"]
+		)
 	return ok({"plans": rows})
 
 

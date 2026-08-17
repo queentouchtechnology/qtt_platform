@@ -82,7 +82,22 @@ def invite_user(
 		)
 		invitation.insert(ignore_permissions=True)
 
-	_send_invitation_email(invitation)
+	# The invitation itself (and its token) is the real, durable result of
+	# this call — a site with no outgoing Email Account configured yet
+	# (or a transient mail failure) must not roll back an otherwise-valid
+	# invitation. Governance UI can still surface the invitation (and an
+	# admin can share its token out of band) even when delivery fails;
+	# previously an email failure raised OutgoingEmailError here and
+	# aborted the whole request, silently discarding the invitation too.
+	email_sent = True
+	try:
+		_send_invitation_email(invitation)
+	except Exception:
+		email_sent = False
+		frappe.log_error(
+			title="qtt_platform.api.invitation.invite_user: failed to send invitation email",
+			message=frappe.get_traceback(),
+		)
 
 	write_audit_event(
 		"user_invited",
@@ -93,7 +108,12 @@ def invite_user(
 		metadata={"email": email, "tenant_role": tenant_role, "product_role": product_role},
 	)
 
-	return {"invitation": invitation.name, "email": email, "expires_on": str(invitation.expires_on)}
+	return {
+		"invitation": invitation.name,
+		"email": email,
+		"expires_on": str(invitation.expires_on),
+		"email_sent": email_sent,
+	}
 
 
 @frappe.whitelist()

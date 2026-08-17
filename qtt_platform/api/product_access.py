@@ -74,7 +74,14 @@ def grant_product_access(tenant: str, target_user: str, product: str, product_ro
 def revoke_product_access(tenant: str, target_user: str, product: str) -> dict:
 	"""Soft-revoke — status becomes 'removed', the row is never deleted,
 	preserving the audit trail (consistent with how Tenant Membership
-	removal is handled)."""
+	removal is handled). A Tenant Owner/Admin may not revoke their OWN
+	product access this way — doing so can lock them out of the very
+	role-gated screens they'd need to grant it back from, with no other
+	governance action left to recover it. Self-service leave, if ever
+	needed, is a deliberately separate decision, not a side effect of
+	this admin action."""
+	if target_user == frappe.session.user:
+		frappe.throw(_("You can't remove your own product access."), frappe.ValidationError)
 	require_tenant_role(tenant, _GOVERNANCE_ROLES)
 	membership_name = frappe.db.get_value(
 		"QTT Tenant Membership", {"user": target_user, "tenant": tenant}, "name"
