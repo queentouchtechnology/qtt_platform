@@ -132,11 +132,21 @@ def revoke_invitation(tenant: str, invitation: str) -> dict:
 
 @frappe.whitelist()
 def get_pending_invitations(tenant: str) -> list[dict]:
+	# `token` included — the caller here is already governance-gated
+	# (Owner/Admin), and it's their own tenant's invitation, so
+	# returning it is what lets them actually relay it (copy/share)
+	# after the fact, not just at the moment `invite_user` first
+	# created it. Delivery isn't guaranteed (see invite_user's own
+	# email_sent handling), so this is the one place a failed-email
+	# invite can still be recovered and shared out of band.
 	require_tenant_role(tenant, _GOVERNANCE_ROLES)
 	return frappe.get_all(
 		"QTT Invitation",
 		filters={"tenant": tenant, "status": "pending"},
-		fields=["name", "email", "tenant_role", "product", "product_role", "expires_on", "invited_by", "creation"],
+		fields=[
+			"name", "email", "tenant_role", "product", "product_role",
+			"expires_on", "invited_by", "creation", "token",
+		],
 		order_by="creation desc",
 	)
 
