@@ -143,6 +143,51 @@ def change_product_role(tenant: str, target_user: str, product: str, new_role: s
 
 
 @frappe.whitelist()
+def remove_team_member(tenant: str, target_user: str) -> dict:
+	"""Fully removes a member from the tenant — not just their product
+	access (see `revoke_product_access` above for that, narrower,
+	action). Soft-removes the `QTT Tenant Membership` itself (status ->
+	'removed', never deleted, same audit-trail-preserving convention as
+	every other revoke in this file) and cascades to soft-revoke every
+	active `QTT Product Access` row under it — a removed member
+	shouldn't be left holding live access to any product just because
+	this call only touched the membership row.
+
+	Same self-protection as `revoke_product_access`: a Tenant Owner/
+	Admin can't remove themselves this way, for the same lockout
+	reason."""
+	if target_user == frappe.session.user:
+		frappe.throw(_("You can't remove yourself from the organization."), frappe.ValidationError)
+	require_tenant_role(tenant, _GOVERNANCE_ROLES)
+
+	membership_name = frappe.db.get_value(
+		"QTT Tenant Membership", {"user": target_user, "tenant": tenant}, "name"
+	)
+	if not membership_name:
+		frappe.throw(_("{0} is not a member of this tenant.").format(target_user), frappe.ValidationError)
+
+	membership = frappe.get_doc("QTT Tenant Membership", membership_name)
+	membership.status = "removed"
+	membership.save(ignore_permissions=True)
+
+	access_rows = frappe.get_all(
+		"QTT Product Access", filters={"membership": membership_name, "status": "active"}, fields=["name"]
+	)
+	for row in access_rows:
+		frappe.db.set_value("QTT Product Access", row.name, "status", "removed")
+
+	write_audit_event(
+		"team_member_removed",
+		tenant=tenant,
+		target_doctype="QTT Tenant Membership",
+		target_name=membership_name,
+		metadata={"target_user": target_user, "product_access_revoked": len(access_rows)},
+	)
+
+	return {"name": membership_name, "status": membership.status}
+
+
+@frappe.whitelist()
 def get_my_product_access(tenant: str) -> list[dict]:
 	"""Every active Product Access row for the current session user within
 	`tenant` — what a Flutter product-picker/dashboard is built from.
