@@ -269,6 +269,16 @@ def _require_subscription_capable_gateway(gateway_key: str) -> SubscriptionCapab
 	gateway = get_gateway(gateway_key)
 	if not isinstance(gateway, SubscriptionCapableGateway):
 		frappe.throw(_("Payment gateway '{0}' does not support recurring subscriptions.").format(gateway_key))
+	if not gateway.is_configured():
+		# Without this check, create_plan()/create_subscription() go straight
+		# to the gateway's HTTP call with a blank/missing key_id or
+		# key_secret — requests' Basic Auth handling then raises a raw
+		# TypeError (not a frappe.ValidationError), which start_subscription_
+		# checkout()'s bare `except Exception` swallows into an opaque
+		# "Could not start checkout" with no indication a System Manager
+		# just needs to fill in QTT Payment Gateway Config. Fail here
+		# instead, with a message that actually says what's wrong.
+		frappe.throw(_("Payment gateway '{0}' is not configured yet.").format(gateway_key))
 	return gateway
 
 
