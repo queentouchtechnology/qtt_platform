@@ -215,6 +215,14 @@ has_permission = {}
 # — declares its own, e.g. {"QMP_LMS::max_students": "lms.usage.count_students"}.
 usage_resolvers = {}
 
+# Self-service signup's initial product role, per product — read by
+# qtt_platform.api.saas._initial_product_role(). QMP_LMS's is built in
+# (api/saas.py::_INITIAL_PRODUCT_ROLE); any other product enables signup
+# from its OWN hooks.py, e.g. qtt_inbox: {"QTT_INBOX": "Manager"}, so the
+# platform never names a product. Same get_hooks() dict shape as
+# usage_resolvers above.
+saas_initial_product_roles = {}
+
 # AI feature-handler registry — production-readiness audit. Same
 # mechanism/reasoning as usage_resolvers immediately above (a hooks.py
 # dict, never a DocType field), read by

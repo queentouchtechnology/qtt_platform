@@ -188,6 +188,30 @@ class ResolvePlanTest(unittest.TestCase):
 		self.assertEqual(plan.plan_code, "STARTER")
 
 
+class InitialProductRoleTest(unittest.TestCase):
+	"""Product apps enable self-service signup via their own
+	`saas_initial_product_roles` hook (e.g. qtt_inbox -> QTT_INBOX)."""
+
+	def test_builtin_qmp_lms(self):
+		fake_frappe.get_hooks = mock.Mock(return_value={})
+		self.assertEqual(saas._initial_product_role("QMP_LMS"), "Manager")
+
+	def test_hook_registered_product_uses_last_contribution(self):
+		fake_frappe.get_hooks = mock.Mock(return_value={"QTT_INBOX": ["Agent", "Manager"]})
+		self.assertEqual(saas._initial_product_role("QTT_INBOX"), "Manager")
+		fake_frappe.get_hooks.assert_called_with("saas_initial_product_roles")
+
+	def test_bare_string_hook_value(self):
+		fake_frappe.get_hooks = mock.Mock(return_value={"QTT_INBOX": "Manager"})
+		self.assertEqual(saas._initial_product_role("QTT_INBOX"), "Manager")
+
+	def test_unregistered_product_is_none(self):
+		fake_frappe.get_hooks = mock.Mock(return_value={"QTT_INBOX": ["Manager"]})
+		self.assertIsNone(saas._initial_product_role("QTT_HRMS"))
+		fake_frappe.get_hooks = mock.Mock(return_value=None)
+		self.assertIsNone(saas._initial_product_role("QTT_HRMS"))
+
+
 class ValidateLocaleRefsTest(unittest.TestCase):
 	def test_blank_values_are_skipped(self):
 		fake_frappe.db.exists = mock.Mock(return_value=False)

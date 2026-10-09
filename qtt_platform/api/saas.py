@@ -107,7 +107,7 @@ def signup(
 			# now the more correct source for the tenant-level marker.
 			frappe.db.set_value("QTT Tenant", tenant.name, "trial_ends_on", subscription.trial_end)
 
-		product_role = _INITIAL_PRODUCT_ROLE.get(product_key)
+		product_role = _initial_product_role(product_key)
 		if not product_role:
 			# Reaching this means a product other than QMP_LMS was passed as
 			# product_key — _resolve_product() already confirmed the product
@@ -203,6 +203,23 @@ def get_plans(product_key: str = "QMP_LMS") -> dict:
 			"QTT Plan Feature", filters={"parent": row.name}, fields=["feature_key", "limit_value"]
 		)
 	return ok({"plans": rows})
+
+
+def _initial_product_role(product_key: str) -> str | None:
+	"""_INITIAL_PRODUCT_ROLE above, extended by any product app's own
+	`saas_initial_product_roles` hooks.py dict (e.g. qtt_inbox declares
+	{"QTT_INBOX": "Manager"}) — so a new product enables self-service
+	signup from its own app, without qtt_platform ever naming it. Same
+	confirmed get_hooks() dict shape as usage/registry.py: each key's value
+	arrives wrapped in a list of every declaring app's contribution; the
+	last one wins."""
+	if product_key in _INITIAL_PRODUCT_ROLE:
+		return _INITIAL_PRODUCT_ROLE[product_key]
+	raw = frappe.get_hooks("saas_initial_product_roles") or {}
+	value = raw.get(product_key)
+	if isinstance(value, list):
+		value = value[-1] if value else None
+	return value or None
 
 
 def _validate_signup_input(full_name, email, password, organization_name) -> None:
