@@ -1,0 +1,137 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Server",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "One server QTT runs. Its agent (qtt_platform/public/ops/qtt-server-agent.py) reports every 5 minutes; QTT Admin → Servers shows the status, meters and history.",
+ "field_order": [
+  "server_key",
+  "title",
+  "ip_address",
+  "provider_id",
+  "purpose",
+  "enabled",
+  "section_status",
+  "status",
+  "last_report_at",
+  "last_report",
+  "column_break_status",
+  "problems",
+  "section_secret",
+  "report_token"
+ ],
+ "fields": [
+  {
+   "fieldname": "server_key",
+   "fieldtype": "Data",
+   "label": "Key",
+   "reqd": 1,
+   "unique": 1,
+   "description": "Short id, e.g. frappe, n8n, ai-os, cloudpanel."
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Name",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "ip_address",
+   "fieldtype": "Data",
+   "label": "IP address",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "provider_id",
+   "fieldtype": "Data",
+   "label": "Provider ID",
+   "description": "e.g. Contabo vmi2748666"
+  },
+  {
+   "fieldname": "purpose",
+   "fieldtype": "Small Text",
+   "label": "What runs here"
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Monitored",
+   "default": "1"
+  },
+  {
+   "fieldname": "section_status",
+   "fieldtype": "Section Break",
+   "label": "Status"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "new\nok\nwarning\ncritical\noffline",
+   "default": "new",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "last_report_at",
+   "fieldtype": "Datetime",
+   "label": "Last report",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "last_report",
+   "fieldtype": "Link",
+   "label": "Latest report",
+   "options": "QTT Server Report",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_status",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "problems",
+   "fieldtype": "Small Text",
+   "label": "Problems",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_secret",
+   "fieldtype": "Section Break",
+   "label": "Agent",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "report_token",
+   "fieldtype": "Password",
+   "label": "Report token",
+   "length": 200,
+   "description": "Sent by the agent on this server. Rotate from QTT Admin → Servers."
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "links": [],
+ "autoname": "field:server_key",
+ "naming_rule": "By fieldname",
+ "title_field": "title"
+}

@@ -300,6 +300,10 @@ tenant_dynamic_parent_links = {}
 # trial/billing-cycle boundary is date-granular already).
 # --------------------------------------------------------------------------
 scheduler_events = {
+	"cron": {
+		# QTT Admin → Servers: servers that stop reporting become offline.
+		"*/5 * * * *": ["qtt_platform.api.servers.check_offline"],
+	},
 	"hourly": [
 		"qtt_platform.billing.service.reconcile_subscriptions",
 		# Marketing approvals past their deadline follow their timeout rule.
@@ -314,5 +318,6 @@ scheduler_events = {
 		"qtt_platform.api.invitation.expire_stale_invitations",
 		# Keeps yesterday's marketing report as it was (QTT Admin → Marketing).
 		"qtt_platform.api.marketing_dashboard.snapshot_yesterday",
+		"qtt_platform.api.servers.purge_reports",
 	],
 }

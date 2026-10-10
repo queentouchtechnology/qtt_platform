@@ -26,6 +26,9 @@ def seed_app_defaults() -> None:
 	from qtt_platform.marketing.seed import seed_marketing_defaults
 
 	seed_marketing_defaults()
+	from qtt_platform.api.servers import seed_servers
+
+	seed_servers()
 	config_changed()
 
 

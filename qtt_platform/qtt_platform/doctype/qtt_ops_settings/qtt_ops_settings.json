@@ -1,0 +1,79 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Ops Settings",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 1,
+ "quick_entry": 0,
+ "track_changes": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "Thresholds and alerts for QTT Admin → Servers.",
+ "field_order": [
+  "slack_webhook_url",
+  "offline_after_minutes",
+  "column_break_limits",
+  "disk_warn",
+  "disk_critical",
+  "mem_warn",
+  "load_warn_per_core"
+ ],
+ "fields": [
+  {
+   "fieldname": "slack_webhook_url",
+   "fieldtype": "Password",
+   "label": "Slack webhook for alerts",
+   "length": 500,
+   "description": "Slack → Apps → Incoming Webhooks → channel #qttos. Alerts are sent when a server's status changes."
+  },
+  {
+   "fieldname": "offline_after_minutes",
+   "fieldtype": "Int",
+   "label": "Offline after (minutes)",
+   "default": "15"
+  },
+  {
+   "fieldname": "column_break_limits",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "disk_warn",
+   "fieldtype": "Float",
+   "label": "Disk warning at %",
+   "default": "85"
+  },
+  {
+   "fieldname": "disk_critical",
+   "fieldtype": "Float",
+   "label": "Disk critical at %",
+   "default": "95"
+  },
+  {
+   "fieldname": "mem_warn",
+   "fieldtype": "Float",
+   "label": "Memory warning at %",
+   "default": "90"
+  },
+  {
+   "fieldname": "load_warn_per_core",
+   "fieldtype": "Float",
+   "label": "Load warning per CPU core",
+   "default": "2"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 0,
+   "delete": 0,
+   "report": 0,
+   "export": 0
+  }
+ ],
+ "links": []
+}

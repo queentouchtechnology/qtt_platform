@@ -1,0 +1,119 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Server Report",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 1,
+ "sort_field": "reported_at",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "One 5-minute report from a server's agent. Kept 30 days.",
+ "field_order": [
+  "server",
+  "reported_at",
+  "disk_used_pct",
+  "mem_used_pct",
+  "load5",
+  "column_break_numbers",
+  "disk_total_gb",
+  "disk_used_gb",
+  "mem_total_gb",
+  "cpu_count",
+  "uptime_seconds",
+  "section_detail",
+  "data"
+ ],
+ "fields": [
+  {
+   "fieldname": "server",
+   "fieldtype": "Link",
+   "label": "Server",
+   "options": "QTT Server",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "reported_at",
+   "fieldtype": "Datetime",
+   "label": "Reported at",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "disk_used_pct",
+   "fieldtype": "Float",
+   "label": "Disk used %",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "mem_used_pct",
+   "fieldtype": "Float",
+   "label": "Memory used %",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "load5",
+   "fieldtype": "Float",
+   "label": "Load (5 min)",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "column_break_numbers",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "disk_total_gb",
+   "fieldtype": "Float",
+   "label": "Disk size (GB)"
+  },
+  {
+   "fieldname": "disk_used_gb",
+   "fieldtype": "Float",
+   "label": "Disk used (GB)"
+  },
+  {
+   "fieldname": "mem_total_gb",
+   "fieldtype": "Float",
+   "label": "Memory (GB)"
+  },
+  {
+   "fieldname": "cpu_count",
+   "fieldtype": "Int",
+   "label": "CPU cores"
+  },
+  {
+   "fieldname": "uptime_seconds",
+   "fieldtype": "Int",
+   "label": "Uptime (s)"
+  },
+  {
+   "fieldname": "section_detail",
+   "fieldtype": "Section Break",
+   "label": "Detail",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "data",
+   "fieldtype": "Long Text",
+   "label": "Report (JSON)"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 0,
+   "delete": 0,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "links": [],
+ "autoname": "hash"
+}
