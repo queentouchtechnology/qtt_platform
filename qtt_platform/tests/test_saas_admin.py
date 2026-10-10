@@ -97,3 +97,27 @@ class RevenueTest(unittest.TestCase):
 
 if __name__ == "__main__":
 	unittest.main()
+
+
+class AttentionTest(unittest.TestCase):
+	def test_ranked_most_urgent_first(self):
+		items = logic.attention_items(
+			servers=[{"key": "n8n", "title": "n8n", "status": "warning", "problems": "Swap 92% used"},
+					 {"key": "cp", "title": "Cloud Panel", "status": "offline", "problems": None}],
+			trials=[{"tenant": "T2", "tenant_name": "Bala", "product": "QTT_INBOX", "trial_end": "2026-10-17"},
+					{"tenant": "T3", "tenant_name": "Acme", "product": "QTT_INBOX", "trial_end": "2026-10-11"}],
+			past_due=[{"tenant": "T4", "tenant_name": "Zed", "product": "QTT_OFFICE_PULSE"}],
+			approvals=[{"name": "C1", "title": "LinkedIn post"}, {"name": "C2", "title": "Article"}],
+			setup_errors=[{"tenant": "T5", "tenant_name": "Kay", "product": "Inbox", "error": "Chatwoot 401"}],
+			today_str="2026-10-10",
+		)
+		self.assertEqual([i["kind"] for i in items], ["server", "setup", "payment", "server", "trial", "approval", "trial"])
+		self.assertEqual(items[0]["title"], "Cloud Panel")  # offline = critical
+		trial_soon = next(i for i in items if i["kind"] == "trial" and i["target"] == "T3")
+		self.assertEqual((trial_soon["level"], trial_soon["days"]), ("warning", 1))
+		self.assertEqual(items[-1]["days"], 7)  # a week away is just info
+		approval = next(i for i in items if i["kind"] == "approval")
+		self.assertEqual((approval["count"], approval["area"]), (2, "marketing"))
+
+	def test_nothing_to_do(self):
+		self.assertEqual(logic.attention_items(today_str="2026-10-10"), [])

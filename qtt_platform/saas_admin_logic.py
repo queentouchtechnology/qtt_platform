@@ -151,3 +151,49 @@ def revenue_summary(subscriptions: list[dict]) -> dict:
 		"mrr_by_product": by_product,
 		"counts": counts,
 	}
+
+
+# --------------------------------------------------------------------------
+# QTT Admin home: one ranked "needs attention" list
+# --------------------------------------------------------------------------
+_LEVEL_ORDER = {"critical": 0, "warning": 1, "info": 2}
+_KIND_ORDER = {"server": 0, "setup": 1, "payment": 2, "trial": 3, "approval": 4}
+
+
+def attention_items(*, servers=(), trials=(), past_due=(), approvals=(), setup_errors=(), today_str: str) -> list[dict]:
+	"""Everything a QTT admin should look at, most urgent first. Each item:
+	{level, kind, title, area, target} plus facts the app turns into a
+	translated sentence (product, days, count, status) and, where the server
+	wrote one, a raw `detail`. `area` is the admin page the app opens,
+	`target` the record in it."""
+	items = []
+	for s in servers:
+		level = "critical" if s["status"] in ("critical", "offline") else "warning"
+		items.append({"level": level, "kind": "server", "title": s["title"], "status": s["status"],
+					  "detail": s.get("problems") or None, "area": "servers", "target": s["key"]})
+	for p in past_due:
+		items.append({"level": "critical", "kind": "payment", "title": p.get("tenant_name") or p["tenant"],
+					  "product": p["product"], "area": "customers", "target": p["tenant"]})
+	for t in trials:
+		days = _days_between(today_str, t.get("trial_end"))
+		level = "warning" if days is not None and days <= 2 else "info"
+		items.append({"level": level, "kind": "trial", "title": t.get("tenant_name") or t["tenant"],
+					  "product": t["product"], "days": days, "area": "customers", "target": t["tenant"]})
+	for e in setup_errors:
+		items.append({"level": "critical", "kind": "setup", "title": e.get("tenant_name") or e["tenant"],
+					  "product": e["product"], "detail": (e.get("error") or "")[:160] or None,
+					  "area": "customers", "target": e["tenant"]})
+	if approvals:
+		items.append({"level": "warning", "kind": "approval", "title": approvals[0].get("title") or "",
+					  "count": len(approvals), "area": "marketing", "target": None})
+	return sorted(items, key=lambda i: (_LEVEL_ORDER.get(i["level"], 9), _KIND_ORDER.get(i["kind"], 9),
+										 i["days"] if i.get("days") is not None else 99, (i["title"] or "").lower()))
+
+
+def _days_between(today_str: str, date_str) -> int | None:
+	from datetime import date
+
+	try:
+		return (date.fromisoformat(str(date_str)[:10]) - date.fromisoformat(today_str[:10])).days
+	except (TypeError, ValueError):
+		return None
