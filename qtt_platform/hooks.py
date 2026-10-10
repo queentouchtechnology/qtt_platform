@@ -310,5 +310,7 @@ scheduler_events = {
 		"qtt_platform.subscription.service.finalize_pending_cancellations",
 		"qtt_platform.subscription.service.apply_due_scheduled_downgrades",
 		"qtt_platform.api.invitation.expire_stale_invitations",
+		# Keeps yesterday's marketing report as it was (QTT Admin → Marketing).
+		"qtt_platform.api.marketing_dashboard.snapshot_yesterday",
 	],
 }

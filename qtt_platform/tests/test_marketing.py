@@ -31,7 +31,7 @@ class FakeSession:
 		self.responses = list(responses)
 		self.calls = []
 
-	def request(self, method, url, params=None, headers=None, timeout=None):
+	def request(self, method, url, params=None, headers=None, timeout=None, json=None):
 		self.calls.append((method, url, params, headers))
 		nxt = self.responses.pop(0)
 		if isinstance(nxt, Exception):

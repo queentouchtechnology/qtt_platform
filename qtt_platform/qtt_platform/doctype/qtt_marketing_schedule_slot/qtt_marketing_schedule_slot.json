@@ -1,0 +1,136 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Marketing Schedule Slot",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 1,
+ "editable_grid": 0,
+ "sort_field": "start_time",
+ "sort_order": "ASC",
+ "engine": "InnoDB",
+ "description": "One recurring block in QTT's daily marketing schedule (calls, email batches, automations…).",
+ "field_order": [
+  "title",
+  "kind",
+  "owner_name",
+  "column_break_time",
+  "start_time",
+  "end_time",
+  "days",
+  "section_more",
+  "valid_from",
+  "valid_to",
+  "n8n_workflow_id",
+  "column_break_more",
+  "notes",
+  "sort_order",
+  "enabled"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "What",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "kind",
+   "fieldtype": "Select",
+   "label": "Kind",
+   "options": "automation\ncalls\nemail\nsocial\nresearch\nreport\ntask\nvisit\nother",
+   "default": "task",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "owner_name",
+   "fieldtype": "Data",
+   "label": "Who",
+   "in_list_view": 1,
+   "description": "founder, Gayathri, auto…"
+  },
+  {
+   "fieldname": "column_break_time",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "start_time",
+   "fieldtype": "Time",
+   "label": "Starts",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "end_time",
+   "fieldtype": "Time",
+   "label": "Ends"
+  },
+  {
+   "fieldname": "days",
+   "fieldtype": "Data",
+   "label": "Days",
+   "default": "mon,tue,wed,thu,fri",
+   "description": "Comma-separated: mon,tue,wed,thu,fri,sat,sun"
+  },
+  {
+   "fieldname": "section_more",
+   "fieldtype": "Section Break",
+   "label": ""
+  },
+  {
+   "fieldname": "valid_from",
+   "fieldtype": "Date",
+   "label": "From date",
+   "description": "Optional, e.g. a time that changes from 26 Oct."
+  },
+  {
+   "fieldname": "valid_to",
+   "fieldtype": "Date",
+   "label": "Until date"
+  },
+  {
+   "fieldname": "n8n_workflow_id",
+   "fieldtype": "Data",
+   "label": "n8n Workflow ID",
+   "description": "For automations: changing the time here can also move the workflow's run time."
+  },
+  {
+   "fieldname": "column_break_more",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "sort_order",
+   "fieldtype": "Int",
+   "label": "Order",
+   "default": "0"
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "default": "1"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "links": []
+}

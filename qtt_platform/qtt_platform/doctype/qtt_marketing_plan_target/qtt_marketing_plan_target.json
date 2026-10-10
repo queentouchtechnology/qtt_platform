@@ -1,0 +1,65 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Marketing Plan Target",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 1,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 0,
+ "editable_grid": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "One target in a QTT Marketing Plan.",
+ "field_order": [
+  "metric",
+  "target",
+  "target_number",
+  "metric_key",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "metric",
+   "fieldtype": "Data",
+   "label": "Metric",
+   "reqd": 1,
+   "in_list_view": 1,
+   "columns": 3
+  },
+  {
+   "fieldname": "target",
+   "fieldtype": "Data",
+   "label": "Target",
+   "reqd": 1,
+   "in_list_view": 1,
+   "columns": 2,
+   "description": "As written, e.g. 300–400 or 5%."
+  },
+  {
+   "fieldname": "target_number",
+   "fieldtype": "Float",
+   "label": "Target Number",
+   "in_list_view": 1,
+   "columns": 2,
+   "description": "For the progress bar, e.g. 300."
+  },
+  {
+   "fieldname": "metric_key",
+   "fieldtype": "Select",
+   "label": "Measured From",
+   "options": "\nleads\nemails_sent\nemail_replies\ncalls\napplications",
+   "in_list_view": 1,
+   "columns": 2,
+   "description": "Counted automatically from CRM. Empty = tracked by hand."
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "permissions": [],
+ "links": []
+}

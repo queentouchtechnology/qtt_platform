@@ -14,7 +14,9 @@
  "field_order": [
   "enabled",
   "n8n_url",
-  "n8n_api_key"
+  "n8n_api_key",
+  "section_report",
+  "jobs_project"
  ],
  "fields": [
   {
@@ -36,6 +38,17 @@
    "label": "n8n API Key",
    "length": 1000,
    "description": "From n8n → Settings → n8n API. Server-side only."
+  },
+  {
+   "fieldname": "section_report",
+   "fieldtype": "Section Break",
+   "label": "Daily report"
+  },
+  {
+   "fieldname": "jobs_project",
+   "fieldtype": "Data",
+   "label": "Job applications project",
+   "description": "Project whose Tasks are Gayathri's job applications (e.g. PROJ-0004). Empty = not counted."
   }
  ],
  "permissions": [

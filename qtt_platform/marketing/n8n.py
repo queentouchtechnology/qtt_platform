@@ -56,17 +56,42 @@ class N8nClient:
 			params["workflowId"] = workflow_id
 		return self._request("GET", "/executions", params=params).get("data") or []
 
+	def executions_since(self, since: datetime, *, max_pages: int = 8) -> list[dict]:
+		"""Newest first, paging back until runs start before `since` (UTC).
+		Capped so one very chatty workflow can't make this slow."""
+		items: list[dict] = []
+		cursor = None
+		for _ in range(max_pages):
+			params: dict = {"limit": 250}
+			if cursor:
+				params["cursor"] = cursor
+			page = self._request("GET", "/executions", params=params)
+			batch = page.get("data") or []
+			items.extend(batch)
+			cursor = page.get("nextCursor")
+			oldest = _parse_time(batch[-1].get("startedAt")) if batch else None
+			if not cursor or (oldest and oldest < since):
+				break
+		return items
+
+	def workflow(self, workflow_id: str) -> dict:
+		return self._request("GET", f"/workflows/{workflow_id}")
+
+	def update_workflow(self, workflow_id: str, body: dict) -> dict:
+		return self._request("PUT", f"/workflows/{workflow_id}", json=body)
+
 	def set_active(self, workflow_id: str, active: bool) -> dict:
 		action = "activate" if active else "deactivate"
 		return self._request("POST", f"/workflows/{workflow_id}/{action}")
 
 	# -- transport ------------------------------------------------------------
-	def _request(self, method: str, path: str, params: dict | None = None) -> dict:
+	def _request(self, method: str, path: str, params: dict | None = None, json: dict | None = None) -> dict:
 		url = f"{self.base_url}/api/v1{path}"
+		kwargs = {"params": params, "headers": {"X-N8N-API-KEY": self.api_key, "Accept": "application/json"}, "timeout": self.timeout}
+		if json is not None:
+			kwargs["json"] = json
 		try:
-			response = self.session.request(
-				method, url, params=params, headers={"X-N8N-API-KEY": self.api_key, "Accept": "application/json"}, timeout=self.timeout
-			)
+			response = self.session.request(method, url, **kwargs)
 		except requests.Timeout as exc:
 			raise N8nError(f"n8n at {self.base_url} didn't answer in time.") from exc
 		except requests.RequestException as exc:
@@ -76,6 +101,8 @@ class N8nClient:
 			raise N8nError("n8n rejected the API key. Create a new one in n8n → Settings → n8n API.")
 		if response.status_code == 404:
 			raise N8nError("Not found on n8n. Check the address, and that the n8n public API is enabled.")
+		if response.status_code == 400:
+			raise N8nError("n8n refused the change. Nothing was saved.")
 		if response.status_code >= 400:
 			raise N8nError(f"n8n returned an error ({response.status_code}).")
 		try:

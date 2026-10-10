@@ -1,0 +1,112 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Marketing Plan",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 1,
+ "editable_grid": 0,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "QTT's marketing plan for one month (targets, weeks, to-dos, special days). Edited in QTT OS → QTT Admin → Marketing → Month plan; read by the 08:00 daily report.",
+ "field_order": [
+  "month",
+  "title",
+  "status",
+  "summary",
+  "section_targets",
+  "targets",
+  "section_weeks",
+  "weeks",
+  "section_todos",
+  "todos",
+  "day_notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "month",
+   "fieldtype": "Data",
+   "label": "Month",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1,
+   "description": "YYYY-MM, e.g. 2026-10."
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "draft\nactive\ndone",
+   "default": "active",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "summary",
+   "fieldtype": "Small Text",
+   "label": "Focus"
+  },
+  {
+   "fieldname": "section_targets",
+   "fieldtype": "Section Break",
+   "label": "Targets"
+  },
+  {
+   "fieldname": "targets",
+   "fieldtype": "Table",
+   "label": "Targets",
+   "options": "QTT Marketing Plan Target"
+  },
+  {
+   "fieldname": "section_weeks",
+   "fieldtype": "Section Break",
+   "label": "Week by week"
+  },
+  {
+   "fieldname": "weeks",
+   "fieldtype": "Table",
+   "label": "Weeks",
+   "options": "QTT Marketing Plan Week"
+  },
+  {
+   "fieldname": "section_todos",
+   "fieldtype": "Section Break",
+   "label": "To-dos and special days"
+  },
+  {
+   "fieldname": "todos",
+   "fieldtype": "Table",
+   "label": "To-dos",
+   "options": "QTT Marketing Plan Todo"
+  },
+  {
+   "fieldname": "day_notes",
+   "fieldtype": "Table",
+   "label": "Special days",
+   "options": "QTT Marketing Plan Day Note"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "links": [],
+ "autoname": "field:month",
+ "naming_rule": "By fieldname",
+ "title_field": "title"
+}

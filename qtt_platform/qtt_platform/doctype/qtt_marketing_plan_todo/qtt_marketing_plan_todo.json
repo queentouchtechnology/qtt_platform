@@ -1,0 +1,56 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Marketing Plan Todo",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 1,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 0,
+ "editable_grid": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "A dated to-do in a QTT Marketing Plan.",
+ "field_order": [
+  "due_date",
+  "title",
+  "owner_name",
+  "status"
+ ],
+ "fields": [
+  {
+   "fieldname": "due_date",
+   "fieldtype": "Date",
+   "label": "By",
+   "in_list_view": 1,
+   "columns": 2
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "To-do",
+   "reqd": 1,
+   "in_list_view": 1,
+   "columns": 5
+  },
+  {
+   "fieldname": "owner_name",
+   "fieldtype": "Data",
+   "label": "Who",
+   "in_list_view": 1,
+   "columns": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "open\ndone",
+   "default": "open",
+   "in_list_view": 1,
+   "columns": 2
+  }
+ ],
+ "permissions": [],
+ "links": []
+}

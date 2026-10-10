@@ -1,0 +1,55 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Marketing Daily Report",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 1,
+ "editable_grid": 0,
+ "sort_field": "report_date",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "Saved copy of one day's marketing report (written just after midnight for the day before), so past days stay as they were.",
+ "field_order": [
+  "report_date",
+  "generated_at",
+  "data"
+ ],
+ "fields": [
+  {
+   "fieldname": "report_date",
+   "fieldtype": "Date",
+   "label": "Date",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "generated_at",
+   "fieldtype": "Datetime",
+   "label": "Generated At",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "data",
+   "fieldtype": "Long Text",
+   "label": "Report (JSON)"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "links": [],
+ "autoname": "field:report_date",
+ "naming_rule": "By fieldname"
+}

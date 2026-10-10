@@ -22,6 +22,9 @@ def seed_app_defaults() -> None:
 	_seed_themes()
 	_seed_settings()
 	_seed_translations()
+	from qtt_platform.marketing.seed import seed_marketing_defaults
+
+	seed_marketing_defaults()
 	config_changed()
 
 
