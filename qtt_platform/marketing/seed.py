@@ -10,6 +10,7 @@ in QTT OS → QTT Admin → Marketing (or Desk).
 
 import frappe
 
+_SLOTS_SEEDED = "qtt_marketing_slots_seeded"
 WEEKDAYS = "mon,tue,wed,thu,fri"
 MON_SAT = "mon,tue,wed,thu,fri,sat"
 MON_THU = "mon,tue,wed,thu"
@@ -121,11 +122,24 @@ def seed_marketing_defaults() -> None:
 			doc.append("todos", {"due_date": due, "title": title, "owner_name": owner, "status": "open"})
 		for day, note in PLAN["day_notes"]:
 			doc.append("day_notes", {"date": day, "note": note})
-		doc.insert(ignore_permissions=True)
-	if not frappe.db.count("QTT Marketing Schedule Slot"):
-		for i, (title, kind, owner, start, end, days, extra) in enumerate(SLOTS):
+		try:
+			doc.insert(ignore_permissions=True)
+		except Exception:
+			frappe.log_error(title="qtt_platform marketing seed: October 2026 plan skipped")
+	# Once per site: a flag (not "table is empty") so a half-finished first run
+	# can complete later, and slots deleted afterwards never come back.
+	if frappe.db.get_default(_SLOTS_SEEDED):
+		return
+	for i, (title, kind, owner, start, end, days, extra) in enumerate(SLOTS):
+		if frappe.db.exists("QTT Marketing Schedule Slot", {"title": title, "start_time": start}):
+			continue
+		try:
 			frappe.get_doc({
 				"doctype": "QTT Marketing Schedule Slot",
 				"title": title, "kind": kind, "owner_name": owner, "start_time": start, "end_time": end,
 				"days": days, "sort_order": i, "enabled": 1, **extra,
 			}).insert(ignore_permissions=True)
+		except Exception:
+			# Starting data must never break a migrate — log it and carry on.
+			frappe.log_error(title=f"qtt_platform marketing seed: slot '{title}' skipped")
+	frappe.db.set_default(_SLOTS_SEEDED, "1")
