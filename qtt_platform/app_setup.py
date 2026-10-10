@@ -1,6 +1,6 @@
 """
 Seeds the QTT OS app's backend-controlled defaults on install/migrate:
-QTT App Settings defaults, the built-in themes, and app-string
+the QTT Platform Owner role, QTT App Settings defaults, the built-in themes, and app-string
 translations (Frappe Translation rows, context=qtt_app) from
 qtt_platform/app_i18n/<language>.json.
 
@@ -19,6 +19,7 @@ from qtt_platform.app_defaults import DEFAULT_THEMES
 _I18N_DIR = os.path.join(os.path.dirname(__file__), "app_i18n")
 
 def seed_app_defaults() -> None:
+	_ensure_platform_owner_role()
 	_seed_themes()
 	_seed_settings()
 	_seed_translations()
@@ -26,6 +27,17 @@ def seed_app_defaults() -> None:
 
 	seed_marketing_defaults()
 	config_changed()
+
+
+def _ensure_platform_owner_role() -> None:
+	"""The Frappe Role that unlocks QTT Admin (tenant/guards.require_platform_owner).
+	Created if missing; never given to anyone automatically — assign it to
+	QTT staff in Desk → User → Roles."""
+	from qtt_platform.tenant.guards import PLATFORM_OWNER_ROLE
+
+	if frappe.db.exists("Role", PLATFORM_OWNER_ROLE):
+		return
+	frappe.get_doc({"doctype": "Role", "role_name": PLATFORM_OWNER_ROLE, "desk_access": 1}).insert(ignore_permissions=True)
 
 
 def _seed_themes() -> None:
