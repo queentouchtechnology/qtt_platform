@@ -14,6 +14,7 @@ Product-agnostic: products come from QTT Product rows, never named here.
 
 import frappe
 from frappe import _
+from frappe.utils import get_url
 
 from qtt_platform.realtime import CONTEXT_CHANGED_EVENT
 from qtt_platform.subscription import service as subscription_service
@@ -81,7 +82,7 @@ def _memberships(user: str) -> list[dict]:
 				"tenant_name": t.tenant_name or r.tenant,
 				"tenant_status": t.status,
 				"tenant_role": r.tenant_role,
-				"logo": t.logo,
+				"logo": get_url(t.logo) if t.logo and not t.logo.startswith("http") else t.logo,
 				# Workspace-level formatting defaults for the app (money is
 				# always shown in the workspace's currency).
 				"currency": t.currency,

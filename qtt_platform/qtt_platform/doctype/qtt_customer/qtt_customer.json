@@ -1,0 +1,219 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Customer",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "A workspace's customer, shared by every QTT product (Inbox contacts link here). Always scoped by tenant; edited from the app (Customers).",
+ "field_order": [
+  "tenant",
+  "customer_name",
+  "customer_type",
+  "company_name",
+  "contact_person",
+  "status",
+  "column_break_main",
+  "phone",
+  "whatsapp",
+  "email",
+  "source",
+  "inbox_contact_id",
+  "section_address",
+  "address_line1",
+  "address_line2",
+  "city",
+  "column_break_address",
+  "state",
+  "pincode",
+  "country",
+  "section_tax",
+  "gstin",
+  "column_break_tax",
+  "pan",
+  "section_notes",
+  "tags",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "label": "Workspace",
+   "options": "QTT Tenant",
+   "reqd": 1,
+   "search_index": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Name",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "customer_type",
+   "fieldtype": "Select",
+   "label": "Type",
+   "options": "Individual\nBusiness",
+   "default": "Individual",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "company_name",
+   "fieldtype": "Data",
+   "label": "Company"
+  },
+  {
+   "fieldname": "contact_person",
+   "fieldtype": "Data",
+   "label": "Contact person"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Active\nArchived",
+   "default": "Active",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "column_break_main",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "phone",
+   "fieldtype": "Data",
+   "label": "Phone",
+   "in_list_view": 1,
+   "search_index": 1,
+   "description": "Stored as +<country code><number>."
+  },
+  {
+   "fieldname": "whatsapp",
+   "fieldtype": "Data",
+   "label": "WhatsApp"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "search_index": 1
+  },
+  {
+   "fieldname": "source",
+   "fieldtype": "Select",
+   "label": "Source",
+   "options": "Manual\nInbox\nImport",
+   "default": "Manual"
+  },
+  {
+   "fieldname": "inbox_contact_id",
+   "fieldtype": "Int",
+   "label": "Inbox contact ID",
+   "search_index": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_address",
+   "fieldtype": "Section Break",
+   "label": "Billing address"
+  },
+  {
+   "fieldname": "address_line1",
+   "fieldtype": "Data",
+   "label": "Address line 1"
+  },
+  {
+   "fieldname": "address_line2",
+   "fieldtype": "Data",
+   "label": "Address line 2"
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "label": "City"
+  },
+  {
+   "fieldname": "column_break_address",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Data",
+   "label": "State"
+  },
+  {
+   "fieldname": "pincode",
+   "fieldtype": "Data",
+   "label": "PIN code"
+  },
+  {
+   "fieldname": "country",
+   "fieldtype": "Link",
+   "label": "Country",
+   "options": "Country"
+  },
+  {
+   "fieldname": "section_tax",
+   "fieldtype": "Section Break",
+   "label": "Tax"
+  },
+  {
+   "fieldname": "gstin",
+   "fieldtype": "Data",
+   "label": "GSTIN"
+  },
+  {
+   "fieldname": "column_break_tax",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "pan",
+   "fieldtype": "Data",
+   "label": "PAN"
+  },
+  {
+   "fieldname": "section_notes",
+   "fieldtype": "Section Break",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "tags",
+   "fieldtype": "Small Text",
+   "label": "Tags",
+   "description": "Comma-separated, e.g. VIP, Wholesale."
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Text",
+   "label": "Notes"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "links": [],
+ "autoname": "hash",
+ "title_field": "customer_name",
+ "show_title_field_in_link": 1,
+ "search_fields": "phone,email,company_name"
+}
