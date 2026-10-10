@@ -1,0 +1,211 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Marketing Content",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 1,
+ "autoname": "hash",
+ "title_field": "title",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "One article, LinkedIn post, email batch or day of social posts prepared by QTT's marketing automation. Pending ones wait for a decision in QTT OS → QTT Admin → Marketing → Approvals or the Slack links; the n8n run continues when decided.",
+ "field_order": [
+  "kind",
+  "status",
+  "title",
+  "site",
+  "column_break_main",
+  "preview_url",
+  "live_url",
+  "expires_at",
+  "timeout_action",
+  "section_content",
+  "summary",
+  "body",
+  "section_decision",
+  "decided_by",
+  "decided_at",
+  "decided_via",
+  "column_break_decision",
+  "decision_note",
+  "published_at",
+  "section_workflow",
+  "workflow_id",
+  "workflow_name",
+  "execution_id",
+  "resume_url",
+  "token"
+ ],
+ "fields": [
+  {
+   "fieldname": "kind",
+   "fieldtype": "Select",
+   "label": "Kind",
+   "options": "article\nlinkedin\nemail_batch\nsocial\nother",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "pending\napproved\nrejected\nexpired\npublished\nfailed",
+   "default": "pending",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "site",
+   "fieldtype": "Data",
+   "label": "Site / channel",
+   "description": "e.g. queentouchtech.com, sathishkumar.pro, LinkedIn, Instagram…"
+  },
+  {
+   "fieldname": "column_break_main",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "preview_url",
+   "fieldtype": "Data",
+   "label": "Preview link",
+   "options": "URL"
+  },
+  {
+   "fieldname": "live_url",
+   "fieldtype": "Data",
+   "label": "Live link",
+   "options": "URL"
+  },
+  {
+   "fieldname": "expires_at",
+   "fieldtype": "Datetime",
+   "label": "Decide by"
+  },
+  {
+   "fieldname": "timeout_action",
+   "fieldtype": "Select",
+   "label": "If nobody decides",
+   "options": "reject\napprove",
+   "default": "reject"
+  },
+  {
+   "fieldname": "section_content",
+   "fieldtype": "Section Break",
+   "label": "Content"
+  },
+  {
+   "fieldname": "summary",
+   "fieldtype": "Small Text",
+   "label": "Summary"
+  },
+  {
+   "fieldname": "body",
+   "fieldtype": "Long Text",
+   "label": "Full content"
+  },
+  {
+   "fieldname": "section_decision",
+   "fieldtype": "Section Break",
+   "label": "Decision"
+  },
+  {
+   "fieldname": "decided_by",
+   "fieldtype": "Link",
+   "label": "Decided by",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "decided_at",
+   "fieldtype": "Datetime",
+   "label": "Decided at",
+   "read_only": 1
+  },
+  {
+   "fieldname": "decided_via",
+   "fieldtype": "Select",
+   "label": "Decided in",
+   "options": "\napp\nslack\ntimeout",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_decision",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "decision_note",
+   "fieldtype": "Small Text",
+   "label": "Note"
+  },
+  {
+   "fieldname": "published_at",
+   "fieldtype": "Datetime",
+   "label": "Published at",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_workflow",
+   "fieldtype": "Section Break",
+   "label": "n8n",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "workflow_id",
+   "fieldtype": "Data",
+   "label": "Workflow ID",
+   "read_only": 1
+  },
+  {
+   "fieldname": "workflow_name",
+   "fieldtype": "Data",
+   "label": "Workflow",
+   "read_only": 1
+  },
+  {
+   "fieldname": "execution_id",
+   "fieldtype": "Data",
+   "label": "Run ID",
+   "read_only": 1
+  },
+  {
+   "fieldname": "resume_url",
+   "fieldtype": "Small Text",
+   "label": "Resume URL",
+   "read_only": 1
+  },
+  {
+   "fieldname": "token",
+   "fieldtype": "Data",
+   "label": "Link token",
+   "read_only": 1,
+   "hidden": 1
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "links": []
+}

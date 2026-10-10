@@ -302,6 +302,8 @@ tenant_dynamic_parent_links = {}
 scheduler_events = {
 	"hourly": [
 		"qtt_platform.billing.service.reconcile_subscriptions",
+		# Marketing approvals past their deadline follow their timeout rule.
+		"qtt_platform.api.marketing_content.expire_pending",
 	],
 	"daily": [
 		"qtt_platform.api.analytics.purge_old_events",

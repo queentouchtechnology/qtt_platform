@@ -49,7 +49,7 @@
    "fieldname": "metric_key",
    "fieldtype": "Select",
    "label": "Measured From",
-   "options": "\nleads\nemails_sent\nemail_replies\ncalls\napplications",
+   "options": "\nleads\nemails_sent\nemail_replies\ncalls\napplications\narticles\nlinkedin_posts",
    "in_list_view": 1,
    "columns": 2,
    "description": "Counted automatically from CRM. Empty = tracked by hand."

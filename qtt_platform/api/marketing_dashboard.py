@@ -51,6 +51,8 @@ def dashboard() -> dict:
 		"today": _day(day, automation=automation),
 		"yesterday": _stored_or_live(day - timedelta(days=1), automation=automation),
 		"month": _month(day),
+		"approvals_pending": frappe.db.count("QTT Marketing Content", {"status": "pending"})
+		if frappe.db.table_exists("QTT Marketing Content") else 0,
 		"n8n_error": automation.get("error"),
 	}
 
@@ -169,6 +171,14 @@ def _crm_numbers(start, end, *, calls_due: bool = False) -> dict:
 	if frappe.db.table_exists("FCRM Note"):
 		out["emails_sent"] = _note_count(lo, hi, "title REGEXP 'Outreach email [0-9] sent'")
 		out["email_replies"] = _note_count(lo, hi, "title LIKE %(reply)s AND title NOT LIKE %(bounce)s")
+	if frappe.db.table_exists("QTT Marketing Content"):
+		for kind, key in (("article", "articles"), ("linkedin", "linkedin_posts")):
+			n = frappe.db.sql(
+				"""SELECT COUNT(*) FROM `tabQTT Marketing Content` WHERE kind=%(k)s AND status='published'
+				   AND COALESCE(published_at, decided_at) >= %(lo)s AND COALESCE(published_at, decided_at) < %(hi)s""",
+				{"k": kind, "lo": lo, "hi": hi},
+			)[0][0]
+			out[key] = {"count": n}
 	project = frappe.db.get_single_value(SETTINGS, "jobs_project") if frappe.db.table_exists("Task") else None
 	if project:
 		n = frappe.db.sql(

@@ -13,7 +13,7 @@ from __future__ import annotations
 from datetime import date, datetime, time
 
 DAY_KEYS = ("mon", "tue", "wed", "thu", "fri", "sat", "sun")
-METRIC_KEYS = ("leads", "emails_sent", "email_replies", "calls", "applications")
+METRIC_KEYS = ("leads", "emails_sent", "email_replies", "calls", "applications", "articles", "linkedin_posts")
 
 
 def _d(value) -> date | None:
@@ -134,7 +134,7 @@ def day_report(*, day: date, now: datetime, slots: list[dict], workflows: list[d
 		"weekday": DAY_KEYS[day.weekday()],
 		"is_today": day == now.date(),
 		"generated_at": now.isoformat(timespec="minutes"),
-		"numbers": {k: crm.get(k, {"count": 0}) for k in ("leads", "calls", "emails_sent", "email_replies", "applications")},
+		"numbers": {k: crm.get(k, {"count": 0}) for k in METRIC_KEYS if k in crm or k in ("leads", "calls", "emails_sent", "email_replies", "applications")},
 		"calls_due": crm.get("calls_due"),
 		"automations": automations,
 		"automation_totals": {

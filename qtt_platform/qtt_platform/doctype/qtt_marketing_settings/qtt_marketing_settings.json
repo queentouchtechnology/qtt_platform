@@ -16,7 +16,10 @@
   "n8n_url",
   "n8n_api_key",
   "section_report",
-  "jobs_project"
+  "jobs_project",
+  "section_approvals",
+  "approval_user",
+  "approval_password"
  ],
  "fields": [
   {
@@ -49,6 +52,25 @@
    "fieldtype": "Data",
    "label": "Job applications project",
    "description": "Project whose Tasks are Gayathri's job applications (e.g. PROJ-0004). Empty = not counted."
+  },
+  {
+   "fieldname": "section_approvals",
+   "fieldtype": "Section Break",
+   "label": "Approvals"
+  },
+  {
+   "fieldname": "approval_user",
+   "fieldtype": "Data",
+   "label": "Approval resume user",
+   "default": "qtt-os",
+   "description": "Basic-auth user on the n8n 'Wait for decision' steps (credential 'QTT OS approval resume')."
+  },
+  {
+   "fieldname": "approval_password",
+   "fieldtype": "Password",
+   "label": "Approval resume password",
+   "length": 200,
+   "description": "Printed once by marketing-ai-os/18_AUTOMATIONS/APPROVALS/patch_approvals.py. Lets Frappe continue a waiting n8n run after a decision."
   }
  ],
  "permissions": [

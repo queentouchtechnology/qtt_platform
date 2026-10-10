@@ -74,6 +74,9 @@ class N8nClient:
 				break
 		return items
 
+	def execution(self, execution_id: str) -> dict:
+		return self._request("GET", f"/executions/{execution_id}")
+
 	def workflow(self, workflow_id: str) -> dict:
 		return self._request("GET", f"/workflows/{workflow_id}")
 
