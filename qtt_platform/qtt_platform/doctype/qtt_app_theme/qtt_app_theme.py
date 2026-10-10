@@ -4,7 +4,7 @@ import frappe
 from frappe import _
 from frappe.model.document import Document
 
-from qtt_platform.app_config_logic import THEME_TOKENS
+from qtt_platform.app_config_logic import COMPONENT_STYLES, THEME_TOKENS
 
 _KEY = re.compile(r"^[a-z0-9][a-z0-9-]{1,39}$")
 _HEX = re.compile(r"^#[0-9A-Fa-f]{6}$")
@@ -23,6 +23,9 @@ class QTTAppTheme(Document):
 				value = self.get(f"{mode}_{token}")
 				if not value or not _HEX.match(value):
 					frappe.throw(_("{0} {1} must be a colour like #3858F8.").format(mode.title(), token.replace("_", " ")))
+		for field, allowed in COMPONENT_STYLES.items():
+			if self.get(field) and self.get(field) not in allowed:
+				frappe.throw(_("{0} must be one of: {1}").format(self.meta.get_label(field), ", ".join(allowed)))
 		if not 0 <= (self.corner_radius or 0) <= 32:
 			frappe.throw(_("Corner Radius must be between 0 and 32."))
 

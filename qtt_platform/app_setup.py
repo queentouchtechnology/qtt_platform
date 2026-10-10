@@ -37,6 +37,8 @@ def _seed_themes() -> None:
 		doc.corner_radius = theme.get("radius", 12)
 		doc.supports_light = 1
 		doc.supports_dark = 1
+		for field, value in theme.get("components", {}).items():
+			doc.set(field, value)
 		for mode in ("light", "dark"):
 			for token, value in theme[mode].items():
 				doc.set(f"{mode}_{token}", value)
@@ -52,6 +54,8 @@ def _seed_settings() -> None:
 		"default_theme_mode": "dark",
 		"default_language": "en" if frappe.db.exists("Language", "en") else None,
 		"announcement_level": "info",
+		"default_text_size": "standard",
+		"default_density": "standard",
 		"analytics_flush_seconds": 30,
 		"analytics_retention_days": 180,
 	}

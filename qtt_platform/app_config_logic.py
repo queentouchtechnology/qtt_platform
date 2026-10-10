@@ -28,6 +28,17 @@ THEME_TOKENS = (
 )
 
 APP_PLATFORMS = ("android", "ios", "web", "windows", "macos", "linux")
+
+#: Global UI options (QTT App Settings defaults, user-overridable in the app).
+TEXT_SIZES = ("small", "standard", "large", "extra_large")
+DENSITIES = ("comfortable", "standard", "compact")
+
+#: Per-theme component style, value -> allowed options (first = fallback).
+COMPONENT_STYLES = {
+	"card_style": ("outlined", "elevated", "flat"),
+	"input_style": ("filled", "outlined"),
+	"button_shape": ("rounded", "pill"),
+}
 _HEX = re.compile(r"^#[0-9A-Fa-f]{6}$")
 _VERSION = re.compile(r"^\d+(\.\d+){0,3}")
 
@@ -89,8 +100,16 @@ def theme_payload(row: dict) -> dict:
 		"key": row["theme_key"],
 		"label": row.get("label") or row["theme_key"],
 		"radius": int(row.get("corner_radius") or 12),
+		"components": {
+			field: (row.get(field) if row.get(field) in allowed else allowed[0])
+			for field, allowed in COMPONENT_STYLES.items()
+		},
 		"modes": modes,
 	}
+
+
+def pick(value, allowed: tuple, fallback: str) -> str:
+	return value if value in allowed else fallback
 
 
 def update_policy(settings: dict, app_version: str | None, platform: str | None) -> dict:

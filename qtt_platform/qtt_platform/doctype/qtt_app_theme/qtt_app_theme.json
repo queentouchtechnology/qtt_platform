@@ -22,6 +22,11 @@
   "corner_radius",
   "supports_light",
   "supports_dark",
+  "section_components",
+  "card_style",
+  "input_style",
+  "column_break_components",
+  "button_shape",
   "section_light",
   "light_primary",
   "light_secondary",
@@ -101,6 +106,37 @@
    "fieldtype": "Check",
    "label": "Has Dark Variant",
    "default": "1"
+  },
+  {
+   "fieldname": "section_components",
+   "fieldtype": "Section Break",
+   "label": "Component Style"
+  },
+  {
+   "fieldname": "card_style",
+   "fieldtype": "Select",
+   "label": "Cards",
+   "options": "outlined\nelevated\nflat",
+   "default": "outlined"
+  },
+  {
+   "fieldname": "input_style",
+   "fieldtype": "Select",
+   "label": "Text Fields",
+   "options": "filled\noutlined",
+   "default": "filled"
+  },
+  {
+   "fieldname": "column_break_components",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "button_shape",
+   "fieldtype": "Select",
+   "label": "Buttons",
+   "options": "rounded\npill",
+   "default": "rounded",
+   "description": "Rounded follows Corner Radius; pill is fully round."
   },
   {
    "fieldname": "section_light",

@@ -69,6 +69,24 @@ class ThemeTest(unittest.TestCase):
 		self.assertIn("qtt-midnight", keys)
 
 
+class UiOptionsTest(unittest.TestCase):
+	def test_component_styles_fall_back_safely(self):
+		payload = logic.theme_payload({"theme_key": "x", "supports_dark": 1, "card_style": "elevated", "input_style": "bogus"})
+		self.assertEqual(payload["components"], {"card_style": "elevated", "input_style": "filled", "button_shape": "rounded"})
+
+	def test_pick(self):
+		self.assertEqual(logic.pick("compact", logic.DENSITIES, "standard"), "compact")
+		self.assertEqual(logic.pick("tiny", logic.TEXT_SIZES, "standard"), "standard")
+		self.assertEqual(logic.pick(None, logic.TEXT_SIZES, "standard"), "standard")
+
+	def test_seeded_component_styles_are_valid(self):
+		from qtt_platform.app_defaults import DEFAULT_THEMES
+
+		for theme in DEFAULT_THEMES:
+			for field, value in theme.get("components", {}).items():
+				self.assertIn(value, logic.COMPONENT_STYLES[field], theme["theme_key"])
+
+
 class MiscTest(unittest.TestCase):
 	def test_rtl(self):
 		for code in ("ar", "ar-EG", "he", "fa", "ur_PK"):

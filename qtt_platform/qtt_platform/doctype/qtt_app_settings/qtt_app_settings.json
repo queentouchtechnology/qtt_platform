@@ -17,6 +17,9 @@
   "default_theme_mode",
   "column_break_lang",
   "default_language",
+  "column_break_ui",
+  "default_text_size",
+  "default_density",
   "section_versions",
   "min_app_version",
   "latest_app_version",
@@ -67,6 +70,26 @@
    "label": "Default Language",
    "options": "Language",
    "default": "en"
+  },
+  {
+   "fieldname": "column_break_ui",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "default_text_size",
+   "fieldtype": "Select",
+   "label": "Default Text Size",
+   "options": "small\nstandard\nlarge\nextra_large",
+   "default": "standard",
+   "description": "Multiplies the device's own text-size setting. Users can change it in Appearance."
+  },
+  {
+   "fieldname": "default_density",
+   "fieldtype": "Select",
+   "label": "Default Density",
+   "options": "comfortable\nstandard\ncompact",
+   "default": "standard",
+   "description": "Spacing of lists, inputs and buttons across the app. Users can change it in Appearance."
   },
   {
    "fieldname": "section_versions",
