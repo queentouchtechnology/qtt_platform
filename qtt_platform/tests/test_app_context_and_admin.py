@@ -51,6 +51,7 @@ def _fake_frappe(user="anna@acme.com", roles=()):
 	utils.add_days = lambda d, n: d
 	utils.now_datetime = lambda: "2026-10-10 00:00:00"
 	utils.today = lambda: "2026-10-10"
+	utils.get_url = lambda path="": "https://app.example.com" + (path or "")
 	fake.utils = utils
 	sys.modules["frappe"] = fake
 	sys.modules["frappe.utils"] = utils
@@ -157,6 +158,30 @@ class AppContextTest(_IsolatedTest):
 		self.assertEqual([p["product"] for p in products], ["QTT_INBOX"])
 		self.assertEqual(products[0]["role"], "Agent")
 		self.assertIsNone(products[0]["subscription"])
+
+
+	def test_workspace_products_only_open_subscriptions(self):
+		fake = _fake_frappe()
+
+		def get_all(doctype, **kwargs):
+			if doctype == "QTT Tenant Product Subscription Pointer":
+				return ["QTT_INBOX", "QTT_OFFICE_PULSE", "OLD"]
+			if doctype == "QTT Product":
+				return [_Row(name="QTT_INBOX", display_name="Inbox", icon=None, description=None),
+						_Row(name="QTT_OFFICE_PULSE", display_name="Office Pulse", icon="badge", description=None),
+						_Row(name="OLD", display_name="Old", icon=None, description=None)]
+			return []
+
+		fake.get_all = mock.Mock(side_effect=get_all)
+		fake.db.get_value = mock.Mock(return_value="BUSINESS")
+		app_context = _fresh("qtt_platform.api.app_context")
+		subs = {"QTT_INBOX": "trialing", "QTT_OFFICE_PULSE": "trialing", "OLD": "cancelled"}
+		with mock.patch.object(app_context.subscription_service, "get_current_subscription",
+							   side_effect=lambda t, p: _Row(status=subs[p], plan="P", trial_end=None, current_period_end=None)):
+			products = app_context._workspace_products("T1")
+		# A product nobody has access to yet is still listed, so the owner can hand out access.
+		self.assertEqual([p["product"] for p in products], ["QTT_INBOX", "QTT_OFFICE_PULSE"])
+		self.assertEqual(products[1]["role"], "")
 
 
 class PlatformAdminTest(_IsolatedTest):

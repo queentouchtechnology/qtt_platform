@@ -18,6 +18,7 @@ from frappe.utils import get_url
 
 from qtt_platform.realtime import CONTEXT_CHANGED_EVENT
 from qtt_platform.subscription import service as subscription_service
+from qtt_platform.subscription.service import OPEN_SUBSCRIPTION_STATUSES
 from qtt_platform.tenant.context import resolve_active_tenant
 from qtt_platform.tenant.guards import PLATFORM_OWNER_ROLE
 
@@ -50,6 +51,11 @@ def get_app_context() -> dict:
 		"active_workspace": active_membership["tenant"] if active_membership else None,
 		"products": _products(active_membership) if active_membership else [],
 		"can_manage_workspace": bool(active_membership and active_membership["tenant_role"] in _GOVERNANCE_ROLES),
+		# Owner/Admin: every product the workspace subscribes to, so Team and
+		# Plans can hand out access even before anyone has it.
+		"workspace_products": _workspace_products(active_membership["tenant"])
+		if active_membership and active_membership["tenant_role"] in _GOVERNANCE_ROLES
+		else [],
 		"realtime": {"context_event": CONTEXT_CHANGED_EVENT},
 	}
 
@@ -126,6 +132,22 @@ def _products(membership: dict) -> list[dict]:
 			}
 		)
 	return sorted(products, key=lambda p: p["display_name"].lower())
+
+
+def _workspace_products(tenant: str) -> list[dict]:
+	pointers = frappe.get_all("QTT Tenant Product Subscription Pointer", filters={"tenant": tenant}, pluck="product")
+	if not pointers:
+		return []
+	catalog = frappe.get_all("QTT Product", filters={"name": ["in", pointers], "status": "active"},
+							 fields=["name", "display_name", "icon", "description"])
+	out = []
+	for product in catalog:
+		summary = _subscription_summary(tenant, product.name)
+		if not summary or summary["status"] not in OPEN_SUBSCRIPTION_STATUSES:
+			continue
+		out.append({"product": product.name, "display_name": product.display_name or product.name, "icon": product.icon,
+					"description": product.description, "role": "", "subscription": summary})
+	return sorted(out, key=lambda p: p["display_name"].lower())
 
 
 def _subscription_summary(tenant: str, product: str) -> dict | None:

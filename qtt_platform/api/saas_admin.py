@@ -181,8 +181,26 @@ def add_product(tenant: str, product: str, plan: str) -> dict:
 	if current and current.status in OPEN_SUBSCRIPTION_STATUSES:
 		frappe.throw(_("This workspace already has this product. Change its plan instead."))
 	sub = subscription_service.create_subscription(tenant, product, plan)
-	_audit("admin_product_added", tenant, product, sub.name, {"plan": plan})
+	granted = _grant_owner_initial_role(tenant, product)
+	_audit("admin_product_added", tenant, product, sub.name, {"plan": plan, "owner_access": granted})
 	return workspace_billing(tenant)
+
+
+def _grant_owner_initial_role(tenant: str, product: str) -> str | None:
+	"""Same rule as self-service signup: the workspace owner gets the
+	product's initial role (e.g. Office Pulse → HR Admin) so someone can
+	open it and hand out access. Skipped when the owner already has access
+	or the product declares no initial role."""
+	from qtt_platform.api.saas import _initial_product_role
+
+	role = _initial_product_role(product)
+	owner = frappe.db.get_value("QTT Tenant", tenant, "owner_user")
+	membership = frappe.db.get_value("QTT Tenant Membership", {"tenant": tenant, "user": owner, "status": "active"}, "name") if owner else None
+	if not role or not membership or frappe.db.exists("QTT Product Access", {"membership": membership, "product": product}):
+		return None
+	frappe.get_doc({"doctype": "QTT Product Access", "membership": membership, "tenant": tenant, "product": product,
+					"product_role": role, "status": "active"}).insert(ignore_permissions=True)
+	return f"{owner}: {role}"
 
 
 @frappe.whitelist(methods=["POST"])
