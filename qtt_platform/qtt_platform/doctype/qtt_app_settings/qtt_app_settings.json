@@ -1,0 +1,194 @@
+{
+ "doctype": "DocType",
+ "name": "QTT App Settings",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 1,
+ "quick_entry": 0,
+ "track_changes": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "Remote configuration for the QTT OS client app — every change here reaches running apps live (qtt:config_changed), no app release needed. System-Manager-only.",
+ "field_order": [
+  "section_appearance",
+  "default_theme",
+  "default_theme_mode",
+  "column_break_lang",
+  "default_language",
+  "section_versions",
+  "min_app_version",
+  "latest_app_version",
+  "column_break_versions",
+  "update_url_android",
+  "update_url_ios",
+  "update_url_desktop",
+  "section_status",
+  "maintenance_mode",
+  "maintenance_message",
+  "column_break_status",
+  "announcement",
+  "announcement_level",
+  "section_analytics",
+  "analytics_enabled",
+  "analytics_flush_seconds",
+  "column_break_analytics",
+  "analytics_retention_days",
+  "section_flags",
+  "feature_flags"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_appearance",
+   "fieldtype": "Section Break",
+   "label": "Appearance"
+  },
+  {
+   "fieldname": "default_theme",
+   "fieldtype": "Link",
+   "label": "Default Theme",
+   "options": "QTT App Theme"
+  },
+  {
+   "fieldname": "default_theme_mode",
+   "fieldtype": "Select",
+   "label": "Default Mode",
+   "options": "dark\nlight\nsystem",
+   "default": "dark"
+  },
+  {
+   "fieldname": "column_break_lang",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "default_language",
+   "fieldtype": "Link",
+   "label": "Default Language",
+   "options": "Language",
+   "default": "en"
+  },
+  {
+   "fieldname": "section_versions",
+   "fieldtype": "Section Break",
+   "label": "App Versions"
+  },
+  {
+   "fieldname": "min_app_version",
+   "fieldtype": "Data",
+   "label": "Minimum App Version",
+   "description": "Older apps are blocked with an update screen, e.g. 1.0.0. Blank = no minimum."
+  },
+  {
+   "fieldname": "latest_app_version",
+   "fieldtype": "Data",
+   "label": "Latest App Version",
+   "description": "Older apps see a soft 'update available' prompt."
+  },
+  {
+   "fieldname": "column_break_versions",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "update_url_android",
+   "fieldtype": "Data",
+   "label": "Android Update URL",
+   "options": "URL"
+  },
+  {
+   "fieldname": "update_url_ios",
+   "fieldtype": "Data",
+   "label": "iOS Update URL",
+   "options": "URL"
+  },
+  {
+   "fieldname": "update_url_desktop",
+   "fieldtype": "Data",
+   "label": "Desktop Download URL",
+   "options": "URL"
+  },
+  {
+   "fieldname": "section_status",
+   "fieldtype": "Section Break",
+   "label": "Service Status"
+  },
+  {
+   "fieldname": "maintenance_mode",
+   "fieldtype": "Check",
+   "label": "Maintenance Mode",
+   "description": "Shows the maintenance message instead of the app (QTT Platform Owners can still sign in)."
+  },
+  {
+   "fieldname": "maintenance_message",
+   "fieldtype": "Small Text",
+   "label": "Maintenance Message"
+  },
+  {
+   "fieldname": "column_break_status",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "announcement",
+   "fieldtype": "Small Text",
+   "label": "Announcement",
+   "description": "Banner shown at the top of the app. Blank = none."
+  },
+  {
+   "fieldname": "announcement_level",
+   "fieldtype": "Select",
+   "label": "Announcement Level",
+   "options": "info\nwarning\nsuccess",
+   "default": "info"
+  },
+  {
+   "fieldname": "section_analytics",
+   "fieldtype": "Section Break",
+   "label": "Analytics"
+  },
+  {
+   "fieldname": "analytics_enabled",
+   "fieldtype": "Check",
+   "label": "Collect App Events",
+   "default": "1"
+  },
+  {
+   "fieldname": "analytics_flush_seconds",
+   "fieldtype": "Int",
+   "label": "Upload Interval (seconds)",
+   "default": "30"
+  },
+  {
+   "fieldname": "column_break_analytics",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "analytics_retention_days",
+   "fieldtype": "Int",
+   "label": "Keep Events For (days)",
+   "default": "180"
+  },
+  {
+   "fieldname": "section_flags",
+   "fieldtype": "Section Break",
+   "label": "Feature Flags"
+  },
+  {
+   "fieldname": "feature_flags",
+   "fieldtype": "Table",
+   "label": "Feature Flags",
+   "options": "QTT App Feature Flag"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 0,
+   "delete": 0,
+   "report": 0,
+   "export": 0
+  }
+ ],
+ "links": []
+}

@@ -1,0 +1,270 @@
+{
+ "doctype": "DocType",
+ "name": "QTT App Theme",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 1,
+ "autoname": "field:theme_key",
+ "naming_rule": "By fieldname",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "A colour theme users can pick in the QTT OS app. Edit colours here and running apps restyle live.",
+ "field_order": [
+  "theme_key",
+  "label",
+  "enabled",
+  "column_break_meta",
+  "sort_order",
+  "corner_radius",
+  "supports_light",
+  "supports_dark",
+  "section_light",
+  "light_primary",
+  "light_secondary",
+  "light_background",
+  "light_surface",
+  "light_surface_variant",
+  "light_text",
+  "column_break_light",
+  "light_text_muted",
+  "light_border",
+  "light_error",
+  "light_success",
+  "light_warning",
+  "section_dark",
+  "dark_primary",
+  "dark_secondary",
+  "dark_background",
+  "dark_surface",
+  "dark_surface_variant",
+  "dark_text",
+  "column_break_dark",
+  "dark_text_muted",
+  "dark_border",
+  "dark_error",
+  "dark_success",
+  "dark_warning"
+ ],
+ "fields": [
+  {
+   "fieldname": "theme_key",
+   "fieldtype": "Data",
+   "label": "Theme Key",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1,
+   "description": "Stable id the app stores, e.g. qtt-midnight. Never rename once users have picked it."
+  },
+  {
+   "fieldname": "label",
+   "fieldtype": "Data",
+   "label": "Label",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "Shown in the app's theme picker (translatable via Translation, context qtt_app)."
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "default": "1",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "column_break_meta",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sort_order",
+   "fieldtype": "Int",
+   "label": "Sort Order",
+   "default": "0"
+  },
+  {
+   "fieldname": "corner_radius",
+   "fieldtype": "Int",
+   "label": "Corner Radius (px)",
+   "default": "12"
+  },
+  {
+   "fieldname": "supports_light",
+   "fieldtype": "Check",
+   "label": "Has Light Variant",
+   "default": "1"
+  },
+  {
+   "fieldname": "supports_dark",
+   "fieldtype": "Check",
+   "label": "Has Dark Variant",
+   "default": "1"
+  },
+  {
+   "fieldname": "section_light",
+   "fieldtype": "Section Break",
+   "label": "Light Colors",
+   "depends_on": "supports_light"
+  },
+  {
+   "fieldname": "light_primary",
+   "fieldtype": "Color",
+   "label": "Primary",
+   "depends_on": "supports_light"
+  },
+  {
+   "fieldname": "light_secondary",
+   "fieldtype": "Color",
+   "label": "Secondary",
+   "depends_on": "supports_light"
+  },
+  {
+   "fieldname": "light_background",
+   "fieldtype": "Color",
+   "label": "Background",
+   "depends_on": "supports_light"
+  },
+  {
+   "fieldname": "light_surface",
+   "fieldtype": "Color",
+   "label": "Surface",
+   "depends_on": "supports_light"
+  },
+  {
+   "fieldname": "light_surface_variant",
+   "fieldtype": "Color",
+   "label": "Surface (raised)",
+   "depends_on": "supports_light"
+  },
+  {
+   "fieldname": "light_text",
+   "fieldtype": "Color",
+   "label": "Text",
+   "depends_on": "supports_light"
+  },
+  {
+   "fieldname": "column_break_light",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "light_text_muted",
+   "fieldtype": "Color",
+   "label": "Muted Text",
+   "depends_on": "supports_light"
+  },
+  {
+   "fieldname": "light_border",
+   "fieldtype": "Color",
+   "label": "Border",
+   "depends_on": "supports_light"
+  },
+  {
+   "fieldname": "light_error",
+   "fieldtype": "Color",
+   "label": "Error",
+   "depends_on": "supports_light"
+  },
+  {
+   "fieldname": "light_success",
+   "fieldtype": "Color",
+   "label": "Success",
+   "depends_on": "supports_light"
+  },
+  {
+   "fieldname": "light_warning",
+   "fieldtype": "Color",
+   "label": "Warning",
+   "depends_on": "supports_light"
+  },
+  {
+   "fieldname": "section_dark",
+   "fieldtype": "Section Break",
+   "label": "Dark Colors",
+   "depends_on": "supports_dark"
+  },
+  {
+   "fieldname": "dark_primary",
+   "fieldtype": "Color",
+   "label": "Primary",
+   "depends_on": "supports_dark"
+  },
+  {
+   "fieldname": "dark_secondary",
+   "fieldtype": "Color",
+   "label": "Secondary",
+   "depends_on": "supports_dark"
+  },
+  {
+   "fieldname": "dark_background",
+   "fieldtype": "Color",
+   "label": "Background",
+   "depends_on": "supports_dark"
+  },
+  {
+   "fieldname": "dark_surface",
+   "fieldtype": "Color",
+   "label": "Surface",
+   "depends_on": "supports_dark"
+  },
+  {
+   "fieldname": "dark_surface_variant",
+   "fieldtype": "Color",
+   "label": "Surface (raised)",
+   "depends_on": "supports_dark"
+  },
+  {
+   "fieldname": "dark_text",
+   "fieldtype": "Color",
+   "label": "Text",
+   "depends_on": "supports_dark"
+  },
+  {
+   "fieldname": "column_break_dark",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "dark_text_muted",
+   "fieldtype": "Color",
+   "label": "Muted Text",
+   "depends_on": "supports_dark"
+  },
+  {
+   "fieldname": "dark_border",
+   "fieldtype": "Color",
+   "label": "Border",
+   "depends_on": "supports_dark"
+  },
+  {
+   "fieldname": "dark_error",
+   "fieldtype": "Color",
+   "label": "Error",
+   "depends_on": "supports_dark"
+  },
+  {
+   "fieldname": "dark_success",
+   "fieldtype": "Color",
+   "label": "Success",
+   "depends_on": "supports_dark"
+  },
+  {
+   "fieldname": "dark_warning",
+   "fieldtype": "Color",
+   "label": "Warning",
+   "depends_on": "supports_dark"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "links": []
+}

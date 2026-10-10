@@ -1,0 +1,57 @@
+{
+ "doctype": "DocType",
+ "name": "QTT App Feature Flag",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 1,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "One remotely-switchable app feature.",
+ "field_order": [
+  "flag_key",
+  "enabled",
+  "platforms",
+  "min_app_version",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "flag_key",
+   "fieldtype": "Data",
+   "label": "Flag Key",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "default": "1",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "platforms",
+   "fieldtype": "Data",
+   "label": "Platforms",
+   "in_list_view": 1,
+   "description": "Comma list: android, ios, web, windows, macos, linux. Blank = all."
+  },
+  {
+   "fieldname": "min_app_version",
+   "fieldtype": "Data",
+   "label": "Min App Version",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  }
+ ],
+ "permissions": [],
+ "links": []
+}

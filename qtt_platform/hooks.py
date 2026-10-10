@@ -110,11 +110,42 @@ required_apps = []
 doc_events = {
     "QTT Product Subscription": {
         "before_save": "qtt_platform.permissions.handlers.guard_tenant_change_before_save",
+        # Live refresh (qtt_platform/realtime.py): tell affected users' apps
+        # to re-read api.app_context.get_app_context().
+        "on_update": "qtt_platform.realtime.on_subscription_change",
     },
     "QTT Tenant Feature Override": {
         "before_save": "qtt_platform.permissions.handlers.guard_tenant_change_before_save",
     },
+    "QTT Tenant Membership": {
+        "on_update": "qtt_platform.realtime.on_membership_change",
+        "on_trash": "qtt_platform.realtime.on_membership_change",
+    },
+    "QTT Product Access": {
+        "on_update": "qtt_platform.realtime.on_product_access_change",
+        "on_trash": "qtt_platform.realtime.on_product_access_change",
+    },
+    "QTT Tenant": {
+        "on_update": "qtt_platform.realtime.on_tenant_change",
+    },
+    # Remote app config (api/app_config.py): any change clears the cached
+    # config and pushes qtt:config_changed to every connected app.
+    "QTT App Settings": {"on_update": "qtt_platform.api.app_config.config_changed"},
+    "QTT App Theme": {
+        "on_update": "qtt_platform.api.app_config.config_changed",
+        "on_trash": "qtt_platform.api.app_config.config_changed",
+    },
+    "Translation": {
+        "on_update": "qtt_platform.api.app_config.config_changed",
+        "on_trash": "qtt_platform.api.app_config.config_changed",
+    },
+    "Language": {"on_update": "qtt_platform.api.app_config.config_changed"},
 }
+
+# Seeds the app's backend-controlled defaults (themes, settings,
+# translations) — insert-only, see qtt_platform/app_setup.py.
+after_install = "qtt_platform.app_setup.seed_app_defaults"
+after_migrate = "qtt_platform.app_setup.seed_app_defaults"
 permission_query_conditions = {}
 has_permission = {}
 
@@ -273,6 +304,7 @@ scheduler_events = {
 		"qtt_platform.billing.service.reconcile_subscriptions",
 	],
 	"daily": [
+		"qtt_platform.api.analytics.purge_old_events",
 		"qtt_platform.billing.service.reconcile_payments",
 		"qtt_platform.billing.service.expire_stale_trials",
 		"qtt_platform.subscription.service.finalize_pending_cancellations",
