@@ -32,7 +32,7 @@ LIMITS = {"tagline": 140, "letterhead_footer": 500}
 def _active_tenant() -> str:
 	tenant = resolve_active_tenant()
 	if not tenant:
-		frappe.throw(_("Select a workspace first."))
+		frappe.throw(_("Choose your business first."))
 	return tenant
 
 

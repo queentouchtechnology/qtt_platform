@@ -193,7 +193,7 @@ _REPORTS = {
 def get_report(report_key: str, date_from: str | None = None, date_to: str | None = None) -> dict:
 	tenant = resolve_active_tenant()
 	if not tenant:
-		return fail("TENANT_ACCESS_DENIED", "No active tenant.")
+		return fail("TENANT_ACCESS_DENIED", "Choose your business first.")
 
 	try:
 		require_tenant_role(tenant, _REPORT_GOVERNANCE_ROLES)

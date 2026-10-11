@@ -32,12 +32,12 @@ def create_tenant(tenant_name: str, slug: str) -> dict:
 	"""
 	user = frappe.session.user
 	if not user or user == "Guest":
-		frappe.throw(_("You must be logged in to create a tenant."), frappe.PermissionError)
+		frappe.throw(_("Sign in first to create your business account."), frappe.PermissionError)
 
 	tenant_name = (tenant_name or "").strip()
 	slug = (slug or "").strip().lower()
 	if not tenant_name:
-		frappe.throw(_("Tenant name is required."), frappe.ValidationError)
+		frappe.throw(_("Enter your business name."), frappe.ValidationError)
 	if not slug:
 		frappe.throw(_("Slug is required."), frappe.ValidationError)
 	if frappe.db.exists("QTT Tenant", {"slug": slug}):

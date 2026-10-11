@@ -150,7 +150,7 @@ def require_document_tenant_and_product(doctype: str, name: str, tenant: str, us
 	"""
 	doc_tenant = resolve_tenant_for_doc(doctype, name)
 	if doc_tenant != tenant:
-		frappe.throw(_("This document does not belong to your active tenant."), frappe.PermissionError)
+		frappe.throw(_("This belongs to another business."), frappe.PermissionError)
 
 	product = resolve_product_for_doctype(doctype)
 	if not product:
@@ -190,5 +190,5 @@ def assert_tenant_access(doctype: str, name: str, user: str | None = None):
 	per the hardening review section 14's mandatory pattern, step 6."""
 	tenant = resolve_active_tenant(user=user)
 	if not tenant:
-		frappe.throw(_("No active tenant."), frappe.PermissionError)
+		frappe.throw(_("Choose your business first."), frappe.PermissionError)
 	require_document_tenant_and_product(doctype, name, tenant, user=user)

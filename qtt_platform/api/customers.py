@@ -27,7 +27,7 @@ FIELDS = ("customer_name", "customer_type", "company_name", "contact_person", "p
 def _tenant() -> tuple[str, object]:
 	tenant = resolve_active_tenant()
 	if not tenant:
-		frappe.throw(_("Select a workspace first."))
+		frappe.throw(_("Choose your business first."))
 	return tenant, require_tenant_membership(tenant)
 
 
@@ -157,7 +157,7 @@ def set_status(name: str, status: str) -> dict:
 def delete_customer(name: str) -> dict:
 	tenant = resolve_active_tenant()
 	if not tenant:
-		frappe.throw(_("Select a workspace first."))
+		frappe.throw(_("Choose your business first."))
 	require_tenant_role(tenant, GOVERNANCE)
 	doc = _doc(tenant, name)
 	frappe.delete_doc(DT, doc.name, ignore_permissions=True)

@@ -232,7 +232,7 @@ def extend_trial(tenant: str, product: str, days) -> dict:
 	require_platform_owner()
 	current = subscription_service.get_current_subscription(tenant, product)
 	if not current:
-		frappe.throw(_("This workspace doesn't have this product."))
+		frappe.throw(_("Your business doesn't have this app."))
 	status, new_end = _clean(lambda: logic.extended_trial(
 		status=current.status,
 		trial_end=current.trial_end,
@@ -411,13 +411,13 @@ def _d(value):
 
 def _require_tenant(tenant: str) -> None:
 	if not frappe.db.exists("QTT Tenant", tenant):
-		frappe.throw(_("Tenant not found."), frappe.DoesNotExistError)
+		frappe.throw(_("Business not found."), frappe.DoesNotExistError)
 
 
 def _open_subscription(tenant: str, product: str):
 	current = subscription_service.get_current_subscription(tenant, product)
 	if not current or current.status not in OPEN_SUBSCRIPTION_STATUSES:
-		frappe.throw(_("This workspace has no active subscription for this product."))
+		frappe.throw(_("Your business isn't subscribed to this app."))
 	return current
 
 

@@ -128,7 +128,7 @@ def change_plan(product: str, new_plan: str) -> dict:
 	try:
 		tenant = resolve_active_tenant()
 		if not tenant:
-			raise QttApiError("TENANT_ACCESS_DENIED", "No active tenant.")
+			raise QttApiError("TENANT_ACCESS_DENIED", "Choose your business first.")
 
 		try:
 			require_tenant_role(tenant, _PLAN_CHANGE_ROLES)
@@ -234,7 +234,7 @@ def resume(product: str) -> dict:
 	try:
 		tenant = resolve_active_tenant()
 		if not tenant:
-			raise QttApiError("TENANT_ACCESS_DENIED", "No active tenant.")
+			raise QttApiError("TENANT_ACCESS_DENIED", "Choose your business first.")
 
 		try:
 			require_tenant_role(tenant, _SUBSCRIPTION_MANAGER_ROLES)

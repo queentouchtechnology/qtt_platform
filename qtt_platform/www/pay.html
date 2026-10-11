@@ -1,0 +1,59 @@
+{% extends "templates/web.html" %}
+
+{% block title %}Payment{% endblock %}
+
+{% block page_content %}
+<style>
+  .qtt-pay { max-width: 460px; margin: 32px auto; padding: 24px; border: 1px solid #e5e7eb; border-radius: 16px; font-size: 16px; }
+  .qtt-pay h2 { margin: 0 0 4px; }
+  .qtt-pay .muted { color: #6b7280; }
+  .qtt-pay table { width: 100%; margin: 16px 0; border-collapse: collapse; }
+  .qtt-pay td { padding: 8px 0; border-bottom: 1px solid #f1f5f9; }
+  .qtt-pay td.amt { text-align: right; white-space: nowrap; }
+  .qtt-pay .total td { font-weight: 700; border-bottom: none; }
+  .qtt-pay button { width: 100%; padding: 14px; font-size: 17px; border: 0; border-radius: 12px; background: #3858F8; color: #fff; cursor: pointer; }
+  .qtt-pay .ok { color: #15803d; font-weight: 700; }
+</style>
+<div class="qtt-pay">
+  {% if state == "invalid" %}
+    <h2>This link doesn't work</h2>
+    <p class="muted">Open the payment again from the QTT OS app.</p>
+  {% else %}
+    <h2>{{ business }}</h2>
+    <div class="muted">Invoice {{ invoice.name }}{% if invoice.due_date %} · due {{ frappe.format_date(invoice.due_date) }}{% endif %}</div>
+    <table>
+      {% for l in lines %}<tr><td>{{ l.description }}</td><td class="amt">₹{{ "{:,.2f}".format(l.amount or 0) }}</td></tr>{% endfor %}
+      <tr class="total"><td>Total</td><td class="amt">₹{{ "{:,.2f}".format(invoice.amount or 0) }}</td></tr>
+    </table>
+    {% if state == "paid" %}
+      <p class="ok">Paid — thank you!</p><p class="muted">You can go back to the app.</p>
+    {% elif state == "closed" %}
+      <p class="muted">This invoice is closed. Nothing to pay.</p>
+    {% elif state == "offline" %}
+      <p class="muted">Online payment isn't switched on yet. QTT will contact you to collect this payment.</p>
+    {% elif state == "error" %}
+      <p class="muted">We couldn't start the payment. Please try again in a minute, or message QTT.</p>
+    {% else %}
+      <button id="pay">Pay ₹{{ "{:,.2f}".format(invoice.amount or 0) }}</button>
+      <p id="done" class="ok" style="display:none">Payment received — thank you! You can go back to the app.</p>
+      <p class="muted" style="margin-top:12px">Secure payment by Razorpay: UPI, cards, net banking.</p>
+      <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+      <script>
+        (function () {
+          var o = {{ checkout }};
+          var options = {
+            key: o.key_id, amount: o.amount, currency: o.currency, order_id: o.order_id,
+            name: o.name, description: o.description, prefill: o.prefill, notes: o.notes,
+            theme: { color: "#3858F8" },
+            handler: function () {
+              document.getElementById("pay").style.display = "none";
+              document.getElementById("done").style.display = "block";
+            }
+          };
+          document.getElementById("pay").onclick = function () { new Razorpay(options).open(); };
+        })();
+      </script>
+    {% endif %}
+  {% endif %}
+</div>
+{% endblock %}

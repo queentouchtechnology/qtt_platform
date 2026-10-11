@@ -49,7 +49,7 @@ def invite_user(
 
 	membership_name = frappe.db.get_value("QTT Tenant Membership", {"user": email, "tenant": tenant}, "name")
 	if membership_name and frappe.db.get_value("QTT Tenant Membership", membership_name, "status") == "active":
-		frappe.throw(_("{0} is already a member of this tenant.").format(email), frappe.ValidationError)
+		frappe.throw(_("{0} is already part of this business.").format(email), frappe.ValidationError)
 
 	existing_pending = frappe.db.exists(
 		"QTT Invitation", {"tenant": tenant, "email": email, "status": "pending"}
@@ -121,7 +121,7 @@ def revoke_invitation(tenant: str, invitation: str) -> dict:
 	require_tenant_role(tenant, _GOVERNANCE_ROLES)
 	invitation_tenant = frappe.db.get_value("QTT Invitation", invitation, "tenant")
 	if invitation_tenant != tenant:
-		frappe.throw(_("This invitation does not belong to your tenant."), frappe.PermissionError)
+		frappe.throw(_("This invitation is for another business."), frappe.PermissionError)
 
 	frappe.db.set_value("QTT Invitation", invitation, "status", "revoked")
 	write_audit_event(

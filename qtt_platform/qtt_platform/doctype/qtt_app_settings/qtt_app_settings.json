@@ -33,6 +33,11 @@
   "column_break_status",
   "announcement",
   "announcement_level",
+  "section_support",
+  "support_whatsapp",
+  "support_email",
+  "column_break_support",
+  "support_hours",
   "section_analytics",
   "analytics_enabled",
   "analytics_flush_seconds",
@@ -162,6 +167,34 @@
    "label": "Announcement Level",
    "options": "info\nwarning\nsuccess",
    "default": "info"
+  },
+  {
+   "fieldname": "section_support",
+   "fieldtype": "Section Break",
+   "label": "Help and support",
+   "description": "Shown in the app wherever someone may need a hand (\"Ask QTT for help\")."
+  },
+  {
+   "fieldname": "support_whatsapp",
+   "fieldtype": "Data",
+   "label": "Support WhatsApp number",
+   "description": "With country code, e.g. +91 98765 43210"
+  },
+  {
+   "fieldname": "support_email",
+   "fieldtype": "Data",
+   "label": "Support email",
+   "options": "Email"
+  },
+  {
+   "fieldname": "column_break_support",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "support_hours",
+   "fieldtype": "Data",
+   "label": "Support hours",
+   "description": "e.g. Mon–Sat, 9 am – 7 pm"
   },
   {
    "fieldname": "section_analytics",

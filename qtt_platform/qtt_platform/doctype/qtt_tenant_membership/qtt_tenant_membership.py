@@ -30,6 +30,6 @@ class QTTTenantMembership(Document):
 		)
 		if duplicate:
 			frappe.throw(
-				_("{0} already has a membership in this tenant.").format(self.user),
+				_("{0} is already part of this business.").format(self.user),
 				frappe.DuplicateEntryError,
 			)

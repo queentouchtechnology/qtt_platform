@@ -62,7 +62,7 @@ def create_payment_order(tenant: str, invoice: str, *, gateway_key: str = "razor
 
 	invoice_tenant = frappe.db.get_value("QTT Invoice", invoice, "tenant")
 	if invoice_tenant != tenant:
-		frappe.throw(_("This invoice does not belong to your tenant."), frappe.PermissionError)
+		frappe.throw(_("This invoice belongs to another business."), frappe.PermissionError)
 
 	return billing_service.create_payment_order(invoice, gateway_key=gateway_key)
 
@@ -90,7 +90,7 @@ def start_subscription_checkout(product: str) -> dict:
 	try:
 		tenant = resolve_active_tenant()
 		if not tenant:
-			raise QttApiError("TENANT_ACCESS_DENIED", "No active tenant.")
+			raise QttApiError("TENANT_ACCESS_DENIED", "Choose your business first.")
 
 		try:
 			require_tenant_role(tenant, _BILLING_MANAGER_ROLES)

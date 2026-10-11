@@ -83,7 +83,7 @@ def get_tenant(tenant: str) -> dict:
 		as_dict=True,
 	)
 	if not doc:
-		frappe.throw(_("Tenant not found."), frappe.DoesNotExistError)
+		frappe.throw(_("Business not found."), frappe.DoesNotExistError)
 	doc["creation"] = str(doc.creation)
 	doc["trial_ends_on"] = str(doc.trial_ends_on) if doc.trial_ends_on else None
 

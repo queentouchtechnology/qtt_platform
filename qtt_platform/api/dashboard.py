@@ -35,7 +35,7 @@ from qtt_platform.tenant.guards import require_tenant_membership
 def get_dashboard(product: str) -> dict:
 	tenant = resolve_active_tenant()
 	if not tenant:
-		return fail("TENANT_ACCESS_DENIED", "No active tenant.")
+		return fail("TENANT_ACCESS_DENIED", "Choose your business first.")
 
 	try:
 		membership = require_tenant_membership(tenant)

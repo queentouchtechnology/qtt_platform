@@ -41,7 +41,7 @@ def require_product_access(tenant: str, product: str, user: str | None = None):
 		"QTT Tenant Membership", {"user": user, "tenant": tenant}, "name"
 	)
 	if not membership_name:
-		frappe.throw(_("You are not a member of this tenant."), frappe.PermissionError)
+		frappe.throw(_("You are not part of this business."), frappe.PermissionError)
 
 	access_name = frappe.db.get_value(
 		"QTT Product Access", {"membership": membership_name, "product": product}, "name"

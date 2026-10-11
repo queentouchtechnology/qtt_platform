@@ -125,7 +125,7 @@ def stamp_tenant_before_insert(doc, method: str | None = None):
 		return
 	tenant = resolve_active_tenant()
 	if not tenant:
-		frappe.throw(_("No active tenant."), frappe.PermissionError)
+		frappe.throw(_("Choose your business first."), frappe.PermissionError)
 	doc.tenant = tenant
 
 

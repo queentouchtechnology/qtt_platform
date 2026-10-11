@@ -22,7 +22,7 @@ def _get_active_membership_or_throw(tenant: str, target_user: str) -> str:
 	)
 	if not membership_name:
 		frappe.throw(
-			_("{0} is not an active member of this tenant.").format(target_user),
+			_("{0} is not an active member of this business.").format(target_user),
 			frappe.ValidationError,
 		)
 	return membership_name
@@ -87,7 +87,7 @@ def revoke_product_access(tenant: str, target_user: str, product: str) -> dict:
 		"QTT Tenant Membership", {"user": target_user, "tenant": tenant}, "name"
 	)
 	if not membership_name:
-		frappe.throw(_("{0} is not a member of this tenant.").format(target_user), frappe.ValidationError)
+		frappe.throw(_("{0} is not part of this business.").format(target_user), frappe.ValidationError)
 
 	access_name = frappe.db.exists(
 		"QTT Product Access", {"membership": membership_name, "product": product}
@@ -118,7 +118,7 @@ def change_product_role(tenant: str, target_user: str, product: str, new_role: s
 		"QTT Tenant Membership", {"user": target_user, "tenant": tenant}, "name"
 	)
 	if not membership_name:
-		frappe.throw(_("{0} is not a member of this tenant.").format(target_user), frappe.ValidationError)
+		frappe.throw(_("{0} is not part of this business.").format(target_user), frappe.ValidationError)
 
 	access_name = frappe.db.exists(
 		"QTT Product Access", {"membership": membership_name, "product": product}
@@ -164,7 +164,7 @@ def remove_team_member(tenant: str, target_user: str) -> dict:
 		"QTT Tenant Membership", {"user": target_user, "tenant": tenant}, "name"
 	)
 	if not membership_name:
-		frappe.throw(_("{0} is not a member of this tenant.").format(target_user), frappe.ValidationError)
+		frappe.throw(_("{0} is not part of this business.").format(target_user), frappe.ValidationError)
 
 	membership = frappe.get_doc("QTT Tenant Membership", membership_name)
 	membership.status = "removed"

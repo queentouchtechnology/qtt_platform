@@ -111,6 +111,11 @@ def _shared_config(settings: dict, language: str) -> dict:
 			if settings.get("announcement")
 			else None
 		),
+		"support": {
+			"whatsapp": (settings.get("support_whatsapp") or "").strip() or None,
+			"email": (settings.get("support_email") or "").strip() or None,
+			"hours": (settings.get("support_hours") or "").strip() or None,
+		},
 		"analytics": {
 			"enabled": bool(settings.get("analytics_enabled", 1)),
 			"flush_seconds": max(10, int(settings.get("analytics_flush_seconds") or 30)),

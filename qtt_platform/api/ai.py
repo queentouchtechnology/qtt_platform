@@ -46,7 +46,7 @@ def generate(product: str, feature: str, inputs: dict | str | None = None) -> di
 	try:
 		tenant = resolve_active_tenant()
 		if not tenant:
-			raise QttApiError("TENANT_ACCESS_DENIED", "No active tenant.")
+			raise QttApiError("TENANT_ACCESS_DENIED", "Choose your business first.")
 
 		try:
 			require_product_access(tenant, product)

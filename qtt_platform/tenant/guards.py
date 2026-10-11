@@ -50,23 +50,23 @@ def require_tenant_membership(tenant: str, user: str | None = None):
 	user = user or frappe.session.user
 
 	if not tenant:
-		frappe.throw(_("No active tenant."), frappe.PermissionError)
+		frappe.throw(_("Choose your business first."), frappe.PermissionError)
 
 	tenant_status = frappe.db.get_value("QTT Tenant", tenant, "status")
 	if tenant_status is None:
-		frappe.throw(_("Tenant not found."), frappe.PermissionError)
+		frappe.throw(_("Business not found."), frappe.PermissionError)
 	if tenant_status not in _OPERABLE_TENANT_STATUSES:
-		frappe.throw(_("This tenant is not currently active."), frappe.PermissionError)
+		frappe.throw(_("This business account isn't active right now. Please contact QTT."), frappe.PermissionError)
 
 	membership_name = frappe.db.get_value(
 		"QTT Tenant Membership", {"user": user, "tenant": tenant}, "name"
 	)
 	if not membership_name:
-		frappe.throw(_("You are not a member of this tenant."), frappe.PermissionError)
+		frappe.throw(_("You are not part of this business."), frappe.PermissionError)
 
 	membership = frappe.get_doc("QTT Tenant Membership", membership_name)
 	if membership.status != _ACTIVE_MEMBERSHIP_STATUS:
-		frappe.throw(_("Your membership in this tenant is not active."), frappe.PermissionError)
+		frappe.throw(_("Your access to this business is paused. Ask the business owner."), frappe.PermissionError)
 
 	return membership
 
@@ -78,7 +78,7 @@ def require_tenant_role(tenant: str, allowed_roles: list[str], user: str | None 
 	membership = require_tenant_membership(tenant, user=user)
 	if membership.tenant_role not in allowed_roles:
 		frappe.throw(
-			_("This action requires one of these tenant roles: {0}.").format(", ".join(allowed_roles)),
+			_("Only the business owner or an admin can do this.").format(", ".join(allowed_roles)),
 			frappe.PermissionError,
 		)
 	return membership
