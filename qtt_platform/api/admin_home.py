@@ -15,6 +15,27 @@ def _exists(doctype: str) -> bool:
 	return bool(frappe.db.exists("DocType", doctype))
 
 
+def _automation_attention() -> list[dict]:
+	"""From the latest usage snapshot: DeepSeek balance running low, n8n workflows failing."""
+	if not _exists("QTT Usage Snapshot"):
+		return []
+	import json
+
+	row = frappe.get_all("QTT Usage Snapshot", fields=["data"], order_by="taken_at desc", page_length=1)
+	if not row:
+		return []
+	snap = json.loads(row[0].data or "{}")
+	out = []
+	ds = snap.get("deepseek") or {}
+	low = float(frappe.get_cached_doc("QTT Ops Settings").get("deepseek_low_balance") or 2)
+	if ds.get("balance") is not None and float(ds["balance"]) < low:
+		out.append({"what": "deepseek_low", "value": ds["balance"]})
+	n8n = snap.get("n8n") or {}
+	if int(n8n.get("errors_24h") or 0) > 0:
+		out.append({"what": "n8n_errors", "value": int(n8n["errors_24h"])})
+	return out
+
+
 def _client_attention() -> tuple[list, list]:
 	"""Managed Services (qtt_services, when installed): client sites that are down,
 	and client requests still waiting for QTT's first answer."""
@@ -74,6 +95,7 @@ def home() -> dict:
 										   fields=["server_key", "title", "status", "problems"])]
 	domains, snapshots = _provider_attention()
 	client_sites, client_requests = _client_attention()
+	automation = _automation_attention()
 	approvals = []
 	if _exists("QTT Marketing Content"):
 		approvals = frappe.get_all("QTT Marketing Content", filters={"status": "pending"}, fields=["name", "title"],
@@ -100,7 +122,7 @@ def home() -> dict:
 		},
 		"attention": logic.attention_items(servers=servers, trials=rev.get("trials_ending") or [], past_due=rev.get("past_due") or [],
 										   approvals=approvals, setup_errors=setup_errors, domains=domains,
-										   snapshots=snapshots, client_sites=client_sites, client_requests=client_requests,
+										   snapshots=snapshots, client_sites=client_sites, client_requests=client_requests, automation=automation,
 										   today_str=today()),
 		"subscriptions_by_product": overview.get("subscriptions_by_product") or {},
 	}

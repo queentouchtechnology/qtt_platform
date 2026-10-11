@@ -1,0 +1,45 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Usage Snapshot",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 0,
+ "sort_field": "taken_at",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "autoname": "hash",
+ "description": "AI spend (DeepSeek, OpenAI), Hermes and n8n usage, sent every 30 minutes by the QTT usage collector on the automation server. QTT Admin → Usage shows it.",
+ "field_order": [
+  "taken_at",
+  "data"
+ ],
+ "fields": [
+  {
+   "fieldname": "taken_at",
+   "fieldtype": "Datetime",
+   "label": "Taken at",
+   "in_list_view": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "data",
+   "fieldtype": "Long Text",
+   "label": "Snapshot (JSON)",
+   "read_only": 1
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ]
+}

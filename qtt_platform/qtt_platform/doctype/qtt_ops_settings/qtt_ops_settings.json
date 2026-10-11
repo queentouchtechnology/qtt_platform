@@ -29,7 +29,10 @@
   "domain_warn_days",
   "snapshot_max_age_days",
   "providers_synced_at",
-  "providers_error"
+  "providers_error",
+  "section_usage",
+  "usage_token",
+  "deepseek_low_balance"
  ],
  "fields": [
   {
@@ -132,6 +135,23 @@
    "fieldtype": "Small Text",
    "label": "Last sync error",
    "read_only": 1
+  },
+  {
+   "fieldname": "section_usage",
+   "fieldtype": "Section Break",
+   "label": "Usage collector"
+  },
+  {
+   "fieldname": "usage_token",
+   "fieldtype": "Password",
+   "label": "Usage collector token",
+   "description": "Made in QTT Admin → Usage → Install collector."
+  },
+  {
+   "fieldname": "deepseek_low_balance",
+   "fieldtype": "Float",
+   "label": "Warn when the DeepSeek balance is below (USD)",
+   "default": "2"
   }
  ],
  "permissions": [

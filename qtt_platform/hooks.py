@@ -321,5 +321,6 @@ scheduler_events = {
 		# Keeps yesterday's marketing report as it was (QTT Admin → Marketing).
 		"qtt_platform.api.marketing_dashboard.snapshot_yesterday",
 		"qtt_platform.api.servers.purge_reports",
+		"qtt_platform.api.usage_dashboard.purge_snapshots",
 	],
 }

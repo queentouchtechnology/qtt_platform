@@ -157,11 +157,11 @@ def revenue_summary(subscriptions: list[dict]) -> dict:
 # QTT Admin home: one ranked "needs attention" list
 # --------------------------------------------------------------------------
 _LEVEL_ORDER = {"critical": 0, "warning": 1, "info": 2}
-_KIND_ORDER = {"server": 0, "client_site": 1, "domain": 2, "setup": 3, "payment": 4, "client_request": 5, "trial": 6, "approval": 7, "snapshot": 8}
+_KIND_ORDER = {"server": 0, "client_site": 1, "domain": 2, "setup": 3, "payment": 4, "client_request": 5, "trial": 6, "approval": 7, "automation": 8, "snapshot": 9}
 
 
 def attention_items(*, servers=(), trials=(), past_due=(), approvals=(), setup_errors=(), domains=(), snapshots=(), client_sites=(),
-					 client_requests=(), today_str: str) -> list[dict]:
+					 client_requests=(), automation=(), today_str: str) -> list[dict]:
 	"""Everything a QTT admin should look at, most urgent first. Each item:
 	{level, kind, title, area, target} plus facts the app turns into a
 	translated sentence (product, days, count, status) and, where the server
@@ -188,6 +188,10 @@ def attention_items(*, servers=(), trials=(), past_due=(), approvals=(), setup_e
 		# Managed Services: a client request nobody has answered yet. {subject, tenant, tenant_name, urgent}
 		items.append({"level": "warning" if r.get("urgent") else "info", "kind": "client_request", "title": r["subject"],
 					  "client": r.get("tenant_name"), "area": "clients", "target": r["tenant"]})
+	for a in automation:
+		# Usage collector: {what: deepseek_low | n8n_errors, value}
+		items.append({"level": "warning", "kind": "automation", "title": "DeepSeek" if a["what"] == "deepseek_low" else "n8n",
+					  "what": a["what"], "count": a["value"], "area": "usage", "target": None})
 	for p in past_due:
 		items.append({"level": "critical", "kind": "payment", "title": p.get("tenant_name") or p["tenant"],
 					  "product": p["product"], "area": "customers", "target": p["tenant"]})
