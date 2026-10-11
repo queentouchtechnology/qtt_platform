@@ -15,6 +15,33 @@ def _exists(doctype: str) -> bool:
 	return bool(frappe.db.exists("DocType", doctype))
 
 
+def _provider_attention() -> tuple[list, list]:
+	"""Watched domains near or past expiry, and servers whose last Contabo snapshot is missing or old."""
+	if not _exists("QTT Domain"):
+		return [], []
+	from datetime import datetime
+
+	from frappe.utils import getdate
+
+	from qtt_platform.ops import providers
+
+	settings = frappe.get_cached_doc("QTT Ops Settings")
+	warn = int(settings.get("domain_warn_days") or 30)
+	max_age = int(settings.get("snapshot_max_age_days") or 14)
+	domains = []
+	for d in frappe.get_all("QTT Domain", filters={"watch": 1}, fields=["name", "status", "expires_on"]):
+		level, days = providers.domain_level(status=d.status, expires_on=d.expires_on, today=getdate(today()), warn_days=warn)
+		if level in ("warning", "critical"):
+			domains.append({"domain": d.name, "level": level, "days_left": days})
+	snapshots = []
+	for s in frappe.get_all("QTT Server", filters={"enabled": 1, "provider_synced_at": ["is", "set"]},
+							fields=["server_key", "title", "last_snapshot_at"]):
+		days = (datetime.utcnow() - s.last_snapshot_at).days if s.last_snapshot_at else None
+		if days is None or days > max_age:
+			snapshots.append({"key": s.server_key, "title": s.title, "days": days})
+	return domains, snapshots
+
+
 @frappe.whitelist(methods=["GET"])
 def home() -> dict:
 	require_platform_owner()
@@ -26,6 +53,7 @@ def home() -> dict:
 		servers = [{"key": r.server_key, "title": r.title, "status": r.status, "problems": r.problems}
 				   for r in frappe.get_all("QTT Server", filters={"enabled": 1, "status": ["in", ["warning", "critical", "offline"]]},
 										   fields=["server_key", "title", "status", "problems"])]
+	domains, snapshots = _provider_attention()
 	approvals = []
 	if _exists("QTT Marketing Content"):
 		approvals = frappe.get_all("QTT Marketing Content", filters={"status": "pending"}, fields=["name", "title"],
@@ -51,6 +79,7 @@ def home() -> dict:
 			"servers_total": frappe.db.count("QTT Server", {"enabled": 1}) if _exists("QTT Server") else 0,
 		},
 		"attention": logic.attention_items(servers=servers, trials=rev.get("trials_ending") or [], past_due=rev.get("past_due") or [],
-										   approvals=approvals, setup_errors=setup_errors, today_str=today()),
+										   approvals=approvals, setup_errors=setup_errors, domains=domains,
+										   snapshots=snapshots, today_str=today()),
 		"subscriptions_by_product": overview.get("subscriptions_by_product") or {},
 	}

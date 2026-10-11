@@ -24,6 +24,15 @@
   "last_report",
   "column_break_status",
   "problems",
+  "section_provider",
+  "provider_instance_id",
+  "provider_status",
+  "provider_plan",
+  "provider_synced_at",
+  "column_break_provider",
+  "last_snapshot_at",
+  "snapshot_auto_delete",
+  "snapshot_count",
   "section_secret",
   "report_token"
  ],
@@ -103,6 +112,58 @@
    "fieldname": "problems",
    "fieldtype": "Small Text",
    "label": "Problems",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_provider",
+   "fieldtype": "Section Break",
+   "label": "Provider (filled by the daily sync)",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "provider_instance_id",
+   "fieldtype": "Data",
+   "label": "Provider instance",
+   "read_only": 1
+  },
+  {
+   "fieldname": "provider_status",
+   "fieldtype": "Data",
+   "label": "Provider status",
+   "read_only": 1
+  },
+  {
+   "fieldname": "provider_plan",
+   "fieldtype": "Data",
+   "label": "Plan",
+   "read_only": 1
+  },
+  {
+   "fieldname": "provider_synced_at",
+   "fieldtype": "Datetime",
+   "label": "Synced at",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_provider",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_snapshot_at",
+   "fieldtype": "Datetime",
+   "label": "Last snapshot (UTC)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "snapshot_auto_delete",
+   "fieldtype": "Datetime",
+   "label": "Snapshot auto-deleted on (UTC)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "snapshot_count",
+   "fieldtype": "Int",
+   "label": "Snapshots",
    "read_only": 1
   },
   {

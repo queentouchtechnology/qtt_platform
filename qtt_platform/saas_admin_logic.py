@@ -157,10 +157,10 @@ def revenue_summary(subscriptions: list[dict]) -> dict:
 # QTT Admin home: one ranked "needs attention" list
 # --------------------------------------------------------------------------
 _LEVEL_ORDER = {"critical": 0, "warning": 1, "info": 2}
-_KIND_ORDER = {"server": 0, "setup": 1, "payment": 2, "trial": 3, "approval": 4}
+_KIND_ORDER = {"server": 0, "domain": 1, "setup": 2, "payment": 3, "trial": 4, "approval": 5, "snapshot": 6}
 
 
-def attention_items(*, servers=(), trials=(), past_due=(), approvals=(), setup_errors=(), today_str: str) -> list[dict]:
+def attention_items(*, servers=(), trials=(), past_due=(), approvals=(), setup_errors=(), domains=(), snapshots=(), today_str: str) -> list[dict]:
 	"""Everything a QTT admin should look at, most urgent first. Each item:
 	{level, kind, title, area, target} plus facts the app turns into a
 	translated sentence (product, days, count, status) and, where the server
@@ -171,6 +171,14 @@ def attention_items(*, servers=(), trials=(), past_due=(), approvals=(), setup_e
 		level = "critical" if s["status"] in ("critical", "offline") else "warning"
 		items.append({"level": level, "kind": "server", "title": s["title"], "status": s["status"],
 					  "detail": s.get("problems") or None, "area": "servers", "target": s["key"]})
+	for d in domains:
+		# {domain, level (warning|critical), days_left}: days < 0 = already expired.
+		items.append({"level": d["level"], "kind": "domain", "title": d["domain"], "days": d.get("days_left"),
+					  "area": "servers", "target": d["domain"]})
+	for s in snapshots:
+		# {key, title, days (since the last snapshot; None = never)}
+		items.append({"level": "info", "kind": "snapshot", "title": s["title"], "days": s.get("days"),
+					  "area": "servers", "target": s["key"]})
 	for p in past_due:
 		items.append({"level": "critical", "kind": "payment", "title": p.get("tenant_name") or p["tenant"],
 					  "product": p["product"], "area": "customers", "target": p["tenant"]})

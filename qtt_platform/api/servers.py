@@ -10,7 +10,7 @@ a status change can post to Slack.
 
 import json
 import secrets
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 import frappe
 import requests
@@ -18,11 +18,13 @@ from frappe import _
 from frappe.utils import get_datetime, get_url, now_datetime
 
 from qtt_platform.audit import write_audit_event
+from qtt_platform.ops import providers
 from qtt_platform.ops import server_health as health
 from qtt_platform.tenant.guards import require_platform_owner
 
 SERVER = "QTT Server"
 REPORT = "QTT Server Report"
+DOMAIN = "QTT Domain"
 SETTINGS = "QTT Ops Settings"
 MAX_BODY = 256 * 1024
 MIN_INTERVAL_SECONDS = 60
@@ -80,15 +82,16 @@ def list_servers() -> dict:
 	require_platform_owner()
 	_seed_known()
 	out = []
-	for s in frappe.get_all(SERVER, fields=["name", "title", "ip_address", "provider_id", "purpose", "enabled", "status", "last_report_at", "last_report"],
-							order_by="title asc"):
+	for s in frappe.get_all(SERVER, fields=["name", "title", "ip_address", "provider_id", "purpose", "enabled", "status", "last_report_at", "last_report",
+											*_PROVIDER_FIELDS], order_by="title asc"):
 		latest = _latest(s.last_report)
 		ev = health.evaluate(latest, last_report_at=get_datetime(s.last_report_at) if s.last_report_at else None, now=now_datetime(), limits=_limits())
 		out.append({
 			"key": s.name, "title": s.title, "ip": s.ip_address, "provider_id": s.provider_id, "purpose": s.purpose,
 			"enabled": bool(s.enabled), "status": ev["status"] if s.enabled else "disabled",
 			"last_report_at": str(s.last_report_at) if s.last_report_at else None,
-			"problems": ev["problems"], "notices": ev["notices"], "latest": latest,
+			"problems": ev["problems"], "notices": ev["notices"] + _provider_notices(s), "latest": latest,
+			"provider": _provider_out(s),
 		})
 	counts = {}
 	for s in out:
@@ -113,7 +116,8 @@ def server_detail(key: str, days: int = 7) -> dict:
 	ev = health.evaluate(latest, last_report_at=get_datetime(server.last_report_at) if server.last_report_at else None, now=now_datetime(), limits=_limits())
 	return {
 		"key": server.name, "title": server.title, "ip": server.ip_address, "provider_id": server.provider_id, "purpose": server.purpose,
-		"enabled": bool(server.enabled), "status": ev["status"], "problems": ev["problems"], "notices": ev["notices"],
+		"enabled": bool(server.enabled), "status": ev["status"], "problems": ev["problems"], "notices": ev["notices"] + _provider_notices(server),
+		"provider": _provider_out(server),
 		"last_report_at": str(server.last_report_at) if server.last_report_at else None,
 		"latest": latest, "history": health.thin(history, 240), "days": days,
 	}
@@ -155,6 +159,131 @@ def install_command(key: str) -> dict:
 	)
 	return {"key": key, "command": command}
 
+
+# --------------------------------------------------------------------------
+# Hosting providers (Contabo servers + snapshots, Hostinger domains)
+# --------------------------------------------------------------------------
+_PROVIDER_FIELDS = ["provider_instance_id", "provider_status", "provider_plan", "provider_synced_at",
+					"last_snapshot_at", "snapshot_auto_delete", "snapshot_count"]
+
+
+@frappe.whitelist(methods=["GET"])
+def list_domains() -> dict:
+	require_platform_owner()
+	settings = frappe.get_cached_doc(SETTINGS)
+	warn = int(settings.get("domain_warn_days") or 30)
+	today = now_datetime().date()
+	out, counts = [], {}
+	for d in frappe.get_all(DOMAIN, fields=["name", "registrar", "status", "expires_on", "watch"], order_by="expires_on asc"):
+		level, days = providers.domain_level(status=d.status, expires_on=d.expires_on, today=today, warn_days=warn, watch=bool(d.watch))
+		counts[level] = counts.get(level, 0) + 1
+		out.append({"domain": d.name, "registrar": d.registrar, "status": d.status, "level": level, "days_left": days,
+					"expires_on": str(d.expires_on) if d.expires_on else None, "watch": bool(d.watch)})
+	return {"domains": out, "counts": counts,
+			"synced_at": str(settings.providers_synced_at) if settings.get("providers_synced_at") else None,
+			"error": settings.get("providers_error") or None, "configured": _providers_configured(settings)}
+
+
+@frappe.whitelist(methods=["POST"])
+def set_domain_watch(domain: str, watch=1) -> dict:
+	"""Untick for a domain being let go: no more expiry warnings for it."""
+	require_platform_owner()
+	value = 1 if str(watch).lower() in ("1", "true", "yes") else 0
+	frappe.db.set_value(DOMAIN, domain, "watch", value)
+	write_audit_event("domain_watch_changed", target_doctype=DOMAIN, target_name=domain, metadata={"watch": value})
+	return list_domains()
+
+
+@frappe.whitelist(methods=["POST"])
+def refresh_providers() -> dict:
+	"""Fetch from Contabo and Hostinger now (otherwise every 6 hours)."""
+	require_platform_owner()
+	last = frappe.db.get_single_value(SETTINGS, "providers_synced_at")
+	if not last or (now_datetime() - get_datetime(last)).total_seconds() >= MIN_INTERVAL_SECONDS:
+		sync_providers()
+		frappe.clear_document_cache(SETTINGS, SETTINGS)
+	return list_domains()
+
+
+def sync_providers() -> None:
+	"""Scheduler (every 6 hours) and the app's refresh. Read-only calls; a failing
+	provider is noted in QTT Ops Settings and does not stop the other one."""
+	settings = frappe.get_doc(SETTINGS)
+	errors = []
+	if settings.get("contabo_client_id") and settings.get("contabo_api_user"):
+		try:
+			_apply_contabo(providers.contabo_inventory(
+				settings.contabo_client_id, settings.get_password("contabo_client_secret", raise_exception=False) or "",
+				settings.contabo_api_user, settings.get_password("contabo_api_password", raise_exception=False) or ""))
+		except providers.ProviderError as exc:
+			errors.append(str(exc))
+	token = settings.get_password("hostinger_api_token", raise_exception=False) if settings.get("hostinger_api_token") else None
+	if token:
+		try:
+			_apply_domains(providers.hostinger_domains(token), registrar="Hostinger")
+		except providers.ProviderError as exc:
+			errors.append(str(exc))
+	frappe.db.set_single_value(SETTINGS, {"providers_synced_at": now_datetime(), "providers_error": " | ".join(errors)[:1000] or None})
+	frappe.db.commit()
+
+
+def _providers_configured(settings) -> dict:
+	return {"contabo": bool(settings.get("contabo_client_id") and settings.get("contabo_api_user")),
+			"hostinger": bool(settings.get("hostinger_api_token"))}
+
+
+def _apply_contabo(instances: list[dict]) -> None:
+	now = now_datetime()
+	servers = frappe.get_all(SERVER, fields=["name", "ip_address", "provider_id", "provider_instance_id"])
+	for inst in instances:
+		match = (next((s for s in servers if s.provider_instance_id and s.provider_instance_id == inst["instance_id"]), None)
+				 or next((s for s in servers if inst.get("ip") and s.ip_address == inst["ip"]), None)
+				 or next((s for s in servers if inst.get("name") and inst["name"] in (s.provider_id or "")), None))
+		if not match:
+			# A server QTT pays for but doesn't monitor yet: list it so it isn't forgotten.
+			key = (inst.get("name") or inst["instance_id"]).lower()[:30]
+			frappe.get_doc({"doctype": SERVER, "server_key": key, "title": (inst.get("display_name") or key)[:80], "ip_address": inst.get("ip"),
+							"provider_id": f"Contabo {inst.get('name') or ''}".strip(), "enabled": 1, "status": "new"}).insert(ignore_permissions=True)
+			match = frappe._dict(name=key)
+		frappe.db.set_value(SERVER, match.name, {
+			"provider_instance_id": inst["instance_id"], "provider_status": inst.get("status"), "provider_plan": (inst.get("plan") or "")[:140],
+			"provider_synced_at": now, **providers.snapshot_state(inst["snapshots"]),
+		}, update_modified=False)
+
+
+def _apply_domains(domains: list[dict], *, registrar: str) -> None:
+	now = now_datetime()
+	for d in domains:
+		values = {"registrar": registrar, "status": d.get("status"), "expires_on": d.get("expires_on"), "synced_at": now}
+		if frappe.db.exists(DOMAIN, d["domain"]):
+			frappe.db.set_value(DOMAIN, d["domain"], values, update_modified=False)
+		else:
+			# Already expired when first seen = being let go: don't warn about it.
+			frappe.get_doc({"doctype": DOMAIN, "domain": d["domain"], "watch": 0 if (d.get("status") or "").lower() == "expired" else 1,
+							**values}).insert(ignore_permissions=True)
+
+
+def _provider_out(s) -> dict | None:
+	if not s.get("provider_synced_at"):
+		return None
+	return {
+		"instance_id": s.provider_instance_id, "status": s.provider_status, "plan": s.provider_plan,
+		"synced_at": str(s.provider_synced_at),
+		"last_snapshot_at": _utc_iso(s.last_snapshot_at), "snapshot_auto_delete": _utc_iso(s.snapshot_auto_delete),
+		"snapshot_count": s.snapshot_count or 0,
+	}
+
+
+def _utc_iso(value) -> str | None:
+	return f"{get_datetime(value).isoformat()}Z" if value else None
+
+
+def _provider_notices(s) -> list[str]:
+	if not s.get("provider_synced_at"):
+		return []
+	max_age = int(frappe.get_cached_doc(SETTINGS).get("snapshot_max_age_days") or 14)
+	return providers.server_notices(last_snapshot_at=s.last_snapshot_at, snapshot_auto_delete=s.snapshot_auto_delete,
+									provider_status=s.provider_status, now=datetime.utcnow(), max_age_days=max_age)
 
 # --------------------------------------------------------------------------
 # Scheduler

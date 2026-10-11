@@ -303,6 +303,8 @@ scheduler_events = {
 	"cron": {
 		# QTT Admin → Servers: servers that stop reporting become offline.
 		"*/5 * * * *": ["qtt_platform.api.servers.check_offline"],
+		# QTT Admin → Servers / Domains: Contabo servers + snapshots, Hostinger domains.
+		"20 */6 * * *": ["qtt_platform.api.servers.sync_providers"],
 	},
 	"hourly": [
 		"qtt_platform.billing.service.reconcile_subscriptions",

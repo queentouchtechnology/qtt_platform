@@ -18,7 +18,18 @@
   "disk_warn",
   "disk_critical",
   "mem_warn",
-  "load_warn_per_core"
+  "load_warn_per_core",
+  "section_providers",
+  "contabo_client_id",
+  "contabo_client_secret",
+  "contabo_api_user",
+  "contabo_api_password",
+  "column_break_providers",
+  "hostinger_api_token",
+  "domain_warn_days",
+  "snapshot_max_age_days",
+  "providers_synced_at",
+  "providers_error"
  ],
  "fields": [
   {
@@ -62,6 +73,65 @@
    "fieldtype": "Float",
    "label": "Load warning per CPU core",
    "default": "2"
+  },
+  {
+   "fieldname": "section_providers",
+   "fieldtype": "Section Break",
+   "label": "Hosting providers (read-only access)",
+   "description": "Used once a day to show Contabo servers and snapshots, and Hostinger domains, in QTT Admin. Only read calls are made."
+  },
+  {
+   "fieldname": "contabo_client_id",
+   "fieldtype": "Data",
+   "label": "Contabo client ID"
+  },
+  {
+   "fieldname": "contabo_client_secret",
+   "fieldtype": "Password",
+   "label": "Contabo client secret"
+  },
+  {
+   "fieldname": "contabo_api_user",
+   "fieldtype": "Data",
+   "label": "Contabo API user"
+  },
+  {
+   "fieldname": "contabo_api_password",
+   "fieldtype": "Password",
+   "label": "Contabo API password"
+  },
+  {
+   "fieldname": "column_break_providers",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "hostinger_api_token",
+   "fieldtype": "Password",
+   "label": "Hostinger API token"
+  },
+  {
+   "fieldname": "domain_warn_days",
+   "fieldtype": "Int",
+   "label": "Warn before a domain expires (days)",
+   "default": "30"
+  },
+  {
+   "fieldname": "snapshot_max_age_days",
+   "fieldtype": "Int",
+   "label": "Warn when the last snapshot is older than (days)",
+   "default": "14"
+  },
+  {
+   "fieldname": "providers_synced_at",
+   "fieldtype": "Datetime",
+   "label": "Last sync",
+   "read_only": 1
+  },
+  {
+   "fieldname": "providers_error",
+   "fieldtype": "Small Text",
+   "label": "Last sync error",
+   "read_only": 1
   }
  ],
  "permissions": [
