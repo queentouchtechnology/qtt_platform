@@ -322,5 +322,19 @@ scheduler_events = {
 		"qtt_platform.api.marketing_dashboard.snapshot_yesterday",
 		"qtt_platform.api.servers.purge_reports",
 		"qtt_platform.api.usage_dashboard.purge_snapshots",
+		# Push devices not seen for 120 days (QTT Push Device).
+		"qtt_platform.api.devices.prune_stale",
+		# Fingerprint / Face ID phones unused for 90 days (QTT Trusted Device).
+		"qtt_platform.api.quick_login.prune_idle",
+	],
+}
+
+# Printed documents: every business's branding and GST summary in print formats
+# (qtt_platform/templates/print/*, Orbitra and Office Pulse print formats).
+jenv = {
+	"methods": [
+		"qtt_brand:qtt_platform.print_brand.brand",
+		"qtt_gst_summary:qtt_platform.print_brand.gst_summary",
+		"qtt_hsn:qtt_platform.print_brand.hsn",
 	],
 }

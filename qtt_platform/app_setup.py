@@ -82,9 +82,14 @@ def _seed_settings() -> None:
 		if value is not None and not settings.get(field):
 			settings.set(field, value)
 			changed = True
-	if settings.get("analytics_enabled") is None:
-		settings.analytics_enabled = 1
-		changed = True
+	for check in ("analytics_enabled", "signup_verify_email", "signup_verify_whatsapp", "google_sign_in", "biometric_sign_in"):
+		if settings.get(check) is None:
+			settings.set(check, 1)
+			changed = True
+	for field, value in (("whatsapp_otp_template", "reference_number"), ("whatsapp_otp_language", "en")):
+		if not settings.get(field):
+			settings.set(field, value)
+			changed = True
 	if changed:
 		settings.save(ignore_permissions=True)
 

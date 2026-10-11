@@ -1,0 +1,106 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Push Device",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 0,
+ "sort_field": "last_seen_at",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "autoname": "hash",
+ "title_field": "user",
+ "description": "Phones, tablets and browsers that can receive QTT push notifications (Firebase Cloud Messaging). The app registers its token after every sign-in, for every product; a token always belongs to whoever signed in on that device most recently.",
+ "field_order": [
+  "user",
+  "platform",
+  "device_name",
+  "app_version",
+  "column_break_1",
+  "tenant",
+  "last_seen_at",
+  "section_token",
+  "token_hash",
+  "token"
+ ],
+ "fields": [
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "platform",
+   "fieldtype": "Select",
+   "label": "Platform",
+   "options": "android\nios\nweb\nwindows\nmacos\nlinux",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "device_name",
+   "fieldtype": "Data",
+   "label": "Device"
+  },
+  {
+   "fieldname": "app_version",
+   "fieldtype": "Data",
+   "label": "App version",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "label": "Workspace",
+   "options": "QTT Tenant",
+   "in_standard_filter": 1,
+   "description": "The workspace that was open when the device last registered."
+  },
+  {
+   "fieldname": "last_seen_at",
+   "fieldtype": "Datetime",
+   "label": "Last seen",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "section_token",
+   "fieldtype": "Section Break",
+   "label": "Token",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "token_hash",
+   "fieldtype": "Data",
+   "label": "Token hash",
+   "unique": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "token",
+   "fieldtype": "Long Text",
+   "label": "FCM token",
+   "read_only": 1
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ]
+}

@@ -38,6 +38,17 @@
   "support_email",
   "column_break_support",
   "support_hours",
+  "section_signup",
+  "signup_verify_email",
+  "signup_verify_whatsapp",
+  "column_break_signup",
+  "whatsapp_otp_template",
+  "whatsapp_otp_language",
+  "section_quick_login",
+  "google_sign_in",
+  "google_client_ids",
+  "column_break_quick_login",
+  "biometric_sign_in",
   "section_analytics",
   "analytics_enabled",
   "analytics_flush_seconds",
@@ -197,6 +208,73 @@
    "description": "e.g. Mon–Sat, 9 am – 7 pm"
   },
   {
+   "fieldname": "section_signup",
+   "fieldtype": "Section Break",
+   "label": "Sign-up security",
+   "description": "New business owners prove their email and WhatsApp number with a one-time code before the account is created."
+  },
+  {
+   "fieldname": "signup_verify_email",
+   "fieldtype": "Check",
+   "label": "Verify email with a code",
+   "default": "1",
+   "description": "Code sent from the default outgoing email account (Brevo)."
+  },
+  {
+   "fieldname": "signup_verify_whatsapp",
+   "fieldtype": "Check",
+   "label": "Verify WhatsApp number with a code",
+   "default": "1",
+   "description": "Code sent from QTT's WhatsApp number (Managed Services Settings → WhatsApp) as the template below."
+  },
+  {
+   "fieldname": "column_break_signup",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "whatsapp_otp_template",
+   "fieldtype": "Data",
+   "label": "WhatsApp code template",
+   "default": "reference_number",
+   "description": "A Meta-approved template whose {{1}} is the code, e.g. reference_number."
+  },
+  {
+   "fieldname": "whatsapp_otp_language",
+   "fieldtype": "Data",
+   "label": "Template language",
+   "default": "en"
+  },
+  {
+   "fieldname": "section_quick_login",
+   "fieldtype": "Section Break",
+   "label": "One-touch sign-in",
+   "description": "Sign in with Google, and with fingerprint / Face ID on phones that signed in once before."
+  },
+  {
+   "fieldname": "google_sign_in",
+   "fieldtype": "Check",
+   "label": "Sign in with Google",
+   "default": "1",
+   "description": "Uses the client ID of Social Login Key \"google\". Needs Android/iOS OAuth clients in the same Google Cloud project."
+  },
+  {
+   "fieldname": "google_client_ids",
+   "fieldtype": "Small Text",
+   "label": "Other Google client IDs",
+   "description": "Only if the app's ID tokens are issued for a different client ID — one per line."
+  },
+  {
+   "fieldname": "column_break_quick_login",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "biometric_sign_in",
+   "fieldtype": "Check",
+   "label": "Fingerprint / Face ID sign-in",
+   "default": "1",
+   "description": "Trusted phones are listed in QTT Trusted Device."
+  },
+  {
    "fieldname": "section_analytics",
    "fieldtype": "Section Break",
    "label": "Analytics"
@@ -246,5 +324,6 @@
    "export": 0
   }
  ],
- "links": []
+ "links": [],
+ "modified": "2026-10-11 18:00:00.000000"
 }

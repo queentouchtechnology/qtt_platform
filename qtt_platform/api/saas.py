@@ -67,6 +67,9 @@ def signup(
 	language: str | None = None,
 	product_key: str = "QMP_LMS",
 	plan_key: str | None = None,
+	email_token: str | None = None,
+	phone: str | None = None,
+	phone_token: str | None = None,
 ) -> dict:
 	"""Customer -> Frappe User -> QTT Tenant -> Tenant Owner Membership ->
 	QTT Product Subscription (trial) -> QMP_LMS Product Access(Manager),
@@ -80,11 +83,14 @@ def signup(
 	"""
 	try:
 		_validate_signup_input(full_name, email, password, organization_name)
+		phone = _check_verification(email, email_token, phone, phone_token)
 		product = _resolve_product(product_key)
 		plan = _resolve_plan(product_key, plan_key)
 		_validate_locale_refs(country, language)
 
 		user = _provision_user(full_name.strip(), email.strip().lower(), password)
+		if phone:
+			frappe.db.set_value("User", user.name, "mobile_no", phone, update_modified=False)
 		tenant = _create_tenant(user.name, organization_name.strip(), country, language)
 
 		membership = frappe.get_doc(
@@ -146,6 +152,9 @@ def signup(
 		)
 
 		_write_signup_audit_trail(tenant.name, product_key, user.name, membership, subscription)
+		# One-time: the same proof can't create a second account.
+		_verify().consume_token("signup", "email", email_token)
+		_verify().consume_token("signup", "whatsapp", phone_token)
 
 		return ok(
 			{
@@ -220,6 +229,29 @@ def _initial_product_role(product_key: str) -> str | None:
 	if isinstance(value, list):
 		value = value[-1] if value else None
 	return value or None
+
+
+def _verify():
+	"""api/verify, imported on use (it needs frappe.rate_limiter, which the
+	bench-independent tests' fake frappe doesn't have)."""
+	from qtt_platform.api import verify
+
+	return verify
+
+
+def _check_verification(email, email_token, phone, phone_token) -> str | None:
+	"""Sign-up security (QTT App Settings): the email and WhatsApp number must
+	have been proven with a one-time code (api/verify). Returns the number in
+	E.164 form (stored on the User), or None when not given."""
+	verify = _verify()
+	rules = verify.signup_rules()
+	if rules["verify_email"] and not verify.check_token("signup", "email", email_token, email):
+		raise QttApiError("EMAIL_NOT_VERIFIED", "Please verify your email with the code we sent.")
+	if rules["verify_whatsapp"] and not (phone and verify.check_token("signup", "whatsapp", phone_token, phone)):
+		raise QttApiError("PHONE_NOT_VERIFIED", "Please verify your WhatsApp number with the code we sent.")
+	from qtt_platform.otp_logic import normalize_phone
+
+	return normalize_phone(phone) or None
 
 
 def _validate_signup_input(full_name, email, password, organization_name) -> None:

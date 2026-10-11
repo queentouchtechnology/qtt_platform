@@ -281,3 +281,37 @@ class ErrorEnvelopeTest(unittest.TestCase):
 
 if __name__ == "__main__":
 	unittest.main()
+
+
+class SignupVerificationTest(unittest.TestCase):
+	"""Sign-up security: the email and WhatsApp number must be proven (api/verify)."""
+
+	def _verify(self, verify_email=True, verify_whatsapp=True, proven=()):
+		fake = types.SimpleNamespace(
+			signup_rules=lambda: {"verify_email": verify_email, "verify_whatsapp": verify_whatsapp},
+			check_token=lambda purpose, channel, token, target: (channel, token) in proven,
+		)
+		return mock.patch.object(saas, "_verify", return_value=fake)
+
+	def test_unverified_email_is_refused(self):
+		with self._verify(), self.assertRaises(QttApiError) as ctx:
+			saas._check_verification("a@b.co", None, "9876543210", "t2")
+		self.assertEqual(ctx.exception.code, "EMAIL_NOT_VERIFIED")
+
+	def test_unverified_phone_is_refused(self):
+		with self._verify(proven={("email", "t1")}), self.assertRaises(QttApiError) as ctx:
+			saas._check_verification("a@b.co", "t1", "9876543210", "bad")
+		self.assertEqual(ctx.exception.code, "PHONE_NOT_VERIFIED")
+
+	def test_missing_phone_is_refused_when_required(self):
+		with self._verify(proven={("email", "t1")}), self.assertRaises(QttApiError) as ctx:
+			saas._check_verification("a@b.co", "t1", None, None)
+		self.assertEqual(ctx.exception.code, "PHONE_NOT_VERIFIED")
+
+	def test_both_proven_returns_e164_phone(self):
+		with self._verify(proven={("email", "t1"), ("whatsapp", "t2")}):
+			self.assertEqual(saas._check_verification("a@b.co", "t1", "98765 43210", "t2"), "+919876543210")
+
+	def test_checks_switched_off_in_desk(self):
+		with self._verify(verify_email=False, verify_whatsapp=False):
+			self.assertIsNone(saas._check_verification("a@b.co", None, None, None))

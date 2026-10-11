@@ -1,0 +1,73 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Trusted Device",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 0,
+ "sort_field": "last_used_at",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "autoname": "hash",
+ "title_field": "user",
+ "description": "Phones that sign in with fingerprint or Face ID (QTT app). Delete a row to turn it off for that phone; unused for 90 days, it is removed automatically.",
+ "field_order": [
+  "user",
+  "device_name",
+  "platform",
+  "column_break_1",
+  "last_used_at",
+  "secret_hash"
+ ],
+ "fields": [
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "device_name",
+   "fieldtype": "Data",
+   "label": "Device",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "platform",
+   "fieldtype": "Data",
+   "label": "Platform",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_used_at",
+   "fieldtype": "Datetime",
+   "label": "Last used",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "secret_hash",
+   "fieldtype": "Data",
+   "label": "Secret (SHA-256)",
+   "read_only": 1,
+   "hidden": 1
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "delete": 1,
+   "report": 1
+  }
+ ]
+}

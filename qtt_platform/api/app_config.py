@@ -116,12 +116,23 @@ def _shared_config(settings: dict, language: str) -> dict:
 			"email": (settings.get("support_email") or "").strip() or None,
 			"hours": (settings.get("support_hours") or "").strip() or None,
 		},
+		"signup": {
+			"verify_email": bool(int(settings.get("signup_verify_email") if settings.get("signup_verify_email") is not None else 1)),
+			"verify_whatsapp": bool(int(settings.get("signup_verify_whatsapp") if settings.get("signup_verify_whatsapp") is not None else 1)),
+		},
+		"login": _login_rules(),
 		"analytics": {
 			"enabled": bool(settings.get("analytics_enabled", 1)),
 			"flush_seconds": max(10, int(settings.get("analytics_flush_seconds") or 30)),
 		},
 		"realtime": {"config_event": CONFIG_CHANGED_EVENT},
 	}
+
+
+def _login_rules() -> dict:
+	from qtt_platform.api.quick_login import login_rules
+
+	return login_rules()
 
 
 def _settings() -> dict:

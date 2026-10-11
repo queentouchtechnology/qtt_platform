@@ -11,10 +11,12 @@ DEFAULT_THEMES = [
 		"theme_key": "qtt-midnight",
 		"label": "QTT Midnight",
 		"sort_order": 1,
-		"light": dict(primary="#3858F8", secondary="#5B6CF0", background="#F6F7FB", surface="#FFFFFF", surface_variant="#EEF1F9",
-					  text="#0E1220", text_muted="#5B6375", border="#DCE0EC", error="#D92D3A", success="#16A34A", warning="#D97706"),
-		"dark": dict(primary="#3858F8", secondary="#8B9CFF", background="#080810", surface="#11131C", surface_variant="#1A1D2B",
-					 text="#F8F8F8", text_muted="#8890A2", border="#262A3A", error="#F2555A", success="#22C55E", warning="#F5A524"),
+		# queentouchtech.com brand layer (css/brand.css): --qtt-blue #3B5CFF, --qtt-blue-dark #2946D9,
+		# #93A5FF accents on dark, --qtt-black #0B0D12, --qtt-surface #171A21, --qtt-bg-light #F7F8FA, borders #E7E9EE.
+		"light": dict(primary="#3B5CFF", secondary="#2946D9", background="#F7F8FA", surface="#FFFFFF", surface_variant="#EEF0F3",
+					  text="#0B0D12", text_muted="#5B6372", border="#E7E9EE", error="#D92D3A", success="#16A34A", warning="#D97706"),
+		"dark": dict(primary="#3B5CFF", secondary="#93A5FF", background="#0B0D12", surface="#171A21", surface_variant="#20242E",
+					 text="#F7F8FA", text_muted="#A8AFBD", border="#262A33", error="#F2555A", success="#22C55E", warning="#F5A524"),
 	},
 	{
 		"theme_key": "ocean",

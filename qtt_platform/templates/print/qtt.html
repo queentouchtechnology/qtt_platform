@@ -1,0 +1,228 @@
+{#-
+  QTT house style for printed documents (Orbitra, Office Pulse).
+  Import in a print format:  {% from "qtt_platform/templates/print/qtt.html" import page, trade, sign %}
+  Branding comes from qtt_brand(company) — the business's own profile — never hard-coded.
+  Layout uses tables only: PDFs are made with wkhtmltopdf (no flexbox/grid).
+-#}
+
+{% macro css(b) -%}
+<style>
+	.letter-head { display: none; }
+	.qtt { font-family: Poppins, Lato, Carlito, "Liberation Sans", Arial, sans-serif; font-size: 11px; color: #0B0D12; line-height: 1.45; }
+	.qtt table { width: 100%; border-collapse: collapse; }
+	.qtt td, .qtt th { vertical-align: top; font-size: 11px; line-height: 1.45; }
+	.qtt .hdr { background: #0B0D12; color: #fff; }
+	.qtt .hdr td { padding: 14px 16px; vertical-align: middle; }
+	.qtt .hdr .bn { font-size: 18px !important; }
+	.qtt .hdr .logo { max-height: 54px; max-width: 170px; background: #fff; padding: 4px; border-radius: 4px; }
+	.qtt .hdr td, .qtt .hdr div { color: #fff; }
+	.qtt .hdr .bn { font-size: 18px; font-weight: 700; letter-spacing: .3px; }
+	.qtt .hdr .tg { font-size: 10px; color: #aeb6c6; }
+	.qtt .hdr .ttl { text-align: right; font-size: 20px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+	.qtt .hdr .ttl small { display: block; font-size: 10px; font-weight: 400; letter-spacing: 0; color: #aeb6c6; text-transform: none; }
+	.qtt .bar { height: 4px; background: {{ b.color }}; }
+	.qtt .from { font-size: 10px; color: #4a5263; padding: 8px 0 0; }
+	.qtt .meta { margin: 12px 0; }
+	.qtt .meta td { padding: 0 6px 0 0; width: 50%; }
+	.qtt .box { background: #F7F8FA; border-left: 3px solid {{ b.color }}; padding: 8px 10px; min-height: 60px; }
+	.qtt .box .lb { font-size: 9px; text-transform: uppercase; letter-spacing: .8px; color: {{ b.color }}; font-weight: 700; margin-bottom: 3px; }
+	.qtt .box .nm { font-size: 13px; font-weight: 700; }
+	.qtt .kv td { padding: 2px 0 !important; border: 0 !important; }
+	.qtt .kv td.k { color: #5b6475; width: 1%; white-space: nowrap; padding-right: 12px !important; }
+	.qtt .kv td.v { font-weight: 700; text-align: right; }
+	.qtt h2 { font-size: 13px; margin: 16px 0 6px; padding-bottom: 3px; border-bottom: 2px solid {{ b.color }}; display: inline-block; }
+	.qtt table.items th { background: #0B0D12; color: #fff; font-size: 9.5px; text-transform: uppercase; letter-spacing: .5px; padding: 6px 6px; text-align: left; }
+	.qtt table.items td { padding: 6px !important; border-bottom: 1px solid #e4e7ee; }
+	.qtt table.items td.r, .qtt table.sum td.r, .qtt .kv td.v { white-space: nowrap; }
+	.qtt table.items tr:nth-child(even) td { background: #f6f7fa; }
+	.qtt .r { text-align: right !important; }
+	.qtt .c { text-align: center !important; }
+	.qtt .muted { color: #6b7385; font-size: 10px; }
+	.qtt table.sum td { padding: 4px 6px !important; }
+	.qtt table.sum tr.tot td { background: #EEF1FF; font-size: 13px !important; font-weight: 700; border-top: 2px solid {{ b.color }}; }
+	.qtt .words { margin-top: 8px; padding: 6px 10px; background: #F7F8FA; font-style: italic; }
+	.qtt .note { margin-top: 12px; padding: 8px 10px; border: 1px dashed #c9cfdb; font-size: 10px; }
+	.qtt .sign { margin-top: 28px; }
+	.qtt .sign td { width: 50%; }
+	.qtt .sign .line { border-top: 1px solid #0B0D12; margin-top: 46px; padding-top: 4px; font-size: 10px; display: inline-block; min-width: 180px; text-align: center; }
+	.qtt .foot { margin-top: 18px; border-top: 3px solid {{ b.color }}; padding-top: 6px; font-size: 9.5px; color: #5b6475; text-align: center; }
+	.qtt .stamp { display: inline-block; padding: 3px 10px; border: 2px solid {{ b.color }}; color: {{ b.color }}; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 10px; border-radius: 3px; }
+	.qtt .stamp.red { border-color: #d64545; color: #d64545; }
+	.qtt .stamp.green { border-color: #1f9d55; color: #1f9d55; }
+	.qtt .letter p { margin: 0 0 10px; text-align: justify; }
+	.qtt .letter { font-size: 12px; line-height: 1.65; }
+</style>
+{%- endmacro %}
+
+{# Dark brand band: logo + business name on the left, document title on the right. Opens the .qtt wrapper. #}
+{% macro head(b, title, subtitle="") -%}
+{{ css(b) }}
+<div class="qtt">
+<table class="hdr"><tr>
+	<td style="width:60%">
+		<table><tr>
+			{% if b.logo %}<td style="width:1%;padding:0 12px 0 0;vertical-align:middle"><img class="logo" src="{{ b.logo }}"></td>{% endif %}
+			<td style="padding:0;vertical-align:middle"><div class="bn">{{ b.name|e }}</div>{% if b.tagline %}<div class="tg">{{ b.tagline|e }}</div>{% endif %}</td>
+		</tr></table>
+	</td>
+	<td class="ttl">{{ title }}{% if subtitle %}<small>{{ subtitle }}</small>{% endif %}</td>
+</tr></table>
+<div class="bar"></div>
+<div class="from">
+	{%- set addr = b.address|join(", ") -%}
+	{{ addr|e }}
+	{% if b.phone and b.phone not in addr %} · {{ _("Phone") }} {{ b.phone|e }}{% endif %}
+	{% if b.email and b.email not in addr %} · {{ b.email|e }}{% endif %}
+	{% if b.gstin %} · <b>GSTIN {{ b.gstin|e }}</b>{% endif %}
+</div>
+{%- endmacro %}
+
+{# Closes the .qtt wrapper that head() opened — every document ends with foot(). #}
+{% macro foot(b, extra="") -%}
+<div class="foot">
+	{% if extra %}<div style="margin-bottom:3px">{{ extra }}</div>{% endif %}
+	{% if b.footer %}{{ b.footer|e }}<br>{% endif %}
+	{{ b.name|e }}{% if b.website %} · {{ b.website|e }}{% endif %}{% if b.email %} · {{ b.email|e }}{% endif %}{% if b.phone %} · {{ b.phone|e }}{% endif %}
+</div>
+</div>
+{%- endmacro %}
+
+{# A labelled box: party (customer, supplier, employee). lines = list of strings. #}
+{% macro box(label, name, lines=[]) -%}
+<div class="box">
+	<div class="lb">{{ label }}</div>
+	<div class="nm">{{ (name or "")|e }}</div>
+	{% for l in lines if l %}<div>{{ l }}</div>{% endfor %}
+</div>
+{%- endmacro %}
+
+{# Key/value list — rows = list of (label, value); empty values are skipped. #}
+{% macro kv(rows) -%}
+<table class="kv">{% for k, v in rows if v %}<tr><td class="k">{{ k }}</td><td class="v">{{ v }}</td></tr>{% endfor %}</table>
+{%- endmacro %}
+
+{% macro sign(left, right) -%}
+<table class="sign"><tr>
+	<td>{% if left %}<span class="line">{{ left }}</span>{% endif %}</td>
+	<td class="r"><span class="line">{{ right }}</span></td>
+</tr></table>
+{%- endmacro %}
+
+{% macro money(v, doc) -%}{{ frappe.utils.fmt_money(v or 0, currency=doc.currency) }}{%- endmacro %}
+
+{# Party lines for a customer/supplier document. #}
+{% macro party_lines(doc, party_doctype, party) -%}
+{%- set gstin = doc.get("billing_address_gstin") or doc.get("supplier_gstin") or (frappe.db.get_value(party_doctype, party, "tax_id") if party else "") -%}
+{{ doc.get("address_display") or "" }}
+{%- if doc.get("contact_display") %}<br>{{ doc.contact_display|e }}{% endif %}
+{%- if doc.get("contact_mobile") %}<br>{{ doc.contact_mobile|e }}{% endif %}
+{%- if gstin %}<br><b>GSTIN {{ gstin|e }}</b>{% endif %}
+{%- endmacro %}
+
+{#
+  Invoices, quotations, orders, challans, bills — one layout.
+  opts: title, party_label, party_doctype, party, party_name, meta (list of (label, value)),
+        prices (show rate/amount, default true), gst (HSN summary), bank (payment details), note
+#}
+{% macro trade(doc, opts) -%}
+{%- set b = qtt_brand(doc.company) -%}
+{%- set prices = opts.get("prices", True) -%}
+{{ head(b, opts.title, opts.get("subtitle", "")) }}
+<table class="meta"><tr>
+	<td>{{ box(opts.party_label, opts.party_name, [party_lines(doc, opts.party_doctype, opts.party)]) }}</td>
+	<td><div class="box">{{ kv(opts.meta) }}</div></td>
+</tr></table>
+{% if doc.get("shipping_address") and doc.get("shipping_address") != doc.get("address_display") %}
+<div class="muted" style="margin:-4px 0 8px"><b>{{ _("Ship to") }}:</b> {{ doc.shipping_address|striptags }}</div>
+{% endif %}
+
+<table class="items">
+	<thead><tr>
+		<th style="width:4%">#</th>
+		<th>{{ _("Item") }}</th>
+		<th style="width:11%">{{ _("HSN/SAC") }}</th>
+		<th class="r" style="width:10%">{{ _("Qty") }}</th>
+		{% if prices %}
+		<th class="r" style="width:13%">{{ _("Rate") }}</th>
+		<th class="r" style="width:8%">{{ _("Disc") }}</th>
+		<th class="r" style="width:15%">{{ _("Amount") }}</th>
+		{% endif %}
+	</tr></thead>
+	<tbody>
+	{% for it in doc.items %}
+	<tr>
+		<td>{{ loop.index }}</td>
+		<td><b>{{ it.item_name|e }}</b>
+			{% if it.description and it.description|striptags|trim != it.item_name %}<div class="muted">{{ it.description|striptags|truncate(160) }}</div>{% endif %}
+			{% if it.get("serial_no") %}<div class="muted">{{ _("Serial") }}: {{ it.serial_no|e }}</div>{% endif %}
+			{% if it.get("batch_no") %}<div class="muted">{{ _("Batch") }}: {{ it.batch_no|e }}</div>{% endif %}
+		</td>
+		<td>{{ qtt_hsn(it.item_code) or it.get("gst_hsn_code") or "" }}</td>
+		<td class="r">{{ frappe.utils.flt(it.qty, 3)|abs }} {{ it.uom or "" }}</td>
+		{% if prices %}
+		<td class="r">{{ it.get_formatted("rate", doc) }}</td>
+		<td class="r">{% if it.discount_percentage %}{{ frappe.utils.flt(it.discount_percentage, 2) }}%{% endif %}</td>
+		<td class="r">{{ money((it.amount or 0)|abs, doc) }}</td>
+		{% endif %}
+	</tr>
+	{% endfor %}
+	</tbody>
+</table>
+
+{% if prices %}
+<table style="margin-top:10px"><tr>
+	<td style="width:55%;padding-right:14px">
+		{% if doc.get("in_words") %}<div class="words"><b>{{ _("In words") }}:</b> {{ doc.in_words }}</div>{% endif %}
+		{% if opts.get("bank") and (b.bank.number or b.bank.upi) %}
+		<h2>{{ _("Pay to") }}</h2>
+		{{ kv([(_("Account name"), b.bank.account_name), (_("Bank"), b.bank.bank ~ (", " ~ b.bank.branch if b.bank.branch else "")),
+			(_("Account no."), b.bank.number), (_("IFSC"), b.bank.ifsc), (_("UPI"), b.bank.upi)]) }}
+		{% endif %}
+	</td>
+	<td>
+		<table class="sum">
+			<tr><td>{{ _("Subtotal") }}</td><td class="r">{{ money((doc.total or 0)|abs, doc) }}</td></tr>
+			{% if doc.discount_amount %}<tr><td>{{ _("Discount") }}</td><td class="r">- {{ money(doc.discount_amount|abs, doc) }}</td></tr>{% endif %}
+			{% for t in doc.taxes if t.tax_amount %}
+			<tr><td>{{ t.description|e }}{% if t.rate %} @ {{ frappe.utils.flt(t.rate, 2) }}%{% endif %}</td><td class="r">{{ money(t.tax_amount|abs, doc) }}</td></tr>
+			{% endfor %}
+			{% if doc.get("rounding_adjustment") %}<tr><td>{{ _("Rounding") }}</td><td class="r">{{ money(doc.rounding_adjustment, doc) }}</td></tr>{% endif %}
+			<tr class="tot"><td>{{ _("Total") }}</td><td class="r">{{ money(((doc.get("rounded_total") or doc.grand_total) or 0)|abs, doc) }}</td></tr>
+			{% if doc.get("docstatus") == 1 and doc.get("outstanding_amount") is not none and doc.doctype in ("Sales Invoice", "Purchase Invoice") and not doc.get("is_return") %}
+			<tr><td>{{ _("Paid") }}</td><td class="r">{{ money(((doc.get("rounded_total") or doc.grand_total) - doc.outstanding_amount), doc) }}</td></tr>
+			<tr><td><b>{{ _("Balance due") }}</b></td><td class="r"><b>{{ money(doc.outstanding_amount, doc) }}</b></td></tr>
+			{% endif %}
+		</table>
+	</td>
+</tr></table>
+{% endif %}
+
+{% if opts.get("gst") %}
+{%- set g = qtt_gst_summary(doc) -%}
+{% if g.rows and g.totals.tax %}
+<h2>{{ _("Tax summary") }}</h2>
+<table class="items">
+	<thead><tr>
+		<th>{{ _("HSN/SAC") }}</th><th class="r">{{ _("Taxable value") }}</th><th class="r">{{ _("Rate") }}</th>
+		{% if g.interstate %}<th class="r">IGST</th>{% else %}<th class="r">CGST</th><th class="r">SGST</th>{% endif %}
+		<th class="r">{{ _("Total tax") }}</th>
+	</tr></thead>
+	<tbody>
+	{% for r in g.rows %}
+	<tr><td>{{ r.hsn }}</td><td class="r">{{ money(r.taxable|abs, doc) }}</td><td class="r">{{ frappe.utils.flt(r.rate, 2) }}%</td>
+		{% if g.interstate %}<td class="r">{{ money(r.IGST|abs, doc) }}</td>{% else %}<td class="r">{{ money(r.CGST|abs, doc) }}</td><td class="r">{{ money(r.SGST|abs, doc) }}</td>{% endif %}
+		<td class="r">{{ money(r.tax|abs, doc) }}</td></tr>
+	{% endfor %}
+	<tr><td><b>{{ _("Total") }}</b></td><td class="r"><b>{{ money(g.totals.taxable|abs, doc) }}</b></td><td></td>
+		{% if g.interstate %}<td class="r"><b>{{ money(g.totals.IGST|abs, doc) }}</b></td>{% else %}<td class="r"><b>{{ money(g.totals.CGST|abs, doc) }}</b></td><td class="r"><b>{{ money(g.totals.SGST|abs, doc) }}</b></td>{% endif %}
+		<td class="r"><b>{{ money(g.totals.tax|abs, doc) }}</b></td></tr>
+	</tbody>
+</table>
+{% endif %}
+{% endif %}
+
+{% if opts.get("note") %}<div class="note">{{ opts.note }}</div>{% endif %}
+{% if doc.get("terms") %}<h2>{{ _("Terms and conditions") }}</h2><div class="muted">{{ doc.terms }}</div>{% endif %}
+{{ sign(opts.get("sign_left", _("Customer's signature")), _("For") ~ " " ~ b.name) }}
+{{ foot(b, b.invoice_footer if opts.get("bank") else "") }}
+{%- endmacro %}
