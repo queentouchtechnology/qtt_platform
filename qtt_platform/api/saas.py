@@ -207,8 +207,8 @@ def get_plans(product_key: str = "QMP_LMS") -> dict:
 
 def _initial_product_role(product_key: str) -> str | None:
 	"""_INITIAL_PRODUCT_ROLE above, extended by any product app's own
-	`saas_initial_product_roles` hooks.py dict (e.g. qtt_inbox declares
-	{"QTT_INBOX": "Manager"}) — so a new product enables self-service
+	`saas_initial_product_roles` hooks.py dict (e.g. qtt_onbox declares
+	{"QTT_ONBOX": "Manager"}) — so a new product enables self-service
 	signup from its own app, without qtt_platform ever naming it. Same
 	confirmed get_hooks() dict shape as usage/registry.py: each key's value
 	arrives wrapped in a list of every declaring app's contribution; the

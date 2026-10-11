@@ -17,7 +17,7 @@ TODAY = date(2026, 10, 10)
 class PlanTest(unittest.TestCase):
 	def test_new_plan_cleaned(self):
 		clean = logic.clean_plan({
-			"plan_code": "growth_2", "product": "QTT_INBOX", "display_name": " Growth ", "base_price": "1499",
+			"plan_code": "growth_2", "product": "QTT_ONBOX", "display_name": " Growth ", "base_price": "1499",
 			"billing_period": "Monthly", "trial_days": "14", "is_public": True,
 			"features": [{"feature_key": "Max_Agents", "limit_value": 10}, {"feature_key": "", "limit_value": "x"}],
 		}, is_new=True)
@@ -81,17 +81,17 @@ class RevenueTest(unittest.TestCase):
 		self.assertEqual(logic.monthly_value(12000, "yearly"), 1000)
 		self.assertEqual(logic.monthly_value(999, "monthly", [{"unit_price": 100, "quantity": 2}]), 1199)
 		summary = logic.revenue_summary([
-			{"product": "QTT_INBOX", "status": "active", "base_price": 1000, "billing_period": "monthly"},
-			{"product": "QTT_INBOX", "status": "past_due", "base_price": 500, "billing_period": "monthly"},
+			{"product": "QTT_ONBOX", "status": "active", "base_price": 1000, "billing_period": "monthly"},
+			{"product": "QTT_ONBOX", "status": "past_due", "base_price": 500, "billing_period": "monthly"},
 			{"product": "QTT_LMS", "status": "active", "base_price": 24000, "billing_period": "yearly"},
-			{"product": "QTT_INBOX", "status": "trialing", "base_price": 1000, "billing_period": "monthly"},
-			{"product": "QTT_INBOX", "status": "cancelled", "base_price": 9999, "billing_period": "monthly"},
+			{"product": "QTT_ONBOX", "status": "trialing", "base_price": 1000, "billing_period": "monthly"},
+			{"product": "QTT_ONBOX", "status": "cancelled", "base_price": 9999, "billing_period": "monthly"},
 		])
 		self.assertEqual(summary["mrr"], 3500)
 		self.assertEqual(summary["arr"], 42000)
 		self.assertEqual(summary["at_risk_mrr"], 500)
 		self.assertEqual(summary["trial_mrr"], 1000)
-		self.assertEqual(summary["mrr_by_product"], {"QTT_INBOX": 1500, "QTT_LMS": 2000})
+		self.assertEqual(summary["mrr_by_product"], {"QTT_ONBOX": 1500, "QTT_LMS": 2000})
 		self.assertEqual(summary["counts"], {"active": 2, "trialing": 1, "past_due": 1})
 
 
@@ -104,8 +104,8 @@ class AttentionTest(unittest.TestCase):
 		items = logic.attention_items(
 			servers=[{"key": "n8n", "title": "n8n", "status": "warning", "problems": "Swap 92% used"},
 					 {"key": "cp", "title": "Cloud Panel", "status": "offline", "problems": None}],
-			trials=[{"tenant": "T2", "tenant_name": "Bala", "product": "QTT_INBOX", "trial_end": "2026-10-17"},
-					{"tenant": "T3", "tenant_name": "Acme", "product": "QTT_INBOX", "trial_end": "2026-10-11"}],
+			trials=[{"tenant": "T2", "tenant_name": "Bala", "product": "QTT_ONBOX", "trial_end": "2026-10-17"},
+					{"tenant": "T3", "tenant_name": "Acme", "product": "QTT_ONBOX", "trial_end": "2026-10-11"}],
 			past_due=[{"tenant": "T4", "tenant_name": "Zed", "product": "QTT_OFFICE_PULSE"}],
 			approvals=[{"name": "C1", "title": "LinkedIn post"}, {"name": "C2", "title": "Article"}],
 			setup_errors=[{"tenant": "T5", "tenant_name": "Kay", "product": "Inbox", "error": "Chatwoot 401"}],

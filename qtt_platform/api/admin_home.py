@@ -32,7 +32,7 @@ def home() -> dict:
 								   order_by="creation desc", page_length=20)
 
 	setup_errors = []
-	for doctype, product in (("QTT Inbox Tenant Binding", "Onbox"), ("Office Pulse Workspace", "Office Pulse")):
+	for doctype, product in (("QTT Onbox Tenant Binding", "Onbox"), ("Office Pulse Workspace", "Office Pulse")):
 		if _exists(doctype):
 			for r in frappe.get_all(doctype, filters={"status": "error"}, fields=["tenant", "last_error"]):
 				setup_errors.append({"tenant": r.tenant, "product": product, "error": r.last_error,

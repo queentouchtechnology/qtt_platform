@@ -190,23 +190,23 @@ class ResolvePlanTest(unittest.TestCase):
 
 class InitialProductRoleTest(unittest.TestCase):
 	"""Product apps enable self-service signup via their own
-	`saas_initial_product_roles` hook (e.g. qtt_inbox -> QTT_INBOX)."""
+	`saas_initial_product_roles` hook (e.g. qtt_onbox -> QTT_ONBOX)."""
 
 	def test_builtin_qmp_lms(self):
 		fake_frappe.get_hooks = mock.Mock(return_value={})
 		self.assertEqual(saas._initial_product_role("QMP_LMS"), "Manager")
 
 	def test_hook_registered_product_uses_last_contribution(self):
-		fake_frappe.get_hooks = mock.Mock(return_value={"QTT_INBOX": ["Agent", "Manager"]})
-		self.assertEqual(saas._initial_product_role("QTT_INBOX"), "Manager")
+		fake_frappe.get_hooks = mock.Mock(return_value={"QTT_ONBOX": ["Agent", "Manager"]})
+		self.assertEqual(saas._initial_product_role("QTT_ONBOX"), "Manager")
 		fake_frappe.get_hooks.assert_called_with("saas_initial_product_roles")
 
 	def test_bare_string_hook_value(self):
-		fake_frappe.get_hooks = mock.Mock(return_value={"QTT_INBOX": "Manager"})
-		self.assertEqual(saas._initial_product_role("QTT_INBOX"), "Manager")
+		fake_frappe.get_hooks = mock.Mock(return_value={"QTT_ONBOX": "Manager"})
+		self.assertEqual(saas._initial_product_role("QTT_ONBOX"), "Manager")
 
 	def test_unregistered_product_is_none(self):
-		fake_frappe.get_hooks = mock.Mock(return_value={"QTT_INBOX": ["Manager"]})
+		fake_frappe.get_hooks = mock.Mock(return_value={"QTT_ONBOX": ["Manager"]})
 		self.assertIsNone(saas._initial_product_role("QTT_HRMS"))
 		fake_frappe.get_hooks = mock.Mock(return_value=None)
 		self.assertIsNone(saas._initial_product_role("QTT_HRMS"))

@@ -146,16 +146,16 @@ class AppContextTest(_IsolatedTest):
 
 		def get_all(doctype, **kwargs):
 			if doctype == "QTT Product Access":
-				return [_Row(product="QTT_INBOX", product_role="Agent"), _Row(product="OLD", product_role="X")]
+				return [_Row(product="QTT_ONBOX", product_role="Agent"), _Row(product="OLD", product_role="X")]
 			if doctype == "QTT Product":
-				return [_Row(name="QTT_INBOX", display_name="Inbox", icon=None, description="d")]
+				return [_Row(name="QTT_ONBOX", display_name="Inbox", icon=None, description="d")]
 			return []
 
 		fake.get_all = mock.Mock(side_effect=get_all)
 		app_context = _fresh("qtt_platform.api.app_context")
 		with mock.patch.object(app_context.subscription_service, "get_current_subscription", return_value=None):
 			products = app_context._products({"membership": "M1", "tenant": "T1"})
-		self.assertEqual([p["product"] for p in products], ["QTT_INBOX"])
+		self.assertEqual([p["product"] for p in products], ["QTT_ONBOX"])
 		self.assertEqual(products[0]["role"], "Agent")
 		self.assertIsNone(products[0]["subscription"])
 
@@ -165,9 +165,9 @@ class AppContextTest(_IsolatedTest):
 
 		def get_all(doctype, **kwargs):
 			if doctype == "QTT Tenant Product Subscription Pointer":
-				return ["QTT_INBOX", "QTT_OFFICE_PULSE", "OLD"]
+				return ["QTT_ONBOX", "QTT_OFFICE_PULSE", "OLD"]
 			if doctype == "QTT Product":
-				return [_Row(name="QTT_INBOX", display_name="Inbox", icon=None, description=None),
+				return [_Row(name="QTT_ONBOX", display_name="Inbox", icon=None, description=None),
 						_Row(name="QTT_OFFICE_PULSE", display_name="Office Pulse", icon="badge", description=None),
 						_Row(name="OLD", display_name="Old", icon=None, description=None)]
 			return []
@@ -175,12 +175,12 @@ class AppContextTest(_IsolatedTest):
 		fake.get_all = mock.Mock(side_effect=get_all)
 		fake.db.get_value = mock.Mock(return_value="BUSINESS")
 		app_context = _fresh("qtt_platform.api.app_context")
-		subs = {"QTT_INBOX": "trialing", "QTT_OFFICE_PULSE": "trialing", "OLD": "cancelled"}
+		subs = {"QTT_ONBOX": "trialing", "QTT_OFFICE_PULSE": "trialing", "OLD": "cancelled"}
 		with mock.patch.object(app_context.subscription_service, "get_current_subscription",
 							   side_effect=lambda t, p: _Row(status=subs[p], plan="P", trial_end=None, current_period_end=None)):
 			products = app_context._workspace_products("T1")
 		# A product nobody has access to yet is still listed, so the owner can hand out access.
-		self.assertEqual([p["product"] for p in products], ["QTT_INBOX", "QTT_OFFICE_PULSE"])
+		self.assertEqual([p["product"] for p in products], ["QTT_ONBOX", "QTT_OFFICE_PULSE"])
 		self.assertEqual(products[1]["role"], "")
 
 

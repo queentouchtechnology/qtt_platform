@@ -128,10 +128,10 @@ class SanitizeEventTest(unittest.TestCase):
 
 	def test_valid_event(self):
 		e = self.analytics.sanitize_event(
-			{"name": "inbox.message_sent", "screen": "chat", "product": "QTT_INBOX", "props": {"private": True, "len": 12}}
+			{"name": "inbox.message_sent", "screen": "chat", "product": "QTT_ONBOX", "props": {"private": True, "len": 12}}
 		)
 		self.assertEqual(e["event"], "inbox.message_sent")
-		self.assertEqual(e["product"], "QTT_INBOX")
+		self.assertEqual(e["product"], "QTT_ONBOX")
 		self.assertEqual(json.loads(e["properties"]), {"private": True, "len": 12})
 
 	def test_rejects_bad_names_and_strips_unsafe_props(self):

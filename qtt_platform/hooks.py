@@ -249,7 +249,7 @@ usage_resolvers = {}
 # Self-service signup's initial product role, per product — read by
 # qtt_platform.api.saas._initial_product_role(). QMP_LMS's is built in
 # (api/saas.py::_INITIAL_PRODUCT_ROLE); any other product enables signup
-# from its OWN hooks.py, e.g. qtt_inbox: {"QTT_INBOX": "Manager"}, so the
+# from its OWN hooks.py, e.g. qtt_onbox: {"QTT_ONBOX": "Manager"}, so the
 # platform never names a product. Same get_hooks() dict shape as
 # usage_resolvers above.
 saas_initial_product_roles = {}
