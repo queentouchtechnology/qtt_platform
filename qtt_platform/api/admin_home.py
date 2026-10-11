@@ -15,6 +15,25 @@ def _exists(doctype: str) -> bool:
 	return bool(frappe.db.exists("DocType", doctype))
 
 
+def _client_attention() -> tuple[list, list]:
+	"""Managed Services (qtt_services, when installed): client sites that are down,
+	and client requests still waiting for QTT's first answer."""
+	if not _exists("Managed Asset"):
+		return [], []
+	names = {}
+
+	def tenant_name(t):
+		if t not in names:
+			names[t] = frappe.db.get_value("QTT Tenant", t, "tenant_name") or t
+		return names[t]
+
+	sites = [{"label": a.label, "tenant": a.tenant, "tenant_name": tenant_name(a.tenant), "problem": a.last_error}
+			 for a in frappe.get_all("Managed Asset", filters={"check_enabled": 1, "health": "down"}, fields=["label", "tenant", "last_error"])]
+	requests = [{"subject": r.subject, "tenant": r.tenant, "tenant_name": tenant_name(r.tenant), "urgent": r.priority == "urgent"}
+				for r in frappe.get_all("Managed Request", filters={"status": "open"}, fields=["subject", "tenant", "priority"], page_length=20)]
+	return sites, requests
+
+
 def _provider_attention() -> tuple[list, list]:
 	"""Watched domains near or past expiry, and servers whose last Contabo snapshot is missing or old."""
 	if not _exists("QTT Domain"):
@@ -54,6 +73,7 @@ def home() -> dict:
 				   for r in frappe.get_all("QTT Server", filters={"enabled": 1, "status": ["in", ["warning", "critical", "offline"]]},
 										   fields=["server_key", "title", "status", "problems"])]
 	domains, snapshots = _provider_attention()
+	client_sites, client_requests = _client_attention()
 	approvals = []
 	if _exists("QTT Marketing Content"):
 		approvals = frappe.get_all("QTT Marketing Content", filters={"status": "pending"}, fields=["name", "title"],
@@ -80,6 +100,7 @@ def home() -> dict:
 		},
 		"attention": logic.attention_items(servers=servers, trials=rev.get("trials_ending") or [], past_due=rev.get("past_due") or [],
 										   approvals=approvals, setup_errors=setup_errors, domains=domains,
-										   snapshots=snapshots, today_str=today()),
+										   snapshots=snapshots, client_sites=client_sites, client_requests=client_requests,
+										   today_str=today()),
 		"subscriptions_by_product": overview.get("subscriptions_by_product") or {},
 	}

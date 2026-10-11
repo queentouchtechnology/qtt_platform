@@ -6,7 +6,8 @@ listening ports, firewall/SSH settings) and sends it to Frappe. It changes nothi
 
 Installed by the one-line command from QTT Admin → Servers → (server) → Install agent:
   /usr/local/bin/qtt-server-agent      this file
-  /etc/qtt-server-agent.env            QTT_URL, QTT_SERVER, QTT_TOKEN (chmod 600)
+  /etc/qtt-server-agent.env            QTT_URL, QTT_SERVER, QTT_TOKEN (chmod 600); optional QTT_ENDPOINT
+                                       (a client server under Managed Services reports to qtt_services)
   /etc/cron.d/qtt-server-agent         runs it every 5 minutes as root
 Remove: rm /usr/local/bin/qtt-server-agent /etc/qtt-server-agent.env /etc/cron.d/qtt-server-agent /var/cache/qtt-server-agent.json
 Options: --verbose (print the report and the answer), --dry (collect and print, don't send).
@@ -22,7 +23,7 @@ import time
 import urllib.error
 import urllib.request
 
-VERSION = "1.0"
+VERSION = "1.1"
 ENV_FILE = "/etc/qtt-server-agent.env"
 CACHE = "/var/cache/qtt-server-agent.json"
 SLOW_EVERY = 3600  # seconds between slow checks (apt, journal, sshd)
@@ -175,7 +176,7 @@ def collect(save=True):
 
 def send(report, cfg):
     req = urllib.request.Request(
-        cfg["QTT_URL"].rstrip("/") + "/api/method/qtt_platform.api.servers.ingest",
+        cfg["QTT_URL"].rstrip("/") + "/api/method/" + (cfg.get("QTT_ENDPOINT") or "qtt_platform.api.servers.ingest"),
         data=json.dumps(report).encode(),
         headers={"Content-Type": "application/json", "X-QTT-Server": cfg["QTT_SERVER"], "X-QTT-Token": cfg["QTT_TOKEN"],
                  "User-Agent": "qtt-server-agent/" + VERSION},

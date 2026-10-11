@@ -123,7 +123,21 @@ class Attention(unittest.TestCase):
 		)
 		self.assertEqual([(i["kind"], i["level"]) for i in items], [("domain", "warning"), ("snapshot", "info")])
 		self.assertEqual(items[0]["days"], 20)
+		self.assertIsNone(items[0]["target"])  # the Servers page lists domains; there is no domain detail
 		self.assertEqual(items[1]["area"], "servers")
+
+	def test_client_items(self):
+		items = logic.attention_items(
+			client_sites=[{"label": "Acme Store", "tenant": "T1", "tenant_name": "Acme", "problem": "The site shows a server error (503)."}],
+			client_requests=[{"subject": "Add a page", "tenant": "T1", "tenant_name": "Acme", "urgent": False},
+							 {"subject": "Site broken", "tenant": "T2", "tenant_name": "Beta", "urgent": True}],
+			today_str="2026-10-11",
+		)
+		self.assertEqual([(i["kind"], i["level"]) for i in items],
+						 [("client_site", "critical"), ("client_request", "warning"), ("client_request", "info")])
+		self.assertEqual(items[0]["area"], "clients")
+		self.assertEqual(items[0]["target"], "T1")
+		self.assertEqual(items[0]["client"], "Acme")
 
 
 if __name__ == "__main__":

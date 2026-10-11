@@ -157,10 +157,11 @@ def revenue_summary(subscriptions: list[dict]) -> dict:
 # QTT Admin home: one ranked "needs attention" list
 # --------------------------------------------------------------------------
 _LEVEL_ORDER = {"critical": 0, "warning": 1, "info": 2}
-_KIND_ORDER = {"server": 0, "domain": 1, "setup": 2, "payment": 3, "trial": 4, "approval": 5, "snapshot": 6}
+_KIND_ORDER = {"server": 0, "client_site": 1, "domain": 2, "setup": 3, "payment": 4, "client_request": 5, "trial": 6, "approval": 7, "snapshot": 8}
 
 
-def attention_items(*, servers=(), trials=(), past_due=(), approvals=(), setup_errors=(), domains=(), snapshots=(), today_str: str) -> list[dict]:
+def attention_items(*, servers=(), trials=(), past_due=(), approvals=(), setup_errors=(), domains=(), snapshots=(), client_sites=(),
+					 client_requests=(), today_str: str) -> list[dict]:
 	"""Everything a QTT admin should look at, most urgent first. Each item:
 	{level, kind, title, area, target} plus facts the app turns into a
 	translated sentence (product, days, count, status) and, where the server
@@ -174,11 +175,19 @@ def attention_items(*, servers=(), trials=(), past_due=(), approvals=(), setup_e
 	for d in domains:
 		# {domain, level (warning|critical), days_left}: days < 0 = already expired.
 		items.append({"level": d["level"], "kind": "domain", "title": d["domain"], "days": d.get("days_left"),
-					  "area": "servers", "target": d["domain"]})
+					  "area": "servers", "target": None})  # the Servers page lists domains
 	for s in snapshots:
 		# {key, title, days (since the last snapshot; None = never)}
 		items.append({"level": "info", "kind": "snapshot", "title": s["title"], "days": s.get("days"),
 					  "area": "servers", "target": s["key"]})
+	for c in client_sites:
+		# Managed Services: a client's website / server that is down. {label, tenant, tenant_name, problem}
+		items.append({"level": "critical", "kind": "client_site", "title": c["label"], "detail": c.get("problem") or None,
+					  "client": c.get("tenant_name"), "area": "clients", "target": c["tenant"]})
+	for r in client_requests:
+		# Managed Services: a client request nobody has answered yet. {subject, tenant, tenant_name, urgent}
+		items.append({"level": "warning" if r.get("urgent") else "info", "kind": "client_request", "title": r["subject"],
+					  "client": r.get("tenant_name"), "area": "clients", "target": r["tenant"]})
 	for p in past_due:
 		items.append({"level": "critical", "kind": "payment", "title": p.get("tenant_name") or p["tenant"],
 					  "product": p["product"], "area": "customers", "target": p["tenant"]})
