@@ -84,17 +84,19 @@ def api_key() -> str | None:
 	return s.get_password("assistant_api_key", raise_exception=False) if s.get("assistant_api_key") else None
 
 
-def complete_json(messages: list[dict], *, max_tokens: int = 700) -> str:
+def complete_json(messages: list[dict], *, max_tokens: int = 700, json_mode: bool = True, temperature: float = 0.2) -> str:
 	"""One JSON reply from the assistant model (QTT App Settings › QTT Assistant). Raises on any failure.
-	Also used by QTT's WhatsApp receptionist (qtt_services.api.receptionist)."""
+	Also used by QTT's WhatsApp receptionist (qtt_services.api.receptionist), which retries with
+	json_mode=False when DeepSeek's JSON mode comes back blank."""
 	s = _settings()
 	key = api_key()
 	if not key:
 		raise RuntimeError("QTT Assistant has no API key.")
 	base = (s.get("assistant_base_url") or "https://api.deepseek.com").rstrip("/")
-	r = requests.post(f"{base}/chat/completions", timeout=45, headers={"Authorization": f"Bearer {key}"},
-					  json={"model": s.get("assistant_model") or "deepseek-chat", "messages": messages, "temperature": 0.2,
-							"max_tokens": max_tokens, "response_format": {"type": "json_object"}})
+	body = {"model": s.get("assistant_model") or "deepseek-chat", "messages": messages, "temperature": temperature, "max_tokens": max_tokens}
+	if json_mode:
+		body["response_format"] = {"type": "json_object"}
+	r = requests.post(f"{base}/chat/completions", timeout=45, headers={"Authorization": f"Bearer {key}"}, json=body)
 	r.raise_for_status()
 	return r.json()["choices"][0]["message"]["content"]
 

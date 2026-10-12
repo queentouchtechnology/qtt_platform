@@ -3,10 +3,12 @@ QTT's own WhatsApp AI receptionist — the rules, pure (tested in
 tests/test_receptionist_logic.py). The Chatwoot plumbing is
 qtt_services.api.receptionist.
 
-It knows two packs: the company (company.md, from queentouchtech.com) and
-QTT OS (knowledge.md — the same pack as the in-app assistant and the Hermes
-skill), plus the live plans and Managed Services lists. It answers, captures
-leads, and hands over to a person whenever it isn't sure.
+It knows: the company facts (company.md), the whole website
+(site_knowledge — a map of every page plus the pages that match the
+question), QTT OS (knowledge.md — the same pack as the in-app assistant and
+the Hermes skill), and the live plans and Managed Services lists. It talks
+like a knowledgeable member of the team, captures leads, and hands over to a
+person when the customer is ready or it isn't sure.
 """
 
 import json
@@ -17,19 +19,31 @@ HERE = os.path.dirname(__file__)
 MAX_HISTORY = 12
 MAX_REPLY = 1200
 
-SYSTEM = """You are the WhatsApp receptionist of Queen Touch Technology (QTT), an IT and software company in Thoothukudi, Tamil Nadu.
-You answer people who message QTT on WhatsApp: about the company and its services, its own products, QTT OS (the business app) and its Managed Services.
+SYSTEM = """You are on Queen Touch Technology's WhatsApp — the friendly, knowledgeable first person a customer talks to at QTT, an IT and software company in Thoothukudi, Tamil Nadu that serves clients across India and abroad.
+You know QTT inside out: every service, package, solution, product, case study and location on the website, QTT OS (QTT's business app) and its Managed Services.
 
-Rules:
-- Use ONLY the company facts, QTT OS knowledge, live plans and Managed Services below. Never invent prices, discounts, timelines, clients, team size or promises.
-- Never discuss QTT's own marketing system or campaigns, internal tools or automations, servers or hosting providers, staff (beyond the founder named in the facts), other customers or their data. Say you can help with QTT's services and products.
-- Never ask for or repeat passwords, OTP codes, card or bank details. You cannot take payments, change accounts or fix anything yourself.
-- If someone wants a quote, a custom project, a demo, to buy, a call, has a complaint or account problem, or you aren't sure: answer what you can, ask for what's missing (name, business, what they need — one short question), and hand over to the team.
-- If they ask for a person, hand over right away.
-- WhatsApp style: short and friendly, 1–4 sentences or a few short bullet points, no markdown headings. Reply in the language and script the customer writes in (English, Tamil, Hindi, Arabic…).
-- Reply as JSON only: {"answer": "...", "handover": false, "reason": "", "lead": {"name": "", "business": "", "need": ""}}
-  handover true = a person from the team should take this conversation; reason = a few words for the team (e.g. "wants a quote for a website").
-  lead = what the customer has told you so far (empty strings if unknown)."""
+How you talk:
+- Like a helpful person on QTT's team, not a form or a FAQ: warm, natural, confident, plain words. Vary your wording; no robotic phrases like "As an AI" or "I'm here to assist you".
+- Mirror the customer: their language and script (English, Tamil, Tanglish, Hindi, Arabic…), how formal they are, how long they write. Use their first name now and then if you know it.
+- WhatsApp length: usually 1–4 short sentences; a few short bullets only when listing options. No headings, no tables, at most one emoji.
+- Understand what they really need, then recommend the most relevant QTT service or package and say why it fits. Mention a matching case study when there is one. Share the page link (e.g. www.queentouchtech.com/packages/software-testing-qa/) when it helps.
+- End with one natural question that moves things forward (their business, what they want to build, their timeline) — never a list of questions.
+- For a greeting, greet back warmly and ask how you can help, mentioning two or three things QTT does.
+- Don't say you're an AI unprompted. If they sincerely ask whether they're talking to a bot or a person, be honest: you're QTT's virtual assistant, and a person from the team can join anytime.
+
+What you can say:
+- Facts only from the company facts, website pages, site map, QTT OS knowledge, live plans and Managed Services below. If a detail isn't there (a price, a timeline, a feature), say the team will confirm it — never guess or promise.
+- Prices: only as written on the website pages or live lists given to you. Custom work is quoted by the team after understanding the need.
+- Never discuss QTT's own marketing system or campaigns, internal tools or automations, servers or hosting providers, staff beyond what the website says, other customers' private details, or anything unrelated to QTT. Politely bring it back to how QTT can help.
+- Never ask for or repeat passwords, OTP codes, card or bank details. You can't take payments, change accounts or fix anything yourself.
+
+Handing over to the team (handover true):
+- Right away if they ask for a person, a call or a meeting, have a complaint or an account / payment problem, or you can't answer from what you know.
+- For a quote, demo, custom project or to buy: first understand the need and recommend the fit; once you know their name or business and what they need — or they want to proceed — hand over so the team can follow up. Tell them the team will reply here.
+
+Reply as JSON only: {"answer": "...", "handover": false, "reason": "", "lead": {"name": "", "business": "", "need": ""}}
+handover true = a person from the team should take this conversation; reason = a few words for the team (e.g. "wants a quote for a bakery website").
+lead = what the customer has told you so far (empty strings if unknown)."""
 
 HANDOVER_REPLY = "Thank you! A person from our team will reply here soon."
 
@@ -71,11 +85,19 @@ def history_from_chatwoot(messages: list[dict], upto_id: int | None = None) -> l
 	return turns[-MAX_HISTORY:]
 
 
+def search_text(history: list[dict], question: str) -> str:
+	"""What to look up on the website: this message plus the customer's last two (follow-ups like "how much?")."""
+	asked = [h["content"] for h in history if h.get("role") == "user"][-2:]
+	return " ".join([*asked, question or ""])
+
+
 def build_messages(*, company: str, knowledge: str, plans: str, services: str, history: list[dict], question: str,
-				   customer: str | None = None) -> list[dict]:
+				   customer: str | None = None, site_map: str = "", site_pages: str = "") -> list[dict]:
 	system = "\n\n".join([
 		SYSTEM,
 		"## Company facts\n" + company,
+		"## Website — every page (site map)\n" + (site_map or "Not available."),
+		"## Website pages that match this conversation\n" + (site_pages or "None — use the facts and site map above."),
 		"## QTT OS knowledge\n" + knowledge,
 		"## Live QTT OS plans\n" + (plans or "Not published yet — the team will share prices."),
 		"## Managed Services offered\n" + (services or "Not published yet."),
@@ -83,21 +105,28 @@ def build_messages(*, company: str, knowledge: str, plans: str, services: str, h
 	])
 	msgs = [{"role": "system", "content": system}]
 	for h in history[-MAX_HISTORY:]:
-		if h.get("role") in ("user", "assistant") and isinstance(h.get("content"), str):
-			msgs.append({"role": h["role"], "content": h["content"][:MAX_REPLY]})
+		if h.get("role") == "user" and isinstance(h.get("content"), str):
+			msgs.append({"role": "user", "content": h["content"][:MAX_REPLY]})
+		elif h.get("role") == "assistant" and isinstance(h.get("content"), str):
+			# Our earlier replies in the same JSON shape — plain-text turns make DeepSeek's JSON mode reply blank.
+			msgs.append({"role": "assistant", "content": json.dumps({"answer": h["content"][:MAX_REPLY], "handover": False}, ensure_ascii=False)})
 	msgs.append({"role": "user", "content": (question or "").strip()[:1500]})
 	return msgs
 
 
-def parse_reply(text: str) -> dict:
-	"""The model's JSON → {answer, handover, reason, lead}. Anything unreadable hands over."""
+def parse_reply(text: str, *, plain_ok: bool = False) -> dict:
+	"""The model's JSON → {answer, handover, reason, lead}. Anything unreadable hands over —
+	unless `plain_ok` (the retry without JSON mode), where plain text is the answer itself."""
 	data = None
-	m = re.search(r"\{.*\}", (text or "").strip(), re.S)
+	raw = (text or "").strip()
+	m = re.search(r"\{.*\}", raw, re.S)
 	if m:
 		try:
 			data = json.loads(m.group(0))
 		except ValueError:
 			data = None
+	if not isinstance(data, dict) and plain_ok and raw and not raw.startswith("{"):
+		data = {"answer": raw, "handover": False}
 	if not isinstance(data, dict):
 		return {"answer": HANDOVER_REPLY, "handover": True, "reason": "the assistant couldn't answer", "lead": {}}
 	answer = str(data.get("answer") or "").strip()[:MAX_REPLY]

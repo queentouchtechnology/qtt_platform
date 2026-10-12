@@ -14,6 +14,7 @@ import pathlib
 import sys
 
 from qtt_platform.assistant.logic import load_knowledge, load_registry
+from qtt_platform.assistant import site_knowledge
 from qtt_platform.assistant.receptionist_logic import load_company
 
 PRODUCTS = {
@@ -94,7 +95,7 @@ receptionist on QTT's number uses both.
 
 ## Scope — strict
 
-- Only the public facts in `references/company.md`. No prices, timelines,
+- Only the public facts in `references/`. No prices, timelines,
   team size or client names that aren't there — the team confirms those.
 - Never share anything about QTT's own marketing OS, campaigns, automations,
   n8n, Hermes, servers, hosting providers, internal tools, staff (beyond the
@@ -104,7 +105,10 @@ receptionist on QTT's number uses both.
 
 ## References
 
-- `references/company.md` — the facts.
+- `references/company.md` — the core facts.
+- `references/website.md` — every page of queentouchtech.com (services,
+  packages, solutions, products, case studies, locations, articles) with its
+  address; search it for the page that answers the question.
 """
 
 
@@ -139,6 +143,10 @@ def render(out_dir: str | pathlib.Path) -> pathlib.Path:
 	(company / "references").mkdir(parents=True, exist_ok=True)
 	(company / "SKILL.md").write_text(COMPANY_SKILL, encoding="utf-8")
 	(company / "references" / "company.md").write_text(load_company(), encoding="utf-8")
+	pages = site_knowledge.load_pages()
+	(company / "references" / "website.md").write_text(
+		"# queentouchtech.com — every page\n\n## Site map\n" + site_knowledge.site_index(pages) + "\n\n" + site_knowledge.pages_text(pages) + "\n",
+		encoding="utf-8")
 	(pathlib.Path(out_dir) / "DESCRIPTION.md").write_text(
 		"Queen Touch Technology — QTT OS customer software and services, and the company's general information.\n", encoding="utf-8")
 	return root

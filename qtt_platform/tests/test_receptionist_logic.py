@@ -53,6 +53,25 @@ class MessagesTests(unittest.TestCase):
 		self.assertIn("WhatsApp name: Ravi", system)
 		self.assertEqual([m["role"] for m in msgs], ["system", "user", "user"])  # a smuggled system turn is dropped
 
+	def test_it_sounds_like_the_team_and_knows_the_website(self):
+		msgs = rl.build_messages(company="FACTS", knowledge="", plans="", services="", history=[], question="hi",
+								 site_map="Packages (ready bundles): Software Testing & QA", site_pages="### Software Testing & QA\nQA lead")
+		system = msgs[0]["content"]
+		self.assertIn("Like a helpful person on QTT's team", system)
+		self.assertIn("Packages (ready bundles): Software Testing & QA", system)
+		self.assertIn("### Software Testing & QA", system)
+		self.assertIn("be honest: you're QTT's virtual assistant", system)  # human-like, never deceptive
+
+	def test_earlier_replies_go_back_as_json(self):
+		# Plain-text assistant turns make DeepSeek's JSON mode reply blank (seen live).
+		msgs = rl.build_messages(company="", knowledge="", plans="", services="", question="Hai",
+								 history=[{"role": "user", "content": "Do you test apps?"}, {"role": "assistant", "content": "Yes, we do QA."}])
+		self.assertEqual(json.loads(msgs[2]["content"]), {"answer": "Yes, we do QA.", "handover": False})
+
+	def test_follow_ups_search_with_what_was_asked_before(self):
+		history = [{"role": "user", "content": "website for my bakery"}, {"role": "assistant", "content": "Sure!"}]
+		self.assertEqual(rl.search_text(history, "how much?"), "website for my bakery how much?")
+
 
 class ParseTests(unittest.TestCase):
 	def test_an_answer(self):
@@ -67,6 +86,11 @@ class ParseTests(unittest.TestCase):
 		self.assertIn("website quote", note)
 		self.assertIn("Business: Ravi Bakery", note)
 		self.assertIn("Last message: how much for a website?", note)
+
+	def test_the_plain_text_retry_is_the_answer(self):
+		r = rl.parse_reply("Hi Ravi! How can I help you today?", plain_ok=True)
+		self.assertEqual((r["answer"], r["handover"]), ("Hi Ravi! How can I help you today?", False))
+		self.assertTrue(rl.parse_reply("   ", plain_ok=True)["handover"])  # still blank → the team
 
 	def test_unreadable_or_empty_hands_over(self):
 		for text in ("not json at all", '{"answer": ""}', ""):

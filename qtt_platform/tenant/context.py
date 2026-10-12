@@ -39,7 +39,19 @@ def resolve_active_tenant(user: str | None = None) -> str | None:
 	user = user or frappe.session.user
 	if not user or user == "Guest":
 		return None
-	return frappe.cache().get_value(_cache_key(user))
+	tenant = frappe.cache().get_value(_cache_key(user))
+	if tenant:
+		return tenant
+	# Lost (a full cache clear before hooks › persistent_cache_keys covered it, or Redis
+	# restarted): someone in exactly one business is in that one — re-validated by
+	# switch_tenant() like any choice. Several businesses: they choose again in the app.
+	memberships = frappe.get_all("QTT Tenant Membership", filters={"user": user, "status": "active"}, pluck="tenant", limit=2)
+	if len(memberships) == 1:
+		try:
+			return switch_tenant(memberships[0], user=user)["tenant"]
+		except frappe.PermissionError:
+			return None
+	return None
 
 
 def switch_tenant(tenant: str, user: str | None = None) -> dict:

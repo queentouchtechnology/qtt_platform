@@ -148,6 +148,10 @@ doc_events = {
 # translations) — insert-only, see qtt_platform/app_setup.py.
 after_install = "qtt_platform.app_setup.seed_app_defaults"
 after_migrate = ["qtt_platform.app_setup.seed_app_defaults", "qtt_platform.house.ensure_all"]
+
+# Kept by a full cache clear (deploys, migrate, bench clear-cache): each person's chosen
+# business. Without it every request after a deploy fails with "Choose your business first".
+persistent_cache_keys = ["qtt_active_tenant"]
 permission_query_conditions = {}
 has_permission = {}
 
