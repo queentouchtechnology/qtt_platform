@@ -85,11 +85,14 @@ def _seed_settings() -> None:
 	# A Single's Check reads 0 whether it was switched off or never saved, so
 	# "never saved" is told apart by its tabSingles row being absent.
 	saved = set(frappe.db.sql_list("select field from tabSingles where doctype = %s", "QTT App Settings"))
-	for check in ("analytics_enabled", "signup_verify_email", "signup_verify_whatsapp", "google_sign_in", "biometric_sign_in"):
+	for check in ("analytics_enabled", "signup_verify_email", "signup_verify_whatsapp", "google_sign_in", "biometric_sign_in",
+				  "assistant_enabled"):
 		if check not in saved:
 			settings.set(check, 1)
 			changed = True
-	for field, value in (("whatsapp_otp_template", "reference_number"), ("whatsapp_otp_language", "en")):
+	for field, value in (("whatsapp_otp_template", "reference_number"), ("whatsapp_otp_language", "en"),
+						 ("assistant_model", "deepseek-chat"), ("assistant_base_url", "https://api.deepseek.com"),
+						 ("assistant_daily_limit", 30)):
 		if not settings.get(field):
 			settings.set(field, value)
 			changed = True

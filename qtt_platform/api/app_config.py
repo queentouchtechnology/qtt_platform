@@ -121,6 +121,8 @@ def _shared_config(settings: dict, language: str) -> dict:
 			"verify_whatsapp": bool(int(settings.get("signup_verify_whatsapp") if settings.get("signup_verify_whatsapp") is not None else 1)),
 		},
 		"login": _login_rules(),
+		"assistant": bool(int(settings.get("assistant_enabled") if settings.get("assistant_enabled") is not None else 1))
+		and bool(settings.get("assistant_api_key")),
 		"analytics": {
 			"enabled": bool(settings.get("analytics_enabled", 1)),
 			"flush_seconds": max(10, int(settings.get("analytics_flush_seconds") or 30)),

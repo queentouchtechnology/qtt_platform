@@ -1,0 +1,154 @@
+"""
+QTT Assistant rules (pure — no frappe; qtt_platform.api.assistant runs them).
+
+The assistant answers only about QTT OS customer software and services, for
+this person in this business. It may point to app screens — only ones in the
+registry (screens.json) that this person can open — and the app turns them
+into "Open …" buttons. Contextual tips per screen need no AI at all.
+"""
+
+import json
+import os
+import re
+
+HERE = os.path.dirname(__file__)
+MAX_LINKS = 3
+MAX_ANSWER = 1500
+MAX_HISTORY = 6
+
+
+def load_registry() -> list[dict]:
+	with open(os.path.join(HERE, "screens.json"), encoding="utf-8") as f:
+		return json.load(f)["screens"]
+
+
+def load_knowledge() -> str:
+	with open(os.path.join(HERE, "knowledge.md"), encoding="utf-8") as f:
+		return f.read()
+
+
+def can_open(screen: dict, ctx: dict) -> bool:
+	"""ctx: {"products": {key: role}, "owner": bool, "manager": bool}."""
+	product = screen.get("product")
+	roles = screen.get("roles") or ["*"]
+	if product:
+		if product not in (ctx.get("products") or {}):
+			return False
+		mine = ctx["products"][product]
+	else:
+		mine = None
+	for r in roles:
+		if r == "*":
+			return True
+		if r == "@owner" and ctx.get("owner"):
+			return True
+		if r == "@manager" and ctx.get("manager"):
+			return True
+		if mine and r == mine:
+			return True
+	return False
+
+
+def allowed_screens(registry: list[dict], ctx: dict) -> list[dict]:
+	return [s for s in registry if can_open(s, ctx)]
+
+
+def tips_for(registry: list[dict], screen_id: str, ctx: dict, conditions: set[str]) -> list[dict]:
+	"""Contextual tips for a screen — only ones whose condition holds and whose
+	link this person can open."""
+	allowed = {s["id"] for s in allowed_screens(registry, ctx)}
+	screen = next((s for s in registry if s["id"] == screen_id), None)
+	if not screen or screen_id not in allowed:
+		return []
+	out = []
+	for t in screen.get("tips") or []:
+		if t.get("when") and t["when"] not in conditions:
+			continue
+		link = t.get("link")
+		out.append({"text": t["text"], "link": link if link in allowed else None, "label": t.get("label") if link in allowed else None})
+	return out
+
+
+SYSTEM = """You are QTT Assistant inside the QTT OS app by Queen Touch Technology.
+You help the person use QTT OS customer software and services: the app, Office Pulse, Orbitra, Onbox and Managed Services, their plans and how to do things.
+
+Rules:
+- Use ONLY the knowledge, live plans, services and screen list below. If something isn't there, say you're not sure and suggest Account › Help and support.
+- Never discuss Queen Touch Technology's own marketing system or campaigns, internal tools, automations, servers, staff, other businesses, or anything outside QTT OS. Politely say you can only help with QTT OS.
+- Never ask for or reveal passwords, codes, keys or personal data. You cannot change anything yourself — explain the steps and point to the screen.
+- Respect the person's role: only suggest screens from the "Screens this person can open" list; if their role can't do something, say who can (e.g. "ask your HR admin").
+- Be short and practical: 1–5 sentences or a few numbered steps, plain words, in the language of the question.
+- Reply as JSON only: {"answer": "...", "links": [{"label": "Open Leave", "screen": "<screen id>"}]} — at most 3 links, ids exactly from the list, or [] if none fits."""
+
+
+def build_messages(*, knowledge: str, plans: str, services: str, screens: list[dict], who: str, screen_id: str | None,
+				   history: list[dict] | None, question: str) -> list[dict]:
+	screen_lines = "\n".join(f"- {s['id']}: {s['path']} — {s['what']}" for s in screens)
+	current = next((s for s in screens if s["id"] == screen_id), None)
+	context = (f"{who}\nThey are on: {current['path']} ({current['id']})." if current else who)
+	system = "\n\n".join([
+		SYSTEM,
+		"## Knowledge\n" + knowledge,
+		"## Live plans (per app)\n" + (plans or "Not available."),
+		"## Managed Services offered\n" + (services or "Not available."),
+		"## Screens this person can open\n" + screen_lines,
+		"## This person\n" + context,
+	])
+	msgs = [{"role": "system", "content": system}]
+	for h in (history or [])[-MAX_HISTORY:]:
+		if h.get("role") in ("user", "assistant") and isinstance(h.get("content"), str):
+			msgs.append({"role": h["role"], "content": h["content"][:MAX_ANSWER]})
+	msgs.append({"role": "user", "content": question.strip()[:1000]})
+	return msgs
+
+
+def parse_reply(text: str, allowed_ids: set[str]) -> dict:
+	"""The model's JSON → {answer, links}; links only to screens this person can open."""
+	data = None
+	raw = (text or "").strip()
+	m = re.search(r"\{.*\}", raw, re.S)
+	if m:
+		try:
+			data = json.loads(m.group(0))
+		except ValueError:
+			data = None
+	if not isinstance(data, dict):
+		data = {"answer": raw, "links": []}
+	answer = str(data.get("answer") or "").strip()[:MAX_ANSWER] or "Sorry, I couldn't answer that. Try asking another way."
+	links, seen = [], set()
+	for link in data.get("links") or []:
+		if not isinstance(link, dict):
+			continue
+		sid = str(link.get("screen") or "")
+		if sid in allowed_ids and sid not in seen:
+			seen.add(sid)
+			links.append({"label": str(link.get("label") or "Open")[:40], "screen": sid})
+		if len(links) >= MAX_LINKS:
+			break
+	return {"answer": answer, "links": links}
+
+
+def plans_text(plans: list[dict], products: dict[str, str]) -> str:
+	"""plans: [{product, plan_code, display_name, base_price, billing_period, trial_days, features: [{feature_key, limit_value}]}]."""
+	lines = []
+	for p in plans:
+		name = products.get(p["product"], p["product"])
+		price = p.get("base_price")
+		period = p.get("billing_period") or "month"
+		# A plan without a price set isn't free — the price simply isn't published yet.
+		cost = "price on request (contact Queen Touch Technology)" if not price else "₹%g per %s" % (price, period.rstrip("ly") if period.endswith("ly") else period)
+		trial = ", %s-day free trial" % p["trial_days"] if p.get("trial_days") else ""
+		feats = ", ".join("%s: %s" % (f["feature_key"], f["limit_value"]) for f in p.get("features") or [] if f.get("feature_key"))
+		label = p.get("display_name") or p["plan_code"]
+		lines.append("- %s — %s: %s%s%s" % (name, label, cost, trial, " (%s)" % feats if feats else ""))
+	return "\n".join(lines)
+
+
+def services_text(services: list[dict]) -> str:
+	lines = []
+	for s in services:
+		monthly, setup = s.get("monthly_price") or 0, s.get("setup_price") or 0
+		parts = (["₹%g setup" % setup] if setup else []) + (["₹%g/month" % monthly] if monthly else [])
+		price = " + ".join(parts) or "free"
+		lines.append("- %s (%s): %s — %s" % (s["title"], s.get("category") or "service", s.get("summary") or "", price))
+	return "\n".join(lines)

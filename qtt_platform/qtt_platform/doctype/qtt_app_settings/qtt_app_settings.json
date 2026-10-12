@@ -49,6 +49,13 @@
   "google_client_ids",
   "column_break_quick_login",
   "biometric_sign_in",
+  "section_assistant",
+  "assistant_enabled",
+  "assistant_model",
+  "assistant_base_url",
+  "column_break_assistant",
+  "assistant_api_key",
+  "assistant_daily_limit",
   "section_analytics",
   "analytics_enabled",
   "analytics_flush_seconds",
@@ -273,6 +280,46 @@
    "label": "Fingerprint / Face ID sign-in",
    "default": "1",
    "description": "Trusted phones are listed in QTT Trusted Device."
+  },
+  {
+   "fieldname": "section_assistant",
+   "fieldtype": "Section Break",
+   "label": "QTT Assistant",
+   "description": "The in-app assistant: answers questions about QTT OS (apps, screens, plans, Managed Services) for each person's role, with links to screens. Free for customers. Never covers QTT's marketing system or internal operations."
+  },
+  {
+   "fieldname": "assistant_enabled",
+   "fieldtype": "Check",
+   "label": "Assistant on",
+   "default": "1"
+  },
+  {
+   "fieldname": "assistant_model",
+   "fieldtype": "Data",
+   "label": "Model",
+   "default": "deepseek-chat"
+  },
+  {
+   "fieldname": "assistant_base_url",
+   "fieldtype": "Data",
+   "label": "API base URL",
+   "default": "https://api.deepseek.com",
+   "description": "Any OpenAI-compatible API (DeepSeek, OpenAI…)."
+  },
+  {
+   "fieldname": "column_break_assistant",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "assistant_api_key",
+   "fieldtype": "Password",
+   "label": "API key"
+  },
+  {
+   "fieldname": "assistant_daily_limit",
+   "fieldtype": "Int",
+   "label": "Questions per person per day",
+   "default": "30"
   },
   {
    "fieldname": "section_analytics",

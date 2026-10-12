@@ -1,0 +1,102 @@
+{
+ "_about": "Every QTT OS app screen the assistant may point to. id = what the app opens; product = null for the app itself. roles: '*' = anyone with that app; product roles by name; '@owner' = business owner/admin; '@manager' = has people reporting to them. tips: shown on that screen (and used by the assistant); 'when' names a condition in qtt_platform.assistant.conditions.",
+ "screens": [
+  {"id": "home", "product": null, "title": "Home", "path": "Apps (home)", "roles": ["*"],
+   "what": "Your apps, the For you cards (what needs you now) and search across everything."},
+  {"id": "search", "product": null, "title": "Search", "path": "Home › Search", "roles": ["*"],
+   "what": "One search for customers, people, items and apps. Understands typos, any word order and phone numbers."},
+  {"id": "customers", "product": null, "title": "Customers", "path": "Customers", "roles": ["*"],
+   "what": "One customer list shared by every app (Onbox chats, Orbitra bills). Add, tag, archive; call, WhatsApp or email a customer."},
+  {"id": "customers.add", "product": null, "title": "Add customer", "path": "Customers › Add customer", "roles": ["*"],
+   "what": "Add an individual or a business (GSTIN, billing address, tags)."},
+  {"id": "business.profile", "product": null, "title": "Business profile", "path": "Business › Profile", "roles": ["*"],
+   "what": "Logo, address, GSTIN, contact details, bank and UPI — used on invoices, payslips and PDFs. Only the owner or an admin can change them."},
+  {"id": "business.team", "product": null, "title": "Team", "path": "Business › Team", "roles": ["@owner"],
+   "what": "Invite teammates by email, choose which apps each person can use and their role in each app, remove people."},
+  {"id": "business.plans", "product": null, "title": "Plans", "path": "Business › Plans", "roles": ["@owner"],
+   "what": "Each app's plan and trial end date. To upgrade or change a plan, contact Queen Touch Technology."},
+  {"id": "account", "product": null, "title": "Account", "path": "Account", "roles": ["*"],
+   "what": "Your accounts (switch between several), appearance, language, tips, help and support, fingerprint / Face ID sign-in, sign out."},
+  {"id": "account.appearance", "product": null, "title": "Appearance", "path": "Account › Appearance", "roles": ["*"],
+   "what": "Light, dark or system mode, theme, text size and density."},
+
+  {"id": "pulse.home", "product": "QTT_OFFICE_PULSE", "title": "Office Pulse", "path": "Office Pulse", "roles": ["*"],
+   "what": "Check in / out, today's team (managers, HR), your tiles: attendance, leave, expenses, payslips."},
+  {"id": "pulse.attendance", "product": "QTT_OFFICE_PULSE", "title": "My attendance", "path": "Office Pulse › My attendance", "roles": ["*"],
+   "what": "Your month calendar: in / out times, hours, late days. Request Work From Home or On Duty for past or coming days (a manager or HR approves).",
+   "tips": [
+    {"text": "Working from home or out on work? Request Work From Home or On Duty here — your manager approves it.", "link": "pulse.attendance", "label": "Request work from home"}
+   ]},
+  {"id": "pulse.leave", "product": "QTT_OFFICE_PULSE", "title": "Leave", "path": "Office Pulse › Leave", "roles": ["*"],
+   "what": "Your leave balances, apply for leave (half days allowed; holidays not counted), your requests; withdraw open or future ones.",
+   "tips": [
+    {"text": "Working from home instead of taking leave? Ask for Work From Home — it doesn't use your leave balance.", "link": "pulse.attendance", "label": "Request work from home"},
+    {"when": "pulse.allow_outside", "text": "Your business allows checking in away from the office: just add a reason when you check in.", "link": "pulse.home", "label": "Check in"}
+   ]},
+  {"id": "pulse.expenses", "product": "QTT_OFFICE_PULSE", "title": "Expenses", "path": "Office Pulse › Expenses", "roles": ["*"],
+   "what": "Your expense claims and their status; new claim with several expenses and receipt photos; withdraw a pending claim.",
+   "tips": [
+    {"text": "Add a photo of each receipt — claims with receipts are approved faster.", "link": "pulse.expense.new", "label": "New expense claim"}
+   ]},
+  {"id": "pulse.expense.new", "product": "QTT_OFFICE_PULSE", "title": "New expense claim", "path": "Office Pulse › Expenses › New expense claim", "roles": ["*"],
+   "what": "One claim: what for, amount and date per expense, details, receipt photos (up to 5 MB each)."},
+  {"id": "pulse.payslips", "product": "QTT_OFFICE_PULSE", "title": "Payslips", "path": "Office Pulse › Payslips", "roles": ["*"],
+   "what": "Your payslips, newest first: earnings, deductions, net pay; download the PDF. They appear after HR runs and finalises payroll."},
+  {"id": "pulse.team", "product": "QTT_OFFICE_PULSE", "title": "Team today", "path": "Office Pulse › Team today", "roles": ["HR", "HR Admin", "@manager"],
+   "what": "Who is in, out, on leave or not in yet today (remote check-ins are marked)."},
+  {"id": "pulse.approvals", "product": "QTT_OFFICE_PULSE", "title": "Approvals", "path": "Office Pulse › Approvals", "roles": ["HR", "HR Admin", "@manager"],
+   "what": "Leave, attendance (WFH / on duty) and expense requests from your team: approve or reject with a note."},
+  {"id": "pulse.people", "product": "QTT_OFFICE_PULSE", "title": "People", "path": "Office Pulse › Manage › People", "roles": ["HR", "HR Admin"],
+   "what": "Employees (working / left): add, edit, give app access (email invitation), mark attendance, salary, mark as left."},
+  {"id": "pulse.setup", "product": "QTT_OFFICE_PULSE", "title": "Setup", "path": "Office Pulse › Manage › Setup", "roles": ["HR", "HR Admin"],
+   "what": "Check-in rules (ask for location; allow check-in away from the office), offices and their check-in radius, leave types and giving leave, holiday calendars, shifts (late after minutes, auto attendance), departments and job titles.",
+   "tips": [
+    {"text": "Turn on “Allow check-in away from the office” so people can work from home and check in with a reason.", "link": "pulse.setup", "label": "Open Setup"}
+   ]},
+  {"id": "pulse.payroll", "product": "QTT_OFFICE_PULSE", "title": "Payroll", "path": "Office Pulse › Manage › Payroll", "roles": ["HR Admin"],
+   "what": "Steps: 1) a salary template with pay items (formulas allowed, e.g. base * 0.4), 2) give it to people with their monthly salary, 3) run payroll for a month, check, then finalise and publish payslips."},
+
+  {"id": "orbitra.home", "product": "QTT_ORBITRA", "title": "Orbitra", "path": "Orbitra", "roles": ["*"],
+   "what": "Today's sales, money to collect, items running low, and your tiles."},
+  {"id": "orbitra.pos", "product": "QTT_ORBITRA", "title": "POS", "path": "Orbitra › POS", "roles": ["*"],
+   "what": "Quick counter sale: tap items (search or barcode), choose a customer or walk-in, take payment (cash, UPI, card, or split; change is worked out), save the bill PDF."},
+  {"id": "orbitra.sales", "product": "QTT_ORBITRA", "title": "Sales", "path": "Orbitra › Sales", "roles": ["Orbitra Admin", "Manager", "Cashier"],
+   "what": "Invoices (unpaid first) and quotes: new invoice, new quote, receive a payment, save or share the PDF, take back items (credit note), turn a quote into an invoice.",
+   "tips": [
+    {"text": "Send prices first with a quote; turn it into an invoice when they agree.", "link": "orbitra.invoice.new", "label": "New invoice"}
+   ]},
+  {"id": "orbitra.invoice.new", "product": "QTT_ORBITRA", "title": "New invoice", "path": "Orbitra › Sales › New › New invoice", "roles": ["Orbitra Admin", "Manager", "Cashier"],
+   "what": "Bill a customer: items, GST, total, paid now or later."},
+  {"id": "orbitra.inventory", "product": "QTT_ORBITRA", "title": "Inventory", "path": "Orbitra › Inventory", "roles": ["*"],
+   "what": "Items and services: price, cost, GST rate, HSN/SAC, barcode, low-stock level; add stock, count stock, move between stores; running-low list.",
+   "tips": [
+    {"text": "Set “Tell me when stock is at or below” on an item and Orbitra warns you before it runs out.", "link": "orbitra.inventory", "label": "Open Inventory"}
+   ]},
+  {"id": "orbitra.purchases", "product": "QTT_ORBITRA", "title": "Purchases", "path": "Orbitra › Purchases", "roles": ["Orbitra Admin", "Manager"],
+   "what": "Supplier bills (stock comes in), what you still owe, suppliers, pay a supplier. Needs a plan with Purchases."},
+  {"id": "orbitra.customers", "product": "QTT_ORBITRA", "title": "Orbitra customers", "path": "Orbitra › Customers", "roles": ["*"],
+   "what": "Who owes you and what they bought; new invoice or receive payment for a customer."},
+  {"id": "orbitra.accounts", "product": "QTT_ORBITRA", "title": "Accounts", "path": "Orbitra › Accounts", "roles": ["Orbitra Admin"],
+   "what": "Money in and out, record shop expenses (rent, electricity…), move money between cash and bank, who owes you and whom you owe. Needs a plan with Accounts."},
+  {"id": "orbitra.reports", "product": "QTT_ORBITRA", "title": "Reports", "path": "Orbitra › Reports", "roles": ["Orbitra Admin", "Manager"],
+   "what": "For a period: sales by day, best sellers, best customers, GST (collected minus paid on purchases), profit, stock value. Needs a plan with Reports."},
+  {"id": "orbitra.settings", "product": "QTT_ORBITRA", "title": "Orbitra settings", "path": "Orbitra › More › Orbitra settings", "roles": ["Orbitra Admin"],
+   "what": "Selling prices include GST (on/off), main store, invoice note, run setup again. Business details on invoices come from Business › Profile."},
+
+  {"id": "onbox.home", "product": "QTT_ONBOX", "title": "Onbox", "path": "Onbox", "roles": ["*"],
+   "what": "All your channels with open and unread counts; tap one to see its conversations."},
+  {"id": "onbox.conversations", "product": "QTT_ONBOX", "title": "Conversations", "path": "Onbox › All conversations", "roles": ["*"],
+   "what": "Customer chats from WhatsApp, website chat, Facebook, Instagram and email: Mine / Unassigned / All, filter by status and channel, reply or add private notes, assign, snooze, label, resolve, save the contact as a customer. WhatsApp replies are free-form only within 24 hours of the customer's last message."},
+  {"id": "onbox.settings", "product": "QTT_ONBOX", "title": "Onbox settings", "path": "Onbox › Onbox settings", "roles": ["Manager"],
+   "what": "Channels: connect WhatsApp (Meta Cloud API), website chat (paste the code on your site), Facebook, Instagram, email (forwarding or mailbox); rename or remove. Channel access: choose which team members answer each channel (managers and supervisors see all)."},
+
+  {"id": "services.home", "product": "QTT_SERVICES", "title": "Managed Services", "path": "Managed Services", "roles": ["*"],
+   "what": "Everything QTT runs for you: status of your websites and systems, your services, previews to approve, connecting your domain to go live, recent activity."},
+  {"id": "services.catalog", "product": "QTT_SERVICES", "title": "All services", "path": "Managed Services › Explore", "roles": ["*"],
+   "what": "Every service QTT offers with its price; suggestions for your kind of business; start a free one instantly or pay to start (the owner orders)."},
+  {"id": "services.requests", "product": "QTT_SERVICES", "title": "Requests", "path": "Managed Services › Requests", "roles": ["*"],
+   "what": "Ask QTT for a change or help; mark it urgent if something is broken; QTT replies there."},
+  {"id": "services.payments", "product": "QTT_SERVICES", "title": "Payments", "path": "Managed Services › Payments", "roles": ["*"],
+   "what": "Your invoices for services and paying them (UPI, card or net banking)."}
+ ]
+}
