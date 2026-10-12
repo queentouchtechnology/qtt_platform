@@ -1,4 +1,6 @@
-"""The same QTT OS knowledge, packed as a Hermes skill (skills/qtt/qtt-os-assistant).
+"""The same QTT knowledge, packed as Hermes skills (skills/qtt/…):
+  qtt-os-assistant   QTT OS customer software and services
+  qtt-company-info   Queen Touch Technology's general information (queentouchtech.com)
 
 Hermes answers QTT OS questions from what the app's assistant uses —
 knowledge.md and screens.json — so the two never drift apart. Pure: no
@@ -12,6 +14,7 @@ import pathlib
 import sys
 
 from qtt_platform.assistant.logic import load_knowledge, load_registry
+from qtt_platform.assistant.receptionist_logic import load_company
 
 PRODUCTS = {
 	None: "QTT OS app",
@@ -70,6 +73,41 @@ It is the same knowledge the in-app **QTT Assistant** uses.
 """
 
 
+COMPANY_SKILL = """---
+name: qtt-company-info
+description: General information about Queen Touch Technology (QTT) from queentouchtech.com — who we are, contact, services, industries, how we work, our own products (QTT OS, Truth of Bible, Quiz Master Plus, QTT ERP, Edenza). Public facts only.
+version: 1.0.0
+author: Queen Touch Technology
+license: Proprietary
+platforms: [linux, macos, windows]
+metadata:
+  hermes:
+    tags: [QTT, Company, Support, Sales]
+---
+
+# Queen Touch Technology — general information
+
+Use this skill for questions about the company itself: what QTT does, how to
+reach it, which industries it serves, how a project runs, and its products.
+For how QTT OS works, use the `qtt-os-assistant` skill. The WhatsApp
+receptionist on QTT's number uses both.
+
+## Scope — strict
+
+- Only the public facts in `references/company.md`. No prices, timelines,
+  team size or client names that aren't there — the team confirms those.
+- Never share anything about QTT's own marketing OS, campaigns, automations,
+  n8n, Hermes, servers, hosting providers, internal tools, staff (beyond the
+  founder named on the website) or other customers.
+- Custom work is quoted after understanding the need: take name, business
+  and what they need, and hand over to the team.
+
+## References
+
+- `references/company.md` — the facts.
+"""
+
+
 def screens_md(registry: list[dict]) -> str:
 	out = ["# QTT OS screens", "",
 		"Roles: `*` anyone with that app · `@owner` business owner/admin · "
@@ -97,8 +135,12 @@ def render(out_dir: str | pathlib.Path) -> pathlib.Path:
 	(root / "SKILL.md").write_text(SKILL, encoding="utf-8")
 	(root / "references" / "knowledge.md").write_text(load_knowledge(), encoding="utf-8")
 	(root / "references" / "screens.md").write_text(screens_md(load_registry()), encoding="utf-8")
+	company = pathlib.Path(out_dir) / "qtt-company-info"
+	(company / "references").mkdir(parents=True, exist_ok=True)
+	(company / "SKILL.md").write_text(COMPANY_SKILL, encoding="utf-8")
+	(company / "references" / "company.md").write_text(load_company(), encoding="utf-8")
 	(pathlib.Path(out_dir) / "DESCRIPTION.md").write_text(
-		"QTT OS customer software and services — how the apps work, screens and plans.\n", encoding="utf-8")
+		"Queen Touch Technology — QTT OS customer software and services, and the company's general information.\n", encoding="utf-8")
 	return root
 
 

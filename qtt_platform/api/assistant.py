@@ -79,6 +79,31 @@ def _catalogue() -> tuple[str, str]:
 	return logic.plans_text(plans, products), logic.services_text(services)
 
 
+def api_key() -> str | None:
+	s = _settings()
+	return s.get_password("assistant_api_key", raise_exception=False) if s.get("assistant_api_key") else None
+
+
+def complete_json(messages: list[dict], *, max_tokens: int = 700) -> str:
+	"""One JSON reply from the assistant model (QTT App Settings › QTT Assistant). Raises on any failure.
+	Also used by QTT's WhatsApp receptionist (qtt_services.api.receptionist)."""
+	s = _settings()
+	key = api_key()
+	if not key:
+		raise RuntimeError("QTT Assistant has no API key.")
+	base = (s.get("assistant_base_url") or "https://api.deepseek.com").rstrip("/")
+	r = requests.post(f"{base}/chat/completions", timeout=45, headers={"Authorization": f"Bearer {key}"},
+					  json={"model": s.get("assistant_model") or "deepseek-chat", "messages": messages, "temperature": 0.2,
+							"max_tokens": max_tokens, "response_format": {"type": "json_object"}})
+	r.raise_for_status()
+	return r.json()["choices"][0]["message"]["content"]
+
+
+def catalogue() -> tuple[str, str]:
+	"""(live plans, Managed Services) as text — also for the receptionist."""
+	return _catalogue()
+
+
 def _who_and_where():
 	user = frappe.session.user
 	tenant = resolve_active_tenant(user)
@@ -110,8 +135,7 @@ def ask(question: str, screen: str | None = None, history=None) -> dict:
 	if len(question) < 2:
 		return fail("EMPTY", "Ask a question about QTT OS.")
 	s = _settings()
-	key = s.get_password("assistant_api_key", raise_exception=False) if s.get("assistant_api_key") else None
-	if not key:
+	if not api_key():
 		return fail("ASSISTANT_OFF", "The assistant isn't set up yet. Use Account › Help and support.")
 	user, tenant = _who_and_where()
 	limit = int(s.get("assistant_daily_limit") or 30)
@@ -129,13 +153,8 @@ def ask(question: str, screen: str | None = None, history=None) -> dict:
 			history = []
 	messages = logic.build_messages(knowledge=logic.load_knowledge(), plans=plans, services=services, screens=screens,
 									who=who, screen_id=screen, history=history if isinstance(history, list) else [], question=question)
-	base = (s.get("assistant_base_url") or "https://api.deepseek.com").rstrip("/")
 	try:
-		r = requests.post(f"{base}/chat/completions", timeout=45, headers={"Authorization": f"Bearer {key}"},
-						  json={"model": s.get("assistant_model") or "deepseek-chat", "messages": messages, "temperature": 0.2,
-								"max_tokens": 700, "response_format": {"type": "json_object"}})
-		r.raise_for_status()
-		text = r.json()["choices"][0]["message"]["content"]
+		text = complete_json(messages)
 	except Exception:
 		frappe.log_error(title="QTT Assistant: model call failed", message=frappe.get_traceback())
 		return fail("UNAVAILABLE", "The assistant is busy right now. Please try again in a minute.")

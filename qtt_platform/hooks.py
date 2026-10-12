@@ -110,6 +110,8 @@ required_apps = []
 doc_events = {
     "QTT Product Subscription": {
         "before_save": "qtt_platform.permissions.handlers.guard_tenant_change_before_save",
+        # Queen Touch Technology's own workspace: its apps are always on (qtt_platform/house.py).
+        "validate": "qtt_platform.house.keep_open",
         # Live refresh (qtt_platform/realtime.py): tell affected users' apps
         # to re-read api.app_context.get_app_context().
         "on_update": "qtt_platform.realtime.on_subscription_change",
@@ -126,7 +128,7 @@ doc_events = {
         "on_trash": "qtt_platform.realtime.on_product_access_change",
     },
     "QTT Tenant": {
-        "on_update": "qtt_platform.realtime.on_tenant_change",
+        "on_update": ["qtt_platform.realtime.on_tenant_change", "qtt_platform.house.on_tenant_update"],
     },
     # Remote app config (api/app_config.py): any change clears the cached
     # config and pushes qtt:config_changed to every connected app.
@@ -145,7 +147,7 @@ doc_events = {
 # Seeds the app's backend-controlled defaults (themes, settings,
 # translations) — insert-only, see qtt_platform/app_setup.py.
 after_install = "qtt_platform.app_setup.seed_app_defaults"
-after_migrate = "qtt_platform.app_setup.seed_app_defaults"
+after_migrate = ["qtt_platform.app_setup.seed_app_defaults", "qtt_platform.house.ensure_all"]
 permission_query_conditions = {}
 has_permission = {}
 

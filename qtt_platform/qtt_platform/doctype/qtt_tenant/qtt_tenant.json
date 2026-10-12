@@ -22,6 +22,7 @@
   "status",
   "owner_user",
   "trial_ends_on",
+  "is_house",
   "section_break_billing",
   "razorpay_customer_id",
   "section_break_branding",
@@ -86,6 +87,13 @@
    "description": "Null once the tenant converts to a paid subscription on any product."
   },
   {
+   "fieldname": "is_house",
+   "fieldtype": "Check",
+   "label": "House workspace",
+   "default": "0",
+   "description": "Queen Touch Technology's own workspace: every QTT OS product, always on — no trials, no plan limits, no invoices. Switching it on opens every product for the owner. Only for QTT itself; every other business uses subscriptions."
+  },
+  {
    "fieldname": "section_break_billing",
    "fieldtype": "Section Break",
    "label": "Billing"
@@ -147,5 +155,6 @@
    "export": 1
   }
  ],
- "links": []
+ "links": [],
+ "modified": "2026-10-12 12:00:00.000000"
 }

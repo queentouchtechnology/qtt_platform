@@ -149,6 +149,7 @@ def services_text(services: list[dict]) -> str:
 	for s in services:
 		monthly, setup = s.get("monthly_price") or 0, s.get("setup_price") or 0
 		parts = (["₹%g setup" % setup] if setup else []) + (["₹%g/month" % monthly] if monthly else [])
-		price = " + ".join(parts) or "free"
+		# No price set means it isn't published yet — never "free".
+		price = " + ".join(parts) or "price on request (contact Queen Touch Technology)"
 		lines.append("- %s (%s): %s — %s" % (s["title"], s.get("category") or "service", s.get("summary") or "", price))
 	return "\n".join(lines)

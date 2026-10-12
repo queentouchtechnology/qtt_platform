@@ -28,6 +28,11 @@ def get_entitlements(tenant: str, product: str) -> dict:
 	entitled) if there is no open subscription for this (tenant, product)
 	— fail closed, not "everything allowed by default."
 	"""
+	from qtt_platform import house
+
+	if house.is_house(tenant):
+		return house.entitlements(product)  # Queen Touch Technology's own workspace: everything, unlimited
+
 	subscription = get_current_subscription(tenant, product)
 	if not subscription or subscription.status not in OPEN_SUBSCRIPTION_STATUSES:
 		return {}

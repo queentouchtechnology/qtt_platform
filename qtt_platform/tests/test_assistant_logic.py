@@ -127,3 +127,11 @@ class HermesSkillTests(unittest.TestCase):
 				self.assertIn("(`%s`)" % sid, screens)
 			self.assertIn("only when pulse.allow_outside", screens)
 			self.assertTrue(pathlib.Path(d, "DESCRIPTION.md").exists())
+			company = pathlib.Path(d, "qtt-company-info")
+			self.assertTrue((company / "SKILL.md").read_text(encoding="utf-8").startswith("---\nname: qtt-company-info\n"))
+			self.assertIn("Thoothukudi", (company / "references" / "company.md").read_text(encoding="utf-8"))
+
+	def test_unpriced_services_are_never_called_free(self):
+		text = logic.services_text([{"title": "Website setup", "category": "Web", "summary": "A website", "monthly_price": 0, "setup_price": 0}])
+		self.assertIn("price on request", text)
+		self.assertNotIn("free", text)
