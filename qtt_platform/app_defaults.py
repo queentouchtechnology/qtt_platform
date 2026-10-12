@@ -11,6 +11,9 @@ DEFAULT_THEMES = [
 		"theme_key": "qtt-midnight",
 		"label": "QTT Midnight",
 		"sort_order": 1,
+		"radius": 14,
+		# Minimal, borderless cards (premium SaaS look).
+		"components": {"card_style": "flat"},
 		# queentouchtech.com brand layer (css/brand.css): --qtt-blue #3B5CFF, --qtt-blue-dark #2946D9,
 		# #93A5FF accents on dark, --qtt-black #0B0D12, --qtt-surface #171A21, --qtt-bg-light #F7F8FA, borders #E7E9EE.
 		"light": dict(primary="#3B5CFF", secondary="#2946D9", background="#F7F8FA", surface="#FFFFFF", surface_variant="#EEF0F3",
