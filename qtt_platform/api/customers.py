@@ -6,7 +6,6 @@ for the owner and admins. Phone and email are unique within a workspace.
 """
 
 import json
-import re
 
 import frappe
 from frappe import _
@@ -15,6 +14,7 @@ from qtt_platform import business_rules as rules
 from qtt_platform.audit import write_audit_event
 from qtt_platform.tenant.context import resolve_active_tenant
 from qtt_platform.tenant.guards import require_tenant_membership, require_tenant_role
+from qtt_platform.smart_list import smart_get_all
 
 DT = "QTT Customer"
 GOVERNANCE = ["Tenant Owner", "Tenant Admin"]
@@ -86,20 +86,14 @@ def customers(q: str | None = None, status: str = "Active", tag: str | None = No
 		filters.append([DT, "status", "=", status])
 	if tag:
 		filters.append([DT, "tags", "like", f"%{tag.strip()}%"])
-	or_filters = None
-	q = (q or "").strip()
-	if q:
-		like = f"%{q}%"
-		or_filters = [[DT, f, "like", like] for f in ("customer_name", "company_name", "email", "city", "gstin")]
-		digits = re.sub(r"\D", "", q)
-		if len(digits) >= 4:
-			or_filters.append([DT, "phone", "like", f"%{digits}%"])
-	rows = frappe.get_all(DT, filters=filters, or_filters=or_filters, fields=LIST_FIELDS,
-						  order_by="customer_name asc", start=start, page_length=page_length)
+	# Intelligent search: every word, any order, phone digits, one typo forgiven.
+	rows, has_more = smart_get_all(DT, filters=filters, fields=LIST_FIELDS, q=q, title_field="customer_name",
+								   search_fields=["customer_name", "company_name", "email", "city", "gstin"], digits_field="phone",
+								   order_by="customer_name asc", start=start, page_length=page_length)
 	for r in rows:
 		r["modified"] = str(r.modified)
 		r["tag_list"] = rules.tag_list(r.pop("tags"))
-	return {"customers": rows, "start": start, "has_more": len(rows) == page_length,
+	return {"customers": rows, "start": start, "has_more": has_more,
 			"counts": {s: frappe.db.count(DT, {"tenant": tenant, "status": s}) for s in ("Active", "Archived")}}
 
 

@@ -13,6 +13,7 @@ from frappe import _
 from qtt_platform.audit import write_audit_event
 from qtt_platform.subscription.service import OPEN_SUBSCRIPTION_STATUSES
 from qtt_platform.tenant.guards import require_platform_owner
+from qtt_platform.smart_list import smart_get_all
 
 #: Statuses a platform owner may set from the console. cancelled/archived
 #: are lifecycle outcomes of billing/cancellation, not console toggles.
@@ -51,16 +52,14 @@ def list_tenants(q: str | None = None, status: str | None = None, start: int = 0
 	filters = {}
 	if status:
 		filters["status"] = status
-	or_filters = None
-	if q and q.strip():
-		like = f"%{q.strip()}%"
-		or_filters = {"tenant_name": ["like", like], "slug": ["like", like], "owner_user": ["like", like]}
-
-	rows = frappe.get_all(
+	# Intelligent search: every word, any order, one typo forgiven.
+	rows, has_more = smart_get_all(
 		"QTT Tenant",
 		filters=filters,
-		or_filters=or_filters,
 		fields=["name", "tenant_name", "slug", "status", "owner_user", "trial_ends_on", "creation"],
+		search_fields=["tenant_name", "slug", "owner_user"],
+		title_field="tenant_name",
+		q=q,
 		order_by="creation desc",
 		start=start,
 		page_length=page_length,
@@ -70,7 +69,7 @@ def list_tenants(q: str | None = None, status: str | None = None, start: int = 0
 		r["creation"] = str(r.creation)
 		r["trial_ends_on"] = str(r.trial_ends_on) if r.trial_ends_on else None
 		r["products"] = products.get(r.name, [])
-	return {"tenants": rows, "start": start, "page_length": page_length, "has_more": len(rows) == page_length}
+	return {"tenants": rows, "start": start, "page_length": page_length, "has_more": has_more}
 
 
 @frappe.whitelist(methods=["GET"])
