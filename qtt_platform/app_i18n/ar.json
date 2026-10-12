@@ -495,6 +495,7 @@
  "Everything is running well": "كل شيء يعمل جيدًا",
  "Expense claim": "مطالبة مصروفات",
  "Expense saved.": "تم حفظ المصروف.",
+ "Expense {n}": "المصروف {n}",
  "Expenses": "المصروفات",
  "Expenses (incl. cost of goods)": "المصروفات (شاملة تكلفة البضاعة)",
  "Expired": "منتهي",
