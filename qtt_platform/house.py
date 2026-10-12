@@ -24,7 +24,9 @@ SUB = "QTT Product Subscription"
 def is_house(tenant: str | None) -> bool:
 	if not tenant:
 		return False
-	cache = frappe.local.__dict__.setdefault("qtt_house", {})
+	cache = getattr(frappe.local, "qtt_house", None)  # per request (frappe.local is a werkzeug Local: no __dict__)
+	if cache is None:
+		cache = frappe.local.qtt_house = {}
 	if tenant not in cache:
 		cache[tenant] = bool(frappe.db.get_value("QTT Tenant", tenant, "is_house"))
 	return cache[tenant]
@@ -115,6 +117,6 @@ def keep_open(doc, method=None) -> None:
 
 def on_tenant_update(doc, method=None) -> None:
 	"""doc_events: QTT Tenant on_update — switching "House workspace" on opens everything."""
-	frappe.local.__dict__.pop("qtt_house", None)
+	frappe.local.qtt_house = {}  # forget this request's cached answer
 	if doc.get("is_house") and (doc.has_value_changed("is_house") or doc.status != "active"):
 		ensure_house(doc.name)
