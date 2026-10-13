@@ -272,8 +272,9 @@ QTT designs, hosts, secures and looks after a website for the business, and
 the owner changes it from the app — there is no website login to remember or
 share.
 - Ordering: Managed Services › Explore › Website Development. Choose a size —
-  Landing page (one page for a campaign or offer), 3 pages (Home, About,
-  Contact) or 5 pages (Home, About, Services, Gallery, Contact) — then your
+  Landing page (one page for a campaign or offer), 3 pages (Home, what you
+  offer, Contact) or 5 pages (Home, About, what you offer, Gallery, Contact)
+  — then your
   website address (search a new one or use your own), monthly, yearly or 3
   years, and a few questions: business name, what kind of business (this
   picks the design), what you do, your address and a phone number. Prices
