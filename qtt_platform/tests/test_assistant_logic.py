@@ -74,6 +74,19 @@ class GuideTest(unittest.TestCase):
 		self.assertIn("needs Flexible cycles", text)
 		self.assertIn("Flexi hours", text)
 
+	def test_devices_guide_has_compatibility_and_questions(self):
+		g = logic.guide_for(REG, "pulse.devices", HR)
+		statuses = {r["name"]: r["status"] for r in g["device_types"]}
+		self.assertEqual(statuses["eSSL / ZKTeco with Cloud server (ADMS)"], "ready")
+		self.assertEqual(statuses["Device that only takes an IP address"], "ask")
+		self.assertEqual(statuses["USB / pen-drive only"], "no")
+		self.assertTrue(any(f["q"] == "The device shows Offline" for f in g["faq"]))
+		self.assertIsNone(logic.guide_for(REG, "pulse.devices", EMPLOYEE))
+		text = logic.guide_text(next(s for s in REG if s["id"] == "pulse.devices"))
+		self.assertIn("Which devices work", text)
+		self.assertIn("Q: Someone's punches don't appear", text)
+		self.assertIn("faq", logic.guide_for(REG, "pulse.people.import", HR))
+
 	def test_only_for_people_who_can_open_the_screen(self):
 		self.assertIsNone(logic.guide_for(REG, "pulse.coverage", EMPLOYEE))
 		self.assertIsNone(logic.guide_for(REG, "pulse.pay_settings", HR))  # HR Admin only

@@ -26,7 +26,7 @@ def load_catalog() -> dict:
 	"""screens.json beyond the screens: feature names and the shift compatibility list."""
 	with open(os.path.join(HERE, "screens.json"), encoding="utf-8") as f:
 		doc = json.load(f)
-	return {"features": doc.get("features") or {}, "shift_types": doc.get("shift_types") or []}
+	return {"features": doc.get("features") or {}, "shift_types": doc.get("shift_types") or [], "device_types": doc.get("device_types") or []}
 
 
 def shift_rows(catalog: dict, features: set[str] | None) -> list[dict]:
@@ -40,6 +40,12 @@ def shift_rows(catalog: dict, features: set[str] | None) -> list[dict]:
 		out.append({"name": s["name"], "example": s["example"], "how": s["how"], "status": status,
 					"feature": names.get(needs) if needs and needs != "no" else None})
 	return out
+
+
+def device_rows(catalog: dict) -> list[dict]:
+	"""Kinds of biometric device: ready (works), ask (QTT sets it up with you), no (not supported)."""
+	return [{"name": s["name"], "example": s["example"], "how": s["how"], "status": s.get("status") or "ready", "feature": None}
+			for s in catalog.get("device_types") or []]
 
 
 def load_knowledge() -> str:
@@ -105,6 +111,10 @@ def guide_for(registry: list[dict], screen_id: str, ctx: dict, industry: str | N
 		   "suggestions": [{"for": s["for"], "text": s["text"]} for s in mine + general]}
 	if g.get("shift_types"):
 		out["shift_types"] = shift_rows(catalog or load_catalog(), set(ctx.get("features") or []))
+	if g.get("device_types"):
+		out["device_types"] = device_rows(catalog or load_catalog())
+	if g.get("faq"):
+		out["faq"] = [{"q": f["q"], "a": f["a"]} for f in g["faq"]]
 	return out
 
 
@@ -118,6 +128,12 @@ def guide_text(screen: dict) -> str:
 		for s in shift_rows(load_catalog(), None):
 			need = "" if s["status"] == "no" else (f"needs {s['feature']}. " if s["feature"] else "works for every business. ")
 			lines.append(f"- {s['name']} ({s['example']}): {need}{s['how']}")
+	if g.get("device_types"):
+		lines.append("Which devices work:")
+		for s in device_rows(load_catalog()):
+			lines.append(f"- {s['name']} ({s['example']}): {dict(ready='works', ask='QTT sets it up', no='not supported')[s['status']]}. {s['how']}")
+	for f in g.get("faq") or []:
+		lines.append(f"Q: {f['q']} — A: {f['a']}")
 	return "\n".join(x for x in lines if x)
 
 

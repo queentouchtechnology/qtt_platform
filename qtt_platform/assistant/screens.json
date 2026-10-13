@@ -23,6 +23,16 @@
   {"name": "Two different shifts in one day", "example": "Morning at site A, evening at site B", "needs": "no", "how": "Not supported: use a split shift if both parts are at the same place."},
   {"name": "Flexi hours", "example": "Any 8 hours between 07:00 and 20:00", "needs": "no", "how": "Not supported: use one long shift with late marking off."}
  ],
+ "device_types": [
+  {"name": "eSSL / ZKTeco with Cloud server (ADMS)", "example": "Fingerprint, face or card devices with Cloud Server Setting in the Comm menu", "status": "ready", "how": "Point it to adms.queentouchtech.in, port 80, and add it here by its serial number."},
+  {"name": "Other brands with ADMS / Push", "example": "Devices built on ZKTeco (Realtime, Identix and others)", "status": "ready", "how": "Works when the menu has Cloud server, ADMS or Push — set it the same way."},
+  {"name": "Face, fingerprint, card or PIN", "example": "Any way of punching on an ADMS device", "status": "ready", "how": "Every punch comes in the same way, whatever the person used."},
+  {"name": "Several devices in one business", "example": "Main gate, store, a client site", "status": "ready", "how": "Add each device; a person keeps one Device PIN on all of them."},
+  {"name": "Device that only takes an IP address", "example": "Older firmware without a domain-name option", "status": "ask", "how": "Ask QTT — we set it up with you."},
+  {"name": "Device that needs its PC software", "example": "eTimeTrackLite or ZKTime running on an office computer", "status": "ask", "how": "Most of these also have Cloud server in the menu — ask QTT to switch it over."},
+  {"name": "USB / pen-drive only", "example": "No network port or Wi-Fi", "status": "no", "how": "Not supported: punches need the device on the network."},
+  {"name": "One device shared by two businesses", "example": "A building's common gate", "status": "no", "how": "Not supported: a device belongs to one business."}
+ ],
  "screens": [
   {"id": "home", "product": null, "title": "Home", "path": "Apps (home)", "roles": ["*"],
    "what": "Your apps, the For you cards (what needs you now) and search across everything."},
@@ -74,12 +84,18 @@
   {"id": "pulse.people.import", "product": "QTT_OFFICE_PULSE", "title": "Import employees", "path": "Office Pulse › Manage › People › Import", "roles": ["HR", "HR Admin"],
    "what": "Import employees from Excel (.xlsx) or CSV (up to 1,000): a template to download; columns recognised by name (also misspelt, else suggested by QTT Assistant) and changeable; each row checked — new, update (matched by employee ID, email or mobile) or a problem with the reason; suggestions (new departments, missing mobiles, plan room); optional app invitations; large files continue in the background. QTT can import it for you.",
    "guide": {
+    "faq": [
+     {"q": "Why are some rows skipped?", "a": "Rows with a problem are skipped and the reason is shown — fix them in the file and import it again. The rest are saved."},
+     {"q": "Can I change people already here?", "a": "Yes — export, edit the file and import it back. People are matched by Employee ID, email or mobile."},
+     {"q": "How do I link biometric devices?", "a": "Add a Device PIN column (or Biometric ID / Enroll ID) with each person's user ID on the device."}
+    ],
     "intro": "Bring many people in at once from an Excel or CSV file — or update people already here. Nothing is saved until you've seen what will happen.",
     "steps": [
      "Tap Download the template, or use your own list: columns like Name, DOJ, Phone or Designation are recognised.",
      "Fill in one person per row. Someone new needs a name, gender and date of birth; dates are day/month/year.",
      "Tap Choose file. You see who is new, who will be updated (matched by Employee ID, email or mobile) and any problems.",
      "Check the columns: change any that were recognised wrongly. Rows with problems are skipped — fix them in the file and import again.",
+     "Have biometric devices? Add a Device PIN column with each person's user ID on the device — their punches then come in by themselves.",
      "Switch on Invite new people with an email if they should get the app, then tap Import.",
      "To fix details later: People › Export, edit the file, and import it back — the Employee ID column matches each person."
     ],
@@ -88,8 +104,37 @@
      {"for": "*", "text": "Big list or a messy file? Send it to QTT from this screen and we'll import it for you."}
     ]
    }},
+  {"id": "pulse.devices", "product": "QTT_OFFICE_PULSE", "title": "Biometric devices", "path": "Office Pulse › Manage › Setup › Biometric devices", "roles": ["HR", "HR Admin"],
+   "what": "Fingerprint / face devices (ZKTeco, eSSL and others with ADMS or 'Cloud server') that send punches to Office Pulse by themselves: add a device by its serial number, see if it's online and its last punch, link each PIN on the device to a person (names from the device are suggested), ask a device to send missed punches again, see each punch and what became of it.",
+   "guide": {
+    "device_types": true,
+    "faq": [
+     {"q": "The device shows Offline", "a": "Check its power and network (Wi-Fi or cable), and that the server is adms.queentouchtech.in, port 80, HTTPS off. It shows Online within a minute of connecting."},
+     {"q": "Someone's punches don't appear", "a": "Their user ID on the device must be their Device PIN here. Their punches wait under PINs not linked to anyone — link them and they're saved at once."},
+     {"q": "The times are wrong", "a": "Set the device's date, time and time zone (India: GMT +5:30). For a clock that's a few minutes off, set a clock correction on the device here."},
+     {"q": "Everyone shows as Check-in", "a": "The device isn't sending in / out. Set In / out to By the shift rules — Office Pulse then works it out."},
+     {"q": "It says the device is added to another business", "a": "A device belongs to one business. If it's yours, send QTT its serial number from Help and support."},
+     {"q": "We had the device before Office Pulse", "a": "Add it here; it sends the punches it's still holding. Tap Get missed punches for the last 7 days — ones already here are skipped."},
+     {"q": "Someone left", "a": "Mark them as left in People and delete them on the device, so their PIN can go to someone new."}
+    ],
+    "intro": "Biometric devices with ADMS (also called Cloud server or Push) send every punch to Office Pulse by themselves — no computer or software in the office.",
+    "steps": [
+     "On the device: Menu › Comm (or Communication) › Cloud Server Setting.",
+     "Server address: adms.queentouchtech.in. Port: 80. Turn on Domain name, turn off HTTPS and Proxy. Save; the device restarts its connection.",
+     "Check the device's date, time and time zone are right (Menu › System › Date / Time).",
+     "Here, tap Add device and type the serial number exactly as the device shows it (Menu › System info, or the label underneath).",
+     "Link people: each person's user ID on the device is their Device PIN. Link them here (names from the device are suggested), in People › the person, or with a Device PIN column when importing.",
+     "Punches that came before a PIN was linked are kept and saved the moment you link it. Missed some? Tap Get missed punches."
+    ],
+    "suggestions": [
+     {"for": "*", "text": "Enroll people on the device with the same user ID you give them here — e.g. their employee number."},
+     {"for": "*", "text": "Device at a client site, ward or store? Choose that site on the device — its punches then count as at that site."},
+     {"for": "*", "text": "Device always shows Check-in? Set In / out to 'By the shift rules' and Office Pulse decides."},
+     {"for": "*", "text": "Can't find Cloud Server Setting, or the device only takes an IP address? Ask QTT — we'll set it up with you."}
+    ]
+   }},
   {"id": "pulse.setup", "product": "QTT_OFFICE_PULSE", "title": "Setup", "path": "Office Pulse › Manage › Setup", "roles": ["HR", "HR Admin"],
-   "what": "Check-in rules (ask for location; allow check-in away from the office), offices and their check-in radius, business type and capabilities, sites, shifts (hours, late after, break, split), shift patterns, approval flows, attendance rules, leave types and giving leave, holiday calendars, departments and job titles.",
+   "what": "Check-in rules (ask for location; allow check-in away from the office), offices and their check-in radius, business type and capabilities, sites, biometric devices, shifts (hours, late after, break, split), shift patterns, approval flows, attendance rules, leave types and giving leave, holiday calendars, departments and job titles.",
    "tips": [
     {"text": "Turn on “Allow check-in away from the office” so people can work from home and check in with a reason.", "link": "pulse.setup", "label": "Open Setup"}
    ]},

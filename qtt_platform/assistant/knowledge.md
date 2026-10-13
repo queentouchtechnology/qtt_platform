@@ -82,6 +82,49 @@ approve their team's requests.
   the app" → Invite all, "N people have no mobile number" / "no department" →
   download just them, fill in, import back.
 
+## Office Pulse — biometric devices (ADMS)
+- Fingerprint / face devices with ADMS ("Cloud server", "Push") — ZKTeco, eSSL
+  and similar — send punches to Office Pulse by themselves. On the device:
+  Menu › Comm › Cloud Server Setting → server adms.queentouchtech.in, port 80,
+  Domain name on, HTTPS off, Proxy off; check its date, time and time zone.
+- Setup › Biometric devices (HR): Add device by its serial number (Menu ›
+  System info, or the label). A device no business has added is not accepted;
+  its punches stay on it until it's added. Online = in touch in the last 5
+  minutes. Optional: a site (punches count as at that site), In / out from the
+  device or by the shift rules, a clock correction.
+- Each person's user ID on the device is their Device PIN (People › the
+  person, an import column "Device PIN" / "Biometric ID" / "Enroll ID", or
+  Link people on the devices screen — names on the device are suggested). A
+  PIN is unique within the business. Punches for a PIN nobody has yet wait
+  and are saved as soon as it's linked. "Get missed punches" asks the device
+  to send the last days again (duplicates are skipped).
+- Device punches follow the same rules as app check-ins: late check-in
+  approval, early exit / overtime, and they count for attendance and payroll.
+- Home cards for HR: punches waiting for people; a device not in touch for a
+  day. If a device only takes an IP address or can't find the setting, QTT
+  sets it up (Help and support).
+- Which devices work: eSSL / ZKTeco with Cloud server (ADMS) — yes; other
+  brands with ADMS / Push (built on ZKTeco) — yes; face, fingerprint, card or
+  PIN — all come in the same way; several devices per business — yes (one
+  Device PIN per person on all of them). Device that only takes an IP address,
+  or that only works with PC software (eTimeTrackLite, ZKTime) — QTT sets it
+  up / switches it to Cloud server. USB / pen-drive only, or one device shared
+  by two businesses — not supported.
+- Troubleshooting: Offline → power, network, server adms.queentouchtech.in
+  port 80 HTTPS off (Online within a minute). Someone's punches missing →
+  their user ID on the device must be their Device PIN; waiting punches are
+  under "PINs not linked to anyone" — link and they're saved. Wrong times →
+  device date / time / time zone (India GMT +5:30), or a clock correction
+  here. Everyone shows Check-in → In / out "By the shift rules". "Added to
+  another business" → send QTT the serial number. Device used before Office
+  Pulse → add it; it sends what it still holds; Get missed punches = last 7
+  days, duplicates skipped. Someone left → mark as left and delete them on the
+  device so the PIN can be reused.
+- Where to find it: Setup › Biometric devices (device list, server address
+  with copy buttons, add device, PINs not linked, a device's settings, Get
+  missed punches, latest punches); People › the person › Edit › Device PIN;
+  the import's Device PIN column; Approvals for late / early punches.
+
 ## Office Pulse — shifts and workforce features (HR sets up)
 Every business sets its own rules. Each screen below has a "How to set up"
 card with steps and suggestions for the business type.
