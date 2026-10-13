@@ -241,9 +241,11 @@ settings).
 - Channel access (managers): choose which team members answer each channel.
 
 ## Managed Services — QTT runs it for you
-QTT builds and looks after websites, WhatsApp replies, daily reports,
-reminders, automations, servers and more. The business owner orders; others
-see status.
+QTT offers three services, each set up, hosted and looked after by QTT:
+Website Development (a landing page, 3 pages or 5 pages), Managed E-Commerce
+Websites (an online store) and AI & WhatsApp Automation (pick the parts you
+need). The business owner orders; others see status. Services ordered earlier
+that are no longer listed keep running as before.
 - Home: status of each website / system (up or down, checked every few
   minutes), your services, previews to review, activity.
 - Ordering: pick a service; websites let you choose a design and colours for
@@ -260,6 +262,62 @@ see status.
   ("How would you like to pay?" when ordering); longer terms save money and
   show the saving. Each term is paid in advance and renews at its end (for a
   year or more, the invoice comes 15 days early).
+- Sizes and parts: Website Development is ordered by choosing a size, and AI
+  & WhatsApp Automation by ticking the parts you want; each has its own price,
+  shown as you choose, and the total updates. The catalogue shows "From …"
+  (the cheapest choice). Your service later shows what you chose.
+
+## Managed Services — Website Development (landing page, 3 pages, 5 pages)
+QTT designs, hosts, secures and looks after a website for the business, and
+the owner changes it from the app — there is no website login to remember or
+share.
+- Ordering: Managed Services › Explore › Website Development. Choose a size —
+  Landing page (one page for a campaign or offer), 3 pages (Home, About,
+  Contact) or 5 pages (Home, About, Services, Gallery, Contact) — then your
+  website address (search a new one or use your own), monthly, yearly or 3
+  years, and a few questions: business name, what kind of business (this
+  picks the design), what you do, your address and a phone number. Prices
+  are in the app.
+- Setting up takes a few minutes and shows step by step: creating the
+  website, WordPress, the design for your kind of business, your pages and
+  photos, connecting it to the app, security (https). Then "ready for your
+  review" with a preview link.
+- Designs: ready designs for restaurants, shops, services, clinics, coaching,
+  real estate, salons, gyms, hotels, events, photography, interiors, car and
+  bike service, finance, IT, manufacturing, NGOs and more. Switch the design
+  later; your name, logo and contact details stay.
+- Going live: the same as a store — approve the preview, connect your address
+  (the app shows the DNS steps); it moves onto your address by itself, with
+  https, and opens to Google.
+- Managing it — on the website's page tap "Manage your website": Design
+  (colours, fonts, logo, menus, banners, each page and its sections),
+  Enquiries (messages from the website's forms — call, WhatsApp or email
+  back), Marketing and tools (Google Analytics, Meta pixel, Search Console,
+  Tag Manager; SEO plugins), Website settings (name, tagline, Show on Google).
+  A website has no orders, products or coupons — for selling online choose
+  Managed E-Commerce Websites.
+- New enquiries appear in Managed Services activity.
+
+## Managed Services — AI & WhatsApp Automation
+One service; tick only the parts you want, each priced on its own:
+- WhatsApp AI receptionist — replies to customers 24/7 on your WhatsApp
+  number (prices, timings, bookings) and hands over to your staff.
+- Lead follow-up — every enquiry answered within minutes and followed up for
+  7 days.
+- Payment reminders — polite reminders with a UPI link until the invoice is
+  paid (from your Orbitra invoices).
+- Owner's daily report — yesterday's sales, cash and low stock every morning
+  on WhatsApp.
+- Marketing assistant — weekly post drafts and festival offers; you approve
+  before anything is posted.
+- Ask your business — ask on WhatsApp ("How much did we sell this month?")
+  and get the answer from your own data; it never changes anything.
+- Who is absent today — attendance and leave on WhatsApp for your team (from
+  Office Pulse).
+Ordering asks only the questions the chosen parts need (for example a UPI ID
+for payment reminders, the morning time for the daily report). QTT sets each
+part up and tells you in activity when it's running. To add a part later, ask
+through Requests.
 
 ## Managed Services — online store (Managed E-Commerce Websites)
 QTT creates, hosts, secures and manages a full online store (WooCommerce) for
