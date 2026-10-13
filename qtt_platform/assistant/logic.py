@@ -69,6 +69,30 @@ def tips_for(registry: list[dict], screen_id: str, ctx: dict, conditions: set[st
 	return out
 
 
+def guide_for(registry: list[dict], screen_id: str, ctx: dict, industry: str | None = None) -> dict | None:
+	"""A screen's "How to set up" guide (screens.json) for someone who can open it: intro, steps,
+	and suggestions — the ones for this business's type first, then the general ones ("*")."""
+	allowed = {s["id"] for s in allowed_screens(registry, ctx)}
+	screen = next((s for s in registry if s["id"] == screen_id), None)
+	if not screen or screen_id not in allowed or not screen.get("guide"):
+		return None
+	g = screen["guide"]
+	mine = [s for s in g.get("suggestions") or [] if industry and s.get("for") == industry]
+	general = [s for s in g.get("suggestions") or [] if s.get("for") == "*"]
+	if g.get("all_suggestions"):  # choosing a business type: every type's, theirs first
+		general = [s for s in g.get("suggestions") or [] if s not in mine]
+	return {"title": screen["title"], "intro": g.get("intro") or "", "steps": list(g.get("steps") or []),
+			"suggestions": [{"for": s["for"], "text": s["text"]} for s in mine + general]}
+
+
+def guide_text(screen: dict) -> str:
+	"""A screen's guide as plain text for the assistant (every suggestion, with whom it suits)."""
+	g = screen.get("guide") or {}
+	lines = [g.get("intro", "")] + [f"{i}. {s}" for i, s in enumerate(g.get("steps") or [], 1)]
+	lines += [f"- Suggestion ({'any business' if s['for'] == '*' else s['for']}): {s['text']}" for s in g.get("suggestions") or []]
+	return "\n".join(x for x in lines if x)
+
+
 SYSTEM = """You are QTT Assistant inside the QTT OS app by Queen Touch Technology.
 You help the person use QTT OS customer software and services: the app, Office Pulse, Orbitra, Onbox and Managed Services, their plans and how to do things.
 
@@ -86,6 +110,8 @@ def build_messages(*, knowledge: str, plans: str, services: str, screens: list[d
 	screen_lines = "\n".join(f"- {s['id']}: {s['path']} — {s['what']}" for s in screens)
 	current = next((s for s in screens if s["id"] == screen_id), None)
 	context = (f"{who}\nThey are on: {current['path']} ({current['id']})." if current else who)
+	if current and current.get("guide"):
+		context += "\n\nHow to set up this screen (use it for set-up questions; suggest what fits their business type):\n" + guide_text(current)
 	system = "\n\n".join([
 		SYSTEM,
 		"## Knowledge\n" + knowledge,

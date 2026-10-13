@@ -62,6 +62,70 @@ approve their team's requests.
   their monthly salary, 3) Run payroll for a month, check gross / deductions
   / net, then Finalise and publish payslips (employees then see them).
 
+## Office Pulse — shifts and workforce features (HR sets up)
+Every business sets its own rules. Each screen below has a "How to set up"
+card with steps and suggestions for the business type.
+- **Business type** (Setup › Business type): Office, Security / field
+  service, Hospital / healthcare, Factory / manufacturing, Retail /
+  restaurant, Other. Tap **Use** to switch on what that business usually
+  needs and suggested rules; change anything later. Features (capabilities):
+  Flexible cycles, Sites, Requests, Split shifts, Overtime pay, Coverage
+  (with handover and on-call), Offline attendance. Presets: Office — none;
+  Security — flexible cycles, sites, requests, overtime pay, coverage,
+  offline; Hospital — flexible cycles, sites, requests, overtime pay,
+  coverage; Factory — flexible cycles, requests, overtime pay, coverage;
+  Retail — sites, requests, split shifts, overtime pay, coverage.
+- **Shifts** (Setup › Shifts): start and end (an end before the start ends
+  the next morning — night shifts work), late after minutes, a **break**
+  (unpaid minutes after hours worked, or paid; a break they checked out for
+  counts as taken), and with Split shifts the time off in the middle (e.g.
+  11:00–22:00 off 15:00–18:00 — not counted as work, checking out for it is
+  not an early exit). Two different shifts on one day, and flexi hours, are
+  not supported.
+- **Shift patterns** (Setup › Shift patterns): which shift on which day and
+  where (office, from home, anywhere, or a site). Repeats every week, every 2–8
+  weeks (rotation), or with Flexible cycles every N days (4 on / 4 off = 8
+  days, 2-2-3 = 14, four crews = 28). Who: everyone, a department or chosen
+  people (chosen people first, then department, then everyone). Save and
+  apply gives shifts 60 days ahead in the background (a notification comes
+  when done) and keeps topping up. A one-day change for a person is in People
+  › the person › Shifts and survives pattern edits.
+- **Attendance rules** (Setup › Attendance rules): late check-ins need
+  approval (after N minutes; if not approved: half day, absent or late mark);
+  check-out required with reminders and what happens without one; how many
+  hours a forgotten check-out still counts (night shifts ~12); early exits and
+  overtime need approval (Requests); offline check-ins accepted for N hours;
+  morning coverage alert.
+- **Requests** (My requests, when the business uses Requests): shift change
+  (another shift, place or a day off), shift swap (same day or trading days;
+  the colleague accepts first), early exit, overtime. Late check-ins and
+  missed check-outs also appear there with who they wait for.
+- **Approval flows** (Setup › Approval flows): per kind of request up to 5
+  steps — manager, manager's manager, HR, HR Admin or a chosen person — each
+  optionally only above an amount, days or minutes; "add HR after N hours"
+  when a step waits. No steps: the manager or HR. A rejection ends it.
+  Approvals cards show the leave balance left, and with Coverage a warning
+  when approving would leave a shift short; filter pills by kind.
+- **Overtime and on-call pay** (Payroll › Overtime and on-call pay, HR Admin,
+  Overtime pay feature): hourly rate = monthly salary ÷ days ÷ hours (or a
+  fixed rate) × multiplier (1.5, 2); counted in blocks (e.g. 15 min); on-call
+  allowance per day. Approved overtime and on-call days are added to the next
+  payroll run (shown before the slips are made), each paid once; only people
+  with a salary set are paid.
+- **Coverage** (Manage › Coverage, Coverage feature): rules — at least N
+  people on a shift (at a site) on chosen days; gaps for the next 2 weeks;
+  HR gets gaps for the next 3 days at 7 am; approvers are warned. **Handover
+  notes**: "Leave a handover note" on the check-in card; the next shift (same
+  site, else the business) sees it on their card. **On call** (Manage › On
+  call): add a person for some days or a rotation (people in order, days
+  each, times round); "on call now" shows on Team today and their card.
+- **Offline attendance** (Offline feature): with no network, Check in /
+  out is saved on the phone (shown "on phone") and sent when back online or
+  with "Send now". Wrong phone clocks are corrected; future or too-old
+  punches (default 72 h) are refused; a punch is never saved twice.
+- On the check-in card: today's shift (both parts of a split shift), the
+  break rule, time worked, on-call, handover notes.
+
 ## Orbitra — billing, POS, stock, GST (shops and small businesses)
 Roles: **Cashier** (POS, sales, customers; sees stock), **Manager** (adds
 purchases, inventory editing, reports), **Orbitra Admin** (everything,

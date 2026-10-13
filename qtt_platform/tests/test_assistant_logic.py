@@ -35,6 +35,44 @@ class RegistryTest(unittest.TestCase):
 		self.assertIn("marketing", logic.SYSTEM.lower())  # the prompt forbids it explicitly
 
 
+class GuideTest(unittest.TestCase):
+	GUIDED = {"pulse.business_type", "pulse.shifts", "pulse.shift_patterns", "pulse.attendance_rules", "pulse.requests",
+			  "pulse.approval_flows", "pulse.pay_settings", "pulse.coverage", "pulse.on_call"}
+
+	def test_every_workforce_screen_has_a_complete_guide(self):
+		for sid in self.GUIDED:
+			g = next(s for s in REG if s["id"] == sid)["guide"]
+			self.assertTrue(g["intro"] and len(g["steps"]) >= 3 and g["suggestions"], sid)
+			for s in g["suggestions"]:
+				self.assertIn(s["for"], ("*", "Office", "Security / field service", "Hospital / healthcare", "Factory / manufacturing",
+										 "Retail / restaurant"), sid)
+
+	def test_suggestions_for_the_business_type_come_first(self):
+		g = logic.guide_for(REG, "pulse.shift_patterns", HR, "Security / field service")
+		self.assertEqual(g["suggestions"][0]["for"], "Security / field service")
+		self.assertEqual({s["for"] for s in g["suggestions"]}, {"Security / field service", "*"})  # not the other industries
+		self.assertTrue(all(s["for"] == "*" for s in logic.guide_for(REG, "pulse.shift_patterns", HR, None)["suggestions"]))
+
+	def test_business_type_shows_every_type_theirs_first(self):
+		g = logic.guide_for(REG, "pulse.business_type", HR, "Hospital / healthcare")
+		self.assertEqual(g["suggestions"][0]["for"], "Hospital / healthcare")
+		self.assertEqual(len(g["suggestions"]), 6)
+
+	def test_only_for_people_who_can_open_the_screen(self):
+		self.assertIsNone(logic.guide_for(REG, "pulse.coverage", EMPLOYEE))
+		self.assertIsNone(logic.guide_for(REG, "pulse.pay_settings", HR))  # HR Admin only
+		self.assertIsNotNone(logic.guide_for(REG, "pulse.requests", EMPLOYEE))
+		self.assertIsNone(logic.guide_for(REG, "pulse.leave", EMPLOYEE))  # no guide there
+
+	def test_the_assistant_reads_the_guide_of_the_screen_you_are_on(self):
+		screens = logic.allowed_screens(REG, HR)
+		msgs = logic.build_messages(knowledge="K", plans="P", services="S", screens=screens, who="Name: Asha.", screen_id="pulse.coverage",
+									history=[], question="How do I set this up?")
+		self.assertIn("How to set up this screen", msgs[0]["content"])
+		self.assertIn("Gate A nights", msgs[0]["content"])
+		self.assertIn("Coverage", logic.load_knowledge())
+
+
 class AccessTest(unittest.TestCase):
 	def ids(self, ctx):
 		return {s["id"] for s in logic.allowed_screens(REG, ctx)}

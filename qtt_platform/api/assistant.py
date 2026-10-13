@@ -46,10 +46,12 @@ def _context(user: str, tenant: str) -> tuple[dict, set[str], str]:
 		frappe.throw("Not a member of this business.", frappe.PermissionError)
 	products = {r.product: r.product_role for r in frappe.get_all(
 		"QTT Product Access", filters={"tenant": tenant, "membership": m.name, "status": "active"}, fields=["product", "product_role"])}
-	manager, conditions = False, set()
+	manager, conditions, industry = False, set(), None
 	if "QTT_OFFICE_PULSE" in products and frappe.db.table_exists("Office Pulse Workspace"):
-		ws = frappe.db.get_value("Office Pulse Workspace", {"tenant": tenant}, ["company", "allow_outside"], as_dict=True)
+		fields = ["company", "allow_outside"] + (["industry"] if frappe.db.has_column("Office Pulse Workspace", "industry") else [])
+		ws = frappe.db.get_value("Office Pulse Workspace", {"tenant": tenant}, fields, as_dict=True)
 		if ws:
+			industry = ws.get("industry") or None
 			if ws.allow_outside:
 				conditions.add("pulse.allow_outside")
 			emp = frappe.db.get_value("Employee", {"user_id": user, "company": ws.company, "status": "Active"}, "name")
@@ -58,8 +60,8 @@ def _context(user: str, tenant: str) -> tuple[dict, set[str], str]:
 	business = frappe.db.get_value("QTT Tenant", tenant, "tenant_name")
 	who = (f"Name: {frappe.utils.get_fullname(user)}. Business: {business} — their role: {m.tenant_role}. "
 		   f"Apps and roles: {', '.join(f'{names.get(k, k)} ({v})' for k, v in products.items()) or 'none yet'}. "
-		   f"Manages people: {'yes' if manager else 'no'}.")
-	return {"products": products, "owner": m.tenant_role in OWNER_ROLES, "manager": manager}, conditions, who
+		   f"Manages people: {'yes' if manager else 'no'}." + (f" Business type (Office Pulse): {industry}." if industry else ""))
+	return {"products": products, "owner": m.tenant_role in OWNER_ROLES, "manager": manager, "industry": industry}, conditions, who
 
 
 def _catalogue() -> tuple[str, str]:
@@ -119,6 +121,14 @@ def tips(screen: str) -> list[dict]:
 	user, tenant = _who_and_where()
 	ctx, conditions, _who = _context(user, tenant)
 	return logic.tips_for(logic.load_registry(), screen, ctx, conditions)
+
+
+@frappe.whitelist(methods=["GET"])
+def guide(screen: str) -> dict | None:
+	"""A screen's "How to set up" guide, suggestions for this business's type first (no AI)."""
+	user, tenant = _who_and_where()
+	ctx, _conditions, _who = _context(user, tenant)
+	return logic.guide_for(logic.load_registry(), screen, ctx, ctx.get("industry"))
 
 
 def _count_today(user: str) -> int:
