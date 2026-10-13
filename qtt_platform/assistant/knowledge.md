@@ -120,6 +120,17 @@ approve their team's requests.
   Pulse → add it; it sends what it still holds; Get missed punches = last 7
   days, duplicates skipped. Someone left → mark as left and delete them on the
   device so the PIN can be reused.
+- Attendance waits for an offline device (Attendance rules › "Wait for
+  offline biometric devices before marking absent", 48 h by default), so its
+  punches aren't missed. A punch or an approved correction that arrives for a
+  day already marked automatically re-marks that day; leave, HR's own marks
+  and days already in a submitted payslip are not changed (the payroll run
+  flags them). The same punch is never saved twice, and pressing again within
+  2 minutes counts as one punch.
+- Payroll › a run › "Before you finalise": punches not in attendance yet,
+  biometric punches waiting for a person, undecided requests, approved
+  overtime not in a run, devices not in touch since the period ended, and
+  punches that arrived after the slips were submitted.
 - Where to find it: Setup › Biometric devices (device list, server address
   with copy buttons, add device, PINs not linked, a device's settings, Get
   missed punches, latest punches); People › the person › Edit › Device PIN;
