@@ -256,6 +256,71 @@ see status.
 - Payments: invoices; pay by UPI, card or net banking.
 - Stopping a service: from the service, "Stop this service" (keeps running
   until the end of the paid period; "Keep this service" undoes it).
+- Paying by term: some services can be paid monthly, yearly or for 3 years
+  ("How would you like to pay?" when ordering); longer terms save money and
+  show the saving. Each term is paid in advance and renews at its end (for a
+  year or more, the invoice comes 15 days early).
+
+## Managed Services — online store (Managed E-Commerce Websites)
+QTT creates, hosts, secures and manages a full online store (WooCommerce) for
+the business, and the owner runs it from the app — there is no website login
+to remember or share.
+- Ordering: Managed Services › Explore › Managed E-Commerce Websites. Answer
+  a few questions (business name, what you sell, how many products, how
+  customers pay, where you deliver, a phone number), choose monthly, yearly
+  or 3 years, pay the setup fee and the first term. Prices are in the app.
+- Setting up takes a few minutes and shows step by step: creating the store,
+  WordPress and WooCommerce, the design for what you sell, sample products
+  with photos, connecting it to the app, security (https). Then "ready for
+  your review" with a preview link (…preview.queentouchtech.in).
+- Designs: ready designs for fashion, grocery, electronics, jewellery, beauty,
+  furniture, sweets and bakery, and general stores. The design can be switched
+  later; your name, logo, contact details and products stay.
+- Sample products are there so the store doesn't look empty — edit them or
+  delete them and add your own.
+- Going live: approve the preview, then connect your website address (the app
+  shows the DNS steps). Once the address points here the store moves onto it
+  by itself (usually within 10 minutes), with https, and opens to Google.
+- Running it — on the website's page in Managed Services tap "Run your store":
+  - Store home: today's orders, orders to pack and send, new enquiries,
+    products running low or sold out, plugin updates waiting.
+  - Orders: search; tabs To send / Unpaid / Delivered; the order with items,
+    address, payment; call or WhatsApp the customer; Mark delivered, Paid —
+    ready to send, Cancel order (the customer is emailed; stock goes back);
+    Add a note (optionally emailed to the customer, e.g. a tracking number).
+  - Products: add or edit with photos from the phone (square, plain
+    background looks best; the first photo is the main one), price, offer
+    price, stock, categories, Show in the shop (off = hidden while you get it
+    ready), Featured; quick stock change from the list. Products with sizes or
+    colours: QTT sets their prices and stock for now — ask through Requests.
+  - Design: colours, fonts, logo, menus, banners and slides, every page and
+    its sections (switch a section off to hide it, drag to reorder, add or
+    remove), header, footer, pop-ups, shop options. Changes show on the
+    website as soon as you save.
+  - Enquiries: messages from the website's forms (enquiry, contact,
+    newsletter) — call, WhatsApp or email back.
+  - Offers and coupons: discount codes (% off or ₹ off, minimum order, end
+    date, how many uses, free delivery).
+  - Marketing and tools: Google Analytics, Meta (Facebook) pixel, Google Search
+    Console and Tag Manager codes (purchases are tracked automatically); add
+    approved plugins (SEO, Facebook & Instagram shopping, Google Shopping,
+    Mailchimp, Razorpay, GST invoices) and switch them on or off; plugin
+    updates.
+  - Store settings: name, tagline, Show on Google.
+  Only the business owner can change things; others in the business can look.
+- What the store has: search that suggests products as you type, filters
+  (price, colour, size, in stock, on sale), colour and size buttons, quick
+  view, wishlist, compare, "Only a few left", Buy now, Order on WhatsApp, a
+  free-delivery progress bar, a WhatsApp chat button, offers with countdown,
+  newsletter pop-up, a bottom bar on phones, catalogue-only mode (customers
+  enquire instead of buying).
+- New orders, cancelled or failed payments, products running low or sold out,
+  and new enquiries appear in Managed Services activity.
+- A store on another theme that QTT took over (e.g. Porto): orders, products,
+  enquiries, coupons, marketing and plugins work the same; the design page
+  changes the logo, colours, fonts, top-of-page announcement, social links and
+  share buttons; page layouts, sliders and banners are changed by QTT.
+- Problems or bigger changes: Managed Services › Requests.
 
 ## Plans and trials
 Each app has its own plans (there are no bundles); a new business starts on a
