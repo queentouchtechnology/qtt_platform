@@ -1,5 +1,28 @@
 {
  "_about": "Every QTT OS app screen the assistant may point to. id = what the app opens; product = null for the app itself. roles: '*' = anyone with that app; product roles by name; '@owner' = business owner/admin; '@manager' = has people reporting to them. tips: shown on that screen (and used by the assistant); 'when' names a condition in qtt_platform.assistant.conditions.",
+ "features": {"flexible_cycles": "Flexible cycles", "sites": "Sites", "requests": "Requests", "split_shifts": "Split shifts", "overtime_pay": "Overtime pay", "coverage": "Coverage, handover and on-call", "offline": "Offline attendance"},
+ "shift_types": [
+  {"name": "Fixed work week", "example": "Mon–Fri 9:00–18:00 at the office", "needs": null, "how": "Make the shift, then a shift pattern that repeats every week."},
+  {"name": "A different place on some days", "example": "Saturday 9:30–13:30 from home", "needs": null, "how": "In the pattern, choose office, from home or anywhere for each day."},
+  {"name": "Field work", "example": "A sales rep checks in from anywhere", "needs": null, "how": "Choose Anywhere as the place — no office area is checked."},
+  {"name": "Week rotation (2–4 weeks)", "example": "Week A days, week B nights", "needs": null, "how": "A pattern that repeats every 2, 3 or 4 weeks."},
+  {"name": "Long week rotation (up to 8 weeks)", "example": "6 weeks across three shifts", "needs": "flexible_cycles", "how": "A pattern that repeats every 5 to 8 weeks."},
+  {"name": "Day-cycle rotation", "example": "4 on / 4 off; 2-2-3; four crews over 28 days", "needs": "flexible_cycles", "how": "A pattern that repeats every N days (2 to 56), whatever the weekday."},
+  {"name": "Night shift past midnight", "example": "22:00 → 06:00", "needs": null, "how": "End the shift earlier than it starts. The check-out counts for the day the shift started."},
+  {"name": "Night shift, then a morning shift", "example": "Night on Monday, morning on Wednesday", "needs": null, "how": "Works as it is — each check-in and check-out goes to the right day."},
+  {"name": "24-hour duty with a day off after", "example": "08:00 → 08:00, then 24 or 48 hours off", "needs": null, "how": "A 24-hour shift (start and end at the same time) in a pattern with a day off after each duty."},
+  {"name": "Back-to-back 24-hour duties", "example": "24 hours on, every day", "needs": "no", "how": "Not supported: leave a day off between duties, or use two 12-hour shifts."},
+  {"name": "Work at a site", "example": "Guard at Gate A, nurse in Ward 3", "needs": "sites", "how": "Add the site with its check-in area; choose it for a day in the pattern."},
+  {"name": "One-day change", "example": "Ravi on nights only on 20 Oct, or a day off", "needs": null, "how": "People › the person › Shifts. Editing the pattern later keeps it."},
+  {"name": "Breaks", "example": "30 minutes unpaid after 6 hours", "needs": null, "how": "Set the break on the shift; unpaid breaks are taken off the hours worked."},
+  {"name": "Split shift", "example": "11:00–15:00 and 18:00–22:00", "needs": "split_shifts", "how": "One shift with time off in the middle."},
+  {"name": "Shift change and swap by request", "example": "Asha and Ravi swap Saturday", "needs": "requests", "how": "People ask in My requests; approvers decide."},
+  {"name": "Overtime paid in payroll", "example": "2 hours approved × 1.5", "needs": "overtime_pay", "how": "Approved overtime goes into the next payroll run."},
+  {"name": "Minimum staff, handover, on-call", "example": "At least 2 guards on Gate A nights", "needs": "coverage", "how": "Coverage rules, handover notes and the on-call roster."},
+  {"name": "Sites without network", "example": "A check-in at a remote site", "needs": "offline", "how": "The check-in is saved on the phone and sent later."},
+  {"name": "Two different shifts in one day", "example": "Morning at site A, evening at site B", "needs": "no", "how": "Not supported: use a split shift if both parts are at the same place."},
+  {"name": "Flexi hours", "example": "Any 8 hours between 07:00 and 20:00", "needs": "no", "how": "Not supported: use one long shift with late marking off."}
+ ],
  "screens": [
   {"id": "home", "product": null, "title": "Home", "path": "Apps (home)", "roles": ["*"],
    "what": "Your apps, the For you cards (what needs you now) and search across everything."},
@@ -47,7 +70,24 @@
   {"id": "pulse.approvals", "product": "QTT_OFFICE_PULSE", "title": "Approvals", "path": "Office Pulse › Approvals", "roles": ["HR", "HR Admin", "@manager"],
    "what": "Requests waiting at a step you approve — leave, work from home / on duty, expenses, late check-ins, missed check-outs, shift changes and swaps, early exits, overtime. Filter pills by kind; leave cards show the balance left and, with Coverage, a warning when approving would leave a shift short. A swap partner sees Accept / Decline first."},
   {"id": "pulse.people", "product": "QTT_OFFICE_PULSE", "title": "People", "path": "Office Pulse › Manage › People", "roles": ["HR", "HR Admin"],
-   "what": "Employees (working / left): add, edit, give app access (email invitation), mark attendance, salary, mark as left."},
+   "what": "Employees (working / left): add, edit, give app access (email invitation), mark attendance, salary, mark as left. On top: action cards — import the team from Excel, invite everyone with an email in one tap, download people missing a mobile or department to fix them in Excel — and Import / Export (Excel or CSV) buttons."},
+  {"id": "pulse.people.import", "product": "QTT_OFFICE_PULSE", "title": "Import employees", "path": "Office Pulse › Manage › People › Import", "roles": ["HR", "HR Admin"],
+   "what": "Import employees from Excel (.xlsx) or CSV (up to 1,000): a template to download; columns recognised by name (also misspelt, else suggested by QTT Assistant) and changeable; each row checked — new, update (matched by employee ID, email or mobile) or a problem with the reason; suggestions (new departments, missing mobiles, plan room); optional app invitations; large files continue in the background. QTT can import it for you.",
+   "guide": {
+    "intro": "Bring many people in at once from an Excel or CSV file — or update people already here. Nothing is saved until you've seen what will happen.",
+    "steps": [
+     "Tap Download the template, or use your own list: columns like Name, DOJ, Phone or Designation are recognised.",
+     "Fill in one person per row. Someone new needs a name, gender and date of birth; dates are day/month/year.",
+     "Tap Choose file. You see who is new, who will be updated (matched by Employee ID, email or mobile) and any problems.",
+     "Check the columns: change any that were recognised wrongly. Rows with problems are skipped — fix them in the file and import again.",
+     "Switch on Invite new people with an email if they should get the app, then tap Import.",
+     "To fix details later: People › Export, edit the file, and import it back — the Employee ID column matches each person."
+    ],
+    "suggestions": [
+     {"for": "*", "text": "Start with 2–3 people to see how it works, then import the rest."},
+     {"for": "*", "text": "Big list or a messy file? Send it to QTT from this screen and we'll import it for you."}
+    ]
+   }},
   {"id": "pulse.setup", "product": "QTT_OFFICE_PULSE", "title": "Setup", "path": "Office Pulse › Manage › Setup", "roles": ["HR", "HR Admin"],
    "what": "Check-in rules (ask for location; allow check-in away from the office), offices and their check-in radius, business type and capabilities, sites, shifts (hours, late after, break, split), shift patterns, approval flows, attendance rules, leave types and giving leave, holiday calendars, departments and job titles.",
    "tips": [
@@ -59,6 +99,7 @@
   {"id": "pulse.business_type", "product": "QTT_OFFICE_PULSE", "title": "Business type", "path": "Office Pulse › Manage › Setup › Business type", "roles": ["HR", "HR Admin"],
    "what": "Pick the kind of business (office, security, hospital, factory, retail). Its preset switches on the capabilities it usually needs — Flexible cycles, Sites, Requests, Split shifts, Overtime pay, Coverage (with handover and on-call), Offline attendance — and suggested attendance rules. Everything can be changed afterwards.",
    "guide": {
+    "shift_types": true,
     "all_suggestions": true,
     "intro": "Tell Office Pulse what kind of business you run. It switches on the features that kind of business usually needs and suggests attendance rules. You can change any of it later.",
     "steps": [
@@ -78,6 +119,7 @@
   {"id": "pulse.shifts", "product": "QTT_OFFICE_PULSE", "title": "Shifts", "path": "Office Pulse › Manage › Setup › Shifts", "roles": ["HR", "HR Admin"],
    "what": "Working hours: start, end (an end before the start means the next day), late after minutes, automatic attendance, a break rule (unpaid minutes after hours worked, or paid), and — with Split shifts — time off in the middle.",
    "guide": {
+    "shift_types": true,
     "intro": "A shift is a set of working hours. Make your shifts first; shift patterns then say who works which shift on which day.",
     "steps": [
      "Tap New shift: give it a name, a start and an end. An end earlier than the start (22:00 → 06:00) means it ends the next morning.",
@@ -97,6 +139,7 @@
   {"id": "pulse.shift_patterns", "product": "QTT_OFFICE_PULSE", "title": "Shift patterns", "path": "Office Pulse › Manage › Setup › Shift patterns", "roles": ["HR", "HR Admin"],
    "what": "Which shift on which day, and where (office, from home, anywhere or a site): the same every week, a rotation of up to 8 weeks, or (Flexible cycles) every N days like 4 on / 4 off. Applies to everyone, a department or chosen people; gives shifts 60 days ahead. One-day changes in People are kept.",
    "guide": {
+    "shift_types": true,
     "intro": "A shift pattern gives people their shifts automatically — which shift on which day, and where. Save it once; Office Pulse gives shifts 60 days ahead and keeps adding more.",
     "steps": [
      "Make your shifts first in Setup › Shifts.",

@@ -38,6 +38,10 @@ def _enabled() -> bool:
 	return True if v is None else bool(int(v))
 
 
+# Office Pulse capability switches (Office Pulse Workspace) — which kinds of shift work for this business.
+CAPABILITY_FIELDS = ("cap_flexible_cycles", "cap_sites", "cap_requests", "cap_split_shifts", "cap_overtime_pay", "cap_coverage", "cap_offline")
+
+
 def _context(user: str, tenant: str) -> tuple[dict, set[str], str]:
 	"""(ctx for screen access, true conditions, a sentence about the person)."""
 	m = frappe.db.get_value("QTT Tenant Membership", {"user": user, "tenant": tenant, "status": "active"},
@@ -46,12 +50,14 @@ def _context(user: str, tenant: str) -> tuple[dict, set[str], str]:
 		frappe.throw("Not a member of this business.", frappe.PermissionError)
 	products = {r.product: r.product_role for r in frappe.get_all(
 		"QTT Product Access", filters={"tenant": tenant, "membership": m.name, "status": "active"}, fields=["product", "product_role"])}
-	manager, conditions, industry = False, set(), None
+	manager, conditions, industry, features = False, set(), None, []
 	if "QTT_OFFICE_PULSE" in products and frappe.db.table_exists("Office Pulse Workspace"):
-		fields = ["company", "allow_outside"] + (["industry"] if frappe.db.has_column("Office Pulse Workspace", "industry") else [])
+		caps = [c for c in CAPABILITY_FIELDS if frappe.db.has_column("Office Pulse Workspace", c)]
+		fields = ["company", "allow_outside"] + (["industry"] if frappe.db.has_column("Office Pulse Workspace", "industry") else []) + caps
 		ws = frappe.db.get_value("Office Pulse Workspace", {"tenant": tenant}, fields, as_dict=True)
 		if ws:
 			industry = ws.get("industry") or None
+			features = [c.removeprefix("cap_") for c in caps if ws.get(c)]
 			if ws.allow_outside:
 				conditions.add("pulse.allow_outside")
 			emp = frappe.db.get_value("Employee", {"user_id": user, "company": ws.company, "status": "Active"}, "name")
@@ -61,7 +67,8 @@ def _context(user: str, tenant: str) -> tuple[dict, set[str], str]:
 	who = (f"Name: {frappe.utils.get_fullname(user)}. Business: {business} — their role: {m.tenant_role}. "
 		   f"Apps and roles: {', '.join(f'{names.get(k, k)} ({v})' for k, v in products.items()) or 'none yet'}. "
 		   f"Manages people: {'yes' if manager else 'no'}." + (f" Business type (Office Pulse): {industry}." if industry else ""))
-	return {"products": products, "owner": m.tenant_role in OWNER_ROLES, "manager": manager, "industry": industry}, conditions, who
+	return {"products": products, "owner": m.tenant_role in OWNER_ROLES, "manager": manager, "industry": industry,
+			"features": features}, conditions, who
 
 
 def _catalogue() -> tuple[str, str]:

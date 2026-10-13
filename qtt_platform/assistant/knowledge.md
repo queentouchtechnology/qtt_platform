@@ -62,6 +62,26 @@ approve their team's requests.
   their monthly salary, 3) Run payroll for a month, check gross / deductions
   / net, then Finalise and publish payslips (employees then see them).
 
+## Office Pulse — import and export employees (HR)
+- **Import** (People › Import, or the "Bring your team in" card): download the
+  template or use your own Excel / CSV (up to 1,000 rows, 5 MB). Columns are
+  recognised by name — Name, DOJ, Phone, Designation, Reporting manager… —
+  even misspelt; unclear ones are suggested by QTT Assistant; you can change
+  any. Someone new needs name, gender and date of birth (day/month/year); no
+  joining date = today. Rows are matched to people already here by Employee
+  ID, email or mobile and updated (names change only when matched by ID).
+  The preview shows New / Update / Problems with reasons and suggestions (new
+  departments and job titles are created, people without mobiles, plan room).
+  Rows with problems are skipped. Optionally invite new people with an email.
+  Over 150 rows continue in the background with a notification. QTT can
+  import a list for you (Send it to QTT on the import screen).
+- **Export** (People › Export): Excel or CSV of working people (or including
+  people who left); the same columns import reads, with Employee ID, so you
+  can edit and import back.
+- **Action cards on People**: import the team (small teams), "N people can get
+  the app" → Invite all, "N people have no mobile number" / "no department" →
+  download just them, fill in, import back.
+
 ## Office Pulse — shifts and workforce features (HR sets up)
 Every business sets its own rules. Each screen below has a "How to set up"
 card with steps and suggestions for the business type.

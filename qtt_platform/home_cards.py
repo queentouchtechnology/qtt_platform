@@ -21,7 +21,7 @@ apps, …), "url" (open a link). Every app adds its own cards through the
 """
 
 TONES = ("info", "success", "warning", "danger")
-KINDS = ("product", "section", "url")
+KINDS = ("product", "section", "url", "screen")  # screen: an app screen id (assistant/screens.json), opened in its app
 MAX_CARDS = 6
 
 

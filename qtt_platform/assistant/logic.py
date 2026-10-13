@@ -22,6 +22,26 @@ def load_registry() -> list[dict]:
 		return json.load(f)["screens"]
 
 
+def load_catalog() -> dict:
+	"""screens.json beyond the screens: feature names and the shift compatibility list."""
+	with open(os.path.join(HERE, "screens.json"), encoding="utf-8") as f:
+		doc = json.load(f)
+	return {"features": doc.get("features") or {}, "shift_types": doc.get("shift_types") or []}
+
+
+def shift_rows(catalog: dict, features: set[str] | None) -> list[dict]:
+	"""Each kind of shift for this business: ready (works now), on (its feature is on), off (switch
+	on the feature in Business type) or no (not supported — `how` says what to do instead)."""
+	names = catalog.get("features") or {}
+	out = []
+	for s in catalog.get("shift_types") or []:
+		needs = s.get("needs")
+		status = "ready" if not needs else "no" if needs == "no" else ("on" if needs in (features or set()) else "off")
+		out.append({"name": s["name"], "example": s["example"], "how": s["how"], "status": status,
+					"feature": names.get(needs) if needs and needs != "no" else None})
+	return out
+
+
 def load_knowledge() -> str:
 	with open(os.path.join(HERE, "knowledge.md"), encoding="utf-8") as f:
 		return f.read()
@@ -69,7 +89,7 @@ def tips_for(registry: list[dict], screen_id: str, ctx: dict, conditions: set[st
 	return out
 
 
-def guide_for(registry: list[dict], screen_id: str, ctx: dict, industry: str | None = None) -> dict | None:
+def guide_for(registry: list[dict], screen_id: str, ctx: dict, industry: str | None = None, catalog: dict | None = None) -> dict | None:
 	"""A screen's "How to set up" guide (screens.json) for someone who can open it: intro, steps,
 	and suggestions — the ones for this business's type first, then the general ones ("*")."""
 	allowed = {s["id"] for s in allowed_screens(registry, ctx)}
@@ -81,8 +101,11 @@ def guide_for(registry: list[dict], screen_id: str, ctx: dict, industry: str | N
 	general = [s for s in g.get("suggestions") or [] if s.get("for") == "*"]
 	if g.get("all_suggestions"):  # choosing a business type: every type's, theirs first
 		general = [s for s in g.get("suggestions") or [] if s not in mine]
-	return {"title": screen["title"], "intro": g.get("intro") or "", "steps": list(g.get("steps") or []),
-			"suggestions": [{"for": s["for"], "text": s["text"]} for s in mine + general]}
+	out = {"title": screen["title"], "intro": g.get("intro") or "", "steps": list(g.get("steps") or []),
+		   "suggestions": [{"for": s["for"], "text": s["text"]} for s in mine + general]}
+	if g.get("shift_types"):
+		out["shift_types"] = shift_rows(catalog or load_catalog(), set(ctx.get("features") or []))
+	return out
 
 
 def guide_text(screen: dict) -> str:
@@ -90,6 +113,11 @@ def guide_text(screen: dict) -> str:
 	g = screen.get("guide") or {}
 	lines = [g.get("intro", "")] + [f"{i}. {s}" for i, s in enumerate(g.get("steps") or [], 1)]
 	lines += [f"- Suggestion ({'any business' if s['for'] == '*' else s['for']}): {s['text']}" for s in g.get("suggestions") or []]
+	if g.get("shift_types"):
+		lines.append("Which kinds of shift work (needs = a feature to switch on in Business type):")
+		for s in shift_rows(load_catalog(), None):
+			need = "" if s["status"] == "no" else (f"needs {s['feature']}. " if s["feature"] else "works for every business. ")
+			lines.append(f"- {s['name']} ({s['example']}): {need}{s['how']}")
 	return "\n".join(x for x in lines if x)
 
 

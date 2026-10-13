@@ -58,6 +58,22 @@ class GuideTest(unittest.TestCase):
 		self.assertEqual(g["suggestions"][0]["for"], "Hospital / healthcare")
 		self.assertEqual(len(g["suggestions"]), 6)
 
+	def test_shift_compatibility_follows_this_business_features(self):
+		rows = {r["name"]: r for r in logic.guide_for(REG, "pulse.shift_patterns", {**HR, "features": ["sites"]})["shift_types"]}
+		self.assertEqual(rows["Fixed work week"]["status"], "ready")
+		self.assertEqual((rows["Work at a site"]["status"], rows["Work at a site"]["feature"]), ("on", "Sites"))
+		self.assertEqual((rows["Day-cycle rotation"]["status"], rows["Day-cycle rotation"]["feature"]), ("off", "Flexible cycles"))
+		self.assertEqual(rows["Two different shifts in one day"]["status"], "no")
+		self.assertNotIn("shift_types", logic.guide_for(REG, "pulse.coverage", HR))  # only the shift screens
+		cat = logic.load_catalog()
+		self.assertTrue(all(s["needs"] in (None, "no", *cat["features"]) for s in cat["shift_types"]))
+
+	def test_the_assistant_knows_which_shifts_work(self):
+		text = logic.guide_text(next(s for s in REG if s["id"] == "pulse.shifts"))
+		self.assertIn("Day-cycle rotation", text)
+		self.assertIn("needs Flexible cycles", text)
+		self.assertIn("Flexi hours", text)
+
 	def test_only_for_people_who_can_open_the_screen(self):
 		self.assertIsNone(logic.guide_for(REG, "pulse.coverage", EMPLOYEE))
 		self.assertIsNone(logic.guide_for(REG, "pulse.pay_settings", HR))  # HR Admin only
