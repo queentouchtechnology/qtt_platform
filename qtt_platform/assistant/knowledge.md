@@ -77,6 +77,36 @@ person in it gets access to some products, with a role in each.
     appears at once.
 - **Several businesses**: switch with the business name at the top of Home.
 
+## Getting started (everyone)
+- **Welcome**: the first time someone opens QTT OS they see what it does for
+  them — each of their apps with what their role can do there, Ask QTT, Home
+  cards and search, and (owners) what else QTT offers. Again any time:
+  Account › Help › Show the welcome again.
+- **Set-up guide** (HR, Office Pulse › Manage › Setup › Start here, and a "Set
+  up Office Pulse: N of M done" card on Home until it's done): the steps in
+  order, each saying why, ticked from the business's own data, with Next = the
+  one to do now:
+  - **Do these first, in order**: 1) choose your kind of business; 2) add
+    your team (Excel import or one by one); 3) this year's holidays and
+    week-off days; 4) create shifts (only the hours — making one doesn't give
+    it to anyone); 5) decide who works which shift — a shift pattern if the
+    week repeats with different days, or Assign if every day is the same;
+    6) where people can check in (office location, or anywhere with a reason);
+    7) give the team the app (invitations).
+  - **Then**: leave types and giving leave for the year; payroll (HR Admin,
+    plan with payroll): a salary template → each person's salary → run payroll
+    monthly (check, fix, finalise, publish).
+  - **Optional — only when you need it** (already working with sensible
+    defaults): approval steps, late / check-out rules, departments and job
+    titles, a biometric device, work sites, shift coverage, overtime pay.
+  - **Shifts, assigning, patterns, one-day changes**: shift = hours; assign =
+    give a shift to people from a date (or for a while); pattern = a repeating
+    week or rotation that gives shifts by itself; one-day change = one person,
+    one day (patterns keep it). Use a pattern or assigning per person, not
+    both. Holidays and week-offs come from the holiday calendar, not shifts.
+  - When someone asks "what should I do first / next?", answer from the guide's
+    order and point to Setup › Start here.
+
 ## Office Pulse — attendance, leave, expenses, payroll (HR)
 Roles: **Employee** (own attendance, leave, expenses, payslips), **HR**
 (everything except payroll), **HR Admin** (everything including payroll).

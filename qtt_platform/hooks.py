@@ -348,3 +348,7 @@ jenv = {
 # Business › Roles and access page, the assistant). An app lists one function returning its spec
 # (see role_access_rules); qtt_platform itself has none.
 qtt_role_access = []
+
+# Set-up guides (qtt_platform.api.setup.guides): each app's steps — first, next, optional — with live
+# status. An app lists one function (user, tenant) -> guide | None; qtt_platform itself has none.
+qtt_setup_steps = []

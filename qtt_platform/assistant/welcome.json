@@ -1,0 +1,59 @@
+{
+ "_about": "The welcome every new person sees once (qtt_platform.api.setup.welcome): what QTT OS does for them, by app and by role. \"for\" uses the screens.json role words (product roles, @owner, @manager); no \"for\" = everyone with the app. Translated in the app (tool/extract_strings.py).",
+ "intro": {
+  "title": "Welcome to QTT OS",
+  "body": "One app for your work — your team, your shop, your customer chats and your website. Here's what it does for you."
+ },
+ "apps": {
+  "QTT_OFFICE_PULSE": {
+   "title": "Office Pulse — your workday",
+   "lines": [
+    {"text": "Check in with one tap — at the office, or with a reason when you're away"},
+    {"text": "Apply for leave and see how many days you have left"},
+    {"text": "Claim expenses with a photo of the receipt"},
+    {"text": "Your payslip every month, ready to save"},
+    {"text": "Approve your team's leave, expenses and attendance in one place", "for": ["@manager", "HR", "HR Admin"]},
+    {"text": "See who's in, late or on leave today", "for": ["@manager", "HR", "HR Admin"]},
+    {"text": "Shifts, rotations, holidays and leave — set up once, then it runs by itself", "for": ["HR", "HR Admin"]},
+    {"text": "Payroll with attendance, unpaid leave and overtime counted for you", "for": ["HR Admin"]}
+   ]
+  },
+  "QTT_ORBITRA": {
+   "title": "Orbitra — billing and stock",
+   "lines": [
+    {"text": "Bill at the counter — cash, UPI or card, even split two ways"},
+    {"text": "GST worked out on every bill"},
+    {"text": "See what's in stock as you sell"},
+    {"text": "Who owes you, what's running low and today's sales — at a glance", "for": ["Orbitra Admin", "Manager"]},
+    {"text": "Purchases, accounts and GST reports", "for": ["Orbitra Admin", "Manager"]}
+   ]
+  },
+  "QTT_ONBOX": {
+   "title": "Onbox — every customer chat",
+   "lines": [
+    {"text": "WhatsApp, website chat, Facebook, Instagram and email — in one inbox"},
+    {"text": "Reply, add private notes and take chats for yourself"},
+    {"text": "Share chats across the team and see every inbox", "for": ["Manager", "Supervisor"]},
+    {"text": "Connect your channels in a few taps", "for": ["Manager"]}
+   ]
+  },
+  "QTT_SERVICES": {
+   "title": "Managed Services — done for you by QTT",
+   "lines": [
+    {"text": "Follow your website, online store and automations — live status, previews and progress"},
+    {"text": "Ask QTT for a change, any time"},
+    {"text": "Order a website, an online store or WhatsApp automation — QTT builds and runs it", "for": ["Owner"]},
+    {"text": "Approve previews and pay invoices here", "for": ["Owner"]}
+   ]
+  }
+ },
+ "everyday": [
+  {"title": "Ask QTT anything", "body": "The ✦ button on every screen answers questions about that screen — what to do first and how things work — in your language."},
+  {"title": "What needs you, on Home", "body": "Cards on Home show what needs you now. Search finds people, customers, items and screens — even with a typo."},
+  {"title": "Your business", "body": "Invite your team, choose what each role can do and see your plans — under Business.", "for": ["@owner"]}
+ ],
+ "more": {
+  "title": "More from QTT",
+  "body": "Add another app whenever your business needs it — they all share your team and customers."
+ }
+}
