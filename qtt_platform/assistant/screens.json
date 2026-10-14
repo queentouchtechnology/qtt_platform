@@ -199,7 +199,7 @@
      {"for": "Factory / manufacturing", "text": "Three 8-hour shifts — A 06:00–14:00, B 14:00–22:00, C 22:00–06:00 — with late after 5 minutes."}
     ]
    }},
-  {"id": "pulse.shift_patterns", "product": "QTT_OFFICE_PULSE", "title": "Shift patterns", "path": "Office Pulse › Manage › Setup › Shift patterns", "roles": ["HR", "HR Admin"], "ask": ["How do I set up a rotation?", "How do I give one person a different shift for a day?", "How do I set work from home days?"],
+  {"id": "pulse.shift_patterns", "product": "QTT_OFFICE_PULSE", "title": "Shift patterns", "path": "Office Pulse › Manage › Setup › Shift patterns", "roles": ["HR", "HR Admin"], "ask": ["How do I put a few people on a different pattern?", "Why does someone stay on another pattern?", "How do I set up a rotation?", "How do I give one person a different shift for a day?", "How do I set work from home days?"],
    "what": "Which shift on which day, and where (office, from home, anywhere or a site): the same every week, a rotation of up to 8 weeks, or (Flexible cycles) every N days like 4 on / 4 off. Applies to everyone, a department or chosen people; gives shifts 60 days ahead. One-day changes in People are kept.",
    "guide": {
     "shift_types": true,

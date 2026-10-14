@@ -177,6 +177,19 @@ approve their team's requests.
     attendance from check-ins (not marked absent on their days off), shifts
     and coverage (a day off isn't a working day), the Office Pulse home, and
     Team today (each person shows as off by their own calendar).
+- **Who works a shift pattern** (HR, Setup › Shift patterns › a pattern › Who):
+  Everyone, a department, or chosen people. Chosen people are ticked right on
+  the page (search, Choose all / Clear); each person shows the pattern
+  they're on now ("on “Office Week”", "no pattern", "on this pattern"). A live
+  summary shows who will really work it once saved: "N people will work this
+  pattern", **Joining** (and from which pattern), **Stay on another pattern**
+  (picked by name for another pattern, or their department's — picked by name
+  beats a department, which beats Everyone; among equals the most recently
+  saved pattern wins) and **Leaving this pattern** (and where they go). Save and
+  apply asks first and says how many join, leave or stay elsewhere. To move
+  someone off another pattern, pick them by name here (or untick them there).
+  The patterns list says who each is for ("Department: Sales", "5 chosen
+  people", "Everyone") and how many work it.
 - **Giving a shift** (HR, Setup › Shifts › Assign on a shift): one page —
   **From** a date, and **No end date** or **Until a date** (a temporary change,
   e.g. a week of nights). Everyone shows their shift on that day: "No shift",
