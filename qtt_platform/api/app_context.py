@@ -44,7 +44,7 @@ def get_app_context() -> dict:
 		"user": {
 			"id": user,
 			"full_name": profile.get("full_name") or user,
-			"image": profile.get("user_image"),
+			"image": _photo(user),  # a full URL (their photo, else their employee photo)
 			"is_platform_owner": PLATFORM_OWNER_ROLE in frappe.get_roles(user),
 		},
 		"workspaces": memberships,
@@ -170,3 +170,12 @@ def _abilities(active_membership: dict | None) -> dict:
 	if not active_membership:
 		return abilities.rules(None, [])
 	return abilities.for_member({"name": active_membership["membership"], "tenant_role": active_membership["tenant_role"]})
+
+
+def _photo(user: str) -> str | None:
+	from qtt_platform.api.account import photo_url
+
+	try:
+		return photo_url(user)
+	except Exception:
+		return None
