@@ -49,8 +49,10 @@ approve their team's requests.
   their status. **New expense claim** — one or more expenses (what for,
   amount, date, details) and receipt photos or PDFs (up to 5 MB each; a claim
   with receipts is approved faster), then Send claim. Tap a claim to open it:
-  the total, its status, each expense, the receipts (tap one to see the photo
-  or save the PDF), and **Withdraw claim** while it's still pending and yours.
+  the total, its status, each expense, then a separate **Receipts** section
+  (tap one to see the photo full size or save the PDF), and **Withdraw claim**
+  while it's still pending and yours. The claim shows its status only, not
+  who it's waiting for — ask your manager or HR.
   Statuses: **Pending** — waiting at an approval step (your manager, HR or a
   chosen person, per Setup › Approval flows; with several steps it moves on
   after each one); **Approved** — the full amount is approved; **Rejected**;
