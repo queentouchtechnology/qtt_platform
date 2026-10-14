@@ -331,6 +331,8 @@ scheduler_events = {
 		"qtt_platform.api.devices.prune_stale",
 		# Fingerprint / Face ID phones unused for 90 days (QTT Trusted Device).
 		"qtt_platform.api.quick_login.prune_idle",
+		# QTT Assistant answers nobody reused for 90 days (QTT Assistant Answer).
+		"qtt_platform.assistant.answer_cache.purge_unused",
 	],
 }
 

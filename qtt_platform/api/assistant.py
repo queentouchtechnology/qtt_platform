@@ -5,7 +5,10 @@ QTT Assistant for the app (rules and prompt in qtt_platform.assistant.logic):
                                   only what applies here (e.g. "work from home"
                                   on Leave when the business allows it)
   ask(question, screen, history)  an answer about QTT OS for this person, with
-                                  "Open …" links to screens they can open
+                                  "Open …" links to screens they can open — the
+                                  same question again is answered from
+                                  assistant/answer_cache (one model call per
+                                  question per person, until anything changes)
 
 Knows only QTT OS customer software and services: the knowledge pack, live
 plans and the Managed Services catalogue — never QTT's marketing system or
@@ -20,7 +23,7 @@ import requests
 from frappe.rate_limiter import rate_limit
 from frappe.utils import today
 
-from qtt_platform.assistant import logic
+from qtt_platform.assistant import answer_cache, logic
 from qtt_platform.errors import fail, ok
 from qtt_platform.tenant.context import resolve_active_tenant
 
@@ -179,10 +182,6 @@ def ask(question: str, screen: str | None = None, history=None) -> dict:
 	if not api_key():
 		return fail("ASSISTANT_OFF", "The assistant isn't set up yet. Use Account › Help and support.")
 	user, tenant = _who_and_where()
-	limit = int(s.get("assistant_daily_limit") or 30)
-	if _count_today(user) > limit:
-		return fail("LIMIT", "You've asked a lot today — try again tomorrow, or use Account › Help and support.")
-
 	ctx, _conditions, who = _context(user, tenant)
 	registry = logic.load_registry()
 	screens = logic.allowed_screens(registry, ctx)
@@ -195,6 +194,17 @@ def ask(question: str, screen: str | None = None, history=None) -> dict:
 	messages = logic.build_messages(knowledge=logic.load_knowledge(), plans=plans, services=services, screens=screens,
 									who=who, screen_id=screen, history=history if isinstance(history, list) else [], question=question)
 	allowed = {x["id"] for x in screens}
+	# Asked before, and nothing it was built from has changed: the kept answer, no model call.
+	model = s.get("assistant_model") or "deepseek-chat"
+	key = logic.answer_key(user, tenant, screen, question, history if isinstance(history, list) else [])
+	version = logic.answer_version(messages, model)
+	kept = answer_cache.get(key, version)
+	if kept:
+		kept["links"] = [l for l in kept.get("links") or [] if l.get("screen") in allowed and l["screen"] != screen]
+		return ok(kept)
+	limit = int(s.get("assistant_daily_limit") or 30)
+	if _count_today(user) > limit:
+		return fail("LIMIT", "You've asked a lot today — try again tomorrow, or use Account › Help and support.")
 	reply = None
 	for _attempt in range(2):  # an empty answer gets one more try
 		try:
@@ -208,5 +218,9 @@ def ask(question: str, screen: str | None = None, history=None) -> dict:
 	if reply["answer"] == logic.NO_ANSWER:  # still nothing: say what we know for sure
 		current = next((x for x in screens if x["id"] == screen), None)
 		reply = logic.fallback_reply(question, current, ctx.get("roles_text") or "") or reply
+		reply["fallback"] = True
 	reply["links"] = [l for l in reply["links"] if l["screen"] != screen]  # no button to the screen they're on
+	if logic.cacheable(reply):
+		answer_cache.put(key, version, user=user, tenant=tenant, screen=screen, question=question, model=model, reply=reply)
+	reply.pop("fallback", None)
 	return ok(reply)

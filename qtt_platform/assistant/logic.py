@@ -7,9 +7,11 @@ registry (screens.json) that this person can open — and the app turns them
 into "Open …" buttons. Contextual tips per screen need no AI at all.
 """
 
+import hashlib
 import json
 import os
 import re
+import unicodedata
 
 HERE = os.path.dirname(__file__)
 MAX_LINKS = 3
@@ -196,6 +198,43 @@ def build_messages(*, knowledge: str, plans: str, services: str, screens: list[d
 			msgs.append({"role": h["role"], "content": h["content"][:MAX_ANSWER]})
 	msgs.append({"role": "user", "content": question.strip()[:1000]})
 	return msgs
+
+
+# --- Answer cache (qtt_platform.assistant.answer_cache): one model call per question per person ---
+# The same question, asked by the same person, on the same screen, after the same conversation, is
+# answered from the cache — until anything the answer was built from changes (the version).
+
+_FILLER = re.compile(r"[^\w\s]+", re.U)
+
+
+def normalize_question(question: str) -> str:
+	"""'How do I  add a Shift?' and 'how do i add a shift' are the same question (any script)."""
+	q = unicodedata.normalize("NFKC", question or "").casefold()
+	return " ".join(_FILLER.sub(" ", q).split())[:500]
+
+
+def _digest(*parts: str) -> str:
+	return hashlib.sha256("".join(parts).encode("utf-8")).hexdigest()
+
+
+def answer_key(user: str, tenant: str, screen: str | None, question: str, history: list[dict] | None) -> str:
+	"""Who asked what, where, after which conversation — the cache row's identity."""
+	convo = [f"{h.get('role')}:{normalize_question(str(h.get('content') or ''))}" for h in (history or [])[-MAX_HISTORY:]
+			 if isinstance(h, dict) and h.get("role") in ("user", "assistant")]
+	return _digest(user, tenant, screen or "", normalize_question(question), *convo)
+
+
+def answer_version(messages: list[dict], model: str) -> str:
+	"""Everything the answer was built from (knowledge, plans, services, the screens this person can
+	open, who they are and their roles) and the model: when any of it changes, the cached answer is
+	outdated and the model is asked again."""
+	system = next((m["content"] for m in messages if m.get("role") == "system"), "")
+	return _digest(model or "", system)
+
+
+def cacheable(reply: dict) -> bool:
+	"""Only real answers are kept — never 'couldn't answer' or the fallback."""
+	return bool(reply) and reply.get("answer") not in (None, "", NO_ANSWER) and not reply.get("fallback")
 
 
 NO_ANSWER = "Sorry, I couldn't answer that. Try asking another way."

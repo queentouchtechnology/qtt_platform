@@ -1,0 +1,32 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Assistant Answer",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "track_changes": 0,
+ "autoname": "field:question_key",
+ "naming_rule": "By fieldname",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "QTT Assistant answers kept per person and question, so the same question costs one model call. Reused while nothing it was built from has changed (version); asked again when it has. Unused for 90 days: removed. Written only by qtt_platform.assistant.answer_cache.",
+ "field_order": ["user", "tenant", "screen", "question", "hits", "last_used", "question_key", "version", "model", "answer"],
+ "fields": [
+  {"fieldname": "user", "fieldtype": "Link", "label": "User", "options": "User", "reqd": 1, "in_list_view": 1, "in_standard_filter": 1, "search_index": 1},
+  {"fieldname": "tenant", "fieldtype": "Link", "label": "Tenant", "options": "QTT Tenant", "reqd": 1, "in_list_view": 1, "in_standard_filter": 1},
+  {"fieldname": "screen", "fieldtype": "Data", "label": "Screen", "in_standard_filter": 1},
+  {"fieldname": "question", "fieldtype": "Small Text", "label": "Question", "in_list_view": 1},
+  {"fieldname": "hits", "fieldtype": "Int", "label": "Answered from here", "default": "0", "in_list_view": 1, "description": "Times this answer was reused without asking the model."},
+  {"fieldname": "last_used", "fieldtype": "Datetime", "label": "Last used", "search_index": 1},
+  {"fieldname": "question_key", "fieldtype": "Data", "label": "Question key", "unique": 1, "read_only": 1},
+  {"fieldname": "version", "fieldtype": "Data", "label": "Built from (version)", "read_only": 1},
+  {"fieldname": "model", "fieldtype": "Data", "label": "Model", "read_only": 1},
+  {"fieldname": "answer", "fieldtype": "Long Text", "label": "Answer (JSON)", "read_only": 1}
+ ],
+ "permissions": [
+  {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1, "report": 1, "export": 1}
+ ],
+ "links": []
+}

@@ -110,18 +110,19 @@ person in it gets access to some products, with a role in each.
   "(guide): N of M done — Next: …" card on Home until the essentials are done,
   and a **Who can do what** section listing each role, what it can and can't
   use in this business (owner's changes included):
-  - **Orbitra** (Orbitra Admin; Orbitra › More › Start here): first — business
+  - **Orbitra** — "Set up Orbitra" (Orbitra Admin; Orbitra › More › Start here): first — business
     details (address and logo; GSTIN only if registered — billing works
     without it), Orbitra settings (prices include GST or not, main store), add
     items, add opening stock, first bill at POS; then — invite the team, choose
     what each role can do, customers you give credit to; optional — supplier
     bills, more stores, reports.
-  - **Onbox** (Manager; Onbox › Onbox settings › Start here): first — connect
+  - **Onbox** — "Set up Onbox" (Manager; Onbox › Onbox settings › Start here): first — connect
     WhatsApp Business (Meta Cloud API: phone number ID, business account ID,
     access key; the number can't be in the WhatsApp app at the same time),
     website chat, invite the team, answer a first chat; then — Facebook,
     Instagram, email; optional — who sees which inbox.
-  - **Managed Services** (Owner; Managed Services › Start here): choose what
+  - **Managed Services** — "Get your website or store live" (Owner;
+    Managed Services › Start here): choose what
     QTT builds → pay to start → check the preview and approve → go live on
     your own domain; for a store then add products and set payments and
     delivery; optional — ask QTT for a change, add another service.

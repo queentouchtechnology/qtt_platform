@@ -199,6 +199,34 @@ class ReplyTest(unittest.TestCase):
 		self.assertIn("₹4999 setup + ₹999/month", services)
 
 
+class AnswerCacheTest(unittest.TestCase):
+	MSGS = [{"role": "system", "content": "knowledge v1"}, {"role": "user", "content": "q"}]
+
+	def test_the_same_question_in_other_words_is_one_question(self):
+		self.assertEqual(logic.normalize_question("How do I  add a Shift?"), logic.normalize_question("how do i add a shift"))
+		self.assertEqual(logic.normalize_question("ஷிஃப்ட் எப்படி?"), logic.normalize_question("ஷிஃப்ட் எப்படி"))
+		k = lambda q, **kw: logic.answer_key(kw.get("user", "a@x"), "T1", kw.get("screen", "pulse.shifts"), q, kw.get("history"))
+		self.assertEqual(k("How do I add a shift?"), k("how do i add a shift"))
+
+	def test_per_person_per_screen_per_conversation(self):
+		k = lambda **kw: logic.answer_key(kw.get("user", "a@x"), kw.get("tenant", "T1"), kw.get("screen", "s"), "q", kw.get("history"))
+		self.assertNotEqual(k(), k(user="b@x"))  # another person asks the model once too
+		self.assertNotEqual(k(), k(tenant="T2"))
+		self.assertNotEqual(k(), k(screen="other"))
+		self.assertNotEqual(k(), k(history=[{"role": "user", "content": "about leave"}]))  # a follow-up depends on the chat
+
+	def test_outdated_when_anything_it_was_built_from_changes(self):
+		v = logic.answer_version(self.MSGS, "deepseek-chat")
+		self.assertEqual(v, logic.answer_version(list(self.MSGS), "deepseek-chat"))
+		self.assertNotEqual(v, logic.answer_version([{"role": "system", "content": "knowledge v2"}], "deepseek-chat"))
+		self.assertNotEqual(v, logic.answer_version(self.MSGS, "another-model"))
+
+	def test_only_real_answers_are_kept(self):
+		self.assertTrue(logic.cacheable({"answer": "Open Shifts and tap New.", "links": []}))
+		self.assertFalse(logic.cacheable({"answer": logic.NO_ANSWER, "links": []}))
+		self.assertFalse(logic.cacheable({"answer": "Shifts: the hours.", "links": [], "fallback": True}))
+
+
 if __name__ == "__main__":
 	unittest.main()
 
