@@ -160,8 +160,14 @@ approve their team's requests.
     days — every such day is marked off for the whole year. Named holidays
     stay; a holiday on a week-off day keeps its name; removing it makes the
     day a week-off again. At least one working day must remain.
-  - **Next year**: make a new calendar for next year (copy this year's
-    holidays), then assign it the same way.
+  - **Next year / an ended calendar**: a calendar covers one year. When a
+    calendar in use has ended, nobody using it has holidays or week-offs —
+    Setup › Holidays shows a red warning ("… ended on …") and HR gets a "Your
+    holiday calendar has ended" card. Tap **Make the {year} calendar**: it
+    copies the holidays to this year with the same week-off days and moves
+    everyone who used the old one (the company, teams, people) onto it. For
+    next year ahead of time: New → next year → "Start with the holidays of"
+    this year's, then assign it.
   - **For employees**: "Your week-off days" and the next holidays show on the
     Office Pulse home (Upcoming holidays); week-offs and holidays are marked
     on My attendance. They come from the calendar HR set for the company,
