@@ -364,6 +364,20 @@ approve their team's requests.
   biometric punches waiting for a person, undecided requests, approved
   overtime not in a run, devices not in touch since the period ended, and
   punches that arrived after the slips were submitted.
+- **A device's page** (tap it in Setup › Biometric devices): name; In / out
+  — From the device (people press Check-in / Check-out on it) or By the shift
+  rules (they just punch; Office Pulse works out in and out — use this when
+  everyone shows Check-in); clock correction in minutes, only when the
+  device's clock is wrong and can't be fixed on it (e.g. -5 when it runs 5
+  minutes fast; between -720 and 720); Accept punches from this device — off:
+  the device's punches aren't taken, it keeps them and sends them again once
+  it's back on; Save (leaving with changes asks: Save, Discard or Keep
+  editing); Get missed punches; Remove this device — its punches stop coming
+  in, the ones already here stay, and it can be added again by its serial
+  number. Latest punches show what became of each: Saved (in attendance),
+  Waiting (its PIN isn't linked to anyone — link it and it's saved), Already
+  in (a duplicate, or pressed again within moments) or Problem (it couldn't
+  be saved; the reason is shown under it).
 - Where to find it: Setup › Biometric devices (device list, server address
   with copy buttons, add device, PINs not linked, a device's settings, Get
   missed punches, latest punches); People › the person › Edit › Device PIN;

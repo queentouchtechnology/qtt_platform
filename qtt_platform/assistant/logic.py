@@ -102,7 +102,7 @@ def tips_for(registry: list[dict], screen_id: str, ctx: dict, conditions: set[st
 	return out
 
 
-def questions_for(registry: list[dict], screen_id: str, ctx: dict) -> list[str]:
+def questions_for(registry: list[dict], screen_id: str, ctx: dict, conditions: set[str] | None = None) -> list[str]:
 	"""The suggested questions for a screen (its "ask"), for someone who can open it — about what
 	this screen does, never another app's. None of its own: none (the app keeps its general ones)."""
 	allowed = {s["id"] for s in allowed_screens(registry, ctx)}
@@ -111,8 +111,9 @@ def questions_for(registry: list[dict], screen_id: str, ctx: dict) -> list[str]:
 		return []
 	# An "ask" entry is a question for everyone who can open the screen, or {"q": …, "for": [roles]}
 	# for some of them (same role words as "roles": product roles, @owner, @manager…), and/or
-	# "industry": [business types] (Office Pulse business type; "none" = not chosen yet) — questions
-	# for this business's type first, then this person's role, then everyone's.
+	# "industry": [business types] (Office Pulse business type; "none" = not chosen yet), and/or
+	# "when": a condition that's true right now (the `qtt_assistant_conditions` hook, e.g. a device
+	# offline) — what's happening now and this business's type first, then the role's, then everyone's.
 	business, mine, everyone = [], [], []
 	industry = ctx.get("industry") or "none"
 	for q in screen.get("ask") or []:
@@ -121,7 +122,10 @@ def questions_for(registry: list[dict], screen_id: str, ctx: dict) -> list[str]:
 			continue
 		if not q.get("q") or not can_open({"product": screen.get("product"), "roles": q.get("for") or ["*"]}, ctx):
 			continue
-		if q.get("industry"):
+		if q.get("when"):
+			if q["when"] in (conditions or set()):
+				business.append(str(q["q"]))
+		elif q.get("industry"):
 			if industry in q["industry"]:
 				business.append(str(q["q"]))
 		elif q.get("for"):

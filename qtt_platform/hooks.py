@@ -357,3 +357,7 @@ qtt_setup_steps = []
 
 # View as (Business › Team › a person): the owner's reads, as that person, read-only (qtt_platform.view_as).
 auth_hooks = ["qtt_platform.view_as.auth_hook"]
+
+# Assistant: what's true right now on a screen (qtt_platform.api.assistant._screen_conditions) —
+# each app: (user, tenant, screen) -> set of condition names used by screens.json "when".
+qtt_assistant_conditions = []

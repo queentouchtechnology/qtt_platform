@@ -144,15 +144,28 @@ def _who_and_where():
 def tips(screen: str) -> list[dict]:
 	user, tenant = _who_and_where()
 	ctx, conditions, _who = _context(user, tenant)
-	return logic.tips_for(logic.load_registry(), screen, ctx, conditions)
+	return logic.tips_for(logic.load_registry(), screen, ctx, conditions | _screen_conditions(user, tenant, screen))
 
 
 @frappe.whitelist(methods=["GET"])
 def questions(screen: str) -> list[str]:
 	"""Suggested questions for the screen the person is on (screens.json "ask")."""
 	user, tenant = _who_and_where()
-	ctx, _conditions, _who = _context(user, tenant)
-	return logic.questions_for(logic.load_registry(), screen, ctx)
+	ctx, conditions, _who = _context(user, tenant)
+	return logic.questions_for(logic.load_registry(), screen, ctx, conditions | _screen_conditions(user, tenant, screen))
+
+
+def _screen_conditions(user: str, tenant: str, screen: str | None) -> set[str]:
+	"""What's true right now on this screen, from each app (hook `qtt_assistant_conditions`:
+	(user, tenant, screen) -> set of names, e.g. "pulse.device_offline") — so questions and tips fit
+	what the person is looking at. One app failing just adds nothing."""
+	out: set[str] = set()
+	for path in frappe.get_hooks("qtt_assistant_conditions") or []:
+		try:
+			out |= set(frappe.get_attr(path)(user, tenant, screen or "") or ())
+		except Exception:
+			frappe.log_error(title=f"assistant conditions: {path}")
+	return out
 
 
 @frappe.whitelist(methods=["GET"])

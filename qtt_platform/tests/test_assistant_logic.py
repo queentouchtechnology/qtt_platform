@@ -148,7 +148,7 @@ class TipsTest(unittest.TestCase):
 				text = q["q"] if isinstance(q, dict) else q
 				self.assertTrue(text.endswith("?") and len(text) <= 80, (s["id"], text))
 				if isinstance(q, dict):
-					self.assertTrue(q.get("for") or q.get("industry"), (s["id"], text))  # says whose it is (a role or a business type)
+					self.assertTrue(q.get("for") or q.get("industry") or q.get("when"), (s["id"], text))  # says when it applies (role, business type or what's happening)
 		mine = logic.questions_for(REG, "pulse.requests", EMPLOYEE)
 		self.assertIn("How do I swap a shift with a colleague?", mine)  # about this screen, not leave or payslips
 		self.assertEqual(logic.questions_for(REG, "pulse.setup", EMPLOYEE), [])  # not their screen
@@ -248,6 +248,20 @@ class BusinessTypeQuestionsTest(unittest.TestCase):
 		self.assertIn("Is approved overtime added to payroll?", self.ask("HR Admin", "Office"))
 		self.assertNotIn("Is approved overtime added to payroll?", self.ask("HR", "Office"))
 		self.assertEqual(self.ask("Employee", "Office"), [])  # not their screen
+
+
+class DeviceQuestionsTest(unittest.TestCase):
+	HR = {"products": {"QTT_OFFICE_PULSE": "HR"}, "owner": False, "manager": False}
+
+	def test_what_is_happening_now_comes_first(self):
+		q = lambda screen, *c: logic.questions_for(REG, screen, self.HR, set(c))
+		self.assertEqual(q("pulse.devices", "pulse.no_devices")[:2], ["How do I connect my first biometric device?", "Which devices work with Office Pulse?"])
+		self.assertEqual(q("pulse.devices", "pulse.pins_waiting", "pulse.device_offline")[:2],
+						 ["How do I link the waiting PINs to people?", "Why is my device showing Offline?"])
+		self.assertNotIn("How do I connect my first biometric device?", q("pulse.devices"))  # has devices: not about connecting the first
+		self.assertEqual(q("pulse.device", "pulse.device_offline")[0], "Why is this device showing Offline?")
+		self.assertIn("When do I need a clock correction?", q("pulse.device"))
+		self.assertEqual(len(q("pulse.device")), 4)
 
 
 if __name__ == "__main__":
