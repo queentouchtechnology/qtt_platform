@@ -45,9 +45,29 @@ approve their team's requests.
 - **Leave**: balances per leave type; Apply for leave (dates, half day,
   reason; holidays are not counted); withdraw open or future requests. HR
   gives yearly leave in Setup › leave types › Give leave.
-- **Expenses**: New expense claim — one or more expenses (what for, amount,
-  date, details) and receipt photos (up to 5 MB each); withdraw while pending.
-- **Payslips**: appear after HR finalises payroll; download the PDF.
+- **Expenses** (Office Pulse home › Expenses): your claims, newest first, with
+  their status. **New expense claim** — one or more expenses (what for,
+  amount, date, details) and receipt photos or PDFs (up to 5 MB each; a claim
+  with receipts is approved faster), then Send claim. Tap a claim to open it:
+  the total, its status, each expense, the receipts (tap one to see the photo
+  or save the PDF), and **Withdraw claim** while it's still pending and yours.
+  Statuses: **Pending** — waiting at an approval step (your manager, HR or a
+  chosen person, per Setup › Approval flows; with several steps it moves on
+  after each one); **Approved** — the full amount is approved; **Rejected**;
+  **Paid** — the business has paid you. Approved claims are paid by the
+  business, not in payroll; ask HR when. A decided claim can't be changed:
+  make a new one.
+- **Payslips** (Office Pulse home › Payslips): one per month, newest first,
+  after HR runs payroll and finalises it (none yet = not finalised). Tap one:
+  the period and **days paid** out of working days (days absent without paid
+  leave aren't paid), **net pay** (also in words), each **earning** (from the
+  salary template HR gave you — the starter one splits salary into Basic,
+  House Rent Allowance and Special Allowance — plus any approved overtime or
+  on-call pay) with gross pay, each **deduction** HR added to the template
+  (e.g. PF or professional tax; the starter template has none) with the
+  total, and **Download PDF**. Net pay =
+  gross pay − total deductions. If a payslip looks wrong, ask HR — they fix it
+  in Payroll before the next run.
 - **Approvals** (managers, HR): leave, WFH / on duty and expense requests;
   approve or reject with a note.
 - **People** (HR): add employees, give app access (email invitation linked to
