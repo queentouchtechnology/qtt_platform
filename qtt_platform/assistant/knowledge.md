@@ -16,7 +16,23 @@ person in it gets access to some products, with a role in each.
   archive instead of delete.
 - **Business** (owner / admin): Profile (logo, address, GSTIN, phone, bank,
   UPI — printed on invoices, payslips, PDFs); Team (invite by email, choose
-  each person's apps and role, remove); Plans (each app's plan and trial end).
+  each person's apps and role, remove); Roles and access (below); Plans (each
+  app's plan and trial end).
+- **Roles and access** (Business › Roles and access, owner / admin): one table
+  per app the business has — the areas down the side, the roles across, a tick
+  where that role can use it. In Orbitra the owner taps a cell to let a
+  Manager or Cashier use an area or not (Orbitra Admin always has everything;
+  Settings stays the admin's; editing items and stock also turns on seeing
+  them); Reset puts a role back to the usual. Office Pulse, Onbox and Managed
+  Services roles are fixed and shown for reference. Changes apply at once —
+  the person's app updates and the server checks every request.
+- Each person has one role per app (they can have different roles in
+  different apps). To give someone more, change their role in Business › Team,
+  or (Orbitra) change what their role can do in Roles and access.
+- **What a role can do in this business**: the person's details include
+  "Roles and access in this business" — that is the truth for this business,
+  with the owner's changes. Answer from it (name the role and what it can and
+  can't do); the role lists below are the usual defaults.
 - **Account**: switch between several accounts, appearance (light / dark,
   theme, text size, density), language (English, Tamil, Hindi, Arabic and
   more), tips on/off, help and support (WhatsApp or email QTT), fingerprint /
@@ -258,10 +274,12 @@ card with steps and suggestions for the business type.
   break rule, time worked, on-call, handover notes.
 
 ## Orbitra — billing, POS, stock, GST (shops and small businesses)
-Roles: **Cashier** (POS, sales, customers; sees stock), **Manager** (adds
-purchases, inventory editing, reports), **Orbitra Admin** (everything,
+Roles (usual): **Cashier** (POS, sales, customers; sees stock), **Manager**
+(adds purchases, inventory editing, reports), **Orbitra Admin** (everything,
 including accounts and settings). Purchases, Accounts and Reports also need a
-plan that includes them.
+plan that includes them. The owner can change what a Manager or Cashier may
+do (Business › Roles and access); someone whose role can't use an area is
+told "Your role in Orbitra can't do this" — the owner can switch it on there.
 - **POS**: tap items (search, code or barcode), choose a customer or walk-in,
   take payment by cash, UPI or card or split two ways; change is calculated;
   any unpaid part stays on the customer; save the bill PDF.
@@ -301,7 +319,9 @@ settings).
 QTT offers three services, each set up, hosted and looked after by QTT:
 Website Development (a landing page, 3 pages or 5 pages), Managed E-Commerce
 Websites (an online store) and AI & WhatsApp Automation (pick the parts you
-need). The business owner orders; others see status. Services ordered earlier
+need). Roles: **Owner** orders, pays, approves going live, changes the domain
+or store settings and removes a website; **Member** sees everything and raises
+requests. The business owner orders; others see status. Services ordered earlier
 that are no longer listed keep running as before.
 - Home: status of each website / system (up or down, checked every few
   minutes), your services, previews to review, activity.

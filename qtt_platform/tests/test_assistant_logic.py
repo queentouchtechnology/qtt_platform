@@ -226,3 +226,24 @@ class HermesSkillTests(unittest.TestCase):
 		text = logic.services_text([{"title": "Website setup", "category": "Web", "summary": "A website", "monthly_price": 0, "setup_price": 0}])
 		self.assertIn("price on request", text)
 		self.assertNotIn("free", text)
+
+
+class NoBlankReplyTest(unittest.TestCase):
+	ROLES = "Orbitra roles — Cashier (changed by the owner): POS — bill at the counter, Reports."
+
+	def test_an_empty_model_reply_is_marked(self):
+		self.assertEqual(logic.parse_reply('{"answer": "", "links": []}', set())["answer"], logic.NO_ANSWER)
+
+	def test_fallback_says_what_we_know(self):
+		screen = {"title": "Roles and access", "what": "A table for each of your apps."}
+		reply = logic.fallback_reply("What can a cashier do?", screen, self.ROLES)
+		self.assertIn("Cashier (changed by the owner)", reply["answer"])
+		self.assertIn("A table for each of your apps.", reply["answer"])
+		self.assertNotIn("Cashier", logic.fallback_reply("How do I print a bill?", screen, self.ROLES)["answer"])
+		self.assertIsNone(logic.fallback_reply("hello", None, ""))
+
+	def test_the_prompt_carries_the_business_roles(self):
+		msgs = logic.build_messages(knowledge="k", plans="", services="", screens=[], who="Name: A. Roles and access in this business: " + self.ROLES,
+									screen_id=None, history=[], question="q")
+		self.assertIn("Cashier (changed by the owner)", msgs[0]["content"])
+		self.assertIn("Roles and access in this business", msgs[0]["content"])

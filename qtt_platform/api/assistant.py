@@ -67,10 +67,22 @@ def _context(user: str, tenant: str) -> tuple[dict, set[str], str]:
 	who = (f"Name: {frappe.utils.get_fullname(user)}. Business: {business} — their role: {m.tenant_role}. "
 		   f"Apps and roles: {', '.join(f'{names.get(k, k)} ({v})' for k, v in products.items()) or 'none yet'}. "
 		   f"Manages people: {'yes' if manager else 'no'}." + (f" Business type (Office Pulse): {industry}." if industry else ""))
+	# Every app's roles in this business and what each can do — read live, so an owner's change
+	# (Business › Roles and access) is in the very next answer.
+	try:
+		from qtt_platform import role_access
+
+		roles_text = role_access.describe(tenant, products)
+	except Exception:
+		frappe.log_error(title="assistant: role access")
+		roles_text = ""
+	if roles_text:
+		who += " Roles and access in this business: " + roles_text
 	from qtt_platform.abilities_rules import rules as ability_rules
 
 	return {"products": products, "owner": m.tenant_role in OWNER_ROLES, "manager": manager, "industry": industry,
-			"features": features, "customers": ability_rules(m.tenant_role, list(products))["customers"]}, conditions, who
+			"features": features, "customers": ability_rules(m.tenant_role, list(products))["customers"],
+			"roles_text": roles_text}, conditions, who
 
 
 def _catalogue() -> tuple[str, str]:
@@ -182,11 +194,19 @@ def ask(question: str, screen: str | None = None, history=None) -> dict:
 			history = []
 	messages = logic.build_messages(knowledge=logic.load_knowledge(), plans=plans, services=services, screens=screens,
 									who=who, screen_id=screen, history=history if isinstance(history, list) else [], question=question)
-	try:
-		text = complete_json(messages)
-	except Exception:
-		frappe.log_error(title="QTT Assistant: model call failed", message=frappe.get_traceback())
-		return fail("UNAVAILABLE", "The assistant is busy right now. Please try again in a minute.")
-	reply = logic.parse_reply(text, {x["id"] for x in screens})
+	allowed = {x["id"] for x in screens}
+	reply = None
+	for _attempt in range(2):  # an empty answer gets one more try
+		try:
+			text = complete_json(messages)
+		except Exception:
+			frappe.log_error(title="QTT Assistant: model call failed", message=frappe.get_traceback())
+			return fail("UNAVAILABLE", "The assistant is busy right now. Please try again in a minute.")
+		reply = logic.parse_reply(text, allowed)
+		if reply["answer"] != logic.NO_ANSWER:
+			break
+	if reply["answer"] == logic.NO_ANSWER:  # still nothing: say what we know for sure
+		current = next((x for x in screens if x["id"] == screen), None)
+		reply = logic.fallback_reply(question, current, ctx.get("roles_text") or "") or reply
 	reply["links"] = [l for l in reply["links"] if l["screen"] != screen]  # no button to the screen they're on
 	return ok(reply)

@@ -343,3 +343,8 @@ jenv = {
 		"qtt_hsn:qtt_platform.print_brand.hsn",
 	],
 }
+
+# Roles and access — each app's roles and what each can do (qtt_platform.role_access, the owner's
+# Business › Roles and access page, the assistant). An app lists one function returning its spec
+# (see role_access_rules); qtt_platform itself has none.
+qtt_role_access = []

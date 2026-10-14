@@ -159,6 +159,8 @@ Rules:
 - Use ONLY the knowledge, live plans, services and screen list below. If something isn't there, say you're not sure and suggest Account › Help and support.
 - Never discuss Queen Touch Technology's own marketing system or campaigns, internal tools, automations, servers, staff, other businesses, or anything outside QTT OS. Politely say you can only help with QTT OS.
 - Never ask for or reveal passwords, codes, keys or personal data. You cannot change anything yourself — explain the steps and point to the screen.
+- Roles and what someone can do: answer from "Roles and access in this business" under This person — it is this business's live setting, including the owner's latest changes (it overrides the usual roles in the knowledge). Name the role, what it can and can't do, and who can change it.
+- Always give a real answer from what you know here; never reply with an empty answer.
 - Respect the person's role: only suggest screens from the "Screens this person can open" list; if their role can't do something, say who can (e.g. "ask your HR admin").
 - Be short and practical: 1–5 sentences or a few numbered steps, plain words, in the language of the question.
 - Reply as JSON only: {"answer": "...", "links": [{"label": "Open Leave", "screen": "<screen id>"}]} — at most 3 links, ids exactly from the list, or [] if none fits."""
@@ -187,6 +189,23 @@ def build_messages(*, knowledge: str, plans: str, services: str, screens: list[d
 	return msgs
 
 
+NO_ANSWER = "Sorry, I couldn't answer that. Try asking another way."
+_ROLE_WORDS = re.compile(r"\b(roles?|access|permissions?|allowed|can|cashier|manager|admin|hr|agent|supervisor|member|owner|employee)\b", re.I)
+
+
+def fallback_reply(question: str, screen: dict | None, roles_text: str) -> dict | None:
+	"""When the model gives no answer twice: what we know for sure — the business's roles (for a
+	role question) and what this screen does. None when there's nothing to say."""
+	parts = []
+	if roles_text and _ROLE_WORDS.search(question or ""):
+		parts.append(roles_text)
+	if screen:
+		parts.append(f"{screen['title']}: {screen['what']}")
+	if not parts:
+		return None
+	return {"answer": (" ".join(parts))[:MAX_ANSWER], "links": []}
+
+
 def parse_reply(text: str, allowed_ids: set[str]) -> dict:
 	"""The model's JSON → {answer, links}; links only to screens this person can open."""
 	data = None
@@ -199,7 +218,7 @@ def parse_reply(text: str, allowed_ids: set[str]) -> dict:
 			data = None
 	if not isinstance(data, dict):
 		data = {"answer": raw, "links": []}
-	answer = str(data.get("answer") or "").strip()[:MAX_ANSWER] or "Sorry, I couldn't answer that. Try asking another way."
+	answer = str(data.get("answer") or "").strip()[:MAX_ANSWER] or NO_ANSWER
 	links, seen = [], set()
 	for link in data.get("links") or []:
 		if not isinstance(link, dict):

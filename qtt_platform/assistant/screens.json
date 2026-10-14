@@ -46,6 +46,8 @@
    "what": "Logo, address, GSTIN, contact details, bank and UPI — used on invoices, payslips and PDFs. Only the owner or an admin can change them."},
   {"id": "business.team", "product": null, "title": "Team", "path": "Business › Team", "roles": ["@owner"], "ask": ["How do I invite a teammate?", "How do I choose which apps someone can use?", "How do I remove someone from the team?"],
    "what": "Invite teammates by email, choose which apps each person can use and their role in each app, remove people."},
+  {"id": "business.roles", "product": null, "title": "Roles and access", "path": "Business › Roles and access", "roles": ["@owner"], "ask": ["What can a Cashier do in Orbitra?", "How do I let a Manager see Accounts?", "Who can approve leave in Office Pulse?"],
+   "what": "A table for each of your apps: what each role can do. In Orbitra, tap a cell to let a Manager or Cashier use an area or not (the Orbitra Admin always has everything; Settings stays the admin's); Reset puts a role back to the usual. The other apps' roles are fixed. Changes apply at once."},
   {"id": "business.plans", "product": null, "title": "Plans", "path": "Business › Plans", "roles": ["@owner"], "ask": ["When does my trial end?", "How do I upgrade my plan?", "What does each app's plan include?"],
    "what": "Each app's plan and trial end date. To upgrade or change a plan, contact Queen Touch Technology."},
   {"id": "account", "product": null, "title": "Account", "path": "Account", "roles": ["*"], "ask": ["How do I switch to another business?", "How do I turn on fingerprint sign-in?", "How do I change the app language?"],
