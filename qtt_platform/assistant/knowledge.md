@@ -42,9 +42,24 @@ approve their team's requests.
 - **Work From Home / On Duty**: My attendance › "Request work from home / on
   duty" — choose dates, details; a manager or HR approves. It does not use
   leave.
-- **Leave**: balances per leave type; Apply for leave (dates, half day,
-  reason; holidays are not counted); withdraw open or future requests. HR
-  gives yearly leave in Setup › leave types › Give leave.
+- **Leave** (Office Pulse home › Leave): balances per leave type and your
+  requests. **Apply for leave**: the leave type (with days left), the dates,
+  Half day (one day only), a reason; it shows how many days of leave that is
+  (holidays and weekly offs aren't counted) and goes to your approver.
+  - **Past days**: by default leave starts today or later. HR can allow it to
+    start up to N days ago (e.g. sick leave already taken) in Setup › Leave
+    types › Leave for past days (0–90). The calendar only offers the days
+    allowed; for older days, ask HR.
+  - **Send is blocked** when the days are all holidays or weekly offs (no leave
+    needed), or when they're more than is left of that leave type (choose
+    fewer days or another type). Unpaid leave has no balance.
+  - Other reasons a request is refused (shown on the screen): it overlaps
+    leave you already asked for, it's before you joined, the month's payroll
+    is already done, you were already marked present that day, the leave type
+    allows fewer days in a row, or no leave of that type was given for those
+    dates (HR gives it in Setup › Leave types › Give leave).
+  - Withdraw: an open request, or approved leave that hasn't started yet; for
+    the rest ask HR.
 - **Expenses** (Office Pulse home › Expenses): your claims, newest first, with
   their status. **New expense claim** — one or more expenses (what for,
   amount, date, details) and receipt photos or PDFs (up to 5 MB each; a claim
