@@ -25,6 +25,7 @@
   "product_role",
   "section_break_token",
   "token",
+  "code",
   "invited_by",
   "column_break_expiry",
   "expires_on",
@@ -104,6 +105,14 @@
    "unique": 1,
    "read_only": 1,
    "description": "Opaque, unguessable — generated via frappe.generate_hash(). The accept_invitation() lookup key; never the document name (name is a random hash too, but token is the one deliberately designed to be emailed to an external address)."
+  },
+  {
+   "fieldname": "code",
+   "fieldtype": "Data",
+   "label": "Code",
+   "read_only": 1,
+   "search_index": 1,
+   "description": "Short code the invitee types or taps (K7M2-QX9P; stored without the dash). The long token still works for older invitations."
   },
   {
    "fieldname": "invited_by",

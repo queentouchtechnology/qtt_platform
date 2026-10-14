@@ -41,10 +41,40 @@ person in it gets access to some products, with a role in each.
   Face ID on a phone that signed in before. Two-step verification is set by
   the business admin. New businesses verify their email and WhatsApp number
   with a one-time code when signing up.
-- **Joining a business**: the owner invites you from Business › Team; you
-  receive an email with an invitation code; on the sign-in screen tap
-  "I have an invitation code" (or "Join with code" if you already have a QTT
-  login).
+- **Invitations — why**: an invitation is the safe way to bring a person into
+  a business. The owner never sets or knows anyone's password (the person
+  chooses their own); the code goes to that email, so it proves the email is
+  theirs; it never touches someone's existing QTT account (it only adds this
+  business to it); the app and role are chosen up front, so the person sees
+  exactly what that role allows from the first minute; each code works once,
+  expires in 7 days, can be revoked, and every join is in the audit log. One
+  person can join several businesses and switch between them.
+- **Inviting (owner / admin, Business › Team › Invite teammate)**: enter the
+  email, pick the app and the role. The person gets an email with a **Join**
+  button and a short code like **K7M2-QX9P** (8 letters and numbers, no 0/O or
+  1/I/L). Pending invitations show their code; the copy button copies a
+  message ready for WhatsApp or SMS (the tap-to-join link and the code) — use
+  it if the email didn't arrive. Inviting the same email again sends a new
+  code (the old one stops working). Revoke cancels an invitation. Office Pulse
+  › People can also invite an employee ("Send invitation" / "Give access").
+- **Joining (the invited person)**: tap **Join** in the email → a page shows
+  the business and the code → **Open QTT OS and join** opens the app with the
+  code filled in (no app yet: get it, then tap the button again). Or open the
+  app and tap **I have an invitation code** on the sign-in screen (signed in
+  already: **Join with code** in the business switcher at the top of Home, or
+  on the choose-a-business screen) and type or paste the code — capitals,
+  spaces and the dash don't matter; the Paste button picks the code out of a
+  shared message.
+  - New to QTT: enter your name and choose a password, then Join — you're
+    signed in straight away.
+  - Already use QTT with that email: sign in first (with that email), then
+    Join with code. The code never sets a password for an existing account.
+  - Problems: "invalid or has already been used" → ask for a new invitation;
+    "expired" (after 7 days) → ask for a new one; "An account already exists…
+    sign in with that account first" → sign in with the invited email, then
+    enter the code again; too many wrong tries → wait 15 minutes.
+  - After joining you have the app and role from the invitation; the business
+    appears at once.
 - **Several businesses**: switch with the business name at the top of Home.
 
 ## Office Pulse — attendance, leave, expenses, payroll (HR)

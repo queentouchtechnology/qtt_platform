@@ -19,14 +19,30 @@ branch on without depending on HTTP status parsing.
 
 import frappe
 from frappe import _
-from frappe.utils import add_days, now_datetime
+from frappe.rate_limiter import rate_limit
+from frappe.utils import add_days, get_url, now_datetime
 
+from qtt_platform import invitation_code
 from qtt_platform.audit import write_audit_event
 from qtt_platform.errors import QttApiError, fail, ok
 from qtt_platform.tenant.guards import require_tenant_role
 from qtt_platform.user_provisioning import create_user
 
 _GOVERNANCE_ROLES = ["Tenant Owner", "Tenant Admin"]
+
+
+def _unique_code() -> str:
+	"""A short code no other invitation uses (K7M2QX9P; shown as K7M2-QX9P)."""
+	for _attempt in range(20):
+		code = invitation_code.new_code()
+		if not frappe.db.exists("QTT Invitation", {"code": code}):
+			return code
+	raise frappe.ValidationError("Could not make an invitation code. Please try again.")
+
+
+def join_url(code: str) -> str:
+	"""The tap-to-join page (www/join): opens the app with the code filled in."""
+	return get_url(f"/join?code={invitation_code.display(code)}")
 _DEFAULT_EXPIRY_DAYS = 7
 
 
@@ -54,7 +70,7 @@ def invite_user(
 	existing_pending = frappe.db.exists(
 		"QTT Invitation", {"tenant": tenant, "email": email, "status": "pending"}
 	)
-	token = frappe.generate_hash(length=48)
+	token = frappe.generate_hash(length=48)  # the short code comes with it (QTT Invitation.validate)
 	expires_on = add_days(now_datetime(), expires_in_days)
 
 	if existing_pending:
@@ -113,6 +129,8 @@ def invite_user(
 		"email": email,
 		"expires_on": str(invitation.expires_on),
 		"email_sent": email_sent,
+		"code": invitation_code.display(invitation.code),
+		"join_url": join_url(invitation.code),
 	}
 
 
@@ -140,15 +158,19 @@ def get_pending_invitations(tenant: str) -> list[dict]:
 	# email_sent handling), so this is the one place a failed-email
 	# invite can still be recovered and shared out of band.
 	require_tenant_role(tenant, _GOVERNANCE_ROLES)
-	return frappe.get_all(
+	rows = frappe.get_all(
 		"QTT Invitation",
 		filters={"tenant": tenant, "status": "pending"},
 		fields=[
 			"name", "email", "tenant_role", "product", "product_role",
-			"expires_on", "invited_by", "creation", "token",
+			"expires_on", "invited_by", "creation", "token", "code",
 		],
 		order_by="creation desc",
 	)
+	for row in rows:  # what to share: the short code and the tap-to-join link (older ones: the token)
+		row["code"] = invitation_code.display(row.code) if row.code else row.token
+		row["join_url"] = join_url(row.code) if row.code else None
+	return rows
 
 
 def expire_stale_invitations() -> list[dict]:
@@ -179,7 +201,18 @@ def expire_stale_invitations() -> list[dict]:
 	return expired
 
 
+def find_pending(code_or_token: str | None) -> str | None:
+	"""The pending invitation for a short code (any case, with or without the dash) or an older long token."""
+	text = (code_or_token or "").strip()
+	if not text:
+		return None
+	if invitation_code.looks_like_code(text):
+		return frappe.db.exists("QTT Invitation", {"code": invitation_code.normalize(text), "status": "pending"})
+	return frappe.db.exists("QTT Invitation", {"token": text, "status": "pending"})
+
+
 @frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(limit=20, seconds=15 * 60)  # codes are short: no guessing
 def accept_invitation(token: str, full_name: str | None = None, password: str | None = None) -> dict:
 	"""Guest-accessible — the invitee may not have a session yet. Two
 	cases: the email already has a Frappe User (the caller must already
@@ -192,7 +225,7 @@ def accept_invitation(token: str, full_name: str | None = None, password: str | 
 	never at invite time, since `user` is a required field on QTT Tenant
 	Membership and often doesn't exist until this call creates it."""
 	try:
-		invitation_name = frappe.db.exists("QTT Invitation", {"token": token, "status": "pending"})
+		invitation_name = find_pending(token)  # `token`: the short code or an older long token
 		if not invitation_name:
 			raise QttApiError("INVALID_INVITATION", "This invitation is invalid or has already been used.")
 
@@ -308,13 +341,22 @@ def _ensure_product_access(membership_name: str, tenant: str, product: str, prod
 
 def _send_invitation_email(invitation) -> None:
 	tenant_name = frappe.db.get_value("QTT Tenant", invitation.tenant, "tenant_name")
+	inviter = frappe.utils.get_fullname(invitation.invited_by) if invitation.invited_by else tenant_name
+	code = invitation_code.display(invitation.code) if invitation.code else invitation.token
+	link = join_url(invitation.code) if invitation.code else None
+	button = (f'<p><a href="{link}" style="display:inline-block;padding:12px 22px;background:#3858F8;color:#fff;'
+			  f'border-radius:10px;text-decoration:none;font-weight:600">Join {frappe.utils.escape_html(tenant_name)}</a></p>'
+			  if link else "")
 	frappe.sendmail(
 		recipients=[invitation.email],
 		subject=f"You've been invited to join {tenant_name}",
 		message=(
-			f"<p>You've been invited to join <b>{tenant_name}</b>.</p>"
-			f"<p>Your invitation code: <code>{invitation.token}</code></p>"
-			f"<p>This invitation expires on {invitation.expires_on}.</p>"
+			f"<p>{frappe.utils.escape_html(inviter)} invited you to join <b>{frappe.utils.escape_html(tenant_name)}</b> on QTT OS.</p>"
+			f"{button}"
+			f"<p>Or open the QTT OS app, tap <b>I have an invitation code</b> (or <b>Join with code</b> if you're signed in) and enter:</p>"
+			f'<p style="font-size:24px;font-weight:700;letter-spacing:3px">{code}</p>'
+			f"<p style=\"color:#6b7280\">The code works once and expires on {frappe.utils.format_datetime(invitation.expires_on, 'd MMM yyyy')}. "
+			f"Already use QTT with this email? Sign in first, then use Join with code.</p>"
 		),
 		reference_doctype="QTT Invitation",
 		reference_name=invitation.name,

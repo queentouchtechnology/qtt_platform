@@ -13,6 +13,15 @@ class QTTInvitation(Document):
 	def validate(self):
 		self._normalize_and_validate_email()
 		self._validate_product_role()
+		self._short_code()
+
+	def _short_code(self):
+		# Every invitation, however it's made (Business › Team, Office Pulse › People…), gets a short
+		# code with its token; a new token (invited again) means a new code, so the old one stops working.
+		if self.status == "pending" and self.token and (not self.code or self.has_value_changed("token")):
+			from qtt_platform.api.invitation import _unique_code
+
+			self.code = _unique_code()
 
 	def _normalize_and_validate_email(self):
 		if self.email:

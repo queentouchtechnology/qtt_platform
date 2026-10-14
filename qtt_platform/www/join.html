@@ -1,0 +1,54 @@
+{% extends "templates/web.html" %}
+
+{% block title %}Join on QTT OS{% endblock %}
+
+{% block page_content %}
+<style>
+  .qtt-join { max-width: 460px; margin: 32px auto; padding: 24px; border: 1px solid #e5e7eb; border-radius: 16px; font-size: 16px; text-align: center; }
+  .qtt-join h2 { margin: 0 0 6px; }
+  .qtt-join .muted { color: #6b7280; }
+  .qtt-join .code { font-size: 30px; font-weight: 700; letter-spacing: 4px; margin: 18px 0 6px; }
+  .qtt-join a.btn, .qtt-join button { display: block; width: 100%; box-sizing: border-box; padding: 14px; margin-top: 12px; font-size: 17px; border-radius: 12px; cursor: pointer; text-decoration: none; }
+  .qtt-join .primary { background: #3858F8; color: #fff; border: 0; }
+  .qtt-join .secondary { background: #fff; color: #3858F8; border: 1px solid #3858F8; }
+  .qtt-join ol { text-align: left; color: #374151; padding-left: 20px; }
+</style>
+<div class="qtt-join">
+  {% if state == "invalid" %}
+    <h2>This invitation link doesn't work</h2>
+    <p class="muted">It may have been used already. Ask the person who invited you to send a new invitation.</p>
+  {% elif state == "expired" %}
+    <h2>This invitation has expired</h2>
+    <p class="muted">Ask {{ business }} to send you a new invitation.</p>
+  {% else %}
+    <h2>Join {{ business }}</h2>
+    <p class="muted">{{ inviter }} invited you to QTT OS.</p>
+    <div class="code" id="code">{{ code }}</div>
+    <div class="muted">Your invitation code — works once</div>
+    <a class="btn primary" href="{{ app_link }}">Open QTT OS and join</a>
+    <button class="secondary" id="copy">Copy code</button>
+    <ol style="margin-top:20px">
+      <li>Tap <b>Open QTT OS and join</b> — the code is filled in for you.</li>
+      <li>New to QTT? Enter your name and choose a password. Already use QTT with this email? Sign in first.</li>
+      <li>Tap <b>Join</b>.</li>
+    </ol>
+    {% if android or ios %}
+      <p class="muted">Don't have the app yet?
+        {% if android %}<a href="{{ android }}">Get it for Android</a>{% endif %}
+        {% if android and ios %} · {% endif %}
+        {% if ios %}<a href="{{ ios }}">Get it for iPhone</a>{% endif %}
+        — then come back and tap the button again.</p>
+    {% else %}
+      <p class="muted">Don't have the app yet? Ask {{ business }} how to get QTT OS, then come back and tap the button again.</p>
+    {% endif %}
+    <script>
+      document.getElementById("copy").onclick = function () {
+        var code = document.getElementById("code").innerText.trim(), b = this;
+        (navigator.clipboard ? navigator.clipboard.writeText(code) : Promise.reject()).then(
+          function () { b.innerText = "Copied"; },
+          function () { b.innerText = code; });
+      };
+    </script>
+  {% endif %}
+</div>
+{% endblock %}

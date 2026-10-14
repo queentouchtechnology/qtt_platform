@@ -11,3 +11,4 @@ qtt_platform.patches.v0_9.add_invitation_indexes
 qtt_platform.patches.v0_10.backfill_membership_title
 qtt_platform.patches.v0_11.qtt_midnight_website_palette
 qtt_platform.patches.v0_12.qtt_midnight_flat_cards
+qtt_platform.patches.v0_13.invitation_short_codes
