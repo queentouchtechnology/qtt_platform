@@ -80,20 +80,29 @@ def _duplicate(tenant: str, values: dict, exclude: str | None) -> None:
 			frappe.throw(message)
 
 
+SORTS = {"name": "customer_name asc", "newest": "creation desc", "recent": "modified desc", "city": "city asc, customer_name asc"}
+
+
 @frappe.whitelist(methods=["GET"])
 def customers(q: str | None = None, status: str = "Active", tag: str | None = None, start: int = 0,
-			  page_length: int = 50) -> dict:
+			  page_length: int = 50, sort: str | None = None, customer_type: str | None = None) -> dict:
+	"""A page of the business's customers. sort: name | newest | recent | city (with a search,
+	best matches come first); customer_type: Individual | Business."""
+	from qtt_platform import list_sort
+
 	tenant, _m = _tenant()
-	start, page_length = max(int(start or 0), 0), min(max(int(page_length or 50), 1), 200)
+	start, page_length = list_sort.page(start, page_length or 50, cap=200)
 	filters = [[DT, "tenant", "=", tenant]]
 	if status in ("Active", "Archived"):
 		filters.append([DT, "status", "=", status])
 	if tag:
 		filters.append([DT, "tags", "like", f"%{tag.strip()}%"])
+	if customer_type in ("Individual", "Business"):
+		filters.append([DT, "customer_type", "=", customer_type])
 	# Intelligent search: every word, any order, phone digits, one typo forgiven.
 	rows, has_more = smart_get_all(DT, filters=filters, fields=LIST_FIELDS, q=q, title_field="customer_name",
 								   search_fields=["customer_name", "company_name", "email", "city", "gstin"], digits_field="phone",
-								   order_by="customer_name asc", start=start, page_length=page_length)
+								   order_by=list_sort.order_by(sort, SORTS, "name"), start=start, page_length=page_length)
 	for r in rows:
 		r["modified"] = str(r.modified)
 		r["tag_list"] = rules.tag_list(r.pop("tags"))
