@@ -48,7 +48,7 @@ class RoleAccessTest(unittest.TestCase):
 		self.assertFalse(admin["can_change"])
 		self.assertTrue(m["changed"])
 		line = r.describe(SPEC, {"Cashier": ["pos", "reports"]})
-		self.assertIn("Cashier (changed by the owner): Pos, Reports", line)
+		self.assertIn("Cashier (changed by the owner): Pos, Reports [the owner turned on: Reports] [the owner turned off: Sales, Inventory]", line)
 		self.assertIn("Manager: Pos, Sales, Inventory, Inventory_Edit, Reports", line)
 		self.assertEqual(r.describe(SPEC, {}, only_role="Cashier"), "Cashier: Pos, Sales, Inventory")
 

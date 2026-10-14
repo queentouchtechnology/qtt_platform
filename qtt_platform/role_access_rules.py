@@ -79,7 +79,12 @@ def describe(spec: dict, overrides: dict[str, list[str]], only_role: str | None 
 		if only_role and r["key"] != only_role:
 			continue
 		areas = effective(spec, r["key"], overrides.get(r["key"]))
-		changed = overrides.get(r["key"]) is not None and r["key"] in spec.get("editable", [])
-		lines.append(f"{r['label']}{' (changed by the owner)' if changed else ''}: "
-					 + (", ".join(labels[a] for a in areas) or "nothing"))
+		usual = effective(spec, r["key"], None)
+		changed = areas != usual
+		line = f"{r['label']}{' (changed by the owner)' if changed else ''}: " + (", ".join(labels[a] for a in areas) or "nothing")
+		if changed:
+			added = [labels[a] for a in areas if a not in usual]
+			removed = [labels[a] for a in usual if a not in areas]
+			line += (f" [the owner turned on: {', '.join(added)}]" if added else "") + 					(f" [the owner turned off: {', '.join(removed)}]" if removed else "")
+		lines.append(line)
 	return "; ".join(lines)
