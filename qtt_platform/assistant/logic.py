@@ -110,15 +110,25 @@ def questions_for(registry: list[dict], screen_id: str, ctx: dict) -> list[str]:
 	if not screen or screen_id not in allowed:
 		return []
 	# An "ask" entry is a question for everyone who can open the screen, or {"q": …, "for": [roles]}
-	# for some of them (same role words as "roles": product roles, @owner, @manager…) — theirs first.
-	mine, everyone = [], []
+	# for some of them (same role words as "roles": product roles, @owner, @manager…), and/or
+	# "industry": [business types] (Office Pulse business type; "none" = not chosen yet) — questions
+	# for this business's type first, then this person's role, then everyone's.
+	business, mine, everyone = [], [], []
+	industry = ctx.get("industry") or "none"
 	for q in screen.get("ask") or []:
-		if isinstance(q, dict):
-			if q.get("q") and can_open({"product": screen.get("product"), "roles": q.get("for") or ["*"]}, ctx):
-				mine.append(str(q["q"]))
-		else:
+		if not isinstance(q, dict):
 			everyone.append(str(q))
-	return (mine + everyone)[:4]
+			continue
+		if not q.get("q") or not can_open({"product": screen.get("product"), "roles": q.get("for") or ["*"]}, ctx):
+			continue
+		if q.get("industry"):
+			if industry in q["industry"]:
+				business.append(str(q["q"]))
+		elif q.get("for"):
+			mine.append(str(q["q"]))
+		else:
+			everyone.append(str(q["q"]))
+	return (business + mine + everyone)[:4]
 
 
 def guide_for(registry: list[dict], screen_id: str, ctx: dict, industry: str | None = None, catalog: dict | None = None) -> dict | None:

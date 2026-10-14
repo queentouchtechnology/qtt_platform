@@ -382,6 +382,24 @@ card with steps and suggestions for the business type.
   offline; Hospital — flexible cycles, sites, requests, overtime pay,
   coverage; Factory — flexible cycles, requests, overtime pay, coverage;
   Retail — sites, requests, split shifts, overtime pay, coverage.
+  - **Use replaces the attendance rules** with the type's suggested ones (late
+    after minutes, what a refused late becomes, check-out reminder, missing
+    check-out, and for every type except Office early exit and overtime
+    approval): Office — late after 15 min, refused → half day, check-out
+    reminder 30 min; Security — late after 10, refused → late mark only,
+    reminder 15, early exit after 10, overtime after 30; Hospital — late after
+    10, late mark only, reminder 30, early exit 15, overtime 30; Factory —
+    late after 5, half day, reminder 15, early exit 5, overtime 15; Retail —
+    late after 10, late mark only, reminder 20, early exit 10, overtime 30.
+    Shifts, patterns, people and holidays are not touched. Changed your rules
+    already? Switch capabilities on one by one instead of tapping Use, or
+    re-check Setup › Attendance rules after.
+  - **Switching a capability off** stops it working and hides its screens and
+    options (e.g. Sites, on-call, requests); what was set up is kept and comes
+    back when switched on. Overtime pay off: overtime isn't added to payroll.
+  - Flexible cycles are only for rotations that don't repeat weekly (4-on /
+    4-off, 2-2-3, 28-day) or rotate over up to 8 weeks; a normal week (even
+    with different hours per day) is an ordinary shift pattern.
 - **Shifts** (Setup › Shifts): start and end (an end before the start ends
   the next morning — night shifts work), late after minutes, a **break**
   (unpaid minutes after hours worked, or paid; a break they checked out for

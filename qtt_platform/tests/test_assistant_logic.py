@@ -141,12 +141,14 @@ class TipsTest(unittest.TestCase):
 
 	def test_every_screen_has_its_own_questions(self):
 		for s in REG:
-			self.assertTrue(2 <= len(s.get("ask") or []) <= 8, s["id"])  # role-specific ones included; a person sees ≤ 4
+			# role-specific ones included; per-business-type ones are alternatives (one type at a time); a person sees ≤ 4
+			general = [q for q in s.get("ask") or [] if not (isinstance(q, dict) and q.get("industry"))]
+			self.assertTrue(2 <= len(general) <= 8, s["id"])
 			for q in s["ask"]:
 				text = q["q"] if isinstance(q, dict) else q
 				self.assertTrue(text.endswith("?") and len(text) <= 80, (s["id"], text))
 				if isinstance(q, dict):
-					self.assertTrue(q.get("for"), (s["id"], text))  # a role question says whose it is
+					self.assertTrue(q.get("for") or q.get("industry"), (s["id"], text))  # says whose it is (a role or a business type)
 		mine = logic.questions_for(REG, "pulse.requests", EMPLOYEE)
 		self.assertIn("How do I swap a shift with a colleague?", mine)  # about this screen, not leave or payslips
 		self.assertEqual(logic.questions_for(REG, "pulse.setup", EMPLOYEE), [])  # not their screen
@@ -225,6 +227,27 @@ class AnswerCacheTest(unittest.TestCase):
 		self.assertTrue(logic.cacheable({"answer": "Open Shifts and tap New.", "links": []}))
 		self.assertFalse(logic.cacheable({"answer": logic.NO_ANSWER, "links": []}))
 		self.assertFalse(logic.cacheable({"answer": "Shifts: the hours.", "links": [], "fallback": True}))
+
+
+class BusinessTypeQuestionsTest(unittest.TestCase):
+	def ask(self, role, industry=None):
+		ctx = {"products": {"QTT_OFFICE_PULSE": role}, "owner": False, "manager": False, "industry": industry}
+		return logic.questions_for(REG, "pulse.business_type", ctx)
+
+	def test_questions_for_this_business_type_first(self):
+		self.assertEqual(self.ask("HR")[0], "Which business type fits my business?")  # not chosen yet
+		self.assertIn("How do I set up guards at client sites?", self.ask("HR", "Security / field service"))
+		self.assertEqual(self.ask("HR", "Retail / restaurant")[0], "How do split shifts work?")
+		self.assertNotIn("How do split shifts work?", self.ask("HR", "Office"))
+		for industry in ("Office", "Security / field service", "Hospital / healthcare", "Factory / manufacturing", "Retail / restaurant", "Other", None):
+			qs = self.ask("HR Admin", industry)
+			self.assertTrue(2 <= len(qs) <= 4, (industry, qs))
+			self.assertIn("Will tapping Use change my attendance rules?", qs)  # the one thing everyone must know here
+
+	def test_role_aware(self):
+		self.assertIn("Is approved overtime added to payroll?", self.ask("HR Admin", "Office"))
+		self.assertNotIn("Is approved overtime added to payroll?", self.ask("HR", "Office"))
+		self.assertEqual(self.ask("Employee", "Office"), [])  # not their screen
 
 
 if __name__ == "__main__":
