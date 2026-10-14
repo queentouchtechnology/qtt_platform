@@ -131,6 +131,14 @@ def tips(screen: str) -> list[dict]:
 
 
 @frappe.whitelist(methods=["GET"])
+def questions(screen: str) -> list[str]:
+	"""Suggested questions for the screen the person is on (screens.json "ask")."""
+	user, tenant = _who_and_where()
+	ctx, _conditions, _who = _context(user, tenant)
+	return logic.questions_for(logic.load_registry(), screen, ctx)
+
+
+@frappe.whitelist(methods=["GET"])
 def guide(screen: str) -> dict | None:
 	"""A screen's "How to set up" guide, suggestions for this business's type first (no AI)."""
 	user, tenant = _who_and_where()

@@ -139,6 +139,16 @@ class TipsTest(unittest.TestCase):
 		inv = logic.tips_for(REG, "orbitra.inventory", OWNER, set())
 		self.assertTrue(inv and inv[0]["link"] is None and inv[0]["label"] is None)  # the tip stays, its button goes
 
+	def test_every_screen_has_its_own_questions(self):
+		for s in REG:
+			self.assertTrue(2 <= len(s.get("ask") or []) <= 4, s["id"])
+			for q in s["ask"]:
+				self.assertTrue(q.endswith("?") and len(q) <= 80, (s["id"], q))
+		mine = logic.questions_for(REG, "pulse.requests", EMPLOYEE)
+		self.assertIn("How do I swap a shift with a colleague?", mine)  # about this screen, not leave or payslips
+		self.assertEqual(logic.questions_for(REG, "pulse.setup", EMPLOYEE), [])  # not their screen
+		self.assertEqual(logic.questions_for(REG, "nope", OWNER), [])
+
 	def test_no_tips_for_screens_you_cannot_open(self):
 		self.assertEqual(logic.tips_for(REG, "pulse.setup", EMPLOYEE, set()), [])
 		self.assertEqual(logic.tips_for(REG, "nope", OWNER, set()), [])

@@ -97,6 +97,16 @@ def tips_for(registry: list[dict], screen_id: str, ctx: dict, conditions: set[st
 	return out
 
 
+def questions_for(registry: list[dict], screen_id: str, ctx: dict) -> list[str]:
+	"""The suggested questions for a screen (its "ask"), for someone who can open it — about what
+	this screen does, never another app's. None of its own: none (the app keeps its general ones)."""
+	allowed = {s["id"] for s in allowed_screens(registry, ctx)}
+	screen = next((s for s in registry if s["id"] == screen_id), None)
+	if not screen or screen_id not in allowed:
+		return []
+	return [str(q) for q in screen.get("ask") or []][:4]
+
+
 def guide_for(registry: list[dict], screen_id: str, ctx: dict, industry: str | None = None, catalog: dict | None = None) -> dict | None:
 	"""A screen's "How to set up" guide (screens.json) for someone who can open it: intro, steps,
 	and suggestions — the ones for this business's type first, then the general ones ("*")."""

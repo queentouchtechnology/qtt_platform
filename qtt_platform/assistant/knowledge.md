@@ -174,6 +174,26 @@ card with steps and suggestions for the business type.
   (another shift, place or a day off), shift swap (same day or trading days;
   the colleague accepts first), early exit, overtime. Late check-ins and
   missed check-outs also appear there with who they wait for.
+- **My requests, step by step (every employee):** Office Pulse home › the
+  **My requests** tile. Tap **New request** (shown only when HR has switched
+  on Requests in Setup › Business type; without it ask HR) and choose:
+  - Shift change — the day, then another shift and place (office, from home,
+    anywhere or a site), or tick **Day off**.
+  - Shift swap — your day, the colleague, and their day. Same day: you take
+    their shift and they take yours. Another day: you give them your day and
+    take theirs. The colleague accepts first: they see "requests waiting for
+    your approval" on their Office Pulse home and tap Approve. Then it goes
+    to the approvers.
+  - Early exit — the day and the time you'll leave (also asked automatically
+    when you check out early, if the business needs approval for that).
+  - Overtime — the day and the minutes (also asked automatically when you
+    check out late, if the business needs approval for that).
+  Add a reason (optional) and **Send for approval**. Each request shows its
+  status and who it's waiting for now (the manager, HR or a chosen person,
+  per Setup › Approval flows). Once approved, your shift for that day changes
+  (or the minutes count for attendance and overtime pay). A sent request
+  can't be withdrawn — ask the approver to reject it. Leave and work from
+  home are not here: Leave and My attendance › Request work from home.
 - **Approval flows** (Setup › Approval flows): per kind of request up to 5
   steps — manager, manager's manager, HR, HR Admin or a chosen person — each
   optionally only above an amount, days or minutes; "add HR after N hours"

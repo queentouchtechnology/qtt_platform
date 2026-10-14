@@ -34,56 +34,56 @@
   {"name": "One device shared by two businesses", "example": "A building's common gate", "status": "no", "how": "Not supported: a device belongs to one business."}
  ],
  "screens": [
-  {"id": "home", "product": null, "title": "Home", "path": "Apps (home)", "roles": ["*"],
+  {"id": "home", "product": null, "title": "Home", "path": "Apps (home)", "roles": ["*"], "ask": ["What can QTT OS do for my business?", "What are the cards under For you?", "How do I find a customer or an employee quickly?"],
    "what": "Your apps, the For you cards (what needs you now) and search across everything."},
-  {"id": "search", "product": null, "title": "Search", "path": "Home › Search", "roles": ["*"],
+  {"id": "search", "product": null, "title": "Search", "path": "Home › Search", "roles": ["*"], "ask": ["What can I search for here?", "How do I find someone by phone number?", "How do I open an app from search?"],
    "what": "One search for customers, people, items and apps. Understands typos, any word order and phone numbers."},
-  {"id": "customers", "product": null, "title": "Customers", "path": "Customers", "roles": ["*"],
+  {"id": "customers", "product": null, "title": "Customers", "path": "Customers", "roles": ["*"], "ask": ["How do I add a customer?", "How do I WhatsApp a customer from here?", "Is this the same customer list as Orbitra and Onbox?"],
    "what": "One customer list shared by every app (Onbox chats, Orbitra bills). Add, tag, archive; call, WhatsApp or email a customer."},
-  {"id": "customers.add", "product": null, "title": "Add customer", "path": "Customers › Add customer", "roles": ["*"],
+  {"id": "customers.add", "product": null, "title": "Add customer", "path": "Customers › Add customer", "roles": ["*"], "ask": ["Should I add an individual or a business?", "Where do I put the GSTIN?", "How do I tag a customer?"],
    "what": "Add an individual or a business (GSTIN, billing address, tags)."},
-  {"id": "business.profile", "product": null, "title": "Business profile", "path": "Business › Profile", "roles": ["*"],
+  {"id": "business.profile", "product": null, "title": "Business profile", "path": "Business › Profile", "roles": ["*"], "ask": ["Where does the logo show?", "How do I add our UPI ID to invoices?", "Who can change the business details?"],
    "what": "Logo, address, GSTIN, contact details, bank and UPI — used on invoices, payslips and PDFs. Only the owner or an admin can change them."},
-  {"id": "business.team", "product": null, "title": "Team", "path": "Business › Team", "roles": ["@owner"],
+  {"id": "business.team", "product": null, "title": "Team", "path": "Business › Team", "roles": ["@owner"], "ask": ["How do I invite a teammate?", "How do I choose which apps someone can use?", "How do I remove someone from the team?"],
    "what": "Invite teammates by email, choose which apps each person can use and their role in each app, remove people."},
-  {"id": "business.plans", "product": null, "title": "Plans", "path": "Business › Plans", "roles": ["@owner"],
+  {"id": "business.plans", "product": null, "title": "Plans", "path": "Business › Plans", "roles": ["@owner"], "ask": ["When does my trial end?", "How do I upgrade my plan?", "What does each app's plan include?"],
    "what": "Each app's plan and trial end date. To upgrade or change a plan, contact Queen Touch Technology."},
-  {"id": "account", "product": null, "title": "Account", "path": "Account", "roles": ["*"],
+  {"id": "account", "product": null, "title": "Account", "path": "Account", "roles": ["*"], "ask": ["How do I switch to another business?", "How do I turn on fingerprint sign-in?", "How do I change the app language?"],
    "what": "Your accounts (switch between several), appearance, language, tips, help and support, fingerprint / Face ID sign-in, sign out."},
-  {"id": "account.appearance", "product": null, "title": "Appearance", "path": "Account › Appearance", "roles": ["*"],
+  {"id": "account.appearance", "product": null, "title": "Appearance", "path": "Account › Appearance", "roles": ["*"], "ask": ["How do I turn on dark mode?", "How do I make the text bigger?", "What does density change?"],
    "what": "Light, dark or system mode, theme, text size and density."},
 
-  {"id": "pulse.home", "product": "QTT_OFFICE_PULSE", "title": "Office Pulse", "path": "Office Pulse", "roles": ["*"],
+  {"id": "pulse.home", "product": "QTT_OFFICE_PULSE", "title": "Office Pulse", "path": "Office Pulse", "roles": ["*"], "ask": ["How do I check in?", "Why can't I check in from here?", "Where do I see my attendance?"],
    "what": "Check in / out, today's team (managers, HR), your tiles: attendance, leave, expenses, payslips."},
-  {"id": "pulse.attendance", "product": "QTT_OFFICE_PULSE", "title": "My attendance", "path": "Office Pulse › My attendance", "roles": ["*"],
+  {"id": "pulse.attendance", "product": "QTT_OFFICE_PULSE", "title": "My attendance", "path": "Office Pulse › My attendance", "roles": ["*"], "ask": ["How do I request work from home?", "Why is a day marked late?", "How do I fix a day I forgot to check out?"],
    "what": "Your month calendar: in / out times, hours, late days. Request Work From Home or On Duty for past or coming days (a manager or HR approves).",
    "tips": [
     {"text": "Working from home or out on work? Request Work From Home or On Duty here — your manager approves it.", "link": "pulse.attendance.request", "label": "Request work from home"}
    ]},
-  {"id": "pulse.leave", "product": "QTT_OFFICE_PULSE", "title": "Leave", "path": "Office Pulse › Leave", "roles": ["*"],
+  {"id": "pulse.leave", "product": "QTT_OFFICE_PULSE", "title": "Leave", "path": "Office Pulse › Leave", "roles": ["*"], "ask": ["How do I apply for half-day leave?", "How many leave days do I have left?", "How do I withdraw a leave request?"],
    "what": "Your leave balances, apply for leave (half days allowed; holidays not counted), your requests; withdraw open or future ones.",
    "tips": [
     {"text": "Working from home instead of taking leave? Ask for Work From Home — it doesn't use your leave balance.", "link": "pulse.attendance.request", "label": "Request work from home"},
     {"when": "pulse.allow_outside", "text": "Your business allows checking in away from the office: just add a reason when you check in.", "link": "pulse.home", "label": "Check in"}
    ]},
-  {"id": "pulse.expenses", "product": "QTT_OFFICE_PULSE", "title": "Expenses", "path": "Office Pulse › Expenses", "roles": ["*"],
+  {"id": "pulse.expenses", "product": "QTT_OFFICE_PULSE", "title": "Expenses", "path": "Office Pulse › Expenses", "roles": ["*"], "ask": ["How do I claim an expense?", "How do I withdraw a claim?", "When is an approved claim paid?"],
    "what": "Your expense claims and their status; new claim with several expenses and receipt photos; withdraw a pending claim.",
    "tips": [
     {"text": "Add a photo of each receipt — claims with receipts are approved faster.", "link": "pulse.expense.new", "label": "New expense claim"}
    ]},
-  {"id": "pulse.expense.new", "product": "QTT_OFFICE_PULSE", "title": "New expense claim", "path": "Office Pulse › Expenses › New expense claim", "roles": ["*"],
+  {"id": "pulse.expense.new", "product": "QTT_OFFICE_PULSE", "title": "New expense claim", "path": "Office Pulse › Expenses › New expense claim", "roles": ["*"], "ask": ["How do I add a receipt photo?", "Can I put several expenses in one claim?", "Who approves my claim?"],
    "what": "One claim: what for, amount and date per expense, details, receipt photos (up to 5 MB each)."},
-  {"id": "pulse.attendance.request", "product": "QTT_OFFICE_PULSE", "title": "Request work from home / on duty", "path": "Office Pulse › My attendance › Request work from home / on duty", "roles": ["*"],
+  {"id": "pulse.attendance.request", "product": "QTT_OFFICE_PULSE", "title": "Request work from home / on duty", "path": "Office Pulse › My attendance › Request work from home / on duty", "roles": ["*"], "ask": ["What's the difference between work from home and on duty?", "Can I request past days?", "Who approves my request?"],
    "what": "Ask to work from home or be marked on duty for one or more days: choose which, the dates, and a line of detail; your approver decides."},
-  {"id": "pulse.payslips", "product": "QTT_OFFICE_PULSE", "title": "Payslips", "path": "Office Pulse › Payslips", "roles": ["*"],
+  {"id": "pulse.payslips", "product": "QTT_OFFICE_PULSE", "title": "Payslips", "path": "Office Pulse › Payslips", "roles": ["*"], "ask": ["When will I get my payslip?", "How do I download my payslip?", "Why is my net pay different this month?"],
    "what": "Your payslips, newest first: earnings, deductions, net pay; download the PDF. They appear after HR runs and finalises payroll."},
-  {"id": "pulse.team", "product": "QTT_OFFICE_PULSE", "title": "Team today", "path": "Office Pulse › Team today", "roles": ["HR", "HR Admin", "@manager"],
+  {"id": "pulse.team", "product": "QTT_OFFICE_PULSE", "title": "Team today", "path": "Office Pulse › Team today", "roles": ["HR", "HR Admin", "@manager"], "ask": ["Who is late today?", "Who is on leave today?", "What does a remote check-in mean?"],
    "what": "Who is in, out, on leave or not in yet today (remote check-ins are marked)."},
-  {"id": "pulse.approvals", "product": "QTT_OFFICE_PULSE", "title": "Approvals", "path": "Office Pulse › Approvals", "roles": ["HR", "HR Admin", "@manager"],
+  {"id": "pulse.approvals", "product": "QTT_OFFICE_PULSE", "title": "Approvals", "path": "Office Pulse › Approvals", "roles": ["HR", "HR Admin", "@manager"], "ask": ["How do I approve a request?", "What happens when I reject one?", "Why is a request waiting for someone else?"],
    "what": "Requests waiting at a step you approve — leave, work from home / on duty, expenses, late check-ins, missed check-outs, shift changes and swaps, early exits, overtime. Filter pills by kind; leave cards show the balance left and, with Coverage, a warning when approving would leave a shift short. A swap partner sees Accept / Decline first."},
-  {"id": "pulse.people", "product": "QTT_OFFICE_PULSE", "title": "People", "path": "Office Pulse › Manage › People", "roles": ["HR", "HR Admin"],
+  {"id": "pulse.people", "product": "QTT_OFFICE_PULSE", "title": "People", "path": "Office Pulse › Manage › People", "roles": ["HR", "HR Admin"], "ask": ["How do I add an employee?", "How do I give an employee the app?", "How do I mark someone as left?"],
    "what": "Employees (working / left): add, edit, give app access (email invitation), mark attendance, salary, mark as left. On top: action cards — import the team from Excel, invite everyone with an email in one tap, download people missing a mobile or department to fix them in Excel — and Import / Export (Excel or CSV) buttons."},
-  {"id": "pulse.people.import", "product": "QTT_OFFICE_PULSE", "title": "Import employees", "path": "Office Pulse › Manage › People › Import", "roles": ["HR", "HR Admin"],
+  {"id": "pulse.people.import", "product": "QTT_OFFICE_PULSE", "title": "Import employees", "path": "Office Pulse › Manage › People › Import", "roles": ["HR", "HR Admin"], "ask": ["How do I import employees from Excel?", "Which columns does the file need?", "What happens to people already added?"],
    "what": "Import employees from Excel (.xlsx) or CSV (up to 1,000): a template to download; columns recognised by name (also misspelt, else suggested by QTT Assistant) and changeable; each row checked — new, update (matched by employee ID, email or mobile) or a problem with the reason; suggestions (new departments, missing mobiles, plan room); optional app invitations; large files continue in the background. QTT can import it for you.",
    "guide": {
     "faq": [
@@ -106,7 +106,7 @@
      {"for": "*", "text": "Big list or a messy file? Send it to QTT from this screen and we'll import it for you."}
     ]
    }},
-  {"id": "pulse.devices", "product": "QTT_OFFICE_PULSE", "title": "Biometric devices", "path": "Office Pulse › Manage › Setup › Biometric devices", "roles": ["HR", "HR Admin"],
+  {"id": "pulse.devices", "product": "QTT_OFFICE_PULSE", "title": "Biometric devices", "path": "Office Pulse › Manage › Setup › Biometric devices", "roles": ["HR", "HR Admin"], "ask": ["How do I connect a biometric device?", "How do I link device users to employees?", "Why are no punches coming from the device?"],
    "what": "Fingerprint / face devices (ZKTeco, eSSL and others with ADMS or 'Cloud server') that send punches to Office Pulse by themselves: add a device by its serial number, see if it's online and its last punch, link each PIN on the device to a person (names from the device are suggested), ask a device to send missed punches again, see each punch and what became of it.",
    "guide": {
     "device_types": true,
@@ -135,15 +135,15 @@
      {"for": "*", "text": "Can't find Cloud Server Setting, or the device only takes an IP address? Ask QTT — we'll set it up with you."}
     ]
    }},
-  {"id": "pulse.setup", "product": "QTT_OFFICE_PULSE", "title": "Setup", "path": "Office Pulse › Manage › Setup", "roles": ["HR", "HR Admin"],
+  {"id": "pulse.setup", "product": "QTT_OFFICE_PULSE", "title": "Setup", "path": "Office Pulse › Manage › Setup", "roles": ["HR", "HR Admin"], "ask": ["How do I allow check-in away from the office?", "How do I set the office check-in radius?", "How do I add a holiday?"],
    "what": "Check-in rules (ask for location; allow check-in away from the office), offices and their check-in radius, business type and capabilities, sites, biometric devices, shifts (hours, late after, break, split), shift patterns, approval flows, attendance rules, leave types and giving leave, holiday calendars, departments and job titles.",
    "tips": [
     {"text": "Turn on “Allow check-in away from the office” so people can work from home and check in with a reason.", "link": "pulse.setup", "label": "Open Setup"}
    ]},
-  {"id": "pulse.payroll", "product": "QTT_OFFICE_PULSE", "title": "Payroll", "path": "Office Pulse › Manage › Payroll", "roles": ["HR Admin"],
+  {"id": "pulse.payroll", "product": "QTT_OFFICE_PULSE", "title": "Payroll", "path": "Office Pulse › Manage › Payroll", "roles": ["HR Admin"], "ask": ["How do I run payroll for this month?", "How do I set up a salary template?", "How do I fix a payslip before finalising?"],
    "what": "Steps: 1) a salary template with pay items (formulas allowed, e.g. base * 0.4), 2) give it to people with their monthly salary, 3) run payroll for a month, check, then finalise and publish payslips."},
 
-  {"id": "pulse.business_type", "product": "QTT_OFFICE_PULSE", "title": "Business type", "path": "Office Pulse › Manage › Setup › Business type", "roles": ["HR", "HR Admin"],
+  {"id": "pulse.business_type", "product": "QTT_OFFICE_PULSE", "title": "Business type", "path": "Office Pulse › Manage › Setup › Business type", "roles": ["HR", "HR Admin"], "ask": ["Which business type should I choose?", "What does each capability do?", "What changes when I tap Use?"],
    "what": "Pick the kind of business (office, security, hospital, factory, retail). Its preset switches on the capabilities it usually needs — Flexible cycles, Sites, Requests, Split shifts, Overtime pay, Coverage (with handover and on-call), Offline attendance — and suggested attendance rules. Everything can be changed afterwards.",
    "guide": {
     "shift_types": true,
@@ -163,7 +163,7 @@
      {"for": "*", "text": "Not sure? Start with Office and switch a feature on when you need it."}
     ]
    }},
-  {"id": "pulse.shifts", "product": "QTT_OFFICE_PULSE", "title": "Shifts", "path": "Office Pulse › Manage › Setup › Shifts", "roles": ["HR", "HR Admin"],
+  {"id": "pulse.shifts", "product": "QTT_OFFICE_PULSE", "title": "Shifts", "path": "Office Pulse › Manage › Setup › Shifts", "roles": ["HR", "HR Admin"], "ask": ["How do I create a night shift?", "How do I set a lunch break?", "How do I set up a split shift?"],
    "what": "Working hours: start, end (an end before the start means the next day), late after minutes, automatic attendance, a break rule (unpaid minutes after hours worked, or paid), and — with Split shifts — time off in the middle.",
    "guide": {
     "shift_types": true,
@@ -183,7 +183,7 @@
      {"for": "Factory / manufacturing", "text": "Three 8-hour shifts — A 06:00–14:00, B 14:00–22:00, C 22:00–06:00 — with late after 5 minutes."}
     ]
    }},
-  {"id": "pulse.shift_patterns", "product": "QTT_OFFICE_PULSE", "title": "Shift patterns", "path": "Office Pulse › Manage › Setup › Shift patterns", "roles": ["HR", "HR Admin"],
+  {"id": "pulse.shift_patterns", "product": "QTT_OFFICE_PULSE", "title": "Shift patterns", "path": "Office Pulse › Manage › Setup › Shift patterns", "roles": ["HR", "HR Admin"], "ask": ["How do I set up a rotation?", "How do I give one person a different shift for a day?", "How do I set work from home days?"],
    "what": "Which shift on which day, and where (office, from home, anywhere or a site): the same every week, a rotation of up to 8 weeks, or (Flexible cycles) every N days like 4 on / 4 off. Applies to everyone, a department or chosen people; gives shifts 60 days ahead. One-day changes in People are kept.",
    "guide": {
     "shift_types": true,
@@ -205,7 +205,7 @@
      {"for": "*", "text": "Night shifts that end after midnight work as they are: the check-out counts for the day the shift started."}
     ]
    }},
-  {"id": "pulse.attendance_rules", "product": "QTT_OFFICE_PULSE", "title": "Attendance rules", "path": "Office Pulse › Manage › Setup › Attendance rules", "roles": ["HR", "HR Admin"],
+  {"id": "pulse.attendance_rules", "product": "QTT_OFFICE_PULSE", "title": "Attendance rules", "path": "Office Pulse › Manage › Setup › Attendance rules", "roles": ["HR", "HR Admin"], "ask": ["How do late check-ins get approved?", "What happens if someone forgets to check out?", "Do early exits need approval?"],
    "what": "Late check-ins needing approval (after N minutes; if not approved: half day, absent or late mark), check-out required with reminders and what happens without one, how long a forgotten check-out stays open, early exits and overtime needing approval, how long offline check-ins are accepted, and the morning coverage alert.",
    "guide": {
     "intro": "Your own rules for late arrivals, forgotten check-outs, leaving early and overtime. Every business chooses differently.",
@@ -224,7 +224,7 @@
      {"for": "Retail / restaurant", "text": "Late after 10 minutes; early exits after 10 minutes need approval."}
     ]
    }},
-  {"id": "pulse.requests", "product": "QTT_OFFICE_PULSE", "title": "My requests", "path": "Office Pulse › My requests", "roles": ["*"],
+  {"id": "pulse.requests", "product": "QTT_OFFICE_PULSE", "title": "My requests", "path": "Office Pulse › My requests", "roles": ["*"], "ask": ["How do I ask for a shift change?", "How do I swap a shift with a colleague?", "How do I request overtime?"],
    "what": "Your shift changes, shift swaps, early exits, overtime, late check-ins and missed check-outs, with who each is waiting for. New request (when the business uses Requests): another shift / place / day off, a swap with a colleague (they accept first), leaving early, or overtime.",
    "guide": {
     "intro": "Ask for a different shift, swap with a colleague, leave early or work overtime. Each request goes to the people who approve it.",
@@ -239,7 +239,7 @@
      {"for": "*", "text": "Ask at least a day before, so your manager can arrange cover."}
     ]
    }},
-  {"id": "pulse.approval_flows", "product": "QTT_OFFICE_PULSE", "title": "Approval flows", "path": "Office Pulse › Manage › Setup › Approval flows", "roles": ["HR", "HR Admin"],
+  {"id": "pulse.approval_flows", "product": "QTT_OFFICE_PULSE", "title": "Approval flows", "path": "Office Pulse › Manage › Setup › Approval flows", "roles": ["HR", "HR Admin"], "ask": ["How do I add HR as a second approver?", "Can big expenses need extra approval?", "Who approves when there are no steps?"],
    "what": "Per kind of request (leave, work from home, expense, late check-in, missed check-out, shift change, swap, early exit, overtime): up to 5 steps — manager, manager's manager, HR, HR Admin or a chosen person — each optionally only above an amount, days or minutes, with HR added after N hours waiting. No steps: the manager or HR.",
    "guide": {
     "intro": "Decide who approves each kind of request, step by step. Without steps, the person's manager — or HR — approves.",
@@ -256,7 +256,7 @@
      {"for": "Security / field service", "text": "Shift swap: the supervisor (manager) only, with HR added after 12 hours."}
     ]
    }},
-  {"id": "pulse.pay_settings", "product": "QTT_OFFICE_PULSE", "title": "Overtime and on-call pay", "path": "Office Pulse › Manage › Payroll › Overtime and on-call pay", "roles": ["HR Admin"],
+  {"id": "pulse.pay_settings", "product": "QTT_OFFICE_PULSE", "title": "Overtime and on-call pay", "path": "Office Pulse › Manage › Payroll › Overtime and on-call pay", "roles": ["HR Admin"], "ask": ["How is overtime pay worked out?", "How do I pay an on-call allowance?", "When is overtime added to salary?"],
    "what": "How approved overtime and on-call days are paid in payroll runs (Overtime pay capability): hourly rate (monthly base ÷ days ÷ hours, or a fixed rate), multiplier, counting in blocks of minutes, on-call allowance per day. Each is paid once; HR sees what's added before slips are made.",
    "guide": {
     "intro": "Approved overtime and on-call days are added to the next payroll run, as their own pay items. Each is paid only once.",
@@ -272,7 +272,7 @@
      {"for": "*", "text": "Only people with a salary set are paid; give everyone their salary in Payroll first."}
     ]
    }},
-  {"id": "pulse.coverage", "product": "QTT_OFFICE_PULSE", "title": "Coverage", "path": "Office Pulse › Manage › Coverage", "roles": ["HR", "HR Admin"],
+  {"id": "pulse.coverage", "product": "QTT_OFFICE_PULSE", "title": "Coverage", "path": "Office Pulse › Manage › Coverage", "roles": ["HR", "HR Admin"], "ask": ["How do I make sure every shift has enough people?", "When does HR get the coverage alert?", "How do handover notes work?"],
    "what": "Coverage capability: rules for the fewest people a shift (at a site, on chosen weekdays) needs; the next 2 weeks with gaps; a 07:00 alert to HR for the next 3 days; warnings on approvals when leave or a shift change would leave a shift short. Handover notes from the end of a shift show on the next shift's check-in card.",
    "guide": {
     "intro": "Make sure every shift has enough people. Add a rule and Office Pulse shows the gaps for the next 2 weeks — before they happen.",
@@ -290,7 +290,7 @@
      {"for": "Factory / manufacturing", "text": "Each line: at least 6 people on every shift."}
     ]
    }},
-  {"id": "pulse.on_call", "product": "QTT_OFFICE_PULSE", "title": "On call", "path": "Office Pulse › Manage › On call", "roles": ["HR", "HR Admin"],
+  {"id": "pulse.on_call", "product": "QTT_OFFICE_PULSE", "title": "On call", "path": "Office Pulse › Manage › On call", "roles": ["HR", "HR Admin"], "ask": ["How do I add someone on call?", "How do I set up an on-call rotation?", "Where can people see who is on call?"],
    "what": "Coverage capability: who is on call now and next; add one person for some days, or a rotation where chosen people take turns (days each, times round). On call now shows on Team today and the person's check-in card; paid per day when HR Admin sets an on-call allowance.",
    "guide": {
     "intro": "Who answers out of hours. Add one person for some days, or a rotation where people take turns.",
@@ -306,64 +306,64 @@
    }},
 
 
-  {"id": "orbitra.home", "product": "QTT_ORBITRA", "title": "Orbitra", "path": "Orbitra", "roles": ["*"],
+  {"id": "orbitra.home", "product": "QTT_ORBITRA", "title": "Orbitra", "path": "Orbitra", "roles": ["*"], "ask": ["How do I make a sale?", "Who owes me money?", "Which items are running low?"],
    "what": "Today's sales, money to collect, items running low, and your tiles."},
-  {"id": "orbitra.pos", "product": "QTT_ORBITRA", "title": "POS", "path": "Orbitra › POS", "roles": ["*"],
+  {"id": "orbitra.pos", "product": "QTT_ORBITRA", "title": "POS", "path": "Orbitra › POS", "roles": ["*"], "ask": ["How do I take a UPI payment?", "How do I split a payment between cash and UPI?", "How do I scan a barcode?"],
    "what": "Quick counter sale: tap items (search or barcode), choose a customer or walk-in, take payment (cash, UPI, card, or split; change is worked out), save the bill PDF."},
-  {"id": "orbitra.sales", "product": "QTT_ORBITRA", "title": "Sales", "path": "Orbitra › Sales", "roles": ["Orbitra Admin", "Manager", "Cashier"],
+  {"id": "orbitra.sales", "product": "QTT_ORBITRA", "title": "Sales", "path": "Orbitra › Sales", "roles": ["Orbitra Admin", "Manager", "Cashier"], "ask": ["How do I receive a payment for an invoice?", "How do I turn a quote into an invoice?", "How do I take back items?"],
    "what": "Invoices (unpaid first) and quotes: new invoice, new quote, receive a payment, save or share the PDF, take back items (credit note), turn a quote into an invoice.",
    "tips": [
     {"text": "Send prices first with a quote; turn it into an invoice when they agree.", "link": "orbitra.invoice.new", "label": "New invoice"}
    ]},
-  {"id": "orbitra.invoice.new", "product": "QTT_ORBITRA", "title": "New invoice", "path": "Orbitra › Sales › New › New invoice", "roles": ["Orbitra Admin", "Manager", "Cashier"],
+  {"id": "orbitra.invoice.new", "product": "QTT_ORBITRA", "title": "New invoice", "path": "Orbitra › Sales › New › New invoice", "roles": ["Orbitra Admin", "Manager", "Cashier"], "ask": ["How do I add GST to an invoice?", "Can the customer pay later?", "How do I share the invoice PDF?"],
    "what": "Bill a customer: items, GST, total, paid now or later."},
-  {"id": "orbitra.inventory", "product": "QTT_ORBITRA", "title": "Inventory", "path": "Orbitra › Inventory", "roles": ["*"],
+  {"id": "orbitra.inventory", "product": "QTT_ORBITRA", "title": "Inventory", "path": "Orbitra › Inventory", "roles": ["*"], "ask": ["How do I add stock?", "How do I set a low-stock alert?", "How do I move stock between stores?"],
    "what": "Items and services: price, cost, GST rate, HSN/SAC, barcode, low-stock level; add stock, count stock, move between stores; running-low list.",
    "tips": [
     {"text": "Set “Tell me when stock is at or below” on an item and Orbitra warns you before it runs out.", "link": "orbitra.inventory", "label": "Open Inventory"}
    ]},
-  {"id": "orbitra.purchases", "product": "QTT_ORBITRA", "title": "Purchases", "path": "Orbitra › Purchases", "roles": ["Orbitra Admin", "Manager"],
+  {"id": "orbitra.purchases", "product": "QTT_ORBITRA", "title": "Purchases", "path": "Orbitra › Purchases", "roles": ["Orbitra Admin", "Manager"], "ask": ["How do I record a supplier bill?", "How do I pay a supplier?", "How much do I owe suppliers?"],
    "what": "Supplier bills (stock comes in), what you still owe, suppliers, pay a supplier. Needs a plan with Purchases."},
-  {"id": "orbitra.customers", "product": "QTT_ORBITRA", "title": "Orbitra customers", "path": "Orbitra › Customers", "roles": ["*"],
+  {"id": "orbitra.customers", "product": "QTT_ORBITRA", "title": "Orbitra customers", "path": "Orbitra › Customers", "roles": ["*"], "ask": ["Who owes me the most?", "How do I receive a payment from a customer?", "What did this customer buy?"],
    "what": "Who owes you and what they bought; new invoice or receive payment for a customer."},
-  {"id": "orbitra.accounts", "product": "QTT_ORBITRA", "title": "Accounts", "path": "Orbitra › Accounts", "roles": ["Orbitra Admin"],
+  {"id": "orbitra.accounts", "product": "QTT_ORBITRA", "title": "Accounts", "path": "Orbitra › Accounts", "roles": ["Orbitra Admin"], "ask": ["How do I record rent or electricity?", "How do I move money from cash to bank?", "Whom do I owe money to?"],
    "what": "Money in and out, record shop expenses (rent, electricity…), move money between cash and bank, who owes you and whom you owe. Needs a plan with Accounts."},
-  {"id": "orbitra.reports", "product": "QTT_ORBITRA", "title": "Reports", "path": "Orbitra › Reports", "roles": ["Orbitra Admin", "Manager"],
+  {"id": "orbitra.reports", "product": "QTT_ORBITRA", "title": "Reports", "path": "Orbitra › Reports", "roles": ["Orbitra Admin", "Manager"], "ask": ["How do I see GST for this month?", "What are my best-selling items?", "How much profit did I make?"],
    "what": "For a period: sales by day, best sellers, best customers, GST (collected minus paid on purchases), profit, stock value. Needs a plan with Reports."},
-  {"id": "orbitra.settings", "product": "QTT_ORBITRA", "title": "Orbitra settings", "path": "Orbitra › More › Orbitra settings", "roles": ["Orbitra Admin"],
+  {"id": "orbitra.settings", "product": "QTT_ORBITRA", "title": "Orbitra settings", "path": "Orbitra › More › Orbitra settings", "roles": ["Orbitra Admin"], "ask": ["Should prices include GST?", "How do I change the invoice note?", "Where do the business details on invoices come from?"],
    "what": "Selling prices include GST (on/off), main store, invoice note, run setup again. Business details on invoices come from Business › Profile."},
 
-  {"id": "onbox.home", "product": "QTT_ONBOX", "title": "Onbox", "path": "Onbox", "roles": ["*"],
+  {"id": "onbox.home", "product": "QTT_ONBOX", "title": "Onbox", "path": "Onbox", "roles": ["*"], "ask": ["How do I connect WhatsApp?", "What do the unread counts mean?", "How do I see one channel's chats?"],
    "what": "All your channels with open and unread counts; tap one to see its conversations."},
-  {"id": "onbox.conversations", "product": "QTT_ONBOX", "title": "Conversations", "path": "Onbox › All conversations", "roles": ["*"],
+  {"id": "onbox.conversations", "product": "QTT_ONBOX", "title": "Conversations", "path": "Onbox › All conversations", "roles": ["*"], "ask": ["How do I assign a chat?", "Why can't I reply on WhatsApp?", "How do I add a private note?"],
    "what": "Customer chats from WhatsApp, website chat, Facebook, Instagram and email: Mine / Unassigned / All, filter by status and channel, reply or add private notes, assign, snooze, label, resolve, save the contact as a customer. WhatsApp replies are free-form only within 24 hours of the customer's last message."},
-  {"id": "onbox.settings", "product": "QTT_ONBOX", "title": "Onbox settings", "path": "Onbox › Onbox settings", "roles": ["Manager"],
+  {"id": "onbox.settings", "product": "QTT_ONBOX", "title": "Onbox settings", "path": "Onbox › Onbox settings", "roles": ["Manager"], "ask": ["How do I connect WhatsApp Business?", "How do I add website chat to my site?", "How do I connect Instagram?"],
    "what": "Channels: connect WhatsApp (Meta Cloud API), website chat (paste the code on your site), Facebook, Instagram, email (forwarding or mailbox); rename or remove. Channel access: choose which team members answer each channel (managers and supervisors see all)."},
 
-  {"id": "services.home", "product": "QTT_SERVICES", "title": "Managed Services", "path": "Managed Services", "roles": ["*"],
+  {"id": "services.home", "product": "QTT_SERVICES", "title": "Managed Services", "path": "Managed Services", "roles": ["*"], "ask": ["How do I put my website live?", "What does the status of my website mean?", "Where do I approve a preview?"],
    "what": "Everything QTT runs for you: status of your websites and systems, your services, previews to approve, connecting your domain to go live, recent activity."},
-  {"id": "services.catalog", "product": "QTT_SERVICES", "title": "All services", "path": "Managed Services › Explore", "roles": ["*"],
+  {"id": "services.catalog", "product": "QTT_SERVICES", "title": "All services", "path": "Managed Services › Explore", "roles": ["*"], "ask": ["What's in Website Development?", "Which parts of AI & WhatsApp Automation should I pick?", "Can I pay yearly?"],
    "what": "QTT's services with their prices — Website Development (landing page, 3 or 5 pages), Managed E-Commerce Websites (an online store) and AI & WhatsApp Automation (pick the parts you need); suggestions for your kind of business; choose a size or parts, then monthly, yearly or 3 years; the owner orders and pays to start."},
-  {"id": "services.requests", "product": "QTT_SERVICES", "title": "Requests", "path": "Managed Services › Requests", "roles": ["*"],
+  {"id": "services.requests", "product": "QTT_SERVICES", "title": "Requests", "path": "Managed Services › Requests", "roles": ["*"], "ask": ["How do I ask QTT for a change?", "When should I mark a request urgent?", "Where do I see QTT's reply?"],
    "what": "Ask QTT for a change or help; mark it urgent if something is broken; QTT replies there."},
-  {"id": "services.payments", "product": "QTT_SERVICES", "title": "Payments", "path": "Managed Services › Payments", "roles": ["*"],
+  {"id": "services.payments", "product": "QTT_SERVICES", "title": "Payments", "path": "Managed Services › Payments", "roles": ["*"], "ask": ["How do I pay an invoice?", "Which payment methods can I use?", "What happens if I don't pay on time?"],
    "what": "Your invoices for services and paying them (UPI, card or net banking)."},
-  {"id": "services.website", "product": "QTT_SERVICES", "title": "Your website", "path": "Managed Services › your website › Manage your website", "roles": ["*"], "what": "Change your website without a website login: Design (colours, fonts, logo, menus, banners, every page and its sections), Enquiries from the website's forms, Marketing and tools (Google Analytics, Meta pixel, Search Console, SEO plugins), Website settings (name, tagline, Show on Google).", "tips": [{"text": "New enquiries from your website show at the top under Needs you — call or WhatsApp them back the same day.", "link": "services.website", "label": "Open your website"}], "guide": {"intro": "Your website is ready once your own words, photos and address are in.", "steps": ["Open the preview and look around.", "Design: add your logo, set your colours, and change the words and photos on each page.", "Marketing and tools: add your Google Analytics or Meta pixel code if you use them.", "Back on the website's page: Approve and go live, then connect your website address — the website moves onto it by itself."], "faq": [{"q": "Where do I log in to the website?", "a": "You don't need to — everything is done here in the app. QTT keeps the website's admin login safe."}, {"q": "Can I sell products on it?", "a": "A website takes enquiries. To take orders and payments online, order Managed E-Commerce Websites."}, {"q": "I need more pages", "a": "Ask QTT through Requests — we can move you to a bigger size."}]}},
-  {"id": "services.store", "product": "QTT_SERVICES", "title": "Your online store", "path": "Managed Services › your website › Run your store", "roles": ["*"],
+  {"id": "services.website", "product": "QTT_SERVICES", "title": "Your website", "path": "Managed Services › your website › Manage your website", "roles": ["*"], "ask": ["How do I change my website's colours and logo?", "Where do I see enquiries from my website?", "How do I connect my own domain?"], "what": "Change your website without a website login: Design (colours, fonts, logo, menus, banners, every page and its sections), Enquiries from the website's forms, Marketing and tools (Google Analytics, Meta pixel, Search Console, SEO plugins), Website settings (name, tagline, Show on Google).", "tips": [{"text": "New enquiries from your website show at the top under Needs you — call or WhatsApp them back the same day.", "link": "services.website", "label": "Open your website"}], "guide": {"intro": "Your website is ready once your own words, photos and address are in.", "steps": ["Open the preview and look around.", "Design: add your logo, set your colours, and change the words and photos on each page.", "Marketing and tools: add your Google Analytics or Meta pixel code if you use them.", "Back on the website's page: Approve and go live, then connect your website address — the website moves onto it by itself."], "faq": [{"q": "Where do I log in to the website?", "a": "You don't need to — everything is done here in the app. QTT keeps the website's admin login safe."}, {"q": "Can I sell products on it?", "a": "A website takes enquiries. To take orders and payments online, order Managed E-Commerce Websites."}, {"q": "I need more pages", "a": "Ask QTT through Requests — we can move you to a bigger size."}]}},
+  {"id": "services.store", "product": "QTT_SERVICES", "title": "Your online store", "path": "Managed Services › your website › Run your store", "roles": ["*"], "ask": ["How do I see new orders?", "How do I add my products?", "How do customers pay?"],
    "what": "Run your online store without a website login: today's orders, orders to pack and send, new enquiries, products running low or sold out, plugin updates; and the way into Orders, Products, Design, Enquiries, Offers and coupons, Marketing and tools, Store settings.", "tips": [{"text": "Orders to pack and send and new enquiries show at the top under Needs you — tap one to go straight there.", "link": "services.store", "label": "Open your store"}], "guide": {"intro": "Your store is ready to sell once your own products are in and your address is connected.", "steps": ["Open the preview and look around the sample shop.", "Products: edit the sample products or delete them, and add your own with photos, prices and stock.", "Design: add your logo, set your colours, and change the banners and the home page to suit you.", "Marketing and tools: add Razorpay for UPI and cards, and your Google Analytics or Meta pixel code if you use them.", "Back on the website's page: Approve and go live, then connect your website address — the store moves onto it by itself."], "faq": [{"q": "Where do I log in to the website?", "a": "You don't need to — everything is done here in the app. QTT keeps the website's admin login safe."}, {"q": "How do I see a new order?", "a": "It appears in Orders and in your Managed Services activity the moment it's placed."}, {"q": "How do customers pay?", "a": "Cash on delivery works from day one. For UPI, cards and net banking add Razorpay in Marketing and tools (QTT can help connect your account)."}, {"q": "Can I change the design later?", "a": "Yes. In Design, switch to another ready design or change colours, banners and sections. Your products, name, logo and contact details stay."}, {"q": "My product has sizes or colours", "a": "Ask QTT through Requests — we set up the sizes and colours, their prices and stock, for now."}, {"q": "Something on the website is wrong", "a": "Send a request from Managed Services › Requests and mark it urgent if customers can't order."}]}},
-  {"id": "services.store.orders", "product": "QTT_SERVICES", "title": "Store orders", "path": "Managed Services › Run your store › Orders", "roles": ["*"],
+  {"id": "services.store.orders", "product": "QTT_SERVICES", "title": "Store orders", "path": "Managed Services › Run your store › Orders", "roles": ["*"], "ask": ["How do I mark an order delivered?", "How do I tell the customer the tracking number?", "How do I cancel an order?"],
    "what": "Every order from your online store: search by name, phone or number; To send, Unpaid and Delivered tabs; the order with items, address and payment; call or WhatsApp the customer; mark delivered or paid, cancel, add a note emailed to the customer.", "tips": [{"text": "Add a note with the courier and tracking number and tick Email it to the customer — they hear from you without a call.", "link": "services.store.orders", "label": "Open orders"}]},
-  {"id": "services.store.products", "product": "QTT_SERVICES", "title": "Store products", "path": "Managed Services › Run your store › Products", "roles": ["*"],
+  {"id": "services.store.products", "product": "QTT_SERVICES", "title": "Store products", "path": "Managed Services › Run your store › Products", "roles": ["*"], "ask": ["How do I add a product with photos?", "How do I change stock quickly?", "How do I hide a product?"],
    "what": "Your products: photos from your phone, price and offer price, stock, categories, show or hide in the shop, featured; change stock quickly from the list; search by name or code; filter sold out.", "tips": [{"text": "Square photos on a plain background make the shop look professional. The first photo is the main one.", "link": "services.store.products", "label": "Open products"}]},
-  {"id": "services.store.design", "product": "QTT_SERVICES", "title": "Store design", "path": "Managed Services › Run your store › Design", "roles": ["*"],
+  {"id": "services.store.design", "product": "QTT_SERVICES", "title": "Store design", "path": "Managed Services › Run your store › Design", "roles": ["*"], "ask": ["How do I change the store's design?", "How do I change the banners?", "How do I hide a section?"],
    "what": "How your store looks: ready designs; each page and its sections (switch off, reorder, add, edit); logo, colours, fonts, header, menu, banners, footer, pop-ups and shop options. Saved straight to your website.", "tips": [{"text": "Switch a section off instead of removing it — you can bring it back any time.", "link": "services.store.design", "label": "Open design"}]},
-  {"id": "services.store.entries", "product": "QTT_SERVICES", "title": "Store enquiries", "path": "Managed Services › Run your store › Enquiries", "roles": ["*"],
+  {"id": "services.store.entries", "product": "QTT_SERVICES", "title": "Store enquiries", "path": "Managed Services › Run your store › Enquiries", "roles": ["*"], "ask": ["Where do enquiries come from?", "How do I reply to an enquiry?", "What are newsletter sign-ups?"],
    "what": "Messages from your website's forms — enquiries, contact messages and newsletter sign-ups — with call, WhatsApp and email buttons."},
-  {"id": "services.store.coupons", "product": "QTT_SERVICES", "title": "Offers and coupons", "path": "Managed Services › Run your store › Offers and coupons", "roles": ["*"],
+  {"id": "services.store.coupons", "product": "QTT_SERVICES", "title": "Offers and coupons", "path": "Managed Services › Run your store › Offers and coupons", "roles": ["*"], "ask": ["How do I make a discount code?", "How do I give free delivery?", "How do I limit how many times a code is used?"],
    "what": "Discount codes for your customers: % off or ₹ off the order, free delivery, minimum order, end date, how many times it can be used.", "tips": [{"text": "Make a code like WELCOME10 and share it on WhatsApp and Instagram.", "link": "services.store.coupons", "label": "New coupon"}]},
-  {"id": "services.store.marketing", "product": "QTT_SERVICES", "title": "Marketing and tools", "path": "Managed Services › Run your store › Marketing and tools", "roles": ["*"],
+  {"id": "services.store.marketing", "product": "QTT_SERVICES", "title": "Marketing and tools", "path": "Managed Services › Run your store › Marketing and tools", "roles": ["*"], "ask": ["How do I add Google Analytics?", "How do I add Razorpay for UPI and cards?", "How do I sell on Facebook and Instagram?"],
    "what": "Google Analytics, Meta (Facebook) pixel, Google Search Console and Tag Manager codes; approved plugins for SEO, Facebook and Instagram shopping, Google Shopping, email marketing, Razorpay payments and GST invoices; plugin updates."},
-  {"id": "services.store.settings", "product": "QTT_SERVICES", "title": "Store settings", "path": "Managed Services › Run your store › Store settings", "roles": ["*"],
+  {"id": "services.store.settings", "product": "QTT_SERVICES", "title": "Store settings", "path": "Managed Services › Run your store › Store settings", "roles": ["*"], "ask": ["How do I show my store on Google?", "How do I change the store name?", "Why is my store hidden from Google?"],
    "what": "Your store's name and tagline, and whether it shows on Google (off while you get ready; switched on when the store goes live)."}
  ]
 }
