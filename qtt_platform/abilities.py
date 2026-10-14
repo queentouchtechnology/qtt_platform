@@ -18,8 +18,20 @@ from qtt_platform.abilities_rules import CUSTOMER_PRODUCTS, GOVERNANCE, rules  #
 def for_member(membership) -> dict:
 	"""The abilities of a QTT Tenant Membership (document or dict with name / tenant_role)."""
 	get = membership.get if hasattr(membership, "get") else (lambda k: getattr(membership, k, None))
-	products = frappe.get_all("QTT Product Access", filters={"membership": get("name"), "status": "active"}, pluck="product")
-	return rules(get("tenant_role"), products)
+	access = frappe.get_all("QTT Product Access", filters={"membership": get("name"), "status": "active"}, fields=["product", "product_role", "tenant"])
+	products = [a.product for a in access]
+	orbitra = next((a for a in access if a.product == "QTT_ORBITRA"), None)
+	return rules(get("tenant_role"), products, orbitra_customers=bool(orbitra) and _orbitra_customers(orbitra))
+
+
+def _orbitra_customers(access) -> bool:
+	"""Can this Orbitra role use Customers (the owner can switch it off for a role)?"""
+	try:
+		from qtt_platform import role_access
+
+		return "customers" in role_access.areas(access.tenant, "QTT_ORBITRA", access.product_role)
+	except Exception:
+		return False  # unsure: keep the shared list where it is
 
 
 def require(membership, ability: str) -> None:

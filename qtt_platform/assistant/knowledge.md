@@ -11,9 +11,16 @@ person in it gets access to some products, with a role in each.
 - **Search**: finds customers, people, items and app screens. Understands
   typos, any word order, phone numbers, and everyday words ("salary" opens
   Office Pulse, "bill" opens Orbitra). Remembers recent searches.
-- **Customers**: one customer list shared by all apps. Individual or business
+- **Customers**: one customer list per business, shared by all apps (Orbitra
+  bills them, Onbox saves chat contacts into it). Individual or business
   (GSTIN, billing address), tags and notes; call, WhatsApp or email them;
-  archive instead of delete.
+  archive instead of delete. **Where it is**: with Orbitra (and a role that
+  can use Customers) it's Orbitra › Customers — the same list, where a
+  customer also shows what they owe and bought and New invoice; there is no
+  separate Customers menu item then. Without Orbitra (e.g. Onbox only), or if
+  the owner switched Customers off for your Orbitra role, it's Customers in
+  the menu. Search, then the filter button: Active / Archived and tags; a
+  filter that's on shows as a chip under the search (× removes it).
 - **Business** (owner / admin): Profile (logo, address, GSTIN, phone, bank,
   UPI — printed on invoices, payslips, PDFs); Team (invite by email, choose
   each person's apps and role, remove); Roles and access (below); Plans (each
@@ -589,8 +596,9 @@ told "Your role in Orbitra can't do this" — the owner can switch it on there.
   move stock between stores; hide an item from POS and new bills.
 - **Purchases**: supplier bills bring stock in and track what you owe; pay a
   supplier; manage suppliers.
-- **Customers** (in Orbitra): what each customer owes and bought; new invoice
-  or receive payment from there.
+- **Customers** (in Orbitra): the business's one customer list (search,
+  Active / Archived, tags); a customer shows what they owe and bought, their
+  invoices, New invoice, Receive payment, and Edit details (contact, archive).
 - **Accounts**: money in and out; record shop expenses; move money between
   cash and bank; who owes you / whom you owe.
 - **Reports**: for a period — sales by day, best sellers and customers, GST
