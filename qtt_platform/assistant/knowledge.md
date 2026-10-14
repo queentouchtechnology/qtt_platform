@@ -138,8 +138,39 @@ approve their team's requests.
 - **Setup** (HR): ask for location at check-in; allow check-in away from the
   office; offices (stand at the office and save its location; radius);
   leave types (yearly limit, unpaid, carry over) and giving leave; holiday
-  calendars (weekly off, holidays); shifts (start, end, late after minutes,
+  calendars (holidays and week-off days — see Holidays below); shifts (start, end, late after minutes,
   automatic attendance from check-ins); departments and job titles.
+- **Holidays** (HR, Setup › Holidays): a **calendar** is a year's named
+  holidays (festivals, public holidays) plus its **week-off days** — one or
+  more days of the week, e.g. Sunday only, Saturday and Sunday, or Friday.
+  - **Who uses which**: the **whole company** uses one calendar; a **team**
+    (department) can use another; a **person** can have their own. A person's
+    own beats their team's, which beats the company's. Someone who moves team
+    gets the new team's calendar (unless they have their own, which stays).
+  - **Assign a calendar**: Setup › Holidays › Assign a calendar → choose Whole
+    company, Teams or People → the calendar → tick the teams or people → "Use
+    … for N". For teams or people choose "Back to the usual calendar" to undo.
+    Each row shows what they use now and where it comes from (own / team /
+    company).
+  - **Different week-offs for a team or person**: make a calendar with those
+    week-off days (New → name, year, tick the days, optionally "Start with the
+    holidays of" another calendar so festivals are copied), then assign it to
+    the team or people.
+  - **Change week-off days**: open the calendar, tick the days, Save week-off
+    days — every such day is marked off for the whole year. Named holidays
+    stay; a holiday on a week-off day keeps its name; removing it makes the
+    day a week-off again. At least one working day must remain.
+  - **Next year**: make a new calendar for next year (copy this year's
+    holidays), then assign it the same way.
+  - **For employees**: "Your week-off days" and the next holidays show on the
+    Office Pulse home (Upcoming holidays); week-offs and holidays are marked
+    on My attendance. They come from the calendar HR set for the company,
+    their team or them — ask HR to change it.
+  - Everything follows each person's calendar: their attendance calendar,
+    leave day counts (holidays and week-offs aren't counted), automatic
+    attendance from check-ins (not marked absent on their days off), shifts
+    and coverage (a day off isn't a working day), the Office Pulse home, and
+    Team today (each person shows as off by their own calendar).
 - **Giving leave** (HR, Setup › Leave types › Give leave on a type): one page —
   choose the year (this or next), the days for each person (it warns above
   the type's yearly limit), and who: everyone shows whether they already have
