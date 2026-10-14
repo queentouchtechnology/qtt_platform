@@ -287,6 +287,26 @@ approve their team's requests.
   Leave", "they joined after the start of this period", "they have already
   taken more days than that". To add days for someone who has it: turn on
   "Also change people who already have it" and choose just them.
+- **Departments and job titles** (Setup › Departments and job titles): add
+  them here (or with Add new on an employee's form, or by import); each
+  shows how many people are in it. Put someone in one: People › the person ›
+  Edit › Department. Departments are used for shift patterns (a pattern for
+  a department) and holiday calendars (a team's own holidays). Job titles are shown on profiles and approval cards; they don't
+  change what someone can do in the app — their role does (Business › Team,
+  Roles and access).
+- **People** (HR): search by name, phone or email; Working / Left; Add (one
+  person), Import (Excel / CSV, many at once), Export. A person: Details ›
+  Edit; **Give app access** (an email invitation — when they accept, their
+  login is linked to them; or "they already have a login"); Attendance and
+  Mark attendance for a day; **Shifts** — their next two weeks: tap a day for
+  another shift, place or a day off (only that day; they're told; a shift
+  pattern edit never undoes it; Back to the pattern undoes it); Salary (HR
+  Admin); **Mark as left** on a date — their Office Pulse access is removed,
+  records are kept, and they show under Left. Add / Edit: first name, gender
+  and date of birth are required; joining date empty = today; Reports to =
+  their manager (approves their requests, sees them in Team); Device PIN =
+  their user ID on biometric devices. Everyone the app: Home's "give the team
+  the app" card / Invite all.
 - **Giving a shift, a salary template or a shift pattern to many people**:
   the result names who it worked for and who it didn't, each with the
   reason; nobody is left half-done.
@@ -294,6 +314,37 @@ approve their team's requests.
   deductions; formulas like base * 0.4), 2) give a template to people with
   their monthly salary, 3) Run payroll for a month, check gross / deductions
   / net, then Finalise and publish payslips (employees then see them).
+  - **Pay items** (Payroll › Pay items): name, Earning or Deduction, a short
+    code used in formulas (e.g. BS), and an amount or a formula. Earnings add
+    to gross pay; deductions (PF, professional tax, advances…) come off it:
+    net = gross − deductions. Starter items: Basic Salary BS = base * 0.5,
+    House Rent Allowance HRA = BS * 0.4, Special Allowance SA = base − BS −
+    HRA (so the three add up to the monthly salary). Fixed amount: the same
+    for everyone (e.g. a 200 professional tax); formula: follows each
+    person's salary. To add PF: a Deduction pay item (e.g. PF = BS * 0.12),
+    then add it to the template (a copy, if the template is in use).
+  - **Salary templates** (Payroll › Salary templates): one per kind of job,
+    not per person — each person's monthly salary is entered when the
+    template is given to them, and formulas work it out. "base" = that
+    monthly salary; a formula can use earlier items by short code. Save draft
+    while working on it; **Start using** makes it final (it can then be given
+    to people, and can't be edited — Make a copy to change it, then give the
+    copy to people from a date). The list shows how many people are on each.
+  - **A person's salary** (People › the person › Salary): their history
+    (template, monthly salary, from date) and Set salary with a template from
+    a date. A raise or a new template = set it again from the new date (the
+    old one stays in the history); two can't start on the same date. Nothing
+    to choose → make a template and Start using it first.
+  - **A payroll run** (Payroll › a month): first the checks — punches not in
+    attendance yet, biometric punches waiting for a person, undecided
+    requests, approved overtime not in a run, devices quiet since the period
+    ended — fix them and Refresh; then each slip: days paid of working days
+    (days absent without paid leave aren't paid, nor days before joining or
+    after leaving), gross, deductions, net, overtime and on-call added.
+    **Finalise and publish payslips**: employees see them and the salary
+    entry is posted to the accounts. Finalised payslips can't be changed in
+    the app — check before finalising; for a correction afterwards ask QTT
+    (Account › Help and support).
 
 ## Office Pulse — import and export employees (HR)
 - **Import** (People › Import, or the "Bring your team in" card): download the
@@ -432,11 +483,21 @@ card with steps and suggestions for the business type.
   beats everyone), and who leaves. "Stop using this pattern": its people move
   to the next pattern that fits them, or keep the shifts given under Shifts.
   A pattern showing 0 people: everyone it's for is on a more specific pattern
-  (chosen people or their department), or its department has no one. Who: everyone, a department or chosen
-  people (chosen people first, then department, then everyone). Save and
-  apply gives shifts 60 days ahead in the background (a notification comes
+  (chosen people or their department), or its department has no one. Save
+  and apply gives shifts 60 days ahead in the background (a notification comes
   when done) and keeps topping up. A one-day change for a person is in People
   › the person › Shifts and survives pattern edits.
+- **Attendance rules — the options**: a late check-in not approved makes
+  the day Half day, Absent or Late mark only. Still no check-out at day end:
+  Ask for the time (they get a request to fill in the time they left — it
+  goes to the approver), Half day, or Nothing. An early exit not approved:
+  Half day, Absent or Mark only. "Forgotten check-out: keep the shift open
+  for N hours" (1–24): a check-out this long after the shift ends still
+  counts for it — night shifts need ~12. Overtime needs approval: approved
+  minutes count for payroll (with Overtime pay, HR Admin sets the rate in
+  Payroll › Overtime and on-call pay). "Wait for offline biometric devices
+  before marking absent" (hours): a device without network still holds the
+  punches, so nobody is marked absent before it sends them.
 - **Attendance rules** (Setup › Attendance rules): late check-ins need
   approval (after N minutes; if not approved: half day, absent or late mark);
   check-out required with reminders and what happens without one; how many

@@ -277,6 +277,24 @@ class ShiftPatternQuestionsTest(unittest.TestCase):
 		self.assertTrue(set(one).isdisjoint(q("pulse.shift_patterns")))  # the editor never shows the list's questions
 
 
+class OwnQuestionsTest(unittest.TestCase):
+	"""A page opened from a list asks about itself, never the list's (or Payroll's) questions."""
+	ADMIN = {"products": {"QTT_OFFICE_PULSE": "HR Admin"}, "owner": False, "manager": False}
+
+	def test_each_page_has_its_own(self):
+		q = lambda sid: logic.questions_for(REG, sid, self.ADMIN)
+		pairs = [("pulse.salary_templates", "pulse.payroll"), ("pulse.salary_template", "pulse.payroll"), ("pulse.pay_items", "pulse.payroll"),
+				 ("pulse.payroll_run", "pulse.payroll"), ("pulse.person", "pulse.people"), ("pulse.person.shifts", "pulse.shifts"),
+				 ("pulse.employee_form", "pulse.people"), ("pulse.employee_salary", "pulse.people"), ("pulse.device_add", "pulse.devices"),
+				 ("pulse.on_call_form", "pulse.on_call")]
+		for page, parent in pairs:
+			mine = q(page)
+			self.assertGreaterEqual(len(mine), 3, page)
+			self.assertTrue(set(mine).isdisjoint(q(parent)), (page, parent))
+		self.assertIn("How do formulas like BS * 0.4 work?", q("pulse.salary_template"))
+		self.assertIn("What happens if a late check-in isn't approved?", q("pulse.attendance_rules"))
+
+
 if __name__ == "__main__":
 	unittest.main()
 
