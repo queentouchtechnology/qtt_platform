@@ -67,8 +67,10 @@ def _context(user: str, tenant: str) -> tuple[dict, set[str], str]:
 	who = (f"Name: {frappe.utils.get_fullname(user)}. Business: {business} — their role: {m.tenant_role}. "
 		   f"Apps and roles: {', '.join(f'{names.get(k, k)} ({v})' for k, v in products.items()) or 'none yet'}. "
 		   f"Manages people: {'yes' if manager else 'no'}." + (f" Business type (Office Pulse): {industry}." if industry else ""))
+	from qtt_platform.abilities_rules import rules as ability_rules
+
 	return {"products": products, "owner": m.tenant_role in OWNER_ROLES, "manager": manager, "industry": industry,
-			"features": features}, conditions, who
+			"features": features, "customers": ability_rules(m.tenant_role, list(products))["customers"]}, conditions, who
 
 
 def _catalogue() -> tuple[str, str]:

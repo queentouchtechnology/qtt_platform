@@ -16,7 +16,7 @@ EMPLOYEE = {"products": {"QTT_OFFICE_PULSE": "Employee"}, "owner": False, "manag
 HR = {"products": {"QTT_OFFICE_PULSE": "HR"}, "owner": False, "manager": False}
 OWNER = {"products": {"QTT_OFFICE_PULSE": "HR Admin", "QTT_ORBITRA": "Orbitra Admin", "QTT_ONBOX": "Manager", "QTT_SERVICES": "Owner"},
 		 "owner": True, "manager": True}
-CASHIER = {"products": {"QTT_ORBITRA": "Cashier"}, "owner": False, "manager": False}
+CASHIER = {"products": {"QTT_ORBITRA": "Cashier"}, "owner": False, "manager": False, "customers": True}
 
 
 class RegistryTest(unittest.TestCase):
@@ -148,6 +148,13 @@ class TipsTest(unittest.TestCase):
 		self.assertIn("How do I swap a shift with a colleague?", mine)  # about this screen, not leave or payslips
 		self.assertEqual(logic.questions_for(REG, "pulse.setup", EMPLOYEE), [])  # not their screen
 		self.assertEqual(logic.questions_for(REG, "nope", OWNER), [])
+
+	def test_an_employee_never_sees_customers_or_the_business(self):
+		ids = {s["id"] for s in logic.allowed_screens(REG, EMPLOYEE)}
+		self.assertFalse({"customers", "customers.add", "business.profile", "business.team", "business.plans"} & ids)
+		cashier = {s["id"] for s in logic.allowed_screens(REG, CASHIER)}
+		self.assertIn("customers", cashier)  # people who bill customers see them
+		self.assertNotIn("business.profile", cashier)
 
 	def test_no_tips_for_screens_you_cannot_open(self):
 		self.assertEqual(logic.tips_for(REG, "pulse.setup", EMPLOYEE, set()), [])

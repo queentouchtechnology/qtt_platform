@@ -28,7 +28,11 @@ def _tenant() -> tuple[str, object]:
 	tenant = resolve_active_tenant()
 	if not tenant:
 		frappe.throw(_("Choose your business first."))
-	return tenant, require_tenant_membership(tenant)
+	membership = require_tenant_membership(tenant)
+	from qtt_platform import abilities
+
+	abilities.require(membership, "customers")  # owners, admins, and people who bill or chat with customers
+	return tenant, membership
 
 
 def _doc(tenant: str, name: str):

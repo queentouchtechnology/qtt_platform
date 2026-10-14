@@ -51,6 +51,8 @@ def get_app_context() -> dict:
 		"active_workspace": active_membership["tenant"] if active_membership else None,
 		"products": _products(active_membership) if active_membership else [],
 		"can_manage_workspace": bool(active_membership and active_membership["tenant_role"] in _GOVERNANCE_ROLES),
+		# What this person may see in the business (qtt_platform.abilities): the app shows only these.
+		"can": _abilities(active_membership),
 		# Owner/Admin: every product the workspace subscribes to, so Team and
 		# Plans can hand out access even before anyone has it.
 		"workspace_products": _workspace_products(active_membership["tenant"])
@@ -160,3 +162,11 @@ def _subscription_summary(tenant: str, product: str) -> dict | None:
 		"trial_end": str(sub.trial_end) if sub.trial_end else None,
 		"current_period_end": str(sub.current_period_end) if sub.current_period_end else None,
 	}
+
+
+def _abilities(active_membership: dict | None) -> dict:
+	from qtt_platform import abilities
+
+	if not active_membership:
+		return abilities.rules(None, [])
+	return abilities.for_member({"name": active_membership["membership"], "tenant_role": active_membership["tenant_role"]})

@@ -51,6 +51,9 @@ def get_dashboard(product: str) -> dict:
 		access = require_product_access(tenant, product)
 		product_access = {"product": product, "product_role": access.product_role, "status": access.status}
 
+	from qtt_platform import abilities
+
+	governs = abilities.for_member(membership)["business"]  # billing and the team are for owners and admins
 	subscription = get_my_subscription(tenant, product)
 	entitlements = get_entitlements_with_usage(tenant, product) if product_access else []
 
@@ -68,9 +71,9 @@ def get_dashboard(product: str) -> dict:
 			"next_billing_date": subscription["current_period_end"] if subscription else None,
 			"entitlements": entitlements,
 			"billing": {
-				"invoices": get_my_invoices(tenant),
-				"payments": get_my_payments(tenant),
+				"invoices": get_my_invoices(tenant) if governs else [],
+				"payments": get_my_payments(tenant) if governs else [],
 			},
-			"team_members": get_team_members(tenant),
+			"team_members": get_team_members(tenant) if governs else [],
 		}
 	)

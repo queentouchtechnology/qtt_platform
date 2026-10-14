@@ -54,7 +54,8 @@ def load_knowledge() -> str:
 
 
 def can_open(screen: dict, ctx: dict) -> bool:
-	"""ctx: {"products": {key: role}, "owner": bool, "manager": bool}."""
+	"""ctx: {"products": {key: role}, "owner": bool, "manager": bool, "customers": bool}.
+	"@customers": owners, admins and people who bill or chat with customers (qtt_platform.abilities)."""
 	product = screen.get("product")
 	roles = screen.get("roles") or ["*"]
 	if product:
@@ -69,6 +70,8 @@ def can_open(screen: dict, ctx: dict) -> bool:
 		if r == "@owner" and ctx.get("owner"):
 			return True
 		if r == "@manager" and ctx.get("manager"):
+			return True
+		if r == "@customers" and (ctx.get("customers") or ctx.get("owner")):
 			return True
 		if mine and r == mine:
 			return True

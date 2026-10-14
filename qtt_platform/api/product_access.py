@@ -230,13 +230,12 @@ def get_my_product_access(tenant: str) -> list[dict]:
 
 @frappe.whitelist()
 def get_team_members(tenant: str) -> list[dict]:
-	"""SaaS lifecycle Phase H (dashboard "team members" section). Every
-	active member of `tenant` with their tenant role and whatever active
-	product access rows they hold. Visible to any active member, not
-	gated to Owner/Admin — a team roster is read-only and materially less
-	sensitive than the governance actions above (grant/revoke/change),
-	which stay Owner/Admin-only, unchanged."""
-	require_tenant_membership(tenant)
+	"""Every active member of `tenant` with their tenant role and product access (Business › Team).
+	Owners and admins only: the roster (people's emails and roles) is business-wide data
+	(qtt_platform.abilities "business")."""
+	from qtt_platform import abilities
+
+	abilities.require(require_tenant_membership(tenant), "business")
 
 	memberships = frappe.get_all(
 		"QTT Tenant Membership",

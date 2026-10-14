@@ -1545,7 +1545,27 @@ class GetMyPaymentsTest(unittest.TestCase):
 		self.assertEqual(result[0]["invoice"], "inv-1")
 
 
+def _as(business: bool):
+	"""Patch the person's abilities (qtt_platform.abilities): business = owner / admin."""
+	from qtt_platform import abilities
+
+	return mock.patch.object(abilities, "for_member", return_value={"customers": business, "business": business})
+
+
 class GetTeamMembersTest(unittest.TestCase):
+	def setUp(self):
+		patcher = _as(True)  # the roster is for owners and admins
+		patcher.start()
+		self.addCleanup(patcher.stop)
+
+	def test_a_member_cannot_list_the_team(self):
+		from qtt_platform import abilities
+
+		refused = PermissionError("refused")
+		with _as(False), mock.patch.object(api_product_access, "require_tenant_membership"), 				mock.patch.object(abilities.frappe, "throw", side_effect=refused, create=True):
+			with self.assertRaises(PermissionError):
+				api_product_access.get_team_members("tenant-1")
+
 	def test_aggregates_membership_and_product_access(self):
 		# frappe.get_all() rows are dot-accessible (frappe._dict) in real
 		# use — types.SimpleNamespace mirrors that, unlike a plain dict.
@@ -1582,6 +1602,26 @@ class GetTeamMembersTest(unittest.TestCase):
 
 
 class GetDashboardTest(unittest.TestCase):
+	def setUp(self):
+		patcher = _as(True)
+		patcher.start()
+		self.addCleanup(patcher.stop)
+
+	def test_a_member_gets_no_billing_or_team(self):
+		membership = mock.Mock(tenant_role="Member")
+		tenant_doc = mock.Mock(tenant_name="Acme", status="active", owner_user="owner@example.com")
+		with _as(False), mock.patch.object(api_dashboard, "resolve_active_tenant", return_value="tenant-1"):
+			with mock.patch.object(api_dashboard, "require_tenant_membership", return_value=membership):
+				fake_frappe.db.get_value = mock.Mock(return_value=tenant_doc)
+				with mock.patch.object(api_dashboard, "has_product_access", return_value=False):
+					with mock.patch.object(api_dashboard, "get_my_subscription", return_value=None):
+						with mock.patch.object(api_dashboard, "get_my_invoices", return_value=["inv"]) as inv:
+							with mock.patch.object(api_dashboard, "get_team_members", return_value=["x"]) as team:
+								result = api_dashboard.get_dashboard("QMP_LMS")
+		self.assertEqual((result["data"]["billing"]["invoices"], result["data"]["team_members"]), ([], []))
+		inv.assert_not_called()
+		team.assert_not_called()
+
 	def test_no_active_tenant_rejected(self):
 		with mock.patch.object(api_dashboard, "resolve_active_tenant", return_value=None):
 			result = api_dashboard.get_dashboard("QMP_LMS")

@@ -20,7 +20,9 @@ from qtt_platform.tenant.guards import require_tenant_membership
 
 
 def _customers(user: str, tenant: str, q: str) -> list[dict]:
-	require_tenant_membership(tenant)
+	from qtt_platform import abilities
+
+	abilities.require(require_tenant_membership(tenant), "customers")  # not for people who don't work with customers
 	rows, _more = smart_get_all("QTT Customer", filters={"tenant": tenant, "status": "Active"}, q=q, title_field="customer_name",
 								fields=["name", "customer_name", "company_name", "phone", "city"],
 								search_fields=["customer_name", "company_name", "email", "city", "gstin"], digits_field="phone",

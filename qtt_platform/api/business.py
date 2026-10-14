@@ -87,8 +87,10 @@ def profile_for(tenant: str, *, with_bank: bool) -> dict:
 def get_profile() -> dict:
 	tenant = _active_tenant()
 	m = require_tenant_membership(tenant)
-	can_edit = m.tenant_role in GOVERNANCE
-	return {**profile_for(tenant, with_bank=can_edit), "can_edit": can_edit}
+	from qtt_platform import abilities
+
+	abilities.require(m, "business")  # the business's details are for its owner and admins
+	return {**profile_for(tenant, with_bank=True), "can_edit": True}
 
 
 @frappe.whitelist(methods=["POST"])
