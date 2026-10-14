@@ -132,6 +132,13 @@ class TipsTest(unittest.TestCase):
 		self.assertEqual(len(on), 2)
 		self.assertEqual(on[1]["link"], "pulse.home")
 
+	def test_a_tip_never_offers_a_button_to_the_screen_you_are_on(self):
+		for s in REG:
+			for t in logic.tips_for(REG, s["id"], OWNER, {"pulse.allow_outside"}):
+				self.assertNotEqual(t["link"], s["id"], s["id"])
+		inv = logic.tips_for(REG, "orbitra.inventory", OWNER, set())
+		self.assertTrue(inv and inv[0]["link"] is None and inv[0]["label"] is None)  # the tip stays, its button goes
+
 	def test_no_tips_for_screens_you_cannot_open(self):
 		self.assertEqual(logic.tips_for(REG, "pulse.setup", EMPLOYEE, set()), [])
 		self.assertEqual(logic.tips_for(REG, "nope", OWNER, set()), [])

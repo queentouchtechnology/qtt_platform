@@ -91,7 +91,9 @@ def tips_for(registry: list[dict], screen_id: str, ctx: dict, conditions: set[st
 		if t.get("when") and t["when"] not in conditions:
 			continue
 		link = t.get("link")
-		out.append({"text": t["text"], "link": link if link in allowed else None, "label": t.get("label") if link in allowed else None})
+		# A button to the screen you're already on does nothing: keep the tip, drop the button.
+		usable = link in allowed and link != screen_id
+		out.append({"text": t["text"], "link": link if usable else None, "label": t.get("label") if usable else None})
 	return out
 
 
