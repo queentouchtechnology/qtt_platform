@@ -140,7 +140,9 @@ def _automation_week(automation: dict) -> dict:
 			f = failing.setdefault(wid, {"id": wid, "name": names.get(wid, wid), "failed": 0, "last": None})
 			f["failed"] += 1
 			f["last"] = max(f["last"] or "", str(e.get("startedAt") or ""))
-	return {"runs": runs, "failed": failed, "active": sum(1 for w in automation.get("workflows", []) if w.get("active")),
+	# executions_since stops after its last page: that many runs means "at least".
+	return {"runs": runs, "failed": failed, "capped": runs >= 2000,
+			"active": sum(1 for w in automation.get("workflows", []) if w.get("active")),
 			"failing": sorted(failing.values(), key=lambda f: -f["failed"])}
 
 
