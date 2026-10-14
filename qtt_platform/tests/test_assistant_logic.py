@@ -141,9 +141,12 @@ class TipsTest(unittest.TestCase):
 
 	def test_every_screen_has_its_own_questions(self):
 		for s in REG:
-			self.assertTrue(2 <= len(s.get("ask") or []) <= 4, s["id"])
+			self.assertTrue(2 <= len(s.get("ask") or []) <= 8, s["id"])  # role-specific ones included; a person sees ≤ 4
 			for q in s["ask"]:
-				self.assertTrue(q.endswith("?") and len(q) <= 80, (s["id"], q))
+				text = q["q"] if isinstance(q, dict) else q
+				self.assertTrue(text.endswith("?") and len(text) <= 80, (s["id"], text))
+				if isinstance(q, dict):
+					self.assertTrue(q.get("for"), (s["id"], text))  # a role question says whose it is
 		mine = logic.questions_for(REG, "pulse.requests", EMPLOYEE)
 		self.assertIn("How do I swap a shift with a colleague?", mine)  # about this screen, not leave or payslips
 		self.assertEqual(logic.questions_for(REG, "pulse.setup", EMPLOYEE), [])  # not their screen
@@ -247,3 +250,33 @@ class NoBlankReplyTest(unittest.TestCase):
 									screen_id=None, history=[], question="q")
 		self.assertIn("Cashier (changed by the owner)", msgs[0]["content"])
 		self.assertIn("Roles and access in this business", msgs[0]["content"])
+
+
+class RoleAwareQuestionsTest(unittest.TestCase):
+	def setUp(self):
+		self.registry = logic.load_registry()
+
+	def ask(self, screen, **ctx):
+		return logic.questions_for(self.registry, screen, ctx)
+
+	def test_each_role_gets_questions_about_what_it_can_do(self):
+		cashier = self.ask("orbitra.inventory", products={"QTT_ORBITRA": "Cashier"})
+		admin = self.ask("orbitra.inventory", products={"QTT_ORBITRA": "Orbitra Admin"})
+		self.assertIn("How do I check if an item is in stock?", cashier)
+		self.assertNotIn("How do I add stock?", cashier)  # a cashier can't
+		self.assertIn("How do I add stock?", admin)
+		agent = self.ask("onbox.home", products={"QTT_ONBOX": "Agent"})
+		self.assertNotIn("How do I connect WhatsApp?", agent)  # only managers connect channels
+		member = self.ask("services.payments", products={"QTT_SERVICES": "Member"})
+		self.assertIn("Who can pay our invoices?", member)
+		self.assertNotIn("How do I pay an invoice?", member)
+
+	def test_role_questions_come_first_and_everyone_still_gets_the_common_ones(self):
+		hr = self.ask("pulse.leave", products={"QTT_OFFICE_PULSE": "HR"})
+		self.assertEqual(hr[0], "How do I give leave to my team for the year?")
+		employee = self.ask("pulse.leave", products={"QTT_OFFICE_PULSE": "Employee"})
+		self.assertEqual(employee[0], "How do I apply for half-day leave?")
+		self.assertNotIn("How do I give leave to my team for the year?", employee)
+		manager = self.ask("pulse.leave", products={"QTT_OFFICE_PULSE": "Employee"}, manager=True)
+		self.assertEqual(manager[0], "How do I approve or reject a leave request?")
+		self.assertLessEqual(len(hr), 4)

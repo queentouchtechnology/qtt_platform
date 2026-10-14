@@ -107,7 +107,16 @@ def questions_for(registry: list[dict], screen_id: str, ctx: dict) -> list[str]:
 	screen = next((s for s in registry if s["id"] == screen_id), None)
 	if not screen or screen_id not in allowed:
 		return []
-	return [str(q) for q in screen.get("ask") or []][:4]
+	# An "ask" entry is a question for everyone who can open the screen, or {"q": …, "for": [roles]}
+	# for some of them (same role words as "roles": product roles, @owner, @manager…) — theirs first.
+	mine, everyone = [], []
+	for q in screen.get("ask") or []:
+		if isinstance(q, dict):
+			if q.get("q") and can_open({"product": screen.get("product"), "roles": q.get("for") or ["*"]}, ctx):
+				mine.append(str(q["q"]))
+		else:
+			everyone.append(str(q))
+	return (mine + everyone)[:4]
 
 
 def guide_for(registry: list[dict], screen_id: str, ctx: dict, industry: str | None = None, catalog: dict | None = None) -> dict | None:

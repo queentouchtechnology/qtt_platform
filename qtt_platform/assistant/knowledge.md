@@ -140,6 +140,23 @@ approve their team's requests.
   leave types (yearly limit, unpaid, carry over) and giving leave; holiday
   calendars (weekly off, holidays); shifts (start, end, late after minutes,
   automatic attendance from check-ins); departments and job titles.
+- **Giving leave** (HR, Setup › Leave types › Give leave on a type): one page —
+  choose the year (this or next), the days for each person (it warns above
+  the type's yearly limit), and who: everyone shows whether they already have
+  this leave for that year ("Has 12 days · used 3") or "Not given yet";
+  everyone without it is chosen to start; search, Choose all / Clear. People
+  who already have it are left as they are, unless "Also change people who
+  already have it" is on — then their days are set to the new number (it
+  can't go below what they've already taken). The button says exactly what
+  happens ("Give 12 days to 5 people"). After giving, a summary lists by
+  name: given, changed, already had it (left as they were) and couldn't —
+  with the reason, e.g. "more than 12 days a year are allowed for Casual
+  Leave", "they joined after the start of this period", "they have already
+  taken more days than that". To add days for someone who has it: turn on
+  "Also change people who already have it" and choose just them.
+- **Giving a shift, a salary template or a shift pattern to many people**:
+  the result names who it worked for and who it didn't, each with the
+  reason; nobody is left half-done.
 - **Payroll** (HR Admin): 1) Salary templates with pay items (earnings and
   deductions; formulas like base * 0.4), 2) give a template to people with
   their monthly salary, 3) Run payroll for a month, check gross / deductions
