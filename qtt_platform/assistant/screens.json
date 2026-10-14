@@ -58,12 +58,12 @@
   {"id": "pulse.attendance", "product": "QTT_OFFICE_PULSE", "title": "My attendance", "path": "Office Pulse › My attendance", "roles": ["*"],
    "what": "Your month calendar: in / out times, hours, late days. Request Work From Home or On Duty for past or coming days (a manager or HR approves).",
    "tips": [
-    {"text": "Working from home or out on work? Request Work From Home or On Duty here — your manager approves it.", "link": "pulse.attendance", "label": "Request work from home"}
+    {"text": "Working from home or out on work? Request Work From Home or On Duty here — your manager approves it.", "link": "pulse.attendance.request", "label": "Request work from home"}
    ]},
   {"id": "pulse.leave", "product": "QTT_OFFICE_PULSE", "title": "Leave", "path": "Office Pulse › Leave", "roles": ["*"],
    "what": "Your leave balances, apply for leave (half days allowed; holidays not counted), your requests; withdraw open or future ones.",
    "tips": [
-    {"text": "Working from home instead of taking leave? Ask for Work From Home — it doesn't use your leave balance.", "link": "pulse.attendance", "label": "Request work from home"},
+    {"text": "Working from home instead of taking leave? Ask for Work From Home — it doesn't use your leave balance.", "link": "pulse.attendance.request", "label": "Request work from home"},
     {"when": "pulse.allow_outside", "text": "Your business allows checking in away from the office: just add a reason when you check in.", "link": "pulse.home", "label": "Check in"}
    ]},
   {"id": "pulse.expenses", "product": "QTT_OFFICE_PULSE", "title": "Expenses", "path": "Office Pulse › Expenses", "roles": ["*"],
@@ -73,6 +73,8 @@
    ]},
   {"id": "pulse.expense.new", "product": "QTT_OFFICE_PULSE", "title": "New expense claim", "path": "Office Pulse › Expenses › New expense claim", "roles": ["*"],
    "what": "One claim: what for, amount and date per expense, details, receipt photos (up to 5 MB each)."},
+  {"id": "pulse.attendance.request", "product": "QTT_OFFICE_PULSE", "title": "Request work from home / on duty", "path": "Office Pulse › My attendance › Request work from home / on duty", "roles": ["*"],
+   "what": "Ask to work from home or be marked on duty for one or more days: choose which, the dates, and a line of detail; your approver decides."},
   {"id": "pulse.payslips", "product": "QTT_OFFICE_PULSE", "title": "Payslips", "path": "Office Pulse › Payslips", "roles": ["*"],
    "what": "Your payslips, newest first: earnings, deductions, net pay; download the PDF. They appear after HR runs and finalises payroll."},
   {"id": "pulse.team", "product": "QTT_OFFICE_PULSE", "title": "Team today", "path": "Office Pulse › Team today", "roles": ["HR", "HR Admin", "@manager"],

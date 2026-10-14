@@ -128,7 +128,7 @@ class TipsTest(unittest.TestCase):
 		on = logic.tips_for(REG, "pulse.leave", EMPLOYEE, {"pulse.allow_outside"})
 		self.assertEqual(len(off), 1)
 		self.assertIn("Work From Home", off[0]["text"])
-		self.assertEqual(off[0]["link"], "pulse.attendance")
+		self.assertEqual(off[0]["link"], "pulse.attendance.request")  # opens the request form itself
 		self.assertEqual(len(on), 2)
 		self.assertEqual(on[1]["link"], "pulse.home")
 
