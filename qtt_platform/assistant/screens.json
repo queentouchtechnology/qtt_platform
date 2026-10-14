@@ -179,7 +179,7 @@
      {"for": "*", "text": "Not sure? Start with Office and switch a feature on when you need it."}
     ]
    }},
-  {"id": "pulse.shifts", "product": "QTT_OFFICE_PULSE", "title": "Shifts", "path": "Office Pulse › Manage › Setup › Shifts", "roles": ["HR", "HR Admin"], "ask": ["How do I create a night shift?", "How do I set a lunch break?", "How do I set up a split shift?"],
+  {"id": "pulse.shifts", "product": "QTT_OFFICE_PULSE", "title": "Shifts", "path": "Office Pulse › Manage › Setup › Shifts", "roles": ["HR", "HR Admin"], "ask": ["How do I move people to a different shift?", "How do I give someone night shifts for one week?", "Why can't I tick someone when assigning a shift?", "How do I create a night shift?", "How do I set a lunch break?", "How do I set up a split shift?"],
    "what": "Working hours: start, end (an end before the start means the next day), late after minutes, automatic attendance, a break rule (unpaid minutes after hours worked, or paid), and — with Split shifts — time off in the middle.",
    "guide": {
     "shift_types": true,

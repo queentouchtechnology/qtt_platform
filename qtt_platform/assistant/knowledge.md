@@ -177,6 +177,19 @@ approve their team's requests.
     attendance from check-ins (not marked absent on their days off), shifts
     and coverage (a day off isn't a working day), the Office Pulse home, and
     Team today (each person shows as off by their own calendar).
+- **Giving a shift** (HR, Setup › Shifts › Assign on a shift): one page —
+  **From** a date, and **No end date** or **Until a date** (a temporary change,
+  e.g. a week of nights). Everyone shows their shift on that day: "No shift",
+  "On Morning since 1 Mar", "Already on this shift" (can't be ticked), or
+  "Shift pattern “…” decides their shifts" (can't be ticked — change the
+  pattern, or give a one-day change). "Everyone without a shift" ticks them all.
+  **Move them from their current shift** (on by default): their current shift
+  ends the day before; for a temporary change it stops for those dates and
+  carries on after — off: people already on a shift are left as they are.
+  HR's one-day changes are never overwritten. The button says exactly what
+  happens ("Give Night to 5 people from 1 Jun 2026"); the result names anyone
+  it didn't work for, with the reason. The Shifts list's "N people" is how
+  many are on the shift today.
 - **Giving leave** (HR, Setup › Leave types › Give leave on a type): one page —
   choose the year (this or next), the days for each person (it warns above
   the type's yearly limit), and who: everyone shows whether they already have
