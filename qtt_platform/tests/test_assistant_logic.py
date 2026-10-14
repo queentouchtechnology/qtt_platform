@@ -264,6 +264,19 @@ class DeviceQuestionsTest(unittest.TestCase):
 		self.assertEqual(len(q("pulse.device")), 4)
 
 
+class ShiftPatternQuestionsTest(unittest.TestCase):
+	HR = {"products": {"QTT_OFFICE_PULSE": "HR Admin"}, "owner": False, "manager": False}
+
+	def test_the_list_and_one_pattern_ask_about_themselves(self):
+		q = lambda screen, *c: logic.questions_for(REG, screen, self.HR, set(c))
+		self.assertEqual(q("pulse.shift_patterns", "pulse.no_patterns")[0], "Do I need a shift pattern, or is Assign shift enough?")
+		self.assertNotIn("How do I make our first shift pattern?", q("pulse.shift_patterns"))
+		one = q("pulse.shift_pattern", "pulse.flexible_cycles")
+		self.assertEqual(one[0], "How do I set up 4 on / 4 off?")
+		self.assertEqual(q("pulse.shift_pattern", "pulse.no_flexible_cycles")[0], "Can I make a 4 on / 4 off rotation?")
+		self.assertTrue(set(one).isdisjoint(q("pulse.shift_patterns")))  # the editor never shows the list's questions
+
+
 if __name__ == "__main__":
 	unittest.main()
 

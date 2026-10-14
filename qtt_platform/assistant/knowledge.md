@@ -422,9 +422,17 @@ card with steps and suggestions for the business type.
   not an early exit). Two different shifts on one day, and flexi hours, are
   not supported.
 - **Shift patterns** (Setup › Shift patterns): which shift on which day and
-  where (office, from home, anywhere, or a site). Repeats every week, every 2–8
-  weeks (rotation), or with Flexible cycles every N days (4 on / 4 off = 8
-  days, 2-2-3 = 14, four crews = 28). Who: everyone, a department or chosen
+  where (office, from home, anywhere, or a site). Repeats every week, every 2–4
+  weeks (rotation; up to 8 weeks with Flexible cycles), or with Flexible
+  cycles every N days, 2–56 (4 on / 4 off = 8 days, 2-2-3 = 14, four crews =
+  28). Without Flexible cycles a 4 on / 4 off rotation isn't possible —
+  switch it on in Setup › Business type. In a pattern: tap a day for its
+  shift (or Day off) and where; Who shows, before saving, who joins, who stays
+  on another pattern and why (chosen people beat a department, a department
+  beats everyone), and who leaves. "Stop using this pattern": its people move
+  to the next pattern that fits them, or keep the shifts given under Shifts.
+  A pattern showing 0 people: everyone it's for is on a more specific pattern
+  (chosen people or their department), or its department has no one. Who: everyone, a department or chosen
   people (chosen people first, then department, then everyone). Save and
   apply gives shifts 60 days ahead in the background (a notification comes
   when done) and keeps topping up. A one-day change for a person is in People
