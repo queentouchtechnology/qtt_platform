@@ -181,8 +181,12 @@ approve their team's requests.
   **From** a date, and **No end date** or **Until a date** (a temporary change,
   e.g. a week of nights). Everyone shows their shift on that day: "No shift",
   "On Morning since 1 Mar", "Already on this shift" (can't be ticked), or
-  "Shift pattern “…” decides their shifts" (can't be ticked — change the
-  pattern, or give a one-day change). "Everyone without a shift" ticks them all.
+  "Shift pattern “…” decides their shifts". People on a pattern: a lasting
+  change is made by editing the pattern (Setup › Shift patterns); a change
+  **for a while** works — choose Until a date (up to 2 months) and their
+  working days in those dates get the new shift as one-day changes (their
+  days off and holidays stay), and the pattern carries on after; they're
+  told once. "Everyone without a shift" ticks them all.
   **Move them from their current shift** (on by default): their current shift
   ends the day before; for a temporary change it stops for those dates and
   carries on after — off: people already on a shift are left as they are.
