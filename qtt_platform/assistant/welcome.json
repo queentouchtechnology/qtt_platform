@@ -52,8 +52,21 @@
   {"title": "What needs you, on Home", "body": "Cards on Home show what needs you now. Search finds people, customers, items and screens — even with a typo."},
   {"title": "Your business", "body": "Invite your team, choose what each role can do and see your plans — under Business.", "for": ["@owner"]}
  ],
+ "replaces": {
+  "_about": "Owners only: the separate companies a business usually pays, and the QTT OS app that does each job. \"have\" is added from the business's apps.",
+  "title": "One app instead of four companies",
+  "body": "Most businesses pay a different company for each of these. In QTT OS they share one login, one team and one place to get help.",
+  "rows": [
+   {"product": "QTT_OFFICE_PULSE", "need": "Attendance, leave, shifts and payroll", "instead": "Instead of separate HR software and attendance machines"},
+   {"product": "QTT_ORBITRA", "need": "Billing, stock and GST", "instead": "Instead of separate billing software and an accounts tool"},
+   {"product": "QTT_ONBOX", "need": "WhatsApp and website chats for the whole team", "instead": "Instead of a separate WhatsApp inbox company"},
+   {"product": "QTT_SERVICES", "need": "Your website or online store — built, hosted and looked after", "instead": "Instead of a web agency, a hosting company and a developer"}
+  ],
+  "footer": "Each app has its own simple plan — start with one, add the others when you need them."
+ },
  "more": {
   "title": "More from QTT",
-  "body": "Add another app whenever your business needs it — they all share your team and customers."
+  "body": "Add another app whenever your business needs it — they all share your team and customers.",
+  "action": "See plans"
  }
 }

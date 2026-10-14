@@ -3,7 +3,8 @@ The app's home: adaptive action cards for the signed-in person in their
 active business (rules and card shape in qtt_platform.home_cards).
 
   actions()        ranked cards — business cards for owners/admins, plus each
-                   app's own cards (hook `qtt_home_cards`: (user, tenant) -> list)
+                   app's own cards (hook `qtt_home_cards`: (user, tenant) -> list), and
+                   each unfinished set-up guide's next step (api/setup.home_cards)
   dismiss(key)     hide a card for this person for a week
 
 One app failing never breaks the home: its cards are just left out.
@@ -50,7 +51,9 @@ def actions() -> list[dict]:
 	if not tenant:
 		return []
 	cards = []
-	sources = [_platform] + [frappe.get_attr(path) for path in frappe.get_hooks("qtt_home_cards") or []]
+	from qtt_platform.api.setup import home_cards as setup_cards
+
+	sources = [_platform, setup_cards] + [frappe.get_attr(path) for path in frappe.get_hooks("qtt_home_cards") or []]
 	for source in sources:
 		try:
 			cards.extend(source(user, tenant) or [])

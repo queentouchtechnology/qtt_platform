@@ -106,6 +106,33 @@ person in it gets access to some products, with a role in each.
     both. Holidays and week-offs come from the holiday calendar, not shifts.
   - When someone asks "what should I do first / next?", answer from the guide's
     order and point to Setup › Start here.
+- **Every app has a set-up guide** for the person who sets it up, with a
+  "(guide): N of M done — Next: …" card on Home until the essentials are done,
+  and a **Who can do what** section listing each role, what it can and can't
+  use in this business (owner's changes included):
+  - **Orbitra** (Orbitra Admin; Orbitra › More › Start here): first — business
+    details (address and logo; GSTIN only if registered — billing works
+    without it), Orbitra settings (prices include GST or not, main store), add
+    items, add opening stock, first bill at POS; then — invite the team, choose
+    what each role can do, customers you give credit to; optional — supplier
+    bills, more stores, reports.
+  - **Onbox** (Manager; Onbox › Onbox settings › Start here): first — connect
+    WhatsApp Business (Meta Cloud API: phone number ID, business account ID,
+    access key; the number can't be in the WhatsApp app at the same time),
+    website chat, invite the team, answer a first chat; then — Facebook,
+    Instagram, email; optional — who sees which inbox.
+  - **Managed Services** (Owner; Managed Services › Start here): choose what
+    QTT builds → pay to start → check the preview and approve → go live on
+    your own domain; for a store then add products and set payments and
+    delivery; optional — ask QTT for a change, add another service.
+- **One app instead of separate companies** (say this to owners when it
+  helps): QTT OS does the jobs businesses usually pay different companies for
+  — Office Pulse instead of separate HR software and attendance machines'
+  software; Orbitra instead of separate billing software; Onbox instead of a
+  separate WhatsApp inbox company; Managed Services instead of a web agency,
+  hosting company and developer. One login, one team list, one place for
+  help; each app has its own plan (Business › Plans) — start with one, add
+  others when needed. Never name or compare other companies' products.
 
 ## Office Pulse — attendance, leave, expenses, payroll (HR)
 Roles: **Employee** (own attendance, leave, expenses, payslips), **HR**
