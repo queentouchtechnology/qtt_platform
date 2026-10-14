@@ -468,11 +468,28 @@ card with steps and suggestions for the business type.
   can't be withdrawn — ask the approver to reject it. Leave and work from
   home are not here: Leave and My attendance › Request work from home.
 - **Approval flows** (Setup › Approval flows): per kind of request up to 5
-  steps — manager, manager's manager, HR, HR Admin or a chosen person — each
-  optionally only above an amount, days or minutes; "add HR after N hours"
-  when a step waits. No steps: the manager or HR. A rejection ends it.
-  Approvals cards show the leave balance left, and with Coverage a warning
-  when approving would leave a shift short; filter pills by kind.
+  steps, decided in order — manager or HR, manager, manager's manager, HR,
+  HR Admin or a chosen person. A rejection at any step ends it; approved at
+  the last step = approved.
+  - **Only when**: Always, or only above a number in the kind's own unit —
+    Leave and Work from home / on duty: days ("Days above 3"); Expense:
+    amount ("Amount above 5000"); Late check-in, Early exit, Overtime:
+    minutes; Missed check-out, Shift change, Shift swap: always (they have no
+    number). A request at or below the number skips that step. If no step
+    applies, the default decides (the manager or HR). E.g. big claims: step 1
+    Manager (always), step 2 HR Admin only when Amount above 5000.
+  - **Add HR after N hours** (0 = never, up to 168): if nobody decides a step
+    in that time, HR can decide it too (checked every hour) — for approvers
+    who are away or on leave.
+  - Nobody approves their own request; a step nobody fits (e.g. no manager
+    set) goes to HR. A swap first needs the colleague's yes.
+  - Editing a flow changes new requests only; requests already waiting keep
+    the steps they started with. "Use the default" removes the steps (asks
+    first). Leaving with unsaved changes asks: Save, Discard or Keep editing.
+  Approvals: filter chips by kind (Leave, Expenses, Attendance, Shifts,
+  Check-in & out), each kind with its own icon and colour on its cards; cards
+  show the leave balance left, and with Coverage a warning when approving
+  would leave a shift short.
 - **Overtime and on-call pay** (Payroll › Overtime and on-call pay, HR Admin,
   Overtime pay feature): hourly rate = monthly salary ÷ days ÷ hours (or a
   fixed rate) × multiplier (1.5, 2); counted in blocks (e.g. 15 min); on-call
