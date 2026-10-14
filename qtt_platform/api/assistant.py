@@ -185,4 +185,6 @@ def ask(question: str, screen: str | None = None, history=None) -> dict:
 	except Exception:
 		frappe.log_error(title="QTT Assistant: model call failed", message=frappe.get_traceback())
 		return fail("UNAVAILABLE", "The assistant is busy right now. Please try again in a minute.")
-	return ok(logic.parse_reply(text, {x["id"] for x in screens}))
+	reply = logic.parse_reply(text, {x["id"] for x in screens})
+	reply["links"] = [l for l in reply["links"] if l["screen"] != screen]  # no button to the screen they're on
+	return ok(reply)
