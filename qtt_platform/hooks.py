@@ -308,14 +308,13 @@ tenant_dynamic_parent_links = {}
 scheduler_events = {
 	"cron": {
 		# QTT Admin → Servers: servers that stop reporting become offline.
-		"*/5 * * * *": ["qtt_platform.api.servers.check_offline"],
+		# Marketing approvals: reminders before the deadline, QTT's decision at it.
+		"*/5 * * * *": ["qtt_platform.api.servers.check_offline", "qtt_platform.api.marketing_content.tick"],
 		# QTT Admin → Servers / Domains: Contabo servers + snapshots, Hostinger domains.
 		"20 */6 * * *": ["qtt_platform.api.servers.sync_providers"],
 	},
 	"hourly": [
 		"qtt_platform.billing.service.reconcile_subscriptions",
-		# Marketing approvals past their deadline follow their timeout rule.
-		"qtt_platform.api.marketing_content.expire_pending",
 	],
 	"daily": [
 		"qtt_platform.api.analytics.purge_old_events",

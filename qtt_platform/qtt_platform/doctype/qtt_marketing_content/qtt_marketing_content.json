@@ -33,6 +33,8 @@
   "column_break_decision",
   "decision_note",
   "published_at",
+  "notified_at",
+  "reminded_at",
   "section_workflow",
   "workflow_id",
   "workflow_name",
@@ -139,7 +141,7 @@
    "fieldname": "decided_via",
    "fieldtype": "Select",
    "label": "Decided in",
-   "options": "\napp\nslack\ntimeout",
+   "options": "\napp\nslack\ntimeout\nemail",
    "read_only": 1
   },
   {
@@ -156,6 +158,18 @@
    "fieldname": "published_at",
    "fieldtype": "Datetime",
    "label": "Published at",
+   "read_only": 1
+  },
+  {
+   "fieldname": "notified_at",
+   "fieldtype": "Datetime",
+   "label": "Approver told",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reminded_at",
+   "fieldtype": "Datetime",
+   "label": "Reminder sent",
    "read_only": 1
   },
   {
@@ -207,5 +221,6 @@
    "export": 1
   }
  ],
- "links": []
+ "links": [],
+ "modified": "2026-10-14 10:00:00.000000"
 }

@@ -22,6 +22,7 @@ from frappe.utils.data import get_system_timezone
 from qtt_platform.audit import write_audit_event
 from qtt_platform.marketing import report as rpt
 from qtt_platform.marketing.n8n import N8nClient, N8nError
+from qtt_platform.marketing.n8n import _status as run_status
 from qtt_platform.marketing.n8n_schedule import ScheduleError, clean_days, parse_time, summarize, with_schedule
 from qtt_platform.tenant.guards import require_platform_owner
 
@@ -43,18 +44,104 @@ SLOT_FIELDS = ("name", "title", "kind", "owner_name", "start_time", "end_time", 
 # --------------------------------------------------------------------------
 @frappe.whitelist(methods=["GET"])
 def dashboard() -> dict:
-	"""Today, yesterday's headline numbers, and this month's progress."""
+	"""The Overview: what needs a decision, today against yesterday, the last 14 days, the
+	outreach funnel, this month's content and targets, and how the automations are doing."""
 	require_platform_owner()
 	day = getdate(today())
-	automation = _automation_data(day - timedelta(days=1))
+	automation = _automation_data(day - timedelta(days=6))
 	return {
 		"today": _day(day, automation=automation),
 		"yesterday": _stored_or_live(day - timedelta(days=1), automation=automation),
 		"month": _month(day),
 		"approvals_pending": frappe.db.count("QTT Marketing Content", {"status": "pending"})
 		if frappe.db.table_exists("QTT Marketing Content") else 0,
+		"pending": _pending(),
+		"series": _series(day, 14),
+		"funnel": _funnel(day, 30),
+		"content_month": _content_month(day),
+		"automation_week": _automation_week(automation),
 		"n8n_error": automation.get("error"),
 	}
+
+
+def _pending() -> list[dict]:
+	if not frappe.db.table_exists("QTT Marketing Content"):
+		return []
+	rows = frappe.get_all("QTT Marketing Content", filters={"status": "pending"}, order_by="expires_at asc",
+						  fields=["name", "kind", "title", "site", "summary", "preview_url", "expires_at", "timeout_action", "creation"])
+	for r in rows:
+		r["expires_at"] = str(r.expires_at) if r.expires_at else None
+		r["creation"] = str(r.creation)
+	return rows
+
+
+def _series(day, days: int) -> dict:
+	"""Per day for the last `days` days (oldest first): leads, calls, emails sent, replies."""
+	first = day - timedelta(days=days - 1)
+	lo, hi = str(first), str(day + timedelta(days=1))
+	dates = [str(first + timedelta(days=i)) for i in range(days)]
+	out: dict = {"dates": dates}
+
+	def per_day(sql: str, params: dict | None = None) -> list[int]:
+		rows = dict(frappe.db.sql(sql, {"lo": lo, "hi": hi, **(params or {})}))
+		return [int(rows.get(getdate(d), 0) or rows.get(d, 0) or 0) for d in dates]
+
+	if frappe.db.table_exists("CRM Lead"):
+		out["leads"] = per_day("SELECT DATE(creation), COUNT(*) FROM `tabCRM Lead` WHERE creation >= %(lo)s AND creation < %(hi)s GROUP BY DATE(creation)")
+		if frappe.db.has_column("CRM Lead", "custom_call_status"):
+			out["calls"] = per_day("""SELECT DATE(modified), COUNT(*) FROM `tabCRM Lead` WHERE modified >= %(lo)s AND modified < %(hi)s
+									  AND custom_call_status IN %(o)s GROUP BY DATE(modified)""", {"o": CALL_OUTCOMES})
+	if frappe.db.table_exists("FCRM Note"):
+		out["emails_sent"] = per_day("""SELECT DATE(creation), COUNT(*) FROM `tabFCRM Note` WHERE creation >= %(lo)s AND creation < %(hi)s
+										AND title REGEXP 'Outreach email [0-9] sent' GROUP BY DATE(creation)""")
+		out["email_replies"] = per_day("""SELECT DATE(creation), COUNT(*) FROM `tabFCRM Note` WHERE creation >= %(lo)s AND creation < %(hi)s
+										  AND title LIKE %(r)s AND title NOT LIKE %(b)s GROUP BY DATE(creation)""",
+									   {"r": "%📥 Outreach%", "b": "%bounce%"})
+	return out
+
+
+def _funnel(day, days: int) -> list[dict]:
+	"""Outreach over the last `days` days: leads → called → emailed → replied → interested."""
+	crm = _crm_numbers(day - timedelta(days=days - 1), day)
+	steps = [("leads", "New leads"), ("calls", "Calls made"), ("emails_sent", "Emails sent"), ("email_replies", "Replies")]
+	out = [{"key": k, "label": label, "count": (crm.get(k) or {}).get("count", 0)} for k, label in steps if k in crm]
+	calls = (crm.get("calls") or {}).get("by") or {}
+	if calls:
+		out.append({"key": "interested", "label": "Interested or booked",
+					"count": sum(v for k, v in calls.items() if k in ("Interested", "Appointment booked"))})
+	return out
+
+
+def _content_month(day) -> dict:
+	"""This month's content by kind: published (or sent), skipped, rejected, waiting."""
+	if not frappe.db.table_exists("QTT Marketing Content"):
+		return {}
+	rows = frappe.db.sql("""SELECT kind, status, COUNT(*) FROM `tabQTT Marketing Content`
+							WHERE creation >= %(lo)s GROUP BY kind, status""", {"lo": str(day.replace(day=1))})
+	out: dict = {}
+	for kind, status, n in rows:
+		bucket = {"published": "done", "approved": "done", "expired": "skipped", "rejected": "rejected", "pending": "waiting",
+				  "failed": "failed"}.get(status, "skipped")
+		out.setdefault(kind, {}).setdefault(bucket, 0)
+		out[kind][bucket] += n
+	return out
+
+
+def _automation_week(automation: dict) -> dict:
+	"""Runs and failures over the last 7 days, and which workflows failed."""
+	names = {w["id"]: w["name"] for w in automation.get("workflows", [])}
+	runs = failed = 0
+	failing: dict = {}
+	for e in automation.get("executions", []):
+		runs += 1
+		if run_status(e) == "failed":
+			failed += 1
+			wid = str(e.get("workflowId"))
+			f = failing.setdefault(wid, {"id": wid, "name": names.get(wid, wid), "failed": 0, "last": None})
+			f["failed"] += 1
+			f["last"] = max(f["last"] or "", str(e.get("startedAt") or ""))
+	return {"runs": runs, "failed": failed, "active": sum(1 for w in automation.get("workflows", []) if w.get("active")),
+			"failing": sorted(failing.values(), key=lambda f: -f["failed"])}
 
 
 @frappe.whitelist(methods=["GET"])

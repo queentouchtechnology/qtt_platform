@@ -19,7 +19,16 @@
   "jobs_project",
   "section_approvals",
   "approval_user",
-  "approval_password"
+  "approval_password",
+  "approver",
+  "notify_email",
+  "reminder_minutes",
+  "section_timeout",
+  "email_batch_on_timeout",
+  "linkedin_on_timeout",
+  "column_break_timeout",
+  "social_on_timeout",
+  "article_on_timeout"
  ],
  "fields": [
   {
@@ -71,6 +80,64 @@
    "label": "Approval resume password",
    "length": 200,
    "description": "Printed once by marketing-ai-os/18_AUTOMATIONS/APPROVALS/patch_approvals.py. Lets Frappe continue a waiting n8n run after a decision."
+  },
+  {
+   "fieldname": "approver",
+   "fieldtype": "Link",
+   "options": "User",
+   "label": "Who decides",
+   "description": "Gets an email (and a push on the phone, when push is set up) for every approval, and a reminder before time runs out."
+  },
+  {
+   "fieldname": "notify_email",
+   "fieldtype": "Check",
+   "default": "1",
+   "label": "Email each approval with one-tap Approve / Reject"
+  },
+  {
+   "fieldname": "reminder_minutes",
+   "fieldtype": "Int",
+   "default": "60",
+   "label": "Remind this many minutes before time runs out",
+   "description": "0 = no reminder. Only for windows at least twice as long."
+  },
+  {
+   "fieldname": "section_timeout",
+   "fieldtype": "Section Break",
+   "label": "If nobody decides in time",
+   "description": "QTT decides when the time runs out (n8n waits an hour longer and gives the same answer if QTT can't reach it)."
+  },
+  {
+   "fieldname": "email_batch_on_timeout",
+   "fieldtype": "Select",
+   "options": "Send it\nSkip it",
+   "default": "Send it",
+   "label": "Cold email batches"
+  },
+  {
+   "fieldname": "linkedin_on_timeout",
+   "fieldtype": "Select",
+   "options": "Send it\nSkip it",
+   "default": "Send it",
+   "label": "LinkedIn posts"
+  },
+  {
+   "fieldname": "column_break_timeout",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "social_on_timeout",
+   "fieldtype": "Select",
+   "options": "Send it\nSkip it",
+   "default": "Send it",
+   "label": "Social posts"
+  },
+  {
+   "fieldname": "article_on_timeout",
+   "fieldtype": "Select",
+   "options": "Send it\nSkip it",
+   "default": "Skip it",
+   "label": "Articles"
   }
  ],
  "permissions": [
@@ -84,5 +151,6 @@
    "export": 0
   }
  ],
- "links": []
+ "links": [],
+ "modified": "2026-10-14 10:00:00.000000"
 }

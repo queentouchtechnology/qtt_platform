@@ -15,6 +15,13 @@ from datetime import datetime
 KINDS = ("article", "linkedin", "email_batch", "social", "other")
 DECIDABLE = ("pending",)
 
+# "If nobody decides in time" — QTT Marketing Settings, one per kind. Articles (and anything
+# unknown) are only published on an explicit yes; the rest go out unless rejected.
+POLICY_FIELDS = {"email_batch": "email_batch_on_timeout", "linkedin": "linkedin_on_timeout",
+				 "social": "social_on_timeout", "article": "article_on_timeout"}
+POLICY_DEFAULTS = {"email_batch": "Send it", "linkedin": "Send it", "social": "Send it", "article": "Skip it", "other": "Skip it"}
+WAIT_SPARE_HOURS = 1  # n8n waits this much longer than QTT, so QTT's decision always arrives first
+
 
 class ApprovalError(ValueError):
 	"""Message is shown to the person deciding."""
@@ -59,6 +66,54 @@ def status_after_run(current: str, run_status: str | None) -> str:
 	return current
 
 
+def timeout_action(kind: str, settings: dict | None) -> str:
+	"""'approve' or 'reject': what happens when nobody decides in time (QTT Marketing Settings)."""
+	field = POLICY_FIELDS.get(kind)
+	value = ((settings or {}).get(field) if field else None) or POLICY_DEFAULTS.get(kind, "Skip it")
+	return "approve" if str(value).lower().startswith("send") else "reject"
+
+
+def reminder_due(*, status: str, now: datetime, created: datetime, expires_at: datetime | None,
+				 reminded_at: datetime | None, minutes: int) -> bool:
+	"""Remind once, `minutes` before the deadline — not for a window shorter than twice that
+	(the first email is reminder enough)."""
+	if status != "pending" or not expires_at or reminded_at or minutes <= 0:
+		return False
+	window = (expires_at - created).total_seconds() / 60
+	left = (expires_at - now).total_seconds() / 60
+	return window >= 2 * minutes and 0 < left <= minutes
+
+
+def timed_out(*, status: str, now: datetime, expires_at: datetime | None) -> bool:
+	return status == "pending" and bool(expires_at) and now >= expires_at
+
+
+def with_policy(workflow: dict, approve_on_timeout: bool, hours: float, node_keys) -> dict | None:
+	"""PUT body for an approval workflow (patched by patch_approvals.py) whose own timeout matches
+	QTT's: n8n waits `hours` + WAIT_SPARE_HOURS (QTT decides at `hours`), and if it ever times out
+	itself the Decision step answers as the policy says. None when it's already like that."""
+	nodes, changed = [], False
+	want_js = "true" if approve_on_timeout else "false"
+	for n in workflow.get("nodes") or []:
+		n = {k: v for k, v in n.items() if k in node_keys}
+		params = dict(n.get("parameters") or {})
+		if n.get("name") == "Wait for decision" and params.get("resumeAmount") != hours + WAIT_SPARE_HOURS:
+			params["resumeAmount"], changed = hours + WAIT_SPARE_HOURS, True
+		if n.get("name") == "Decision":
+			js = params.get("jsCode") or ""
+			for old in ("b.data.approved : true", "b.data.approved : false"):
+				new = "b.data.approved : " + want_js
+				if old in js and old != new:
+					js, changed = js.replace(old, new), True
+			params["jsCode"] = js
+		n["parameters"] = params
+		nodes.append(n)
+	if not changed:
+		return None
+	return {"name": workflow.get("name"), "nodes": nodes, "connections": workflow.get("connections") or {},
+			"settings": {k: v for k, v in (workflow.get("settings") or {}).items() if k in ("executionOrder", "timezone")}}
+
+
 def expired_status(timeout_action: str | None) -> str:
 	"""What a pending item becomes when nobody decided in time — n8n's Wait
 	step times out the same way (see the patch script's Decision node)."""
@@ -91,6 +146,15 @@ def clean_new(data: dict) -> dict:
 		"timeout_action": "approve" if data.get("timeout_action") == "approve" else "reject",
 		"expires_in_hours": max(0.25, min(hours, 24 * 14)),
 	}
+
+
+def plain_text(text: str) -> str:
+	"""n8n's Slack-style text (`*bold*`, `<url|label>`) made readable for an email."""
+	import re
+
+	text = re.sub(r"<(https?://[^|>]+)\|([^>]+)>", r"\2 (\1)", text or "")
+	text = re.sub(r"(?<!\w)\*([^*\n]+)\*(?!\w)", r"\1", text)
+	return re.sub(r"(?<!\w)_([^_\n]+)_(?!\w)", r"\1", text).strip()
 
 
 def _url(value) -> str | None:

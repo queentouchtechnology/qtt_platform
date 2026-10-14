@@ -12,6 +12,38 @@ from qtt_platform.marketing import approvals as a
 NOW = datetime(2026, 10, 10, 12, 0)
 
 
+class PolicyTest(unittest.TestCase):
+	def test_what_silence_means(self):
+		self.assertEqual(a.timeout_action("email_batch", {}), "approve")  # defaults: emails, LinkedIn, social go out
+		self.assertEqual(a.timeout_action("linkedin", None), "approve")
+		self.assertEqual(a.timeout_action("article", {}), "reject")  # articles need a yes
+		self.assertEqual(a.timeout_action("other", {}), "reject")
+		self.assertEqual(a.timeout_action("email_batch", {"email_batch_on_timeout": "Skip it"}), "reject")
+
+	def test_reminder_once_before_the_deadline(self):
+		from datetime import timedelta as td
+		kw = dict(status="pending", created=NOW - td(hours=7), expires_at=NOW + td(minutes=50), reminded_at=None, minutes=60)
+		self.assertTrue(a.reminder_due(now=NOW, **kw))
+		self.assertFalse(a.reminder_due(now=NOW, **{**kw, "reminded_at": NOW}))
+		self.assertFalse(a.reminder_due(now=NOW, **{**kw, "expires_at": NOW + td(hours=3)}))  # not yet
+		self.assertFalse(a.reminder_due(now=NOW, **{**kw, "created": NOW - td(minutes=40)}))  # 90-minute window: no reminder
+		self.assertFalse(a.reminder_due(now=NOW, **{**kw, "status": "approved"}))
+		self.assertTrue(a.timed_out(status="pending", now=NOW, expires_at=NOW))
+		self.assertFalse(a.timed_out(status="pending", now=NOW, expires_at=NOW + td(seconds=1)))
+
+	def test_workflow_follows_the_policy(self):
+		wf = {"name": "LinkedIn", "settings": {"executionOrder": "v1", "callerPolicy": "x"}, "connections": {"a": 1},
+			  "nodes": [{"name": "Wait for decision", "parameters": {"resumeAmount": 12}, "extra": 1},
+						{"name": "Decision", "parameters": {"jsCode": "const approved = b && b.data ? !!b.data.approved : false;"}}]}
+		body = a.with_policy(wf, True, 12, ("name", "parameters"))
+		self.assertEqual(body["nodes"][0]["parameters"]["resumeAmount"], 13)
+		self.assertIn("b.data.approved : true", body["nodes"][1]["parameters"]["jsCode"])
+		self.assertEqual(body["settings"], {"executionOrder": "v1"})
+		self.assertNotIn("extra", body["nodes"][0])
+		done = {**wf, "nodes": body["nodes"]}
+		self.assertIsNone(a.with_policy(done, True, 12, ("name", "parameters")))  # already aligned
+
+
 class ApprovalTest(unittest.TestCase):
 	def test_tokens_and_links(self):
 		t = a.new_token()
