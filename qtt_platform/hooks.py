@@ -354,3 +354,6 @@ qtt_role_access = []
 # Set-up guides (qtt_platform.api.setup.guides): each app's steps — first, next, optional — with live
 # status. An app lists one function (user, tenant) -> guide | None; qtt_platform itself has none.
 qtt_setup_steps = []
+
+# View as (Business › Team › a person): the owner's reads, as that person, read-only (qtt_platform.view_as).
+auth_hooks = ["qtt_platform.view_as.auth_hook"]

@@ -39,6 +39,10 @@ def resolve_active_tenant(user: str | None = None) -> str | None:
 	user = user or frappe.session.user
 	if not user or user == "Guest":
 		return None
+	# Viewing as someone (qtt_platform.view_as): always the owner's business, never the person's own choice.
+	viewing = getattr(frappe.local, "qtt_view_as", None)
+	if viewing and user == viewing["target"]:
+		return viewing["tenant"]
 	tenant = frappe.cache().get_value(_cache_key(user))
 	if tenant:
 		return tenant

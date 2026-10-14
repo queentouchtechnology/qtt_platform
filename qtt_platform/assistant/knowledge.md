@@ -49,6 +49,14 @@ person in it gets access to some products, with a role in each.
   exactly what that role allows from the first minute; each code works once,
   expires in 7 days, can be revoked, and every join is in the audit log. One
   person can join several businesses and switch between them.
+- **View as (business owner only, Business › Team › a person › View as
+  <name>)**: see the app exactly as that person sees it — their apps, screens,
+  numbers and what their role allows — to check what they see or help them.
+  View only: nothing can be saved, sent, approved or changed as them (the
+  server refuses it), and the Ask QTT assistant is off while viewing. A bar on
+  top says "Viewing as <name>" with Exit; it ends by itself after 30 minutes
+  without use, or when the person leaves the business. Admins can't use it,
+  and QTT staff accounts can't be viewed. Every start and stop is recorded.
 - **Inviting (owner / admin, Business › Team › Invite teammate)**: enter the
   email, pick the app and the role. The person gets an email with a **Join**
   button and a short code like **K7M2-QX9P** (8 letters and numbers, no 0/O or
