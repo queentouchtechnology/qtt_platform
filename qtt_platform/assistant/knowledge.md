@@ -275,7 +275,13 @@ that are no longer listed keep running as before.
   approve; then connect your domain (3 DNS steps shown in the app; it goes
   live on its own once connected). The preview has an expiry date.
 - Requests: ask QTT for a change or help; mark urgent if something is broken.
-- Payments: invoices; pay by UPI, card or net banking.
+- Payments (Managed Services › Payments): invoices; pay by UPI, card or net
+  banking. A new service starts once its first invoice is paid. The next
+  month's invoice comes 3 days before the paid period ends (15 days before for
+  yearly or 3-year terms). Not paid within 7 days after the paid period ends:
+  the service is paused (the activity says so); pay the open invoice and it
+  starts again at once. Stopping a service ends it at the end of the paid
+  period, with no more invoices.
 - Stopping a service: from the service, "Stop this service" (keeps running
   until the end of the paid period; "Keep this service" undoes it).
 - Paying by term: some services can be paid monthly, yearly or for 3 years
