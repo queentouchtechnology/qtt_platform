@@ -99,5 +99,21 @@ class ParseTests(unittest.TestCase):
 			self.assertEqual(r["answer"], rl.HANDOVER_REPLY)
 
 
+class GreetingAndTakeBackTest(unittest.TestCase):
+	def test_greetings_are_recognised_in_many_forms(self):
+		for g in ("Hai", "hi", "Hii", "Hello sir", "hey!", "Vanakkam 🙏", "Good morning", "வணக்கம்", "नमस्ते", "Hi team"):
+			self.assertTrue(rl.is_greeting(g), g)
+		for q in ("Hi, what's the price of a website?", "How much for an app", "I need a store", "", "high price"):
+			self.assertFalse(rl.is_greeting(q), q)
+
+	def test_takes_back_only_an_unanswered_handover_after_a_while(self):
+		t0 = 1_000_000.0
+		self.assertFalse(rl.take_back(handed_over_at=None, now=t0, team_replied=False, assigned=False))
+		self.assertFalse(rl.take_back(handed_over_at=t0, now=t0 + 60, team_replied=False, assigned=False))  # too soon
+		self.assertTrue(rl.take_back(handed_over_at=t0, now=t0 + 16 * 60, team_replied=False, assigned=False))
+		self.assertFalse(rl.take_back(handed_over_at=t0, now=t0 + 3600, team_replied=True, assigned=False))  # the team answered
+		self.assertFalse(rl.take_back(handed_over_at=t0, now=t0 + 3600, team_replied=False, assigned=True))  # someone took it
+
+
 if __name__ == "__main__":
 	unittest.main()

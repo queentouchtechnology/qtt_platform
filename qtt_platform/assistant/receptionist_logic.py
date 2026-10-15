@@ -47,6 +47,19 @@ lead = what the customer has told you so far (empty strings if unknown)."""
 
 HANDOVER_REPLY = "Thank you! A person from our team will reply here soon."
 
+# When the AI can't answer a plain hello, greet anyway — a greeting never needs the team.
+WELCOME_REPLY = ("Hi! 👋 Welcome to Queen Touch Technology. We build websites, online stores, apps, AI and WhatsApp "
+				 "automation — and QTT OS, our app to run a small business. What can I help you with today?")
+_GREETING = re.compile(
+	r"^\s*(hi+|hai+|hello+|helo+|hey+|hii+|vanakkam|vanakam|namaste|namaskar|good\s+(morning|afternoon|evening|day)|"
+	r"hlo|hlw|hy|yo|greetings|salaam|assalamu?\s*alaikum|வணக்கம்|नमस्ते|مرحبا|السلام عليكم)"
+	r"[\s!.,🙏👋😊]*(sir|madam|mam|maam|team|qtt|there|bro|anna|akka)?[\s!.,🙏👋😊]*$",
+	re.I,
+)
+# A handed-over chat nobody on the team has answered: after this long, a new message from the
+# customer brings the receptionist back (so nobody is left waiting).
+TAKE_BACK_AFTER_MIN = 15
+
 # Explicit "let me talk to a person" — handed over without asking the model.
 _PERSON = re.compile(
 	r"\b(talk|speak|chat|connect)( me)? (to|with) (a |an |the |your )?(human|person|someone|agent|staff|team|executive|sathish)\b"
@@ -63,6 +76,19 @@ def load_company() -> str:
 
 def wants_person(text: str) -> bool:
 	return bool(_PERSON.search(text or ""))
+
+
+def is_greeting(text: str) -> bool:
+	"""Just a hello ("Hai", "Hello sir", "Vanakkam 🙏") — nothing else asked yet."""
+	return bool(_GREETING.match(text or ""))
+
+
+def take_back(*, handed_over_at: float | None, now: float, team_replied: bool, assigned: bool) -> bool:
+	"""Should the receptionist answer again in a chat it handed to the team? Only when nobody took it
+	(no one assigned, no reply from the team since) and it's been TAKE_BACK_AFTER_MIN minutes."""
+	if not handed_over_at or team_replied or assigned:
+		return False
+	return now - handed_over_at >= TAKE_BACK_AFTER_MIN * 60
 
 
 def history_from_chatwoot(messages: list[dict], upto_id: int | None = None) -> list[dict]:
