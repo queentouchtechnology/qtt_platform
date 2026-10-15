@@ -83,7 +83,7 @@ person in it gets access to some products, with a role in each.
   the business and the code → **Open QTT OS and join** opens the app with the
   code filled in (no app yet: get it, then tap the button again). Or open the
   app and tap **I have an invitation code** on the sign-in screen (signed in
-  already: **Join with code** in the business switcher at the top of Home, or
+  already: tap your photo at the top right → **Join with code**, or
   on the choose-a-business screen) and type or paste the code — capitals,
   spaces and the dash don't matter; the Paste button picks the code out of a
   shared message.
@@ -97,11 +97,11 @@ person in it gets access to some products, with a role in each.
     enter the code again; too many wrong tries → wait 15 minutes.
   - After joining you have the app and role from the invitation; the business
     appears at once.
-- **Several businesses**: switch with the business name at the top of Home.
-- **Several accounts on one phone** (like Google's apps): your photo at the
-  right end of the top bar. Tap it: the account that's open, your other
-  signed-in accounts (tap one to switch — no password), Add another account,
-  Manage your account. Or swipe down / up on your photo to jump straight to
+- **One switcher for everything** (like Google's apps): your photo at the
+  right end of the top bar. Tap it: the account that's open (Manage your
+  account), **Your businesses** (tap one to switch; Join with code), **Your
+  accounts** — your other signed-in accounts (tap one to switch — no
+  password) — and Add another account. The menu (☰) can switch business too. Or swipe down / up on your photo to jump straight to
   the next / previous account. Signing out of one keeps the others. (Not on
   the web version: a browser keeps one sign-in per site.)
 
