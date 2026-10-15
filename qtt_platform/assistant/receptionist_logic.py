@@ -162,9 +162,20 @@ def parse_reply(text: str, *, plain_ok: bool = False) -> dict:
 	return {"answer": answer or HANDOVER_REPLY, "handover": handover, "reason": str(data.get("reason") or "").strip()[:200], "lead": lead}
 
 
+HANDOVER_MARK = "🤖 Receptionist handed this chat to the team"
+
+
+def last_handover_at(messages: list[dict]) -> float | None:
+	"""When the receptionist last handed this chat over — from its own private note in the chat
+	(Chatwoot messages, any order). None when it never did."""
+	times = [float(m.get("created_at") or 0) for m in messages
+			 if m.get("private") and str(m.get("content") or "").startswith(HANDOVER_MARK)]
+	return max(times) if times else None
+
+
 def staff_note(*, reason: str, lead: dict, question: str) -> str:
 	"""The private note the team sees in Onbox when the receptionist hands over."""
-	lines = ["🤖 Receptionist handed this chat to the team" + (f" — {reason}" if reason else "") + "."]
+	lines = [HANDOVER_MARK + (f" — {reason}" if reason else "") + "."]
 	labels = {"name": "Name", "business": "Business", "need": "Needs"}
 	lines += [f"{labels[k]}: {v}" for k, v in lead.items() if k in labels]
 	lines.append(f"Last message: {question.strip()[:300]}")

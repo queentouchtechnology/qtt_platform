@@ -106,6 +106,16 @@ class GreetingAndTakeBackTest(unittest.TestCase):
 		for q in ("Hi, what's the price of a website?", "How much for an app", "I need a store", "", "high price"):
 			self.assertFalse(rl.is_greeting(q), q)
 
+	def test_handover_time_read_from_its_own_note(self):
+		note = rl.staff_note(reason="the assistant couldn't answer", lead={}, question="Hai")
+		msgs = [
+			{"content": "Hai", "private": False, "created_at": 100},
+			{"content": note, "private": True, "created_at": 105},
+			{"content": "Hai", "private": False, "created_at": 900},
+		]
+		self.assertEqual(rl.last_handover_at(msgs), 105.0)
+		self.assertIsNone(rl.last_handover_at([{"content": "hello", "private": True, "created_at": 1}]))
+
 	def test_takes_back_only_an_unanswered_handover_after_a_while(self):
 		t0 = 1_000_000.0
 		self.assertFalse(rl.take_back(handed_over_at=None, now=t0, team_replied=False, assigned=False))
