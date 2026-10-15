@@ -10,7 +10,6 @@
  "sort_field": "endpoint",
  "sort_order": "ASC",
  "engine": "InnoDB",
- "read_only": 1,
  "in_create": 1,
  "description": "The backend guide: every server endpoint QTT OS has \u2014 what it does, which app screens use it, and who else calls it. Generated from the code (qtt-os/tool/api_guide.py \u2192 qtt_platform/api_guide.json) and refreshed on every deploy; don't edit here.",
  "field_order": [
@@ -159,5 +158,5 @@
  "autoname": "field:endpoint",
  "title_field": "endpoint",
  "search_fields": "purpose,product",
- "modified": "2026-10-15 22:00:00.000000"
+ "modified": "2026-10-15 23:00:00.000000"
 }
