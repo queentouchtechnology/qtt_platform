@@ -65,11 +65,17 @@ def rank(cards: list, dismissed: set[str] = frozenset(), limit: int = MAX_CARDS)
 
 
 def platform_cards(*, can_manage: bool, sub_status: str | None, trial_days_left: int | None,
-				   profile_missing: list[str], team_size: int) -> list[dict]:
+				   profile_missing: list[str], team_size: int, open_invoices: int = 0, overdue_invoices: int = 0) -> list[dict]:
 	"""The business-level cards (owner / admin only)."""
 	if not can_manage:
 		return []
 	cards = []
+	if open_invoices and sub_status != "past_due":
+		# An invoice from QTT (an app or a service it gave the business): Pay now in Business › Plans and billing.
+		cards.append({"key": "billing.invoice_open", "priority": 92 if overdue_invoices else 80, "tone": "danger" if overdue_invoices else "warning",
+					  "icon": "payments", "title": "{n} invoices to pay" if open_invoices != 1 else "An invoice to pay",
+					  "body": "It's overdue — pay now so nothing pauses." if overdue_invoices else "Pay it before the due date so everything keeps running.",
+					  "args": {"n": open_invoices}, "action": {"label": "Pay now", "kind": "screen", "target": "business.plans"}})
 	if sub_status == "past_due":
 		cards.append({"key": "billing.past_due", "priority": 95, "tone": "danger", "icon": "payments",
 					  "title": "Payment is due", "body": "Pay now so your team keeps using the apps without a break.",

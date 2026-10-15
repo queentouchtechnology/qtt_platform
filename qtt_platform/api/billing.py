@@ -141,3 +141,35 @@ def razorpay_webhook():
 
 	result = billing_service.process_webhook("razorpay", payload_body, signature, gateway_event_id=gateway_event_id)
 	return result
+
+
+@frappe.whitelist(methods=["GET"])
+def my_bills(start: int = 0, page_length: int = 20, status: str | None = None) -> dict:
+	"""Business › Plans and billing: every invoice of the business that's open — apps and managed services together —
+	newest first, a page at a time. status: open | paid. The owner and admins get Pay now on open ones;
+	everyone in the business can see them."""
+	from qtt_platform import list_sort
+	from qtt_platform.billing import paylink
+
+	tenant = resolve_active_tenant(frappe.session.user)
+	if not tenant:
+		frappe.throw(_("Choose your business first."), frappe.PermissionError)
+	require_tenant_membership(tenant)
+	role = frappe.db.get_value("QTT Tenant Membership", {"tenant": tenant, "user": frappe.session.user, "status": "active"}, "tenant_role")
+	can_pay = role in ("Tenant Owner", "Tenant Admin")
+	start, length = list_sort.page(start, page_length)
+	filters = {"tenant": tenant, "status": ["in", ["open", "paid", "void"]]}
+	if status in ("open", "paid"):
+		filters["status"] = status
+	rows = frappe.get_all("QTT Invoice", filters=filters, fields=["name", "amount", "currency", "status", "due_date", "creation"],
+						  order_by="FIELD(status, 'open') DESC, creation desc", start=start, page_length=length)
+	out = []
+	for inv in rows:
+		lines = frappe.get_all("QTT Invoice Item", filters={"parent": inv.name, "parenttype": "QTT Invoice"},
+							   fields=["description", "amount"], order_by="idx asc")
+		out.append({"name": inv.name, "amount": inv.amount, "currency": inv.currency or "INR", "status": inv.status,
+					"due_date": str(inv.due_date) if inv.due_date else None, "date": str(inv.creation)[:10],
+					"overdue": bool(inv.status == "open" and inv.due_date and str(inv.due_date) < frappe.utils.today()),
+					"lines": lines, "pay_url": paylink.payment_url(inv.name) if inv.status == "open" and can_pay else None})
+	return {"invoices": out, "has_more": len(rows) == length, "can_pay": can_pay,
+			"online_payments": paylink.online_payments_on()}

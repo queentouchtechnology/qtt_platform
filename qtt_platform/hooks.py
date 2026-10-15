@@ -108,6 +108,8 @@ required_apps = []
 #     re-derives `tenant` from the referenced membership on every save, a
 #     stronger, self-healing guarantee.
 doc_events = {
+    # A paid invoice extends the apps it covers that QTT Admin bills by invoice (invoice_billing.py).
+    "QTT Invoice": {"on_update": "qtt_platform.invoice_billing.on_invoice_update"},
     "QTT Product Subscription": {
         "before_save": "qtt_platform.permissions.handlers.guard_tenant_change_before_save",
         # Queen Touch Technology's own workspace: its apps are always on (qtt_platform/house.py).
@@ -320,6 +322,8 @@ scheduler_events = {
 	"daily": [
 		# Delete my account: requests whose 7-day wait is over (close businesses owned alone, then anonymise).
 		"qtt_platform.api.account_deletion.run_due",
+		# Apps assigned by QTT Admin to paying businesses: next invoice 3 days before the paid time ends; suspended 7 days after if unpaid.
+		"qtt_platform.invoice_billing.renew_daily",
 		"qtt_platform.api.analytics.purge_old_events",
 		"qtt_platform.billing.service.reconcile_payments",
 		"qtt_platform.billing.service.expire_stale_trials",

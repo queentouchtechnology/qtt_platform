@@ -30,8 +30,16 @@ person in it gets access to some products, with a role in each.
   filter that's on shows as a chip under the search (× removes it).
 - **Business** (owner / admin): Profile (logo, address, GSTIN, phone, bank,
   UPI — printed on invoices, payslips, PDFs); Team (invite by email, choose
-  each person's apps and role, remove); Roles and access (below); Plans (each
-  app's plan and trial end).
+  each person's apps and role, remove); Roles and access (below); **Plans and
+  billing** (each app's plan and trial end, and every invoice from QTT — apps
+  and managed services together, unpaid ones first, with **Pay now** for the
+  owner and admins; everyone can see them).
+- **Invoices from QTT**: when QTT gives your business an app or a service, it
+  starts at once and an invoice comes, due in 7 days (Home shows "An invoice to
+  pay"). Pay with Pay now (UPI, card, net banking). The next one comes 3 days
+  before the paid time ends; unpaid 7 days after that, the app or service
+  pauses — paying turns it straight back on. Paid another way (cash, bank
+  transfer)? Tell QTT; they mark it paid.
 - **Roles and access** (Business › Roles and access, owner / admin): one table
   per app the business has — the areas down the side, the roles across, a tick
   where that role can use it. In Orbitra the owner taps a cell to let a

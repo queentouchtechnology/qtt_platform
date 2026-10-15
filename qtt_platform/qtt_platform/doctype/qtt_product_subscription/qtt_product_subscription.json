@@ -12,7 +12,7 @@
  "sort_field": "modified",
  "sort_order": "DESC",
  "engine": "InnoDB",
- "description": "The row that actually governs a tenant's access to one product right now. A tenant can hold several — one per product it has subscribed to. Historical (superseded/cancelled) rows are never deleted; QTT Tenant Product Subscription Pointer tracks which one is current. No DocPerm is granted to any tenant-facing role — every read/write goes through qtt_platform.api.subscription, per the hardening review section 11's billing-doctype immutability pattern.",
+ "description": "The row that actually governs a tenant's access to one product right now. A tenant can hold several \u2014 one per product it has subscribed to. Historical (superseded/cancelled) rows are never deleted; QTT Tenant Product Subscription Pointer tracks which one is current. No DocPerm is granted to any tenant-facing role \u2014 every read/write goes through qtt_platform.api.subscription, per the hardening review section 11's billing-doctype immutability pattern.",
  "field_order": [
   "tenant",
   "product",
@@ -38,7 +38,10 @@
   "cancelled_at",
   "effective_end_date",
   "section_break_items",
-  "items"
+  "items",
+  "section_invoice_billing",
+  "billing_mode",
+  "paid_until"
  ],
  "fields": [
   {
@@ -66,7 +69,7 @@
    "options": "QTT Plan",
    "reqd": 1,
    "in_list_view": 1,
-   "description": "Must belong to the same product as this subscription — enforced in validate()."
+   "description": "Must belong to the same product as this subscription \u2014 enforced in validate()."
   },
   {
    "fieldname": "column_break_status",
@@ -81,7 +84,7 @@
    "reqd": 1,
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "description": "'suspended' added in SaaS lifecycle Phase D — the terminal state after a subscription's Razorpay-side retry/grace period is exhausted (Razorpay's own subscription.halted event), distinct from 'past_due' (still within the grace period, actively retrying). See qtt_platform.billing.service's RAZORPAY_STATUS_TO_LOCAL mapping for exactly which Razorpay event/status drives which local value."
+   "description": "'suspended' added in SaaS lifecycle Phase D \u2014 the terminal state after a subscription's Razorpay-side retry/grace period is exhausted (Razorpay's own subscription.halted event), distinct from 'past_due' (still within the grace period, actively retrying). See qtt_platform.billing.service's RAZORPAY_STATUS_TO_LOCAL mapping for exactly which Razorpay event/status drives which local value."
   },
   {
    "fieldname": "current_period_start",
@@ -111,7 +114,7 @@
    "fieldtype": "Link",
    "label": "Scheduled Plan",
    "options": "QTT Plan",
-   "description": "SaaS lifecycle Phase E. Set only for a DOWNGRADE, which takes effect at the next billing cycle rather than immediately (an upgrade applies right away via change_plan(), never touches this field). Blank means no plan change is pending. Applied by qtt_platform.subscription.service.apply_scheduled_plan_change() — triggered from the subscription.charged webhook handler once a new billing cycle has actually started (billing/service.py), not by mutating this row's own `plan` field directly; applying a scheduled change creates a NEW QTT Product Subscription row via change_plan(), the same historical-row-per-plan-change pattern every other plan change already uses."
+   "description": "SaaS lifecycle Phase E. Set only for a DOWNGRADE, which takes effect at the next billing cycle rather than immediately (an upgrade applies right away via change_plan(), never touches this field). Blank means no plan change is pending. Applied by qtt_platform.subscription.service.apply_scheduled_plan_change() \u2014 triggered from the subscription.charged webhook handler once a new billing cycle has actually started (billing/service.py), not by mutating this row's own `plan` field directly; applying a scheduled change creates a NEW QTT Product Subscription row via change_plan(), the same historical-row-per-plan-change pattern every other plan change already uses."
   },
   {
    "fieldname": "column_break_plan_change",
@@ -121,7 +124,7 @@
    "fieldname": "scheduled_plan_effective_date",
    "fieldtype": "Date",
    "label": "Scheduled Plan Effective Date",
-   "description": "Set together with scheduled_plan — normally equal to current_period_end at the time the downgrade was requested."
+   "description": "Set together with scheduled_plan \u2014 normally equal to current_period_end at the time the downgrade was requested."
   },
   {
    "fieldname": "section_break_razorpay",
@@ -134,7 +137,7 @@
    "label": "Razorpay Subscription ID",
    "read_only": 1,
    "in_list_view": 1,
-   "description": "SaaS lifecycle Phase C, corrected in Phase E: a plan change (subscription/service.py::change_plan()) now CARRIES THIS FORWARD onto the new row rather than leaving it blank — the new row represents a continuation of the SAME external Razorpay subscription (billing.service.sync_razorpay_plan_change() PATCHes the existing Razorpay subscription's plan_id in place; a plan change never creates a second Razorpay subscription, per SaaS lifecycle Phase E section 11). Blank only for a subscription that has never been linked to Razorpay at all (e.g. a purely local test subscription)."
+   "description": "SaaS lifecycle Phase C, corrected in Phase E: a plan change (subscription/service.py::change_plan()) now CARRIES THIS FORWARD onto the new row rather than leaving it blank \u2014 the new row represents a continuation of the SAME external Razorpay subscription (billing.service.sync_razorpay_plan_change() PATCHes the existing Razorpay subscription's plan_id in place; a plan change never creates a second Razorpay subscription, per SaaS lifecycle Phase E section 11). Blank only for a subscription that has never been linked to Razorpay at all (e.g. a purely local test subscription)."
   },
   {
    "fieldname": "trial_start",
@@ -149,7 +152,7 @@
    "fieldname": "trial_end",
    "fieldtype": "Date",
    "label": "Trial End",
-   "description": "Independent of current_period_end (unchanged) — current_period_end tracks the CURRENT billing cycle boundary and moves forward every renewal; trial_start/trial_end are fixed once, set at the ORIGINAL subscription's creation, and record the original trial window even after the subscription converts to a paid, actively-billing cycle. Carried forward verbatim by change_plan() (Phase E) onto every subsequent plan-change row in this lineage — a plan change during trial must never restart the trial (SaaS lifecycle Phase E section 11)."
+   "description": "Independent of current_period_end (unchanged) \u2014 current_period_end tracks the CURRENT billing cycle boundary and moves forward every renewal; trial_start/trial_end are fixed once, set at the ORIGINAL subscription's creation, and record the original trial window even after the subscription converts to a paid, actively-billing cycle. Carried forward verbatim by change_plan() (Phase E) onto every subsequent plan-change row in this lineage \u2014 a plan change during trial must never restart the trial (SaaS lifecycle Phase E section 11)."
   },
   {
    "fieldname": "section_break_cancellation",
@@ -174,7 +177,7 @@
    "fieldname": "cancelled_at",
    "fieldtype": "Datetime",
    "label": "Cancelled At",
-   "description": "Set only once the cancellation actually takes effect (status becomes 'cancelled') — for cancel_at_period_end=1 (unchanged field), this is set later than cancellation_requested_at, at effective_end_date; for an immediate cancellation, the two happen together."
+   "description": "Set only once the cancellation actually takes effect (status becomes 'cancelled') \u2014 for cancel_at_period_end=1 (unchanged field), this is set later than cancellation_requested_at, at effective_end_date; for an immediate cancellation, the two happen together."
   },
   {
    "fieldname": "effective_end_date",
@@ -192,6 +195,24 @@
    "fieldtype": "Table",
    "label": "Subscription Items",
    "options": "QTT Subscription Item"
+  },
+  {
+   "fieldname": "section_invoice_billing",
+   "fieldtype": "Section Break",
+   "label": "Billed by invoice (assigned by QTT)"
+  },
+  {
+   "fieldname": "billing_mode",
+   "fieldtype": "Select",
+   "label": "Billing",
+   "options": "\nrazorpay\ninvoice",
+   "description": "invoice: QTT Admin assigned it \u2014 an invoice each period, paid with Pay now (qtt_platform/invoice_billing.py). Empty / razorpay: the customer's own Razorpay subscription."
+  },
+  {
+   "fieldname": "paid_until",
+   "fieldtype": "Date",
+   "label": "Paid until",
+   "description": "Invoice billing: the day the paid time runs out (renewal invoice 3 days before; suspended 7 days after if unpaid)."
   }
  ],
  "permissions": [
@@ -205,5 +226,6 @@
    "export": 1
   }
  ],
- "links": []
+ "links": [],
+ "modified": "2026-10-16 10:00:00.000000"
 }

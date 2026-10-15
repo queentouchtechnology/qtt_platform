@@ -3036,7 +3036,7 @@
    "arguments": "name",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.invoice",
-   "screens": "products/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/sales_view.dart › _InvoiceDetailState",
+   "screens": "platform/workspace/billing_section.dart › InvoiceTile\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/sales_view.dart › _InvoiceDetailState",
    "other_callers": "",
    "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/sales.py:73",
    "status": "Not described"
@@ -3068,7 +3068,7 @@
    "arguments": "show, q, customer, start, page_length, sort",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.invoices\nqtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.invoicesPage",
-   "screens": "admin/saas_models.dart › WorkspaceBilling\nadmin/workspace_billing_view.dart › _WorkspaceBillingSectionState\nproducts/orbitra/screens/sales_view.dart › _SalesViewState\nproducts/services/repository.dart › ServicesRepository\nproducts/services/screens/order_pages.dart › _PaymentsPageState",
+   "screens": "admin/saas_models.dart › WorkspaceBilling\nadmin/workspace_billing_view.dart › _WorkspaceBillingSectionState\nplatform/workspace/billing_section.dart › _BillingSectionState\nproducts/orbitra/screens/sales_view.dart › _SalesViewState\nproducts/services/repository.dart › ServicesRepository\nproducts/services/screens/order_pages.dart › _PaymentsPageState",
    "other_callers": "",
    "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/sales.py:37",
    "status": "OK"
@@ -3458,6 +3458,86 @@
    "status": "OK"
   },
   {
+   "endpoint": "qtt_platform.api.admin_business.assign_app",
+   "product": "Platform",
+   "area": "api.admin_business",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Give a business an app on a plan, starting now. Paying business + paid plan: the first invoice (due in 7 days, Pay now in Business › Plans and billing), then one each period; trial=1 (plan with trial days) starts the trial and invoices before it ends. House workspaces: free, no invoice.",
+   "details": "Give a business an app on a plan, starting now. Paying business + paid plan: the first invoice\n(due in 7 days, Pay now in Business › Plans and billing), then one each period; trial=1 (plan with trial days)\nstarts the trial and invoices before it ends. House workspaces: free, no invoice.",
+   "arguments": "tenant, product, plan, trial",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.assignApp",
+   "screens": "admin/workspace_billing_view.dart › _ProductCard",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/admin_business.py:107",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.admin_business.catalog",
+   "product": "Platform",
+   "area": "api.admin_business",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "Every active app with all its plans (public or not), for the assign screens.",
+   "details": "Every active app with all its plans (public or not), for the assign screens.",
+   "arguments": "",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/admin_business.py:36",
+   "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_platform.api.admin_business.create_business",
+   "product": "Platform",
+   "area": "api.admin_business",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "A new business and its owner. The owner gets an email: new to QTT → a link to set their own password (the invitation); already a QTT user → the business appears in their list. temp_password (optional) lets them sign in at once with it. house=1: a free workspace (QTT's own) — never invoiced.",
+   "details": "A new business and its owner. The owner gets an email: new to QTT → a link to set their own password\n(the invitation); already a QTT user → the business appears in their list. temp_password (optional)\nlets them sign in at once with it. house=1: a free workspace (QTT's own) — never invoiced.",
+   "arguments": "business_name, owner_email, owner_name, house, temp_password, country",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.createBusiness",
+   "screens": "admin/business_admin.dart › _CreateBusinessPageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/admin_business.py:50",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.admin_business.set_app_status",
+   "product": "Platform",
+   "area": "api.admin_business",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Turn an app on (active) or off (suspended) for a business, whatever its billing.",
+   "details": "Turn an app on (active) or off (suspended) for a business, whatever its billing.",
+   "arguments": "tenant, product, status",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.setAppStatus",
+   "screens": "admin/workspace_billing_view.dart › _ProductCard",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/admin_business.py:147",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.admin_business.set_invoice_status",
+   "product": "Platform",
+   "area": "api.admin_business",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Mark an open invoice paid (paid outside the app: cash, UPI, bank transfer — note says how) or void it. Paid runs everything a Pay now payment does: the app or service is extended and turned back on.",
+   "details": "Mark an open invoice paid (paid outside the app: cash, UPI, bank transfer — note says how) or void it.\nPaid runs everything a Pay now payment does: the app or service is extended and turned back on.",
+   "arguments": "invoice, status, note",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.setInvoiceStatus",
+   "screens": "admin/business_admin.dart › _AssignServicePageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/admin_business.py:164",
+   "status": "OK"
+  },
+  {
    "endpoint": "qtt_platform.api.admin_home.home",
    "product": "Platform",
    "area": "api.admin_home",
@@ -3778,6 +3858,22 @@
    "status": "Not used by the app"
   },
   {
+   "endpoint": "qtt_platform.api.billing.my_bills",
+   "product": "Platform",
+   "area": "api.billing",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "Business › Plans and billing: every invoice of the business that's open — apps and managed services together — newest first, a page at a time. status: open | paid. The owner and admins get Pay now on open ones; everyone in the business can see them.",
+   "details": "Business › Plans and billing: every invoice of the business that's open — apps and managed services together —\nnewest first, a page at a time. status: open | paid. The owner and admins get Pay now on open ones;\neveryone in the business can see them.",
+   "arguments": "start, page_length, status",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.myBills",
+   "screens": "platform/workspace/billing_section.dart › _BillingSectionState\nplatform/workspace/billing_section.dart › _InvoicesPageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/billing.py:147",
+   "status": "OK"
+  },
+  {
    "endpoint": "qtt_platform.api.billing.razorpay_webhook",
    "product": "Platform",
    "area": "api.billing",
@@ -4062,7 +4158,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.homeActions",
    "screens": "shared/search/global_search.dart › _GlobalSearchScreenState\nshell/launcher_screen.dart › _HomeActionsState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/home.py:48",
+   "source": "qtt_platform/qtt_platform/api/home.py:50",
    "status": "Not described"
   },
   {
@@ -4078,7 +4174,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.dismissHomeAction",
    "screens": "shell/launcher_screen.dart › _HomeActionsState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/home.py:68",
+   "source": "qtt_platform/qtt_platform/api/home.py:70",
    "status": "Not described"
   },
   {
@@ -4524,7 +4620,7 @@
    "arguments": "tenant",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.tenant",
-   "screens": "admin/admin_root.dart › RevenueTab\nadmin/admin_root.dart › TenantActivityPage\nadmin/admin_root.dart › TenantDetail\nadmin/admin_root.dart › _TenantsViewState\nadmin/clients_models.dart › ClientDetail\nadmin/clients_models.dart › ClientSummary\nadmin/clients_models.dart › StaffRequest\nadmin/clients_view.dart › ClientConsole\nadmin/clients_view.dart › _ClientConsoleState\nadmin/clients_view.dart › _ClientsViewState\nadmin/clients_view.dart › _StaffRequestPageState\nadmin/revenue_view.dart › RevenueView\nadmin/saas_models.dart › RevenueRow\nadmin/workspace_billing_view.dart › TenantInvoicesPage\nadmin/workspace_billing_view.dart › WorkspaceBillingSection\nadmin/workspace_billing_view.dart › _ProductCard\nadmin/workspace_billing_view.dart › _TenantInvoicesPageState\nadmin/workspace_billing_view.dart › _WorkspaceBillingSectionState\nplatform/account/account_switcher.dart › AccountTitle\nplatform/data/platform_models.dart › AppContextData\nplatform/data/platform_models.dart › Workspace\nplatform/session/app_session.dart › AppSession\nplatform/workspace/roles_access_tab.dart › RolesAccessTab\nplatform/workspace/workspace_picker_screen.dart › WorkspacePickerScreen\nplatform/workspace/workspace_settings_screen.dart › _InviteDialog\nplatform/workspace/workspace_settings_screen.dart › _InviteDialogState\nplatform/workspace/workspace_settings_screen.dart › _MemberSheet\nplatform/workspace/workspace_settings_screen.dart › _ProductRoleRow\nplatform/workspace/workspace_settings_screen.dart › _TeamTab\nproducts/onbox/models.dart › Membership\nproducts/onbox/models.dart › OnboxEvent\nproducts/onbox/onbox_provider.dart › OnboxProvider\nshell/home_shell.dart › _HomeShellState\nshell/workspace_switcher.dart › WorkspaceSwitcher",
+   "screens": "admin/admin_root.dart › RevenueTab\nadmin/admin_root.dart › TenantActivityPage\nadmin/admin_root.dart › TenantDetail\nadmin/admin_root.dart › _TenantsViewState\nadmin/business_admin.dart › AssignServicePage\nadmin/business_admin.dart › TenantServicesSection\nadmin/business_admin.dart › _AssignServicePageState\nadmin/business_admin.dart › _TenantServicesSectionState\nadmin/clients_models.dart › ClientDetail\nadmin/clients_models.dart › ClientSummary\nadmin/clients_models.dart › StaffRequest\nadmin/clients_view.dart › ClientConsole\nadmin/clients_view.dart › _ClientConsoleState\nadmin/clients_view.dart › _ClientsViewState\nadmin/clients_view.dart › _StaffRequestPageState\nadmin/revenue_view.dart › RevenueView\nadmin/saas_models.dart › RevenueRow\nadmin/workspace_billing_view.dart › TenantInvoicesPage\nadmin/workspace_billing_view.dart › WorkspaceBillingSection\nadmin/workspace_billing_view.dart › _ProductCard\nadmin/workspace_billing_view.dart › _TenantInvoicesPageState\nadmin/workspace_billing_view.dart › _WorkspaceBillingSectionState\nplatform/account/account_switcher.dart › AccountTitle\nplatform/data/platform_models.dart › AppContextData\nplatform/data/platform_models.dart › Workspace\nplatform/session/app_session.dart › AppSession\nplatform/workspace/roles_access_tab.dart › RolesAccessTab\nplatform/workspace/workspace_picker_screen.dart › WorkspacePickerScreen\nplatform/workspace/workspace_settings_screen.dart › _InviteDialog\nplatform/workspace/workspace_settings_screen.dart › _InviteDialogState\nplatform/workspace/workspace_settings_screen.dart › _MemberSheet\nplatform/workspace/workspace_settings_screen.dart › _ProductRoleRow\nplatform/workspace/workspace_settings_screen.dart › _TeamTab\nproducts/onbox/models.dart › Membership\nproducts/onbox/models.dart › OnboxEvent\nproducts/onbox/onbox_provider.dart › OnboxProvider\nshell/home_shell.dart › _HomeShellState\nshell/workspace_switcher.dart › WorkspaceSwitcher",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/platform_admin.py:95",
    "status": "Not described"
@@ -4890,12 +4986,12 @@
    "purpose": "Subscribe a workspace to a product (trial if the plan has trial days). Refused while it already has an open subscription.",
    "details": "Subscribe a workspace to a product (trial if the plan has trial\ndays). Refused while it already has an open subscription.",
    "arguments": "tenant, product, plan",
-   "used_by": "—",
-   "app_calls": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.addProduct",
    "screens": "",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/saas_admin.py:193",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.saas_admin.cancel_product",
@@ -4906,12 +5002,12 @@
    "purpose": "Cancel at period end (default) or now. Razorpay is cancelled too; a gateway failure is logged and caught by the nightly reconcile, the same as a customer-initiated cancel.",
    "details": "Cancel at period end (default) or now. Razorpay is cancelled too;\na gateway failure is logged and caught by the nightly reconcile, the\nsame as a customer-initiated cancel.",
    "arguments": "tenant, product, immediately, reason",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.cancelProduct",
+   "screens": "admin/workspace_billing_view.dart › _ProductCard",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/saas_admin.py:274",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.saas_admin.change_plan",
@@ -4922,12 +5018,12 @@
    "purpose": "Immediate plan change by QTT (upgrade or downgrade). Razorpay is updated first; if that fails nothing changes locally.",
    "details": "Immediate plan change by QTT (upgrade or downgrade). Razorpay is\nupdated first; if that fails nothing changes locally.",
    "arguments": "tenant, product, plan",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.changePlan",
+   "screens": "admin/workspace_billing_view.dart › _ProductCard",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/saas_admin.py:225",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.saas_admin.extend_trial",
@@ -4938,9 +5034,9 @@
    "purpose": "Extend trial — saas admin (named only: no description in the code yet)",
    "details": "",
    "arguments": "tenant, product, days",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.extendTrial",
+   "screens": "admin/workspace_billing_view.dart › _ProductCard",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/saas_admin.py:249",
    "status": "Not described"
@@ -4970,9 +5066,9 @@
    "purpose": "Remove override — saas admin (named only: no description in the code yet)",
    "details": "",
    "arguments": "tenant, name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.removeOverride",
+   "screens": "admin/workspace_billing_view.dart › _ProductCard",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/saas_admin.py:325",
    "status": "Not described"
@@ -5018,12 +5114,12 @@
    "purpose": "Give one workspace a different limit or flag than its plan (e.g. 5 extra agents until a date). Replaces the plan value while it applies.",
    "details": "Give one workspace a different limit or flag than its plan (e.g. 5\nextra agents until a date). Replaces the plan value while it applies.",
    "arguments": "tenant, product, feature_key, value, reason, expires_on",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.setOverride",
+   "screens": "admin/workspace_billing_view.dart › _ProductCard",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/saas_admin.py:300",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.saas_admin.tenant_invoices",
@@ -5050,9 +5146,9 @@
    "purpose": "Undo cancellation — saas admin (named only: no description in the code yet)",
    "details": "",
    "arguments": "tenant, product",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.undoCancellation",
+   "screens": "admin/workspace_billing_view.dart › _ProductCard",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/saas_admin.py:292",
    "status": "Not described"
@@ -5068,7 +5164,7 @@
    "arguments": "tenant",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.workspaceBilling",
-   "screens": "admin/workspace_billing_view.dart › _WorkspaceBillingSectionState",
+   "screens": "admin/workspace_billing_view.dart › _ProductCard\nadmin/workspace_billing_view.dart › _WorkspaceBillingSectionState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/saas_admin.py:108",
    "status": "OK"
@@ -5538,6 +5634,22 @@
    "status": "Not described"
   },
   {
+   "endpoint": "qtt_services.api.admin.assign_service",
+   "product": "Managed Services",
+   "area": "api.admin",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "QTT Admin gives a business a managed service — same prices, parts and terms as ordering in the app, but it starts now: a paying business gets an invoice due in 7 days (Business › Plans and billing › Pay now; paused if unpaid), QTT's own (house) business pays nothing. Managed Services is switched on for the business first.",
+   "details": "QTT Admin gives a business a managed service — same prices, parts and terms as ordering in the app,\nbut it starts now: a paying business gets an invoice due in 7 days (Business › Plans and billing › Pay now; paused if\nunpaid), QTT's own (house) business pays nothing. Managed Services is switched on for the business first.",
+   "arguments": "tenant, code, term, options, answers, hosting_plan, domain, website_template",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.assignService",
+   "screens": "admin/business_admin.dart › _AssignServicePageState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:291",
+   "status": "OK"
+  },
+  {
    "endpoint": "qtt_services.api.admin.automation_key",
    "product": "Managed Services",
    "area": "api.admin",
@@ -5580,7 +5692,7 @@
    "arguments": "tenant",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.client",
-   "screens": "admin/clients_view.dart › _ClientConsoleState\nadmin/clients_view.dart › _ClientsViewState",
+   "screens": "admin/business_admin.dart › _TenantServicesSectionState\nadmin/clients_view.dart › _ClientConsoleState\nadmin/clients_view.dart › _ClientsViewState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/admin.py:73",
    "status": "Not described"
@@ -5676,7 +5788,7 @@
    "arguments": "tenant, service_type, status, monthly_fee, setup_fee, client_note, notes, name",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.saveService",
-   "screens": "admin/clients_view.dart › _ClientConsoleState",
+   "screens": "admin/business_admin.dart › _TenantServicesSectionState\nadmin/clients_view.dart › _ClientConsoleState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/admin.py:83",
    "status": "Not described"
@@ -5695,6 +5807,22 @@
    "screens": "admin/clients_view.dart › _ClientConsoleState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/admin.py:229",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.admin.service_catalog",
+   "product": "Managed Services",
+   "area": "api.admin",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "Every managed service (listed or not) with what an assignment needs: parts / sizes, terms, set-up questions, and whether it needs hosting, a design or a domain — QTT Admin › a business › Assign service.",
+   "details": "Every managed service (listed or not) with what an assignment needs: parts / sizes, terms, set-up\nquestions, and whether it needs hosting, a design or a domain — QTT Admin › a business › Assign service.",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.serviceCatalog",
+   "screens": "admin/business_admin.dart › _AssignServicePageState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:265",
    "status": "OK"
   },
   {
@@ -6318,7 +6446,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.cancel",
    "screens": "app/app.dart › _QttOsAppState\napp/app_gate.dart › _SplashState\ncore/analytics/analytics.dart › Analytics\ncore/config/remote_config.dart › RemoteConfigStore\ncore/push/push_service.dart › PushService\nplatform/onboarding/signup_screen.dart › _SignupScreenState\nplatform/session/app_session.dart › AppSession\nproducts/office_pulse/office_pulse_root.dart › PulseState\nproducts/office_pulse/screens/pattern_who.dart › _PatternWhoState\nproducts/onbox/chat_controller.dart › ChatController\nproducts/onbox/onbox_provider.dart › OnboxProvider\nproducts/onbox/screens/conversation_list_pane.dart › _ConversationListPaneState\nproducts/orbitra/orbitra_root.dart › OrbitraState\nproducts/services/screens/deploy_pages.dart › _DeploymentPageState\nproducts/services/screens/golive_pages.dart › _DeletingDialogState\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › ServicesState\nshared/search/global_search.dart › _GlobalSearchScreenState\nshared/widgets/list_kit.dart › _SearchFilterBarState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:320",
+   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:343",
    "status": "Not described"
   },
   {
@@ -6334,7 +6462,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.searchDomains",
    "screens": "products/services/screens/order_pages.dart › _OrderPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:175",
+   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:180",
    "status": "OK"
   },
   {
@@ -6364,9 +6492,9 @@
    "arguments": "start, page_length, status",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.invoices\nqtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.invoicesPage",
-   "screens": "admin/saas_models.dart › WorkspaceBilling\nadmin/workspace_billing_view.dart › _WorkspaceBillingSectionState\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/orbitra/screens/sales_view.dart › _SalesViewState\nproducts/services/screens/order_pages.dart › _PaymentsPageState",
+   "screens": "admin/saas_models.dart › WorkspaceBilling\nadmin/workspace_billing_view.dart › _WorkspaceBillingSectionState\nplatform/workspace/billing_section.dart › _BillingSectionState\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/orbitra/screens/sales_view.dart › _SalesViewState\nproducts/services/screens/order_pages.dart › _PaymentsPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:293",
+   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:316",
    "status": "OK"
   },
   {
@@ -6382,7 +6510,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.keep",
    "screens": "platform/data/platform_repository.dart › PlatformRepository\nproducts/onbox/screens/channel_access_screen.dart › _InboxMembersCardState\nproducts/services/screens/services_home.dart › _ServicePage",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:343",
+   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:366",
    "status": "OK"
   },
   {
@@ -6398,7 +6526,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.offer",
    "screens": "products/services/screens/order_pages.dart › _OrderPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:86",
+   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:91",
    "status": "Not described"
   },
   {
@@ -6407,15 +6535,15 @@
    "area": "api.shop",
    "http_methods": "POST",
    "guest": 0,
-   "purpose": "Order — shop (named only: no description in the code yet)",
-   "details": "",
+   "purpose": "The owner orders a service: chosen parts / size, term, set-up answers (and hosting, design, domain when it needs them). Paid → an invoice; it starts once paid. Free (or QTT's own business) → it starts now.",
+   "details": "The owner orders a service: chosen parts / size, term, set-up answers (and hosting, design, domain when\nit needs them). Paid → an invoice; it starts once paid. Free (or QTT's own business) → it starts now.",
    "arguments": "code, answers, hosting_plan, domain, buy_domain, business_category, website_template, color_palette, term, options",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.order",
    "screens": "products/services/screens/order_pages.dart › (top level)\nproducts/services/screens/order_pages.dart › _OrderPageState\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_models.dart › StoreOrderDetail\nproducts/services/store/store_pages.dart › _StoreOrderPageState\nproducts/services/store/store_pages.dart › _StoreOrdersPageState\nshared/widgets/adaptive.dart › _AdaptiveTilesState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:183",
-   "status": "Not described"
+   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:188",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_services.api.shop.pay",
@@ -6430,7 +6558,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.payLink",
    "screens": "products/services/screens/order_pages.dart › (top level)",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:286",
+   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:309",
    "status": "Not described"
   },
   {
