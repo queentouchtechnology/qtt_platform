@@ -171,6 +171,24 @@ def workspace_billing(tenant: str) -> dict:
 	return {"tenant": tenant, "products": products, "invoices": invoices, "currency": CURRENCY}
 
 
+@frappe.whitelist(methods=["GET"])
+def tenant_invoices(tenant: str, start: int = 0, page_length: int = 20, status: str | None = None) -> dict:
+	"""A business's invoices, newest first, a page at a time (QTT Admin; loads more as you scroll)."""
+	from qtt_platform import list_sort
+
+	require_platform_owner()
+	_require_tenant(tenant)
+	start, length = list_sort.page(start, page_length)
+	filters = {"tenant": tenant}
+	if status:
+		filters["status"] = status
+	rows = frappe.get_all("QTT Invoice", filters=filters, fields=["name", "amount", "currency", "status", "due_date", "creation"],
+						  order_by="creation desc", start=start, page_length=length)
+	for i in rows:
+		i["due_date"], i["creation"] = _d(i.due_date), _d(i.creation)
+	return {"invoices": rows, "has_more": len(rows) == length}
+
+
 @frappe.whitelist(methods=["POST"])
 def add_product(tenant: str, product: str, plan: str) -> dict:
 	"""Subscribe a workspace to a product (trial if the plan has trial

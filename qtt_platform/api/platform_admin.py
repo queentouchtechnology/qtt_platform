@@ -44,7 +44,26 @@ def overview() -> dict:
 
 
 @frappe.whitelist(methods=["GET"])
-def list_tenants(q: str | None = None, status: str | None = None, start: int = 0, page_length: int = 20) -> dict:
+def tenant_activity(tenant: str, start: int = 0, page_length: int = 30) -> dict:
+	"""A business's audit trail, newest first, a page at a time (QTT Admin; loads more as you scroll)."""
+	from qtt_platform import list_sort
+
+	require_platform_owner()
+	start, length = list_sort.page(start, page_length)
+	rows = frappe.get_all("QTT Audit Log", filters={"tenant": tenant}, fields=["event_type", "actor", "product", "occurred_at"],
+						  order_by="occurred_at desc", start=start, page_length=length)
+	for a in rows:
+		a["occurred_at"] = str(a.occurred_at)
+	return {"activity": rows, "has_more": len(rows) == length}
+
+
+TENANT_SORTS = {"newest": "creation desc", "name": "tenant_name asc", "oldest": "creation asc"}
+
+
+@frappe.whitelist(methods=["GET"])
+def list_tenants(q: str | None = None, status: str | None = None, start: int = 0, page_length: int = 20, sort: str | None = None) -> dict:
+	from qtt_platform import list_sort
+
 	require_platform_owner()
 	start = max(0, int(start or 0))
 	page_length = min(_MAX_PAGE, max(1, int(page_length or 20)))
@@ -60,7 +79,7 @@ def list_tenants(q: str | None = None, status: str | None = None, start: int = 0
 		search_fields=["tenant_name", "slug", "owner_user"],
 		title_field="tenant_name",
 		q=q,
-		order_by="creation desc",
+		order_by=list_sort.order_by(sort, TENANT_SORTS, "newest"),
 		start=start,
 		page_length=page_length,
 	)

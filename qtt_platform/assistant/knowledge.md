@@ -11,6 +11,13 @@ person in it gets access to some products, with a role in each.
 - **Search**: finds customers, people, items and app screens. Understands
   typos, any word order, phone numbers, and everyday words ("salary" opens
   Office Pulse, "bill" opens Orbitra). Remembers recent searches.
+- **Lists** (customers, people, items, invoices, bills, leave, claims,
+  payslips, payroll, approvals, money in and out, requests, payments): the
+  first 20 show, and more load by themselves as you scroll — no "Show more"
+  button; "All N shown" at the end; pull down to refresh. Views and order are
+  behind the filter button (e.g. Working / Left, Active / Archived, Unpaid /
+  Paid, Sort by); whatever isn't the usual view shows as a chip under the
+  search or the list's title — × removes it.
 - **Customers**: one customer list per business, shared by all apps (Orbitra
   bills them, Onbox saves chat contacts into it). Individual or business
   (GSTIN, billing address), tags and notes; call, WhatsApp or email them;
