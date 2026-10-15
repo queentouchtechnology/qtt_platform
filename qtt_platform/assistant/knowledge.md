@@ -720,7 +720,7 @@ One service; tick only the parts you want, each priced on its own:
 - Owner's daily report — yesterday's sales, cash and low stock every morning
   on WhatsApp.
 - Marketing assistant — weekly post drafts and festival offers; you approve
-  before anything is posted.
+  before anything is posted. QTT posts them to your pages (see below).
 - Ask your business — ask on WhatsApp ("How much did we sell this month?")
   and get the answer from your own data; it never changes anything.
 - Who is absent today — attendance and leave on WhatsApp for your team (from
@@ -729,6 +729,30 @@ Ordering asks only the questions the chosen parts need (for example a UPI ID
 for payment reminders, the morning time for the daily report). QTT sets each
 part up and tells you in activity when it's running. To add a part later, ask
 through Requests.
+
+## Managed Services — Marketing assistant (posting to your pages)
+For a business that chose the Marketing assistant part. Open the AI &
+WhatsApp Automation service (Managed Services › Home › the service) →
+**Marketing assistant**.
+- **Your pages** (owner): Connect → pick Facebook, Instagram, LinkedIn, X
+  (Twitter), YouTube, Threads, TikTok, Pinterest or Bluesky → sign in there and
+  allow posting → come back to the app; the page shows with its photo. A page
+  whose sign-in expired says so — connect it again. Disconnect stops posting
+  (posts already made stay).
+- **Post ideas**: every Monday at 9 am the assistant writes 3 posts (and a
+  festival offer when a festival is near) from your offers, in your language,
+  as drafts "Waiting for your OK". The owner can also tap **Get post ideas
+  now** (once a day).
+- **A post**: change the words, add photos or videos (Add), choose the pages
+  (Post on), and When — as soon as you approve, or pick a time. **Approve and
+  post / Approve and schedule** sends it; **Save for later** keeps it as a
+  draft. Instagram, TikTok, YouTube and Pinterest need a photo or video; X
+  takes 280 characters (the app shows what's too long before you approve).
+- **After posting**: Posted, Partly posted or Not posted, with how it went on
+  each page and a link to the post. A post not posted can be changed and
+  approved again. A scheduled post can be called off; a draft can be deleted.
+- Only the owner connects pages and approves; others in the business see the
+  posts. Nothing is ever posted without the owner's OK.
 
 ## Managed Services — online store (Managed E-Commerce Websites)
 QTT creates, hosts, secures and manages a full online store (WooCommerce) for
