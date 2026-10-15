@@ -785,6 +785,17 @@ open it from that service).
   it counts toward the month ("1 of 2 articles published this month").
   "Take it off my website" removes a published one. Only for businesses
   with a website QTT built.
+- **Email newsletters** (Pro: 2 a month): Marketing assistant › **Email
+  newsletters**. **Your list**: Add my customers (your customers that have an
+  email), Upload a list (a CSV file with an email column; a name column is
+  used if there), Get website sign-ups (the newsletter form on your QTT
+  website) — new customers and website sign-ups also join every day. Drafts
+  come on the 1st of each month or with **Get a newsletter idea**. Open one:
+  subject, preview line, the text (like articles), a picture, when; **Send a
+  test to me**, then **Approve and send**. One email per person, from your
+  business's name; replies go to your business email. Every email has an
+  unsubscribe link; someone who unsubscribes is never emailed again, even if
+  they're on a list you upload later. Up to 5,000 people per newsletter.
 
 ## Managed Services — online store (Managed E-Commerce Websites)
 QTT creates, hosts, secures and manages a full online store (WooCommerce) for
