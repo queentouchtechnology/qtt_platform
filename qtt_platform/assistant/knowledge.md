@@ -107,6 +107,15 @@ person in it gets access to some products, with a role in each.
   the next / previous account. Signing out of one keeps the others. (Not on
   the web version: a browser keeps one sign-in per site.)
 
+- **Delete my account** (Account › Security › Delete my account, or on the
+  web at app.queentouchtech.in/delete_account — that one emails a link to
+  confirm): it's deleted **7 days later**; until then "Keep my account" on
+  the same row cancels it. Removed: name, email, phone, photo, sign-ins and
+  devices; records made in a business stay with it, without the name. A
+  business you own alone closes with it (subscriptions stop, nothing more
+  billed). If other people work in a business you own, remove them first
+  (Business › Team) — the app says so.
+
 ## Getting started (everyone)
 - **Welcome**: the first time someone opens QTT OS they see what it does for
   them — each of their apps with what their role can do there, Ask QTT, Home

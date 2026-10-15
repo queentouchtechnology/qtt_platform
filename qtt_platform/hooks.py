@@ -317,6 +317,8 @@ scheduler_events = {
 		"qtt_platform.billing.service.reconcile_subscriptions",
 	],
 	"daily": [
+		# Delete my account: requests whose 7-day wait is over (close businesses owned alone, then anonymise).
+		"qtt_platform.api.account_deletion.run_due",
 		"qtt_platform.api.analytics.purge_old_events",
 		"qtt_platform.billing.service.reconcile_payments",
 		"qtt_platform.billing.service.expire_stale_trials",

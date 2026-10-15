@@ -1,0 +1,56 @@
+{% extends "templates/web.html" %}
+
+{% block title %}Delete your QTT OS account{% endblock %}
+
+{% block page_content %}
+<style>
+  .qtt-del { max-width: 560px; margin: 40px auto; padding: 0 16px; font-size: 16px; line-height: 1.6; color: #1f2937; }
+  .qtt-del h1 { font-size: 28px; margin-bottom: 8px; }
+  .qtt-del .muted { color: #6b7280; }
+  .qtt-del .card { border: 1px solid #e5e7eb; border-radius: 16px; padding: 20px; margin-top: 20px; }
+  .qtt-del input { width: 100%; box-sizing: border-box; padding: 12px; font-size: 16px; border: 1px solid #d1d5db; border-radius: 10px; margin: 8px 0 12px; }
+  .qtt-del button { width: 100%; padding: 13px; font-size: 16px; border: 0; border-radius: 12px; background: #D92D3A; color: #fff; cursor: pointer; }
+  .qtt-del ul { padding-left: 22px; }
+</style>
+<div class="qtt-del">
+  <h1>Delete your QTT OS account</h1>
+  <p class="muted">Queen Touch Technology</p>
+
+  <div class="card">
+    <b>In the app (quickest):</b> open QTT OS › <b>Account</b> › <b>Delete my account</b>.
+  </div>
+
+  <div class="card" id="form">
+    <b>Or here:</b> enter the email you sign in with. If it has an account, we email you a link — tap it to confirm.
+    <input type="email" id="email" placeholder="you@example.com" autocomplete="email">
+    <button id="send">Email me the link</button>
+    <p class="muted" id="msg" style="margin-top:12px"></p>
+  </div>
+
+  <h3 style="margin-top:28px">What happens</h3>
+  <ul>
+    <li>Your account is deleted <b>{{ grace_days }} days</b> after you confirm. Until then you can sign in and tap <b>Keep my account</b>.</li>
+    <li>Your name, email, phone number, photo, sign-ins and devices are removed. Records you made in a business (for example
+      invoices) stay with that business, without your name.</li>
+    <li>A business you own alone closes with your account: its subscriptions stop and nothing more is billed. If other people
+      work in a business you own, remove them first (Business › Team).</li>
+    <li>Records we must keep by law (such as tax invoices) are kept for as long as the law requires.</li>
+  </ul>
+  <p class="muted">See our <a href="/privacy">Privacy Policy</a>. Questions: <a href="mailto:info@queentouchtech.com">info@queentouchtech.com</a>.</p>
+</div>
+<script>
+  document.getElementById("send").onclick = function () {
+    var email = document.getElementById("email").value.trim(), msg = document.getElementById("msg"), b = this;
+    if (!email) { msg.innerText = "Enter your email."; return; }
+    b.disabled = true; b.innerText = "Sending…";
+    fetch("/api/method/qtt_platform.api.account_deletion.request_web", {
+      method: "POST", headers: {"Content-Type": "application/json", "X-Frappe-CSRF-Token": (window.frappe && frappe.csrf_token) || ""},
+      body: JSON.stringify({email: email})
+    }).then(function (r) { return r.json().then(function (j) { return [r.ok, j]; }); }).then(function (x) {
+      msg.innerText = x[0] ? "If that email has a QTT OS account, a link to confirm is on its way. Check your inbox (and spam)."
+                           : "Couldn't send just now. Try again in a little while.";
+    }).catch(function () { msg.innerText = "Couldn't send just now. Try again in a little while."; })
+      .finally(function () { b.disabled = false; b.innerText = "Email me the link"; });
+  };
+</script>
+{% endblock %}
