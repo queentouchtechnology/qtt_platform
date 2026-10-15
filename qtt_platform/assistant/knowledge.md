@@ -98,7 +98,9 @@ person in it gets access to some products, with a role in each.
   - After joining you have the app and role from the invitation; the business
     appears at once.
 - **One switcher for everything** (like Google's apps): your photo at the
-  right end of the top bar. Tap it: the account that's open (Manage your
+  right end of the top bar (the open business's logo sits on it as a small
+  badge; the up/down arrows beside it mean there's another account or
+  business to switch to). Tap it: the account that's open (Manage your
   account), **Your businesses** (tap one to switch; Join with code), **Your
   accounts** — your other signed-in accounts (tap one to switch — no
   password) — and Add another account. The menu (☰) can switch business too. Or swipe down / up on your photo to jump straight to
