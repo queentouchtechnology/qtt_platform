@@ -660,10 +660,10 @@ settings).
 - Channel access (managers): choose which team members answer each channel.
 
 ## Managed Services — QTT runs it for you
-QTT offers three services, each set up, hosted and looked after by QTT:
+QTT offers four services, each set up, hosted and looked after by QTT:
 Website Development (a landing page, 3 pages or 5 pages), Managed E-Commerce
-Websites (an online store) and AI & WhatsApp Automation (pick the parts you
-need). Roles: **Owner** orders, pays, approves going live, changes the domain
+Websites (an online store), AI & WhatsApp Automation (pick the parts you
+need) and the Marketing assistant (social posts written for you; Starter, Growth or Pro). Roles: **Owner** orders, pays, approves going live, changes the domain
 or store settings and removes a website; **Member** sees everything and raises
 requests. The business owner orders; others see status. Services ordered earlier
 that are no longer listed keep running as before.
@@ -736,8 +736,6 @@ One service; tick only the parts you want, each priced on its own:
   paid (from your Orbitra invoices).
 - Owner's daily report — yesterday's sales, cash and low stock every morning
   on WhatsApp.
-- Marketing assistant — weekly post drafts and festival offers; you approve
-  before anything is posted. QTT posts them to your pages (see below).
 - Ask your business — ask on WhatsApp ("How much did we sell this month?")
   and get the answer from your own data; it never changes anything.
 - Who is absent today — attendance and leave on WhatsApp for your team (from
@@ -748,9 +746,15 @@ part up and tells you in activity when it's running. To add a part later, ask
 through Requests.
 
 ## Managed Services — Marketing assistant (posting to your pages)
-For a business that chose the Marketing assistant part. Open the AI &
-WhatsApp Automation service (Managed Services › Home › the service) →
-**Marketing assistant**.
+Its own managed service in three packages (Managed Services › Explore ›
+Marketing assistant; monthly, yearly or 3 years — yearly pays 10 months):
+**Starter** ₹999 a month (posts on 2 pages, 3 post ideas a week), **Growth**
+₹1,999 (5 pages, 5 ideas a week and festival offers), **Pro** ₹2,999 (10
+pages, 7 ideas a week and festival offers). A full package can't connect
+another page — disconnect one or ask QTT for a bigger package.
+Open it from Managed Services › Home › Marketing assistant → **Marketing
+assistant** (businesses that ticked it inside AI & WhatsApp Automation before
+open it from that service).
 - **Your pages** (owner): Connect → pick Facebook, Instagram, LinkedIn, X
   (Twitter), YouTube, Threads, TikTok, Pinterest or Bluesky → sign in there and
   allow posting → come back to the app; the page shows with its photo. A page
