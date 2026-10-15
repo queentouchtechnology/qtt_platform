@@ -244,6 +244,12 @@ approve their team's requests.
     week-off days (New → name, year, tick the days, optionally "Start with the
     holidays of" another calendar so festivals are copied), then assign it to
     the team or people.
+  - **Add a holiday**: open the calendar → Add holiday → pick the date → name
+    it. In the date popup, days that already have a holiday are marked
+    (tinted, with a dot; the month's holidays are listed below) and can't be
+    picked — tapping one says which holiday it is. One holiday a day: to
+    change a day's holiday, remove it (×) first, then add the new one.
+    Week-off days show muted.
   - **Change week-off days**: open the calendar, tick the days, Save week-off
     days — every such day is marked off for the whole year. Named holidays
     stay; a holiday on a week-off day keeps its name; removing it makes the
