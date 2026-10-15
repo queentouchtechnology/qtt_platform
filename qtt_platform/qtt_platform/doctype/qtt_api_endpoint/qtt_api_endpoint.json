@@ -1,0 +1,163 @@
+{
+ "doctype": "DocType",
+ "name": "QTT API Endpoint",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 0,
+ "sort_field": "endpoint",
+ "sort_order": "ASC",
+ "engine": "InnoDB",
+ "read_only": 1,
+ "in_create": 1,
+ "description": "The backend guide: every server endpoint QTT OS has \u2014 what it does, which app screens use it, and who else calls it. Generated from the code (qtt-os/tool/api_guide.py \u2192 qtt_platform/api_guide.json) and refreshed on every deploy; don't edit here.",
+ "field_order": [
+  "endpoint",
+  "product",
+  "area",
+  "status",
+  "used_by",
+  "column_break_1",
+  "http_methods",
+  "guest",
+  "arguments",
+  "source",
+  "section_purpose",
+  "purpose",
+  "details",
+  "section_where",
+  "screens",
+  "app_calls",
+  "other_callers"
+ ],
+ "fields": [
+  {
+   "fieldname": "endpoint",
+   "fieldtype": "Data",
+   "label": "Endpoint",
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "unique": 1,
+   "reqd": 1,
+   "in_global_search": 1
+  },
+  {
+   "fieldname": "product",
+   "fieldtype": "Data",
+   "label": "Product",
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "area",
+   "fieldtype": "Data",
+   "label": "Area",
+   "read_only": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "options": "OK\nNot described\nNot used by the app\nMissing on server"
+  },
+  {
+   "fieldname": "used_by",
+   "fieldtype": "Data",
+   "label": "Used by",
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "http_methods",
+   "fieldtype": "Data",
+   "label": "HTTP methods",
+   "read_only": 1
+  },
+  {
+   "fieldname": "guest",
+   "fieldtype": "Check",
+   "label": "Open without signing in",
+   "read_only": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "arguments",
+   "fieldtype": "Small Text",
+   "label": "Arguments",
+   "read_only": 1
+  },
+  {
+   "fieldname": "source",
+   "fieldtype": "Data",
+   "label": "Code",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_purpose",
+   "fieldtype": "Section Break",
+   "label": "What it does"
+  },
+  {
+   "fieldname": "purpose",
+   "fieldtype": "Small Text",
+   "label": "Purpose",
+   "read_only": 1,
+   "in_global_search": 1
+  },
+  {
+   "fieldname": "details",
+   "fieldtype": "Long Text",
+   "label": "Full description (docstring)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_where",
+   "fieldtype": "Section Break",
+   "label": "Where it's used"
+  },
+  {
+   "fieldname": "screens",
+   "fieldtype": "Long Text",
+   "label": "Screens (app)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "app_calls",
+   "fieldtype": "Long Text",
+   "label": "App code that calls it",
+   "read_only": 1
+  },
+  {
+   "fieldname": "other_callers",
+   "fieldtype": "Small Text",
+   "label": "Other callers (web pages, n8n)",
+   "read_only": 1
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "autoname": "field:endpoint",
+ "title_field": "endpoint",
+ "search_fields": "purpose,product",
+ "modified": "2026-10-15 22:00:00.000000"
+}

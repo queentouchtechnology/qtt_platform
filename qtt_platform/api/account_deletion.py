@@ -60,11 +60,13 @@ def _out(user: str) -> dict:
 
 @frappe.whitelist(methods=["GET"])
 def status() -> dict:
+	"""Where my account deletion stands: pending (and the date), on hold, businesses that stop it or close with it."""
 	return _out(_me())
 
 
 @frappe.whitelist(methods=["POST"])
 def request() -> dict:
+	"""Delete my account (signed in): starts the 7-day wait and emails the date; refused while I own a business where others work."""
 	user = _me()
 	blocked = rules.blockers(_owned(user))
 	if blocked:
@@ -91,6 +93,7 @@ def request() -> dict:
 
 @frappe.whitelist(methods=["POST"])
 def keep() -> dict:
+	"""Keep my account: withdraws a deletion that is still waiting."""
 	user = _me()
 	req = _open_request(user)
 	if req:
