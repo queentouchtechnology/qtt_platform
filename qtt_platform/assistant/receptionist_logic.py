@@ -56,9 +56,9 @@ _GREETING = re.compile(
 	r"[\s!.,🙏👋😊]*(sir|madam|mam|maam|team|qtt|there|bro|anna|akka)?[\s!.,🙏👋😊]*$",
 	re.I,
 )
-# A handed-over chat nobody on the team has answered: after this long, a new message from the
-# customer brings the receptionist back (so nobody is left waiting).
-TAKE_BACK_AFTER_MIN = 15
+# Asked for a person again while the team hasn't replied yet: no new note, just this.
+WAITING_REPLY = ("Our team has your message and will reply here soon. Meanwhile, I'm happy to help with "
+				 "anything else — just ask.")
 
 # Explicit "let me talk to a person" — handed over without asking the model.
 _PERSON = re.compile(
@@ -83,12 +83,10 @@ def is_greeting(text: str) -> bool:
 	return bool(_GREETING.match(text or ""))
 
 
-def take_back(*, handed_over_at: float | None, now: float, team_replied: bool, assigned: bool) -> bool:
-	"""Should the receptionist answer again in a chat it handed to the team? Only when nobody took it
-	(no one assigned, no reply from the team since) and it's been TAKE_BACK_AFTER_MIN minutes."""
-	if not handed_over_at or team_replied or assigned:
-		return False
-	return now - handed_over_at >= TAKE_BACK_AFTER_MIN * 60
+def assist_while_waiting(*, handed_over_at: float | None, team_replied: bool, assigned: bool) -> bool:
+	"""Keep answering in a chat handed to the team until a person takes it: the chat stays the team's
+	(open), but the customer is never left without a reply. Stops once someone is assigned or replies."""
+	return bool(handed_over_at) and not team_replied and not assigned
 
 
 def history_from_chatwoot(messages: list[dict], upto_id: int | None = None) -> list[dict]:

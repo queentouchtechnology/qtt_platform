@@ -116,13 +116,11 @@ class GreetingAndTakeBackTest(unittest.TestCase):
 		self.assertEqual(rl.last_handover_at(msgs), 105.0)
 		self.assertIsNone(rl.last_handover_at([{"content": "hello", "private": True, "created_at": 1}]))
 
-	def test_takes_back_only_an_unanswered_handover_after_a_while(self):
-		t0 = 1_000_000.0
-		self.assertFalse(rl.take_back(handed_over_at=None, now=t0, team_replied=False, assigned=False))
-		self.assertFalse(rl.take_back(handed_over_at=t0, now=t0 + 60, team_replied=False, assigned=False))  # too soon
-		self.assertTrue(rl.take_back(handed_over_at=t0, now=t0 + 16 * 60, team_replied=False, assigned=False))
-		self.assertFalse(rl.take_back(handed_over_at=t0, now=t0 + 3600, team_replied=True, assigned=False))  # the team answered
-		self.assertFalse(rl.take_back(handed_over_at=t0, now=t0 + 3600, team_replied=False, assigned=True))  # someone took it
+	def test_keeps_helping_until_a_person_takes_the_chat(self):
+		self.assertFalse(rl.assist_while_waiting(handed_over_at=None, team_replied=False, assigned=False))  # never handed over
+		self.assertTrue(rl.assist_while_waiting(handed_over_at=100.0, team_replied=False, assigned=False))  # waiting: help at once
+		self.assertFalse(rl.assist_while_waiting(handed_over_at=100.0, team_replied=True, assigned=False))  # a person replied
+		self.assertFalse(rl.assist_while_waiting(handed_over_at=100.0, team_replied=False, assigned=True))  # someone took it
 
 
 if __name__ == "__main__":
