@@ -774,6 +774,17 @@ open it from that service).
   approved again. A scheduled post can be called off; a draft can be deleted.
 - Only the owner connects pages and approves; others in the business see the
   posts. Nothing is ever posted without the owner's OK.
+- **Website articles** (Growth: 2 a month, Pro: 4; Starter has none): Marketing
+  assistant › **Website articles**. Blog articles for the business's
+  QTT-built website, to bring customers from Google. New drafts come on the
+  1st of each month (or **Get an article idea**, once a day). Open one: edit
+  the title, the short summary (shown on Google) and the article — a line
+  starting "## " is a heading, "- " a bullet point, a blank line between
+  paragraphs, **bold** for key words — add a picture, pick the website (if
+  more than one) and when. **Approve and publish** puts it on the website;
+  it counts toward the month ("1 of 2 articles published this month").
+  "Take it off my website" removes a published one. Only for businesses
+  with a website QTT built.
 
 ## Managed Services — online store (Managed E-Commerce Websites)
 QTT creates, hosts, secures and manages a full online store (WooCommerce) for
