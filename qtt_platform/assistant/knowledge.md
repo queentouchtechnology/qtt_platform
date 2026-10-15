@@ -98,6 +98,12 @@ person in it gets access to some products, with a role in each.
   - After joining you have the app and role from the invitation; the business
     appears at once.
 - **Several businesses**: switch with the business name at the top of Home.
+- **Several accounts on one phone** (like Google's apps): your photo at the
+  right end of the top bar. Tap it: the account that's open, your other
+  signed-in accounts (tap one to switch — no password), Add another account,
+  Manage your account. Or swipe down / up on your photo to jump straight to
+  the next / previous account. Signing out of one keeps the others. (Not on
+  the web version: a browser keeps one sign-in per site.)
 
 ## Getting started (everyone)
 - **Welcome**: the first time someone opens QTT OS they see what it does for
