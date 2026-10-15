@@ -123,6 +123,10 @@ def _email(user: str, subject: str, body: str) -> None:
 
 # ---- the daily job ----------------------------------------------------------------------------
 def run_due() -> None:
+	# Frappe's own timer (Website Settings › auto account deletion) would delete after its hours, skipping
+	# the 7-day wait and closing businesses: this job is the only one that deletes accounts.
+	if frappe.db.get_single_value("Website Settings", "auto_account_deletion"):
+		frappe.db.set_single_value("Website Settings", "auto_account_deletion", 0)
 	now = now_datetime()
 	for req in frappe.get_all(PDDR, filters={"status": "Pending Approval"}, fields=["name", "email", "modified"]):
 		if not rules.is_due(get_datetime(req.modified), now):
