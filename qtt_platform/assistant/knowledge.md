@@ -31,9 +31,10 @@ person in it gets access to some products, with a role in each.
 - **Business** (owner / admin): Profile (logo, address, GSTIN, phone, bank,
   UPI — printed on invoices, payslips, PDFs); Team (invite by email, choose
   each person's apps and role, remove); Roles and access (below); **Plans and
-  billing** (each app's plan and trial end, and every invoice from QTT — apps
-  and managed services together, unpaid ones first, with **Pay now** for the
-  owner and admins; everyone can see them).
+  billing** (each app's plan and trial end, Explore QTT OS to start another
+  app or service, and every invoice from QTT — apps and managed services
+  together, unpaid ones first, with **Pay now** for the owner and admins;
+  everyone can see them).
 - **Invoices from QTT**: when QTT gives your business an app or a service, it
   starts at once and an invoice comes, due in 7 days (Home shows "An invoice to
   pay"). Pay with Pay now (UPI, card, net banking). The next one comes 3 days
@@ -662,8 +663,8 @@ settings).
 ## Managed Services — QTT runs it for you
 QTT offers four services, each set up, hosted and looked after by QTT:
 Website Development (a landing page, 3 pages or 5 pages), Managed E-Commerce
-Websites (an online store), AI & WhatsApp Automation (pick the parts you
-need) and the Marketing assistant (social posts written for you; Starter, Growth or Pro). Roles: **Owner** orders, pays, approves going live, changes the domain
+Websites (an online store; Starter, Growth or Pro), AI & WhatsApp Automation
+(Starter, Growth or Pro) and the Marketing assistant (social posts written for you; Starter, Growth or Pro). Roles: **Owner** orders, pays, approves going live, changes the domain
 or store settings and removes a website; **Member** sees everything and raises
 requests. The business owner orders; others see status. Services ordered earlier
 that are no longer listed keep running as before.
@@ -689,10 +690,11 @@ that are no longer listed keep running as before.
   ("How would you like to pay?" when ordering); longer terms save money and
   show the saving. Each term is paid in advance and renews at its end (for a
   year or more, the invoice comes 15 days early).
-- Sizes and parts: Website Development is ordered by choosing a size, and AI
-  & WhatsApp Automation by ticking the parts you want; each has its own price,
-  shown as you choose, and the total updates. The catalogue shows "From …"
-  (the cheapest choice). Your service later shows what you chose.
+- Sizes and plans: Website Development is ordered by choosing a size; the
+  online store, AI & WhatsApp Automation and the Marketing assistant by
+  choosing Starter, Growth or Pro. Each has its own price, shown as you
+  choose. The catalogue shows "From …" (the cheapest choice). Your service
+  later shows what you chose. To move to a bigger plan, ask through Requests.
 
 ## Managed Services — Website Development (landing page, 3 pages, 5 pages)
 QTT designs, hosts, secures and looks after a website for the business, and
@@ -727,7 +729,10 @@ share.
 - New enquiries appear in Managed Services activity.
 
 ## Managed Services — AI & WhatsApp Automation
-One service; tick only the parts you want, each priced on its own:
+Three plans (monthly, yearly or 3 years — yearly pays 10 months; each has a
+₹1,999 one-time setup): **Starter** ₹999 a month — the WhatsApp AI
+receptionist; **Growth** ₹2,499 — receptionist, lead follow-up and payment
+reminders; **Pro** ₹4,999 — all six. The six automations:
 - WhatsApp AI receptionist — replies to customers 24/7 on your WhatsApp
   number (prices, timings, bookings) and hands over to your staff.
 - Lead follow-up — every enquiry answered within minutes and followed up for
@@ -740,10 +745,11 @@ One service; tick only the parts you want, each priced on its own:
   and get the answer from your own data; it never changes anything.
 - Who is absent today — attendance and leave on WhatsApp for your team (from
   Office Pulse).
-Ordering asks only the questions the chosen parts need (for example a UPI ID
-for payment reminders, the morning time for the daily report). QTT sets each
-part up and tells you in activity when it's running. To add a part later, ask
-through Requests.
+Ordering asks only the questions the chosen plan needs (for example a UPI ID
+for payment reminders on Growth and Pro, the morning time for the daily report
+on Pro). QTT sets each automation up and tells you in activity when it's
+running. To move to a bigger plan, ask through Requests. (Businesses that
+ordered single parts earlier keep exactly those.)
 
 ## Managed Services — Marketing assistant (posting to your pages)
 Its own managed service in three packages (Managed Services › Explore ›
@@ -803,10 +809,17 @@ open it from that service).
 QTT creates, hosts, secures and manages a full online store (WooCommerce) for
 the business, and the owner runs it from the app — there is no website login
 to remember or share.
-- Ordering: Managed Services › Explore › Managed E-Commerce Websites. Answer
-  a few questions (business name, what you sell, how many products, how
-  customers pay, where you deliver, a phone number), choose monthly, yearly
-  or 3 years, pay the setup fee and the first term. Prices are in the app.
+- Plans (monthly, yearly or 3 years — yearly pays 10 months; each has a
+  ₹4,999 one-time setup): **Starter** ₹1,499 a month — up to 50 products,
+  hosting, SSL and backups; **Growth** ₹2,999 — up to 500 products, online
+  payments, shipping, backups and support; **Pro** ₹5,999 — unlimited
+  products, marketing integrations and priority support. Payment gateway fees
+  and paid add-ons are not included. A full shop can't add another product
+  ("Your plan allows 50 products…") — move to a bigger plan through Requests.
+- Ordering: Explore QTT OS (or Managed Services › Explore) › Managed
+  E-Commerce Websites. Choose a plan, answer a few questions (business name,
+  what you sell, how customers pay, where you deliver, a phone number),
+  choose monthly, yearly or 3 years, pay the setup fee and the first term.
 - Setting up takes a few minutes and shows step by step: creating the store,
   WordPress and WooCommerce, the design for what you sell, sample products
   with photos, connecting it to the app, security (https). Then "ready for
@@ -860,11 +873,23 @@ to remember or share.
   share buttons; page layouts, sliders and banners are changed by QTT.
 - Problems or bigger changes: Managed Services › Requests.
 
-## Plans and trials
-Each app has its own plans (there are no bundles); a new business starts on a
-free trial. Live plan names, prices and limits are given to you separately —
-use only those. To upgrade or change a plan, the owner contacts Queen Touch
-Technology (Business › Plans says this too).
+## Plans and trials — Explore QTT OS
+Each app has its own plans (there are no bundles). **Explore QTT OS** (Home ›
+the Explore QTT OS card, or Business › Plans and billing › Explore QTT OS)
+shows all of QTT OS in one place: the apps (Orbitra, Onbox, Office Pulse) and
+the managed services (Website Development, Managed E-Commerce Websites, AI &
+WhatsApp Automation, Marketing assistant), each with what it does and its
+plans. Owners and admins can look; only the **owner** starts things:
+- An app: **Start free trial** (when its plans have one — once per app; the
+  first invoice comes 3 days before the trial ends, Pay now keeps it on) or
+  **Choose <plan>** (a paid plan starts as soon as its first invoice is paid —
+  Pay now opens at once; the invoice is also in Business › Plans and billing).
+  The app then appears on Home.
+- A service: Choose <plan> opens its order page with that plan ticked.
+- An app with no plans listed yet says "Ask QTT for the price".
+Live plan names, prices and limits are given to you separately — use only
+those. To change the plan of an app the business already has, the owner
+contacts Queen Touch Technology.
 
 ## Help
 - In the app: Account › Help and support (WhatsApp or email QTT).

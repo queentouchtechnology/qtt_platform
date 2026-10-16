@@ -24,6 +24,7 @@
   "section_break_display",
   "icon",
   "description",
+  "highlights",
   "section_break_roles",
   "roles"
  ],
@@ -87,6 +88,12 @@
    "label": "Description"
   },
   {
+   "fieldname": "highlights",
+   "fieldtype": "Small Text",
+   "label": "What it does (one per line)",
+   "description": "Shown to business owners in Explore QTT OS, under the app's name — one short line each."
+  },
+  {
    "fieldname": "section_break_roles",
    "fieldtype": "Section Break",
    "label": "Role Catalog"
@@ -110,5 +117,6 @@
    "export": 1
   }
  ],
- "links": []
+ "links": [],
+ "modified": "2026-10-16 21:00:00.000000"
 }
