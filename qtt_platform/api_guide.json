@@ -6398,7 +6398,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.approveNewsletter",
    "screens": "products/services/screens/newsletter_pages.dart › _NewsletterEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:273",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:278",
    "status": "OK"
   },
   {
@@ -6414,7 +6414,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterIdeas",
    "screens": "products/services/screens/newsletter_pages.dart › _NewslettersPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:338",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:343",
    "status": "OK"
   },
   {
@@ -6450,6 +6450,22 @@
    "status": "OK"
   },
   {
+   "endpoint": "qtt_services.api.newsletters.one_click",
+   "product": "Managed Services",
+   "area": "api.newsletters",
+   "http_methods": "GET, POST",
+   "guest": 1,
+   "purpose": "The email app's own Unsubscribe button (List-Unsubscribe-Post, RFC 8058): a POST unsubscribes at once — only email apps send it, never link scanners. A GET (someone opening the address) goes to the page that asks first.",
+   "details": "The email app's own Unsubscribe button (List-Unsubscribe-Post, RFC 8058): a POST unsubscribes at once — only\nemail apps send it, never link scanners. A GET (someone opening the address) goes to the page that asks first.",
+   "arguments": "t",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:504",
+   "status": "Not used by the app"
+  },
+  {
    "endpoint": "qtt_services.api.newsletters.overview",
    "product": "Managed Services",
    "area": "api.newsletters",
@@ -6478,7 +6494,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.removeNewsletter",
    "screens": "products/services/screens/newsletter_pages.dart › _NewsletterEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:326",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:331",
    "status": "OK"
   },
   {
@@ -6510,7 +6526,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterTest",
    "screens": "products/services/screens/newsletter_pages.dart › _NewsletterEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:260",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:265",
    "status": "OK"
   },
   {
@@ -6526,7 +6542,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:459",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:464",
    "status": "Not used by the app"
   },
   {
@@ -6590,7 +6606,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:438",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:443",
    "status": "Not used by the app"
   },
   {
