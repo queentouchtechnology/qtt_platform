@@ -6382,7 +6382,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterAddCustomers",
    "screens": "products/services/screens/newsletter_pages.dart › _NewslettersPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:98",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:112",
    "status": "OK"
   },
   {
@@ -6398,7 +6398,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.approveNewsletter",
    "screens": "products/services/screens/newsletter_pages.dart › _NewsletterEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:257",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:273",
    "status": "OK"
   },
   {
@@ -6414,7 +6414,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterIdeas",
    "screens": "products/services/screens/newsletter_pages.dart › _NewslettersPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:321",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:338",
    "status": "OK"
   },
   {
@@ -6430,7 +6430,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterImage",
    "screens": "products/services/screens/newsletter_pages.dart › _NewsletterEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:208",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:222",
    "status": "OK"
   },
   {
@@ -6446,7 +6446,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newslettersPage",
    "screens": "products/services/screens/newsletter_pages.dart › _NewslettersPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:172",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:186",
    "status": "OK"
   },
   {
@@ -6462,7 +6462,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterOverview",
    "screens": "products/services/screens/newsletter_pages.dart › _NewslettersPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:67",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:81",
    "status": "OK"
   },
   {
@@ -6478,7 +6478,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.removeNewsletter",
    "screens": "products/services/screens/newsletter_pages.dart › _NewsletterEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:309",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:326",
    "status": "OK"
   },
   {
@@ -6494,7 +6494,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.saveNewsletter",
    "screens": "products/services/screens/newsletter_pages.dart › _NewsletterEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:188",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:202",
    "status": "OK"
   },
   {
@@ -6510,8 +6510,24 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterTest",
    "screens": "products/services/screens/newsletter_pages.dart › _NewsletterEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:245",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:260",
    "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.newsletters.ses_events",
+   "product": "Managed Services",
+   "area": "api.newsletters",
+   "http_methods": "POST",
+   "guest": 1,
+   "purpose": "Amazon SNS posts SES bounce and complaint reports here (topic: Managed Services Settings › SES feedback topic ARN). The signature is checked against Amazon's certificate first. A permanent bounce marks that address Bounced on every list; a complaint unsubscribes it from the business that sent the newsletter.",
+   "details": "Amazon SNS posts SES bounce and complaint reports here (topic: Managed Services Settings › SES feedback\ntopic ARN). The signature is checked against Amazon's certificate first. A permanent bounce marks that\naddress Bounced on every list; a complaint unsubscribes it from the business that sent the newsletter.",
+   "arguments": "",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:459",
+   "status": "Not used by the app"
   },
   {
    "endpoint": "qtt_services.api.newsletters.set_subscriber",
@@ -6526,7 +6542,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.setSubscriber",
    "screens": "products/services/screens/newsletter_pages.dart › _SubscribersPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:157",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:171",
    "status": "OK"
   },
   {
@@ -6542,7 +6558,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.subscribersPage",
    "screens": "products/services/screens/newsletter_pages.dart › _SubscribersPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:80",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:94",
    "status": "OK"
   },
   {
@@ -6558,7 +6574,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterSyncWebsite",
    "screens": "products/services/screens/newsletter_pages.dart › _NewslettersPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:133",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:147",
    "status": "OK"
   },
   {
@@ -6574,7 +6590,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:421",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:438",
    "status": "Not used by the app"
   },
   {
@@ -6590,7 +6606,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterUpload",
    "screens": "products/services/screens/newsletter_pages.dart › _NewslettersPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:111",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:125",
    "status": "OK"
   },
   {

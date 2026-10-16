@@ -793,7 +793,9 @@ open it from that service).
   come on the 1st of each month or with **Get a newsletter idea**. Open one:
   subject, preview line, the text (like articles), a picture, when; **Send a
   test to me**, then **Approve and send**. One email per person, from your
-  business's name; replies go to your business email. Every email has an
+  business's name (sent by QTT's newsletter service, news.queentouchtech.in);
+  replies go to your business email. Addresses that bounce for good are
+  marked Bounced and skipped; a spam complaint unsubscribes that person. Every email has an
   unsubscribe link; someone who unsubscribes is never emailed again, even if
   they're on a list you upload later. Up to 5,000 people per newsletter.
 
