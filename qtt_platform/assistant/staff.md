@@ -29,6 +29,10 @@ day), or Meta changed a template's category. The WhatsApp items come from an hou
   phone, taken every 15 minutes by the automation server's worker); **Retake** one design or all. The demo site
   (design-demo.preview.queentouchtech.in) draws any design live; **Update demo** puts the latest theme on it (Frappe
   runs the setup script on CloudPanel). The theme itself defines the designs — a new design is a theme change.
+  Each website business type has AI-made pictures (two banners and an About picture, OpenAI gpt-image-1, made with
+  qtt_services/tools/site_images.py — kit-images/<business>/, no recognisable faces); a new website gets its type's
+  pictures in its media library. A website's words are written by AI from the owner's answers and checked by the owner
+  before ordering; reviews, numbers and team start empty, and invented years / ratings / "No. 1" claims are dropped.
 - **WhatsApp templates** — every message template on QTT's WhatsApp number (+91 95009 10005): status (approved, in
   review, rejected with Meta's reason, paused), category, language, quality, last 30 days sent / delivered / read /
   clicked. **New template**: name (small letters, numbers, _), Utility or Marketing, language, optional header (text,

@@ -711,7 +711,14 @@ share.
   you offer, Contact) or 5 pages (Home, About, what you offer, Gallery,
   Contact) — your website address (search a new one or use your own),
   monthly, yearly or 3 years, and a few questions: business name, what you
-  do, your address and a phone number. Prices are in the app.
+  do, your address and a phone number. Then **Your website's words**: tap
+  **Write my website text** (choose English, Tamil, Hindi or Arabic) and the
+  headline, intro, about, what you offer, reasons to choose you and common
+  questions are written from your answers — check and change every line
+  before ordering (**Write again** starts over). Nothing is made up: no
+  reviews, ratings, years or numbers until you add real ones. Banner and
+  about pictures fitting your kind of business come with the site; replace
+  them with your own photos any time. Prices are in the app.
 - Setting up takes a few minutes and shows step by step: creating the
   website, WordPress, the design for your kind of business, your pages and
   photos, connecting it to the app, security (https). Then "ready for your
