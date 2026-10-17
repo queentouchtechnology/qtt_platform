@@ -86,6 +86,19 @@ words for what's wrong, and is reminded on days 1, 3 and 7 (app + WhatsApp). Fro
 phone, the provider and the problems. Parked / for-sale addresses (e.g. atom.com, Sedo, Afternic) are flagged — the owner
 may not own the domain.
 
+## Builds (QTT Admin › Builds)
+Website and online store builds, go-lives, deletions and domain purchases. Each product moves from n8n to Frappe with a
+switch in Desk › Managed Services Settings › Builds run by Frappe (Websites, Online stores, Buying domains; off = n8n as
+before — switching off is the rollback). When Frappe runs them: at most 2 at once (Builds at once), never two runs on the
+same website, a connection problem is tried again after 10, 30 and 60 minutes, a run longer than 30 minutes is stopped and
+retried the same way, and a step that fails on the server isn't retried by itself. When there are no tries left a task
+"Build failed: <website> (<kind>)" appears and Needs attention shows it. Open Builds, tap it to see the steps and the
+log (the server's output; passwords never in it), then **Retry** (same site — it carries on from what's already there)
+or **Cancel it** (a cancelled go-live isn't started again until Retry). Domains: bought from QTT's Hostinger account with
+the payment method set in Settings; QTT's cost each month is limited (Domains bought automatically a month, ₹5,000) —
+above it a task "Approve buying <domain>" appears and Builds shows **Approve**. A domain already in QTT's Hostinger
+account is never bought twice.
+
 ## Website add-ons: staff tasks
 When a website service starts (paid, or added by QTT), each add-on done by hand gets a task with its steps: "Set up
 business email for <business>" (the mailbox names the owner gave), "Create the Google Business profile for <business>"

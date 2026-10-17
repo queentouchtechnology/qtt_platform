@@ -1228,7 +1228,7 @@
    "arguments": "name",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.run",
-   "screens": "admin/workspace_billing_view.dart › _ProductCard\nproducts/office_pulse/screens/payroll_view.dart › _RunDetailState",
+   "screens": "admin/builds_view.dart › _BuildTile\nadmin/builds_view.dart › _LogSheet\nadmin/workspace_billing_view.dart › _ProductCard\nproducts/office_pulse/screens/payroll_view.dart › _RunDetailState",
    "other_callers": "",
    "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:342",
    "status": "Not described"
@@ -3550,7 +3550,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.home",
    "screens": "admin/admin_home.dart › _AdminHomeBodyState\ncore/assistant/screen_context.dart › CurrentScreen\nplatform/data/platform_repository.dart › PlatformRepository\nplatform/explore/explore_screen.dart › _ItemPage\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/onbox/onbox_root.dart › _InboxRootState\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/orbitra_shell.dart › _OrbitraHomeState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/services_root.dart › _ServicesRootState\nshared/widgets/action_cards.dart › (top level)\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/admin_home.py:113",
+   "source": "qtt_platform/qtt_platform/api/admin_home.py:123",
    "status": "Not described"
   },
   {
@@ -5998,7 +5998,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 03-qttWf03DailyRpt0.json\nn8n: 09-qttWf09AskBiz00.json\nn8n: 10-qttWf10HrToday00.json\nn8n: QTT workflows",
-   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:108",
+   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:114",
    "status": "OK"
   },
   {
@@ -6030,7 +6030,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 02-qttWf02NewOrders.json\nn8n: 03-qttWf03DailyRpt0.json\nn8n: 04-qttWf04Reminders.json\nn8n: 05-qttWf05SiteRprt0.json\nn8n: 06-qttWf06Marketing.json\nn8n: 07-qttWf07Leads0000.json\nn8n: 09-qttWf09AskBiz00.json\nn8n: 10-qttWf10HrToday00.json",
-   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:95",
+   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:101",
    "status": "Not described"
   },
   {
@@ -6046,7 +6046,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 05-qttWf05SiteRprt0.json\nn8n: QTT workflows",
-   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:180",
+   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:186",
    "status": "OK"
   },
   {
@@ -6062,7 +6062,87 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 04-qttWf04Reminders.json\nn8n: 09-qttWf09AskBiz00.json\nn8n: QTT workflows",
-   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:153",
+   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:159",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.builds_admin.approve_domain",
+   "product": "Managed Services",
+   "area": "api.builds_admin",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Buy this domain even though the month's limit is reached.",
+   "details": "Buy this domain even though the month's limit is reached.",
+   "arguments": "service",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.approveDomain",
+   "screens": "admin/builds_view.dart › _BuildsViewState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/builds_admin.py:107",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.builds_admin.build_log",
+   "product": "Managed Services",
+   "area": "api.builds_admin",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "One run's log (the setup script's output; passwords never in it).",
+   "details": "One run's log (the setup script's output; passwords never in it).",
+   "arguments": "deployment",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.buildLog",
+   "screens": "admin/builds_view.dart › _LogSheet",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/builds_admin.py:51",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.builds_admin.builds",
+   "product": "Managed Services",
+   "area": "api.builds_admin",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "Recent builds, go-lives, deletions and domain purchases (newest first), which products Frappe runs, the month's domain spend against its limit, and domains waiting for approval.",
+   "details": "Recent builds, go-lives, deletions and domain purchases (newest first), which products Frappe runs, the month's\ndomain spend against its limit, and domains waiting for approval.",
+   "arguments": "limit",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.builds",
+   "screens": "admin/builds_view.dart › _BuildsViewState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/builds_admin.py:33",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.builds_admin.cancel",
+   "product": "Managed Services",
+   "area": "api.builds_admin",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Stop it: no more tries (a go-live isn't started again by itself until staff Retry it).",
+   "details": "Stop it: no more tries (a go-live isn't started again by itself until staff Retry it).",
+   "arguments": "deployment",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.cancelBuild",
+   "screens": "admin/builds_view.dart › _BuildsViewState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/builds_admin.py:92",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.builds_admin.retry",
+   "product": "Managed Services",
+   "area": "api.builds_admin",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Try again now, on the same site (it carries on from what's already there); counts start afresh.",
+   "details": "Try again now, on the same site (it carries on from what's already there); counts start afresh.",
+   "arguments": "deployment",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.retryBuild",
+   "screens": "admin/builds_view.dart › _BuildsViewState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/builds_admin.py:65",
    "status": "OK"
   },
   {
@@ -6334,7 +6414,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 12-qttWf12GoLive000.json",
-   "source": "qtt-os/qtt_services/qtt_services/api/golive.py:201",
+   "source": "qtt-os/qtt_services/qtt_services/api/golive.py:205",
    "status": "Not described"
   },
   {
@@ -7692,7 +7772,7 @@
    "arguments": "service",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.cancel",
-   "screens": "app/app.dart › _QttOsAppState\napp/app_gate.dart › _SplashState\ncore/analytics/analytics.dart › Analytics\ncore/config/remote_config.dart › RemoteConfigStore\ncore/push/push_service.dart › PushService\nplatform/onboarding/signup_screen.dart › _SignupScreenState\nplatform/session/app_session.dart › AppSession\nproducts/office_pulse/office_pulse_root.dart › PulseState\nproducts/office_pulse/screens/pattern_who.dart › _PatternWhoState\nproducts/onbox/chat_controller.dart › ChatController\nproducts/onbox/onbox_provider.dart › OnboxProvider\nproducts/onbox/screens/conversation_list_pane.dart › _ConversationListPaneState\nproducts/orbitra/orbitra_root.dart › OrbitraState\nproducts/services/screens/deploy_pages.dart › _DeploymentPageState\nproducts/services/screens/golive_pages.dart › _DeletingDialogState\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › ServicesState\nshared/search/global_search.dart › _GlobalSearchScreenState\nshared/widgets/list_kit.dart › _SearchFilterBarState",
+   "screens": "admin/admin_repository.dart › AdminRepository\napp/app.dart › _QttOsAppState\napp/app_gate.dart › _SplashState\ncore/analytics/analytics.dart › Analytics\ncore/config/remote_config.dart › RemoteConfigStore\ncore/push/push_service.dart › PushService\nplatform/onboarding/signup_screen.dart › _SignupScreenState\nplatform/session/app_session.dart › AppSession\nproducts/office_pulse/office_pulse_root.dart › PulseState\nproducts/office_pulse/screens/pattern_who.dart › _PatternWhoState\nproducts/onbox/chat_controller.dart › ChatController\nproducts/onbox/onbox_provider.dart › OnboxProvider\nproducts/onbox/screens/conversation_list_pane.dart › _ConversationListPaneState\nproducts/orbitra/orbitra_root.dart › OrbitraState\nproducts/services/screens/deploy_pages.dart › _DeploymentPageState\nproducts/services/screens/golive_pages.dart › _DeletingDialogState\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › ServicesState\nshared/search/global_search.dart › _GlobalSearchScreenState\nshared/widgets/list_kit.dart › _SearchFilterBarState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/shop.py:369",
    "status": "Not described"
@@ -8382,7 +8462,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store_build.py:193",
+   "source": "qtt-os/qtt_services/qtt_services/api/store_build.py:206",
    "status": "Not described"
   },
   {
@@ -8398,7 +8478,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store_build.py:117",
+   "source": "qtt-os/qtt_services/qtt_services/api/store_build.py:126",
    "status": "Not used by the app"
   },
   {
@@ -8430,7 +8510,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 16-qttWf16SiteRemov.json",
-   "source": "qtt-os/qtt_services/qtt_services/api/store_build.py:71",
+   "source": "qtt-os/qtt_services/qtt_services/api/store_build.py:80",
    "status": "OK"
   },
   {
@@ -8446,7 +8526,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store_build.py:78",
+   "source": "qtt-os/qtt_services/qtt_services/api/store_build.py:87",
    "status": "Not described"
   },
   {
@@ -8462,7 +8542,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store_build.py:186",
+   "source": "qtt-os/qtt_services/qtt_services/api/store_build.py:199",
    "status": "Not described"
   },
   {
@@ -8990,7 +9070,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.deployment",
    "screens": "products/services/screens/deploy_pages.dart › (top level)\nproducts/services/screens/deploy_pages.dart › DeploymentTile\nproducts/services/screens/deploy_pages.dart › _DeploymentPageState\nproducts/services/screens/golive_pages.dart › _DeletingDialog\nproducts/services/screens/golive_pages.dart › _DeletingDialogState\nproducts/services/services_root.dart › _ServicesRootState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/deployments.py:192",
+   "source": "qtt-os/qtt_services/qtt_services/deployments.py:201",
    "status": "Not described"
   },
   {
@@ -9006,7 +9086,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.deployments",
    "screens": "products/services/screens/deploy_pages.dart › _DeploymentsLoader",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/deployments.py:178",
+   "source": "qtt-os/qtt_services/qtt_services/deployments.py:187",
    "status": "Not described"
   },
   {
@@ -9022,7 +9102,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 11-qttWf11BuildSite.json\nn8n: 12-qttWf12GoLive000.json\nn8n: 13-qttWf13BuyDomain.json\nn8n: 14-qttWf14StoreBld.json\nn8n: 15-qttWf15StoreLiv.json\nn8n: 16-qttWf16SiteRemov.json",
-   "source": "qtt-os/qtt_services/qtt_services/deployments.py:155",
+   "source": "qtt-os/qtt_services/qtt_services/deployments.py:164",
    "status": "Not described"
   },
   {
@@ -9038,7 +9118,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 11-qttWf11BuildSite.json\nn8n: 12-qttWf12GoLive000.json\nn8n: 13-qttWf13BuyDomain.json\nn8n: 14-qttWf14StoreBld.json\nn8n: 15-qttWf15StoreLiv.json\nn8n: 16-qttWf16SiteRemov.json",
-   "source": "qtt-os/qtt_services/qtt_services/deployments.py:112",
+   "source": "qtt-os/qtt_services/qtt_services/deployments.py:117",
    "status": "OK"
   },
   {
@@ -9054,7 +9134,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 11-qttWf11BuildSite.json\nn8n: 12-qttWf12GoLive000.json\nn8n: 13-qttWf13BuyDomain.json",
-   "source": "qtt-os/qtt_services/qtt_services/deployments.py:138",
+   "source": "qtt-os/qtt_services/qtt_services/deployments.py:147",
    "status": "Not described"
   }
  ]

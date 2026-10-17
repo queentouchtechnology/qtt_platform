@@ -45,6 +45,16 @@ def _domain_wait_attention() -> list[dict]:
 	return waiting_attention()
 
 
+def _build_attention() -> list[dict]:
+	"""Frappe's build queue (qtt_services builds_admin): builds that gave up, domains over the month's limit, domain buying
+	switched on without a payment method."""
+	try:
+		from qtt_services.api.builds_admin import attention
+	except ImportError:
+		return []
+	return attention()
+
+
 def _cache_attention() -> list[dict]:
 	"""Live websites whose CloudPanel cache staff haven't switched on yet (qtt_services site_cache; the task closes itself)."""
 	try:
@@ -150,7 +160,7 @@ def home() -> dict:
 		"attention": logic.attention_items(servers=servers, trials=rev.get("trials_ending") or [], past_due=rev.get("past_due") or [],
 										   approvals=approvals, setup_errors=setup_errors, domains=domains,
 										   snapshots=snapshots, client_sites=client_sites, client_requests=client_requests, automation=automation,
-										   whatsapp=_whatsapp_attention(), website_cache=_cache_attention(), domain_wait=_domain_wait_attention(),
+										   whatsapp=_whatsapp_attention(), website_cache=_cache_attention(), domain_wait=_domain_wait_attention(), builds=_build_attention(),
 										   today_str=today()),
 		"subscriptions_by_product": overview.get("subscriptions_by_product") or {},
 	}
