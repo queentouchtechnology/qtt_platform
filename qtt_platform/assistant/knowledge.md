@@ -65,6 +65,18 @@ person in it gets access to some products, with a role in each.
   shows how complete it is and the next things to add (at least 3 products or
   services, 5 Q&A, hours, delivery or bookings, payments…). "Also learn from"
   lets it use the QTT website, the online store's products and Orbitra items.
+- **Type of business** (Business › Knowledge, top of About the business): pick
+  from the list (food, shops, beauty and health, services, Technology — IT
+  services, software and apps, digital agencies, tech training — hotels and
+  homes, education and industry, church / temple, other). It picks the photos,
+  post designs and ideas the Marketing assistant offers.
+- **Brand kit fonts**: pick the heading and body font from the list (Google
+  fonts that also cover Tamil, Hindi and Arabic); Default uses Poppins and
+  Inter. **See your brand** draws the saved brand kit as one picture: your
+  logo, your colours (yours marked "yours"; any you left empty are worked out
+  from your main colour), the fonts, and every background pattern and element
+  posts are made from — all in your colours. It is drawn on QTT's own server
+  from designs, never by an AI image service. Save first to see changes.
 - **Test lab** (Business › Knowledge › Test lab, owner / admin): try the
   knowledge before anyone sees it — as a customer (the WhatsApp receptionist's
   own answer when the business has one, including when it would hand over to

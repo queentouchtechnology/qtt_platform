@@ -140,3 +140,18 @@ site from the app.
 A business with AI & WhatsApp Automation whose own number is connected in its Onbox (WhatsApp Cloud API) gets the same
 tools for its number (owner only): number health, profile and photo, QR codes, templates, broadcasts, forms, blocked
 numbers. Its own messages are billed to its own Meta account, not QTT's. If the number isn't connected it says so.
+
+## Design base and renderer (PROJ-0011 B)
+
+- Post pictures are designs (HTML, CSS and SVG in the business's own palette, fonts and logo), turned into PNGs by
+  headless Chromium (Gotenberg) on the automation server, behind Caddy at `/render/` with a password. Settings:
+  Desk › QTT App Settings › **Design renderer** (address, user, password — the password is never shown). No AI images;
+  OpenAI images only for a paid custom poster.
+- The design base (qtt_platform/design): the palette (the owner's colours kept, missing ones derived, readable text by
+  contrast), ~40 patterns, ~60 elements (brush strokes, badges, price tags, icon tiles, device frames, QR codes made
+  locally, date blocks, cloud bubbles…), photo frames, text effects (gold, 3D), Google fonts incl. Tamil / Hindi /
+  Arabic, business types (a Technology group), photo backgrounds from the website / store kits.
+- Reference posts the library follows: docs/design/tech-post-references.md, local-post-references.md,
+  agency-post-references.md (in qtt-os).
+- If "See your brand" or post pictures fail: check the renderer (Desk error log "Design renderer: …"), then the
+  gotenberg container on the automation server (`docker ps` in /opt/qtt-auto).

@@ -4314,12 +4314,12 @@
    "purpose": "See your brand: a picture of the brand kit — its colours (the owner's own, the rest worked out from them), fonts, every pattern and element in those colours, with the logo as it is. {url, width, height}. Owner and admins.",
    "details": "See your brand: a picture of the brand kit — its colours (the owner's own, the rest worked out from them), fonts,\nevery pattern and element in those colours, with the logo as it is. {url, width, height}. Owner and admins.",
    "arguments": "",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.brandPreview",
+   "screens": "platform/workspace/business_knowledge_tab.dart › _BusinessKnowledgeTabState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/knowledge.py:347",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.knowledge.get",

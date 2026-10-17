@@ -49,7 +49,7 @@ def brand_sheet(*, business: str, colors: dict, logo_file: str | None, font_head
 	logo = (f'<img class="logo" src="{html.escape(logo_file, quote=True)}">' if logo_file else
 			f'<div class="logo name h">{html.escape(business)}</div>')
 	rows_e = -(-10 // 5)
-	height = 96 + 150 + 175 + 160 + 80 + rows_p * (cell + 44) + 80 + rows_e * 152 + 40
+	height = 96 + 150 + 175 + 160 + 80 + rows_p * (cell + 44) + 80 + rows_e * 152 + 120
 	css = (
 		f"body{{background:{p['light']};color:{p['dark']};padding:48px}}"
 		f".top{{display:flex;align-items:center;gap:28px;margin-bottom:30px}}.logo{{max-height:110px;max-width:320px;object-fit:contain}}"
