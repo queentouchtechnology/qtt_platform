@@ -97,7 +97,9 @@ log (the server's output; passwords never in it), then **Retry** (same site — 
 or **Cancel it** (a cancelled go-live isn't started again until Retry). Domains: bought from QTT's Hostinger account with
 the payment method set in Settings; QTT's cost each month is limited (Domains bought automatically a month, ₹5,000) —
 above it a task "Approve buying <domain>" appears and Builds shows **Approve**. A domain already in QTT's Hostinger
-account is never bought twice.
+account is never bought twice. A go-live tries the security certificate up to 4 times; if it still
+doesn't install, the site is live without https and a task "Secure <domain> (https)" appears (CloudPanel › Sites › the
+site › SSL/TLS › New Let's Encrypt Certificate). Deleting a website cancels its cache task.
 
 ## Website add-ons: staff tasks
 When a website service starts (paid, or added by QTT), each add-on done by hand gets a task with its steps: "Set up
