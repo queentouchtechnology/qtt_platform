@@ -5778,6 +5778,38 @@
    "status": "OK"
   },
   {
+   "endpoint": "qtt_services.api.admin.receptionist_live",
+   "product": "Managed Services",
+   "area": "api.admin",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "QTT Admin › Receptionists › a business: put its receptionist live on its WhatsApp (connects the bot to the WhatsApp inbox in its Onbox — found by itself when there's one, else pass inbox_id) or take it off. → the business's row.",
+   "details": "QTT Admin › Receptionists › a business: put its receptionist live on its WhatsApp (connects the bot to the WhatsApp\ninbox in its Onbox — found by itself when there's one, else pass inbox_id) or take it off. → the business's row.",
+   "arguments": "tenant, on, inbox_id",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.receptionistLive",
+   "screens": "admin/receptionists_view.dart › _ReceptionistCard",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:369",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.admin.receptionists",
+   "product": "Managed Services",
+   "area": "api.admin",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "QTT Admin › Receptionists: every business whose plan includes the WhatsApp AI receptionist — its set-up checklist (Onbox, WhatsApp number, what it knows, live), whether it's answering or paused, replies, chats passed to the team, and messages waiting for an answer.",
+   "details": "QTT Admin › Receptionists: every business whose plan includes the WhatsApp AI receptionist — its set-up checklist\n(Onbox, WhatsApp number, what it knows, live), whether it's answering or paused, replies, chats passed to the team,\nand messages waiting for an answer.",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.receptionists",
+   "screens": "admin/receptionists_view.dart › (top level)\nadmin/receptionists_view.dart › _ReceptionistsViewState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:350",
+   "status": "OK"
+  },
+  {
    "endpoint": "qtt_services.api.admin.request_detail",
    "product": "Managed Services",
    "area": "api.admin",
