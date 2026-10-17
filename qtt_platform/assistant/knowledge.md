@@ -727,9 +727,19 @@ share.
   headline, intro, about, what you offer, reasons to choose you and common
   questions are written from your answers — check and change every line
   before ordering (**Write again** starts over). Nothing is made up: no
-  reviews, ratings, years or numbers until you add real ones. Banner and
-  about pictures fitting your kind of business come with the site; replace
-  them with your own photos any time. Prices are in the app.
+  reviews, ratings, years or numbers until you add real ones. **Your logo
+  and photos**: add your logo and up to three photos while ordering (JPG,
+  PNG or WebP, up to 5 MB each) — the logo goes in the header, the photos on
+  the banners and About. Without them, pictures fitting your kind of business
+  come with the site; replace them with your own any time. Prices are in the
+  app.
+- Found on Google and good when shared: every page has a description for
+  Google; links shared on WhatsApp or Facebook show your picture and title;
+  Google gets your business details (name, address, phone, email, website,
+  logo, social pages — never reviews) and your address has **Get
+  directions**. Show on Google is off on the preview and switched on when the
+  website goes live. Pages load fast, and a change you make in the app shows
+  straight away.
 - Setting up takes a few minutes and shows step by step: creating the
   website, WordPress, the design for your kind of business, your pages and
   photos, connecting it to the app, security (https). Then "ready for your
