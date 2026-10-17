@@ -50,9 +50,14 @@ def device_rows(catalog: dict) -> list[dict]:
 			for s in catalog.get("device_types") or []]
 
 
-def load_knowledge() -> str:
+def load_knowledge(staff: bool = False) -> str:
+	"""What the assistant knows; QTT staff (Platform Owner) also get QTT Admin (staff.md)."""
 	with open(os.path.join(HERE, "knowledge.md"), encoding="utf-8") as f:
-		return f.read()
+		text = f.read()
+	if staff:
+		with open(os.path.join(HERE, "staff.md"), encoding="utf-8") as f:
+			text += "\n\n" + f.read()
+	return text
 
 
 def can_open(screen: dict, ctx: dict) -> bool:
@@ -191,15 +196,20 @@ Rules:
 - Reply as JSON only: {"answer": "...", "links": [{"label": "Open Leave", "screen": "<screen id>"}]} — at most 3 links, ids exactly from the list, or [] if none fits."""
 
 
+STAFF_RULE = """This person is Queen Touch Technology staff (QTT Platform Owner). Besides QTT OS, you may answer about QTT Admin and
+the internal screens described under "QTT Admin — for Queen Touch Technology staff only" (still never reveal passwords, keys
+or tokens). QTT Admin screens can't be linked: name the path instead (e.g. "QTT Admin › WhatsApp number › Broadcasts")."""
+
+
 def build_messages(*, knowledge: str, plans: str, services: str, screens: list[dict], who: str, screen_id: str | None,
-				   history: list[dict] | None, question: str) -> list[dict]:
+				   history: list[dict] | None, question: str, staff: bool = False) -> list[dict]:
 	screen_lines = "\n".join(f"- {s['id']}: {s['path']} — {s['what']}" for s in screens)
 	current = next((s for s in screens if s["id"] == screen_id), None)
 	context = (f"{who}\nThey are on: {current['path']} ({current['id']})." if current else who)
 	if current and current.get("guide"):
 		context += "\n\nHow to set up this screen (use it for set-up questions; suggest what fits their business type):\n" + guide_text(current)
 	system = "\n\n".join([
-		SYSTEM,
+		SYSTEM + ("\n\n" + STAFF_RULE if staff else ""),
 		"## Knowledge\n" + knowledge,
 		"## Live plans (per app)\n" + (plans or "Not available."),
 		"## Managed Services offered\n" + (services or "Not available."),

@@ -26,6 +26,7 @@ from frappe.utils import today
 from qtt_platform.assistant import answer_cache, logic
 from qtt_platform.errors import fail, ok
 from qtt_platform.tenant.context import resolve_active_tenant
+from qtt_platform.tenant.guards import PLATFORM_OWNER_ROLE
 
 SETTINGS = "QTT App Settings"
 OWNER_ROLES = ("Tenant Owner", "Tenant Admin")
@@ -206,8 +207,9 @@ def ask(question: str, screen: str | None = None, history=None) -> dict:
 			history = json.loads(history)
 		except ValueError:
 			history = []
-	messages = logic.build_messages(knowledge=logic.load_knowledge(), plans=plans, services=services, screens=screens,
-									who=who, screen_id=screen, history=history if isinstance(history, list) else [], question=question)
+	staff = PLATFORM_OWNER_ROLE in frappe.get_roles(user)  # QTT staff: QTT Admin knowledge too (assistant/staff.md)
+	messages = logic.build_messages(knowledge=logic.load_knowledge(staff), plans=plans, services=services, screens=screens,
+									who=who, screen_id=screen, history=history if isinstance(history, list) else [], question=question, staff=staff)
 	allowed = {x["id"] for x in screens}
 	# Asked before, and nothing it was built from has changed: the kept answer, no model call.
 	model = s.get("assistant_model") or "deepseek-chat"

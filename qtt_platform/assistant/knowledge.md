@@ -752,6 +752,30 @@ Switching on: tap the switch (owner only), then Settings for the number, time an
 payment reminders; your own first reply for lead follow-up). A full plan can't switch on another — switch one off or
 move to a bigger plan. "Send me one now" tries the daily report or who's absent. A report with nothing to say isn't sent.
 
+## Managed Services — Your WhatsApp (your own WhatsApp number)
+For a business with AI & WhatsApp Automation whose own WhatsApp number is connected in Onbox › Channels (WhatsApp
+Cloud API). Owner only. Open Managed Services › Home › **Your WhatsApp**. If the number isn't connected yet it says so.
+- **The number**: quality (High / Medium / Low — falls when people block or report messages), display name and whether
+  Meta approved it, how many new chats it may start a day (grows as you send good messages), messages in the last 30
+  days, this month's cost.
+- **Business profile › Edit**: about (shown under the name), description, address, email, websites, category and the
+  profile photo (square JPG or PNG, up to 5 MB).
+- **QR codes and links**: a QR picture and a link that open a chat with you with a first message already typed — for
+  the counter, flyers and your website. Change the message any time; printed codes keep working.
+- **Message templates**: the messages you can send first (Meta approves each one). New template: name (small letters,
+  numbers, _), Utility (updates about an order or booking) or Marketing (offers), language, optional header, the message
+  with {{1}}, {{2}}… for parts that change and a sample for each, optional footer and buttons, with a preview. Meta
+  reviews it (usually minutes to a day); rejected ones show why.
+- **Broadcasts**: an approved Marketing template to everyone who agreed to get your offers. Add people under **People
+  who agreed** (paste "Name, number" lines, say how they agreed, tick that they agreed — Meta requires it). {name} puts
+  each person's first name in. Send shows how many go today (the number's daily limit), the estimated cost and how many
+  wait — **Send the rest** another day; nobody gets it twice. Anyone who replies STOP is taken off. Meta charges each
+  marketing message to your own Meta account.
+- **Forms in the chat**: Lead, Booking or Order forms that open inside WhatsApp; change the questions, then **Publish**
+  (Meta checks it; Meta publishes forms only for a verified business) and **Send to a customer** who wrote to you in
+  the last 24 hours. Answers come to **Answers** and your activity.
+- **Blocked numbers**: block or unblock someone (only someone who wrote in the last 24 hours can be blocked).
+
 ## Managed Services — Your receptionist (WhatsApp AI receptionist)
 Every AI & WhatsApp Automation plan includes a WhatsApp AI receptionist that answers the business's own
 customers. Open it from Managed Services › Home › your AI & WhatsApp service › **Your receptionist**.

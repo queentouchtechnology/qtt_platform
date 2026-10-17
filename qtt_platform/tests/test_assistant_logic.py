@@ -295,6 +295,18 @@ class OwnQuestionsTest(unittest.TestCase):
 		self.assertIn("What happens if a late check-in isn't approved?", q("pulse.attendance_rules"))
 
 
+
+class StaffKnowledge(unittest.TestCase):
+	def test_only_staff_get_qtt_admin(self):
+		self.assertNotIn("QTT Admin — for Queen Touch Technology staff only", logic.load_knowledge())
+		staff = logic.load_knowledge(staff=True)
+		for part in ("QTT Admin — for Queen Touch Technology staff only", "Cost by client", "Broadcasts", "Forms in the chat", "Needs attention"):
+			self.assertIn(part, staff)
+		plain = logic.build_messages(knowledge="k", plans="", services="", screens=[], who="Name: A.", screen_id=None, history=[], question="q")
+		self.assertNotIn("QTT Platform Owner", plain[0]["content"])
+		mine = logic.build_messages(knowledge="k", plans="", services="", screens=[], who="Name: A.", screen_id=None, history=[], question="q", staff=True)
+		self.assertIn("QTT Platform Owner", mine[0]["content"])
+
 if __name__ == "__main__":
 	unittest.main()
 

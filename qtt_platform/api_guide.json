@@ -3758,7 +3758,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.assistantAsk",
    "screens": "shared/assistant/assistant_screen.dart › _AssistantScreenState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/assistant.py:190",
+   "source": "qtt_platform/qtt_platform/api/assistant.py:191",
    "status": "Not described"
   },
   {
@@ -3774,7 +3774,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.assistantGuide",
    "screens": "shared/assistant/screen_guide.dart › ScreenGuideBar",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/assistant.py:174",
+   "source": "qtt_platform/qtt_platform/api/assistant.py:175",
    "status": "OK"
   },
   {
@@ -3790,7 +3790,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.assistantQuestions",
    "screens": "shared/assistant/assistant_screen.dart › _AssistantScreenState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/assistant.py:153",
+   "source": "qtt_platform/qtt_platform/api/assistant.py:154",
    "status": "OK"
   },
   {
@@ -3806,7 +3806,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.assistantTips",
    "screens": "shared/assistant/assistant_screen.dart › _ScreenTipsState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/assistant.py:146",
+   "source": "qtt_platform/qtt_platform/api/assistant.py:147",
    "status": "Not described"
   },
   {
@@ -7436,7 +7436,7 @@
    "arguments": "name, message",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.reply",
-   "screens": "admin/whatsapp_view.dart › _Preview\nproducts/onbox/screens/composer.dart › _ComposerState\nproducts/services/screens/requests_pages.dart › _RequestPageState",
+   "screens": "products/onbox/screens/composer.dart › _ComposerState\nproducts/services/screens/requests_pages.dart › _RequestPageState\nshared/whatsapp/whatsapp_views.dart › _Preview",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/portal.py:112",
    "status": "Not described"
@@ -8522,12 +8522,12 @@
    "purpose": "Delete a QR code and its link — anything printed with it stops opening the chat.",
    "details": "Delete a QR code and its link — anything printed with it stops opening the chat.",
    "arguments": "code",
-   "used_by": "App",
-   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.deleteWhatsappQr",
-   "screens": "admin/whatsapp_view.dart › _WhatsappQrViewState",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/wa_business.py:439",
-   "status": "OK"
+   "status": "Not used by the app"
   },
   {
    "endpoint": "qtt_services.api.wa_business.delete_template",
@@ -8538,12 +8538,12 @@
    "purpose": "Delete a template (every language of it). QTT OS's own templates can't be deleted here. Anything else still sending it stops working.",
    "details": "Delete a template (every language of it). QTT OS's own templates can't be deleted here. Anything else still\nsending it stops working.",
    "arguments": "name",
-   "used_by": "App",
-   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.deleteWhatsappTemplate",
-   "screens": "admin/whatsapp_view.dart › _WhatsappTemplatesViewState",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/wa_business.py:393",
-   "status": "OK"
+   "status": "Not used by the app"
   },
   {
    "endpoint": "qtt_services.api.wa_business.number",
@@ -8554,12 +8554,12 @@
    "purpose": "QTT Admin › WhatsApp number: the number's health (quality, how many customers a day it can start chats with, display-name status, connected), the business profile, messages sent and delivered in the last 30 days, and this month's WhatsApp cost by category (empty until Meta bills something).",
    "details": "QTT Admin › WhatsApp number: the number's health (quality, how many customers a day it can start chats with,\ndisplay-name status, connected), the business profile, messages sent and delivered in the last 30 days, and\nthis month's WhatsApp cost by category (empty until Meta bills something).",
    "arguments": "",
-   "used_by": "App",
-   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.whatsappNumber",
-   "screens": "admin/whatsapp_view.dart › _WhatsappNumberViewState",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/wa_business.py:460",
-   "status": "OK"
+   "status": "Not used by the app"
   },
   {
    "endpoint": "qtt_services.api.wa_business.qr_codes",
@@ -8570,12 +8570,12 @@
    "purpose": "QTT Admin › WhatsApp number › QR codes and links: each one opens a chat with QTT's WhatsApp with a ready-made first message — {codes: [{code, message, link, qr}]}. For counters, flyers and the website.",
    "details": "QTT Admin › WhatsApp number › QR codes and links: each one opens a chat with QTT's WhatsApp with a ready-made\nfirst message — {codes: [{code, message, link, qr}]}. For counters, flyers and the website.",
    "arguments": "",
-   "used_by": "App",
-   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.whatsappQrCodes",
-   "screens": "admin/whatsapp_view.dart › _WhatsappQrViewState",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/wa_business.py:424",
-   "status": "OK"
+   "status": "Not used by the app"
   },
   {
    "endpoint": "qtt_services.api.wa_business.save_profile",
@@ -8586,12 +8586,12 @@
    "purpose": "QTT Admin › WhatsApp number › Business profile: about (up to 139), description, address, email, up to 2 websites, business category — what customers see on QTT's WhatsApp. Checked first: {ok, problems} or {ok, profile}.",
    "details": "QTT Admin › WhatsApp number › Business profile: about (up to 139), description, address, email, up to 2 websites,\nbusiness category — what customers see on QTT's WhatsApp. Checked first: {ok, problems} or {ok, profile}.",
    "arguments": "values",
-   "used_by": "App",
-   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.saveWhatsappProfile",
-   "screens": "admin/whatsapp_view.dart › _WhatsappProfileEditorState",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/wa_business.py:409",
-   "status": "OK"
+   "status": "Not used by the app"
   },
   {
    "endpoint": "qtt_services.api.wa_business.save_profile_photo",
@@ -8602,12 +8602,12 @@
    "purpose": "The profile photo (multipart `file`: JPG or PNG, up to 5 MB; Meta shows it square, at least 192 × 192).",
    "details": "The profile photo (multipart `file`: JPG or PNG, up to 5 MB; Meta shows it square, at least 192 × 192).",
    "arguments": "",
-   "used_by": "App",
-   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.uploadWhatsappProfilePhoto",
-   "screens": "admin/whatsapp_view.dart › _WhatsappProfileEditorState",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/wa_business.py:417",
-   "status": "OK"
+   "status": "Not used by the app"
   },
   {
    "endpoint": "qtt_services.api.wa_business.save_qr",
@@ -8618,12 +8618,12 @@
    "purpose": "Make a QR code and short link (or change an existing one's first message — the printed QR keeps working).",
    "details": "Make a QR code and short link (or change an existing one's first message — the printed QR keeps working).",
    "arguments": "message, code",
-   "used_by": "App",
-   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.saveWhatsappQr",
-   "screens": "admin/whatsapp_view.dart › _WhatsappQrViewState",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/wa_business.py:432",
-   "status": "OK"
+   "status": "Not used by the app"
   },
   {
    "endpoint": "qtt_services.api.wa_business.save_template",
@@ -8634,12 +8634,12 @@
    "purpose": "Add a template (sent to Meta for review) or edit one (`template_id`; approved, rejected or paused only — Meta allows an approved template one edit a day, 10 a month). Checked against Meta's rules first; nothing is sent when there's a problem. Returns {ok, status, problems}.",
    "details": "Add a template (sent to Meta for review) or edit one (`template_id`; approved, rejected or paused only —\nMeta allows an approved template one edit a day, 10 a month). Checked against Meta's rules first; nothing is\nsent when there's a problem. Returns {ok, status, problems}.",
    "arguments": "name, category, language, spec, template_id",
-   "used_by": "App",
-   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.saveWhatsappTemplate",
-   "screens": "admin/whatsapp_view.dart › _WhatsappTemplateEditorState",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/wa_business.py:384",
-   "status": "OK"
+   "status": "Not used by the app"
   },
   {
    "endpoint": "qtt_services.api.wa_business.templates",
@@ -8650,12 +8650,12 @@
    "purpose": "QTT Admin › WhatsApp templates: every template on QTT's WhatsApp number — status (approved, in review, rejected with the reason, paused), category, language, quality, last 30 days' results (sent / delivered / read / clicked) — and the choices the add form offers. QTT OS's own templates are marked (they can't be deleted).",
    "details": "QTT Admin › WhatsApp templates: every template on QTT's WhatsApp number — status (approved, in review,\nrejected with the reason, paused), category, language, quality, last 30 days' results (sent / delivered / read /\nclicked) — and the choices the add form offers. QTT OS's own templates are marked (they can't be deleted).",
    "arguments": "",
-   "used_by": "App",
-   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.whatsappTemplates",
-   "screens": "admin/whatsapp_view.dart › _WhatsappTemplatesViewState",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/wa_business.py:365",
-   "status": "OK"
+   "status": "Not used by the app"
   },
   {
    "endpoint": "qtt_services.api.wa_business.upload_sample",
@@ -8666,12 +8666,12 @@
    "purpose": "A sample picture / PDF / video for a template header (Meta reviews it). The file comes as multipart `file`; returns {handle} to put in the template's header.",
    "details": "A sample picture / PDF / video for a template header (Meta reviews it). The file comes as multipart `file`;\nreturns {handle} to put in the template's header.",
    "arguments": "header_type",
-   "used_by": "App",
-   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.uploadWhatsappSample",
-   "screens": "admin/whatsapp_view.dart › _WhatsappTemplateEditorState",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/wa_business.py:401",
-   "status": "OK"
+   "status": "Not used by the app"
   },
   {
    "endpoint": "qtt_services.api.wa_flows.endpoint",
@@ -8686,7 +8686,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/wa_flows.py:177",
+   "source": "qtt-os/qtt_services/qtt_services/api/wa_flows.py:184",
    "status": "Not used by the app"
   },
   {
@@ -8702,7 +8702,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/wa_flows.py:237",
+   "source": "qtt-os/qtt_services/qtt_services/api/wa_flows.py:244",
    "status": "Not used by the app"
   },
   {
@@ -8718,7 +8718,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/wa_flows.py:209",
+   "source": "qtt-os/qtt_services/qtt_services/api/wa_flows.py:216",
    "status": "Not used by the app"
   },
   {
@@ -8734,7 +8734,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/wa_flows.py:244",
+   "source": "qtt-os/qtt_services/qtt_services/api/wa_flows.py:251",
    "status": "Not used by the app"
   },
   {
@@ -8750,7 +8750,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/wa_flows.py:223",
+   "source": "qtt-os/qtt_services/qtt_services/api/wa_flows.py:230",
    "status": "Not used by the app"
   },
   {
@@ -8766,7 +8766,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/wa_flows.py:216",
+   "source": "qtt-os/qtt_services/qtt_services/api/wa_flows.py:223",
    "status": "Not used by the app"
   },
   {
@@ -8782,7 +8782,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/wa_flows.py:230",
+   "source": "qtt-os/qtt_services/qtt_services/api/wa_flows.py:237",
    "status": "Not used by the app"
   },
   {
