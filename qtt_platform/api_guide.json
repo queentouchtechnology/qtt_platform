@@ -4282,12 +4282,12 @@
    "purpose": "The business's knowledge with its contacts (from the profile), brand kit and health (score, what to add next). Owner and admins.",
    "details": "The business's knowledge with its contacts (from the profile), brand kit and health (score, what to add next).\nOwner and admins.",
    "arguments": "",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.businessKnowledge",
+   "screens": "platform/workspace/business_knowledge_tab.dart › _BusinessKnowledgeTabState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/knowledge.py:100",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.knowledge.save",
@@ -4298,12 +4298,12 @@
    "purpose": "Save what the owner changed (only the fields sent): facts, products and services, Q&A (each for customers, the team or everyone), team notes (for everyone or some roles), tone, brand colours and fonts, sources. Owner and admins.",
    "details": "Save what the owner changed (only the fields sent): facts, products and services, Q&A (each for customers, the\nteam or everyone), team notes (for everyone or some roles), tone, brand colours and fonts, sources. Owner and admins.",
    "arguments": "data",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.saveBusinessKnowledge",
+   "screens": "platform/workspace/business_knowledge_tab.dart › _BusinessKnowledgeTabState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/knowledge.py:109",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.marketing.get_settings",
@@ -5004,7 +5004,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.roleTables",
-   "screens": "platform/workspace/roles_access_tab.dart › RolesAccessTab",
+   "screens": "platform/workspace/business_knowledge_tab.dart › _BusinessKnowledgeTabState\nplatform/workspace/roles_access_tab.dart › RolesAccessTab",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/roles.py:32",
    "status": "Not described"
