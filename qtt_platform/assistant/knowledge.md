@@ -741,7 +741,11 @@ The automations (each goes to the owner's — or a manager's — WhatsApp and sh
   customer), low-stock alert, weekly sales summary (Mondays), month-end summary (the 1st).
 - Customers: unanswered chats alert (Onbox, every 3 hours in working time), new online order alert (online store),
   lead follow-up (website enquiries answered at once on WhatsApp, followed up on days 1, 3 and 7 until they reply —
-  a reply comes back to the business, not to QTT).
+  a reply comes back to the business, not to QTT). The instant reply confirms the enquiry: "Hi Priya, your enquiry
+  with Anna's Bakery about a birthday cake order has been received. Our team will call you shortly. Reply to this
+  message if you have any questions." The owner's own first reply (Settings, one or two sentences) replaces "Our team
+  will call you shortly." The follow-ups are short reminders ("Is there anything we can help you with on your
+  enquiry?").
 - Owner: ask your business — ask on WhatsApp ("how much did we sell this month?", "who owes us?") and get the answer
   from your own data; it only reads.
 Switching on: tap the switch (owner only), then Settings for the number, time and language (UPI ID, when and tone for
