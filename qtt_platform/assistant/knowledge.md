@@ -65,6 +65,17 @@ person in it gets access to some products, with a role in each.
   shows how complete it is and the next things to add (at least 3 products or
   services, 5 Q&A, hours, delivery or bookings, payments…). "Also learn from"
   lets it use the QTT website, the online store's products and Orbitra items.
+- **Test lab** (Business › Knowledge › Test lab, owner / admin): try the
+  knowledge before anyone sees it — as a customer (the WhatsApp receptionist's
+  own answer when the business has one, including when it would hand over to
+  the team), as the team (pick a role to see what that role is told), or
+  "Suggest this week's ideas" for posts (only from the knowledge — no made-up
+  offers, prices or dates; copy a caption). Nothing is sent or kept; 60 tries
+  a day.
+- **Your team's questions** (Business › Knowledge): what the team asked Know
+  your business that the knowledge couldn't answer, newest first. Add answer
+  puts it into the Q&A (Team only, Customers or Everyone) so the next person
+  gets it; Dismiss removes it from the list.
 - **Know your business** (everyone in a business: the app's menu › Know your
   business, or Account › Help): team members ask how things work here —
   products and prices, hours, delivery, policies, how things are done. It

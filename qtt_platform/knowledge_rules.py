@@ -243,3 +243,49 @@ def team_answer(text: str) -> dict:
 	if not answer:
 		return {"answer": NOT_KNOWN, "known": False}
 	return {"answer": answer[:1500], "known": d.get("known", True) is not False}
+
+
+# ---- Test lab (PROJ-0011 A4): the owner tries the knowledge before anyone else sees it — nothing is sent ---------------
+IDEA_TYPES = ("Product", "Offer", "Tip", "Behind the scenes", "Announcement", "Question", "Festival or season")
+
+
+def customer_prompt(*, business: str, facts: str, question: str, tone: str = "Friendly", history: list[dict] | None = None) -> list[dict]:
+	"""How a customer would be answered from the knowledge (for a business without the WhatsApp receptionist). JSON {answer, known}."""
+	msgs = [{"role": "system", "content": (
+		f"You answer customers of {business or 'a small business'} on its behalf, from the business's details below ONLY. "
+		f"Tone: {tone if tone in TONES else 'Friendly'}. Never invent prices, offers, times, stock or promises. If the answer "
+		"isn't there, say a person from the business will reply, and set known to false. Keep it short (1–4 lines). Reply in "
+		'the customer\'s language and script. Reply with JSON only: {"answer": "...", "known": true|false}.')},
+		{"role": "user", "content": f"The business's details:\n{facts}"},
+		{"role": "assistant", "content": '{"answer": "Understood — I will answer only from these details.", "known": true}'}]
+	turns = [h for h in history or [] if isinstance(h, dict) and h.get("role") in ("user", "assistant") and str(h.get("content") or "").strip()]
+	msgs += [{"role": h["role"], "content": str(h["content"])[:1000]} for h in turns[-6:]]
+	msgs.append({"role": "user", "content": (question or "").strip()[:500]})
+	return msgs
+
+
+def ideas_prompt(*, brief: str, today: str, count: int = 5) -> list[dict]:
+	"""This week's post ideas from the marketing brief. JSON {ideas: [{type, title, caption}]}."""
+	return [{"role": "system", "content": (
+		f"You suggest {count} social media post ideas for this week for the business below, from its details ONLY. Mix the "
+		f"types: {', '.join(IDEA_TYPES)}. Use only products, prices and facts written in the details — never invent an offer, "
+		"discount, price, review, award, number or date. An Offer idea is only allowed if the details mention one; otherwise "
+		"pick another type. Festival or season ideas only for a well-known festival or season in the next 10 days from today, "
+		"with no invented dates. Each caption: 1–3 short lines in the business's tone and language, ready to post, no hashtags "
+		'spam (at most 3). Reply with JSON only: {"ideas": [{"type": "...", "title": "...", "caption": "..."}]}.')},
+		{"role": "user", "content": f"Today is {today}.\n\n{brief}"}]
+
+
+def parse_ideas(text: str, count: int = 5) -> list[dict]:
+	"""The model's ideas → [{type, title, caption}] (known types only; at most `count`)."""
+	m = re.search(r"\{.*\}", text or "", re.S)
+	try:
+		d = json.loads(m.group(0)) if m else {}
+	except ValueError:
+		d = {}
+	out = []
+	for i in (d.get("ideas") if isinstance(d, dict) else None) or []:
+		if isinstance(i, dict) and str(i.get("title") or "").strip() and str(i.get("caption") or "").strip():
+			out.append({"type": i.get("type") if i.get("type") in IDEA_TYPES else "Product", "title": _s(i["title"], 120),
+						"caption": str(i["caption"]).strip()[:600]})
+	return out[:count]

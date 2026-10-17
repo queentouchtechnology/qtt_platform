@@ -95,7 +95,8 @@ def save_for(tenant: str, data: dict, *, user: str | None = None) -> dict:
 def _out(tenant: str) -> dict:
 	k = for_tenant(tenant)
 	return {"knowledge": k, "contacts": contacts(tenant), "brand": brand_kit(tenant), "health": rules.health(k),
-			"tones": list(rules.TONES), "audiences": list(rules.AUDIENCES)}
+			"tones": list(rules.TONES), "audiences": list(rules.AUDIENCES),
+			"open_questions": frappe.db.count(QUESTION, {"tenant": tenant, "known": 0, "added": 0})}
 
 
 @frappe.whitelist(methods=["GET"])
@@ -134,29 +135,39 @@ def member(tenant: str, user: str) -> dict | None:
 	return {"name": frappe.db.get_value("User", user, "full_name") or user, "roles": keys, "labels": sorted(set(roles))}
 
 
-def answer_team(tenant: str, user: str, question: str, *, history: list | None = None, channel: str = "App") -> dict:
-	"""A team member's question → {answer, known}, kept for the owner. Private things are refused without the model."""
+def _model(msgs: list[dict], *, max_tokens: int = 500, title: str = "Know your business") -> str:
+	"""One reply from the assistant model — a blank JSON-mode reply gets one plain try; '' when there's none."""
 	from qtt_platform.api.assistant import complete_json
 
+	for json_mode in (True, False):
+		try:
+			text = complete_json(msgs, max_tokens=max_tokens, json_mode=json_mode, temperature=0.3, timeout=30)
+		except Exception:
+			frappe.log_error(title=f"{title}: no answer")
+			text = ""
+		if (text or "").strip():
+			return text
+	return ""
+
+
+def answer_team(tenant: str, user: str, question: str, *, history: list | None = None, channel: str = "App",
+				as_roles: list[str] | None = None) -> dict:
+	"""A team member's question → {answer, known}, kept for the owner (not Test). Private things are refused without the
+	model. as_roles: the test lab trying it as someone with these roles."""
 	question = (question or "").strip()[:500]
 	who = member(tenant, user) or {"name": user, "roles": [], "labels": []}
+	if as_roles is not None:
+		who = {"name": "a team member", "roles": [rules.role_key(r) for r in as_roles] or [rules.EVERYONE], "labels": as_roles}
 	if rules.is_private(question):
 		out = {"answer": rules.PRIVATE_ANSWER, "known": True}
 	else:
 		business = frappe.db.get_value("QTT Tenant", tenant, "tenant_name") or ""
 		msgs = rules.team_prompt(business=business, facts=team_text(tenant, who["roles"]), question=question, name=who["name"],
 								 roles=who["labels"], history=history)
-		text = ""
-		for json_mode in (True, False):  # a blank JSON-mode reply gets one plain try
-			try:
-				text = complete_json(msgs, max_tokens=500, json_mode=json_mode, temperature=0.2, timeout=25)
-			except Exception:
-				frappe.log_error(title=f"Know your business: no answer for {tenant}")
-			if (text or "").strip():
-				break
+		text = _model(msgs)
 		out = rules.team_answer(text) if (text or "").strip() else {"answer": "Sorry, I couldn't look that up just now. Please try again in a minute.",
 																	"known": True, "failed": True}
-	if not out.get("failed"):
+	if not out.get("failed") and channel != "Test":
 		frappe.get_doc({"doctype": QUESTION, "tenant": tenant, "user": user, "channel": channel, "roles": ", ".join(who["labels"])[:140],
 						"question": question, "answer": out["answer"], "known": int(out["known"])}).insert(ignore_permissions=True)
 	return {"answer": out["answer"], "known": out["known"]}
@@ -226,3 +237,87 @@ def ask(question: str, history=None) -> dict:
 		except ValueError:
 			history = []
 	return answer_team(tenant, frappe.session.user, question, history=history if isinstance(history, list) else [], channel="App")
+
+
+# ---- Test lab and the team's unanswered questions (PROJ-0011 A4) --------------------------------------------------------
+LAB_PER_DAY = 60
+
+
+def _lab_count(tenant: str) -> None:
+	from frappe.utils import today
+
+	key = f"qtt_kyb_lab:{tenant}:{today()}"
+	n = int(frappe.cache.get_value(key) or 0) + 1
+	if n > LAB_PER_DAY:
+		frappe.throw(_("That's enough tries for today — try again tomorrow."))
+	frappe.cache.set_value(key, n, expires_in_sec=2 * 86400)
+
+
+def _history(history) -> list:
+	if isinstance(history, str):
+		try:
+			history = json.loads(history or "[]")
+		except ValueError:
+			history = []
+	return history if isinstance(history, list) else []
+
+
+@frappe.whitelist(methods=["POST"])
+def try_as(question: str = "", mode: str = "customer", role: str | None = None, history=None) -> dict:
+	"""Test lab — nothing is sent, nothing is kept. mode customer: how a customer is answered (the WhatsApp receptionist's
+	own answer when the business has one); team: how Know your business answers someone with `role` (blank: a team member
+	with no special notes); ideas: this week's post ideas from the knowledge. → {answer, known, handover?} or {ideas}.
+	Owner and admins; 60 tries a day."""
+	tenant = _tenant()
+	require_tenant_role(tenant, GOVERNANCE)
+	_lab_count(tenant)
+	business = frappe.db.get_value("QTT Tenant", tenant, "tenant_name") or ""
+	if mode == "ideas":
+		from frappe.utils import getdate, today
+
+		text = _model(rules.ideas_prompt(brief=marketing_brief(tenant), today=f"{getdate(today()):%A %d %B %Y}"), max_tokens=1200,
+					  title="Knowledge test lab")
+		return {"ideas": rules.parse_ideas(text)}
+	question = (question or "").strip()[:500]
+	if len(question) < 2:
+		frappe.throw(_("Type a message to try."))
+	history = _history(history)
+	if mode == "team":
+		return answer_team(tenant, frappe.session.user, question, history=history, channel="Test", as_roles=[role] if role else [])
+	if "qtt_services" in frappe.get_installed_apps() and frappe.db.exists("Managed Receptionist", tenant):
+		from qtt_services.api.my_receptionist import try_for
+
+		r = try_for(tenant, frappe.session.user, question, history)
+		return {"answer": r.get("answer") or "Sorry, I couldn't try that just now.", "known": not r.get("handover"),
+				"handover": bool(r.get("handover")), "receptionist": True}
+	k = for_tenant(tenant)
+	r = rules.team_answer(_model(rules.customer_prompt(business=business, facts=customer_text(tenant), question=question,
+													   tone=k.get("tone") or "Friendly", history=history), title="Knowledge test lab"))
+	return {**r, "receptionist": False}
+
+
+@frappe.whitelist(methods=["GET"])
+def questions() -> list[dict]:
+	"""What the team asked that the knowledge couldn't answer (newest first, up to 50) — add an answer or dismiss each.
+	Owner and admins."""
+	tenant = _tenant()
+	require_tenant_role(tenant, GOVERNANCE)
+	return frappe.get_all(QUESTION, filters={"tenant": tenant, "known": 0, "added": 0},
+						  fields=["name", "question", "channel", "roles", "creation"], order_by="creation desc", limit=50)
+
+
+@frappe.whitelist(methods=["POST"])
+def answer_question(name: str, answer: str = "", audience: str = "Team") -> dict:
+	"""Add the owner's answer to the knowledge's Q&A (for the team, customers or everyone) — the next person who asks gets it.
+	Without an answer: dismiss. Returns the knowledge page. Owner and admins."""
+	tenant = _tenant()
+	require_tenant_role(tenant, GOVERNANCE)
+	q = frappe.db.get_value(QUESTION, {"name": name, "tenant": tenant}, ["name", "question"], as_dict=True)
+	if not q:
+		frappe.throw(_("That question isn't here any more."), frappe.DoesNotExistError)
+	if (answer or "").strip():
+		faqs = for_tenant(tenant).get("faqs") or []
+		save_for(tenant, {"faqs": [*faqs, {"question": q.question, "answer": answer.strip(),
+										   "audience": audience if audience in rules.AUDIENCES else "Team", "active": 1}]})
+	frappe.db.set_value(QUESTION, q.name, "added", 1)
+	return _out(tenant)

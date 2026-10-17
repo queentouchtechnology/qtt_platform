@@ -4274,6 +4274,22 @@
    "status": "Not described"
   },
   {
+   "endpoint": "qtt_platform.api.knowledge.answer_question",
+   "product": "Platform",
+   "area": "api.knowledge",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Add the owner's answer to the knowledge's Q&A (for the team, customers or everyone) — the next person who asks gets it. Without an answer: dismiss. Returns the knowledge page. Owner and admins.",
+   "details": "Add the owner's answer to the knowledge's Q&A (for the team, customers or everyone) — the next person who asks gets it.\nWithout an answer: dismiss. Returns the knowledge page. Owner and admins.",
+   "arguments": "name, answer, audience",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.answerKnowledgeQuestion",
+   "screens": "platform/workspace/knowledge_lab.dart › _TeamQuestionsPageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:310",
+   "status": "OK"
+  },
+  {
    "endpoint": "qtt_platform.api.knowledge.ask",
    "product": "Platform",
    "area": "api.knowledge",
@@ -4286,7 +4302,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.knowYourBusinessAsk",
    "screens": "shared/assistant/assistant_screen.dart › _AssistantScreenState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/knowledge.py:214",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:225",
    "status": "OK"
   },
   {
@@ -4302,7 +4318,23 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.businessKnowledge",
    "screens": "platform/workspace/business_knowledge_tab.dart › _BusinessKnowledgeTabState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/knowledge.py:102",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:103",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.knowledge.questions",
+   "product": "Platform",
+   "area": "api.knowledge",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "What the team asked that the knowledge couldn't answer (newest first, up to 50) — add an answer or dismiss each. Owner and admins.",
+   "details": "What the team asked that the knowledge couldn't answer (newest first, up to 50) — add an answer or dismiss each.\nOwner and admins.",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.knowledgeQuestions",
+   "screens": "platform/workspace/knowledge_lab.dart › _TeamQuestionsPageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:300",
    "status": "OK"
   },
   {
@@ -4318,7 +4350,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.saveBusinessKnowledge",
    "screens": "platform/workspace/business_knowledge_tab.dart › _BusinessKnowledgeTabState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/knowledge.py:111",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:112",
    "status": "OK"
   },
   {
@@ -4334,7 +4366,23 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.knowYourBusinessIntro",
    "screens": "shared/assistant/assistant_screen.dart › _AssistantScreenState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/knowledge.py:199",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:210",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.knowledge.try_as",
+   "product": "Platform",
+   "area": "api.knowledge",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Test lab — nothing is sent, nothing is kept. mode customer: how a customer is answered (the WhatsApp receptionist's own answer when the business has one); team: how Know your business answers someone with `role` (blank: a team member with no special notes); ideas: this week's post ideas from the knowledge. → {answer, known, handover?} or {ideas}. Owner and admins; 60 tries a day.",
+   "details": "Test lab — nothing is sent, nothing is kept. mode customer: how a customer is answered (the WhatsApp receptionist's\nown answer when the business has one); team: how Know your business answers someone with `role` (blank: a team member\nwith no special notes); ideas: this week's post ideas from the knowledge. → {answer, known, handover?} or {ideas}.\nOwner and admins; 60 tries a day.",
+   "arguments": "question, mode, role, history",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.knowledgeTry",
+   "screens": "platform/workspace/knowledge_lab.dart › _KnowledgeLabPageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:266",
    "status": "OK"
   },
   {
@@ -6878,7 +6926,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.dismissReceptionistQuestion",
    "screens": "products/services/screens/receptionist_pages.dart › _EditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:543",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:547",
    "status": "OK"
   },
   {
@@ -6910,7 +6958,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.removeReceptionistDocument",
    "screens": "products/services/screens/receptionist_pages.dart › _EditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:526",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:530",
    "status": "OK"
   },
   {
@@ -6958,7 +7006,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.uploadReceptionistDocument",
    "screens": "products/services/screens/receptionist_pages.dart › _EditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:492",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:496",
    "status": "OK"
   },
   {
@@ -6974,7 +7022,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:254",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:258",
    "status": "Not used by the app"
   },
   {

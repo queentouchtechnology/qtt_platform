@@ -129,5 +129,24 @@ class KnowYourBusiness(unittest.TestCase):
 		self.assertEqual(r.clean({"team_whatsapp": "0"}), {"team_whatsapp": 0})
 
 
+class TestLab(unittest.TestCase):
+	def test_customer_prompt_uses_only_customer_facts(self):
+		m = r.customer_prompt(business="Annapoorna Mess", facts=r.customer_text(K), question="Do you deliver?", tone="Shouty")
+		self.assertIn("Tone: Friendly", m[0]["content"])  # unknown tone → Friendly
+		self.assertIn("Do you deliver?", m[1]["content"])
+		self.assertNotIn("close the till", m[1]["content"])
+		self.assertEqual(m[-1]["content"], "Do you deliver?")
+
+	def test_ideas(self):
+		m = r.ideas_prompt(brief=r.marketing_brief(K, "Annapoorna Mess"), today="Friday 17 October 2026")
+		self.assertIn("never invent an offer", m[0]["content"])
+		self.assertIn("Today is Friday 17 October 2026", m[1]["content"])
+		ideas = r.parse_ideas('{"ideas": [{"type": "Product", "title": "Meals", "caption": "Rice, sambar, rasam — ₹120"},'
+							  '{"type": "Giveaway", "title": "Win", "caption": "Free meal"}, {"title": "", "caption": "x"}]}')
+		self.assertEqual([i["type"] for i in ideas], ["Product", "Product"])  # unknown type → Product; blank dropped
+		self.assertEqual(r.parse_ideas("no json"), [])
+		self.assertEqual(len(r.parse_ideas('{"ideas": ' + str([{"title": "t", "caption": "c"}] * 9).replace("'", '"') + '}')), 5)
+
+
 if __name__ == "__main__":
 	unittest.main()
