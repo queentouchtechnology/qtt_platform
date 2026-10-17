@@ -6414,7 +6414,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.dismissReceptionistQuestion",
    "screens": "products/services/screens/receptionist_pages.dart › _EditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:491",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:493",
    "status": "OK"
   },
   {
@@ -6446,7 +6446,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.removeReceptionistDocument",
    "screens": "products/services/screens/receptionist_pages.dart › _EditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:474",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:476",
    "status": "OK"
   },
   {
@@ -6494,7 +6494,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.uploadReceptionistDocument",
    "screens": "products/services/screens/receptionist_pages.dart › _EditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:440",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:442",
    "status": "OK"
   },
   {
