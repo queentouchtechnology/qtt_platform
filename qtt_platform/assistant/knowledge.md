@@ -915,7 +915,9 @@ to remember or share.
   delivery, return windows, discounts, reviews or numbers; cash on delivery
   and delivery areas only as you answered them.
   Then choose a plan, answer a few questions (business name, what you sell,
-  what kind of store, how customers pay, where you deliver, a phone number),
+  what kind of store, how customers pay, where you deliver, a phone number;
+  and, if you like, your delivery charge, free delivery above an amount,
+  collection from your shop, returns, and which online payment service),
   choose monthly, yearly or 3 years, pay the setup fee and the first term.
 - Setting up takes a few minutes and shows step by step: creating the store,
   WordPress and WooCommerce, the design for what you sell, sample products
@@ -970,6 +972,16 @@ to remember or share.
   share buttons; page layouts, sliders and banners are changed by QTT.
 - Problems or bigger changes: Managed Services › Requests.
 
+- Payments and delivery (store › Payments and delivery): switch cash on
+  delivery on or off; online payments through your own Razorpay account —
+  paste your Key ID and Key secret (Razorpay › Account & Settings › API keys)
+  and switch it on; the secret is never shown again. Cashfree, PhonePe or PayU
+  are connected by QTT's team. Delivery: a charge per order (empty = you
+  confirm it with each customer), free delivery above an amount only if you
+  offer it, and collection from your shop. The store's delivery, returns,
+  terms and privacy pages are written from your answers when it's built —
+  nothing promised that you didn't say (no delivery times, no return window
+  you didn't choose); ask through Requests to change them.
 ## Plans and trials — Explore QTT OS
 Each app has its own plans (there are no bundles). **Explore QTT OS** (Home ›
 the Explore QTT OS card, or Business › Plans and billing › Explore QTT OS)

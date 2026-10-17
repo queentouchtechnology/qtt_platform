@@ -104,6 +104,13 @@ account is never bought twice. A go-live tries the security certificate up to 4 
 doesn't install, the site is live without https and a task "Secure <domain> (https)" appears (CloudPanel › Sites › the
 site › SSL/TLS › New Let's Encrypt Certificate). Deleting a website cancels its cache task.
 
+## Online stores: payments set up from the order
+A store build sets cash on delivery, delivery (charge, free above, collect from the shop) and the four policy pages from
+the owner's answers (store_setup_rules.py). The chosen payment service is installed and left off: Razorpay the owner
+connects in the app (store › Payments and delivery, their own keys); for Cashfree, PhonePe or PayU a task "Connect
+<service> payments for <business>" appears — help the owner open their own merchant account, activate the plugin, enter
+their keys in WooCommerce › Settings › Payments, place and refund a small test order.
+
 ## Website add-ons: staff tasks
 When a website service starts (paid, or added by QTT), each add-on done by hand gets a task with its steps: "Set up
 business email for <business>" (the mailbox names the owner gave), "Create the Google Business profile for <business>"

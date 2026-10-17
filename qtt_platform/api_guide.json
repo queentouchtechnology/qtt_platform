@@ -7596,7 +7596,7 @@
    "arguments": "name",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.asset",
-   "screens": "app/app_gate.dart › _SplashState\nproducts/services/models.dart › SvcEvent\nproducts/services/screens/deploy_pages.dart › DeploymentsList\nproducts/services/screens/deploy_pages.dart › _DeploymentsListState\nproducts/services/screens/golive_pages.dart › _ConnectDomainPage\nproducts/services/screens/golive_pages.dart › _ConnectDomainPageState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/services_home.dart › _ActivityPageState\nproducts/services/screens/services_home.dart › _AssetPage\nproducts/services/screens/services_home.dart › _ConnectBanner\nproducts/services/screens/services_home.dart › _ReviewBanner\nproducts/services/screens/services_widgets.dart › AssetTile\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_design.dart › FieldEditor\nproducts/services/store/store_design.dart › StoreDesignPage\nproducts/services/store/store_design.dart › _GroupEditPage\nproducts/services/store/store_design.dart › _GroupEditPageState\nproducts/services/store/store_design.dart › _ImageField\nproducts/services/store/store_design.dart › _ImageFieldState\nproducts/services/store/store_design.dart › _ItemEditPage\nproducts/services/store/store_design.dart › _ItemEditPageState\nproducts/services/store/store_design.dart › _ListField\nproducts/services/store/store_design.dart › _PageSectionsPage\nproducts/services/store/store_design.dart › _PageSectionsPageState\nproducts/services/store/store_design.dart › _StoreDesignPageState\nproducts/services/store/store_more.dart › StoreCouponsPage\nproducts/services/store/store_more.dart › StoreMarketingPage\nproducts/services/store/store_more.dart › StoreSettingsPage\nproducts/services/store/store_more.dart › _CouponForm\nproducts/services/store/store_more.dart › _CouponFormState\nproducts/services/store/store_more.dart › _SiteForm\nproducts/services/store/store_more.dart › _SiteFormState\nproducts/services/store/store_more.dart › _StoreCouponsPageState\nproducts/services/store/store_more.dart › _StoreMarketingPageState\nproducts/services/store/store_more.dart › _TrackingCard\nproducts/services/store/store_more.dart › _TrackingCardState\nproducts/services/store/store_pages.dart › StoreEntriesPage\nproducts/services/store/store_pages.dart › StoreHomePage\nproducts/services/store/store_pages.dart › StoreOrderPage\nproducts/services/store/store_pages.dart › StoreOrdersPage\nproducts/services/store/store_pages.dart › StoreProductEditPage\nproducts/services/store/store_pages.dart › StoreProductsPage\nproducts/services/store/store_pages.dart › _ProductForm\nproducts/services/store/store_pages.dart › _ProductFormState\nproducts/services/store/store_pages.dart › _StoreEntriesPageState\nproducts/services/store/store_pages.dart › _StoreOrderPageState\nproducts/services/store/store_pages.dart › _StoreOrdersPageState\nproducts/services/store/store_pages.dart › _StoreProductsPageState",
+   "screens": "app/app_gate.dart › _SplashState\nproducts/services/models.dart › SvcEvent\nproducts/services/screens/deploy_pages.dart › DeploymentsList\nproducts/services/screens/deploy_pages.dart › _DeploymentsListState\nproducts/services/screens/golive_pages.dart › _ConnectDomainPage\nproducts/services/screens/golive_pages.dart › _ConnectDomainPageState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/services_home.dart › _ActivityPageState\nproducts/services/screens/services_home.dart › _AssetPage\nproducts/services/screens/services_home.dart › _ConnectBanner\nproducts/services/screens/services_home.dart › _ReviewBanner\nproducts/services/screens/services_widgets.dart › AssetTile\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_design.dart › FieldEditor\nproducts/services/store/store_design.dart › StoreDesignPage\nproducts/services/store/store_design.dart › _GroupEditPage\nproducts/services/store/store_design.dart › _GroupEditPageState\nproducts/services/store/store_design.dart › _ImageField\nproducts/services/store/store_design.dart › _ImageFieldState\nproducts/services/store/store_design.dart › _ItemEditPage\nproducts/services/store/store_design.dart › _ItemEditPageState\nproducts/services/store/store_design.dart › _ListField\nproducts/services/store/store_design.dart › _PageSectionsPage\nproducts/services/store/store_design.dart › _PageSectionsPageState\nproducts/services/store/store_design.dart › _StoreDesignPageState\nproducts/services/store/store_more.dart › StoreCouponsPage\nproducts/services/store/store_more.dart › StoreMarketingPage\nproducts/services/store/store_more.dart › StoreSettingsPage\nproducts/services/store/store_more.dart › _CouponForm\nproducts/services/store/store_more.dart › _CouponFormState\nproducts/services/store/store_more.dart › _SiteForm\nproducts/services/store/store_more.dart › _SiteFormState\nproducts/services/store/store_more.dart › _StoreCouponsPageState\nproducts/services/store/store_more.dart › _StoreMarketingPageState\nproducts/services/store/store_more.dart › _TrackingCard\nproducts/services/store/store_more.dart › _TrackingCardState\nproducts/services/store/store_pages.dart › StoreEntriesPage\nproducts/services/store/store_pages.dart › StoreHomePage\nproducts/services/store/store_pages.dart › StoreOrderPage\nproducts/services/store/store_pages.dart › StoreOrdersPage\nproducts/services/store/store_pages.dart › StoreProductEditPage\nproducts/services/store/store_pages.dart › StoreProductsPage\nproducts/services/store/store_pages.dart › _ProductForm\nproducts/services/store/store_pages.dart › _ProductFormState\nproducts/services/store/store_pages.dart › _StoreEntriesPageState\nproducts/services/store/store_pages.dart › _StoreOrderPageState\nproducts/services/store/store_pages.dart › _StoreOrdersPageState\nproducts/services/store/store_pages.dart › _StoreProductsPageState\nproducts/services/store/store_payments.dart › StorePaymentsPage\nproducts/services/store/store_payments.dart › _StorePaymentsPageState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/portal.py:56",
    "status": "Not described"
@@ -8178,6 +8178,22 @@
    "status": "Not described"
   },
   {
+   "endpoint": "qtt_services.api.store.payments",
+   "product": "Managed Services",
+   "area": "api.store",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "How the store takes payments and delivers: cash on delivery, Razorpay (the owner's own account — whether it's connected, never the secret), other payment services QTT connected, and delivery (charge, free above, collect from the shop).",
+   "details": "How the store takes payments and delivers: cash on delivery, Razorpay (the owner's own account — whether it's\nconnected, never the secret), other payment services QTT connected, and delivery (charge, free above, collect from\nthe shop).",
+   "arguments": "asset",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.storePayments",
+   "screens": "products/services/store/store_payments.dart › _StorePaymentsPageState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:396",
+   "status": "OK"
+  },
+  {
    "endpoint": "qtt_services.api.store.plugin_action",
    "product": "Managed Services",
    "area": "api.store",
@@ -8304,6 +8320,22 @@
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/store.py:99",
    "status": "Not described"
+  },
+  {
+   "endpoint": "qtt_services.api.store.save_payments",
+   "product": "Managed Services",
+   "area": "api.store",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Change how the store takes payments and delivers (owner): cod, razorpay_key_id / razorpay_key_secret, razorpay_enabled, delivery_fee (empty = we confirm the charge), free_above (empty = none), pickup.",
+   "details": "Change how the store takes payments and delivers (owner): cod, razorpay_key_id / razorpay_key_secret,\nrazorpay_enabled, delivery_fee (empty = we confirm the charge), free_above (empty = none), pickup.",
+   "arguments": "asset, values",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.saveStorePayments",
+   "screens": "products/services/store/store_payments.dart › _StorePaymentsPageState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:416",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_services.api.store.save_product",
@@ -8462,7 +8494,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store_build.py:204",
+   "source": "qtt-os/qtt_services/qtt_services/api/store_build.py:209",
    "status": "Not described"
   },
   {
@@ -8542,7 +8574,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store_build.py:197",
+   "source": "qtt-os/qtt_services/qtt_services/api/store_build.py:202",
    "status": "Not described"
   },
   {
