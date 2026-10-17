@@ -729,27 +729,24 @@ share.
 - New enquiries appear in Managed Services activity.
 
 ## Managed Services — AI & WhatsApp Automation
-Three plans (monthly, yearly or 3 years — yearly pays 10 months; each has a
-₹1,999 one-time setup): **Starter** ₹999 a month — the WhatsApp AI
-receptionist; **Growth** ₹2,499 — receptionist, lead follow-up and payment
-reminders; **Pro** ₹4,999 — all six. The six automations:
-- WhatsApp AI receptionist — replies to customers 24/7 on your WhatsApp
-  number (prices, timings, bookings) and hands over to your staff.
-- Lead follow-up — every enquiry answered within minutes and followed up for
-  7 days.
-- Payment reminders — polite reminders with a UPI link until the invoice is
-  paid (from your Orbitra invoices).
-- Owner's daily report — yesterday's sales, cash and low stock every morning
-  on WhatsApp.
-- Ask your business — ask on WhatsApp ("How much did we sell this month?")
-  and get the answer from your own data; it never changes anything.
-- Who is absent today — attendance and leave on WhatsApp for your team (from
-  Office Pulse).
-Ordering asks only the questions the chosen plan needs (for example a UPI ID
-for payment reminders on Growth and Pro, the morning time for the daily report
-on Pro). QTT sets each automation up and tells you in activity when it's
-running. To move to a bigger plan, ask through Requests. (Businesses that
-ordered single parts earlier keep exactly those.)
+The WhatsApp AI receptionist on the business's own number, plus the automations the owner chooses in the app
+(Managed Services › your AI & WhatsApp service › **Automations**). Three plans (monthly, yearly — pays 10 months —
+or 3 years; ₹1,999 one-time setup): **Starter** ₹999 a month — the receptionist + any 3 automations; **Growth**
+₹2,499 — + any 8; **Pro** ₹4,999 — + every automation. (QTT may change prices; the app always shows the current ones.)
+The automations (each goes to the owner's — or a manager's — WhatsApp and shows in the app):
+- Team (needs Office Pulse): check-in report, check-out report (who's still in), late arrivals (after the shift's
+  grace time), who's absent today, leave requests waiting, expense claims waiting.
+- Sales and money (needs Orbitra): owner's daily report (yesterday's sales, cash, low stock, absent, chats waiting),
+  payment reminders (polite or firm, with a UPI pay link, on the due date / 3 days after / weekly until paid — to the
+  customer), low-stock alert, weekly sales summary (Mondays), month-end summary (the 1st).
+- Customers: unanswered chats alert (Onbox, every 3 hours in working time), new online order alert (online store),
+  lead follow-up (website enquiries answered at once on WhatsApp, followed up on days 1, 3 and 7 until they reply —
+  a reply comes back to the business, not to QTT).
+- Owner: ask your business — ask on WhatsApp ("how much did we sell this month?", "who owes us?") and get the answer
+  from your own data; it only reads.
+Switching on: tap the switch (owner only), then Settings for the number, time and language (UPI ID, when and tone for
+payment reminders; your own first reply for lead follow-up). A full plan can't switch on another — switch one off or
+move to a bigger plan. "Send me one now" tries the daily report or who's absent. A report with nothing to say isn't sent.
 
 ## Managed Services — Your receptionist (WhatsApp AI receptionist)
 Every AI & WhatsApp Automation plan includes a WhatsApp AI receptionist that answers the business's own
