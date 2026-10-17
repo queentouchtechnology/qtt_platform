@@ -5742,7 +5742,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.automationLibrary",
    "screens": "admin/services_pricing_view.dart › _AutomationLibraryViewState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:487",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:489",
    "status": "OK"
   },
   {
@@ -5838,7 +5838,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.receptionistLive",
    "screens": "admin/receptionists_view.dart › _ReceptionistCard",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:369",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:371",
    "status": "OK"
   },
   {
@@ -5854,7 +5854,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.receptionists",
    "screens": "admin/receptionists_view.dart › (top level)\nadmin/receptionists_view.dart › _ReceptionistsViewState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:350",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:352",
    "status": "OK"
   },
   {
@@ -5902,7 +5902,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.saveAutomationType",
    "screens": "admin/services_pricing_view.dart › _AutomationLibraryViewState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:503",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:505",
    "status": "OK"
   },
   {
@@ -5918,7 +5918,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.saveService\nqtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.saveServiceType",
    "screens": "admin/business_admin.dart › _TenantServicesSectionState\nadmin/clients_view.dart › _ClientConsoleState\nadmin/services_pricing_view.dart › _ServicePageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:434",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:436",
    "status": "OK"
   },
   {
@@ -5934,7 +5934,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.saveServicePlan",
    "screens": "admin/services_pricing_view.dart › _ServicePageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:458",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:460",
    "status": "OK"
   },
   {
@@ -5998,7 +5998,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.servicesAdmin",
    "screens": "admin/services_pricing_view.dart › _ServicesPricingViewState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:413",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:415",
    "status": "OK"
   },
   {
@@ -6846,7 +6846,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.dismissReceptionistQuestion",
    "screens": "products/services/screens/receptionist_pages.dart › _EditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:493",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:543",
    "status": "OK"
   },
   {
@@ -6862,7 +6862,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.receptionist",
    "screens": "products/services/models.dart › SvcService\nproducts/services/screens/receptionist_pages.dart › (top level)\nproducts/services/screens/receptionist_pages.dart › ReceptionistPage\nproducts/services/screens/receptionist_pages.dart › _EditorState\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › _ServicesRootState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:99",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:149",
    "status": "OK"
   },
   {
@@ -6878,7 +6878,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.removeReceptionistDocument",
    "screens": "products/services/screens/receptionist_pages.dart › _EditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:476",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:526",
    "status": "OK"
   },
   {
@@ -6894,7 +6894,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.saveReceptionist",
    "screens": "products/services/screens/receptionist_pages.dart › _EditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:106",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:156",
    "status": "OK"
   },
   {
@@ -6910,7 +6910,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.tryReceptionist",
    "screens": "products/services/screens/receptionist_pages.dart › _ReceptionistTryPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:134",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:184",
    "status": "OK"
   },
   {
@@ -6926,7 +6926,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.uploadReceptionistDocument",
    "screens": "products/services/screens/receptionist_pages.dart › _EditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:442",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:492",
    "status": "OK"
   },
   {
@@ -6942,7 +6942,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:204",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:254",
    "status": "Not used by the app"
   },
   {
