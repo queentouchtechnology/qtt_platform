@@ -4274,6 +4274,22 @@
    "status": "Not described"
   },
   {
+   "endpoint": "qtt_platform.api.knowledge.ask",
+   "product": "Platform",
+   "area": "api.knowledge",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Know your business: a team member's question about how the business works, answered from its knowledge (only what their roles may see; never pay, bank or personal details). {answer, known}. Any member; 60 a day each.",
+   "details": "Know your business: a team member's question about how the business works, answered from its knowledge (only what\ntheir roles may see; never pay, bank or personal details). {answer, known}. Any member; 60 a day each.",
+   "arguments": "question, history",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.knowYourBusinessAsk",
+   "screens": "shared/assistant/assistant_screen.dart › _AssistantScreenState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:214",
+   "status": "OK"
+  },
+  {
    "endpoint": "qtt_platform.api.knowledge.get",
    "product": "Platform",
    "area": "api.knowledge",
@@ -4286,7 +4302,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.businessKnowledge",
    "screens": "platform/workspace/business_knowledge_tab.dart › _BusinessKnowledgeTabState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/knowledge.py:100",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:102",
    "status": "OK"
   },
   {
@@ -4302,7 +4318,23 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.saveBusinessKnowledge",
    "screens": "platform/workspace/business_knowledge_tab.dart › _BusinessKnowledgeTabState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/knowledge.py:109",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:111",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.knowledge.team_intro",
+   "product": "Platform",
+   "area": "api.knowledge",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "Know your business: the business's name, a few questions to start with (the team's own Q&A first) and, when the team may ask on WhatsApp and this person has a number on file, QTT's WhatsApp number. Any member.",
+   "details": "Know your business: the business's name, a few questions to start with (the team's own Q&A first) and, when the team\nmay ask on WhatsApp and this person has a number on file, QTT's WhatsApp number. Any member.",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.knowYourBusinessIntro",
+   "screens": "shared/assistant/assistant_screen.dart › _AssistantScreenState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:199",
    "status": "OK"
   },
   {

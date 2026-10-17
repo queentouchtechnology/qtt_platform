@@ -1,0 +1,90 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Knowledge Question",
+ "module": "QTT Platform",
+ "custom": 0,
+ "engine": "InnoDB",
+ "autoname": "hash",
+ "modified": "2026-10-19 14:00:00.000000",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "track_changes": 0,
+ "description": "What the team asked Know your business — the ones it couldn't answer show the owner what to add to the knowledge.",
+ "field_order": [
+  "tenant",
+  "user",
+  "channel",
+  "roles",
+  "known",
+  "question",
+  "answer",
+  "added"
+ ],
+ "fields": [
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "options": "QTT Tenant",
+   "label": "Business",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "options": "User",
+   "label": "Asked by",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "channel",
+   "fieldtype": "Select",
+   "options": "App\nWhatsApp\nTest",
+   "default": "App",
+   "label": "Where",
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "roles",
+   "fieldtype": "Data",
+   "label": "Their roles"
+  },
+  {
+   "fieldname": "known",
+   "fieldtype": "Check",
+   "label": "Answered from the knowledge",
+   "default": "1",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "question",
+   "fieldtype": "Small Text",
+   "label": "Question",
+   "reqd": 1
+  },
+  {
+   "fieldname": "answer",
+   "fieldtype": "Small Text",
+   "label": "Answer"
+  },
+  {
+   "fieldname": "added",
+   "fieldtype": "Check",
+   "label": "Owner added it to the knowledge",
+   "default": "0"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ]
+}

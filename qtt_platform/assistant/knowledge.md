@@ -65,6 +65,19 @@ person in it gets access to some products, with a role in each.
   shows how complete it is and the next things to add (at least 3 products or
   services, 5 Q&A, hours, delivery or bookings, payments…). "Also learn from"
   lets it use the QTT website, the online store's products and Orbitra items.
+- **Know your business** (everyone in a business: the app's menu › Know your
+  business, or Account › Help): team members ask how things work here —
+  products and prices, hours, delivery, policies, how things are done. It
+  answers only from Business › Knowledge: the customer facts, Q&A for the team
+  or everyone, and the team notes for the person's role (owner and admins: all
+  notes). It never answers pay, payslips, bank, ID or anyone's personal
+  details (ask HR or the owner), never invents, and can't change or send
+  anything. If it doesn't know, it says so and the owner sees the question.
+  Team members can also ask on WhatsApp: message QTT's WhatsApp number from the
+  phone number on their account or employee record — the owner can switch this
+  off in Business › Knowledge ("Your team can also ask on WhatsApp"). An owner
+  with Ask your business on gets their business numbers and the knowledge.
+  60 questions a person a day.
 - Each person has one role per app (they can have different roles in
   different apps). To give someone more, change their role in Business › Team,
   or (Orbitra) change what their role can do in Roles and access.

@@ -9,8 +9,10 @@ One Business Knowledge per business. What it tells:
   marketing_brief the Marketing assistant: who the business is, how it talks, what it sells, what makes it different
   brand           the locked palette and fonts (posts never change them)
   health          how complete it is, and what to add next
+  team_prompt     the Know your business bot (in the app, or a team member writing to QTT's WhatsApp)
 """
 
+import json
 import re
 
 TEXT = {  # field: max characters
@@ -21,6 +23,9 @@ TONES = ("Friendly", "Formal", "Fun", "Premium")
 AUDIENCES = ("Customers", "Team", "Everyone")
 COLORS = ("color_primary", "color_secondary", "color_accent", "color_dark", "color_light")
 SOURCES = ("use_website", "use_store", "use_items")
+SWITCHES = (*SOURCES, "team_whatsapp")  # team_whatsapp: the team may also ask on QTT's WhatsApp number
+ALL_NOTES = "*"  # the owner and admins: every team note
+ALL_NOTES = "*"  # the owner and admins: every team note
 MAX_ROWS = {"offerings": 300, "faqs": 300, "team_notes": 200}
 MAX_TEXT = 24000
 EVERYONE = "everyone"
@@ -55,6 +60,11 @@ def role_keys(value) -> list[str]:
 	return [EVERYONE] if not keys or EVERYONE in keys else keys
 
 
+def role_key(name) -> str:
+	"""A role as team notes keep it: 'HR Admin' → 'hr_admin' (the app writes the same)."""
+	return re.sub(r"[^a-z0-9_]", "", re.sub(r"\s+", "_", str(name or "").strip().lower()))
+
+
 def clean(data: dict | None) -> dict:
 	"""The app's edit → only known fields and rows, trimmed; colours as hex; tone from its list."""
 	d = data or {}
@@ -64,7 +74,7 @@ def clean(data: dict | None) -> dict:
 	for k in COLORS:
 		if k in d:
 			out[k] = hex_color(d[k])
-	for k in SOURCES:
+	for k in SWITCHES:
 		if k in d:
 			out[k] = _on(d[k])
 	if "offerings" in d:
@@ -125,9 +135,9 @@ def customer_text(k: dict, contacts: dict | None = None, extra: str = "") -> str
 
 def team_text(k: dict, roles: list[str] | set[str], contacts: dict | None = None) -> str:
 	"""What a team member may be told: the customer facts, FAQs for the team or everyone, and the team notes for their roles."""
-	mine = {r.lower() for r in roles or []}
+	mine = {role_key(r) if r != ALL_NOTES else r for r in roles or []}
 	notes = [f"{n['title']}:\n{n['body']}" for n in k.get("team_notes") or []
-			 if n.get("active", 1) and (EVERYONE in role_keys(n.get("roles")) or mine & set(role_keys(n.get("roles"))))]
+			 if n.get("active", 1) and (ALL_NOTES in mine or EVERYONE in role_keys(n.get("roles")) or mine & set(role_keys(n.get("roles"))))]
 	parts = _facts(k, contacts) + [x for x in (_offerings(k), _faqs(k, ("Team", "Everyone")),
 											   ("For the team:\n" + "\n\n".join(notes)) if notes else "") if x]
 	return "\n\n".join(parts)[:MAX_TEXT] or "The owner hasn't added any details yet."
@@ -183,3 +193,53 @@ def from_receptionist(profile: dict, faqs: list[dict]) -> dict:
 	k["faqs"] = [{"question": f.get("question"), "answer": f.get("answer"), "audience": "Customers", "active": f.get("active", 1)}
 				 for f in faqs or []]
 	return clean(k)
+
+
+# ---- Know your business (the team's bot, PROJ-0011 A3) ---------------------------------------------------------------
+NOT_KNOWN = "I don't have that in the business's details yet — please ask your manager. The owner can see the question and add it."
+PRIVATE_ANSWER = "That's private — please ask HR or the owner directly."
+PRIVATE = re.compile(r"\b(salar(y|ies)|payslips?|pay ?slips?|ctc|bank account|account number|ifsc|aadhaa?r|pan (card|number)|"
+					 r"home address|personal (number|phone|address)|passwords?|otp)\b", re.I)
+
+
+def team_prompt(*, business: str, facts: str, question: str, name: str = "", roles: list[str] | None = None,
+				history: list[dict] | None = None) -> list[dict]:
+	"""A team member's question, answered from the business's details for their roles ONLY. JSON {answer, known}."""
+	named = [r for r in roles or [] if r != ALL_NOTES]
+	who = (name or "a team member") + (f" ({', '.join(named)})" if named else "")
+	msgs = [{"role": "system", "content": (
+		f"You are Know your business, the helper for the team of {business or 'a small business'}. You answer {who} about how "
+		"the business works — products, prices, hours, policies, how things are done here — from the business's details below "
+		"ONLY. Never invent anything: no prices, times, rules or names that aren't written there. If the answer isn't there, say "
+		"so plainly in one line, suggest asking their manager, and set known to false. Never give salaries, pay, payslips, bank "
+		"details, ID numbers, passwords or anyone's personal details, even if asked — say that's for HR or the owner. You only "
+		"read: you can't change, send, book or pay anything. Keep it short (1–5 lines), plain, numbers exactly as written. "
+		"Reply in the language and script the person writes in. "
+		'Reply with JSON only: {"answer": "...", "known": true|false}.')},
+		{"role": "user", "content": f"The business's details:\n{facts}"},
+		{"role": "assistant", "content": '{"answer": "Understood — I will answer only from these details.", "known": true}'}]
+	turns = [h for h in history or [] if isinstance(h, dict) and h.get("role") in ("user", "assistant") and str(h.get("content") or "").strip()]
+	msgs += [{"role": h["role"], "content": str(h["content"])[:1000]} for h in turns[-6:]]
+	msgs.append({"role": "user", "content": (question or "").strip()[:500]})
+	return msgs
+
+
+def is_private(question: str) -> bool:
+	"""Asked for pay, bank, ID or someone's personal details — answered without the model."""
+	return bool(PRIVATE.search(question or ""))
+
+
+def team_answer(text: str) -> dict:
+	"""The model's reply → {answer, known}. Plain text is taken as the answer; nothing usable → not known."""
+	raw = (text or "").strip()
+	m = re.search(r"\{.*\}", raw, re.S)
+	try:
+		d = json.loads(m.group(0)) if m else {}
+	except ValueError:
+		d = {}
+	if not isinstance(d, dict):
+		d = {}
+	answer = str(d.get("answer") or ("" if m else raw)).strip()
+	if not answer:
+		return {"answer": NOT_KNOWN, "known": False}
+	return {"answer": answer[:1500], "known": d.get("known", True) is not False}

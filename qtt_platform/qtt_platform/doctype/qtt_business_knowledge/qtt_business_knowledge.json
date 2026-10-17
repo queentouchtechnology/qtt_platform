@@ -4,7 +4,7 @@
  "module": "QTT Platform",
  "custom": 0,
  "engine": "InnoDB",
- "modified": "2026-10-19 12:00:00.000000",
+ "modified": "2026-10-19 14:00:00.000000",
  "fields": [
   {
    "fieldname": "tenant",
@@ -117,6 +117,13 @@
    "options": "QTT Knowledge Note"
   },
   {
+   "fieldname": "team_whatsapp",
+   "fieldtype": "Check",
+   "label": "The team can also ask on QTT's WhatsApp",
+   "default": "1",
+   "description": "Team members write to QTT's WhatsApp number from the phone number on their account (or their employee record)."
+  },
+  {
    "fieldname": "section_brand",
    "fieldtype": "Section Break",
    "label": "Brand kit (posts never change it)",
@@ -206,6 +213,7 @@
   "different",
   "section_team",
   "team_notes",
+  "team_whatsapp",
   "section_brand",
   "color_primary",
   "color_secondary",
