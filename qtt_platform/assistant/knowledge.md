@@ -759,6 +759,11 @@ customers. Open it from Managed Services › Home › your AI & WhatsApp service
   first from what the owner wrote when ordering). Plus **Questions and answers**: tap Add, write what
   customers ask and the answer in your own words; untick "Use this answer" to keep one without using it.
 - How it talks: the customer's own language (or one you choose) and a friendly or formal tone.
+- **What it also knows** (switch each on or off): prices and stock from your Orbitra items (current every time —
+  it says "available" or "out of stock", never the exact count), and your live QTT website (read every day).
+  **Documents**: Add a PDF (menu, price list, brochure; up to 10, 5 MB each) — it reads the text; a scanned
+  picture has no text, so type those details into Questions and answers. Remove deletes the file.
+  For each customer message it uses only the parts that match what the customer is asking about.
 - Handing over to your team: it hands a chat over when it isn't sure, when the customer asks for a person,
   and in the cases you list (e.g. complaints, bulk orders); it tells customers when your team replies.
 - **Try it**: write like a customer and see its answer — nothing is sent to anyone (it uses what is saved).
