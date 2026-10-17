@@ -125,5 +125,24 @@ class GreetingAndTakeBackTest(unittest.TestCase):
 		self.assertFalse(rl.assist_while_waiting(handed_over_at=100.0, team_replied=False, assigned=True))  # someone took it
 
 
+
+class AlwaysAReply(unittest.TestCase):
+	def test_each_try_fits_the_reply_deadline(self):
+		self.assertEqual(rl.try_timeout(0), rl.TRY_TIMEOUT)
+		self.assertEqual(rl.try_timeout(rl.REPLY_WITHIN - 10), 10)
+		self.assertIsNone(rl.try_timeout(rl.REPLY_WITHIN - rl.MIN_TRY + 1))  # too little left: the team reply goes out
+
+	def test_unfinished_message_retried_once_then_handed_over_then_dropped(self):
+		self.assertEqual(rl.sweep_action(waited=200, attempts=1), "retry")
+		self.assertEqual(rl.sweep_action(waited=400, attempts=2), "handover")
+		self.assertEqual(rl.sweep_action(waited=rl.GIVE_UP_AFTER + 1, attempts=1), "drop")
+
+	def test_retry_stays_quiet_when_answered_meanwhile(self):
+		msgs = [{"id": 10, "message_type": 0}, {"id": 11, "message_type": 1, "private": True}]
+		self.assertFalse(rl.already_answered(msgs, 10))  # only a private note
+		self.assertTrue(rl.already_answered(msgs + [{"id": 12, "message_type": 1}], 10))
+		self.assertFalse(rl.already_answered([{"id": 9, "message_type": 1}], 10))  # a reply to an earlier message
+
+
 if __name__ == "__main__":
 	unittest.main()

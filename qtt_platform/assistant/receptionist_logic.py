@@ -183,3 +183,31 @@ def staff_note(*, reason: str, lead: dict, question: str) -> str:
 	lines += [f"{labels[k]}: {v}" for k, v in lead.items() if k in labels]
 	lines.append(f"Last message: {question.strip()[:300]}")
 	return "\n".join(lines)
+
+
+# ---- always a reply (qtt_services.api.receptionist) -------------------------------
+REPLY_WITHIN = 60	  # seconds: after this the model gets no more tries — the customer gets the team / welcome reply
+MIN_TRY = 8			# a model try with less time than this left isn't started
+TRY_TIMEOUT = 25	   # seconds one model try may take
+SWEEP_AFTER = 180	  # a message still not replied to this long after its job started is picked up again
+GIVE_UP_AFTER = 3600   # older than this: too late to answer — logged for the team instead
+
+
+def try_timeout(elapsed: float) -> float | None:
+	"""Seconds the next model try may take, or None when there's no time left for one."""
+	left = REPLY_WITHIN - elapsed
+	return min(TRY_TIMEOUT, left) if left >= MIN_TRY else None
+
+
+def sweep_action(*, waited: float, attempts: int) -> str:
+	"""A message whose answer job never finished (worker restart, crash): 'retry' it once (the model may
+	answer this time), then 'handover' (the team reply, no model), or 'drop' when it's too late to answer."""
+	if waited > GIVE_UP_AFTER:
+		return "drop"
+	return "retry" if attempts < 2 else "handover"
+
+
+def already_answered(messages: list[dict], message_id: int) -> bool:
+	"""Did anyone (the bot or a person) write to the customer after this message? Then a retry must stay quiet."""
+	return any(m.get("message_type") in (1, "outgoing") and not m.get("private") and int(m.get("id") or 0) > message_id
+			   for m in messages)

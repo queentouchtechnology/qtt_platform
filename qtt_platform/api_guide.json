@@ -3758,7 +3758,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.assistantAsk",
    "screens": "shared/assistant/assistant_screen.dart › _AssistantScreenState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/assistant.py:188",
+   "source": "qtt_platform/qtt_platform/api/assistant.py:190",
    "status": "Not described"
   },
   {
@@ -3774,7 +3774,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.assistantGuide",
    "screens": "shared/assistant/screen_guide.dart › ScreenGuideBar",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/assistant.py:172",
+   "source": "qtt_platform/qtt_platform/api/assistant.py:174",
    "status": "OK"
   },
   {
@@ -3790,7 +3790,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.assistantQuestions",
    "screens": "shared/assistant/assistant_screen.dart › _AssistantScreenState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/assistant.py:151",
+   "source": "qtt_platform/qtt_platform/api/assistant.py:153",
    "status": "OK"
   },
   {
@@ -3806,7 +3806,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.assistantTips",
    "screens": "shared/assistant/assistant_screen.dart › _ScreenTipsState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/assistant.py:144",
+   "source": "qtt_platform/qtt_platform/api/assistant.py:146",
    "status": "Not described"
   },
   {
@@ -6798,7 +6798,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/receptionist.py:60",
+   "source": "qtt-os/qtt_services/qtt_services/api/receptionist.py:65",
    "status": "Not used by the app"
   },
   {
