@@ -766,6 +766,13 @@ customers. Open it from Managed Services › Home › your AI & WhatsApp service
   knows your opening hours and at least 3 answers.
 - It answers on the business's own WhatsApp number connected in Onbox. QTT connects the number during setup
   and switches the live answering on; until then Try it shows how it will answer.
+- Once live: "Answering customers on WhatsApp" shows how many replies it sent and how many chats it passed to
+  your team. Turn it off to pause it (then new chats go straight to your team in Onbox); turn it on again any time.
+- **Passed to your team**: messages it didn't answer itself (not sure, or your hand-over rules). Tap Add an
+  answer and write the answer — it becomes a question and answer, used next time — or Dismiss. Save keeps them.
+- It never leaves a customer waiting: if it can't reply in time, the customer is told your team will reply,
+  and the chat is marked for your team in Onbox with a note. Once someone on your team replies or takes the
+  chat, it stays quiet in that chat.
 
 ## Managed Services — Marketing assistant (posting to your pages)
 Its own managed service in three packages (Managed Services › Explore ›
