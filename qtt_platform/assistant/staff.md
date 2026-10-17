@@ -104,6 +104,17 @@ account is never bought twice. A go-live tries the security certificate up to 4 
 doesn't install, the site is live without https and a task "Secure <domain> (https)" appears (CloudPanel › Sites › the
 site › SSL/TLS › New Let's Encrypt Certificate). Deleting a website cancels its cache task.
 
+## Online store add-ons: staff tasks
+Managed E-Commerce add-ons (marked Add-on in Services and pricing; owners pick any with one plan): Payment gateway setup,
+We add your products, Google Shopping, Business email, Google Business profile, Delivery partner setup, Move my existing
+store, Care plan. When the store starts, each one done by hand gets a task with its steps: "Set up online payments for
+<business>'s store" (their own merchant account and keys; test order and refund), "Add the first products to <business>'s
+store" (up to 50 from their list; remove the samples), "Put <business>'s products on Google Shopping" (Merchant Center on
+the owner's Google account, Google Listings & Ads), "Connect a delivery partner for <business>" (the owner's Shiprocket
+account, one test shipment), "Move <business>'s old store into the new one" (their old store's address), plus business
+email and Google profile as for websites. With Payment gateway setup chosen, the separate "Connect <service> payments"
+task isn't made. Care plan: owners ask for changes through Requests.
+
 ## Online stores: payments set up from the order
 A store build sets cash on delivery, delivery (charge, free above, collect from the shop) and the four policy pages from
 the owner's answers (store_setup_rules.py). The chosen payment service is installed and left off: Razorpay the owner

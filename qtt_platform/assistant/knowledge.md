@@ -924,6 +924,15 @@ to remember or share.
   line before ordering. Nothing is promised that you didn't tell us: no free
   delivery, return windows, discounts, reviews or numbers; cash on delivery
   and delivery areas only as you answered them.
+  **Add-ons (optional)**, chosen with the plan: Payment gateway setup (we
+  help you open and connect Razorpay, Cashfree, PhonePe or PayU and test it),
+  We add your products (up to 50, from your list), Google Shopping (your
+  products in Google's free listings), Business email, Google Business
+  profile (already on Google Maps? paste your link instead, free), Delivery
+  partner setup (Shiprocket or your partner: pickups and tracking links), Move
+  my existing store (from Shopify, Dukaan or WooCommerce) and Care plan (up to
+  4 changes a month done for you). QTT's team does them once the store starts
+  and tells you when each is done.
   Then choose a plan, answer a few questions (business name, what you sell,
   what kind of store, how customers pay, where you deliver, a phone number;
   and, if you like, your delivery charge, free delivery above an amount,
