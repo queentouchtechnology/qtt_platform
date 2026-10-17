@@ -751,6 +751,22 @@ on Pro). QTT sets each automation up and tells you in activity when it's
 running. To move to a bigger plan, ask through Requests. (Businesses that
 ordered single parts earlier keep exactly those.)
 
+## Managed Services — Your receptionist (WhatsApp AI receptionist)
+Every AI & WhatsApp Automation plan includes a WhatsApp AI receptionist that answers the business's own
+customers. Open it from Managed Services › Home › your AI & WhatsApp service › **Your receptionist**.
+- What it knows comes only from this page: what the business does, opening hours, holidays, address and
+  map link, delivery, payment methods, bookings and orders, and "anything else it should know" (filled at
+  first from what the owner wrote when ordering). Plus **Questions and answers**: tap Add, write what
+  customers ask and the answer in your own words; untick "Use this answer" to keep one without using it.
+- How it talks: the customer's own language (or one you choose) and a friendly or formal tone.
+- Handing over to your team: it hands a chat over when it isn't sure, when the customer asks for a person,
+  and in the cases you list (e.g. complaints, bulk orders); it tells customers when your team replies.
+- **Try it**: write like a customer and see its answer — nothing is sent to anyone (it uses what is saved).
+- Only the owner changes it; others in Managed Services can look. The set-up guide's step is done once it
+  knows your opening hours and at least 3 answers.
+- It answers on the business's own WhatsApp number connected in Onbox. QTT connects the number during setup
+  and switches the live answering on; until then Try it shows how it will answer.
+
 ## Managed Services — Marketing assistant (posting to your pages)
 Its own managed service in three packages (Managed Services › Explore ›
 Marketing assistant; monthly, yearly or 3 years — yearly pays 10 months):
