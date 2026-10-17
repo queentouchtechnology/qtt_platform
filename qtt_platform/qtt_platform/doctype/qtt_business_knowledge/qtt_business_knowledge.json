@@ -1,0 +1,236 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Business Knowledge",
+ "module": "QTT Platform",
+ "custom": 0,
+ "engine": "InnoDB",
+ "modified": "2026-10-19 12:00:00.000000",
+ "fields": [
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "label": "Business",
+   "options": "QTT Tenant",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "section_customers",
+   "fieldtype": "Section Break",
+   "label": "What customers need to know"
+  },
+  {
+   "fieldname": "about",
+   "fieldtype": "Small Text",
+   "label": "What the business does"
+  },
+  {
+   "fieldname": "hours",
+   "fieldtype": "Small Text",
+   "label": "Opening hours"
+  },
+  {
+   "fieldname": "holidays",
+   "fieldtype": "Small Text",
+   "label": "Holidays and special hours"
+  },
+  {
+   "fieldname": "map_link",
+   "fieldtype": "Data",
+   "label": "Map link"
+  },
+  {
+   "fieldname": "delivery",
+   "fieldtype": "Small Text",
+   "label": "Delivery"
+  },
+  {
+   "fieldname": "payments",
+   "fieldtype": "Small Text",
+   "label": "Payment methods"
+  },
+  {
+   "fieldname": "bookings",
+   "fieldtype": "Small Text",
+   "label": "Bookings and orders"
+  },
+  {
+   "fieldname": "policies",
+   "fieldtype": "Small Text",
+   "label": "Policies (returns, cancellations, warranty)"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Text",
+   "label": "More details"
+  },
+  {
+   "fieldname": "offerings",
+   "fieldtype": "Table",
+   "label": "Products and services",
+   "options": "QTT Knowledge Offering"
+  },
+  {
+   "fieldname": "faqs",
+   "fieldtype": "Table",
+   "label": "Questions and answers",
+   "options": "QTT Knowledge FAQ"
+  },
+  {
+   "fieldname": "section_voice",
+   "fieldtype": "Section Break",
+   "label": "How the business talks (posts, articles, replies)"
+  },
+  {
+   "fieldname": "tone",
+   "fieldtype": "Select",
+   "label": "Tone",
+   "options": "Friendly\nFormal\nFun\nPremium",
+   "default": "Friendly"
+  },
+  {
+   "fieldname": "language",
+   "fieldtype": "Data",
+   "label": "Main language",
+   "default": "English"
+  },
+  {
+   "fieldname": "audience",
+   "fieldtype": "Small Text",
+   "label": "Who the customers are"
+  },
+  {
+   "fieldname": "different",
+   "fieldtype": "Small Text",
+   "label": "What makes the business different"
+  },
+  {
+   "fieldname": "section_team",
+   "fieldtype": "Section Break",
+   "label": "For the team only (Know your business)"
+  },
+  {
+   "fieldname": "team_notes",
+   "fieldtype": "Table",
+   "label": "Team notes",
+   "options": "QTT Knowledge Note"
+  },
+  {
+   "fieldname": "section_brand",
+   "fieldtype": "Section Break",
+   "label": "Brand kit (posts never change it)",
+   "description": "The logo is the business's own (Business › Profile). Posts use only these colours and fonts."
+  },
+  {
+   "fieldname": "color_primary",
+   "fieldtype": "Data",
+   "label": "Main colour"
+  },
+  {
+   "fieldname": "color_secondary",
+   "fieldtype": "Data",
+   "label": "Second colour"
+  },
+  {
+   "fieldname": "color_accent",
+   "fieldtype": "Data",
+   "label": "Accent colour"
+  },
+  {
+   "fieldname": "color_dark",
+   "fieldtype": "Data",
+   "label": "Dark (text)"
+  },
+  {
+   "fieldname": "color_light",
+   "fieldtype": "Data",
+   "label": "Light (background)"
+  },
+  {
+   "fieldname": "column_brand",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "font_heading",
+   "fieldtype": "Data",
+   "label": "Heading font"
+  },
+  {
+   "fieldname": "font_body",
+   "fieldtype": "Data",
+   "label": "Body font"
+  },
+  {
+   "fieldname": "section_sources",
+   "fieldtype": "Section Break",
+   "label": "Also learn from"
+  },
+  {
+   "fieldname": "use_website",
+   "fieldtype": "Check",
+   "label": "Our QTT website",
+   "default": "1"
+  },
+  {
+   "fieldname": "use_store",
+   "fieldtype": "Check",
+   "label": "Our online store's products",
+   "default": "1"
+  },
+  {
+   "fieldname": "use_items",
+   "fieldtype": "Check",
+   "label": "Our Orbitra items and prices",
+   "default": "1"
+  }
+ ],
+ "field_order": [
+  "tenant",
+  "section_customers",
+  "about",
+  "hours",
+  "holidays",
+  "map_link",
+  "delivery",
+  "payments",
+  "bookings",
+  "policies",
+  "notes",
+  "offerings",
+  "faqs",
+  "section_voice",
+  "tone",
+  "language",
+  "audience",
+  "different",
+  "section_team",
+  "team_notes",
+  "section_brand",
+  "color_primary",
+  "color_secondary",
+  "color_accent",
+  "color_dark",
+  "color_light",
+  "column_brand",
+  "font_heading",
+  "font_body",
+  "section_sources",
+  "use_website",
+  "use_store",
+  "use_items"
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "autoname": "field:tenant",
+ "description": "One per business: what the receptionist, the Marketing assistant and the team's Know your business bot answer from."
+}

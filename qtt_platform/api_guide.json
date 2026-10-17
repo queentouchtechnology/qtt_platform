@@ -4274,6 +4274,38 @@
    "status": "Not described"
   },
   {
+   "endpoint": "qtt_platform.api.knowledge.get",
+   "product": "Platform",
+   "area": "api.knowledge",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "The business's knowledge with its contacts (from the profile), brand kit and health (score, what to add next). Owner and admins.",
+   "details": "The business's knowledge with its contacts (from the profile), brand kit and health (score, what to add next).\nOwner and admins.",
+   "arguments": "",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:100",
+   "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_platform.api.knowledge.save",
+   "product": "Platform",
+   "area": "api.knowledge",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Save what the owner changed (only the fields sent): facts, products and services, Q&A (each for customers, the team or everyone), team notes (for everyone or some roles), tone, brand colours and fonts, sources. Owner and admins.",
+   "details": "Save what the owner changed (only the fields sent): facts, products and services, Q&A (each for customers, the\nteam or everyone), team notes (for everyone or some roles), tone, brand colours and fonts, sources. Owner and admins.",
+   "arguments": "data",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:109",
+   "status": "Not used by the app"
+  },
+  {
    "endpoint": "qtt_platform.api.marketing.get_settings",
    "product": "Platform",
    "area": "api.marketing",

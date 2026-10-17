@@ -1,0 +1,49 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Knowledge FAQ",
+ "module": "QTT Platform",
+ "custom": 0,
+ "engine": "InnoDB",
+ "modified": "2026-10-19 12:00:00.000000",
+ "fields": [
+  {
+   "fieldname": "question",
+   "fieldtype": "Small Text",
+   "label": "Question",
+   "in_list_view": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "answer",
+   "fieldtype": "Small Text",
+   "label": "Answer",
+   "in_list_view": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "audience",
+   "fieldtype": "Select",
+   "label": "Who may hear it",
+   "options": "Customers\nTeam\nEveryone",
+   "default": "Everyone",
+   "in_list_view": 1,
+   "description": "Customers: the receptionist and posts. Team: only the business's own people (Know your business)."
+  },
+  {
+   "fieldname": "active",
+   "fieldtype": "Check",
+   "label": "Use this answer",
+   "default": "1",
+   "in_list_view": 1
+  }
+ ],
+ "field_order": [
+  "question",
+  "answer",
+  "audience",
+  "active"
+ ],
+ "permissions": [],
+ "istable": 1,
+ "editable_grid": 1
+}
