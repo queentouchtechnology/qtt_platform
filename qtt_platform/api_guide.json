@@ -7934,7 +7934,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/wa_business.py:117",
+   "source": "qtt-os/qtt_services/qtt_services/api/wa_business.py:124",
    "status": "Not used by the app"
   },
   {
@@ -7950,7 +7950,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.deleteWhatsappTemplate",
    "screens": "admin/whatsapp_view.dart › _WhatsappTemplatesViewState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/wa_business.py:152",
+   "source": "qtt-os/qtt_services/qtt_services/api/wa_business.py:159",
    "status": "OK"
   },
   {
@@ -7966,7 +7966,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.whatsappNumber",
    "screens": "admin/whatsapp_view.dart › WhatsappNumberView",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/wa_business.py:189",
+   "source": "qtt-os/qtt_services/qtt_services/api/wa_business.py:196",
    "status": "OK"
   },
   {
@@ -7982,7 +7982,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.saveWhatsappTemplate",
    "screens": "admin/whatsapp_view.dart › _WhatsappTemplateEditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/wa_business.py:127",
+   "source": "qtt-os/qtt_services/qtt_services/api/wa_business.py:134",
    "status": "OK"
   },
   {
@@ -7998,7 +7998,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.whatsappTemplates",
    "screens": "admin/whatsapp_view.dart › _WhatsappTemplatesViewState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/wa_business.py:94",
+   "source": "qtt-os/qtt_services/qtt_services/api/wa_business.py:101",
    "status": "OK"
   },
   {
@@ -8014,7 +8014,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.uploadWhatsappSample",
    "screens": "admin/whatsapp_view.dart › _WhatsappTemplateEditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/wa_business.py:165",
+   "source": "qtt-os/qtt_services/qtt_services/api/wa_business.py:172",
    "status": "OK"
   },
   {
