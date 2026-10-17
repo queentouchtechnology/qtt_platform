@@ -901,7 +901,14 @@ to remember or share.
   and paid add-ons are not included. A full shop can't add another product
   ("Your plan allows 50 products…") — move to a bigger plan through Requests.
 - Ordering: Explore QTT OS (or Managed Services › Explore) › Managed
-  E-Commerce Websites. Choose a plan, answer a few questions (business name,
+  E-Commerce Websites. First **choose your store's design** before anything
+  is built: what you'll sell (fashion, grocery, electronics, jewellery,
+  beauty, furniture and home, sweets and bakery, or a general store), then one
+  of six designs — with pictures for computer and phone, and **See live demo**
+  opens a real clickable store with that kind of products and your business
+  name (nothing can be bought in the demo) — then colours. The store is built
+  exactly like that; design and colours can be changed later in the app.
+  Then choose a plan, answer a few questions (business name,
   what you sell, how customers pay, where you deliver, a phone number),
   choose monthly, yearly or 3 years, pay the setup fee and the first term.
 - Setting up takes a few minutes and shows step by step: creating the store,

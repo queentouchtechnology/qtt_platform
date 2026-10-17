@@ -35,6 +35,9 @@ day), or Meta changed a template's category. The WhatsApp items come from an hou
   qtt_services/tools/site_images.py — kit-images/<business>/, no recognisable faces); a new website gets its type's
   pictures in its media library. A website's words are written by AI from the owner's answers and checked by the owner
   before ordering; reviews, numbers and team start empty, and invented years / ratings / "No. 1" claims are dropped.
+  The same designs and colours are offered for online stores (PROJ-0010): the store types (fashion, grocery, electronics,
+  jewellery, cosmetics, furniture, sweets, general store) get their own screenshots, and the demo site has WooCommerce with
+  every store type's sample products (tagged qtt-demo-<type>; Refresh demo site adds them); nothing can be bought there.
 - **WhatsApp templates** — every message template on QTT's WhatsApp number (+91 95009 10005): status (approved, in
   review, rejected with Meta's reason, paused), category, language, quality, last 30 days sent / delivered / read /
   clicked. **New template**: name (small letters, numbers, _), Utility or Marketing, language, optional header (text,
