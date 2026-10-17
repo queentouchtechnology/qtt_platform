@@ -730,7 +730,15 @@ share.
   logo and contact details stay.
 - Going live: the same as a store — approve the preview, connect your address
   (the app shows the DNS steps); it moves onto your address by itself, with
-  https, and opens to Google.
+  https, and opens to Google. **Connect your domain** knows where your DNS is
+  run (Hostinger, GoDaddy, BigRock, Namecheap, Cloudflare, Squarespace …) and
+  shows that company's own steps with an Open button; "What we found" says in
+  plain words what's wrong — still pointing to the old place, no record yet,
+  Cloudflare's orange cloud on (set DNS only), an IPv6 (AAAA) record to
+  remove, www not added, or an address that's parked / for sale (make sure you
+  own it). We check every 30 minutes for a week (then twice a day) and remind
+  you on days 1, 3 and 7; it goes live by itself the moment it's connected.
+  Rather not touch DNS? Message QTT, or buy a new address through QTT.
 - Managing it — on the website's page tap "Manage your website": Design
   (colours, fonts, logo, menus, banners, each page and its sections),
   Enquiries (messages from the website's forms — call, WhatsApp or email

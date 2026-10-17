@@ -76,6 +76,14 @@ day), or Meta changed a template's category. The WhatsApp items come from an hou
   (health), requests (answer them), activity; assign a service.
 - **Usage** — AI spend (DeepSeek, OpenAI), Hermes and n8n runs, from the automation server.
 
+## Websites waiting for their domain
+After the owner approves, the domain is checked every 30 minutes for a week, then twice a day (fresh DNS over HTTPS; who
+runs the DNS from the nameservers, who registered it from RDAP). The owner sees their DNS provider's own steps and plain
+words for what's wrong, and is reminded on days 1, 3 and 7 (app + WhatsApp). From day 3 the site is in Needs attention
+("not connected for N days"); on day 7 a task "Call <business>: connect <domain> to their new website" appears with the
+phone, the provider and the problems. Parked / for-sale addresses (e.g. atom.com, Sedo, Afternic) are flagged — the owner
+may not own the domain.
+
 ## Live websites: switch the cache on
 When a website QTT built goes live, a task "Switch on the cache for <domain>" appears (and the site shows in Needs
 attention): CloudPanel → Sites → the site → Varnish Cache → switch on, keep the excluded pages, Save. A daily check sees

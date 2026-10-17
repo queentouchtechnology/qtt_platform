@@ -157,11 +157,11 @@ def revenue_summary(subscriptions: list[dict]) -> dict:
 # QTT Admin home: one ranked "needs attention" list
 # --------------------------------------------------------------------------
 _LEVEL_ORDER = {"critical": 0, "warning": 1, "info": 2}
-_KIND_ORDER = {"server": 0, "client_site": 1, "domain": 2, "setup": 3, "payment": 4, "client_request": 5, "trial": 6, "approval": 7, "automation": 8, "whatsapp": 8, "website_cache": 8, "snapshot": 9}
+_KIND_ORDER = {"server": 0, "client_site": 1, "domain": 2, "setup": 3, "payment": 4, "client_request": 5, "trial": 6, "approval": 7, "automation": 8, "whatsapp": 8, "website_cache": 8, "domain_wait": 5, "snapshot": 9}
 
 
 def attention_items(*, servers=(), trials=(), past_due=(), approvals=(), setup_errors=(), domains=(), snapshots=(), client_sites=(),
-					 client_requests=(), automation=(), whatsapp=(), website_cache=(), today_str: str) -> list[dict]:
+					 client_requests=(), automation=(), whatsapp=(), website_cache=(), domain_wait=(), today_str: str) -> list[dict]:
 	"""Everything a QTT admin should look at, most urgent first. Each item:
 	{level, kind, title, area, target} plus facts the app turns into a
 	translated sentence (product, days, count, status) and, where the server
@@ -192,6 +192,10 @@ def attention_items(*, servers=(), trials=(), past_due=(), approvals=(), setup_e
 		# Usage collector: {what: deepseek_low | n8n_errors, value}
 		items.append({"level": "warning", "kind": "automation", "title": "DeepSeek" if a["what"] == "deepseek_low" else "n8n",
 					  "what": a["what"], "count": a["value"], "area": "usage", "target": None})
+	for w in domain_wait:
+		# An approved website still waiting for its domain after 3+ days: {label, tenant, tenant_name, domain, days, status}
+		items.append({"level": "warning", "kind": "domain_wait", "title": w["label"], "client": w.get("tenant_name"), "days": w.get("days"),
+					  "detail": w.get("domain"), "status": w.get("status"), "area": "clients", "target": w["tenant"]})
 	for c in website_cache:
 		# A live website whose CloudPanel cache staff haven't switched on yet: {label, tenant, tenant_name, task}
 		items.append({"level": "info", "kind": "website_cache", "title": c["label"], "client": c.get("tenant_name"),

@@ -64,5 +64,11 @@ class CacheAttention(unittest.TestCase):
 		self.assertEqual([(i["kind"], i["level"], i["area"], i["target"], i["title"]) for i in items],
 						 [("website_cache", "info", "clients", "t1", "Annapoorna Mess website")])
 
+	def test_domain_wait_item(self):
+		items = logic.attention_items(domain_wait=[{"label": "Abc supermarket website", "tenant": "t2", "tenant_name": "Abc", "domain": "abcgrocery.com",
+													"days": 4, "status": "parked"}], today_str="2026-10-20")
+		self.assertEqual([(i["kind"], i["level"], i["detail"], i["days"], i["status"]) for i in items],
+						 [("domain_wait", "warning", "abcgrocery.com", 4, "parked")])
+
 if __name__ == "__main__":
 	unittest.main()
