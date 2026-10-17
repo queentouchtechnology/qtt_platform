@@ -6414,7 +6414,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.dismissReceptionistQuestion",
    "screens": "products/services/screens/receptionist_pages.dart › _EditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:287",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:491",
    "status": "OK"
   },
   {
@@ -6430,7 +6430,23 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.receptionist",
    "screens": "products/services/models.dart › SvcService\nproducts/services/screens/receptionist_pages.dart › (top level)\nproducts/services/screens/receptionist_pages.dart › ReceptionistPage\nproducts/services/screens/receptionist_pages.dart › _EditorState\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › _ServicesRootState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:92",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:99",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.my_receptionist.remove_document",
+   "product": "Managed Services",
+   "area": "api.my_receptionist",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Your receptionist › Documents: remove one (it won't use it any more; the file is deleted). → the receptionist.",
+   "details": "Your receptionist › Documents: remove one (it won't use it any more; the file is deleted). → the receptionist.",
+   "arguments": "row",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.removeReceptionistDocument",
+   "screens": "products/services/screens/receptionist_pages.dart › _EditorState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:474",
    "status": "OK"
   },
   {
@@ -6446,7 +6462,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.saveReceptionist",
    "screens": "products/services/screens/receptionist_pages.dart › _EditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:99",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:106",
    "status": "OK"
   },
   {
@@ -6462,7 +6478,23 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.tryReceptionist",
    "screens": "products/services/screens/receptionist_pages.dart › _ReceptionistTryPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:124",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:134",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.my_receptionist.upload_document",
+   "product": "Managed Services",
+   "area": "api.my_receptionist",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Your receptionist › Documents: a PDF or text file (multipart 'file', up to 5 MB) — a menu, price list or brochure. Its text becomes something the receptionist knows. → the receptionist (as get).",
+   "details": "Your receptionist › Documents: a PDF or text file (multipart 'file', up to 5 MB) — a menu, price list or brochure.\nIts text becomes something the receptionist knows. → the receptionist (as get).",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.uploadReceptionistDocument",
+   "screens": "products/services/screens/receptionist_pages.dart › _EditorState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:440",
    "status": "OK"
   },
   {
@@ -6478,7 +6510,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:191",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:204",
    "status": "Not used by the app"
   },
   {
