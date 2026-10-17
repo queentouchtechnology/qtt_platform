@@ -101,7 +101,24 @@ def clean_report(raw: dict) -> dict:
 		"firewall_active": raw.get("firewall_active") if isinstance(raw.get("firewall_active"), bool) else None,
 		"ssh_password_login": raw.get("ssh_password_login") if isinstance(raw.get("ssh_password_login"), bool) else None,
 		"ssh_failed_24h": _int(raw.get("ssh_failed_24h")),
+		"hermes": clean_hermes(raw.get("hermes")),
 	}
+
+
+def clean_hermes(raw) -> dict | None:
+	"""Hermes Agent usage from the agent (counts only) — None when the server doesn't run Hermes."""
+	if not isinstance(raw, dict):
+		return None
+	out = {k: _int(raw.get(k)) for k in ("allowed_users", "sessions", "users", "sessions_7d", "users_7d", "messages_7d")}
+	out.update({
+		"gateway_running": bool(raw.get("gateway_running")),
+		"cost_usd": _num(raw.get("cost_usd"), 0, 1e6),
+		"cost_usd_7d": _num(raw.get("cost_usd_7d"), 0, 1e6),
+		"by_source_7d": {str(k)[:30]: _int(v) or 0 for k, v in list((raw.get("by_source_7d") or {}).items())[:6]}
+		if isinstance(raw.get("by_source_7d"), dict) else {},
+		"error": str(raw["error"])[:120] if raw.get("error") else None,
+	})
+	return out
 
 
 def evaluate(report: dict | None, *, last_report_at: datetime | None, now: datetime, limits: dict | None = None) -> dict:
@@ -146,6 +163,11 @@ def evaluate(report: dict | None, *, last_report_at: datetime | None, now: datet
 		notices.append("SSH password login is on.")
 	if (report.get("ssh_failed_24h") or 0) > 1000:
 		notices.append(f"{report['ssh_failed_24h']} failed SSH logins in 24 h.")
+	h = report.get("hermes")
+	if h and not h.get("gateway_running"):
+		notices.append("Hermes gateway (Telegram) is not running.")
+	if h and h.get("error"):
+		notices.append("Hermes usage couldn't be read (after a Hermes update?).")
 
 	status = "critical" if any(p["level"] == "critical" for p in problems) else "warning" if problems else "ok"
 	return {"status": status, "problems": problems, "notices": notices}

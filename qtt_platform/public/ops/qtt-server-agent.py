@@ -2,7 +2,7 @@
 """QTT server agent — reports this server's health to QTT OS (QTT Admin → Servers) every 5 minutes.
 
 READ-ONLY: it only reads system information (disk, memory, load, updates, failed services, Docker containers,
-listening ports, firewall/SSH settings) and sends it to Frappe. It changes nothing on this server.
+listening ports, firewall/SSH settings, and Hermes usage counts where Hermes runs) and sends it to Frappe. It changes nothing on this server.
 
 Installed by the one-line command from QTT Admin → Servers → (server) → Install agent:
   /usr/local/bin/qtt-server-agent      this file
@@ -23,7 +23,7 @@ import time
 import urllib.error
 import urllib.request
 
-VERSION = "1.1"
+VERSION = "1.2"
 ENV_FILE = "/etc/qtt-server-agent.env"
 CACHE = "/var/cache/qtt-server-agent.json"
 SLOW_EVERY = 3600  # seconds between slow checks (apt, journal, sshd)
@@ -147,6 +147,54 @@ def ports():
     return out
 
 
+HERMES_HOME = "/home/hermes/.hermes"
+
+
+def hermes():
+    """Hermes Agent on this server (QTT-AI-OS): who may talk to it and how much it's used — counts only, never
+    user ids, chats or keys. None when Hermes isn't installed here."""
+    db_path = os.path.join(HERMES_HOME, "state.db")
+    if not os.path.exists(db_path):
+        return None
+    out = {"allowed_users": 0, "gateway_running": False}
+    try:
+        with open(os.path.join(HERMES_HOME, ".env")) as f:
+            for line in f:
+                k, _, v = line.strip().partition("=")
+                if k.endswith("_ALLOWED_USERS") and not k.startswith("#"):  # not the commented-out examples
+                    out["allowed_users"] += len([x for x in v.strip().strip('"').split(",") if x.strip()])
+    except OSError:
+        pass
+    try:
+        with open(os.path.join(HERMES_HOME, "gateway.pid")) as f:
+            pid = int(re.findall(r"\d+", f.read())[0])
+        out["gateway_running"] = os.path.exists(f"/proc/{pid}")
+    except (OSError, ValueError, IndexError):
+        pass
+    try:
+        import sqlite3
+
+        db = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True, timeout=5)
+        week = time.time() - 7 * 86400
+        one = lambda sql, *a: db.execute(sql, a).fetchone()[0] or 0  # noqa: E731
+        active = "coalesce(last_activity_at, started_at, 0) >= ?"
+        out.update({
+            "sessions": one("select count(*) from sessions"),
+            "users": one("select count(distinct coalesce(user_id, chat_id)) from sessions where coalesce(user_id, chat_id) is not null"),
+            "sessions_7d": one(f"select count(*) from sessions where {active}", week),
+            "users_7d": one(f"select count(distinct coalesce(user_id, chat_id)) from sessions where {active} and coalesce(user_id, chat_id) is not null", week),
+            "messages_7d": one("select count(*) from messages where timestamp >= ?", week),
+            "cost_usd": round(float(one("select sum(estimated_cost_usd) from sessions")), 4),
+            "cost_usd_7d": round(float(one("select sum(estimated_cost_usd) from session_model_usage where last_seen >= ?", week)), 4),
+            "by_source_7d": {str(src or "other"): n for src, n in db.execute(
+                f"select source, count(*) from sessions where {active} group by source order by 2 desc limit 6", (week,))},
+        })
+        db.close()
+    except Exception as e:  # a Hermes upgrade may change its tables: report that, don't fail the whole report
+        out["error"] = str(e)[:120]
+    return out
+
+
 def collect(save=True):
     disk = shutil.disk_usage("/")
     mem = meminfo()
@@ -170,6 +218,9 @@ def collect(save=True):
         "containers": containers(),
         "ports": ports(),
     }
+    h = hermes()
+    if h is not None:
+        report["hermes"] = h
     report.update(slow_checks(save))
     return report
 

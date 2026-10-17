@@ -86,5 +86,22 @@ class AlertTest(unittest.TestCase):
 		self.assertEqual(h.thin(pts[:5], 100), pts[:5])
 
 
+
+class HermesTest(unittest.TestCase):
+	def test_counts_kept_everything_else_dropped(self):
+		c = h.clean_report(raw(hermes={"allowed_users": 1, "gateway_running": True, "sessions": 4, "users": 2, "sessions_7d": 3,
+										"users_7d": 2, "messages_7d": 40, "cost_usd": 0.42, "cost_usd_7d": 0.1,
+										"by_source_7d": {"telegram": 3}, "chat_ids": ["12345"]}))["hermes"]
+		self.assertEqual((c["allowed_users"], c["users_7d"], c["messages_7d"], c["cost_usd"]), (1, 2, 40, 0.42))
+		self.assertEqual(c["by_source_7d"], {"telegram": 3})
+		self.assertNotIn("chat_ids", c)  # only the whitelisted counts reach Frappe
+		self.assertIsNone(h.clean_report(raw())["hermes"])  # no Hermes on this server
+
+	def test_gateway_down_is_a_notice(self):
+		down = h.clean_report(raw(hermes={"gateway_running": False}))
+		ev = h.evaluate(down, last_report_at=NOW, now=NOW)
+		self.assertIn("Hermes gateway (Telegram) is not running.", ev["notices"])
+
+
 if __name__ == "__main__":
 	unittest.main()
