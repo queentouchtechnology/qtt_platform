@@ -84,9 +84,14 @@ def is_greeting(text: str) -> bool:
 
 
 def assist_while_waiting(*, handed_over_at: float | None, team_replied: bool, assigned: bool) -> bool:
-	"""Keep answering in a chat handed to the team until a person takes it: the chat stays the team's
-	(open), but the customer is never left without a reply. Stops once someone is assigned or replies."""
-	return bool(handed_over_at) and not team_replied and not assigned
+	"""Keep answering in an open chat until a person takes it: the chat stays the team's (open), but the
+	customer is never left without a reply. Stops once someone is assigned or replies.
+
+	handed_over_at may be unknown — the remembered time is cleared by a deploy and the handover note drops
+	out of the latest messages Chatwoot returns once a chat is long — and that must never mean silence:
+	nobody assigned and no reply from a person (since the handover, or in the messages we can see) is
+	enough. (Until 2026-10-17 an unknown time meant "never handed over" and the customer got no answer.)"""
+	return not team_replied and not assigned
 
 
 def history_from_chatwoot(messages: list[dict], upto_id: int | None = None) -> list[dict]:

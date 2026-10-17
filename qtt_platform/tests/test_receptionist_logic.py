@@ -117,7 +117,9 @@ class GreetingAndTakeBackTest(unittest.TestCase):
 		self.assertIsNone(rl.last_handover_at([{"content": "hello", "private": True, "created_at": 1}]))
 
 	def test_keeps_helping_until_a_person_takes_the_chat(self):
-		self.assertFalse(rl.assist_while_waiting(handed_over_at=None, team_replied=False, assigned=False))  # never handed over
+		# The handover time can be lost (a deploy; the note scrolled out of the last 20 messages): still answer.
+		self.assertTrue(rl.assist_while_waiting(handed_over_at=None, team_replied=False, assigned=False))
+		self.assertFalse(rl.assist_while_waiting(handed_over_at=None, team_replied=True, assigned=False))
 		self.assertTrue(rl.assist_while_waiting(handed_over_at=100.0, team_replied=False, assigned=False))  # waiting: help at once
 		self.assertFalse(rl.assist_while_waiting(handed_over_at=100.0, team_replied=True, assigned=False))  # a person replied
 		self.assertFalse(rl.assist_while_waiting(handed_over_at=100.0, team_replied=False, assigned=True))  # someone took it
