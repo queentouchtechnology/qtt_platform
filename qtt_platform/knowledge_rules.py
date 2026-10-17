@@ -71,6 +71,10 @@ def clean(data: dict | None) -> dict:
 	out = {k: _s(d.get(k), n) for k, n in TEXT.items() if k in d}
 	if "tone" in d:
 		out["tone"] = d["tone"] if d["tone"] in TONES else "Friendly"
+	if "business_type" in d:
+		from qtt_platform.design import business_types
+
+		out["business_type"] = business_types.valid(d["business_type"])
 	for k in COLORS:
 		if k in d:
 			out[k] = hex_color(d[k])

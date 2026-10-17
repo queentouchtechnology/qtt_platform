@@ -56,6 +56,10 @@
   "column_break_assistant",
   "assistant_api_key",
   "assistant_daily_limit",
+  "section_renderer",
+  "render_url",
+  "render_user",
+  "render_password",
   "section_analytics",
   "analytics_enabled",
   "analytics_flush_seconds",
@@ -322,6 +326,31 @@
    "default": "30"
   },
   {
+   "fieldname": "section_renderer",
+   "fieldtype": "Section Break",
+   "label": "Design renderer",
+   "collapsible": 1,
+   "description": "Turns post and brand designs into pictures (headless Chromium on the automation server). No AI images."
+  },
+  {
+   "fieldname": "render_url",
+   "fieldtype": "Data",
+   "label": "Renderer address",
+   "description": "e.g. https://auto.example.com/render"
+  },
+  {
+   "fieldname": "render_user",
+   "fieldtype": "Data",
+   "label": "Renderer user",
+   "default": "qtt"
+  },
+  {
+   "fieldname": "render_password",
+   "fieldtype": "Password",
+   "label": "Renderer password",
+   "length": 140
+  },
+  {
    "fieldname": "section_analytics",
    "fieldtype": "Section Break",
    "label": "Analytics"
@@ -372,5 +401,5 @@
   }
  ],
  "links": [],
- "modified": "2026-10-11 18:00:00.000000"
+ "modified": "2026-10-19 16:00:00.000000"
 }

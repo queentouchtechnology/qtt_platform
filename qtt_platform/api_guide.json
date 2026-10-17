@@ -4286,7 +4286,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.answerKnowledgeQuestion",
    "screens": "platform/workspace/knowledge_lab.dart › _TeamQuestionsPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/knowledge.py:310",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:313",
    "status": "OK"
   },
   {
@@ -4302,8 +4302,24 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.knowYourBusinessAsk",
    "screens": "shared/assistant/assistant_screen.dart › _AssistantScreenState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/knowledge.py:225",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:228",
    "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.knowledge.brand_preview",
+   "product": "Platform",
+   "area": "api.knowledge",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "See your brand: a picture of the brand kit — its colours (the owner's own, the rest worked out from them), fonts, every pattern and element in those colours, with the logo as it is. {url, width, height}. Owner and admins.",
+   "details": "See your brand: a picture of the brand kit — its colours (the owner's own, the rest worked out from them), fonts,\nevery pattern and element in those colours, with the logo as it is. {url, width, height}. Owner and admins.",
+   "arguments": "",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:347",
+   "status": "Not used by the app"
   },
   {
    "endpoint": "qtt_platform.api.knowledge.get",
@@ -4318,7 +4334,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.businessKnowledge",
    "screens": "platform/workspace/business_knowledge_tab.dart › _BusinessKnowledgeTabState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/knowledge.py:103",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:106",
    "status": "OK"
   },
   {
@@ -4334,7 +4350,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.knowledgeQuestions",
    "screens": "platform/workspace/knowledge_lab.dart › _TeamQuestionsPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/knowledge.py:300",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:303",
    "status": "OK"
   },
   {
@@ -4350,7 +4366,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.saveBusinessKnowledge",
    "screens": "platform/workspace/business_knowledge_tab.dart › _BusinessKnowledgeTabState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/knowledge.py:112",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:115",
    "status": "OK"
   },
   {
@@ -4366,7 +4382,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.knowYourBusinessIntro",
    "screens": "shared/assistant/assistant_screen.dart › _AssistantScreenState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/knowledge.py:210",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:213",
    "status": "OK"
   },
   {
@@ -4382,7 +4398,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.knowledgeTry",
    "screens": "platform/workspace/knowledge_lab.dart › _KnowledgeLabPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/knowledge.py:266",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:269",
    "status": "OK"
   },
   {
@@ -6558,7 +6574,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingApprove",
    "screens": "products/services/screens/marketing_pages.dart › _PostEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:232",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:238",
    "status": "OK"
   },
   {
@@ -6574,7 +6590,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.approveArticle",
    "screens": "products/services/screens/article_pages.dart › _ArticleEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:447",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:463",
    "status": "OK"
   },
   {
@@ -6590,7 +6606,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.articleIdeas",
    "screens": "products/services/screens/article_pages.dart › _ArticlesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:506",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:522",
    "status": "OK"
   },
   {
@@ -6606,7 +6622,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.articleImage",
    "screens": "products/services/screens/article_pages.dart › _ArticleEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:427",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:443",
    "status": "OK"
   },
   {
@@ -6622,7 +6638,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.articlesPage",
    "screens": "products/services/screens/article_pages.dart › _ArticlesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:388",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:404",
    "status": "OK"
   },
   {
@@ -6638,7 +6654,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.articlesOverview",
    "screens": "products/services/screens/article_pages.dart › _ArticlesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:376",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:392",
    "status": "OK"
   },
   {
@@ -6654,7 +6670,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingConnect",
    "screens": "products/services/screens/marketing_pages.dart › _MarketingPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:147",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:153",
    "status": "OK"
   },
   {
@@ -6670,7 +6686,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingDisconnect",
    "screens": "products/services/screens/marketing_pages.dart › _MarketingPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:164",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:170",
    "status": "Not described"
   },
   {
@@ -6686,7 +6702,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingDraftIdeas",
    "screens": "products/services/screens/marketing_pages.dart › _MarketingPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:271",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:277",
    "status": "OK"
   },
   {
@@ -6718,7 +6734,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingPost",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:194",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:200",
    "status": "Not described"
   },
   {
@@ -6734,7 +6750,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingPosts",
    "screens": "products/services/screens/marketing_pages.dart › _MarketingPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:173",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:179",
    "status": "OK"
   },
   {
@@ -6750,7 +6766,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingRemove",
    "screens": "products/services/screens/marketing_pages.dart › _PostEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:258",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:264",
    "status": "OK"
   },
   {
@@ -6766,7 +6782,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.removeArticle",
    "screens": "products/services/screens/article_pages.dart › _ArticleEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:489",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:505",
    "status": "OK"
   },
   {
@@ -6782,7 +6798,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingSave",
    "screens": "products/services/screens/marketing_pages.dart › _PostEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:199",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:205",
    "status": "Not described"
   },
   {
@@ -6798,7 +6814,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.saveArticle",
    "screens": "products/services/screens/article_pages.dart › _ArticleEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:404",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:420",
    "status": "OK"
   },
   {
@@ -6814,7 +6830,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingUploadUrl",
    "screens": "products/services/screens/marketing_pages.dart › _PostEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:218",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:224",
    "status": "OK"
   },
   {
@@ -7470,7 +7486,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.approveNewsletter",
    "screens": "products/services/screens/newsletter_pages.dart › _NewsletterEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:278",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:282",
    "status": "OK"
   },
   {
@@ -7486,7 +7502,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterIdeas",
    "screens": "products/services/screens/newsletter_pages.dart › _NewslettersPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:343",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:347",
    "status": "OK"
   },
   {
@@ -7534,7 +7550,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:504",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:503",
    "status": "Not used by the app"
   },
   {
@@ -7566,7 +7582,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.removeNewsletter",
    "screens": "products/services/screens/newsletter_pages.dart › _NewsletterEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:331",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:335",
    "status": "OK"
   },
   {
@@ -7598,7 +7614,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterTest",
    "screens": "products/services/screens/newsletter_pages.dart › _NewsletterEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:265",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:269",
    "status": "OK"
   },
   {
@@ -7614,7 +7630,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:464",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:463",
    "status": "Not used by the app"
   },
   {
@@ -7678,7 +7694,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:443",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:442",
    "status": "Not used by the app"
   },
   {

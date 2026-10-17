@@ -10,6 +10,8 @@ import frappe
 from frappe import _
 
 from qtt_platform import knowledge_rules as rules
+from qtt_platform.design import base as design_base
+from qtt_platform.design import business_types
 from qtt_platform.audit import write_audit_event
 from qtt_platform.tenant.context import resolve_active_tenant
 from qtt_platform.tenant.guards import require_tenant_membership, require_tenant_role
@@ -34,7 +36,7 @@ def for_tenant(tenant: str) -> dict:
 	if not name:
 		return {}
 	doc = frappe.get_doc(DT, name)
-	out = {k: doc.get(k) for k in (*rules.TEXT, "tone", *rules.COLORS, *rules.SWITCHES)}
+	out = {k: doc.get(k) for k in (*rules.TEXT, "tone", "business_type", *rules.COLORS, *rules.SWITCHES)}
 	for t in TABLES:
 		out[t] = [{k: r.get(k) for k in ("item", "kind", "price", "details", "question", "answer", "audience", "title", "body", "roles", "active")
 				   if r.get(k) is not None} for r in doc.get(t) or []]
@@ -96,7 +98,8 @@ def _out(tenant: str) -> dict:
 	k = for_tenant(tenant)
 	return {"knowledge": k, "contacts": contacts(tenant), "brand": brand_kit(tenant), "health": rules.health(k),
 			"tones": list(rules.TONES), "audiences": list(rules.AUDIENCES),
-			"open_questions": frappe.db.count(QUESTION, {"tenant": tenant, "known": 0, "added": 0})}
+			"open_questions": frappe.db.count(QUESTION, {"tenant": tenant, "known": 0, "added": 0}),
+			"business_types": business_types.listing(), "fonts": list(design_base.FONTS)}
 
 
 @frappe.whitelist(methods=["GET"])
@@ -321,3 +324,56 @@ def answer_question(name: str, answer: str = "", audience: str = "Team") -> dict
 										   "audience": audience if audience in rules.AUDIENCES else "Team", "active": 1}]})
 	frappe.db.set_value(QUESTION, q.name, "added", 1)
 	return _out(tenant)
+
+
+# ---- See your brand (PROJ-0011 B) --------------------------------------------------------------------------------------
+PREVIEWS_PER_DAY = 20
+
+
+def _logo(tenant: str) -> tuple[str | None, bytes | None]:
+	"""The business's own logo file (Business › Profile), as it is — never recoloured or redrawn."""
+	url = frappe.db.get_value("QTT Tenant", tenant, "logo")
+	if not url or str(url).startswith("http"):
+		return None, None
+	try:
+		f = frappe.get_doc("File", {"file_url": url})
+		ext = (f.file_name or "logo.png").rsplit(".", 1)[-1].lower()
+		return f"logo.{ext if ext in ('png', 'jpg', 'jpeg', 'webp', 'svg') else 'png'}", f.get_content()
+	except Exception:
+		return None, None
+
+
+@frappe.whitelist(methods=["POST"])
+def brand_preview() -> dict:
+	"""See your brand: a picture of the brand kit — its colours (the owner's own, the rest worked out from them), fonts,
+	every pattern and element in those colours, with the logo as it is. {url, width, height}. Owner and admins."""
+	import hashlib
+
+	from frappe.utils import get_url
+
+	from qtt_platform.design import render, sheet
+
+	tenant = _tenant()
+	require_tenant_role(tenant, GOVERNANCE)
+	k = for_tenant(tenant) or save_for(tenant, {})
+	kit = rules.brand(k, contacts(tenant).get("brand_color") or "")
+	logo_name, logo = _logo(tenant)
+	page, w, h = sheet.brand_sheet(business=frappe.db.get_value("QTT Tenant", tenant, "tenant_name") or "", colors=kit["colors"],
+								   logo_file=logo_name, font_heading=kit["font_heading"], font_body=kit["font_body"],
+								   language=k.get("language") or "")
+	key = hashlib.sha1(page.encode() + hashlib.sha1(logo or b"").digest()).hexdigest()[:12]
+	name = frappe.db.get_value(DT, {"tenant": tenant})
+	fname = f"brand-{name}-{key}.png"
+	have = frappe.db.get_value("File", {"file_name": fname, "attached_to_doctype": DT, "attached_to_name": name}, "file_url")
+	if not have:
+		from frappe.utils import today
+
+		ck = f"qtt_brand_preview:{tenant}:{today()}"
+		n = int(frappe.cache.get_value(ck) or 0) + 1
+		if n > PREVIEWS_PER_DAY:
+			frappe.throw(_("That's enough previews for today — try again tomorrow."))
+		frappe.cache.set_value(ck, n, expires_in_sec=2 * 86400)
+		data = render.png(page, w, h, {logo_name: logo} if logo else None)
+		have = frappe.get_doc({"doctype": "File", "file_name": fname, "content": data, "is_private": 0, "attached_to_doctype": DT,
+							   "attached_to_name": name}).insert(ignore_permissions=True).file_url
+	return {"url": get_url(have), "width": w, "height": h}

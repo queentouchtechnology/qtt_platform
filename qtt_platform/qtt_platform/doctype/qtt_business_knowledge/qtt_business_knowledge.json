@@ -4,7 +4,7 @@
  "module": "QTT Platform",
  "custom": 0,
  "engine": "InnoDB",
- "modified": "2026-10-19 14:00:00.000000",
+ "modified": "2026-10-19 16:00:00.000000",
  "fields": [
   {
    "fieldname": "tenant",
@@ -19,6 +19,12 @@
    "fieldname": "section_customers",
    "fieldtype": "Section Break",
    "label": "What customers need to know"
+  },
+  {
+   "fieldname": "business_type",
+   "fieldtype": "Data",
+   "label": "Type of business",
+   "description": "A design base type (qtt_platform/design/business_types.py): picks photos, templates and post ideas."
   },
   {
    "fieldname": "about",
@@ -195,6 +201,7 @@
  "field_order": [
   "tenant",
   "section_customers",
+  "business_type",
   "about",
   "hours",
   "holidays",
