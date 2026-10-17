@@ -901,9 +901,15 @@ open it from that service).
   whose sign-in expired says so — connect it again. Disconnect stops posting
   (posts already made stay).
 - **Post ideas**: every Monday at 9 am the assistant writes 3 posts (and a
-  festival offer when a festival is near) from your offers, in your language,
-  as drafts "Waiting for your OK". The owner can also tap **Get post ideas
-  now** (once a day).
+  festival offer when a festival is near) as drafts "Waiting for your OK". The
+  owner can also tap **Get post ideas now** (once a day). Posts, articles and
+  newsletters are written from **Business › Knowledge** — what you do, your
+  customers, products and prices, what makes you different, delivery and
+  payments — in its tone and main language (plus what you wrote when
+  ordering); team-only Q&A and notes are never used. The fuller it is, the
+  better the drafts: the Marketing assistant page shows how complete it is
+  (under 80%) with a link to add more. Nothing is invented — no prices,
+  offers or promises that aren't written there.
 - **A post**: change the words, add photos or videos (Add), choose the pages
   (Post on), and When — as soon as you approve, or pick a time. **Approve and
   post / Approve and schedule** sends it; **Save for later** keeps it as a
@@ -933,7 +939,9 @@ open it from that service).
   come on the 1st of each month or with **Get a newsletter idea**. Open one:
   subject, preview line, the text (like articles), a picture, when; **Send a
   test to me**, then **Approve and send**. One email per person, from your
-  business's name (sent by QTT's newsletter service, news.queentouchtech.in);
+  business's name (sent by QTT's newsletter service, news.queentouchtech.in),
+  with your logo (Business › Profile) and main colour (Business › Knowledge ›
+  Brand kit) at the top;
   replies go to your business email. Addresses that bounce for good are
   marked Bounced and skipped; a spam complaint unsubscribes that person. Every email has an
   unsubscribe link; someone who unsubscribes is never emailed again, even if
