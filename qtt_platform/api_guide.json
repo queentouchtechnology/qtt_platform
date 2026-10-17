@@ -6402,6 +6402,22 @@
    "status": "OK"
   },
   {
+   "endpoint": "qtt_services.api.my_receptionist.dismiss",
+   "product": "Managed Services",
+   "area": "api.my_receptionist",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Your receptionist › a message it passed to your team: Dismiss (no answer needed). → {questions} still open.",
+   "details": "Your receptionist › a message it passed to your team: Dismiss (no answer needed). → {questions} still open.",
+   "arguments": "name",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.dismissReceptionistQuestion",
+   "screens": "products/services/screens/receptionist_pages.dart › _EditorState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:287",
+   "status": "OK"
+  },
+  {
    "endpoint": "qtt_services.api.my_receptionist.get",
    "product": "Managed Services",
    "area": "api.my_receptionist",
@@ -6414,7 +6430,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.receptionist",
    "screens": "products/services/models.dart › SvcService\nproducts/services/screens/receptionist_pages.dart › (top level)\nproducts/services/screens/receptionist_pages.dart › ReceptionistPage\nproducts/services/screens/receptionist_pages.dart › _EditorState\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › _ServicesRootState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:80",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:92",
    "status": "OK"
   },
   {
@@ -6423,14 +6439,14 @@
    "area": "api.my_receptionist",
    "http_methods": "POST",
    "guest": 0,
-   "purpose": "The owner's changes to the receptionist — any of the business facts, language, tone, on/off, handover, and the whole Q&A list (faqs) when sent. Unknown fields are ignored.",
-   "details": "The owner's changes to the receptionist — any of the business facts, language, tone, on/off, handover, and the\nwhole Q&A list (faqs) when sent. Unknown fields are ignored.",
+   "purpose": "The owner's changes to the receptionist — any of the business facts, language, tone, on/off (enabled: pause it), handover, the whole Q&A list (faqs) when sent, and answered: messages it passed to the team that now have an answer. Unknown fields are ignored.",
+   "details": "The owner's changes to the receptionist — any of the business facts, language, tone, on/off (enabled: pause it),\nhandover, the whole Q&A list (faqs) when sent, and answered: messages it passed to the team that now have an\nanswer. Unknown fields are ignored.",
    "arguments": "data",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.saveReceptionist",
    "screens": "products/services/screens/receptionist_pages.dart › _EditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:87",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:99",
    "status": "OK"
   },
   {
@@ -6446,8 +6462,24 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.tryReceptionist",
    "screens": "products/services/screens/receptionist_pages.dart › _ReceptionistTryPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:106",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:124",
    "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.my_receptionist.webhook",
+   "product": "Managed Services",
+   "area": "api.my_receptionist",
+   "http_methods": "POST",
+   "guest": 1,
+   "purpose": "Chatwoot agent-bot events for one business's WhatsApp (the bot's URL carries the business and its key).",
+   "details": "Chatwoot agent-bot events for one business's WhatsApp (the bot's URL carries the business and its key).",
+   "arguments": "",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:191",
+   "status": "Not used by the app"
   },
   {
    "endpoint": "qtt_services.api.newsletters.add_customers",
@@ -6846,7 +6878,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/receptionist.py:65",
+   "source": "qtt-os/qtt_services/qtt_services/api/receptionist.py:106",
    "status": "Not used by the app"
   },
   {
