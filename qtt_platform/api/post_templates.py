@@ -60,12 +60,12 @@ def business_content(tenant: str, layout: str, group: str) -> dict:
 	contacts = knowledge.contacts(tenant)
 	c["business"] = frappe.db.get_value("QTT Tenant", tenant, "tenant_name") or c.get("business")
 	for key in ("phone", "website", "email", "address"):
-		if key in c or key in ("phone", "website"):
-			val = contacts.get(key) or (contacts.get("whatsapp") if key == "phone" else "")
-			if val:
-				c[key] = val
-			elif key in c and key != "phone":
-				c.pop(key)
+		# the business's own details only — a sample's phone or website never stands in for theirs
+		val = contacts.get(key) or (contacts.get("whatsapp") if key == "phone" else "")
+		if val and (key in c or key in ("phone", "website")):
+			c[key] = val
+		else:
+			c.pop(key, None)
 	return c
 
 
