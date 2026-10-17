@@ -49,6 +49,22 @@ person in it gets access to some products, with a role in each.
   them); Reset puts a role back to the usual. Office Pulse, Onbox and Managed
   Services roles are fixed and shown for reference. Changes apply at once —
   the person's app updates and the server checks every request.
+- **Business knowledge** (Business › Knowledge, owner / admin): one place for
+  what the business knows — what it does, who its customers are, what makes it
+  different, hours, holidays, map link, delivery, payments, bookings, policies,
+  products and services (with prices), questions and answers and team notes.
+  Each Q&A is for Customers, Team only or Everyone; each team note is for
+  everyone or some roles (picked from the business's roles). The WhatsApp
+  receptionist answers customers from it (never team-only Q&A or team notes),
+  the Marketing assistant writes posts, articles and newsletters from it, and
+  the team's Know your business answers staff from it (only the notes for
+  their role; never salaries or private HR details). The receptionist page
+  edits the same facts and Q&A. The brand kit (main, second, accent, dark and
+  light colours, heading and body fonts) plus the logo from Business › Profile
+  is what every post uses — they never change in posts. The bar at the top
+  shows how complete it is and the next things to add (at least 3 products or
+  services, 5 Q&A, hours, delivery or bookings, payments…). "Also learn from"
+  lets it use the QTT website, the online store's products and Orbitra items.
 - Each person has one role per app (they can have different roles in
   different apps). To give someone more, change their role in Business › Team,
   or (Orbitra) change what their role can do in Roles and access.
