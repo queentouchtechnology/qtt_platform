@@ -28,7 +28,44 @@ ELEMENTS = {
 	"icon_rocket": ("Rocket", False), "icon_team": ("Team", False), "icon_mail": ("Email", False), "icon_globe": ("Website", False),
 	"icon_lock": ("Lock", False), "icon_ai": ("AI chip", False), "icon_code": ("Code", False), "icon_sync": ("Backup / sync", False),
 }
+ELEMENTS.update({
+	# local market (local-post-references.md): brush strokes, date block, QR, labelled circles, wave band, ornaments
+	"brush_banner": ("Brush banner", True), "brush_swipe": ("Brush swipe", True), "brush_underline": ("Brush underline", False),
+	"brush_badge": ("Brush price badge", True), "date_block": ("Date block", True), "qr": ("QR code", False),
+	"label_circle": ("Circle with label", True), "wave_band": ("Wave band", False), "flourish": ("Ornament divider", False),
+	"icon_book": ("Book", False), "icon_home": ("House", False), "icon_drop": ("Water", False), "icon_bolt": ("Power", False),
+	"icon_cross": ("Cross", False), "icon_lamp": ("Lamp", False), "icon_music": ("Music note", False), "icon_heart": ("Heart", False),
+})
 ICONS = [n for n in ELEMENTS if n.startswith("icon_") and n != "icon_tile"]
+
+
+def _qr(data: str, w: float, h: float, colour: str) -> str:
+	"""A QR code as SVG squares on white (with its quiet zone), made locally (PyQRCode, part of Frappe)."""
+	s = min(w, h)
+	try:
+		import pyqrcode
+
+		code = pyqrcode.create(str(data or " ")[:500], error="M").code  # rows of 0 / 1, quiet zone included
+	except Exception:
+		return f'<rect width="{s:.0f}" height="{s:.0f}" fill="#ffffff"/>'
+	cell = s / len(code)
+	squares = "".join(f'<rect x="{x * cell:.2f}" y="{y * cell:.2f}" width="{cell + .3:.2f}" height="{cell + .3:.2f}"/>'
+					  for y, row in enumerate(code) for x, v in enumerate(row) if v)
+	return f'<rect width="{s:.0f}" height="{s:.0f}" rx="{s * .04:.0f}" fill="#ffffff"/><g fill="{colour}">{squares}</g>'
+
+
+def _brush(w: float, h: float, seed: str, *, ragged: float = .12) -> str:
+	"""A dry-brush stroke filling w × h: wavy top and bottom edges, torn ends."""
+	import random
+
+	rnd = random.Random(seed)
+	n = 14
+	top = [(w * k / n, h * (rnd.random() * ragged)) for k in range(n + 1)]
+	bottom = [(w * k / n, h * (1 - rnd.random() * ragged)) for k in range(n, -1, -1)]
+	right = [(w - rnd.random() * w * .03, h * (.15 + .7 * k / 5)) for k in range(1, 5)]
+	left = [(rnd.random() * w * .03, h * (.85 - .7 * k / 5)) for k in range(1, 5)]
+	pts = top + right + bottom + left
+	return "M" + " L".join(f"{x:.1f} {y:.1f}" for x, y in pts) + " Z"
 TONES = ("accent", "primary", "dark")
 
 
@@ -93,6 +130,40 @@ def element(name: str, palette: dict, width: int, height: int, *, text: str = ""
 	elif name == "dots_line":
 		n = max(3, int(w / (h * 2)))
 		b = "".join(f'<circle cx="{(k + .5) * w / n:.0f}" cy="{h / 2}" r="{h * .3:.1f}" fill="{bg}"/>' for k in range(n))
+	elif name in ("brush_banner", "brush_swipe", "brush_badge"):
+		skew = {"brush_banner": -1.5, "brush_swipe": -4, "brush_badge": -6}[name]
+		ragged = {"brush_banner": .1, "brush_swipe": .18, "brush_badge": .14}[name]
+		b = (f'<g transform="skewY({skew})"><path d="{_brush(w, h * .9, name + t, ragged=ragged)}" transform="translate(0 {h * .05:.0f})" fill="{bg}"/></g>'
+			 + _text(t, w / 2, h / 2, _fit(t, w * .86, h, .5), fg, 800))
+	elif name == "brush_underline":
+		b = f'<path d="{_brush(w, h * .5, "u", ragged=.3)}" transform="translate(0 {h * .25:.0f}) skewY(-1)" fill="{bg}"/>'
+	elif name == "date_block":
+		# "18 OCT" → the day big, the month under it
+		day, _, month = t.partition(" ")
+		b = (f'<rect width="{w}" height="{h}" rx="{w * .12:.0f}" fill="{bg}"/>'
+			 + _text(day, w / 2, h * .4, h * .44, fg, 900) + _text(month.upper(), w / 2, h * .78, h * .2, fg, 800))
+	elif name == "qr":
+		# text: what the code opens (a map link, wa.me, the website). Made here, never by a third-party service.
+		b = _qr(t, w, h, palette["dark"])
+	elif name == "label_circle":
+		# text "icon_book|Reading": a coloured circle with the icon, the label on a soft pill under it
+		icon, _, label = t.partition("|")
+		icon = icon if icon in ICONS else "icon_check"
+		d = min(w, h * .72)
+		inner = element(icon, {**palette, tone: fg}, int(d * .5), int(d * .5), tone=tone)
+		soft = mix(bg, "#ffffff", .75)
+		b = (f'<circle cx="{w / 2:.0f}" cy="{d / 2:.0f}" r="{d / 2:.0f}" fill="{bg}"/>'
+			 f'<g transform="translate({w / 2 - d * .25:.0f} {d * .25:.0f})">{inner}</g>'
+			 f'<rect x="{w * .04:.0f}" y="{h * .76:.0f}" width="{w * .92:.0f}" height="{h * .22:.0f}" rx="{h * .11:.0f}" fill="{soft}"/>'
+			 + _text(label, w / 2, h * .87, _fit(label, w * .85, h * .22, .7), palette["dark"], 800))
+	elif name == "wave_band":
+		b = (f'<path d="M0 {h * .3:.0f} C {w * .25:.0f} 0 {w * .5:.0f} {h * .45:.0f} {w * .75:.0f} {h * .2:.0f} S {w} {h * .1:.0f} {w} {h * .1:.0f} '
+			 f'V{h} H0 Z" fill="{bg}"/>')
+	elif name == "flourish":
+		cy = h / 2
+		b = (f'<path d="M0 {cy} H{w * .4:.0f} M{w * .6:.0f} {cy} H{w}" stroke="{bg}" stroke-width="{max(1.5, h * .04):.1f}"/>'
+			 f'<path d="M{w / 2:.0f} {cy - h * .3:.0f} L{w / 2 + h * .3:.0f} {cy} L{w / 2:.0f} {cy + h * .3:.0f} L{w / 2 - h * .3:.0f} {cy} Z" fill="{bg}"/>'
+			 f'<circle cx="{w * .42:.0f}" cy="{cy}" r="{h * .07:.1f}" fill="{bg}"/><circle cx="{w * .58:.0f}" cy="{cy}" r="{h * .07:.1f}" fill="{bg}"/>')
 	elif name == "icon_tile":
 		# a rounded tile in the colour with an icon in its text colour; text = the icon's name (icon_cloud …)
 		icon = t if t in ICONS else "icon_check"
@@ -139,6 +210,14 @@ def element(name: str, palette: dict, width: int, height: int, *, text: str = ""
 			"icon_ai": "M24 24h52v52H24zM36 12v12M50 12v12M64 12v12M36 76v12M50 76v12M64 76v12M12 36h12M12 50h12M12 64h12M76 36h12M76 50h12M76 64h12",
 			"icon_code": "M34 26L12 50l22 24M66 26l22 24-22 24M56 18L44 82",
 			"icon_sync": "M78 42A30 30 0 0 0 24 34M22 58a30 30 0 0 0 54 8M78 20v22H56M22 80V58h22",
+			"icon_book": "M12 22c14-4 26-2 38 6v58c-12-8-24-10-38-6zm76 0c-14-4-26-2-38 6v58c12-8 24-10 38-6z",
+			"icon_home": "M50 12L8 48h12v40h22V64h16v24h22V48h12z",
+			"icon_drop": "M50 8C38 28 22 44 22 62a28 28 0 0 0 56 0C78 44 62 28 50 8z",
+			"icon_bolt": "M58 6L18 56h26l-6 38 44-54H54z",
+			"icon_cross": "M42 8h16v24h24v16H58v44H42V48H18V32h24z",
+			"icon_lamp": "M50 10c8 10 10 18 4 26h-8c-6-8-4-16 4-26zM18 52h64c-4 14-16 22-32 22S22 66 18 52zM40 78h20v10H40z",
+			"icon_music": "M38 18l46-10v52a12 12 0 1 1-8-11V24L46 30v40a12 12 0 1 1-8-11z",
+			"icon_heart": "M50 86S10 62 10 34a20 20 0 0 1 40-6 20 20 0 0 1 40 6c0 28-40 52-40 52z",
 		}
 		d = paths.get(name, paths["icon_check"])
 		stroke = name in ("icon_calendar", "icon_chart", "icon_mail", "icon_globe", "icon_lock", "icon_ai", "icon_code", "icon_sync")

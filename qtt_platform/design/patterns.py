@@ -30,6 +30,9 @@ PATTERNS = {
 	# technology (QTT's own posts: light with a blue sweep, or dark with glow and circuit lines)
 	"sweep": ("Diagonal sweep", "technology, launches"), "dot_corners": ("Dot-grid corners", "technology, any"),
 	"circuit": ("Circuit lines", "technology, AI"), "glow_rings": ("Glow rings", "technology, AI, launches"),
+	# local market (local-post-references.md)
+	"stage_glow": ("Stage lights", "events, worship, concerts"), "rays": ("Light rays", "worship, festivals, greetings"),
+	"corner_blobs": ("Corner blobs", "coaching, kids, cafés"),
 }
 
 
@@ -215,6 +218,32 @@ def pattern(name: str, palette: dict, width: int, height: int, *, base: str = "l
 		body = f'<ellipse cx="{cx:.0f}" cy="{cy:.0f}" rx="{w * .5:.0f}" ry="{h * .3:.0f}" fill="url(#p)"/>'
 		for k in range(4):
 			body += f'<ellipse cx="{cx:.0f}" cy="{cy:.0f}" rx="{(160 + k * 95) * u:.0f}" ry="{(55 + k * 33) * u:.0f}" {st(c2 if k % 2 else c1, (o2 if k % 2 else o1) * 1.8, 3 * u)}/>'
+	elif name == "stage_glow":
+		# a dark stage: two coloured spotlights from the top and a row of small lights
+		defs = "".join(
+			f'<radialGradient id="p{k}" cx="50%" cy="0%" r="80%"><stop offset="0" stop-color="{c}" stop-opacity="{o:.2f}"/>'
+			f'<stop offset="1" stop-color="{c}" stop-opacity="0"/></radialGradient>'
+			for k, (c, o) in enumerate(((palette["primary"], .85), (palette["accent"], .6))))
+		body = (f'<rect width="{w}" height="{h}" fill="{palette["dark"]}"/>'
+				f'<ellipse cx="{w * .3:.0f}" cy="0" rx="{w * .55:.0f}" ry="{h * .9:.0f}" fill="url(#p0)"/>'
+				f'<ellipse cx="{w * .75:.0f}" cy="0" rx="{w * .5:.0f}" ry="{h * .8:.0f}" fill="url(#p1)"/>'
+				+ "".join(f'<circle cx="{w * (k + .5) / 9:.0f}" cy="{h * .04:.0f}" r="{5 * u:.0f}" fill="#ffffff" fill-opacity=".7"/>' for k in range(9)))
+		defs = defs.replace('id="p0"', 'id="p"')
+		body = body.replace("url(#p0)", "url(#p)")
+		defs = defs.replace('id="p1"', 'id="pB"')
+		body = body.replace("url(#p1)", "url(#pB)")
+		pidb = f"qpb-{name}-{seed}-{w}x{h}"
+		defs, body = defs.replace('id="pB"', f'id="{pidb}"'), body.replace("url(#pB)", f"url(#{pidb})")
+	elif name == "rays":
+		cx, cy, R = w * .75, -h * .05, max(w, h) * 1.4
+		for k in range(16):
+			a1 = math.radians(40 + k * 7)
+			a2 = a1 + math.radians(3)
+			body += f'<path d="M{cx:.0f} {cy:.0f} L{cx + R * math.cos(a1):.0f} {cy + R * math.sin(a1):.0f} L{cx + R * math.cos(a2):.0f} {cy + R * math.sin(a2):.0f} Z" {f("#ffffff" if base != "light" else c2, .18 if base != "light" else o2)}/>'
+	elif name == "corner_blobs":
+		body = (f'<path d="M0 0 H{w * .32:.0f} C{w * .28:.0f} {h * .1:.0f} {w * .12:.0f} {h * .2:.0f} 0 {h * .26:.0f} Z" {f(palette["accent"], .9 if base == "light" else .6)}/>'
+				f'<path d="M{w} 0 V{h * .2:.0f} C{w * .9:.0f} {h * .16:.0f} {w * .82:.0f} {h * .06:.0f} {w * .8:.0f} 0 Z" {f(c1, min(1, o1 * 3))}/>'
+				f'<path d="M{w} {h} H{w * .7:.0f} C{w * .78:.0f} {h * .9:.0f} {w * .9:.0f} {h * .86:.0f} {w} {h * .8:.0f} Z" {f(palette["accent"], .9 if base == "light" else .6)}/>')
 	elif name == "leaves":
 		for _ in range(14):
 			x, y, s2, a = rnd.random() * w, rnd.random() * h, (40 + rnd.random() * 60) * u, rnd.random() * 360

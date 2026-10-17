@@ -43,6 +43,7 @@ TYPES = {
 	"education": ("Coaching & education", "industry", "education"),
 	"manufacturing": ("Manufacturing & industry", "industry", "manufacturing"),
 	"ngo": ("NGO & community", "other", "ngo"),
+	"religious": ("Church, temple & religious", "other", "ngo"),
 	"other": ("Other business", "other", "other"),
 }
 

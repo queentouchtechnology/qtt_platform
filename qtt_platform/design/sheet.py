@@ -13,7 +13,7 @@ def page(body: str, width: int, height: int, f: dict, *, extra_css: str = "") ->
 	"""A whole HTML page the renderer screenshots at width × height."""
 	return (
 		"<!doctype html><html" + (' dir="rtl"' if f.get("rtl") else "") + "><head><meta charset=\"utf-8\">"
-		f'<link rel="stylesheet" href="{html.escape(f["url"], quote=True)}">'
+		+ "".join(f'<link rel="stylesheet" href="{html.escape(u, quote=True)}">' for u in f.get("urls") or [f["url"]]) +
 		"<style>*{box-sizing:border-box;margin:0;padding:0}"
 		f"html,body{{width:{width}px;height:{height}px;overflow:hidden}}"
 		f":root{{--font-heading:{f['css_heading']};--font-body:{f['css_body']}}}"

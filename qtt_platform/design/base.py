@@ -103,8 +103,49 @@ SCRIPTS = {  # the face each script falls back to, heading then body
 	"devanagari": ("Baloo 2", "Noto Sans Devanagari"),
 	"arabic": ("Cairo", "Noto Naskh Arabic"),
 }
-LANGUAGE_SCRIPT = {"tamil": "tamil", "hindi": "devanagari", "marathi": "devanagari", "arabic": "arabic", "urdu": "arabic"}
-FONTS = sorted({f for pair in PAIRS for f in pair} | {f for pair in SCRIPTS.values() for f in pair})
+# Faces a template may use for one line of feeling (a name, "New Home", a greeting) — never for the body.
+SCRIPT_FACES = ("Great Vibes", "Dancing Script", "Kaushan Script", "Satisfy", "Pacifico")
+DISPLAY_FACES = ("Anton", "Bebas Neue", "Lilita One", "Righteous", "Cinzel", "Archivo Black")
+TAMIL_DISPLAY = ("Arima", "Coiny", "Catamaran", "Hind Madurai", "Mukta Malar", "Kavivanar")
+LANGUAGE_SCRIPT ={"tamil": "tamil", "hindi": "devanagari", "marathi": "devanagari", "arabic": "arabic", "urdu": "arabic"}
+FONTS = sorted({f for pair in PAIRS for f in pair} | {f for pair in SCRIPTS.values() for f in pair}
+			   | set(SCRIPT_FACES) | set(DISPLAY_FACES) | set(TAMIL_DISPLAY))
+_ONE_WEIGHT = ("Bebas Neue", "Archivo Black", "Pacifico", "Anton", "Lilita One", "Righteous", "Great Vibes", "Kaushan Script",
+			   "Satisfy", "Coiny", "Kavivanar", "DM Serif Display")
+# Faces with an 800 weight; the rest are asked for 400 and 700 only (Google rejects a weight a face doesn't have).
+_HEAVY = ("Poppins", "Montserrat", "Inter", "Baloo 2", "Baloo Thambi 2", "Nunito", "Raleway", "Catamaran", "Cairo", "Noto Sans Tamil",
+		  "Noto Sans Devanagari", "Playfair Display", "Mukta Malar", "Open Sans", "Cinzel", "Roboto", "DM Sans", "Archivo", "Source Sans 3")
+
+
+def font_url(family: str) -> str:
+	weights = "" if family in _ONE_WEIGHT else (":wght@400;700;800" if family in _HEAVY else ":wght@400;700")
+	return f"https://fonts.googleapis.com/css2?family={family.replace(' ', '+')}{weights}&display=block"
+
+# Text effects for display words (CSS on the element): gold, 3D in the brand's colours, a brand gradient, an outline.
+def text_style(kind: str, p: dict) -> str:
+	if kind == "gold":
+		return ("background:linear-gradient(180deg,#fff6c8 0%,#f5c542 38%,#c8891a 62%,#ffe08a 100%);-webkit-background-clip:text;"
+				"background-clip:text;color:transparent;filter:drop-shadow(0 4px 0 rgba(90,50,0,.55)) drop-shadow(0 8px 14px rgba(0,0,0,.35))")
+	if kind == "3d":
+		d = p["primary_deep"]
+		return "text-shadow:" + ",".join(f"{k}px {k}px 0 {d}" for k in range(1, 7)) + ",8px 10px 16px rgba(0,0,0,.35)"
+	if kind == "gradient":
+		return (f"background:linear-gradient(180deg,{p['accent']} 0%,{p['primary']} 100%);-webkit-background-clip:text;"
+				"background-clip:text;color:transparent")
+	if kind == "outline":
+		return f"color:transparent;-webkit-text-stroke:3px {p['primary']}"
+	return ""
+
+
+# How a photo sits in a design (CSS on the picture's box).
+FRAMES = {
+	"full": "",
+	"rounded": "border-radius:28px",
+	"circle": "border-radius:50%",
+	"arch": "border-radius:50% 50% 24px 24px / 34% 34% 24px 24px",
+	"blob": "border-radius:62% 38% 46% 54% / 48% 56% 44% 52%",
+	"mono": "filter:grayscale(1) contrast(1.05)",  # tributes
+}
 
 
 def _known(name: str) -> str:
@@ -126,18 +167,17 @@ def script_of(text_or_language: str) -> str | None:
 	return None
 
 
-def fonts(heading: str = "", body: str = "", language: str = "") -> dict:
-	"""The brand's fonts (unknown names → the default pair), with the language's script faces behind them."""
+def fonts(heading: str = "", body: str = "", language: str = "", extra: tuple[str, ...] = ()) -> dict:
+	"""The brand's fonts (unknown names → the default pair), with the language's script faces behind them. extra: more
+	known faces a template uses for one line (a script name, a Tamil display headline) — loaded too."""
 	h, b = _known(heading), _known(body)
 	if not h and not b:
 		h, b = PAIRS[0]
 	h, b = h or b, b or h
 	script = script_of(language)
 	sh, sb = SCRIPTS.get(script, ("", ""))
-	families = [f for f in dict.fromkeys((h, b, sh, sb)) if f]
-	url = "https://fonts.googleapis.com/css2?" + "&".join(
-		"family=" + f.replace(" ", "+") + (":wght@400;600;700;800" if f not in ("Bebas Neue", "Archivo Black", "Pacifico") else "")
-		for f in families) + "&display=block"
+	families = [f for f in dict.fromkeys((h, b, sh, sb, *(_known(x) for x in extra))) if f]
+	urls = [font_url(x) for x in families]  # one each: a face that fails never takes the others with it
 	stack = lambda first, alt: ", ".join(f"'{x}'" for x in (first, alt) if x) + ", sans-serif"  # noqa: E731
-	return {"heading": h, "body": b, "css_heading": stack(h, sh), "css_body": stack(b, sb), "url": url, "script": script,
+	return {"heading": h, "body": b, "css_heading": stack(h, sh), "css_body": stack(b, sb), "url": urls[0], "urls": urls, "script": script,
 			"rtl": script == "arabic"}

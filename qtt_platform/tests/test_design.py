@@ -38,7 +38,9 @@ class Fonts(unittest.TestCase):
 		f = base.fonts("playfair display", "", "Tamil")
 		self.assertEqual((f["heading"], f["body"]), ("Playfair Display", "Playfair Display"))
 		self.assertIn("Noto Sans Tamil", f["css_body"])
-		self.assertIn("family=Noto+Sans+Tamil", f["url"])
+		self.assertIn("family=Noto+Sans+Tamil", " ".join(f["urls"]))
+		self.assertTrue(all("600" not in u for u in base.fonts("Playfair Display", "Lato")["urls"]))  # Lato has no 600 / 800
+		self.assertIn("Great+Vibes", " ".join(base.fonts(extra=("great vibes",))["urls"]))
 		self.assertEqual(base.fonts("Comic Sans", "Wingdings")["heading"], base.PAIRS[0][0])  # unknown → the default pair
 		self.assertTrue(base.fonts(language="Arabic")["rtl"])
 		self.assertEqual(base.script_of("வணக்கம்"), "tamil")
@@ -84,6 +86,29 @@ class Elements(unittest.TestCase):
 
 	def test_no_other_brands(self):
 		self.assertFalse([n for n in elements.ELEMENTS if re.search(r"whatsapp|instagram|facebook|upi|paytm|gpay", n)])
+
+
+class LocalMarket(unittest.TestCase):
+	def test_brush_date_qr_labels(self):
+		p = base.palette({"primary": "#1e3a8a", "accent": "#facc15"})
+		_svg_ok(self, elements.element("brush_badge", p, 300, 120, text="₹35 லட்சம்"))
+		self.assertIn(">18<", elements.element("date_block", p, 160, 180, text="18 Oct"))
+		self.assertIn(">OCT<", elements.element("date_block", p, 160, 180, text="18 Oct"))
+		qr = elements.element("qr", p, 200, 200, text="https://maps.google.com/?q=Tuticorin")
+		_svg_ok(self, qr)
+		self.assertGreater(qr.count("<rect"), 100)  # a real code, made here
+		self.assertIn(">Reading<", elements.element("label_circle", p, 200, 240, text="icon_book|Reading"))
+		self.assertEqual(elements.element("brush_swipe", p, 300, 100, text="New Home"), elements.element("brush_swipe", p, 300, 100, text="New Home"))
+
+	def test_text_styles_and_frames(self):
+		p = base.palette({"primary": "#b91c1c"})
+		self.assertIn("background-clip:text", base.text_style("gold", p))
+		self.assertIn(p["primary_deep"], base.text_style("3d", p))
+		self.assertEqual(base.text_style("sparkly", p), "")
+		self.assertIn("grayscale", base.FRAMES["mono"])
+
+	def test_religious_type(self):
+		self.assertEqual(business_types.group_of("religious"), "other")
 
 
 class TypesAndPhotos(unittest.TestCase):
