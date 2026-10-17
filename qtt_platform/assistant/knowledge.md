@@ -700,22 +700,27 @@ that are no longer listed keep running as before.
 QTT designs, hosts, secures and looks after a website for the business, and
 the owner changes it from the app — there is no website login to remember or
 share.
-- Ordering: Managed Services › Explore › Website Development. Choose a size —
-  Landing page (one page for a campaign or offer), 3 pages (Home, what you
-  offer, Contact) or 5 pages (Home, About, what you offer, Gallery, Contact)
-  — then your
-  website address (search a new one or use your own), monthly, yearly or 3
-  years, and a few questions: business name, what kind of business (this
-  picks the design), what you do, your address and a phone number. Prices
-  are in the app.
+- Ordering: Managed Services › Explore › Website Development. First **choose
+  your design** before anything is built: your kind of business, then one of
+  six designs — Classic, Modern, Bold, Elegant, Minimal, Warm — with pictures
+  for computer and phone, and **See live demo** opens a real clickable site
+  with your business name; then colours (your business type's own, or Ocean,
+  Forest, Sunset, Royal, Rose, Teal, Charcoal and gold) and **See your design
+  with these colours**. The website is built exactly like that. Then choose a
+  size — Landing page (one page for a campaign or offer), 3 pages (Home, what
+  you offer, Contact) or 5 pages (Home, About, what you offer, Gallery,
+  Contact) — your website address (search a new one or use your own),
+  monthly, yearly or 3 years, and a few questions: business name, what you
+  do, your address and a phone number. Prices are in the app.
 - Setting up takes a few minutes and shows step by step: creating the
   website, WordPress, the design for your kind of business, your pages and
   photos, connecting it to the app, security (https). Then "ready for your
   review" with a preview link.
 - Designs: ready designs for restaurants, shops, services, clinics, coaching,
   real estate, salons, gyms, hotels, events, photography, interiors, car and
-  bike service, finance, IT, manufacturing, NGOs and more. Switch the design
-  later; your name, logo and contact details stay.
+  bike service, finance, IT, manufacturing, NGOs and more — each in six
+  designs and many colours. Switch the design or colours later; your name,
+  logo and contact details stay.
 - Going live: the same as a store — approve the preview, connect your address
   (the app shows the DNS steps); it moves onto your address by itself, with
   https, and opens to Google.

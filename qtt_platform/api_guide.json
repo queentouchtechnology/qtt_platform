@@ -6090,12 +6090,12 @@
    "purpose": "QTT Admin › Website designs: every design and palette (name, line, order, shown), screenshots up to date out of how many, the theme version and the demo site's address.",
    "details": "QTT Admin › Website designs: every design and palette (name, line, order, shown), screenshots up to date out of\nhow many, the theme version and the demo site's address.",
    "arguments": "",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.websiteDesigns",
+   "screens": "admin/website_designs_view.dart › _WebsiteDesignsViewState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/designs.py:101",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_services.api.designs.gallery",
@@ -6106,12 +6106,12 @@
    "purpose": "For ordering a website: every business type, and for the chosen one (`business`: a kit key or the order form's label) the designs (pictures for desktop and phone, a live demo with the business's name) and colours; and the sizes with their prices. Anyone signed in.",
    "details": "For ordering a website: every business type, and for the chosen one (`business`: a kit key or the order form's\nlabel) the designs (pictures for desktop and phone, a live demo with the business's name) and colours; and the\nsizes with their prices. Anyone signed in.",
    "arguments": "business, name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.websiteGallery",
+   "screens": "products/services/screens/website_gallery.dart › _WebsiteGalleryState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/designs.py:61",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_services.api.designs.refresh_demo",
@@ -6122,12 +6122,12 @@
    "purpose": "Build the demo site (first time) or put the latest theme on it — in the background.",
    "details": "Build the demo site (first time) or put the latest theme on it — in the background.",
    "arguments": "",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.refreshDesignDemo",
+   "screens": "admin/website_designs_view.dart › _WebsiteDesignsViewState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/designs.py:167",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_services.api.designs.retake_shots",
@@ -6138,12 +6138,12 @@
    "purpose": "Take the screenshots again (one design, or all) — the worker does it within 15 minutes.",
    "details": "Take the screenshots again (one design, or all) — the worker does it within 15 minutes.",
    "arguments": "style",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.retakeDesignShots",
+   "screens": "admin/website_designs_view.dart › _WebsiteDesignsViewState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/designs.py:156",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_services.api.designs.save_design",
@@ -6154,12 +6154,12 @@
    "purpose": "A design's name and line shown to owners, its order, and whether the gallery shows it.",
    "details": "A design's name and line shown to owners, its order, and whether the gallery shows it.",
    "arguments": "key, values",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.saveWebsiteDesign",
+   "screens": "admin/website_designs_view.dart › _WebsiteDesignsViewState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/designs.py:121",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_services.api.designs.save_palette",
@@ -6170,12 +6170,12 @@
    "purpose": "A palette's name, order and whether the gallery shows it (its colours come from the theme).",
    "details": "A palette's name, order and whether the gallery shows it (its colours come from the theme).",
    "arguments": "key, values",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.saveWebsitePalette",
+   "screens": "admin/website_designs_view.dart › _WebsiteDesignsViewState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/designs.py:139",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_services.api.designs.shot_upload",
@@ -8444,7 +8444,7 @@
    "arguments": "category",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.gallery",
-   "screens": "products/services/screens/design_picker.dart › DesignPicker\nproducts/services/screens/order_pages.dart › _OrderPageState",
+   "screens": "products/services/screens/design_picker.dart › DesignPicker\nproducts/services/screens/order_pages.dart › _OrderPageState\nproducts/services/screens/website_gallery.dart › WebsiteDesignChoice",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/templates.py:39",
    "status": "Not described"

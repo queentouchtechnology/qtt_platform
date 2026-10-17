@@ -23,6 +23,12 @@ day), or Meta changed a template's category. The WhatsApp items come from an hou
   articles / newsletters limits. New orders use the new price; businesses already on a plan keep theirs.
 - **Automation library** — the automations businesses choose from (name, what it does, when it runs, group, default
   time, order, shown or hidden) and how many businesses use each.
+- **Website designs** — what owners choose from before a website is built (Website Development): six designs (theme
+  styles: Classic, Modern, Bold, Elegant, Minimal, Warm) and colour palettes. Rename them, change their one line and
+  order, show or hide them. Each design shows how many screenshots are up to date (one per business type × computer /
+  phone, taken every 15 minutes by the automation server's worker); **Retake** one design or all. The demo site
+  (design-demo.preview.queentouchtech.in) draws any design live; **Update demo** puts the latest theme on it (Frappe
+  runs the setup script on CloudPanel). The theme itself defines the designs — a new design is a theme change.
 - **WhatsApp templates** — every message template on QTT's WhatsApp number (+91 95009 10005): status (approved, in
   review, rejected with Meta's reason, paused), category, language, quality, last 30 days sent / delivered / read /
   clicked. **New template**: name (small letters, numbers, _), Utility or Marketing, language, optional header (text,
