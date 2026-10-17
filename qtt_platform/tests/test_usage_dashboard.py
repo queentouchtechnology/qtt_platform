@@ -46,6 +46,16 @@ class Attention(unittest.TestCase):
 		self.assertEqual([(i["kind"], i["what"], i["area"]) for i in items],
 						 [("automation", "deepseek_low", "usage"), ("automation", "n8n_errors", "usage")])
 
+	def test_whatsapp_items(self):
+		items = logic.attention_items(whatsapp=[
+			{"level": "info", "what": "wa_template_approved", "name": "qtt_report", "value": None},
+			{"level": "critical", "what": "wa_quality", "name": "+91 95009 10005", "value": "Low"},
+			{"level": "warning", "what": "wa_template_rejected", "name": "promo_x", "value": None}], today_str="2026-10-17")
+		self.assertEqual([(i["level"], i["what"], i["area"], i["title"]) for i in items], [
+			("critical", "wa_quality", "whatsapp_number", "+91 95009 10005"),
+			("warning", "wa_template_rejected", "whatsapp_templates", "promo_x"),
+			("info", "wa_template_approved", "whatsapp_templates", "qtt_report")])
+
 
 if __name__ == "__main__":
 	unittest.main()
