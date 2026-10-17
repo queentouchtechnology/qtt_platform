@@ -275,7 +275,7 @@ def pattern(name: str, palette: dict, width: int, height: int, *, base: str = "l
 	elif name == "big_circles":
 		body = (f'<circle cx="{w * .22:.0f}" cy="{h * .28:.0f}" r="{w * .26:.0f}" {f(palette["accent"], .95)}/>'
 				f'<circle cx="{w * .9:.0f}" cy="{h * .88:.0f}" r="{w * .12:.0f}" {f(palette["accent"], .95)}/>'
-				f'<circle cx="{w * .2:.0f}" cy="{h * .6:.0f}" r="{w * .02:.0f}" {f(palette["accent"], .95)}/>')
+				f'<circle cx="{w * .06:.0f}" cy="{h * .48:.0f}" r="{w * .02:.0f}" {f(palette["accent"], .95)}/>')
 	elif name == "leaves":
 		for _ in range(14):
 			x, y, s2, a = rnd.random() * w, rnd.random() * h, (40 + rnd.random() * 60) * u, rnd.random() * 360

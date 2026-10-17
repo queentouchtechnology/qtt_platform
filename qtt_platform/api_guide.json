@@ -4850,6 +4850,38 @@
    "status": "OK"
   },
   {
+   "endpoint": "qtt_platform.api.post_templates.library_list",
+   "product": "Platform",
+   "area": "api.post_templates",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "Templates for this business: {templates: [{key, title, layout, post_types, groups, look, picture}], total, group, post_types: [{key, label, count}], groups: [{key, label}]}. group '' = the business's own group; 'all' = every one.",
+   "details": "Templates for this business: {templates: [{key, title, layout, post_types, groups, look, picture}], total, group,\npost_types: [{key, label, count}], groups: [{key, label}]}. group '' = the business's own group; 'all' = every one.",
+   "arguments": "post_type, group, start, limit",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/post_templates.py:35",
+   "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_platform.api.post_templates.preview",
+   "product": "Platform",
+   "area": "api.post_templates",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "One template in the business's own brand (logo, colours, fonts, name, contacts; photos for its type of business). The words are the template's sample until the post is written (Marketing assistant). {url, width, height}.",
+   "details": "One template in the business's own brand (logo, colours, fonts, name, contacts; photos for its type of business).\nThe words are the template's sample until the post is written (Marketing assistant). {url, width, height}.",
+   "arguments": "key, format, look",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/post_templates.py:72",
+   "status": "Not used by the app"
+  },
+  {
    "endpoint": "qtt_platform.api.product.get_product_role_options",
    "product": "Platform",
    "area": "api.product",

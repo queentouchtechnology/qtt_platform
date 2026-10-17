@@ -150,7 +150,8 @@ doc_events = {
 # translations) — insert-only, see qtt_platform/app_setup.py.
 after_install = "qtt_platform.app_setup.seed_app_defaults"
 # api_guide.sync: Desk › QTT API Endpoint, the backend guide generated from the code (api_guide.json).
-after_migrate = ["qtt_platform.app_setup.seed_app_defaults", "qtt_platform.house.ensure_all", "qtt_platform.api_guide.sync"]
+after_migrate = ["qtt_platform.app_setup.seed_app_defaults", "qtt_platform.house.ensure_all", "qtt_platform.api_guide.sync",
+	"qtt_platform.design.library.sync"]
 
 # Kept by a full cache clear (deploys, migrate, bench clear-cache): each person's chosen
 # business. Without it every request after a deploy fails with "Choose your business first".

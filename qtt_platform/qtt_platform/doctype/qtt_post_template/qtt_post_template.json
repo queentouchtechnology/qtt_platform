@@ -1,0 +1,140 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Post Template",
+ "module": "QTT Platform",
+ "custom": 0,
+ "engine": "InnoDB",
+ "autoname": "field:key",
+ "modified": "2026-10-20 10:00:00.000000",
+ "sort_field": "sort",
+ "sort_order": "ASC",
+ "track_changes": 1,
+ "description": "The post template library (PROJ-0011 C): a layout + variant, tagged by post type and business group. Synced from qtt_platform/design/catalog.py on migrate; switch one off here to take it out of the library.",
+ "field_order": [
+  "key",
+  "title",
+  "enabled",
+  "layout",
+  "look",
+  "post_types",
+  "groups",
+  "column_a",
+  "palette",
+  "fonts",
+  "sort",
+  "source",
+  "section_data",
+  "variant",
+  "thumbs",
+  "thumbs_hash"
+ ],
+ "fields": [
+  {
+   "fieldname": "key",
+   "fieldtype": "Data",
+   "label": "Key",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "In the library",
+   "default": "1",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "layout",
+   "fieldtype": "Data",
+   "label": "Layout",
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "look",
+   "fieldtype": "Select",
+   "label": "Look",
+   "options": "light\ndark\nbrand"
+  },
+  {
+   "fieldname": "post_types",
+   "fieldtype": "Small Text",
+   "label": "Post types",
+   "description": "One per line (design/catalog.py POST_TYPES)."
+  },
+  {
+   "fieldname": "groups",
+   "fieldtype": "Small Text",
+   "label": "Business groups",
+   "description": "One per line, or any."
+  },
+  {
+   "fieldname": "column_a",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "palette",
+   "fieldtype": "Data",
+   "label": "Showcase palette"
+  },
+  {
+   "fieldname": "fonts",
+   "fieldtype": "Data",
+   "label": "Showcase fonts"
+  },
+  {
+   "fieldname": "sort",
+   "fieldtype": "Int",
+   "label": "Order"
+  },
+  {
+   "fieldname": "source",
+   "fieldtype": "Select",
+   "label": "Made by",
+   "options": "QTT\nAdmin",
+   "default": "QTT"
+  },
+  {
+   "fieldname": "section_data",
+   "fieldtype": "Section Break",
+   "label": "Design"
+  },
+  {
+   "fieldname": "variant",
+   "fieldtype": "Code",
+   "label": "Variant (JSON)",
+   "options": "JSON"
+  },
+  {
+   "fieldname": "thumbs",
+   "fieldtype": "Code",
+   "label": "Library pictures (JSON: group → URL)",
+   "options": "JSON",
+   "read_only": 1
+  },
+  {
+   "fieldname": "thumbs_hash",
+   "fieldtype": "Data",
+   "label": "Pictures made for",
+   "read_only": 1
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ]
+}

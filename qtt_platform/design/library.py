@@ -1,0 +1,93 @@
+"""
+The template library in the database (PROJ-0011 C): sync() keeps QTT Post Template in step with design/catalog.py
+(after every migrate) and, when the catalogue changed, queues make_thumbnails() — the library pictures, one per template
+and business group that has its own sample words, made on the renderer and kept as public files.
+"""
+
+import json
+
+import frappe
+
+from qtt_platform.design import catalog
+
+DT = "QTT Post Template"
+
+
+def _lines(v) -> list[str]:
+	return [x.strip() for x in str(v or "").splitlines() if x.strip()]
+
+
+def row_dict(doc) -> dict:
+	"""A template row as the catalogue's plain data."""
+	return {"key": doc.key, "title": doc.title, "layout": doc.layout, "variant": json.loads(doc.variant or "{}"), "look": doc.look,
+			"post_types": _lines(doc.post_types), "groups": _lines(doc.groups), "palette": doc.palette, "fonts": doc.fonts,
+			"thumbs": json.loads(doc.thumbs or "{}"), "enabled": int(doc.enabled or 0)}
+
+
+def sync() -> None:
+	"""after_migrate: QTT's templates in, changed ones updated (an admin's on / off is kept), removed ones switched off."""
+	if not frappe.db.table_exists(DT):
+		return
+	keys = set()
+	for t in catalog.templates():
+		keys.add(t["key"])
+		values = {"title": t["title"], "layout": t["layout"], "variant": json.dumps(t["variant"], sort_keys=True), "look": t["look"],
+				  "post_types": "\n".join(t["post_types"]), "groups": "\n".join(t["groups"]), "palette": t["palette"], "fonts": t["fonts"],
+				  "sort": t["sort"], "source": "QTT"}
+		if frappe.db.exists(DT, t["key"]):
+			doc = frappe.get_doc(DT, t["key"])
+			if any(str(doc.get(k) or "") != str(v) for k, v in values.items()):
+				doc.update(values)
+				doc.save(ignore_permissions=True)
+		else:
+			frappe.get_doc({"doctype": DT, "key": t["key"], "enabled": 1, **values}).insert(ignore_permissions=True)
+	for name in frappe.get_all(DT, filters={"source": "QTT", "name": ["not in", list(keys) or [""]]}, pluck="name"):
+		frappe.db.set_value(DT, name, "enabled", 0)
+	frappe.db.commit()
+	if frappe.db.count(DT, {"thumbs_hash": ["!=", catalog.catalog_hash()], "enabled": 1}):
+		frappe.enqueue("qtt_platform.design.library.make_thumbnails", queue="long", timeout=3600, job_id="qtt_post_thumbnails",
+					   deduplicate=True)
+
+
+def _groups_with_samples(t: dict) -> list[str]:
+	"""The groups this template gets its own picture for: its first group, and any group with its own sample words."""
+	own = [g for g in (catalog.SAMPLES.get(t["layout"]) or {}) if g != "any" and (g in t["groups"] or "any" in t["groups"])]
+	first = t["groups"][0] if t["groups"] and t["groups"][0] != "any" else "any"
+	return list(dict.fromkeys([first, *own]))
+
+
+def make_thumbnails(force: bool = False) -> int:
+	"""The library pictures (540 px) for templates whose catalogue changed. Returns how many were made."""
+	from qtt_platform.design import post, render
+
+	if not render.ready():
+		return 0
+	h = catalog.catalog_hash()
+	by_key = {t["key"]: t for t in catalog.templates()}
+	made = 0
+	for name in frappe.get_all(DT, filters={"enabled": 1}, pluck="name"):
+		doc = frappe.get_doc(DT, name)
+		if doc.thumbs_hash == h and not force:
+			continue
+		t = by_key.get(name) or {**row_dict(doc)}
+		thumbs = {}
+		for g in _groups_with_samples(t):
+			try:
+				data = post.thumbnail(t, g)
+			except Exception:
+				frappe.log_error(title=f"Post template picture failed: {name} / {g}")
+				continue
+			fname = f"post-template-{name}-{g}-{h[:8]}.png"
+			old = frappe.db.get_value("File", {"file_name": fname, "attached_to_doctype": DT, "attached_to_name": name}, "file_url")
+			thumbs[g] = old or frappe.get_doc({"doctype": "File", "file_name": fname, "content": data, "is_private": 0,
+											   "attached_to_doctype": DT, "attached_to_name": name}).insert(ignore_permissions=True).file_url
+			made += 1
+		doc.db_set({"thumbs": json.dumps(thumbs), "thumbs_hash": h if thumbs else ""}, update_modified=False)
+		frappe.db.commit()
+	return made
+
+
+def picture(row: dict, group: str | None) -> str | None:
+	"""The best library picture for a group: its own, else the template's first."""
+	thumbs = row.get("thumbs") or {}
+	return thumbs.get(group or "") or thumbs.get(row["groups"][0] if row.get("groups") else "") or next(iter(thumbs.values()), None)
