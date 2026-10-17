@@ -36,6 +36,12 @@ ELEMENTS.update({
 	"icon_book": ("Book", False), "icon_home": ("House", False), "icon_drop": ("Water", False), "icon_bolt": ("Power", False),
 	"icon_cross": ("Cross", False), "icon_lamp": ("Lamp", False), "icon_music": ("Music note", False), "icon_heart": ("Heart", False),
 })
+ELEMENTS.update({
+	# modern agency style: hand-drawn marks, a cloud bubble, outline boxes, a vertical label, an order bar
+	"scribble_circle": ("Hand-drawn circle", True), "dashed_arrow": ("Curved dashed arrow", False), "splash": ("Paint splash", False),
+	"speech_cloud": ("Cloud bubble", True), "outline_box": ("Outline box", False), "vertical_label": ("Vertical label", True),
+	"order_bar": ("Order bar", True), "hand_underline": ("Hand-drawn underline", False),
+})
 ICONS = [n for n in ELEMENTS if n.startswith("icon_") and n != "icon_tile"]
 
 
@@ -164,6 +170,41 @@ def element(name: str, palette: dict, width: int, height: int, *, text: str = ""
 		b = (f'<path d="M0 {cy} H{w * .4:.0f} M{w * .6:.0f} {cy} H{w}" stroke="{bg}" stroke-width="{max(1.5, h * .04):.1f}"/>'
 			 f'<path d="M{w / 2:.0f} {cy - h * .3:.0f} L{w / 2 + h * .3:.0f} {cy} L{w / 2:.0f} {cy + h * .3:.0f} L{w / 2 - h * .3:.0f} {cy} Z" fill="{bg}"/>'
 			 f'<circle cx="{w * .42:.0f}" cy="{cy}" r="{h * .07:.1f}" fill="{bg}"/><circle cx="{w * .58:.0f}" cy="{cy}" r="{h * .07:.1f}" fill="{bg}"/>')
+	elif name == "scribble_circle":
+		# a loose pen ring around a price ("49/-"); the text in the brand's dark or white by tone
+		cx, cy, rx, ry = w / 2, h / 2, w * .46, h * .4
+		ring = " ".join(f"{cx + rx * (1 + .04 * math.sin(k * 1.7)) * math.cos(k * math.pi / 18 - .3):.1f},"
+						f"{cy + ry * (1 + .05 * math.cos(k * 1.3)) * math.sin(k * math.pi / 18 - .3):.1f}" for k in range(40))
+		b = (f'<polyline points="{ring}" fill="none" stroke="{bg}" stroke-width="{max(2, h * .035):.1f}" stroke-linecap="round" stroke-linejoin="round"/>'
+			 + _text(t, cx, cy, _fit(t, rx * 1.6, ry * 1.6, .5), bg, 700))
+	elif name == "dashed_arrow":
+		b = (f'<path d="M{w * .05:.0f} {h * .1:.0f} C{w * .1:.0f} {h * .75:.0f} {w * .6:.0f} {h * .95:.0f} {w * .9:.0f} {h * .72:.0f}" fill="none" '
+			 f'stroke="{bg}" stroke-width="{max(2, min(w, h) * .03):.1f}" stroke-dasharray="{min(w, h) * .07:.0f} {min(w, h) * .05:.0f}" stroke-linecap="round"/>'
+			 f'<path d="M{w * .78:.0f} {h * .58:.0f} L{w * .93:.0f} {h * .7:.0f} L{w * .8:.0f} {h * .86:.0f}" fill="none" stroke="{bg}" '
+			 f'stroke-width="{max(2, min(w, h) * .03):.1f}" stroke-linecap="round" stroke-linejoin="round"/>')
+	elif name == "splash":
+		b = (f'<path d="M{w * .5:.0f} {h * .2:.0f} C{w * .9:.0f} {h * .1:.0f} {w:.0f} {h * .6:.0f} {w * .6:.0f} {h * .7:.0f} C{w * .3:.0f} {h * .8:.0f} {w * .1:.0f} {h * .5:.0f} {w * .5:.0f} {h * .2:.0f} Z" fill="{bg}"/>'
+			 f'<circle cx="{w * .15:.0f}" cy="{h * .3:.0f}" r="{min(w, h) * .07:.1f}" fill="{bg}"/><circle cx="{w * .85:.0f}" cy="{h * .9:.0f}" r="{min(w, h) * .05:.1f}" fill="{bg}"/>')
+	elif name == "speech_cloud":
+		cx, cy, r = w / 2, h / 2, min(w, h) * .4
+		bumps = "".join(f'<circle cx="{cx + r * math.cos(k * math.pi / 5):.0f}" cy="{cy + r * .85 * math.sin(k * math.pi / 5):.0f}" r="{r * .38:.0f}"/>' for k in range(10))
+		b = (f'<g fill="none" stroke="{bg}" stroke-width="{max(2, r * .05):.1f}">{bumps}</g>'
+			 f'<g fill="{palette["white"] if tone != "dark" else palette["dark"]}">{bumps}<ellipse cx="{cx}" cy="{cy}" rx="{r * 1.02:.0f}" ry="{r * .88:.0f}"/></g>'
+			 + _text(t, cx, cy, _fit(t, r * 2.1, r * 1.4, .42), bg, 800))
+	elif name == "outline_box":
+		sw = max(2, min(w, h) * .012)
+		b = f'<rect x="{sw:.0f}" y="{sw:.0f}" width="{w - 2 * sw:.0f}" height="{h - 2 * sw:.0f}" rx="{min(w, h) * .18:.0f}" fill="none" stroke="{bg}" stroke-width="{sw:.1f}"/>'
+	elif name == "vertical_label":
+		b = (f'<rect width="{w}" height="{h}" rx="{w * .14:.0f}" fill="{bg}"/>'
+			 f'<g transform="rotate(-90 {w / 2:.0f} {h / 2:.0f})">{_text(t, w / 2, h / 2, _fit(t, h * .9, w, .5), fg, 800)}</g>')
+	elif name == "order_bar":
+		# a white rounded bar: "Order now" outline pill on the left, then the text (a phone number, "Order on Zomato")
+		b = (f'<rect width="{w}" height="{h}" rx="{h * .2:.0f}" fill="#ffffff"/>'
+			 f'<rect x="{h * .2:.0f}" y="{h * .2:.0f}" width="{w * .28:.0f}" height="{h * .6:.0f}" rx="{h * .3:.0f}" fill="none" stroke="{bg}" stroke-width="{h * .04:.1f}"/>'
+			 + _text("ORDER NOW", h * .2 + w * .14, h / 2, _fit("ORDER NOW", w * .24, h * .6, .5), bg, 800)
+			 + _text(t, w * .32 + (w * .66) / 2, h / 2, _fit(t, w * .62, h, .42), palette["dark"], 800))
+	elif name == "hand_underline":
+		b = f'<path d="M{w * .02:.0f} {h * .6:.0f} Q{w * .3:.0f} {h * .2:.0f} {w * .55:.0f} {h * .5:.0f} T{w * .98:.0f} {h * .35:.0f}" fill="none" stroke="{bg}" stroke-width="{max(2, h * .16):.1f}" stroke-linecap="round"/>'
 	elif name == "icon_tile":
 		# a rounded tile in the colour with an icon in its text colour; text = the icon's name (icon_cloud …)
 		icon = t if t in ICONS else "icon_check"

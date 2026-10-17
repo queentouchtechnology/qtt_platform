@@ -104,14 +104,14 @@ SCRIPTS = {  # the face each script falls back to, heading then body
 	"arabic": ("Cairo", "Noto Naskh Arabic"),
 }
 # Faces a template may use for one line of feeling (a name, "New Home", a greeting) — never for the body.
-SCRIPT_FACES = ("Great Vibes", "Dancing Script", "Kaushan Script", "Satisfy", "Pacifico")
-DISPLAY_FACES = ("Anton", "Bebas Neue", "Lilita One", "Righteous", "Cinzel", "Archivo Black")
+SCRIPT_FACES = ("Great Vibes", "Dancing Script", "Kaushan Script", "Satisfy", "Pacifico", "Caveat", "Permanent Marker")
+DISPLAY_FACES = ("Anton", "Bebas Neue", "Lilita One", "Righteous", "Cinzel", "Archivo Black", "Rubik Dirt")  # Rubik Dirt: distressed
 TAMIL_DISPLAY = ("Arima", "Coiny", "Catamaran", "Hind Madurai", "Mukta Malar", "Kavivanar")
 LANGUAGE_SCRIPT ={"tamil": "tamil", "hindi": "devanagari", "marathi": "devanagari", "arabic": "arabic", "urdu": "arabic"}
 FONTS = sorted({f for pair in PAIRS for f in pair} | {f for pair in SCRIPTS.values() for f in pair}
 			   | set(SCRIPT_FACES) | set(DISPLAY_FACES) | set(TAMIL_DISPLAY))
 _ONE_WEIGHT = ("Bebas Neue", "Archivo Black", "Pacifico", "Anton", "Lilita One", "Righteous", "Great Vibes", "Kaushan Script",
-			   "Satisfy", "Coiny", "Kavivanar", "DM Serif Display")
+			   "Satisfy", "Coiny", "Kavivanar", "DM Serif Display", "Permanent Marker", "Rubik Dirt")
 # Faces with an 800 weight; the rest are asked for 400 and 700 only (Google rejects a weight a face doesn't have).
 _HEAVY = ("Poppins", "Montserrat", "Inter", "Baloo 2", "Baloo Thambi 2", "Nunito", "Raleway", "Catamaran", "Cairo", "Noto Sans Tamil",
 		  "Noto Sans Devanagari", "Playfair Display", "Mukta Malar", "Open Sans", "Cinzel", "Roboto", "DM Sans", "Archivo", "Source Sans 3")
@@ -145,6 +145,9 @@ FRAMES = {
 	"arch": "border-radius:50% 50% 24px 24px / 34% 34% 24px 24px",
 	"blob": "border-radius:62% 38% 46% 54% / 48% 56% 44% 52%",
 	"mono": "filter:grayscale(1) contrast(1.05)",  # tributes
+	"diamond": "clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)",
+	"tilted": "transform:rotate(-6deg);border-radius:18px;box-shadow:0 18px 40px rgba(0,0,0,.28)",
+	"curve": "border-radius:46% 0 0 46% / 60% 0 0 60%",  # a photo with a big curved left edge
 }
 
 

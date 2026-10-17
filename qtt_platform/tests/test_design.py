@@ -65,7 +65,7 @@ class Patterns(unittest.TestCase):
 
 	def test_only_the_palette_is_used(self):
 		p = base.palette({"primary": "#7c3aed", "accent": "#f59e0b"})
-		allowed = {p["primary"], p["accent"], p["light"], p["dark"], "#ffffff"}
+		allowed = {v for k, v in p.items() if isinstance(v, str)}  # the palette's roles (its own colours and their tints)
 		for name in patterns.PATTERNS:
 			for b in patterns.BASES:
 				used = set(re.findall(r'(?:fill|stroke)="(#[0-9a-f]{6})"', patterns.pattern(name, p, 600, 600, base=b)))

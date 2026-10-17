@@ -11,6 +11,8 @@ The same name and seed always draw the same picture, so a series stays consisten
 import math
 import random
 
+from qtt_platform.design.base import mix as mix_hex
+
 BASES = ("light", "primary", "dark")
 # name: (label, good for) — the library the template builder and QTT Admin show
 PATTERNS = {
@@ -33,6 +35,10 @@ PATTERNS = {
 	# local market (local-post-references.md)
 	"stage_glow": ("Stage lights", "events, worship, concerts"), "rays": ("Light rays", "worship, festivals, greetings"),
 	"corner_blobs": ("Corner blobs", "coaching, kids, cafés"),
+	# modern agency style (agency-post-references in docs/design)
+	"shards": ("Angular shards", "sales, fashion"), "organic_curve": ("Organic curve", "agencies, consultants"),
+	"wave_split": ("Wave split", "agencies, services"), "spotlight": ("Spotlight", "products, food, offers"),
+	"chalkboard": ("Chalkboard", "food, cafés, menus"), "big_circles": ("Big circles", "agencies, youth, offers"),
 }
 
 
@@ -239,11 +245,37 @@ def pattern(name: str, palette: dict, width: int, height: int, *, base: str = "l
 		for k in range(16):
 			a1 = math.radians(40 + k * 7)
 			a2 = a1 + math.radians(3)
-			body += f'<path d="M{cx:.0f} {cy:.0f} L{cx + R * math.cos(a1):.0f} {cy + R * math.sin(a1):.0f} L{cx + R * math.cos(a2):.0f} {cy + R * math.sin(a2):.0f} Z" {f("#ffffff" if base != "light" else c2, .18 if base != "light" else o2)}/>'
+			body += f'<path d="M{cx:.0f} {cy:.0f} L{cx + R * math.cos(a1):.0f} {cy + R * math.sin(a1):.0f} L{cx + R * math.cos(a2):.0f} {cy + R * math.sin(a2):.0f} Z" {f("#ffffff" if base != "light" else c2, .09 if base != "light" else o2)}/>'
 	elif name == "corner_blobs":
 		body = (f'<path d="M0 0 H{w * .32:.0f} C{w * .28:.0f} {h * .1:.0f} {w * .12:.0f} {h * .2:.0f} 0 {h * .26:.0f} Z" {f(palette["accent"], .9 if base == "light" else .6)}/>'
 				f'<path d="M{w} 0 V{h * .2:.0f} C{w * .9:.0f} {h * .16:.0f} {w * .82:.0f} {h * .06:.0f} {w * .8:.0f} 0 Z" {f(c1, min(1, o1 * 3))}/>'
 				f'<path d="M{w} {h} H{w * .7:.0f} C{w * .78:.0f} {h * .9:.0f} {w * .9:.0f} {h * .86:.0f} {w} {h * .8:.0f} Z" {f(palette["accent"], .9 if base == "light" else .6)}/>')
+	elif name == "shards":
+		cols = [(c1, min(1, o1 * 3.5)), (c2, min(1, o2 * 2.2)), (palette["primary_soft"] if base == "light" else c1, .9 if base == "light" else o1 * 2)]
+		polys = [((0, 0), (.42, 0), (0, .36)), ((.7, 0), (1, 0), (1, .3)), ((1, .62), (1, 1), (.62, 1)), ((0, .7), (.3, 1), (0, 1)),
+				 ((.55, 0), (.78, 0), (.6, .14)), ((1, .4), (1, .55), (.9, .5))]
+		for k, poly in enumerate(polys):
+			c, o = cols[k % 3]
+			body += f'<path d="M' + " L".join(f"{x * w:.0f} {y * h:.0f}" for x, y in poly) + f' Z" {f(c, o)}/>'
+	elif name == "organic_curve":
+		col = palette["primary"] if base == "light" else c1
+		body = (f'<path d="M{w * .62:.0f} 0 C{w * .5:.0f} {h * .3:.0f} {w * .98:.0f} {h * .45:.0f} {w * .78:.0f} {h * .72:.0f} '
+				f'C{w * .66:.0f} {h * .9:.0f} {w * .72:.0f} {h:.0f} {w * .72:.0f} {h} H{w} V0 Z" fill="{col}" fill-opacity="{1 if base == "light" else min(1, o1 * 3):.2f}"/>')
+	elif name == "wave_split":
+		col = palette["primary_deep"] if base == "light" else c1
+		body = f'<path d="M0 0 H{w} V{h * .52:.0f} C{w * .7:.0f} {h * .7:.0f} {w * .45:.0f} {h * .3:.0f} 0 {h * .55:.0f} Z" fill="{col}" fill-opacity="{1 if base == "light" else min(1, o1 * 3):.2f}"/>'
+	elif name == "spotlight":
+		defs = (f'<radialGradient id="p" cx="50%" cy="45%" r="65%"><stop offset="0" stop-color="{mix_hex(bg, "#ffffff", .35)}"/>'
+				f'<stop offset="1" stop-color="{bg}"/></radialGradient>')
+		body = f'<rect width="{w}" height="{h}" fill="url(#p)"/>'
+	elif name == "chalkboard":
+		defs = ('<filter id="p" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="3"/>'
+				'<feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .09 0"/></filter>')
+		body = f'<rect width="{w}" height="{h}" fill="{palette["dark"] if base != "primary" else bg}"/><rect width="{w}" height="{h}" filter="url(#p)"/>'
+	elif name == "big_circles":
+		body = (f'<circle cx="{w * .22:.0f}" cy="{h * .28:.0f}" r="{w * .26:.0f}" {f(palette["accent"], .95)}/>'
+				f'<circle cx="{w * .9:.0f}" cy="{h * .88:.0f}" r="{w * .12:.0f}" {f(palette["accent"], .95)}/>'
+				f'<circle cx="{w * .2:.0f}" cy="{h * .6:.0f}" r="{w * .02:.0f}" {f(palette["accent"], .95)}/>')
 	elif name == "leaves":
 		for _ in range(14):
 			x, y, s2, a = rnd.random() * w, rnd.random() * h, (40 + rnd.random() * 60) * u, rnd.random() * 360
