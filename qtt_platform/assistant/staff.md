@@ -21,6 +21,8 @@ day), or Meta changed a template's category. The WhatsApp items come from an hou
 - **Services and pricing** — each managed service's name, wording, base prices and whether it's offered; each plan's
   name, monthly price, setup fee, automations allowed (AI & WhatsApp: 0 = every automation), products / pages /
   articles / newsletters limits. New orders use the new price; businesses already on a plan keep theirs.
+  Website Development also has **add-ons** (marked Add-on; owners pick any of them with one size): Business email,
+  Google Business profile, Care plan, 3 more pages, Move my existing website — priced and switched on/off here too.
 - **Automation library** — the automations businesses choose from (name, what it does, when it runs, group, default
   time, order, shown or hidden) and how many businesses use each.
 - **Website designs** — what owners choose from before a website is built (Website Development): six designs (theme
@@ -83,6 +85,14 @@ words for what's wrong, and is reminded on days 1, 3 and 7 (app + WhatsApp). Fro
 ("not connected for N days"); on day 7 a task "Call <business>: connect <domain> to their new website" appears with the
 phone, the provider and the problems. Parked / for-sale addresses (e.g. atom.com, Sedo, Afternic) are flagged — the owner
 may not own the domain.
+
+## Website add-ons: staff tasks
+When a website service starts (paid, or added by QTT), each add-on done by hand gets a task with its steps: "Set up
+business email for <business>" (the mailbox names the owner gave), "Create the Google Business profile for <business>"
+(with the owner's own Google account, never QTT's; then paste the link into the service's answers), "Add the extra pages
+to <business>'s website" (the site already allows 3 more pages) and "Move <business>'s old website into the new one".
+Care plan needs no task — owners ask for changes through Requests. An owner who already has a Google profile pastes its
+link when ordering; the website links it for Google automatically.
 
 ## Live websites: switch the cache on
 When a website QTT built goes live, a task "Switch on the cache for <domain>" appears (and the site shows in Needs

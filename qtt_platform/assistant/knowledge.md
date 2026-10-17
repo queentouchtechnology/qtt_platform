@@ -690,7 +690,10 @@ that are no longer listed keep running as before.
   ("How would you like to pay?" when ordering); longer terms save money and
   show the saving. Each term is paid in advance and renews at its end (for a
   year or more, the invoice comes 15 days early).
-- Sizes and plans: Website Development is ordered by choosing a size; the
+- Sizes and plans: Website Development is ordered by choosing a size (plus
+  any add-ons); it replaces the older website offers (Business online in a
+  day, Website setup in a day, Landing pages, Site migration), which are no
+  longer sold — anyone who has one keeps it as it is. The
   online store, AI & WhatsApp Automation and the Marketing assistant by
   choosing Starter, Growth or Pro. Each has its own price, shown as you
   choose. The catalogue shows "From …" (the cheapest choice). Your service
@@ -709,7 +712,15 @@ share.
   with these colours**. The website is built exactly like that. Then choose a
   size — Landing page (one page for a campaign or offer), 3 pages (Home, what
   you offer, Contact) or 5 pages (Home, About, what you offer, Gallery,
-  Contact) — your website address (search a new one or use your own),
+  Contact). **Add-ons (optional)**, chosen with the size: Business email
+  (email at your own address, set up for you), Google Business profile
+  (QTT creates your profile on Google Maps and gets it verified with you —
+  already on Google Maps? paste your profile link in the questions instead,
+  free), Care plan (up to 4 changes a month done for you and a monthly
+  check-up), 3 more pages (Gallery, Menu, Team…) and Move my existing
+  website (QTT moves your current site's words and pictures). QTT's team
+  does the add-ons once the website starts and tells you when each is done.
+  Then your website address (search a new one or use your own),
   monthly, yearly or 3 years, and a few questions: business name, what you
   do, your address and a phone number. Then **Your website's words**: tap
   **Write my website text** (choose English, Tamil, Hindi or Arabic) and the
