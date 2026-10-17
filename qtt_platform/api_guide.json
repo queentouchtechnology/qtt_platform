@@ -6078,7 +6078,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/designs.py:189",
+   "source": "qtt-os/qtt_services/qtt_services/api/designs.py:223",
    "status": "Not used by the app"
   },
   {
@@ -6094,7 +6094,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.websiteDesigns",
    "screens": "admin/website_designs_view.dart › _WebsiteDesignsViewState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/designs.py:101",
+   "source": "qtt-os/qtt_services/qtt_services/api/designs.py:135",
    "status": "OK"
   },
   {
@@ -6126,7 +6126,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.refreshDesignDemo",
    "screens": "admin/website_designs_view.dart › _WebsiteDesignsViewState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/designs.py:167",
+   "source": "qtt-os/qtt_services/qtt_services/api/designs.py:201",
    "status": "OK"
   },
   {
@@ -6142,7 +6142,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.retakeDesignShots",
    "screens": "admin/website_designs_view.dart › _WebsiteDesignsViewState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/designs.py:156",
+   "source": "qtt-os/qtt_services/qtt_services/api/designs.py:190",
    "status": "OK"
   },
   {
@@ -6158,7 +6158,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.saveWebsiteDesign",
    "screens": "admin/website_designs_view.dart › _WebsiteDesignsViewState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/designs.py:121",
+   "source": "qtt-os/qtt_services/qtt_services/api/designs.py:155",
    "status": "OK"
   },
   {
@@ -6174,7 +6174,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.saveWebsitePalette",
    "screens": "admin/website_designs_view.dart › _WebsiteDesignsViewState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/designs.py:139",
+   "source": "qtt-os/qtt_services/qtt_services/api/designs.py:173",
    "status": "OK"
   },
   {
@@ -6190,7 +6190,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/designs.py:221",
+   "source": "qtt-os/qtt_services/qtt_services/api/designs.py:255",
    "status": "Not used by the app"
   },
   {
@@ -6206,8 +6206,24 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/designs.py:203",
+   "source": "qtt-os/qtt_services/qtt_services/api/designs.py:237",
    "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_services.api.designs.upload_order_picture",
+   "product": "Managed Services",
+   "area": "api.designs",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Ordering a website: the owner's logo or a photo (multipart `file`: JPG, PNG or WebP, up to 5 MB) — {url}. It goes on their website, so it's a public file; the order keeps it only when the same person uploaded it. → {url, full}",
+   "details": "Ordering a website: the owner's logo or a photo (multipart `file`: JPG, PNG or WebP, up to 5 MB) — {url}. It goes on\ntheir website, so it's a public file; the order keeps it only when the same person uploaded it. → {url, full}",
+   "arguments": "kind",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.uploadOrderPicture",
+   "screens": "products/services/screens/website_pictures.dart › _WebsitePicturesState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/designs.py:91",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_services.api.golive.approve",
@@ -7678,7 +7694,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.cancel",
    "screens": "app/app.dart › _QttOsAppState\napp/app_gate.dart › _SplashState\ncore/analytics/analytics.dart › Analytics\ncore/config/remote_config.dart › RemoteConfigStore\ncore/push/push_service.dart › PushService\nplatform/onboarding/signup_screen.dart › _SignupScreenState\nplatform/session/app_session.dart › AppSession\nproducts/office_pulse/office_pulse_root.dart › PulseState\nproducts/office_pulse/screens/pattern_who.dart › _PatternWhoState\nproducts/onbox/chat_controller.dart › ChatController\nproducts/onbox/onbox_provider.dart › OnboxProvider\nproducts/onbox/screens/conversation_list_pane.dart › _ConversationListPaneState\nproducts/orbitra/orbitra_root.dart › OrbitraState\nproducts/services/screens/deploy_pages.dart › _DeploymentPageState\nproducts/services/screens/golive_pages.dart › _DeletingDialogState\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › ServicesState\nshared/search/global_search.dart › _GlobalSearchScreenState\nshared/widgets/list_kit.dart › _SearchFilterBarState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:364",
+   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:368",
    "status": "Not described"
   },
   {
@@ -7726,7 +7742,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.invoices\nqtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.invoicesPage",
    "screens": "admin/saas_models.dart › WorkspaceBilling\nadmin/workspace_billing_view.dart › _WorkspaceBillingSectionState\nplatform/workspace/billing_section.dart › _BillingSectionState\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/orbitra/screens/sales_view.dart › _SalesViewState\nproducts/services/screens/order_pages.dart › _PaymentsPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:337",
+   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:341",
    "status": "OK"
   },
   {
@@ -7742,7 +7758,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.keep",
    "screens": "platform/data/platform_repository.dart › PlatformRepository\nproducts/onbox/screens/channel_access_screen.dart › _InboxMembersCardState\nproducts/services/screens/services_home.dart › _ServicePage",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:387",
+   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:391",
    "status": "OK"
   },
   {
@@ -7790,7 +7806,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.payLink",
    "screens": "products/services/screens/order_pages.dart › (top level)",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:330",
+   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:334",
    "status": "Not described"
   },
   {
@@ -8366,7 +8382,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store_build.py:177",
+   "source": "qtt-os/qtt_services/qtt_services/api/store_build.py:179",
    "status": "Not described"
   },
   {
@@ -8446,7 +8462,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store_build.py:170",
+   "source": "qtt-os/qtt_services/qtt_services/api/store_build.py:172",
    "status": "Not described"
   },
   {
