@@ -7774,7 +7774,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.cancel",
    "screens": "admin/admin_repository.dart › AdminRepository\napp/app.dart › _QttOsAppState\napp/app_gate.dart › _SplashState\ncore/analytics/analytics.dart › Analytics\ncore/config/remote_config.dart › RemoteConfigStore\ncore/push/push_service.dart › PushService\nplatform/onboarding/signup_screen.dart › _SignupScreenState\nplatform/session/app_session.dart › AppSession\nproducts/office_pulse/office_pulse_root.dart › PulseState\nproducts/office_pulse/screens/pattern_who.dart › _PatternWhoState\nproducts/onbox/chat_controller.dart › ChatController\nproducts/onbox/onbox_provider.dart › OnboxProvider\nproducts/onbox/screens/conversation_list_pane.dart › _ConversationListPaneState\nproducts/orbitra/orbitra_root.dart › OrbitraState\nproducts/services/screens/deploy_pages.dart › _DeploymentPageState\nproducts/services/screens/golive_pages.dart › _DeletingDialogState\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › ServicesState\nshared/search/global_search.dart › _GlobalSearchScreenState\nshared/widgets/list_kit.dart › _SearchFilterBarState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:372",
+   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:373",
    "status": "Not described"
   },
   {
@@ -7822,7 +7822,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.invoices\nqtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.invoicesPage",
    "screens": "admin/saas_models.dart › WorkspaceBilling\nadmin/workspace_billing_view.dart › _WorkspaceBillingSectionState\nplatform/workspace/billing_section.dart › _BillingSectionState\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/orbitra/screens/sales_view.dart › _SalesViewState\nproducts/services/screens/order_pages.dart › _PaymentsPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:345",
+   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:346",
    "status": "OK"
   },
   {
@@ -7838,7 +7838,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.keep",
    "screens": "platform/data/platform_repository.dart › PlatformRepository\nproducts/onbox/screens/channel_access_screen.dart › _InboxMembersCardState\nproducts/services/screens/services_home.dart › _ServicePage",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:395",
+   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:396",
    "status": "OK"
   },
   {
@@ -7886,7 +7886,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.payLink",
    "screens": "products/services/screens/order_pages.dart › (top level)",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:338",
+   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:339",
    "status": "Not described"
   },
   {
@@ -8007,14 +8007,14 @@
    "area": "api.site_words",
    "http_methods": "POST",
    "guest": 0,
-   "purpose": "Write a new website's words from the owner's answers (business name, what they do, address …) — to check and edit before ordering. {words, ready}. Signed-in owners; 30 drafts a day.",
-   "details": "Write a new website's words from the owner's answers (business name, what they do, address …) — to check and\nedit before ordering. {words, ready}. Signed-in owners; 30 drafts a day.",
+   "purpose": "Write a new website's words — or an online store's (kind 'store') — from the owner's answers (business name, what they do / sell, how customers pay, where they deliver …) — to check and edit before ordering. {words, ready}. Signed-in owners; 30 drafts a day.",
+   "details": "Write a new website's words — or an online store's (kind 'store') — from the owner's answers (business name, what\nthey do / sell, how customers pay, where they deliver …) — to check and edit before ordering. {words, ready}.\nSigned-in owners; 30 drafts a day.",
    "arguments": "business, answers, kind, language",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.draftWebsiteWords",
    "screens": "products/services/screens/website_words.dart › _WebsiteWordsState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/site_words.py:39",
+   "source": "qtt-os/qtt_services/qtt_services/api/site_words.py:45",
    "status": "OK"
   },
   {
@@ -8462,7 +8462,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store_build.py:206",
+   "source": "qtt-os/qtt_services/qtt_services/api/store_build.py:204",
    "status": "Not described"
   },
   {
@@ -8542,7 +8542,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store_build.py:199",
+   "source": "qtt-os/qtt_services/qtt_services/api/store_build.py:197",
    "status": "Not described"
   },
   {

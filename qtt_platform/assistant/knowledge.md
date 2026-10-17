@@ -908,8 +908,14 @@ to remember or share.
   opens a real clickable store with that kind of products and your business
   name (nothing can be bought in the demo) — then colours. The store is built
   exactly like that; design and colours can be changed later in the app.
-  Then choose a plan, answer a few questions (business name,
-  what you sell, how customers pay, where you deliver, a phone number),
+  Then **Your store's words**: tap **Write my store text** (English, Tamil,
+  Hindi or Arabic) and the headline, about, "why shop with us", the banner
+  and common questions are written from your answers — check and change every
+  line before ordering. Nothing is promised that you didn't tell us: no free
+  delivery, return windows, discounts, reviews or numbers; cash on delivery
+  and delivery areas only as you answered them.
+  Then choose a plan, answer a few questions (business name, what you sell,
+  what kind of store, how customers pay, where you deliver, a phone number),
   choose monthly, yearly or 3 years, pay the setup fee and the first term.
 - Setting up takes a few minutes and shows step by step: creating the store,
   WordPress and WooCommerce, the design for what you sell, sample products
