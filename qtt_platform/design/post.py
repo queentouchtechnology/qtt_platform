@@ -19,7 +19,7 @@ EXTRA_FACES = ("Kaushan Script", "Caveat", "Bebas Neue", "Cinzel", "Great Vibes"
 
 def kit_root() -> Path | None:
 	try:
-		p = Path(frappe.get_app_path("qtt_services", "wordpress", "kit-images"))
+		p = Path(frappe.get_app_path("qtt_services")) / "wordpress" / "kit-images"  # get_app_path would turn the "-" into "_"
 	except Exception:
 		return None
 	return p if p.is_dir() else None
