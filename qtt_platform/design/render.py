@@ -28,6 +28,8 @@ def png(page_html: str, width: int, height: int, files: dict[str, bytes] | None 
 		multipart.append(("files", (name, data, "application/octet-stream")))
 	form = {"width": str(int(width)), "height": str(int(height)), "clip": "true", "format": "png",
 			"skipNetworkIdleEvent": "false", "waitDelay": "0.6s", "optimizeForSpeed": "true"}
+	if "window.qttReady" in page_html:  # a post: wait until its fonts are in and its text has been fitted
+		form["waitForExpression"] = "window.qttReady === true"
 	try:
 		r = requests.post(f"{url}/forms/chromium/screenshot/html", auth=(s.get("render_user") or "qtt", password),
 						  data=form, files=multipart, timeout=TIMEOUT)
