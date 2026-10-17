@@ -5698,6 +5698,22 @@
    "status": "OK"
   },
   {
+   "endpoint": "qtt_services.api.admin.automation_library",
+   "product": "Managed Services",
+   "area": "api.admin",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "The automation library (QTT Admin › Automation library): wording, group, order, shown or hidden, live or coming soon, and how many businesses use each.",
+   "details": "The automation library (QTT Admin › Automation library): wording, group, order, shown or hidden, live or coming soon,\nand how many businesses use each.",
+   "arguments": "",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:487",
+   "status": "Not used by the app"
+  },
+  {
    "endpoint": "qtt_services.api.admin.check_now",
    "product": "Managed Services",
    "area": "api.admin",
@@ -5842,20 +5858,52 @@
    "status": "Not described"
   },
   {
+   "endpoint": "qtt_services.api.admin.save_automation_type",
+   "product": "Managed Services",
+   "area": "api.admin",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "One library entry's name, description, group, when it runs, default time, order and whether clients see it. (\"Live\" follows the engine — it isn't switched here.)",
+   "details": "One library entry's name, description, group, when it runs, default time, order and whether clients see it.\n(\"Live\" follows the engine — it isn't switched here.)",
+   "arguments": "code, values",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:503",
+   "status": "Not used by the app"
+  },
+  {
    "endpoint": "qtt_services.api.admin.save_service",
    "product": "Managed Services",
    "area": "api.admin",
    "http_methods": "POST",
    "guest": 0,
-   "purpose": "Save service — admin (named only: no description in the code yet)",
-   "details": "",
-   "arguments": "tenant, service_type, status, monthly_fee, setup_fee, client_note, notes, name",
+   "purpose": "A managed service's wording, base prices, order and whether it's offered. Already-ordered services keep their price.",
+   "details": "A managed service's wording, base prices, order and whether it's offered. Already-ordered services keep their price.",
+   "arguments": "code, values",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.saveService",
    "screens": "admin/business_admin.dart › _TenantServicesSectionState\nadmin/clients_view.dart › _ClientConsoleState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:83",
-   "status": "Not described"
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:434",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.admin.save_service_plan",
+   "product": "Managed Services",
+   "area": "api.admin",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "One plan of a managed service: name, what it includes, monthly price, setup fee, its limits (automations allowed, products, pages…), on/off. New orders use it at once; businesses already on the plan keep the price they ordered at.",
+   "details": "One plan of a managed service: name, what it includes, monthly price, setup fee, its limits (automations allowed,\nproducts, pages…), on/off. New orders use it at once; businesses already on the plan keep the price they ordered at.",
+   "arguments": "code, option_key, values",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:458",
+   "status": "Not used by the app"
   },
   {
    "endpoint": "qtt_services.api.admin.server_install_command",
@@ -5904,6 +5952,22 @@
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/admin.py:215",
    "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.admin.services_admin",
+   "product": "Managed Services",
+   "area": "api.admin",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "Every managed service (offered or not) with its wording, prices, plans (price, setup fee, limits) and terms — QTT Admin › Services and pricing.",
+   "details": "Every managed service (offered or not) with its wording, prices, plans (price, setup fee, limits) and terms —\nQTT Admin › Services and pricing.",
+   "arguments": "",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:413",
+   "status": "Not used by the app"
   },
   {
    "endpoint": "qtt_services.api.agent.ingest",
