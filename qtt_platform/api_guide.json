@@ -3550,7 +3550,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.home",
    "screens": "admin/admin_home.dart › _AdminHomeBodyState\ncore/assistant/screen_context.dart › CurrentScreen\nplatform/data/platform_repository.dart › PlatformRepository\nplatform/explore/explore_screen.dart › _ItemPage\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/onbox/onbox_root.dart › _InboxRootState\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/orbitra_shell.dart › _OrbitraHomeState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/services_root.dart › _ServicesRootState\nshared/widgets/action_cards.dart › (top level)\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/admin_home.py:95",
+   "source": "qtt_platform/qtt_platform/api/admin_home.py:104",
    "status": "Not described"
   },
   {

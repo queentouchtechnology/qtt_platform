@@ -57,5 +57,12 @@ class Attention(unittest.TestCase):
 			("info", "wa_template_approved", "whatsapp_templates", "qtt_report")])
 
 
+class CacheAttention(unittest.TestCase):
+	def test_website_cache_item(self):
+		items = logic.attention_items(website_cache=[{"label": "Annapoorna Mess website", "tenant": "t1", "tenant_name": "Annapoorna", "task": "TASK-1"}],
+									  today_str="2026-10-17")
+		self.assertEqual([(i["kind"], i["level"], i["area"], i["target"], i["title"]) for i in items],
+						 [("website_cache", "info", "clients", "t1", "Annapoorna Mess website")])
+
 if __name__ == "__main__":
 	unittest.main()

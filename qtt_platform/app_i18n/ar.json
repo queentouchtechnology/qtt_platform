@@ -4957,6 +4957,7 @@
  "{calendar}": "{calendar}",
  "{client}: down": "{client}: متوقف",
  "{client}: new request": "{client}: طلب جديد",
+ "{client}: switch on the cache in CloudPanel (Sites › Varnish Cache)": "{client}: فعّل التخزين المؤقت في CloudPanel (Sites › Varnish Cache)",
  "{condition} {value}": "{condition} {value}",
  "{count} failed in 24 h": "{count} فشل خلال 24 س",
  "{count} on trial": "{count} قيد التجربة",

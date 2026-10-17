@@ -76,6 +76,12 @@ day), or Meta changed a template's category. The WhatsApp items come from an hou
   (health), requests (answer them), activity; assign a service.
 - **Usage** — AI spend (DeepSeek, OpenAI), Hermes and n8n runs, from the automation server.
 
+## Live websites: switch the cache on
+When a website QTT built goes live, a task "Switch on the cache for <domain>" appears (and the site shows in Needs
+attention): CloudPanel → Sites → the site → Varnish Cache → switch on, keep the excluded pages, Save. A daily check sees
+the site answering from the cache and closes the task by itself. The theme clears the cache whenever the owner changes the
+site from the app.
+
 ## Businesses' own WhatsApp (Managed Services › Your WhatsApp)
 A business with AI & WhatsApp Automation whose own number is connected in its Onbox (WhatsApp Cloud API) gets the same
 tools for its number (owner only): number health, profile and photo, QR codes, templates, broadcasts, forms, blocked

@@ -4957,6 +4957,7 @@
  "{calendar}": "{calendar}",
  "{client}: down": "{client}: बंद",
  "{client}: new request": "{client}: नया अनुरोध",
+ "{client}: switch on the cache in CloudPanel (Sites › Varnish Cache)": "{client}: CloudPanel में कैश चालू करें (Sites › Varnish Cache)",
  "{condition} {value}": "{condition} {value}",
  "{count} failed in 24 h": "24 घं. में {count} विफल",
  "{count} on trial": "{count} ट्रायल पर",

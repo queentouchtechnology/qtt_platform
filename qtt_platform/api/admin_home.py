@@ -36,6 +36,15 @@ def _automation_attention() -> list[dict]:
 	return out
 
 
+def _cache_attention() -> list[dict]:
+	"""Live websites whose CloudPanel cache staff haven't switched on yet (qtt_services site_cache; the task closes itself)."""
+	try:
+		from qtt_services.site_cache import attention
+	except ImportError:
+		return []
+	return attention()
+
+
 def _whatsapp_attention() -> list[dict]:
 	"""QTT's WhatsApp number (qtt_services, the hourly check): quality dropping, templates rejected / paused, just approved."""
 	try:
@@ -132,6 +141,6 @@ def home() -> dict:
 		"attention": logic.attention_items(servers=servers, trials=rev.get("trials_ending") or [], past_due=rev.get("past_due") or [],
 										   approvals=approvals, setup_errors=setup_errors, domains=domains,
 										   snapshots=snapshots, client_sites=client_sites, client_requests=client_requests, automation=automation,
-										   whatsapp=_whatsapp_attention(), today_str=today()),
+										   whatsapp=_whatsapp_attention(), website_cache=_cache_attention(), today_str=today()),
 		"subscriptions_by_product": overview.get("subscriptions_by_product") or {},
 	}
