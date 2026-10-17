@@ -45,7 +45,8 @@ def library_list(post_type: str | None = None, group: str | None = None, start: 
 	start, limit = max(0, int(start or 0)), min(60, max(1, int(limit or 30)))
 	counts = {k: sum(1 for r in in_group if k in r["post_types"]) for k in catalog.POST_TYPES}
 	return {
-		"templates": [{"key": r["key"], "title": r["title"], "layout": r["layout"], "post_types": r["post_types"], "groups": r["groups"],
+		"templates": [{"key": r["key"], "title": r["title"], "label": (catalog.LAYOUTS.get(r["layout"]) or {}).get("label") or r["title"],
+					   "name": r["title"].split(" · ", 1)[-1], "layout": r["layout"], "post_types": r["post_types"], "groups": r["groups"],
 					   "look": r["look"], "picture": library.picture(r, g)} for r in chosen[start:start + limit]],
 		"total": len(chosen), "group": g, "my_group": mine,
 		"post_types": [{"key": k, "label": label, "count": counts[k]} for k, label in catalog.POST_TYPES.items() if counts[k]],

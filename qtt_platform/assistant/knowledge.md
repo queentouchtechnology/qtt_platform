@@ -922,6 +922,22 @@ open it from that service).
   better the drafts: the Marketing assistant page shows how complete it is
   (under 80%) with a link to add more. Nothing is invented — no prices,
   offers or promises that aren't written there.
+- **Post designs** (Marketing assistant › Post designs, owner / admin): the
+  library of designs — offers and sales, products, events, festival wishes,
+  tributes, listings (property, vehicles), problem and solution, tips and
+  quotes, courses and admissions, launches, hiring, contact — first for your
+  kind of business (Business › Knowledge › Type of business; or pick another,
+  or every kind), filtered by post type. Open one to see it as your post: your
+  logo as it is, your brand colours and fonts, your name, phone, website and
+  address, photos for your kind of business — square, portrait or story size,
+  light, dark or in your main colour. The words in it are an example; your own
+  words, prices and dates go in when you make the post. Designs are drawn on
+  QTT's server from the design base — never by an AI image service. Styles
+  include QTT-style technology posts (benefits with a device, problem and
+  solution), local posts (real estate listings with Tamil prices, worship and
+  seminar posters with date and QR code, coaching posts, festival wishes,
+  tributes) and modern agency posts (big sale, product promo on a chalkboard,
+  expert with a photo, numbered services, gallery).
 - **A post**: change the words, add photos or videos (Add), choose the pages
   (Post on), and When — as soon as you approve, or pick a time. **Approve and
   post / Approve and schedule** sends it; **Save for later** keeps it as a
