@@ -284,7 +284,12 @@ def templates() -> list[dict]:
 
 
 def catalog_hash() -> str:
-	return hashlib.sha1(json.dumps([templates(), SAMPLES], sort_keys=True, ensure_ascii=False).encode()).hexdigest()[:16]
+	"""Changes when the catalogue or the design code changes — the library pictures are made again then."""
+	from pathlib import Path
+
+	here = Path(__file__).parent
+	code = b"".join((here / f).read_bytes() for f in ("archetypes.py", "layouts.py", "patterns.py", "elements.py", "base.py"))
+	return hashlib.sha1(json.dumps([templates(), SAMPLES], sort_keys=True, ensure_ascii=False).encode() + code).hexdigest()[:16]
 
 
 def matches(t: dict, *, post_type: str | None = None, group: str | None = None, business_type: str | None = None) -> bool:

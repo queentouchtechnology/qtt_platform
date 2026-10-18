@@ -157,4 +157,9 @@ def page(body: str, css: str, x: Ctx, out_w: int, out_h: int) -> str:
 
 	scale = out_w / DESIGN_W
 	inner = (f'<div class="post" style="transform:scale({scale:.5f});transform-origin:0 0">{body}</div>{FIT_SCRIPT}')
-	return wrap(inner, out_w, out_h, x.fonts, extra_css=common_css(x) + css)
+	extra = ""
+	if x.fonts.get("script") in ("tamil", "devanagari"):
+		# Script and display faces have no Tamil / Hindi letters: those lines use the heading face, bold — as local posters do
+		extra = (".post h1,.post .kick,.post .hand,.post .name,.post .nm,.post .sw span,.post .br span,.post .head span,.post .promise,"
+				 ".post .time{font-family:var(--font-heading)!important;font-weight:800!important;letter-spacing:0!important}")
+	return wrap(inner, out_w, out_h, x.fonts, extra_css=common_css(x) + css + extra)

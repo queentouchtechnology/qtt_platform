@@ -111,11 +111,11 @@ def center_hero(x: Ctx, v: dict) -> tuple[str, str]:
 			f'<div class="foot"><div>{foot_left}</div>{cta}</div></div>')
 	hs = 150 if not x.tall else 170
 	css = (f".wrap{{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding:40px 56px 46px}}"
-		   f".top{{align-self:flex-start}}.kick{{font:400 64px '{script}';color:{x.p['accent'] if x.look != 'light' else x.hl};margin-top:-30px;text-align:center}}"
-		   f"h1{{font:400 {hs}px/1 '{script}';color:{x.ink};text-align:center;width:100%;max-height:{hs * 1.25:.0f}px;white-space:nowrap}}h1 em{{color:{x.p['accent']}}}"
+		   f".top{{align-self:flex-start}}.kick{{font:400 64px '{script}', var(--font-heading);color:{x.p['accent'] if x.look != 'light' else x.hl};margin-top:-6px;text-align:center}}"
+		   f"h1{{font:400 {hs}px/1 '{script}', var(--font-heading);color:{x.ink};text-align:center;width:100%;max-height:{hs * 1.25:.0f}px;white-space:nowrap}}h1 em{{color:{x.p['accent']}}}"
 		   f".mid{{flex:1;position:relative;width:100%;display:flex;align-items:center;justify-content:center;min-height:0}}"
 		   f".hero{{width:{620 if x.tall else 560}px;height:{620 if x.tall else 520}px;max-height:100%;box-shadow:0 30px 60px rgba(0,0,0,.35)}}"
-		   f".note{{position:absolute}}.n1{{left:0;top:12%;text-align:center}}.hand{{font:700 42px/1.05 'Caveat';color:{x.ink};transform:rotate(-8deg);margin-bottom:6px}}"
+		   f".note{{position:absolute}}.n1{{left:0;top:12%;text-align:center}}.hand{{font:700 42px/1.05 'Caveat', var(--font-heading);color:{x.ink};transform:rotate(-8deg);margin-bottom:6px}}"
 		   f".n2{{right:-10px;top:4%}}.n3{{right:0;bottom:6%;text-align:center}}.pl{{font:700 22px var(--font-body);color:{x.ink}}}"
 		   f".foot{{width:100%;display:flex;align-items:flex-end;justify-content:space-between}}.fl{{font:800 38px var(--font-heading);color:{x.ink}}}"
 		   f".fl + .fl{{font:500 20px var(--font-body);opacity:.85}}")
@@ -144,7 +144,7 @@ def listing(x: Ctx, v: dict) -> tuple[str, str]:
 		   f".upper{{flex:1;display:grid;grid-template-columns:{'1fr' if x.tall else '540px 1fr'};min-height:0}}"
 		   f".house{{position:relative;min-height:{'560px' if x.tall else '0'}}}.lg{{position:absolute;left:26px;top:24px;background:rgba(255,255,255,.93);padding:10px 16px;border-radius:14px}}"
 		   f".right{{padding:22px 24px 10px;display:flex;flex-direction:column;align-items:flex-start;min-height:0}}"
-		   f".sw{{position:relative;margin-top:-4px}}.sw span{{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:400 60px 'Kaushan Script';color:#fff}}"
+		   f".sw{{position:relative;margin-top:-4px}}.sw span{{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:400 60px 'Kaushan Script', var(--font-heading);color:#fff}}"
 		   f".specs{{margin-top:14px}}.pr{{position:relative;margin-top:4px}}.pt{{position:absolute;inset:6px 40px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#b91c1c}}"
 		   f".pt small{{font:700 24px var(--font-body);color:{x.p['dark']}}}.pt b{{font:900 62px/1.05 var(--font-heading);max-width:100%;white-space:nowrap}}"
 		   f".strip{{display:flex;gap:12px;padding:14px 20px}}.sp{{flex:1;height:{220 if x.tall else 170}px;border-radius:14px;position:relative}}"
@@ -152,7 +152,7 @@ def listing(x: Ctx, v: dict) -> tuple[str, str]:
 		   f".ams{{background:{x.p['primary']};display:flex;justify-content:space-around;align-items:center;min-height:74px;padding:0 10px}}"
 		   f".am{{display:flex;gap:10px;align-items:center;color:{x.p['on_primary']};font:600 16px var(--font-body)}}"
 		   f".foot{{background:{x.p['dark']};display:flex;align-items:center;justify-content:space-between;padding:22px 40px;min-height:140px}}"
-		   f".nm{{font:400 46px 'Kaushan Script';color:{x.p['accent']}}}.sv{{color:#fff;font:500 17px var(--font-body)}}"
+		   f".nm{{font:400 46px 'Kaushan Script', var(--font-heading);color:{x.p['accent']}}}.sv{{color:#fff;font:500 17px var(--font-body)}}"
 		   f".call{{display:flex;align-items:center;gap:14px;color:#fff;font:800 50px var(--font-heading)}}"
 		   + _rows_css(x, 72).replace(f"color:{x.ink}", f"color:{x.p['dark']}").replace(f"color:{x.soft}", "color:#475569")
 		   + ".row b{font-size:34px}")
@@ -177,14 +177,14 @@ def event(x: Ctx, v: dict) -> tuple[str, str]:
 			f'<div class="addr">{x.t("address")}</div><div class="low">{date}{qr}</div></div>')
 	css = (f".post{{background:{x.p['dark']};color:#fff}}.bgph{{opacity:.5}}h1{{margin-top:16px}}"
 		   f".wrap{{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding:40px 50px 44px;text-align:center}}"
-		   f".top{{align-self:flex-start}}h1{{font:400 {190 if x.tall else 160}px/0.92 '{title_face}';letter-spacing:6px;text-transform:uppercase;"
+		   f".top{{align-self:flex-start}}h1{{font:400 {190 if x.tall else 160}px/0.92 '{title_face}', var(--font-heading);letter-spacing:6px;text-transform:uppercase;"
 		   f"max-height:{420 if x.tall else 320}px;width:100%;{base.text_style(ts, x.p)}}}"
 		   f".who{{margin-top:auto;display:flex;flex-direction:column;align-items:center}}.pic{{width:{300 if x.tall else 200}px;height:{300 if x.tall else 200}px;margin-bottom:14px;"
-		   f"border:5px solid {x.p['accent']}}}.who small{{font:600 16px var(--font-body);letter-spacing:6px;opacity:.85;text-transform:uppercase}}.who b{{font:700 40px 'Cinzel'}}"
+		   f"border:5px solid {x.p['accent']}}}.who small{{font:600 16px var(--font-body);letter-spacing:6px;opacity:.85;text-transform:uppercase}}.who b{{font:700 40px 'Cinzel', var(--font-heading)}}"
 		   f".time{{margin-top:14px;font:800 {96 if x.tall else 84}px var(--font-heading);{base.text_style('gold', x.p)}}}"
-		   f".place{{font:700 30px var(--font-heading);letter-spacing:3px;text-transform:uppercase}}.addr{{font:400 38px 'Bebas Neue';letter-spacing:2px;opacity:.95}}"
+		   f".place{{font:700 30px var(--font-heading);letter-spacing:3px;text-transform:uppercase}}.addr{{font:400 38px 'Bebas Neue', var(--font-heading);letter-spacing:2px;opacity:.95}}"
 		   f".low{{width:100%;display:flex;justify-content:space-between;align-items:flex-end;margin-top:{'auto' if x.tall else '10px'}}}"
-		   f".qr{{font:400 22px 'Bebas Neue';letter-spacing:1px}}")
+		   f".qr{{font:400 22px 'Bebas Neue', var(--font-heading);letter-spacing:1px}}")
 	return body, css
 
 
@@ -201,9 +201,9 @@ def tribute(x: Ctx, v: dict) -> tuple[str, str]:
 	css = (f".post{{background:#0a0a0a;color:{ink}}}.wrap{{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding:44px 60px 50px;text-align:center}}"
 		   f".top{{align-self:flex-end}}.pic{{width:{620 if x.tall else 470}px;flex:1;max-height:{900 if x.tall else 560}px;min-height:300px;"
 		   f"-webkit-mask-image:linear-gradient(180deg,#000 70%,transparent);mask-image:linear-gradient(180deg,#000 70%,transparent)}}"
-		   f".rip{{display:flex;align-items:center;gap:22px;font:400 22px 'Cinzel';letter-spacing:8px;margin-top:-20px}}.rip i{{width:90px;height:1px;background:#cbd5e1}}"
-		   f".name{{font:400 120px/1.1 'Great Vibes';width:100%;max-height:150px;white-space:nowrap}}"
-		   f".role{{font:400 22px 'Cinzel';letter-spacing:6px;text-transform:uppercase}}.yrs{{font:500 24px var(--font-body);margin-top:10px;opacity:.9}}"
+		   f".rip{{display:flex;align-items:center;gap:22px;font:400 22px 'Cinzel', var(--font-heading);letter-spacing:8px;margin-top:-20px}}.rip i{{width:90px;height:1px;background:#cbd5e1}}"
+		   f".name{{font:400 120px/1.1 'Great Vibes', var(--font-heading);width:100%;max-height:150px;white-space:nowrap}}"
+		   f".role{{font:400 22px 'Cinzel', var(--font-heading);letter-spacing:6px;text-transform:uppercase}}.yrs{{font:500 24px var(--font-body);margin-top:10px;opacity:.9}}"
 		   f".q{{font:italic 400 26px/1.45 Georgia,serif;margin-top:18px;max-width:760px;opacity:.9}}.orn{{margin-top:16px}}")
 	return body, css
 
@@ -273,9 +273,9 @@ def circles_labels(x: Ctx, v: dict) -> tuple[str, str]:
 		   f"h1 em{{color:{x.p['primary']}}}.ul{{margin-top:-6px}}.circles{{display:flex;gap:28px;justify-content:center;margin-top:16px}}"
 		   f".low{{flex:1;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center;min-height:0}}"
 		   f".pic{{height:100%;max-height:{620 if x.tall else 330}px;min-height:200px}}.br{{position:relative}}.br span{{position:absolute;inset:26px 50px;display:flex;"
-		   f"align-items:center;justify-content:center;text-align:center;font:400 36px/1.05 'Kaushan Script';color:{x.p['on_accent']}}}"
+		   f"align-items:center;justify-content:center;text-align:center;font:400 36px/1.05 'Kaushan Script', var(--font-heading);color:{x.p['on_accent']}}}"
 		   f".wb{{position:absolute;left:0;right:0;bottom:0;height:230px}}.wbt{{position:absolute;left:0;right:0;bottom:0;height:170px;display:flex;align-items:center;justify-content:center}}"
-		   f".call{{display:flex;align-items:center;gap:20px;color:#fff;font:800 66px var(--font-heading)}}.call small{{display:block;font:400 30px 'Kaushan Script';color:{x.p['accent']}}}")
+		   f".call{{display:flex;align-items:center;gap:20px;color:#fff;font:800 66px var(--font-heading)}}.call small{{display:block;font:400 30px 'Kaushan Script', var(--font-heading);color:{x.p['accent']}}}")
 	return body, css
 
 
@@ -326,8 +326,8 @@ def greeting(x: Ctx, v: dict) -> tuple[str, str]:
 	css = (f".post{{background:{x.p['primary']};color:#fff}}.wrap{{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding:36px 50px 40px;text-align:center}}"
 		   f".top{{align-self:flex-start}}.pics{{display:flex;gap:26px;margin-top:6px}}.gp{{width:{260 if x.tall else 210}px;height:{260 if x.tall else 210}px;border:6px solid #f5c542;"
 		   f"box-shadow:0 14px 30px rgba(0,0,0,.35)}}.center{{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;min-height:0}}"
-		   f".orn{{margin:16px 0}}.kick{{font:400 52px 'Great Vibes';margin-top:14px}}"
-		   f"h1{{font:400 {150 if x.tall else 124}px/1 '{face}';width:100%;max-height:{360 if x.tall else 270}px;{base.text_style(ts, x.p)}}}"
+		   f".orn{{margin:16px 0}}.kick{{font:400 52px 'Great Vibes', var(--font-heading);margin-top:14px}}"
+		   f"h1{{font:400 {150 if x.tall else 124}px/1 '{face}', var(--font-heading);width:100%;max-height:{360 if x.tall else 270}px;{base.text_style(ts, x.p)}}}"
 		   f".date{{margin-top:10px}}.msg{{font:600 30px/1.4 var(--font-body);max-width:900px;margin-top:16px;max-height:{260 if x.tall else 130}px}}"
 		   f".from{{font:800 30px var(--font-heading);background:rgba(0,0,0,.25);padding:12px 30px;border-radius:40px}}")
 	return body, css
@@ -463,7 +463,7 @@ def product_promo(x: Ctx, v: dict) -> tuple[str, str]:
 			f'<div class="addr">{x.t("address")}</div></div>')
 	css = (f".post{{color:#fff}}.wrap{{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding:40px 50px 22px}}"
 		   f".row{{width:100%;display:flex;justify-content:space-between;align-items:flex-start}}.price{{text-align:center;font:800 22px var(--font-heading)}}.price small{{display:block;text-transform:uppercase}}"
-		   f".kick{{font:400 58px 'Kaushan Script';color:{x.p['accent']};margin-top:-10px}}h1{{font:400 {210 if x.tall else 180}px/1 'Rubik Dirt';text-transform:uppercase;width:100%;"
+		   f".kick{{font:400 58px 'Kaushan Script', var(--font-heading);color:{x.p['accent']};margin-top:-10px}}h1{{font:400 {210 if x.tall else 180}px/1 'Rubik Dirt', var(--font-heading);text-transform:uppercase;width:100%;"
 		   f"text-align:center;max-height:{240 if x.tall else 200}px;white-space:nowrap}}h1 em{{color:{x.p['accent']}}}"
 		   f".pic{{flex:1;width:100%;min-height:0;border-radius:28px;margin-top:10px;-webkit-mask-image:radial-gradient(ellipse at center,#000 55%,transparent 75%);"
 		   f"mask-image:radial-gradient(ellipse at center,#000 55%,transparent 75%)}}.ob{{margin-top:6px}}"
