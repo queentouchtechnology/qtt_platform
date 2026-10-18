@@ -154,9 +154,6 @@ after_install = "qtt_platform.app_setup.seed_app_defaults"
 after_migrate = ["qtt_platform.app_setup.seed_app_defaults", "qtt_platform.studio.setup.register", "qtt_platform.house.ensure_all",
 	"qtt_platform.api_guide.sync", "qtt_platform.design.library.sync", "qtt_platform.design.library.sync_occasions"]
 
-# QTT Studio (a product of qtt_platform itself): whoever starts it (the owner) gets Studio Admin.
-saas_initial_product_roles = {"QTT_STUDIO": "Studio Admin"}
-
 # Kept by a full cache clear (deploys, migrate, bench clear-cache): each person's chosen
 # business. Without it every request after a deploy fails with "Choose your business first".
 persistent_cache_keys = ["qtt_active_tenant"]
@@ -266,7 +263,7 @@ usage_resolvers = {}
 # from its OWN hooks.py, e.g. qtt_onbox: {"QTT_ONBOX": "Manager"}, so the
 # platform never names a product. Same get_hooks() dict shape as
 # usage_resolvers above.
-saas_initial_product_roles = {}
+saas_initial_product_roles = {"QTT_STUDIO": "Studio Admin"}  # QTT Studio is qtt_platform's own product: its starter gets Studio Admin
 
 # AI feature-handler registry — production-readiness audit. Same
 # mechanism/reasoning as usage_resolvers immediately above (a hooks.py
