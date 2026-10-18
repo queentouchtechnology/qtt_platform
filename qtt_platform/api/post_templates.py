@@ -85,8 +85,14 @@ def preview(key: str, format: str = "square", look: str | None = None) -> dict: 
 	fonts = (kit["font_heading"] or catalog.FONT_SETS[t["fonts"]][0], kit["font_body"] or catalog.FONT_SETS[t["fonts"]][1])
 	group = _group_of(tenant) or (t["groups"][0] if t["groups"][0] != "any" else "any")
 	btype = k.get("business_type")
-	photos = post.kit_photos(business_types.photo_kit(btype) if btype else catalog.sample_kit(t["layout"], group), 5)
+	from qtt_platform.api import business_photos
+
+	photos, cut = business_photos.for_design(tenant, t["layout"])  # the business's own photos first
+	if not photos:
+		photos = post.kit_photos(business_types.photo_kit(btype) if btype else catalog.sample_kit(t["layout"], group), 5)
 	content = business_content(tenant, t["layout"], group)
+	if cut:
+		content["cutout"] = True
 	logo = knowledge._logo(tenant)
 	the_look = look if look in ("light", "dark", "brand") else t["look"]
 	sig = hashlib.sha1(json.dumps([t, fmt, the_look, kit, fonts, content, logo[0], len(logo[1] or b""), [n for n, _ in photos],

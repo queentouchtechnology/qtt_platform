@@ -108,6 +108,18 @@ class Ctx:
 	def photo(self, i: int = 0) -> str | None:
 		return self.photos[i % len(self.photos)] if self.photos else None
 
+	@property
+	def cut(self) -> bool:
+		"""The first photo is a cut-out (its background removed): it sits on the design without a frame."""
+		return bool(self.content.get("cutout"))
+
+	def photo_style(self, frame: str = "") -> str:
+		"""The CSS for the main photo: its frame — or, for a cut-out, its own shape with a soft shadow (inline, so it wins)."""
+		if self.cut:
+			return ("background-size:contain;background-repeat:no-repeat;background-position:center bottom;border-radius:0;border:0;"
+					"box-shadow:none;-webkit-mask-image:none;mask-image:none;clip-path:none;filter:drop-shadow(0 26px 30px rgba(0,0,0,.35))")
+		return base.FRAMES.get(frame, frame) if frame else ""
+
 	def pattern(self, name: str, *, base_: str | None = None, transparent: bool = False, seed: int = 1) -> str:
 		b = base_ or {"dark": "dark", "brand": "primary"}.get(self.look, "light")
 		return P.pattern(name, self.p, self.w, self.h, base=b, seed=seed, transparent=transparent)

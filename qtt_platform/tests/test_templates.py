@@ -66,6 +66,16 @@ class Catalog(unittest.TestCase):
 		self.assertTrue(offers and all("offer" in t["post_types"] for t in offers))
 		self.assertTrue(any(t["layout"] == "greeting" for t in ts if catalog.matches(t, group="industry")))  # "any" fits all
 
+	def test_cutouts_lose_their_frame(self):
+		for t in catalog.templates():
+			if t["layout"] not in ("center_hero", "product_promo", "numbered_services", "curve_photo", "wave_agency"):
+				continue
+			page = build(t, "any", "square", content={**catalog.sample_for(t["layout"], "any"), "cutout": True})
+			self.assertIn("background-size:contain", page, t["key"])
+			self.assertIn("drop-shadow", page, t["key"])
+		framed = build(next(t for t in catalog.templates() if t["layout"] == "center_hero"), "any", "square")
+		self.assertNotIn("background-size:contain", framed)
+
 	def test_hash_is_stable(self):
 		self.assertEqual(catalog.catalog_hash(), catalog.catalog_hash())
 

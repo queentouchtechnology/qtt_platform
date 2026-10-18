@@ -1,0 +1,74 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Business Photo",
+ "module": "QTT Platform",
+ "custom": 0,
+ "engine": "InnoDB",
+ "autoname": "hash",
+ "modified": "2026-10-20 12:00:00.000000",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "image_field": "image",
+ "description": "A business's own photos for its posts (PROJ-0011): products, people, its place. Remove background makes a cut-out on QTT's own server.",
+ "field_order": [
+  "tenant",
+  "kind",
+  "label",
+  "image",
+  "cutout",
+  "use_cutout"
+ ],
+ "fields": [
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "options": "QTT Tenant",
+   "label": "Business",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "kind",
+   "fieldtype": "Select",
+   "options": "Product\nPerson\nPlace\nOther",
+   "default": "Product",
+   "label": "What it shows",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "label",
+   "fieldtype": "Data",
+   "label": "Label"
+  },
+  {
+   "fieldname": "image",
+   "fieldtype": "Attach Image",
+   "label": "Photo",
+   "reqd": 1
+  },
+  {
+   "fieldname": "cutout",
+   "fieldtype": "Attach Image",
+   "label": "Without background",
+   "read_only": 1
+  },
+  {
+   "fieldname": "use_cutout",
+   "fieldtype": "Check",
+   "label": "Use without background in designs",
+   "default": "0"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ]
+}

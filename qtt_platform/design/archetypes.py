@@ -107,7 +107,7 @@ def center_hero(x: Ctx, v: dict) -> tuple[str, str]:
 	body = (f'<div class="layer">{x.pattern(bgp)}</div>'
 			+ (f'<div class="layer">{x.pattern("rays", transparent=True)}</div>' if v.get("rays", True) else "")
 			+ f'<div class="wrap"><div class="top">{x.logo(78)}</div>{kicker}<h1 class="fit" data-fit>{x.m("headline")}</h1>'
-			f'<div class="mid"><div class="ph hero" style="background-image:url({esc(ph)});{fr}"></div>{note}{badge}{price}</div>'
+			f'<div class="mid"><div class="ph hero" style="background-image:url({esc(ph)});{x.photo_style(fr)}"></div>{note}{badge}{price}</div>'
 			f'<div class="foot"><div>{foot_left}</div>{cta}</div></div>')
 	hs = 150 if not x.tall else 170
 	css = (f".wrap{{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding:40px 56px 46px}}"
@@ -340,7 +340,7 @@ def curve_photo(x: Ctx, v: dict) -> tuple[str, str]:
 			if x.has("phone") else "<div></div>")
 	cta = x.el("cta", 330, 78, text=x.content.get("cta"), tone="primary") if x.has("cta") else ""
 	body = (f'<div class="layer">{x.pattern("organic_curve", base_="light")}</div>'
-			f'<div class="ph pic" style="background-image:url({esc(ph)});{base.FRAMES["curve"]}"></div>'
+			f'<div class="ph pic" style="background-image:url({esc(ph)});{x.photo_style("curve")}"></div>'
 			f'<div class="wrap"><div class="top">{x.logo(72, light=False)}</div><div class="txt"><h1 class="fit" data-fit>{x.m("headline")}</h1>'
 			+ (f'<div class="q fit" data-fit>“{x.t("quote")}”</div>' if x.has("quote") else "") + f'<div class="cta">{cta}</div></div>'
 			f'<div class="foot">{call}<div class="web">{x.t("website")}</div></div></div>')
@@ -360,7 +360,7 @@ def wave_agency(x: Ctx, v: dict) -> tuple[str, str]:
 	foot = "".join(f'<div class="fi">{esc(val)}</div>' for _, val in x.contact_bits()[:2])
 	dots = "" if x.tall else f'<div class="layer">{x.pattern("dot_corners", base_="dark", transparent=True)}</div>'
 	body = (f'<div class="layer">{x.pattern("wave_split", base_="light")}</div>{dots}'
-			f'<div class="ph pic" style="background-image:url({esc(ph)});{base.FRAMES["blob"]}"></div>'
+			f'<div class="ph pic" style="background-image:url({esc(ph)});{x.photo_style("blob")}"></div>'
 			f'<div class="wrap"><div class="top">{x.logo(64, light=True)}</div><div class="right"><h1 class="fit" data-fit>{x.m("headline")}</h1>'
 			f'<div class="sub fit" data-fit>{x.m("subline")}</div></div><div class="topics"><b>{esc(x.content.get("list_title") or "")}</b><ul>{topics}</ul></div></div>'
 			f'<div class="foot">{foot}</div>')
@@ -404,12 +404,14 @@ def numbered_services(x: Ctx, v: dict) -> tuple[str, str]:
 	foot = "".join(f'<div class="fi">{esc(val)}</div>' for _, val in x.contact_bits()[:2])
 	cta = x.el("cta", 260, 64, text=x.content.get("cta"), tone="accent") if x.has("cta") else ""
 	body = (f'<div class="layer">{x.pattern("big_circles", base_="primary")}</div>'
-			f'<div class="ph pic" style="background-image:url({esc(ph)});{base.FRAMES["circle"]}"></div>'
+			+ (f'<div class="circ"></div>' if x.cut else "")
+			+ f'<div class="ph pic" style="background-image:url({esc(ph)});{x.photo_style("circle")}"></div>'
 			f'<div class="wrap"><div class="top">{x.logo(60, light=True)}</div><div class="right"><div class="kick">{x.t("kicker")}</div>'
 			f'<h1 class="fit" data-fit>{x.m("headline")}</h1><div class="sub fit" data-fit>{x.m("subline")}</div>'
 			f'<div class="svc">{x.el("vertical_label", 64, 250, text=x.content.get("list_title") or "", tone="accent")}<div class="list">{lst}</div></div></div>'
 			f'<div class="foot">{cta}{foot}</div></div>')
-	css = (f".post{{background:{x.p['primary']};color:#fff}}.pic{{position:absolute;left:50px;top:{140 if x.tall else 150}px;width:{460 if x.tall else 400}px;height:{460 if x.tall else 400}px;"
+	css = (f".circ{{position:absolute;left:50px;top:{140 if x.tall else 150}px;width:{460 if x.tall else 400}px;height:{460 if x.tall else 400}px;border-radius:50%;background:{x.p['accent']}}}"
+		   f".post{{background:{x.p['primary']};color:#fff}}.pic{{position:absolute;left:50px;top:{140 if x.tall else 150}px;width:{460 if x.tall else 400}px;height:{460 if x.tall else 400}px;"
 		   f"border:10px solid {x.p['accent']}}}.wrap{{position:absolute;inset:0;padding:44px 56px;display:flex;flex-direction:column}}"
 		   f".right{{margin-left:auto;width:{'100%' if x.tall else '520px'};{'margin-top:560px' if x.tall else 'margin-top:40px'}}}.kick{{font:500 34px var(--font-body)}}"
 		   f"h1{{font:900 {96 if x.tall else 84}px/0.98 var(--font-heading);text-transform:uppercase;max-height:{300 if x.tall else 260}px}}h1 em{{color:{x.p['accent']}}}"
@@ -457,7 +459,7 @@ def product_promo(x: Ctx, v: dict) -> tuple[str, str]:
 	body = (f'<div class="layer">{x.pattern("chalkboard", base_="dark")}</div>'
 			f'<div class="sp1">{x.el("splash", 90, 70, tone="accent")}</div><div class="sp2">{x.el("splash", 80, 60, tone="accent")}</div>'
 			f'<div class="wrap"><div class="row"><div>{x.logo(96, light=True)}</div>{price}</div><div class="kick">{x.t("kicker")}</div>'
-			f'<h1 class="fit" data-fit>{x.m("headline")}</h1><div class="ph pic" style="background-image:url({esc(ph)})"></div>{order}'
+			f'<h1 class="fit" data-fit>{x.m("headline")}</h1><div class="ph pic" style="background-image:url({esc(ph)});{x.photo_style()}"></div>{order}'
 			f'<div class="addr">{x.t("address")}</div></div>')
 	css = (f".post{{color:#fff}}.wrap{{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding:40px 50px 22px}}"
 		   f".row{{width:100%;display:flex;justify-content:space-between;align-items:flex-start}}.price{{text-align:center;font:800 22px var(--font-heading)}}.price small{{display:block;text-transform:uppercase}}"
