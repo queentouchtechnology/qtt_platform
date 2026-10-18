@@ -3548,7 +3548,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.home",
-   "screens": "admin/admin_home.dart › _AdminHomeBodyState\ncore/assistant/screen_context.dart › CurrentScreen\nplatform/data/platform_repository.dart › PlatformRepository\nplatform/explore/explore_screen.dart › _ItemPage\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/onbox/onbox_root.dart › _InboxRootState\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/orbitra_shell.dart › _OrbitraHomeState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/services_root.dart › _ServicesRootState\nshared/widgets/action_cards.dart › (top level)\nshell/home_shell.dart › _HomeShellState",
+   "screens": "admin/admin_home.dart › _AdminHomeBodyState\ncore/assistant/screen_context.dart › CurrentScreen\nplatform/data/platform_repository.dart › PlatformRepository\nplatform/explore/explore_screen.dart › _ItemPage\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/onbox/onbox_root.dart › _InboxRootState\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/orbitra_shell.dart › _OrbitraHomeState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/services_root.dart › _ServicesRootState\nproducts/studio/studio_root.dart › StudioRoot\nproducts/studio/studio_root.dart › _StudioHomeState\nshared/widgets/action_cards.dart › (top level)\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/admin_home.py:123",
    "status": "Not described"
@@ -4956,7 +4956,7 @@
    "arguments": "post_type, group, start, limit",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.postTemplates",
-   "screens": "products/services/screens/design_library.dart › _DesignLibraryPageState",
+   "screens": "products/services/screens/design_library.dart › _DesignLibraryPageState\nproducts/studio/studio_root.dart › TemplatePickerPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/post_templates.py:35",
    "status": "OK"
@@ -5722,12 +5722,12 @@
    "purpose": "Ask AI to change a design in plain words (\"make the title shorter\", \"use a dark background\", \"make it Tamil\"). Only the words, look and size change; nothing is invented. 1 AI credit.",
    "details": "Ask AI to change a design in plain words (\"make the title shorter\", \"use a dark background\", \"make it Tamil\"). Only\nthe words, look and size change; nothing is invented. 1 AI credit.",
    "arguments": "name, instruction",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioAsk",
+   "screens": "products/studio/design_editor.dart › _DesignEditorPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/studio.py:291",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.studio.delete_design",
@@ -5738,12 +5738,12 @@
    "purpose": "Delete a design, its picture and its library item.",
    "details": "Delete a design, its picture and its library item.",
    "arguments": "name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioDeleteDesign",
+   "screens": "products/studio/design_editor.dart › _DesignEditorPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/studio.py:319",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.studio.design",
@@ -5770,12 +5770,12 @@
    "purpose": "The business's designs, newest first.",
    "details": "The business's designs, newest first.",
    "arguments": "start, limit",
-   "used_by": "—",
-   "app_calls": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioDesigns",
    "screens": "",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/studio.py:250",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.studio.home",
@@ -5786,12 +5786,12 @@
    "purpose": "Studio's home: on or not (plan, trial end), this month's designs and AI credits left, what can be made, the latest designs, and where the free designs are for a business without Studio.",
    "details": "Studio's home: on or not (plan, trial end), this month's designs and AI credits left, what can be made, the latest\ndesigns, and where the free designs are for a business without Studio.",
    "arguments": "",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioHome",
+   "screens": "products/studio/studio_root.dart › _StudioHomeState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/studio.py:175",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.studio.library_items",
@@ -5802,12 +5802,12 @@
    "purpose": "The Business Library: what the business made in Studio, newest first — for one kind (post, document, logo…) and one product's use. Every member may look (each app shows the business's own items first, then QTT's defaults).",
    "details": "The Business Library: what the business made in Studio, newest first — for one kind (post, document, logo…) and one\nproduct's use. Every member may look (each app shows the business's own items first, then QTT's defaults).",
    "arguments": "kind, product, start, limit",
-   "used_by": "—",
-   "app_calls": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioLibrary",
    "screens": "",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/studio.py:332",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.studio.make",
@@ -5818,12 +5818,12 @@
    "purpose": "What do you want to make? — AI picks a library design and writes its words from the business knowledge only (never invented prices, offers or dates), in the business's language; drawn in its brand and saved. 1 AI credit.",
    "details": "What do you want to make? — AI picks a library design and writes its words from the business knowledge only (never\ninvented prices, offers or dates), in the business's language; drawn in its brand and saved. 1 AI credit.",
    "arguments": "request",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioMake",
+   "screens": "products/studio/studio_root.dart › _StudioHomeState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/studio.py:200",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.studio.new_design",
@@ -5834,12 +5834,12 @@
    "purpose": "Start a design from a library design — with one of its ready ideas' words (filled from the knowledge), or its sample words to change. No AI.",
    "details": "Start a design from a library design — with one of its ready ideas' words (filled from the knowledge), or its sample\nwords to change. No AI.",
    "arguments": "template, idea",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioNewDesign",
+   "screens": "products/studio/studio_root.dart › TemplatePickerPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/studio.py:227",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.studio.update_design",
@@ -5850,12 +5850,12 @@
    "purpose": "Change a design — words, size (square, portrait, story), look (light, dark, brand), its library design or title — and draw it again.",
    "details": "Change a design — words, size (square, portrait, story), look (light, dark, brand), its library design or title — and\ndraw it again.",
    "arguments": "name, data",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioUpdateDesign",
+   "screens": "products/studio/design_editor.dart › _DesignEditorPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/studio.py:265",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.subscription.cancel",
