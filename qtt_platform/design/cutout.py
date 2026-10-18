@@ -30,4 +30,7 @@ def remove_background(data: bytes, kind: str = "general") -> bytes:
 	if r.status_code != 200 or not r.content.startswith(b"\x89PNG"):
 		frappe.log_error(title="Remove background: failed", message=f"{r.status_code} {r.text[:300]}")
 		frappe.throw(_("Couldn't remove the background just now — please try again in a minute."))
-	return r.content
+	from qtt_platform.design.photos import trim
+
+	return trim(r.content)
+

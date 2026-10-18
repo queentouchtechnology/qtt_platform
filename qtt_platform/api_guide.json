@@ -3978,12 +3978,12 @@
    "purpose": "Delete a photo and its cut-out; returns the photos left.",
    "details": "Delete a photo and its cut-out; returns the photos left.",
    "arguments": "name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.deletePostPhoto",
+   "screens": "platform/workspace/post_photos.dart › _PostPhotosPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/business_photos.py:120",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.business_photos.photos",
@@ -3994,12 +3994,12 @@
    "purpose": "The business's photos for posts, newest first.",
    "details": "The business's photos for posts, newest first.",
    "arguments": "",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.postPhotos",
+   "screens": "platform/workspace/post_photos.dart › _PostPhotosPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/business_photos.py:51",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.business_photos.remove_background",
@@ -4010,12 +4010,12 @@
    "purpose": "Make the photo's cut-out (its background removed) on QTT's server, and use it in designs.",
    "details": "Make the photo's cut-out (its background removed) on QTT's server, and use it in designs.",
    "arguments": "name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.removePhotoBackground",
+   "screens": "platform/workspace/post_photos.dart › _PostPhotosPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/business_photos.py:79",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.business_photos.update_photo",
@@ -4026,12 +4026,12 @@
    "purpose": "Change what a photo shows (Product, Person, Place, Other), its label, or whether designs use its cut-out.",
    "details": "Change what a photo shows (Product, Person, Place, Other), its label, or whether designs use its cut-out.",
    "arguments": "name, kind, label, use_cutout",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.updatePostPhoto",
+   "screens": "platform/workspace/post_photos.dart › _PostPhotosPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/business_photos.py:103",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.business_photos.upload_photo",
@@ -4042,12 +4042,12 @@
    "purpose": "Multipart (field `file`): a JPG, PNG or WEBP photo up to 10 MB, and what it shows (Product, Person, Place, Other).",
    "details": "Multipart (field `file`): a JPG, PNG or WEBP photo up to 10 MB, and what it shows (Product, Person, Place, Other).",
    "arguments": "kind",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.uploadPostPhoto",
+   "screens": "platform/workspace/post_photos.dart › _PostPhotosPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/business_photos.py:57",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.customers.customer",

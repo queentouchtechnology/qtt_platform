@@ -58,3 +58,22 @@ def manifest_sources(root: Path, kit: str) -> dict:
 		return json.loads(m.read_text(encoding="utf-8")).get("made", {})
 	except (OSError, ValueError):
 		return {}
+
+
+def trim(png: bytes, pad: float = 0.03) -> bytes:
+	"""Crop a cut-out to what's left of the photo (plus a little room), so the person or product fills its place in a
+	design. Nothing left (an empty cut-out) → as it was."""
+	import io
+
+	from PIL import Image
+
+	im = Image.open(io.BytesIO(png)).convert("RGBA")
+	box = im.getchannel("A").point(lambda a: 255 if a > 24 else 0).getbbox()
+	if not box:
+		return png
+	w, h = im.size
+	p = round(max(box[2] - box[0], box[3] - box[1]) * pad)
+	im = im.crop((max(0, box[0] - p), max(0, box[1] - p), min(w, box[2] + p), min(h, box[3] + p)))
+	out = io.BytesIO()
+	im.save(out, "PNG", optimize=True)
+	return out.getvalue()

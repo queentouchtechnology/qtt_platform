@@ -132,6 +132,22 @@ class TypesAndPhotos(unittest.TestCase):
 			self.assertIn("rgba(", photos.scrim(base.palette({})))
 
 
+class Cutouts(unittest.TestCase):
+	def test_trim_to_the_subject(self):
+		import io
+
+		from PIL import Image
+
+		im = Image.new("RGBA", (400, 300), (0, 0, 0, 0))
+		im.paste((200, 50, 50, 255), (150, 100, 200, 220))
+		b = io.BytesIO()
+		im.save(b, "PNG")
+		self.assertEqual(Image.open(io.BytesIO(photos.trim(b.getvalue()))).size, (58, 128))  # 50 x 120 + a little room
+		empty = io.BytesIO()
+		Image.new("RGBA", (10, 10), (0, 0, 0, 0)).save(empty, "PNG")
+		self.assertEqual(photos.trim(empty.getvalue()), empty.getvalue())
+
+
 class Sheet(unittest.TestCase):
 	def test_brand_sheet(self):
 		html_, w, h = sheet.brand_sheet(business="Anna <Bakery>", colors={"primary": "#b45309"}, logo_file="logo.png",

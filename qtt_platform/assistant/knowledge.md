@@ -70,6 +70,14 @@ person in it gets access to some products, with a role in each.
   services, software and apps, digital agencies, tech training — hotels and
   homes, education and industry, church / temple, other). It picks the photos,
   post designs and ideas the Marketing assistant offers.
+- **Photos for your posts** (Business › Knowledge › Photos for your posts,
+  owner / admin): add your own photos — products, people (you, your team),
+  your place — and mark what each shows. Post designs use them before any
+  sample photo: people for the people designs, products for the product
+  ones. **Remove background** cuts the person or product out of its photo
+  (on QTT's own server, about 10–15 seconds; 20 a day) so it sits right on
+  the design without a frame, like a poster; switch "Without background" off
+  to use the photo as it is. JPG, PNG or WEBP up to 10 MB, 60 photos.
 - **Brand kit fonts**: pick the heading and body font from the list (Google
   fonts that also cover Tamil, Hindi and Arabic); Default uses Poppins and
   Inter. **See your brand** draws the saved brand kit as one picture: your
