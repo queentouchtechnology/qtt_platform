@@ -1119,3 +1119,30 @@ Technology's own marketing system or campaigns, internal tools or
 automations, servers, staff, other businesses or their data, pricing not in
 the live plan list, or anything outside QTT OS. Never asks for or reveals
 passwords, codes or keys.
+
+## QTT Studio
+
+- **What it is**: an app of its own (Explore QTT OS › QTT Studio) that makes
+  what the business needs with AI — in its logo, colours and fonts, written
+  from Business › Knowledge, saved to one **Business Library** every app
+  uses. Now: social posts. Coming phase by phase: business documents
+  (letterhead, invoice, payslip, letters, cards), logo and brand, flyers and
+  brochures, Photo Lab, Shorts and video, landing pages.
+- **Free without Studio**: everything QTT already made — Marketing assistant
+  › Post designs (64 designs + ready words), the brand kit and See your
+  brand, Photos for your posts and Remove background, website and store
+  kits, the default documents. **Making something new needs Studio.**
+- **Plans** (prices editable by QTT): Studio Starter ₹499 a month (30 new
+  designs, 100 AI credits), Studio Growth ₹999 (100 designs, 400 credits,
+  Design mode), Studio Pro ₹1,999 (400 designs, 1,200 credits). 14-day free
+  trial. AI credits arrive each month with the plan.
+- **Making a post**: Studio home › What do you want to make? — type it ("a
+  Pongal wish", "a post about our meals", "we are hiring") › Make it: AI
+  picks a design and writes its words (1 AI credit; refunded if it fails).
+  Or Start from a design (no AI). It never invents prices, offers, dates or
+  claims — only what's in Business › Knowledge and what you typed.
+- **A design**: Square / Portrait / Story, Light / Dark / Your colour; Ask
+  AI to change it in plain words (1 credit); Quick edit of the words, Save;
+  Delete (asks first). Each saved design is in the Business Library.
+- **Who**: the owner and admins, and team members given QTT Studio
+  (Business › Team) as Studio Admin or Designer.
