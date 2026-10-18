@@ -150,8 +150,12 @@ doc_events = {
 # translations) — insert-only, see qtt_platform/app_setup.py.
 after_install = "qtt_platform.app_setup.seed_app_defaults"
 # api_guide.sync: Desk › QTT API Endpoint, the backend guide generated from the code (api_guide.json).
-after_migrate = ["qtt_platform.app_setup.seed_app_defaults", "qtt_platform.house.ensure_all", "qtt_platform.api_guide.sync",
-	"qtt_platform.design.library.sync", "qtt_platform.design.library.sync_occasions", "qtt_platform.studio.setup.register"]
+# QTT Studio registers first, so house workspaces get it in the same migrate.
+after_migrate = ["qtt_platform.app_setup.seed_app_defaults", "qtt_platform.studio.setup.register", "qtt_platform.house.ensure_all",
+	"qtt_platform.api_guide.sync", "qtt_platform.design.library.sync", "qtt_platform.design.library.sync_occasions"]
+
+# QTT Studio (a product of qtt_platform itself): whoever starts it (the owner) gets Studio Admin.
+saas_initial_product_roles = {"QTT_STUDIO": "Studio Admin"}
 
 # Kept by a full cache clear (deploys, migrate, bench clear-cache): each person's chosen
 # business. Without it every request after a deploy fails with "Choose your business first".
