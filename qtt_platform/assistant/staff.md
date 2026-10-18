@@ -155,3 +155,13 @@ numbers. Its own messages are billed to its own Meta account, not QTT's. If the 
   agency-post-references.md (in qtt-os).
 - If "See your brand" or post pictures fail: check the renderer (Desk error log "Design renderer: …"), then the
   gotenberg container on the automation server (`docker ps` in /opt/qtt-auto).
+
+## Festival dates for the content library (PROJ-0011 C2)
+
+- Desk › **QTT Occasion**: the days businesses get wishes for. Fixed days (New Year, Republic Day, Women's Day, Tamil New
+  Year, May Day, Independence Day, Teachers' Day, Children's Day, Christmas) roll to next year by themselves. Festivals
+  that move (Pongal, Ramzan, Bakrid, Onam, Vinayagar Chathurthi, Ayudha Puja, Deepavali, Karthigai Deepam) need **this
+  year's date set by staff** — without a date their wishes aren't offered (they show 30 days before). Untick "Offer
+  wishes for it" to stop one.
+- The ready-written words themselves live in qtt_platform/design/content.py (English + Tamil), filled from each
+  business's knowledge; an idea is only offered when every fact it needs is there.

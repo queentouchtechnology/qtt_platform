@@ -91,3 +91,41 @@ def picture(row: dict, group: str | None) -> str | None:
 	"""The best library picture for a group: its own, else the template's first."""
 	thumbs = row.get("thumbs") or {}
 	return thumbs.get(group or "") or thumbs.get(row["groups"][0] if row.get("groups") else "") or next(iter(thumbs.values()), None)
+
+
+# ---- occasions (the content library's calendar) ------------------------------------------------------------------------
+OCCASION = "QTT Occasion"
+
+
+def sync_occasions() -> None:
+	"""after_migrate: every occasion in design/content.py in QTT Occasion; fixed days get this year's (or next year's)
+	date; a moving festival's date is left for Desk and never overwritten."""
+	from frappe.utils import getdate, today
+
+	from qtt_platform.design import content
+
+	if not frappe.db.table_exists(OCCASION):
+		return
+	now = getdate(today())
+	for key, (en, ta, fixed) in content.OCCASIONS.items():
+		date = None
+		if fixed:
+			m, d = (int(x) for x in fixed.split("-"))
+			date = getdate(f"{now.year}-{m:02d}-{d:02d}")
+			if date < now:
+				date = getdate(f"{now.year + 1}-{m:02d}-{d:02d}")
+		if frappe.db.exists(OCCASION, key):
+			if fixed and str(frappe.db.get_value(OCCASION, key, "date") or "") != str(date):
+				frappe.db.set_value(OCCASION, key, "date", date)
+		else:
+			frappe.get_doc({"doctype": OCCASION, "key": key, "label": en, "label_ta": ta, "fixed": fixed or "", "date": date,
+							"enabled": 1}).insert(ignore_permissions=True)
+	frappe.db.commit()
+
+
+def upcoming(days: int = 21) -> list[dict]:
+	"""Occasions in the next `days` days (soonest first): [{key, label, date}]."""
+	from frappe.utils import add_days, today
+
+	return frappe.get_all(OCCASION, filters={"enabled": 1, "date": ["between", [today(), add_days(today(), days)]]},
+						  fields=["key", "label", "label_ta", "date"], order_by="date asc")

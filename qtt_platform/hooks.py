@@ -151,7 +151,7 @@ doc_events = {
 after_install = "qtt_platform.app_setup.seed_app_defaults"
 # api_guide.sync: Desk › QTT API Endpoint, the backend guide generated from the code (api_guide.json).
 after_migrate = ["qtt_platform.app_setup.seed_app_defaults", "qtt_platform.house.ensure_all", "qtt_platform.api_guide.sync",
-	"qtt_platform.design.library.sync"]
+	"qtt_platform.design.library.sync", "qtt_platform.design.library.sync_occasions"]
 
 # Kept by a full cache clear (deploys, migrate, bench clear-cache): each person's chosen
 # business. Without it every request after a deploy fails with "Choose your business first".
@@ -326,6 +326,8 @@ scheduler_events = {
 		# Apps assigned by QTT Admin to paying businesses: next invoice 3 days before the paid time ends; suspended 7 days after if unpaid.
 		"qtt_platform.invoice_billing.renew_daily",
 		"qtt_platform.api.analytics.purge_old_events",
+		# Content library occasions: fixed days roll to next year once they pass (moving festivals are set in Desk).
+		"qtt_platform.design.library.sync_occasions",
 		"qtt_platform.billing.service.reconcile_payments",
 		"qtt_platform.billing.service.expire_stale_trials",
 		"qtt_platform.subscription.service.finalize_pending_cancellations",

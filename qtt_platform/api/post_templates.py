@@ -69,10 +69,47 @@ def business_content(tenant: str, layout: str, group: str) -> dict:
 	return c
 
 
+def _facts(tenant: str) -> tuple[dict, str]:
+	from qtt_platform.design import content as library_words
+
+	k = knowledge.for_tenant(tenant)
+	business = frappe.db.get_value("QTT Tenant", tenant, "tenant_name") or ""
+	return library_words.facts(k, knowledge.contacts(tenant), business), library_words.language_of(k.get("language"))
+
+
+@frappe.whitelist(methods=["GET"])
+def ideas(key: str) -> dict:
+	"""Ready-written words for a design (the content library, free): ideas that suit its post types and the business's kind,
+	festivals coming up first, each filled from Business › Knowledge — or, when a fact is missing, what to add to use it.
+	{ideas: [{key, post_type, occasion, date, words, missing}], language}"""
+	from qtt_platform.design import content as library_words
+
+	tenant = _tenant()
+	if not frappe.db.get_value(library.DT, {"name": key, "enabled": 1}):
+		frappe.throw(_("That design isn't in the library any more."), frappe.DoesNotExistError)
+	t = library.row_dict(frappe.get_doc(library.DT, key))
+	f, lang = _facts(tenant)
+	group = _group_of(tenant)
+	soon = {o.key: str(o.date) for o in library.upcoming(30)}
+	out = []
+	for ikey, idea in library_words.IDEAS.items():
+		if not library_words.suits(idea, post_types=t["post_types"], group=group or None):
+			continue
+		occ = idea.get("occasion")
+		if occ and occ not in soon:
+			continue  # wishes only for festivals coming up (dates set in Desk)
+		words = library_words.fill(idea, f, lang)
+		out.append({"key": ikey, "post_type": idea["post_type"], "occasion": occ, "date": soon.get(occ),
+					"words": words, "missing": library_words.missing(idea, f)})
+	out.sort(key=lambda r: (r["occasion"] is None, r["date"] or "", r["words"] is None))
+	return {"ideas": out[:40], "language": lang}
+
+
 @frappe.whitelist(methods=["POST"])
-def preview(key: str, format: str = "square", look: str | None = None) -> dict:  # noqa: A002
-	"""One template in the business's own brand (logo, colours, fonts, name, contacts; photos for its type of business).
-	The words are the template's sample until the post is written (Marketing assistant). {url, width, height}."""
+def preview(key: str, format: str = "square", look: str | None = None, idea: str | None = None) -> dict:  # noqa: A002
+	"""One template in the business's own brand (logo, colours, fonts, name, contacts; its own photos, else photos for its
+	type of business). idea: a content-library idea's words (filled from the knowledge) instead of the sample's.
+	{url, width, height}."""
 	from frappe.utils import get_url, today
 
 	tenant = _tenant()
@@ -91,6 +128,18 @@ def preview(key: str, format: str = "square", look: str | None = None) -> dict: 
 	if not photos:
 		photos = post.kit_photos(business_types.photo_kit(btype) if btype else catalog.sample_kit(t["layout"], group), 5)
 	content = business_content(tenant, t["layout"], group)
+	if idea:
+		from qtt_platform.design import content as library_words
+
+		f, lang = _facts(tenant)
+		words = library_words.fill(library_words.IDEAS.get(idea) or {"needs": ["?"]}, f, lang)
+		if not words:
+			frappe.throw(_("Add the details this idea needs in Business › Knowledge first."))
+		for slot in ("kicker", "headline", "subline", "cta", "badge", "tagline", "items", "quote", "price", "price_label", "list", "pillars", "problems"):
+			content.pop(slot, None)  # the sample's words go; the idea's come in
+		content.update(words)
+		if lang == "ta":
+			content["_lang"] = "Tamil"
 	if cut:
 		content["cutout"] = True
 	logo = knowledge._logo(tenant)
@@ -107,7 +156,8 @@ def preview(key: str, format: str = "square", look: str | None = None) -> dict: 
 			frappe.throw(_("That's enough previews for today — try again tomorrow."))
 		frappe.cache.set_value(ck, n, expires_in_sec=2 * 86400)
 		data = post.render(t["layout"], t["variant"], colors=kit["colors"] or {"primary": base.DEFAULT_PRIMARY}, fonts=fonts, look=the_look,
-						   fmt=fmt, content=content, photos=photos, logo=logo if logo[1] else None, language=k.get("language") or "")
+						   fmt=fmt, content=content, photos=photos, logo=logo if logo[1] else None,
+						   language=content.pop("_lang", None) or k.get("language") or "")
 		have = frappe.get_doc({"doctype": "File", "file_name": fname, "content": data, "is_private": 0, "attached_to_doctype": knowledge.DT,
 							   "attached_to_name": name}).insert(ignore_permissions=True).file_url
 	return {"url": get_url(have), "width": 1080, "height": post.SIZES[fmt], "key": key, "format": fmt, "look": the_look}

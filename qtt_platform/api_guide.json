@@ -4930,6 +4930,22 @@
    "status": "OK"
   },
   {
+   "endpoint": "qtt_platform.api.post_templates.ideas",
+   "product": "Platform",
+   "area": "api.post_templates",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "Ready-written words for a design (the content library, free): ideas that suit its post types and the business's kind, festivals coming up first, each filled from Business › Knowledge — or, when a fact is missing, what to add to use it. {ideas: [{key, post_type, occasion, date, words, missing}], language}",
+   "details": "Ready-written words for a design (the content library, free): ideas that suit its post types and the business's kind,\nfestivals coming up first, each filled from Business › Knowledge — or, when a fact is missing, what to add to use it.\n{ideas: [{key, post_type, occasion, date, words, missing}], language}",
+   "arguments": "key",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.postTemplateIdeas",
+   "screens": "products/services/screens/design_library.dart › _DesignPreviewPageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/post_templates.py:81",
+   "status": "OK"
+  },
+  {
    "endpoint": "qtt_platform.api.post_templates.library_list",
    "product": "Platform",
    "area": "api.post_templates",
@@ -4951,14 +4967,14 @@
    "area": "api.post_templates",
    "http_methods": "POST",
    "guest": 0,
-   "purpose": "One template in the business's own brand (logo, colours, fonts, name, contacts; photos for its type of business). The words are the template's sample until the post is written (Marketing assistant). {url, width, height}.",
-   "details": "One template in the business's own brand (logo, colours, fonts, name, contacts; photos for its type of business).\nThe words are the template's sample until the post is written (Marketing assistant). {url, width, height}.",
-   "arguments": "key, format, look",
+   "purpose": "One template in the business's own brand (logo, colours, fonts, name, contacts; its own photos, else photos for its type of business). idea: a content-library idea's words (filled from the knowledge) instead of the sample's. {url, width, height}.",
+   "details": "One template in the business's own brand (logo, colours, fonts, name, contacts; its own photos, else photos for its\ntype of business). idea: a content-library idea's words (filled from the knowledge) instead of the sample's.\n{url, width, height}.",
+   "arguments": "key, format, look, idea",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.postTemplatePreview",
    "screens": "products/services/screens/design_library.dart › _DesignPreviewPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/post_templates.py:73",
+   "source": "qtt_platform/qtt_platform/api/post_templates.py:109",
    "status": "OK"
   },
   {
@@ -6702,7 +6718,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.approveArticle",
    "screens": "products/services/screens/article_pages.dart › _ArticleEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:463",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:476",
    "status": "OK"
   },
   {
@@ -6718,7 +6734,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.articleIdeas",
    "screens": "products/services/screens/article_pages.dart › _ArticlesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:522",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:535",
    "status": "OK"
   },
   {
@@ -6734,7 +6750,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.articleImage",
    "screens": "products/services/screens/article_pages.dart › _ArticleEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:443",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:456",
    "status": "OK"
   },
   {
@@ -6750,7 +6766,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.articlesPage",
    "screens": "products/services/screens/article_pages.dart › _ArticlesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:404",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:417",
    "status": "OK"
   },
   {
@@ -6766,7 +6782,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.articlesOverview",
    "screens": "products/services/screens/article_pages.dart › _ArticlesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:392",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:405",
    "status": "OK"
   },
   {
@@ -6894,7 +6910,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.removeArticle",
    "screens": "products/services/screens/article_pages.dart › _ArticleEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:505",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:518",
    "status": "OK"
   },
   {
@@ -6926,7 +6942,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.saveArticle",
    "screens": "products/services/screens/article_pages.dart › _ArticleEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:420",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:433",
    "status": "OK"
   },
   {
@@ -7662,7 +7678,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:503",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:504",
    "status": "Not used by the app"
   },
   {
@@ -7742,7 +7758,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:463",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:464",
    "status": "Not used by the app"
   },
   {
@@ -7806,7 +7822,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:442",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:443",
    "status": "Not used by the app"
   },
   {

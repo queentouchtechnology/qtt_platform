@@ -1,0 +1,72 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Occasion",
+ "module": "QTT Platform",
+ "custom": 0,
+ "engine": "InnoDB",
+ "autoname": "field:key",
+ "modified": "2026-10-20 14:00:00.000000",
+ "sort_field": "date",
+ "sort_order": "ASC",
+ "description": "Festivals and days businesses greet on (PROJ-0011 C2, the content library). Fixed days roll to next year by themselves; set the date of moving festivals each year.",
+ "field_order": [
+  "key",
+  "label",
+  "label_ta",
+  "date",
+  "fixed",
+  "enabled"
+ ],
+ "fields": [
+  {
+   "fieldname": "key",
+   "fieldtype": "Data",
+   "label": "Key",
+   "reqd": 1,
+   "unique": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "label",
+   "fieldtype": "Data",
+   "label": "Occasion",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "label_ta",
+   "fieldtype": "Data",
+   "label": "Occasion (Tamil)"
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date this year",
+   "in_list_view": 1,
+   "description": "Festivals that move every year (Pongal, Ramzan, Deepavali…): set this year's date. Fixed days are set for you."
+  },
+  {
+   "fieldname": "fixed",
+   "fieldtype": "Data",
+   "label": "Every year on (MM-DD)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Offer wishes for it",
+   "default": "1",
+   "in_list_view": 1
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ]
+}

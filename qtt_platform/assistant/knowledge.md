@@ -938,8 +938,14 @@ open it from that service).
   or every kind), filtered by post type. Open one to see it as your post: your
   logo as it is, your brand colours and fonts, your name, phone, website and
   address, photos for your kind of business — square, portrait or story size,
-  light, dark or in your main colour. The words in it are an example; your own
-  words, prices and dates go in when you make the post. Designs are drawn on
+  light, dark or in your main colour. **Words**: pick ready-written words for
+  that design (in English, or Tamil when your knowledge's main language is
+  Tamil) — everyday posts (open hours, a product with its price, what we
+  offer, why choose us, delivery, hiring, tips for your trade…) and festival
+  wishes for festivals coming up. They are filled from Business › Knowledge;
+  an idea that needs something you haven't added (opening hours, what makes
+  you different…) says what to add. Nothing is invented — no prices, offers
+  or dates you didn't give. "Sample words" shows the design's example. Designs are drawn on
   QTT's server from the design base — never by an AI image service. Styles
   include QTT-style technology posts (benefits with a device, problem and
   solution), local posts (real estate listings with Tamil prices, worship and

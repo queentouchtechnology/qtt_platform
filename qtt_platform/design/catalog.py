@@ -240,7 +240,7 @@ SAMPLES = {
 			  "places": {"business": "Royal Mahal", "headline": "Grand Opening", "role": "Inaugurated by", "person": "Our first guests",
 						 "time": "6:00 PM", "place": "Royal Mahal Banquet", "address": "21 Anna Nagar, Chennai", "date": "1 Nov",
 						 "qr": "https://maps.google.com/?q=Anna+Nagar"}},
-	"greeting": {"any": {"business": "Sri Murugan Sweets", "kicker": "Wishing you a", "headline": "Happy Deepavali", "date": "20 October",
+	"greeting": {"any": {"business": "Sri Murugan Sweets", "kicker": "Wishing you a", "headline": "Happy Deepavali",
 						 "subline": "May the festival of lights bring joy and sweetness to your home.", "phone": "98400 12345"}},
 	"tribute": {"any": {"business": "Memories Studio", "person": "R. Devaraj", "role": "Music teacher", "years": "1950 – 2026",
 						"quote": "Your music gave life to countless stories. Thank you for the timeless melodies."}},
