@@ -23,7 +23,7 @@ from qtt_platform.tenant.guards import require_tenant_membership, require_tenant
 
 SUB = "QTT Product Subscription"
 SERVICES = "QTT_SERVICES"  # Managed Services: the home of the services, not an app of its own here
-APP_ORDER = ("QTT_ORBITRA", "QTT_ONBOX", "QTT_OFFICE_PULSE")
+APP_ORDER = ("QTT_ORBITRA", "QTT_ONBOX", "QTT_OFFICE_PULSE", "QTT_STUDIO")
 _ACTIVATE_ROLES = ["Tenant Owner"]  # starting an app is a billing decision (api/subscription.py)
 
 
@@ -48,7 +48,7 @@ def _plans(product: str) -> list[dict]:
 		rows = frappe.get_all("QTT Plan Feature", filters={"parent": p.name, "parenttype": "QTT Plan"}, fields=["feature_key", "limit_value"])
 		out.append({"plan": p.name, "code": p.plan_code, "name": p.display_name or p.plan_code, "price": float(p.base_price or 0),
 					"period": p.billing_period or "monthly", "trial_days": int(p.trial_days or 0),
-					"features": rules.feature_lines({r.feature_key: r.limit_value for r in rows})})
+					"features": rules.feature_lines({r.feature_key: r.limit_value for r in rows}, product)})
 	return out
 
 

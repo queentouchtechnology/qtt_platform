@@ -36,3 +36,17 @@ class Status(unittest.TestCase):
 		self.assertEqual(r.app_status({"status": "past_due"}, True), "active")
 		self.assertEqual(r.app_status({"status": "suspended", "paid_until": None}, True), "awaiting_payment")
 		self.assertEqual(r.app_status({"status": "suspended", "paid_until": "2026-10-01"}, True), "paused")
+
+class StudioWords(unittest.TestCase):
+	def test_studio_credits_are_not_ai_replies(self):
+		from qtt_platform.explore_rules import feature_lines
+
+		f = {"studio_designs": "100", "ai_credits_grant": "400", "studio_doc_templates": "0", "studio_design_mode": "1"}
+		lines = feature_lines(f, "QTT_STUDIO")
+		self.assertIn("100 new designs a month", lines)
+		self.assertIn("400 AI credits a month", lines)
+		self.assertIn("Unlimited document templates of your own", lines)
+		self.assertIn("Design mode (drag and drop)", lines)
+		self.assertIn("400 AI replies a month", feature_lines({"ai_credits_grant": "400"}))  # Onbox keeps its words
+		self.assertEqual(feature_lines({"studio_designs": "100"}), [])  # Studio's keys mean nothing elsewhere
+

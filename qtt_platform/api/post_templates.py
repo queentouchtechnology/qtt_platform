@@ -105,6 +105,55 @@ def ideas(key: str) -> dict:
 	return {"ideas": out[:40], "language": lang}
 
 
+WORD_SLOTS = ("kicker", "headline", "subline", "cta", "badge", "tagline", "items", "quote", "price", "price_label", "list", "pillars",
+			  "problems")
+
+
+def post_parts(tenant: str, t: dict, *, look: str | None = None, words: dict | None = None, lang: str | None = None) -> dict:
+	"""Everything a post of this business is drawn with: its brand (colours, fonts, logo), its own photos (else photos for
+	its kind), its name and contacts, and the words — the template's sample, or `words` in place of the sample's."""
+	from qtt_platform.api import business_photos
+
+	k = knowledge.for_tenant(tenant) or knowledge.save_for(tenant, {})
+	kit = knowledge.rules.brand(k, knowledge.contacts(tenant).get("brand_color") or "")
+	fonts = (kit["font_heading"] or catalog.FONT_SETS[t["fonts"]][0], kit["font_body"] or catalog.FONT_SETS[t["fonts"]][1])
+	group = _group_of(tenant) or (t["groups"][0] if t["groups"][0] != "any" else "any")
+	btype = k.get("business_type")
+	photos, cut = business_photos.for_design(tenant, t["layout"])  # the business's own photos first
+	if not photos:
+		photos = post.kit_photos(business_types.photo_kit(btype) if btype else catalog.sample_kit(t["layout"], group), 5)
+	content = business_content(tenant, t["layout"], group)
+	if words:
+		for slot in WORD_SLOTS:
+			content.pop(slot, None)  # the sample's words go; these come in
+		content.update(words)
+	if cut:
+		content["cutout"] = True
+	language = "Tamil" if lang == "ta" else (k.get("language") or "")
+	return {"kit": kit, "fonts": fonts, "photos": photos, "content": content, "logo": knowledge._logo(tenant),
+			"look": look if look in ("light", "dark", "brand") else t["look"], "language": language}
+
+
+def parts_sig(t: dict, fmt: str, parts: dict) -> str:
+	logo = parts["logo"]
+	return hashlib.sha1(json.dumps([t, fmt, parts["look"], parts["kit"], parts["fonts"], parts["content"], parts["language"], logo[0],
+									len(logo[1] or b""), [n for n, _ in parts["photos"]], catalog.catalog_hash()],
+								   sort_keys=True, default=str).encode()).hexdigest()[:14]
+
+
+def draw(t: dict, fmt: str, parts: dict) -> bytes:
+	logo = parts["logo"]
+	return post.render(t["layout"], t["variant"], colors=parts["kit"]["colors"] or {"primary": base.DEFAULT_PRIMARY}, fonts=parts["fonts"],
+					   look=parts["look"], fmt=fmt, content=parts["content"], photos=parts["photos"], logo=logo if logo[1] else None,
+					   language=parts["language"])
+
+
+def template_row(key: str) -> dict:
+	if not frappe.db.get_value(library.DT, {"name": key, "enabled": 1}):
+		frappe.throw(_("That design isn't in the library any more."), frappe.DoesNotExistError)
+	return library.row_dict(frappe.get_doc(library.DT, key))
+
+
 @frappe.whitelist(methods=["POST"])
 def preview(key: str, format: str = "square", look: str | None = None, idea: str | None = None) -> dict:  # noqa: A002
 	"""One template in the business's own brand (logo, colours, fonts, name, contacts; its own photos, else photos for its
@@ -113,21 +162,9 @@ def preview(key: str, format: str = "square", look: str | None = None, idea: str
 	from frappe.utils import get_url, today
 
 	tenant = _tenant()
-	if not frappe.db.get_value(library.DT, {"name": key, "enabled": 1}):
-		frappe.throw(_("That design isn't in the library any more."), frappe.DoesNotExistError)
-	t = library.row_dict(frappe.get_doc(library.DT, key))
+	t = template_row(key)
 	fmt = format if format in post.SIZES else "square"
-	k = knowledge.for_tenant(tenant) or knowledge.save_for(tenant, {})
-	kit = knowledge.rules.brand(k, knowledge.contacts(tenant).get("brand_color") or "")
-	fonts = (kit["font_heading"] or catalog.FONT_SETS[t["fonts"]][0], kit["font_body"] or catalog.FONT_SETS[t["fonts"]][1])
-	group = _group_of(tenant) or (t["groups"][0] if t["groups"][0] != "any" else "any")
-	btype = k.get("business_type")
-	from qtt_platform.api import business_photos
-
-	photos, cut = business_photos.for_design(tenant, t["layout"])  # the business's own photos first
-	if not photos:
-		photos = post.kit_photos(business_types.photo_kit(btype) if btype else catalog.sample_kit(t["layout"], group), 5)
-	content = business_content(tenant, t["layout"], group)
+	words, lang = None, None
 	if idea:
 		from qtt_platform.design import content as library_words
 
@@ -135,17 +172,8 @@ def preview(key: str, format: str = "square", look: str | None = None, idea: str
 		words = library_words.fill(library_words.IDEAS.get(idea) or {"needs": ["?"]}, f, lang)
 		if not words:
 			frappe.throw(_("Add the details this idea needs in Business › Knowledge first."))
-		for slot in ("kicker", "headline", "subline", "cta", "badge", "tagline", "items", "quote", "price", "price_label", "list", "pillars", "problems"):
-			content.pop(slot, None)  # the sample's words go; the idea's come in
-		content.update(words)
-		if lang == "ta":
-			content["_lang"] = "Tamil"
-	if cut:
-		content["cutout"] = True
-	logo = knowledge._logo(tenant)
-	the_look = look if look in ("light", "dark", "brand") else t["look"]
-	sig = hashlib.sha1(json.dumps([t, fmt, the_look, kit, fonts, content, logo[0], len(logo[1] or b""), [n for n, _ in photos],
-								   catalog.catalog_hash()], sort_keys=True, default=str).encode()).hexdigest()[:14]
+	parts = post_parts(tenant, t, look=look, words=words, lang=lang)
+	sig = parts_sig(t, fmt, parts)
 	name = frappe.db.get_value(knowledge.DT, {"tenant": tenant})
 	fname = f"post-preview-{name}-{sig}.png"
 	have = frappe.db.get_value("File", {"file_name": fname, "attached_to_doctype": knowledge.DT, "attached_to_name": name}, "file_url")
@@ -155,9 +183,6 @@ def preview(key: str, format: str = "square", look: str | None = None, idea: str
 		if n > PREVIEWS_PER_DAY:
 			frappe.throw(_("That's enough previews for today — try again tomorrow."))
 		frappe.cache.set_value(ck, n, expires_in_sec=2 * 86400)
-		data = post.render(t["layout"], t["variant"], colors=kit["colors"] or {"primary": base.DEFAULT_PRIMARY}, fonts=fonts, look=the_look,
-						   fmt=fmt, content=content, photos=photos, logo=logo if logo[1] else None,
-						   language=content.pop("_lang", None) or k.get("language") or "")
-		have = frappe.get_doc({"doctype": "File", "file_name": fname, "content": data, "is_private": 0, "attached_to_doctype": knowledge.DT,
-							   "attached_to_name": name}).insert(ignore_permissions=True).file_url
-	return {"url": get_url(have), "width": 1080, "height": post.SIZES[fmt], "key": key, "format": fmt, "look": the_look}
+		have = frappe.get_doc({"doctype": "File", "file_name": fname, "content": draw(t, fmt, parts), "is_private": 0,
+							   "attached_to_doctype": knowledge.DT, "attached_to_name": name}).insert(ignore_permissions=True).file_url
+	return {"url": get_url(have), "width": 1080, "height": post.SIZES[fmt], "key": key, "format": fmt, "look": parts["look"]}

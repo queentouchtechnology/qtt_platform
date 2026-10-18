@@ -20,6 +20,21 @@ LIMITS = {
 	"max_employees": "Up to {n} employees",
 	"ai_credits_grant": "{n} AI replies a month",
 }
+# A product's own meaning for a shared key (QTT Studio's credits are for AI designs, not AI replies) and its own keys.
+PRODUCT_LIMITS = {
+	"QTT_STUDIO": {
+		"studio_designs": "{n} new designs a month",
+		"ai_credits_grant": "{n} AI credits a month",
+		"studio_photos": "{n} Photo Lab photos a month",
+		"studio_shorts": "{n} Shorts a month",
+		"studio_pages": "{n} landing pages",
+		"studio_doc_templates": "{n} document templates of your own",
+	},
+}
+PRODUCT_UNLIMITED = {
+	"QTT_STUDIO": {"studio_designs": "Unlimited new designs", "studio_doc_templates": "Unlimited document templates of your own"},
+}
+PRODUCT_SWITCHES = {"QTT_STUDIO": {"studio_design_mode": "Design mode (drag and drop)"}}
 UNLIMITED = {
 	"max_agents": "Unlimited team members",
 	"max_inboxes": "Unlimited inboxes",
@@ -49,25 +64,29 @@ def _num(value) -> int | None:
 		return None
 
 
-def feature_lines(features: dict) -> list[str]:
+def feature_lines(features: dict, product: str | None = None) -> list[str]:
 	"""{feature_key: value} → readable lines, limits first, then what's switched on. Unknown keys are left out
-	(internal settings never reach owners). The channels read as one line: "WhatsApp, Website chat and Email"."""
+	(internal settings never reach owners). The channels read as one line: "WhatsApp, Website chat and Email".
+	A product may give a shared key its own words (PRODUCT_LIMITS)."""
 	out = []
-	for key, text in LIMITS.items():
+	limits = {**LIMITS, **PRODUCT_LIMITS.get(product or "", {})}
+	unlimited = {**UNLIMITED, **PRODUCT_UNLIMITED.get(product or "", {})}
+	for key, text in limits.items():
 		if key not in features:
 			continue
 		n = _num(features[key])
 		if n is None:
 			continue
 		if n <= 0:
-			if key in UNLIMITED:
-				out.append(UNLIMITED[key])
+			if key in unlimited:
+				out.append(unlimited[key])
 			continue  # 0 AI replies: simply not offered
 		out.append(text.format(n=f"{n:,}"))
 	on = [SWITCHES[k] for k in CHANNELS if _num(features.get(k)) == 1]
 	if on:
 		out.append(on[0] if len(on) == 1 else f"{', '.join(on[:-1])} and {on[-1]}")
-	out += [text for key, text in SWITCHES.items() if key not in CHANNELS and _num(features.get(key)) == 1]
+	out += [text for key, text in {**SWITCHES, **PRODUCT_SWITCHES.get(product or "", {})}.items()
+			if key not in CHANNELS and _num(features.get(key)) == 1]
 	return out
 
 

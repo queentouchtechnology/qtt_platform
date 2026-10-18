@@ -1,0 +1,87 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Library Item",
+ "module": "QTT Platform",
+ "custom": 0,
+ "engine": "InnoDB",
+ "autoname": "hash",
+ "modified": "2026-10-21 10:00:00.000000",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "description": "The Business Library (PROJ-0012): everything a business made in QTT Studio, for every product to use — each shows the business's own items first, then QTT's defaults.",
+ "field_order": [
+  "tenant",
+  "title",
+  "kind",
+  "design",
+  "file",
+  "format",
+  "products",
+  "tags"
+ ],
+ "fields": [
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "options": "QTT Tenant",
+   "label": "Business",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "kind",
+   "fieldtype": "Select",
+   "options": "post\ndocument\nlogo\nprint\nphoto\nvideo\npage",
+   "default": "post",
+   "label": "Kind",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "design",
+   "fieldtype": "Link",
+   "options": "QTT Design",
+   "label": "Made from"
+  },
+  {
+   "fieldname": "file",
+   "fieldtype": "Attach",
+   "label": "File"
+  },
+  {
+   "fieldname": "format",
+   "fieldtype": "Data",
+   "label": "Size"
+  },
+  {
+   "fieldname": "products",
+   "fieldtype": "Small Text",
+   "label": "Used by",
+   "default": "all",
+   "description": "Product keys, one per line, or all."
+  },
+  {
+   "fieldname": "tags",
+   "fieldtype": "Small Text",
+   "label": "Tags"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ]
+}

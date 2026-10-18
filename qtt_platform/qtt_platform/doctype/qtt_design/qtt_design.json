@@ -1,0 +1,124 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Design",
+ "module": "QTT Platform",
+ "custom": 0,
+ "engine": "InnoDB",
+ "autoname": "hash",
+ "modified": "2026-10-21 10:00:00.000000",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "description": "A QTT Studio design (PROJ-0012): a template, the business's words, size and look — drawn in its own brand. Changes are kept (track changes).",
+ "field_order": [
+  "tenant",
+  "title",
+  "kind",
+  "template",
+  "format",
+  "look",
+  "made_by",
+  "request",
+  "content",
+  "layers",
+  "output",
+  "output_sig",
+  "library_item"
+ ],
+ "fields": [
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "options": "QTT Tenant",
+   "label": "Business",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "kind",
+   "fieldtype": "Select",
+   "options": "post\ndocument\nlogo\nprint\nphoto\nvideo\npage",
+   "default": "post",
+   "label": "Kind",
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "template",
+   "fieldtype": "Data",
+   "label": "Template (QTT Post Template key)"
+  },
+  {
+   "fieldname": "format",
+   "fieldtype": "Select",
+   "options": "square\nportrait\nstory",
+   "default": "square",
+   "label": "Size"
+  },
+  {
+   "fieldname": "look",
+   "fieldtype": "Select",
+   "options": "light\ndark\nbrand",
+   "default": "light",
+   "label": "Look"
+  },
+  {
+   "fieldname": "made_by",
+   "fieldtype": "Select",
+   "options": "AI\nTemplate",
+   "default": "Template",
+   "label": "Made by"
+  },
+  {
+   "fieldname": "request",
+   "fieldtype": "Small Text",
+   "label": "What was asked"
+  },
+  {
+   "fieldname": "content",
+   "fieldtype": "Code",
+   "options": "JSON",
+   "label": "Words (JSON)"
+  },
+  {
+   "fieldname": "layers",
+   "fieldtype": "Code",
+   "options": "JSON",
+   "label": "Layers (Design mode, JSON)"
+  },
+  {
+   "fieldname": "output",
+   "fieldtype": "Attach Image",
+   "label": "Picture"
+  },
+  {
+   "fieldname": "output_sig",
+   "fieldtype": "Data",
+   "label": "Picture made for",
+   "read_only": 1
+  },
+  {
+   "fieldname": "library_item",
+   "fieldtype": "Link",
+   "options": "QTT Library Item",
+   "label": "In the library"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "track_changes": 1
+}
