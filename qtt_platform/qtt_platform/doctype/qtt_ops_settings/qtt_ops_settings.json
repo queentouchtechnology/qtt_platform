@@ -32,7 +32,12 @@
   "providers_error",
   "section_usage",
   "usage_token",
-  "deepseek_low_balance"
+  "deepseek_low_balance",
+  "section_alerts_keys",
+  "telegram_bot_token",
+  "telegram_chat",
+  "column_break_alerts_keys",
+  "openai_admin_key"
  ],
  "fields": [
   {
@@ -152,6 +157,35 @@
    "fieldtype": "Float",
    "label": "Warn when the DeepSeek balance is below (USD)",
    "default": "2"
+  },
+  {
+   "fieldname": "section_alerts_keys",
+   "fieldtype": "Section Break",
+   "label": "Alerts and AI usage keys"
+  },
+  {
+   "fieldname": "telegram_bot_token",
+   "fieldtype": "Password",
+   "label": "Telegram bot token",
+   "length": 140,
+   "description": "The QTT ops bot (@BotFather token). Server alerts, APK links. Typed here only — never in chat or code."
+  },
+  {
+   "fieldname": "telegram_chat",
+   "fieldtype": "Data",
+   "label": "Telegram chat / channel id",
+   "description": "Where the bot posts (a channel id like -100…, or your user id)."
+  },
+  {
+   "fieldname": "column_break_alerts_keys",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "openai_admin_key",
+   "fieldtype": "Password",
+   "label": "OpenAI admin key",
+   "length": 200,
+   "description": "Read-only usage and costs (QTT Admin's AI spend). Not the AI key — that's QTT AI Provider › openai › API key."
   }
  ],
  "permissions": [
@@ -165,5 +199,6 @@
    "export": 0
   }
  ],
- "links": []
+ "links": [],
+ "modified": "2026-10-19 18:00:00.000000"
 }
