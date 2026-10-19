@@ -57,6 +57,12 @@ def photos() -> list[dict]:
 def upload_photo(kind: str = "Product") -> list[dict]:
 	"""Multipart (field `file`): a JPG, PNG or WEBP photo up to 10 MB, and what it shows (Product, Person, Place, Other)."""
 	tenant = _tenant()
+	_upload(tenant, kind)
+	return _out(tenant)
+
+
+def _upload(tenant: str, kind: str) -> str:
+	"""The request's photo checked and kept (also QTT Studio › Photo Lab's upload); its name."""
 	upload = frappe.request.files.get("file") if frappe.request else None
 	if not upload:
 		frappe.throw(_("Choose a photo."))
@@ -72,7 +78,7 @@ def upload_photo(kind: str = "Product") -> list[dict]:
 	doc.flags.ignore_mandatory = True
 	doc.insert(ignore_permissions=True)
 	doc.db_set("image", _file(tenant, doc.name, f"post-photo-{frappe.generate_hash(length=10)}{fname[fname.rfind('.'):].lower()}", content, "image"))
-	return _out(tenant)
+	return doc.name
 
 
 @frappe.whitelist(methods=["POST"])

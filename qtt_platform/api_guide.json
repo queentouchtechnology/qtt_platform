@@ -2748,7 +2748,7 @@
    "arguments": "code",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.item",
-   "screens": "admin/admin_home.dart › _AttentionTile\nadmin/marketing_content_view.dart › _ContentTile\nadmin/marketing_content_view.dart › _PendingCard\nadmin/marketing_content_view.dart › _PendingCardState\nadmin/marketing_overview.dart › _ApprovalCard\nadmin/marketing_overview.dart › _ApprovalCardState\nplatform/explore/explore_screen.dart › _ItemCard\nplatform/explore/explore_screen.dart › _ItemPage\nplatform/explore/explore_screen.dart › _PlanCard\nproducts/office_pulse/screens/approvals_view.dart › _DatesLine\nproducts/orbitra/cart.dart › Cart\nproducts/orbitra/cart.dart › CartLine\nproducts/orbitra/screens/inventory_view.dart › _ItemEditorState\nproducts/orbitra/screens/pos_view.dart › _ItemCard\nproducts/orbitra/screens/purchases_view.dart › _BillEditorState\nproducts/orbitra/screens/sales_view.dart › _SellEditorState\nproducts/services/models.dart › SvcOffer\nproducts/services/screens/automation_pages.dart › _AutomationTile\nproducts/services/screens/automation_pages.dart › _ChoicesSheet\nproducts/services/screens/automation_pages.dart › _ChoicesSheetState\nproducts/services/screens/order_pages.dart › _OrderPageState\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_design.dart › _ListField",
+   "screens": "admin/admin_home.dart › _AttentionTile\nadmin/marketing_content_view.dart › _ContentTile\nadmin/marketing_content_view.dart › _PendingCard\nadmin/marketing_content_view.dart › _PendingCardState\nadmin/marketing_overview.dart › _ApprovalCard\nadmin/marketing_overview.dart › _ApprovalCardState\nplatform/explore/explore_screen.dart › _ItemCard\nplatform/explore/explore_screen.dart › _ItemPage\nplatform/explore/explore_screen.dart › _PlanCard\nproducts/office_pulse/screens/approvals_view.dart › _DatesLine\nproducts/orbitra/cart.dart › Cart\nproducts/orbitra/cart.dart › CartLine\nproducts/orbitra/screens/inventory_view.dart › _ItemEditorState\nproducts/orbitra/screens/pos_view.dart › _ItemCard\nproducts/orbitra/screens/purchases_view.dart › _BillEditorState\nproducts/orbitra/screens/sales_view.dart › _SellEditorState\nproducts/services/models.dart › SvcOffer\nproducts/services/screens/automation_pages.dart › _AutomationTile\nproducts/services/screens/automation_pages.dart › _ChoicesSheet\nproducts/services/screens/automation_pages.dart › _ChoicesSheetState\nproducts/services/screens/order_pages.dart › _OrderPageState\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_design.dart › _ListField\nproducts/studio/photo_lab.dart › LabResultPage",
    "other_callers": "",
    "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/items.py:96",
    "status": "Not described"
@@ -3982,7 +3982,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.deletePostPhoto",
    "screens": "platform/workspace/post_photos.dart › _PostPhotosPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/business_photos.py:120",
+   "source": "qtt_platform/qtt_platform/api/business_photos.py:126",
    "status": "OK"
   },
   {
@@ -4014,7 +4014,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.removePhotoBackground",
    "screens": "platform/workspace/post_photos.dart › _PostPhotosPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/business_photos.py:79",
+   "source": "qtt_platform/qtt_platform/api/business_photos.py:85",
    "status": "OK"
   },
   {
@@ -4030,7 +4030,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.updatePostPhoto",
    "screens": "platform/workspace/post_photos.dart › _PostPhotosPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/business_photos.py:103",
+   "source": "qtt_platform/qtt_platform/api/business_photos.py:109",
    "status": "OK"
   },
   {
@@ -5726,7 +5726,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioAsk",
    "screens": "products/studio/design_editor.dart › _DesignEditorPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:291",
+   "source": "qtt_platform/qtt_platform/api/studio.py:303",
    "status": "OK"
   },
   {
@@ -5742,7 +5742,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioDeleteDesign",
    "screens": "products/studio/design_editor.dart › _DesignEditorPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:319",
+   "source": "qtt_platform/qtt_platform/api/studio.py:331",
    "status": "OK"
   },
   {
@@ -5758,7 +5758,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:259",
+   "source": "qtt_platform/qtt_platform/api/studio.py:271",
    "status": "Not used by the app"
   },
   {
@@ -5774,7 +5774,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioDesigns",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:250",
+   "source": "qtt_platform/qtt_platform/api/studio.py:262",
    "status": "OK"
   },
   {
@@ -5790,7 +5790,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioHome",
    "screens": "products/studio/studio_root.dart › _StudioHomeState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:175",
+   "source": "qtt_platform/qtt_platform/api/studio.py:187",
    "status": "OK"
   },
   {
@@ -5806,7 +5806,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioLibrary",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:332",
+   "source": "qtt_platform/qtt_platform/api/studio.py:344",
    "status": "OK"
   },
   {
@@ -5822,7 +5822,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioMake",
    "screens": "products/studio/studio_root.dart › _StudioHomeState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:200",
+   "source": "qtt_platform/qtt_platform/api/studio.py:212",
    "status": "OK"
   },
   {
@@ -5838,7 +5838,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioNewDesign",
    "screens": "products/studio/studio_root.dart › TemplatePickerPage",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:227",
+   "source": "qtt_platform/qtt_platform/api/studio.py:239",
    "status": "OK"
   },
   {
@@ -5854,7 +5854,151 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioUpdateDesign",
    "screens": "products/studio/design_editor.dart › _DesignEditorPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:265",
+   "source": "qtt_platform/qtt_platform/api/studio.py:277",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.studio_photos.ai_background",
+   "product": "Platform",
+   "area": "api.studio_photos",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "The photo's cut-out on an AI-made scene (SCENES, or the owner's own words). The AI makes only the empty scene — never the product, text or a logo; the product is the business's own photo. 10 AI credits (none if it fails).",
+   "details": "The photo's cut-out on an AI-made scene (SCENES, or the owner's own words). The AI makes only the empty scene — never\nthe product, text or a logo; the product is the business's own photo. 10 AI credits (none if it fails).",
+   "arguments": "photo, size, scene, custom",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.labAiBackground",
+   "screens": "products/studio/photo_lab.dart › _PhotoLabPageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/studio_photos.py:192",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.studio_photos.crop",
+   "product": "Platform",
+   "area": "api.studio_photos",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "The photo cut to a size around its subject — a new picture; `small` says when the photo is too small for the size.",
+   "details": "The photo cut to a size around its subject — a new picture; `small` says when the photo is too small for the size.",
+   "arguments": "photo, size",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.labCrop",
+   "screens": "products/studio/photo_lab.dart › _PhotoLabPageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/studio_photos.py:157",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.studio_photos.delete_item",
+   "product": "Platform",
+   "area": "api.studio_photos",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Delete a Photo Lab picture (a photo's own cut-out stays on the photo).",
+   "details": "Delete a Photo Lab picture (a photo's own cut-out stays on the photo).",
+   "arguments": "item",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.labDelete",
+   "screens": "products/studio/photo_lab.dart › LabResultPage",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/studio_photos.py:230",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.studio_photos.enhance",
+   "product": "Platform",
+   "area": "api.studio_photos",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Light, colour and sharpness put right — a new picture in the library.",
+   "details": "Light, colour and sharpness put right — a new picture in the library.",
+   "arguments": "photo",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.labEnhance",
+   "screens": "products/studio/photo_lab.dart › _PhotoLabPageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/studio_photos.py:148",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.studio_photos.fine_cutout",
+   "product": "Platform",
+   "area": "api.studio_photos",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "A finer cut-out for the photo (hair, fur, see-through edges); it replaces the photo's cut-out, so post designs use it too. Counts as one of the month's photos.",
+   "details": "A finer cut-out for the photo (hair, fur, see-through edges); it replaces the photo's cut-out, so post designs use\nit too. Counts as one of the month's photos.",
+   "arguments": "photo",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.labFineCutout",
+   "screens": "products/studio/photo_lab.dart › _PhotoLabPageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/studio_photos.py:181",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.studio_photos.lab_home",
+   "product": "Platform",
+   "area": "api.studio_photos",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "Photo Lab: the business's photos, what was made (newest first), the sizes, backdrops and scenes, this month's photos left, AI credits, and whether AI backgrounds are switched on.",
+   "details": "Photo Lab: the business's photos, what was made (newest first), the sizes, backdrops and scenes, this month's photos\nleft, AI credits, and whether AI backgrounds are switched on.",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.labHome",
+   "screens": "products/studio/photo_lab.dart › _PhotoLabPageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/studio_photos.py:119",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.studio_photos.save_to_posts",
+   "product": "Platform",
+   "area": "api.studio_photos",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Add a Photo Lab picture to Photos for your posts (what it shows is kept from its photo).",
+   "details": "Add a Photo Lab picture to Photos for your posts (what it shows is kept from its photo).",
+   "arguments": "item",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.labSaveToPosts",
+   "screens": "products/studio/photo_lab.dart › LabResultPage",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/studio_photos.py:209",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.studio_photos.studio_shot",
+   "product": "Platform",
+   "area": "api.studio_photos",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "The photo's cut-out on a clean backdrop (white, soft, brand, dark) in the brand's colours, standing on a soft shadow — a new picture. The cut-out is made first when the photo has none.",
+   "details": "The photo's cut-out on a clean backdrop (white, soft, brand, dark) in the brand's colours, standing on a soft\nshadow — a new picture. The cut-out is made first when the photo has none.",
+   "arguments": "photo, size, backdrop",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.labStudioShot",
+   "screens": "products/studio/photo_lab.dart › _PhotoLabPageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/studio_photos.py:169",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.studio_photos.upload",
+   "product": "Platform",
+   "area": "api.studio_photos",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Multipart (field `file`): a JPG, PNG or WEBP photo up to 10 MB, and what it shows (Product, Person, Place, Other) — kept with Photos for your posts.",
+   "details": "Multipart (field `file`): a JPG, PNG or WEBP photo up to 10 MB, and what it shows (Product, Person, Place, Other) —\nkept with Photos for your posts.",
+   "arguments": "kind",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.labUpload",
+   "screens": "products/studio/photo_lab.dart › _PhotoLabPageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/studio_photos.py:139",
    "status": "OK"
   },
   {

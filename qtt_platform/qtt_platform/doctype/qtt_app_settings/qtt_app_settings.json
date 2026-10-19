@@ -60,6 +60,7 @@
   "render_url",
   "render_user",
   "render_password",
+  "fine_cutout",
   "section_analytics",
   "analytics_enabled",
   "analytics_flush_seconds",
@@ -351,6 +352,13 @@
    "length": 140
   },
   {
+   "fieldname": "fine_cutout",
+   "fieldtype": "Check",
+   "default": "0",
+   "label": "Studio: finer cut-outs (BiRefNet)",
+   "description": "Tick once the rembg-hq service runs on the automation server (/cutout-hq/). Off: Studio uses the standard cut-out."
+  },
+  {
    "fieldname": "section_analytics",
    "fieldtype": "Section Break",
    "label": "Analytics"
@@ -401,5 +409,5 @@
   }
  ],
  "links": [],
- "modified": "2026-10-19 16:00:00.000000"
+ "modified": "2026-10-19 17:00:00.000000"
 }

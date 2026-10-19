@@ -19,6 +19,11 @@ class Plans(unittest.TestCase):
 			self.assertIn("ai_credits_grant", f)  # granted every month by the platform's existing credit system
 		self.assertEqual(rules.PLANS[0][3]["studio_design_mode"], 0)
 
+	def test_what_is_ready(self):
+		ready = [c[0] for c in rules.CATEGORIES if c[3]]
+		self.assertEqual(ready, ["posts", "photos"])  # S0 posts, S1 Photo Lab
+		self.assertEqual(rules.CREDITS["ai_background"], 10)
+
 	def test_limits(self):
 		self.assertEqual(rules.limit_left(30, 12), 18)
 		self.assertEqual(rules.limit_left(30, 40), 0)

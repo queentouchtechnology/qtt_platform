@@ -1125,9 +1125,9 @@ passwords, codes or keys.
 - **What it is**: an app of its own (Explore QTT OS › QTT Studio) that makes
   what the business needs with AI — in its logo, colours and fonts, written
   from Business › Knowledge, saved to one **Business Library** every app
-  uses. Now: social posts. Coming phase by phase: business documents
-  (letterhead, invoice, payslip, letters, cards), logo and brand, flyers and
-  brochures, Photo Lab, Shorts and video, landing pages.
+  uses. Now: social posts and Photo Lab. Coming phase by phase: business
+  documents (letterhead, invoice, payslip, letters, cards), logo and brand,
+  flyers and brochures, Shorts and video, landing pages.
 - **Free without Studio**: everything QTT already made — Marketing assistant
   › Post designs (64 designs + ready words), the brand kit and See your
   brand, Photos for your posts and Remove background, website and store
@@ -1144,5 +1144,22 @@ passwords, codes or keys.
 - **A design**: Square / Portrait / Story, Light / Dark / Your colour; Ask
   AI to change it in plain words (1 credit); Quick edit of the words, Save;
   Delete (asks first). Each saved design is in the Business Library.
+- **Photo Lab** (Studio home › Photo Lab): works on the business's own photos
+  (the same as Business › Knowledge › Photos for your posts; Add photo there
+  or here). Pick a photo, then: **Enhance** (light, colour and sharpness put
+  right), **Crop to a size** (square, portrait, story, link and Facebook,
+  store product, website banner, profile — cut around the subject; it warns
+  when the photo is too small), **Studio shot** (the product or person cut
+  out onto a clean backdrop — white, soft tint, your colour or dark — standing
+  on a soft shadow), **Finer cut-out** (better hair and edges; it replaces the
+  photo's cut-out so post designs use it too), **AI background** (the cut-out
+  on a scene — marble table, wooden table, pastel studio, kitchen, garden,
+  festive, luxury, shop shelf, or your own words; 10 AI credits, none if it
+  fails; AI makes only the empty scene — your product is your own photo,
+  never redrawn). The photo itself never changes. Each result is a new
+  picture in the Business Library: Add to my post photos, Open full size (to
+  save or share it from the phone) or Delete (asks first).
+  Each counts towards the plan's photos a month (Starter 50, Growth 200,
+  Pro 600). Making photos bigger (upscale) and tap-to-select come later.
 - **Who**: the owner and admins, and team members given QTT Studio
   (Business › Team) as Studio Admin or Designer.

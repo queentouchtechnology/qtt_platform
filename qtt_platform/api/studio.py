@@ -75,13 +75,13 @@ def _credits(tenant: str) -> float | None:
 	return None if is_house(tenant) else float(get_balance(tenant, rules.PRODUCT) or 0)
 
 
-def _ai(tenant: str, feature: str, messages: list[dict], *, max_tokens: int = 900) -> str:
-	"""One AI answer, paid with AI credits (reserved first, refunded if it fails; QTT's own business doesn't pay)."""
+def paid(tenant: str, feature: str, run, *, provider: str = "assistant", model: str = "assistant", provider_cost: float = 0):
+	"""Run one AI job paid with AI credits: reserved first, refunded if it gives nothing or fails (QTT's own business
+	doesn't pay); the usage is recorded either way. `run()` returns the result, or something empty when it failed."""
 	import time
 
 	from qtt_platform.ai.core.response import AiUsage
 	from qtt_platform.ai.services import credit_service, usage_service
-	from qtt_platform.api.assistant import complete_json
 	from qtt_platform.house import is_house
 
 	cost = rules.CREDITS[feature]
@@ -90,26 +90,38 @@ def _ai(tenant: str, feature: str, messages: list[dict], *, max_tokens: int = 90
 	if paying and not credit_service.deduct_credits(tenant, rules.PRODUCT, cost, reference=ref).get("ok"):
 		frappe.throw(_("You're out of AI credits — more come with next month's plan, or buy more in Business › Plans and billing."))
 	start = time.monotonic()
-	text, status = "", "error"
+	result = None
 	try:
-		for json_mode in (True, False):
-			text = complete_json(messages, max_tokens=max_tokens, json_mode=json_mode, temperature=0.4, timeout=45)
-			if (text or "").strip():
-				status = "success"
-				break
+		result = run()
 	except Exception:
 		frappe.log_error(title=f"QTT Studio: AI {feature} failed")
+	status = "success" if result else "error"
 	if status != "success" and paying:
 		credit_service.refund_credits(tenant, rules.PRODUCT, cost, reference=ref)
 	try:
 		usage_service.record_usage(tenant=tenant, product=rules.PRODUCT, user=frappe.session.user, feature=f"studio_{feature}",
-								   provider="assistant", model="assistant", usage=AiUsage(0, 0, 0), credits_used=cost if status == "success" and paying else 0,
-								   provider_cost=0, status=status, duration_ms=int((time.monotonic() - start) * 1000))
+								   provider=provider, model=model, usage=AiUsage(0, 0, 0), credits_used=cost if status == "success" and paying else 0,
+								   provider_cost=provider_cost if status == "success" else 0, status=status,
+								   duration_ms=int((time.monotonic() - start) * 1000))
 	except Exception:
 		frappe.log_error(title="QTT Studio: usage not recorded")
 	if status != "success":
 		frappe.throw(_("Studio couldn't do that just now — no credits were used. Please try again in a minute."))
-	return text
+	return result
+
+
+def _ai(tenant: str, feature: str, messages: list[dict], *, max_tokens: int = 900) -> str:
+	"""One AI answer (words), paid with AI credits."""
+	from qtt_platform.api.assistant import complete_json
+
+	def run():
+		for json_mode in (True, False):
+			text = complete_json(messages, max_tokens=max_tokens, json_mode=json_mode, temperature=0.4, timeout=45)
+			if (text or "").strip():
+				return text
+		return None
+
+	return paid(tenant, feature, run)
 
 
 # ---- designs -----------------------------------------------------------------------------------------------------------
