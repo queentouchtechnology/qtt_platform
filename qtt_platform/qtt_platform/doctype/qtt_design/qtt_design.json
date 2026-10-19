@@ -5,7 +5,7 @@
  "custom": 0,
  "engine": "InnoDB",
  "autoname": "hash",
- "modified": "2026-10-21 10:00:00.000000",
+ "modified": "2026-10-21 12:00:00.000000",
  "sort_field": "modified",
  "sort_order": "DESC",
  "description": "A QTT Studio design (PROJ-0012): a template, the business's words, size and look — drawn in its own brand. Changes are kept (track changes).",
@@ -56,7 +56,7 @@
   {
    "fieldname": "format",
    "fieldtype": "Select",
-   "options": "square\nportrait\nstory",
+   "options": "square\nportrait\nstory\nwide\nlandscape",
    "default": "square",
    "label": "Size"
   },
