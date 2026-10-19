@@ -86,10 +86,9 @@
 {% else %}
 <table class="hdr"><tr>
 	<td style="width:60%">
-		<table><tr>
-			{% if b.logo %}<td style="width:1%;padding:0 12px 0 0;vertical-align:middle"><img class="logo" src="{{ b.logo }}"></td>{% endif %}
-			<td style="padding:0;vertical-align:middle"><div class="bn">{{ b.name|e }}</div>{% if b.tagline %}<div class="tg">{{ b.tagline|e }}</div>{% endif %}</td>
-		</tr></table>
+		{#- logo and name side by side in one cell: wkhtmltopdf sizes a 1%-wide logo cell before the picture loads, and the name ran over it -#}
+		{% if b.logo %}<img class="logo" src="{{ b.logo }}" style="vertical-align:middle;margin-right:12px">{% endif %}
+		<div style="display:inline-block;vertical-align:middle"><div class="bn">{{ b.name|e }}</div>{% if b.tagline %}<div class="tg">{{ b.tagline|e }}</div>{% endif %}</div>
 	</td>
 	<td class="ttl">{{ title }}{% if subtitle %}<small>{{ subtitle }}</small>{% endif %}</td>
 </tr></table>
