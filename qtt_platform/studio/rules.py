@@ -35,7 +35,7 @@ CATEGORIES = (
 	("logos", "Logo and brand", "logo", True),  # S5
 	("print", "Cards, flyers and menus", "print", True),  # S4 (brochures later)
 	("photos", "Photo Lab", "photo", True),  # S1
-	("shorts", "Shorts and video", "video", False),
+	("shorts", "Shorts and video", "video", True),  # S6
 	("pages", "Landing pages", "page", False),
 )
 KINDS = ("post", "document", "logo", "print", "photo", "video", "page")
@@ -121,6 +121,25 @@ def post_caption(words: dict) -> str:
 	head = " — ".join(x for x in (w["kicker"], w["headline"]) if x)
 	items = [f"• {i['title']}" + (f": {i['text']}" if i.get("text") else "") for i in (words or {}).get("items") or [] if isinstance(i, dict) and i.get("title")]
 	return "\n\n".join(x for x in (head, w["subline"], "\n".join(items), w["cta"]) if x)
+
+
+def short_prompt(*, about: str, brief: str, language: str, scenes: int) -> list[dict]:
+	"""A Short's words: a hook, one caption a photo, an end line — from the business brief only."""
+	return [
+		{"role": "system", "content": (
+			"You write the words for a 10-second vertical video (Reel / Short) of a small business, shown over its own photos. "
+			"Use ONLY the facts in the business brief and the request: never invent prices, discounts, offers, dates, numbers "
+			f"or claims. Write in {'Tamil' if language == 'ta' else 'English'}. A hook up to 6 words that stops the scroll "
+			f"(mark one key word with *stars*); exactly {scenes} short captions, one a photo, up to 8 words each; an end line "
+			'up to 6 words that says what to do (call, visit, order on WhatsApp). Reply with JSON only: '
+			'{"hook": "", "captions": ["", ...], "end_line": ""}.')},
+		{"role": "user", "content": f"Business brief:\n{brief}\n\nThe Short is about: {(about or '').strip()[:300]}"},
+	]
+
+
+def parse_json(text: str) -> dict:
+	"""The first JSON object in an AI answer ({} when there's none)."""
+	return _json(text)
 
 
 def parse_make(text: str, keys: set[str]) -> dict | None:

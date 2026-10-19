@@ -2,3 +2,5 @@
 # where frappe (and the lms app it extends without modifying) are already
 # present. No third-party Python packages beyond what frappe already
 # bundles (requests, etc.) are required for Phase 1.
+# QTT Studio Shorts (PROJ-0012 S6): FFmpeg as a pip wheel (its own static binary — nothing installed on the server)
+imageio-ffmpeg

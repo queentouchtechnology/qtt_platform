@@ -1126,8 +1126,8 @@ passwords, codes or keys.
   what the business needs with AI — in its logo, colours and fonts, written
   from Business › Knowledge, saved to one **Business Library** every app
   uses. Now: social posts, Photo Lab, logos, print (cards, flyers, menus) and business documents (letterhead
-  styles, letters). Coming phase by phase: brochures,
-  Shorts and video, landing pages.
+  styles, letters) and Shorts. Coming phase by phase: brochures,
+  voice and music for Shorts, landing pages.
 - **Free without Studio**: everything QTT already made — Marketing assistant
   › Post designs (64 designs + ready words), the brand kit and See your
   brand, Photos for your posts and Remove background, website and store
@@ -1163,6 +1163,20 @@ passwords, codes or keys.
   again puts that size back (asks first). Save draws the picture exactly as
   arranged and keeps it in the library. Changing the words later with Quick
   edit or Ask AI keeps the moves (words typed on the design give way).
+- **Shorts** (Studio home › Shorts): 9:16 videos (1080 × 1920, about 8–13
+  seconds) for Instagram Reels, YouTube Shorts, Facebook and WhatsApp
+  Status, from the business's own photos (Business › Knowledge › Photos for
+  your posts). Pick up to 4 photos in order; the words: a hook (first
+  words, *word* in colour), a caption on each photo, an end line (call,
+  visit, order…) — typed, or Ask AI to write it from a few words (2 AI
+  credits; never invents prices, offers or dates). Make the Short: it's made
+  in the background in about a minute (you can leave the page) — each photo
+  slowly zooms under its caption, then an end card in the brand's colour
+  with the logo, the line, phone and website. Then Play the video, Post it
+  (a Marketing assistant post waiting for the owner's OK, video attached)
+  or Delete (asks first). Shorts a month: Starter 2, Growth 10, Pro 30 (a
+  failed one isn't counted). No voice or music yet — add music in the app
+  you post to.
 - **Print** (Studio home › Print): visiting card (89 × 51 mm, front and
   back; Colour band, Split, Minimal with a QR code), flyer A5 and A4 (Big
   photo — the business's own photo first — or Colour block; headline with
