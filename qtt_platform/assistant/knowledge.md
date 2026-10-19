@@ -1125,9 +1125,9 @@ passwords, codes or keys.
 - **What it is**: an app of its own (Explore QTT OS › QTT Studio) that makes
   what the business needs with AI — in its logo, colours and fonts, written
   from Business › Knowledge, saved to one **Business Library** every app
-  uses. Now: social posts, Photo Lab, logos and business documents (letterhead
-  styles, letters). Coming phase by phase: flyers and
-  brochures, visiting and ID cards, Shorts and video, landing pages.
+  uses. Now: social posts, Photo Lab, logos, print (cards, flyers, menus) and business documents (letterhead
+  styles, letters). Coming phase by phase: brochures,
+  Shorts and video, landing pages.
 - **Free without Studio**: everything QTT already made — Marketing assistant
   › Post designs (64 designs + ready words), the brand kit and See your
   brand, Photos for your posts and Remove background, website and store
@@ -1163,6 +1163,19 @@ passwords, codes or keys.
   again puts that size back (asks first). Save draws the picture exactly as
   arranged and keeps it in the library. Changing the words later with Quick
   edit or Ask AI keeps the moves (words typed on the design give way).
+- **Print** (Studio home › Print): visiting card (89 × 51 mm, front and
+  back; Colour band, Split, Minimal with a QR code), flyer A5 and A4 (Big
+  photo — the business's own photo first — or Colour block; headline with
+  *word* in colour, a line under it, up to 5 points, an offer badge only when
+  the owner types a real offer, call to action, contacts and a QR code), menu
+  / price list A4 (Classic or Modern; sections and items with the business's
+  own prices from Business › Knowledge › What you offer, or added / changed
+  here — never made up; opening hours, a note). Words start filled from the
+  Business profile and knowledge; change any. Show the styles draws each
+  style with these words › pick one › Make print files: a print-ready PDF
+  (every side, 3 mm bleed and crop marks — give it to the print shop) and a
+  picture of each side to share. Kept under Your print designs (open, or
+  delete — asks first). Each counts as one of the month's designs.
 - **Logo and brand** (Studio home › Logo): type or keep the business name and
   tagline, pick an icon (phone, pin, clock, tick, delivery, star, shopping
   bag, calendar, cloud, shield, gear, chart, rocket, team, email, website,

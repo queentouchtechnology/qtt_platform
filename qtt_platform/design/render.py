@@ -48,8 +48,13 @@ def png(page_html: str, width: int, height: int, files: dict[str, bytes] | None 
 	return _send("/forms/chromium/screenshot/html", page_html, form, files, b"\x89PNG")
 
 
-def pdf(page_html: str, width_in: float, height_in: float, files: dict[str, bytes] | None = None) -> bytes:
-	"""The page as a one-page PDF of width × height inches, no margins (a logo for a print shop)."""
-	form = {"paperWidth": f"{width_in:.3f}", "paperHeight": f"{height_in:.3f}", "marginTop": "0", "marginBottom": "0",
-			"marginLeft": "0", "marginRight": "0", "printBackground": "true", "skipNetworkIdleEvent": "false", "waitDelay": "0.6s"}
+def pdf(page_html: str, width_in: float | None = None, height_in: float | None = None, files: dict[str, bytes] | None = None) -> bytes:
+	"""The page as a PDF of width × height inches, no margins (a logo for a print shop) — or, without a size, the size
+	the page's own CSS @page gives (print products: every side its own page, with bleed and crop marks)."""
+	form = {"marginTop": "0", "marginBottom": "0", "marginLeft": "0", "marginRight": "0", "printBackground": "true",
+			"skipNetworkIdleEvent": "false", "waitDelay": "0.6s"}
+	if width_in and height_in:
+		form.update({"paperWidth": f"{width_in:.3f}", "paperHeight": f"{height_in:.3f}"})
+	else:
+		form["preferCssPageSize"] = "true"
 	return _send("/forms/chromium/convert/html", page_html, form, files, b"%PDF")

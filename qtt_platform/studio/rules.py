@@ -33,7 +33,7 @@ CATEGORIES = (
 	("posts", "Social posts", "post", True),
 	("documents", "Business documents", "document", True),  # S3: letterhead styles and letters
 	("logos", "Logo and brand", "logo", True),  # S5
-	("print", "Flyers and brochures", "print", False),
+	("print", "Cards, flyers and menus", "print", True),  # S4 (brochures later)
 	("photos", "Photo Lab", "photo", True),  # S1
 	("shorts", "Shorts and video", "video", False),
 	("pages", "Landing pages", "page", False),
