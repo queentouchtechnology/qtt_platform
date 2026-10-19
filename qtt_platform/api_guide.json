@@ -3982,7 +3982,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.deletePostPhoto",
    "screens": "platform/workspace/post_photos.dart › _PostPhotosPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/business_photos.py:126",
+   "source": "qtt_platform/qtt_platform/api/business_photos.py:133",
    "status": "OK"
   },
   {
@@ -3998,7 +3998,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.postPhotos",
    "screens": "platform/workspace/post_photos.dart › _PostPhotosPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/business_photos.py:51",
+   "source": "qtt_platform/qtt_platform/api/business_photos.py:58",
    "status": "OK"
   },
   {
@@ -4014,7 +4014,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.removePhotoBackground",
    "screens": "platform/workspace/post_photos.dart › _PostPhotosPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/business_photos.py:85",
+   "source": "qtt_platform/qtt_platform/api/business_photos.py:92",
    "status": "OK"
   },
   {
@@ -4030,7 +4030,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.updatePostPhoto",
    "screens": "platform/workspace/post_photos.dart › _PostPhotosPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/business_photos.py:109",
+   "source": "qtt_platform/qtt_platform/api/business_photos.py:116",
    "status": "OK"
   },
   {
@@ -4046,7 +4046,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.uploadPostPhoto",
    "screens": "platform/workspace/post_photos.dart › _PostPhotosPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/business_photos.py:57",
+   "source": "qtt_platform/qtt_platform/api/business_photos.py:64",
    "status": "OK"
   },
   {
@@ -4942,7 +4942,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.postTemplateIdeas",
    "screens": "products/services/screens/design_library.dart › _DesignPreviewPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/post_templates.py:81",
+   "source": "qtt_platform/qtt_platform/api/post_templates.py:87",
    "status": "OK"
   },
   {
@@ -4974,7 +4974,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.postTemplatePreview",
    "screens": "products/services/screens/design_library.dart › _DesignPreviewPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/post_templates.py:158",
+   "source": "qtt_platform/qtt_platform/api/post_templates.py:164",
    "status": "OK"
   },
   {

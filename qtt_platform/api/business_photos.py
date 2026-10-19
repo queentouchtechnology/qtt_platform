@@ -32,8 +32,15 @@ def _tenant() -> str:
 
 
 def _out(tenant: str) -> list[dict]:
-	return frappe.get_all(DT, filters={"tenant": tenant}, fields=["name", "kind", "label", "image", "cutout", "use_cutout"],
+	"""The photos, newest first, their pictures as full addresses (the app can't load a bare /files/… path)."""
+	from frappe.utils import get_url
+
+	rows = frappe.get_all(DT, filters={"tenant": tenant}, fields=["name", "kind", "label", "image", "cutout", "use_cutout"],
 						  order_by="creation desc")
+	for r in rows:
+		r.image = get_url(r.image) if r.image else None
+		r.cutout = get_url(r.cutout) if r.cutout else None
+	return rows
 
 
 def _mine(tenant: str, name: str):

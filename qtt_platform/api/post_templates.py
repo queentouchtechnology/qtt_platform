@@ -44,10 +44,16 @@ def library_list(post_type: str | None = None, group: str | None = None, start: 
 	chosen = [r for r in in_group if catalog.matches(r, post_type=post_type or None)]
 	start, limit = max(0, int(start or 0)), min(60, max(1, int(limit or 30)))
 	counts = {k: sum(1 for r in in_group if k in r["post_types"]) for k in catalog.POST_TYPES}
+
+	def full(url):  # the app loads pictures from the full address, never a bare /files/… path
+		from frappe.utils import get_url
+
+		return get_url(url) if url else None
+
 	return {
 		"templates": [{"key": r["key"], "title": r["title"], "label": (catalog.LAYOUTS.get(r["layout"]) or {}).get("label") or r["title"],
 					   "name": r["title"].split(" · ", 1)[-1], "layout": r["layout"], "post_types": r["post_types"], "groups": r["groups"],
-					   "look": r["look"], "picture": library.picture(r, g)} for r in chosen[start:start + limit]],
+					   "look": r["look"], "picture": full(library.picture(r, g))} for r in chosen[start:start + limit]],
 		"total": len(chosen), "group": g, "my_group": mine,
 		"post_types": [{"key": k, "label": label, "count": counts[k]} for k, label in catalog.POST_TYPES.items() if counts[k]],
 		"groups": [{"key": k, "label": label} for k, label in business_types.GROUPS],
