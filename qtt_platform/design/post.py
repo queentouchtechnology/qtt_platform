@@ -37,25 +37,34 @@ def kit_photos(kit: str, count: int = 5) -> list[tuple[str, bytes]]:
 
 
 def page_for(layout: str, variant: dict, *, colors: dict, fonts: tuple[str, str], look: str, fmt: str, content: dict,
-			 photo_names: list[str], language: str = "", out_width: int = 1080) -> tuple[str, int, int]:
-	"""(html, width, height) of one post."""
+			 photo_names: list[str], language: str = "", out_width: int = 1080, edits: dict | None = None) -> tuple[str, int, int]:
+	"""(html, width, height) of one post. `edits`: Studio's Move and resize changes ({format: {piece: …}})."""
+	from qtt_platform.design import arrange
+
 	hh = SIZES.get(fmt, 1080)
 	p = base.palette(colors)
 	f = base.fonts(fonts[0], fonts[1], language, extra=EXTRA_FACES)
 	x = layouts.Ctx(palette=p, fonts=f, height=hh, look=look if look in layouts.LOOKS else "light", content=content, photos=photo_names)
 	body, css = archetypes.LAYOUTS[layout](x, variant or {})
 	out_h = round(out_width * hh / 1080)
-	return layouts.page(body, css, x, out_width, out_h), out_width, out_h
+	return layouts.page(body, css, x, out_width, out_h, arrange.script_for(edits, fmt)), out_width, out_h
 
 
-def render(layout: str, variant: dict, *, colors: dict, fonts: tuple[str, str], look: str, fmt: str, content: dict,
-		   photos: list[tuple[str, bytes]], logo: tuple[str, bytes] | None = None, language: str = "", out_width: int = 1080) -> bytes:
+def files_for(content: dict, photos: list[tuple[str, bytes]], logo: tuple[str, bytes] | None) -> tuple[dict, dict]:
+	"""(the page's files by name, the content with the logo's file name)."""
 	files = dict(photos)
 	if logo and logo[1]:
 		files[logo[0]] = logo[1]
 		content = {**content, "logo": logo[0]}
+	return files, content
+
+
+def render(layout: str, variant: dict, *, colors: dict, fonts: tuple[str, str], look: str, fmt: str, content: dict,
+		   photos: list[tuple[str, bytes]], logo: tuple[str, bytes] | None = None, language: str = "", out_width: int = 1080,
+		   edits: dict | None = None) -> bytes:
+	files, content = files_for(content, photos, logo)
 	page, w, h = page_for(layout, variant, colors=colors, fonts=fonts, look=look, fmt=fmt, content=content,
-						  photo_names=[n for n, _ in photos], language=language, out_width=out_width)
+						  photo_names=[n for n, _ in photos], language=language, out_width=out_width, edits=edits)
 	return renderer.png(page, w, h, files)
 
 

@@ -4974,7 +4974,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.postTemplatePreview",
    "screens": "products/services/screens/design_library.dart › _DesignPreviewPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/post_templates.py:164",
+   "source": "qtt_platform/qtt_platform/api/post_templates.py:177",
    "status": "OK"
   },
   {
@@ -5726,7 +5726,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioAsk",
    "screens": "products/studio/design_editor.dart › _DesignEditorPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:303",
+   "source": "qtt_platform/qtt_platform/api/studio.py:312",
    "status": "OK"
   },
   {
@@ -5742,7 +5742,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioDeleteDesign",
    "screens": "products/studio/design_editor.dart › _DesignEditorPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:331",
+   "source": "qtt_platform/qtt_platform/api/studio.py:385",
    "status": "OK"
   },
   {
@@ -5758,7 +5758,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:271",
+   "source": "qtt_platform/qtt_platform/api/studio.py:279",
    "status": "Not used by the app"
   },
   {
@@ -5774,7 +5774,23 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioDesigns",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:262",
+   "source": "qtt_platform/qtt_platform/api/studio.py:270",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.studio.editor",
+   "product": "Platform",
+   "area": "api.studio",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "Move and resize: the design's own page for the app's editor (one size — the design's, or `format`), with its pictures inside it and the moves already saved for that size.",
+   "details": "Move and resize: the design's own page for the app's editor (one size — the design's, or `format`), with its\npictures inside it and the moves already saved for that size.",
+   "arguments": "name, format",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioEditor",
+   "screens": "products/studio/move_resize.dart › _MoveResizePageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/studio.py:341",
    "status": "OK"
   },
   {
@@ -5790,7 +5806,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioHome",
    "screens": "products/studio/studio_root.dart › _StudioHomeState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:187",
+   "source": "qtt_platform/qtt_platform/api/studio.py:195",
    "status": "OK"
   },
   {
@@ -5806,7 +5822,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioLibrary",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:344",
+   "source": "qtt_platform/qtt_platform/api/studio.py:398",
    "status": "OK"
   },
   {
@@ -5822,7 +5838,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioMake",
    "screens": "products/studio/studio_root.dart › _StudioHomeState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:212",
+   "source": "qtt_platform/qtt_platform/api/studio.py:220",
    "status": "OK"
   },
   {
@@ -5838,7 +5854,23 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioNewDesign",
    "screens": "products/studio/studio_root.dart › TemplatePickerPage",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:239",
+   "source": "qtt_platform/qtt_platform/api/studio.py:247",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.studio.save_moves",
+   "product": "Platform",
+   "area": "api.studio",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Save Move and resize for one size: each piece moved, made bigger or smaller, turned, its words changed or hidden ({piece: {t, tf, text, hide}}; {} puts the size back as the design was). Drawn again and kept in the library.",
+   "details": "Save Move and resize for one size: each piece moved, made bigger or smaller, turned, its words changed or hidden\n({piece: {t, tf, text, hide}}; {} puts the size back as the design was). Drawn again and kept in the library.",
+   "arguments": "name, format, edits",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioSaveMoves",
+   "screens": "products/studio/move_resize.dart › _MoveResizePageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/studio.py:358",
    "status": "OK"
   },
   {
@@ -5854,7 +5886,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioUpdateDesign",
    "screens": "products/studio/design_editor.dart › _DesignEditorPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:277",
+   "source": "qtt_platform/qtt_platform/api/studio.py:285",
    "status": "OK"
   },
   {

@@ -1144,6 +1144,16 @@ passwords, codes or keys.
 - **A design**: Square / Portrait / Story, Light / Dark / Your colour; Ask
   AI to change it in plain words (1 credit); Quick edit of the words, Save;
   Delete (asks first). Each saved design is in the Business Library.
+- **Move and resize** (a design › Move and resize, in the phone app): the
+  design itself opens with every piece movable — tap a line of words, the
+  button, the badge, the logo, a photo or a decoration, drag it anywhere,
+  pull a corner to make it bigger or smaller, the round handle on top to turn
+  it. Below: Words (change that line; *word* shows in colour), Smaller,
+  Bigger, Hide / Show, Undo this piece, Done. The size button switches
+  Square / Portrait / Story (each size keeps its own arrangement); Start
+  again puts that size back (asks first). Save draws the picture exactly as
+  arranged and keeps it in the library. Changing the words later with Quick
+  edit or Ask AI keeps the moves (words typed on the design give way).
 - **Photo Lab** (Studio home › Photo Lab): works on the business's own photos
   (the same as Business › Knowledge › Photos for your posts; Add photo there
   or here). Pick a photo, then: **Enhance** (light, colour and sharpness put

@@ -139,6 +139,7 @@ def _draw(tenant: str, doc) -> None:
 	t = pt.template_row(doc.template)
 	c = json.loads(doc.content or "{}")
 	parts = pt.post_parts(tenant, t, look=doc.look, words=c.get("words") or None, lang=c.get("lang"))
+	parts["edits"] = c.get("edits") or {}
 	sig = pt.parts_sig(t, doc.format, parts)
 	if doc.output and doc.output_sig == sig:
 		return
@@ -175,6 +176,13 @@ def _create(tenant: str, *, template: str, words: dict, lang: str, look: str | N
 	doc.insert(ignore_permissions=True)
 	_draw(tenant, doc)
 	return _out(doc)
+
+
+def _new_words(c: dict) -> None:
+	"""The words were changed (Quick edit, Ask AI): words typed on the design itself give way to them; moves stay."""
+	from qtt_platform.design import arrange
+
+	c["edits"] = arrange.without_text(c.get("edits") or {})
 
 
 def _brief(tenant: str) -> tuple[str, str]:
@@ -284,6 +292,7 @@ def update_design(name: str, data=None) -> dict:
 	c = json.loads(doc.content or "{}")
 	if isinstance(d.get("words"), dict):
 		c["words"] = {**{k: v for k, v in (c.get("words") or {}).items() if k == "items"}, **rules.clean_words(d["words"])}
+		_new_words(c)
 	if d.get("format") in rules.FORMATS:
 		doc.format = d["format"]
 	if d.get("look") in rules.LOOKS:
@@ -316,11 +325,56 @@ def ask(name: str, instruction: str) -> dict:
 		frappe.throw(_("Studio didn't find anything to change — try saying it another way."))
 	if "words" in change:
 		c["words"] = {**(c.get("words") or {}), **change["words"]}
+		_new_words(c)
 		if any("஀" <= ch <= "௿" for ch in json.dumps(change["words"], ensure_ascii=False)):
 			c["lang"] = "ta"
 	doc.look = change.get("look", doc.look)
 	doc.format = change.get("format", doc.format)
 	doc.title = _title(c.get("words") or {})
+	doc.content = json.dumps(c, ensure_ascii=False)
+	doc.save(ignore_permissions=True)
+	_draw(tenant, doc)
+	return _out(doc)
+
+
+@frappe.whitelist(methods=["GET"])
+def editor(name: str, format: str | None = None) -> dict:
+	"""Move and resize: the design's own page for the app's editor (one size — the design's, or `format`), with its
+	pictures inside it and the moves already saved for that size."""
+	tenant = _tenant()
+	_need_studio(tenant)
+	doc = _mine(tenant, name)
+	fmt = format if format in rules.FORMATS else doc.format
+	t = pt.template_row(doc.template)
+	c = json.loads(doc.content or "{}")
+	parts = pt.post_parts(tenant, t, look=doc.look, words=c.get("words") or None, lang=c.get("lang"))
+	parts["edits"] = c.get("edits") or {}
+	from qtt_platform.design.post import SIZES
+
+	return {"html": pt.editor_html(t, fmt, parts), "width": 1080, "height": SIZES.get(fmt, 1080), "format": fmt}
+
+
+@frappe.whitelist(methods=["POST"])
+def save_moves(name: str, format: str, edits=None) -> dict:
+	"""Save Move and resize for one size: each piece moved, made bigger or smaller, turned, its words changed or hidden
+	({piece: {t, tf, text, hide}}; {} puts the size back as the design was). Drawn again and kept in the library."""
+	from qtt_platform.design import arrange
+
+	tenant = _tenant()
+	_need_studio(tenant)
+	doc = _mine(tenant, name)
+	if format not in rules.FORMATS:
+		frappe.throw(_("Choose a size."))
+	raw = json.loads(edits) if isinstance(edits, str) else (edits or {})
+	one = arrange.clean_edits({format: raw}).get(format) or {}
+	c = json.loads(doc.content or "{}")
+	all_edits = c.get("edits") or {}
+	if one:
+		all_edits[format] = one
+	else:
+		all_edits.pop(format, None)
+	c["edits"] = all_edits
+	doc.format = format
 	doc.content = json.dumps(c, ensure_ascii=False)
 	doc.save(ignore_permissions=True)
 	_draw(tenant, doc)

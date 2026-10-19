@@ -26,11 +26,15 @@ LOOKS = ("light", "dark", "brand")
 
 FIT_SCRIPT = (
 	"<script>(async()=>{try{await document.fonts.ready}catch(e){}"
+	# Studio's Move and resize (design/arrange.py): number the pieces now (the editor numbers them at this same moment),
+	# put in changed words before fitting, the moves after
+	"if(window.qttPieces){qttPieces();if(window.qttEdits)qttWords(qttEdits)}"
 	# too big = taller than the box's max-height (big capitals spill a few px past a tight line-height, so allow 6) or
 	# wider than the box (a long word / a nowrap line)
 	"document.querySelectorAll('[data-fit]').forEach(el=>{const cs=getComputedStyle(el);let s=parseFloat(cs.fontSize),m=s*.42;"
 	"const mh=cs.maxHeight==='none'?el.clientHeight:parseFloat(cs.maxHeight);"
 	"while((el.scrollHeight>mh+6||el.scrollWidth>el.clientWidth+2)&&s>m){s-=1.5;el.style.fontSize=s+'px'}});"
+	"if(window.qttPieces&&window.qttEdits)qttMoves(qttEdits);"
 	"window.qttReady=true})()</script>"
 )
 
@@ -151,12 +155,14 @@ def common_css(x: Ctx) -> str:
 	)
 
 
-def page(body: str, css: str, x: Ctx, out_w: int, out_h: int) -> str:
-	"""The whole page at the format's real size (the 1080-wide design scaled to it)."""
+def page(body: str, css: str, x: Ctx, out_w: int, out_h: int, edits: str = "") -> str:
+	"""The whole page at the format's real size (the 1080-wide design scaled to it). `edits`: Studio's saved moves for
+	this size (arrange.script_for)."""
+	from qtt_platform.design.arrange import PIECES_JS
 	from qtt_platform.design.sheet import page as wrap
 
 	scale = out_w / DESIGN_W
-	inner = (f'<div class="post" style="transform:scale({scale:.5f});transform-origin:0 0">{body}</div>{FIT_SCRIPT}')
+	inner = (f'<div class="post" style="transform:scale({scale:.5f});transform-origin:0 0">{body}</div>{PIECES_JS}{edits}{FIT_SCRIPT}')
 	extra = ""
 	if x.fonts.get("script") in ("tamil", "devanagari"):
 		# Script and display faces have no Tamil / Hindi letters: those lines use the heading face, bold — as local posters do

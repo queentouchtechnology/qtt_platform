@@ -142,8 +142,9 @@ def post_parts(tenant: str, t: dict, *, look: str | None = None, words: dict | N
 
 def parts_sig(t: dict, fmt: str, parts: dict) -> str:
 	logo = parts["logo"]
+	moves = (parts.get("edits") or {}).get(fmt) or {}
 	return hashlib.sha1(json.dumps([t, fmt, parts["look"], parts["kit"], parts["fonts"], parts["content"], parts["language"], logo[0],
-									len(logo[1] or b""), [n for n, _ in parts["photos"]], catalog.catalog_hash()],
+									len(logo[1] or b""), [n for n, _ in parts["photos"]], catalog.catalog_hash(), moves],
 								   sort_keys=True, default=str).encode()).hexdigest()[:14]
 
 
@@ -151,7 +152,19 @@ def draw(t: dict, fmt: str, parts: dict) -> bytes:
 	logo = parts["logo"]
 	return post.render(t["layout"], t["variant"], colors=parts["kit"]["colors"] or {"primary": base.DEFAULT_PRIMARY}, fonts=parts["fonts"],
 					   look=parts["look"], fmt=fmt, content=parts["content"], photos=parts["photos"], logo=logo if logo[1] else None,
-					   language=parts["language"])
+					   language=parts["language"], edits=parts.get("edits"))
+
+
+def editor_html(t: dict, fmt: str, parts: dict) -> str:
+	"""The design's page for Studio's Move and resize editor (its pictures inside it, its saved moves for this size)."""
+	from qtt_platform.design import arrange
+
+	logo = parts["logo"]
+	files, content = post.files_for(parts["content"], parts["photos"], logo if logo[1] else None)
+	page, w, _h = post.page_for(t["layout"], t["variant"], colors=parts["kit"]["colors"] or {"primary": base.DEFAULT_PRIMARY},
+								fonts=parts["fonts"], look=parts["look"], fmt=fmt, content=content,
+								photo_names=[n for n, _ in parts["photos"]], language=parts["language"])
+	return arrange.editor_page(page, files, w, (parts.get("edits") or {}).get(fmt))
 
 
 def template_row(key: str) -> dict:
