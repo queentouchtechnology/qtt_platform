@@ -1125,8 +1125,8 @@ passwords, codes or keys.
 - **What it is**: an app of its own (Explore QTT OS › QTT Studio) that makes
   what the business needs with AI — in its logo, colours and fonts, written
   from Business › Knowledge, saved to one **Business Library** every app
-  uses. Now: social posts, Photo Lab and business documents (letterhead
-  styles, letters). Coming phase by phase: logo and brand, flyers and
+  uses. Now: social posts, Photo Lab, logos and business documents (letterhead
+  styles, letters). Coming phase by phase: flyers and
   brochures, visiting and ID cards, Shorts and video, landing pages.
 - **Free without Studio**: everything QTT already made — Marketing assistant
   › Post designs (64 designs + ready words), the brand kit and See your
@@ -1163,6 +1163,23 @@ passwords, codes or keys.
   again puts that size back (asks first). Save draws the picture exactly as
   arranged and keeps it in the library. Changing the words later with Quick
   edit or Ask AI keeps the moves (words typed on the design give way).
+- **Logo and brand** (Studio home › Logo): type or keep the business name and
+  tagline, pick an icon (phone, pin, clock, tick, delivery, star, shopping
+  bag, calendar, cloud, shield, gear, chart, rocket, team, email, website,
+  lock, AI chip, code, sync, book, house, water, power, cross, lamp, music,
+  heart) › Show logo ideas: a dozen logos in the business's own colours and
+  fonts — monograms (circle, rounded square, hexagon, shield), wordmarks,
+  icon-and-name, emblems, stacked. **AI logo symbol**: say what it should
+  show ("a friendly tooth") › Make AI logos — AI draws two symbols, each shown
+  three ways (20 AI credits, none if it fails); the name is always set in the
+  business's font beside the symbol, so it's never misspelt. Tap an idea ›
+  Save this logo: it keeps an SVG, a PNG with a clear background, a PDF, a
+  square icon (512 and 192) and a favicon, all in one zip ("Download all
+  files"). A saved logo › **Use as my logo** (owner and admins; asks first):
+  posts, the brand kit and every PDF — invoices, payslips, letters — show it
+  from then on. Delete removes a saved logo (asks first; the logo in use
+  stays). Without Studio, the owner can still upload their own logo in
+  Business › Business profile.
 - **Business documents** (Studio home › Documents): how every PDF the
   business prints looks — Orbitra's invoices, quotations, delivery challans,
   receipts and purchase orders; Office Pulse's payslips, offer / appointment

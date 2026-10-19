@@ -32,7 +32,7 @@ CREDITS = {"make": 1, "ask": 1, "letter": 1, "short_script": 2, "read_image": 3,
 CATEGORIES = (
 	("posts", "Social posts", "post", True),
 	("documents", "Business documents", "document", True),  # S3: letterhead styles and letters
-	("logos", "Logo and brand", "logo", False),
+	("logos", "Logo and brand", "logo", True),  # S5
 	("print", "Flyers and brochures", "print", False),
 	("photos", "Photo Lab", "photo", True),  # S1
 	("shorts", "Shorts and video", "video", False),

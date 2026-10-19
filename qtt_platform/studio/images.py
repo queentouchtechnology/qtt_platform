@@ -16,26 +16,62 @@ TIMEOUT = 180
 COST = {"1024x1024": 0.042, "1024x1536": 0.063, "1536x1024": 0.063}
 
 
-def ready() -> tuple[str, str, str, str] | None:
-	"""(provider, model, base url, key) when AI pictures are set up, else None."""
+LOGO_TASK = "studio_logo"
+LOGO_COST = 0.08  # USD a vector picture, for QTT's usage records
+
+
+def ready(task: str = TASK) -> tuple[str, str, str, str] | None:
+	"""(provider, model, base url, key) when the AI for `task` is set up, else None."""
 	from qtt_platform.ai.core.routing import resolve_routing
 
 	try:
-		provider, model = resolve_routing(TASK)
+		provider, model = resolve_routing(task)
 	except Exception:
 		return None
 	p = frappe.get_doc("QTT AI Provider", provider)
 	key = p.get_password("api_key", raise_exception=False)
 	if not key:
 		return None
-	return provider, model, (p.base_url or "https://api.openai.com/v1").rstrip("/"), key
+	default = "https://external.api.recraft.ai/v1" if provider == "recraft" else "https://api.openai.com/v1"
+	return provider, model, (p.base_url or default).rstrip("/"), key
 
 
-def need_ready() -> tuple[str, str, str, str]:
-	r = ready()
+def need_ready(task: str = TASK) -> tuple[str, str, str, str]:
+	r = ready(task)
 	if not r:
-		frappe.throw(_("AI backgrounds aren't switched on yet — QTT is setting this up."))
+		frappe.throw(_("AI logos aren't switched on yet — QTT is setting this up.") if task == LOGO_TASK
+					 else _("AI backgrounds aren't switched on yet — QTT is setting this up."))
 	return r
+
+
+def logo_marks(prompt: str, colours: list[str], setup: tuple[str, str, str, str], count: int = 2) -> list[str]:
+	"""AI logo symbols (SVG text) in the brand's colours — the symbol only; the name is set beside it in a real font.
+	[] when it failed (logged, never shown to the client)."""
+	_provider, model, base, key = setup
+
+	def rgb(h):
+		h = h.lstrip("#")
+		return [int(h[i:i + 2], 16) for i in (0, 2, 4)]
+
+	body = {"prompt": prompt, "style": "vector_illustration", "model": model, "size": "1024x1024", "n": max(1, min(count, 4)),
+			"response_format": "url", "controls": {"colors": [{"rgb": rgb(c)} for c in colours[:3]], "background_color": {"rgb": [255, 255, 255]}}}
+	try:
+		r = requests.post(f"{base}/images/generations", headers={"Authorization": f"Bearer {key}"}, json=body, timeout=TIMEOUT)
+	except requests.RequestException:
+		frappe.log_error(title="QTT Studio: AI logo not reachable")
+		return []
+	if r.status_code != 200:
+		frappe.log_error(title="QTT Studio: AI logo failed", message=f"{r.status_code} {r.text[:500]}")
+		return []
+	out = []
+	for item in (r.json().get("data") or [])[:4]:
+		try:
+			s = requests.get(item.get("url"), timeout=60)
+			if s.status_code == 200 and b"<svg" in s.content[:400]:
+				out.append(s.content.decode("utf-8", "replace"))
+		except requests.RequestException:
+			continue
+	return out
 
 
 def scene(prompt: str, size: str, setup: tuple[str, str, str, str]) -> bytes | None:

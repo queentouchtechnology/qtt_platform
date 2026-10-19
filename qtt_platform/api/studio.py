@@ -212,7 +212,7 @@ def home() -> dict:
 	ent = _entitlements(tenant)
 	sub = get_current_subscription(tenant, rules.PRODUCT)
 	used = _designs_this_month(tenant)
-	recent = [_out(frappe.get_doc(DESIGN, n)) for n in frappe.get_all(DESIGN, filters={"tenant": tenant}, pluck="name", order_by="modified desc", limit=8)]
+	recent = [_out(frappe.get_doc(DESIGN, n)) for n in frappe.get_all(DESIGN, filters={"tenant": tenant, "kind": "post"}, pluck="name", order_by="modified desc", limit=8)]
 	return {
 		"has_studio": bool(ent), "house": is_house(tenant),
 		"plan": frappe.db.get_value("QTT Plan", sub.plan, "display_name") if sub and ent else None,
@@ -280,9 +280,9 @@ def new_design(template: str, idea: str | None = None) -> dict:
 def designs(start: int = 0, limit: int = 30) -> dict:
 	"""The business's designs, newest first."""
 	tenant = _tenant()
-	names = frappe.get_all(DESIGN, filters={"tenant": tenant}, pluck="name", order_by="modified desc", start=max(0, int(start or 0)),
+	names = frappe.get_all(DESIGN, filters={"tenant": tenant, "kind": "post"}, pluck="name", order_by="modified desc", start=max(0, int(start or 0)),
 						   page_length=min(60, max(1, int(limit or 30))))
-	return {"designs": [_out(frappe.get_doc(DESIGN, n)) for n in names], "total": frappe.db.count(DESIGN, {"tenant": tenant})}
+	return {"designs": [_out(frappe.get_doc(DESIGN, n)) for n in names], "total": frappe.db.count(DESIGN, {"tenant": tenant, "kind": "post"})}
 
 
 @frappe.whitelist(methods=["GET"])
