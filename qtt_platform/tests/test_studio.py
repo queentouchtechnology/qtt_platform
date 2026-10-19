@@ -24,6 +24,22 @@ class Plans(unittest.TestCase):
 		self.assertEqual(ready, ["posts", "documents", "logos", "print", "photos", "shorts", "pages"])  # S0, S3, S5, S4, S1, S6, S7
 		self.assertEqual(rules.CREDITS["ai_background"], 10)
 
+	def test_poster_intake_never_copies(self):
+		m = rules.poster_prompt(image_url="data:image/jpeg;base64,AAAA", brief="Sri Bakery, Madurai", language="en",
+								templates=[{"key": "offer-a", "label": "Offer", "post_types": ["offer"]}])
+		system = m[0]["content"]
+		for must in ("STRUCTURE", "Never copy", "never invent", "JSON"):
+			self.assertIn(must, system)
+		parts = m[1]["content"]
+		self.assertEqual(parts[1]["image_url"]["url"], "data:image/jpeg;base64,AAAA")
+		self.assertIn("Sri Bakery", parts[0]["text"])
+		ok = rules.parse_poster(json.dumps({"saw": "A festival offer poster", "template": "offer-a", "look": "dark",
+											"words": {"headline": "Fresh *cakes* daily"}}), {"offer-a"})
+		self.assertEqual((ok["template"], ok["look"], ok["saw"]), ("offer-a", "dark", "A festival offer poster"))
+		self.assertIsNone(rules.parse_poster(json.dumps({"template": "unknown", "words": {"headline": "x"}}), {"offer-a"}))
+		self.assertIsNone(rules.parse_poster("not json", {"offer-a"}))
+		self.assertEqual(rules.CREDITS["read_image"], 3)
+
 	def test_post_caption_is_the_design_words(self):
 		w = {"kicker": "Pongal special", "headline": "Sweet *pongal* for all", "subline": "Fresh  every morning.", "cta": "Call now",
 			 "items": [{"title": "Sakkarai pongal", "text": "jaggery"}, {"title": "Ven pongal"}]}

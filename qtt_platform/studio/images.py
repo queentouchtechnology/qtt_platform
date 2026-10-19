@@ -44,6 +44,27 @@ def need_ready(task: str = TASK) -> tuple[str, str, str, str]:
 	return r
 
 
+VISION_TASK = "studio_vision"
+
+
+def vision_json(messages: list[dict], setup: tuple[str, str, str, str]) -> str | None:
+	"""A vision model's JSON answer about a picture (the messages carry it as a data: image), or None when it failed."""
+	_provider, model, base, key = setup
+	try:
+		r = requests.post(f"{base}/chat/completions", headers={"Authorization": f"Bearer {key}"}, timeout=90,
+						  json={"model": model, "messages": messages, "temperature": 0.3, "max_tokens": 900, "response_format": {"type": "json_object"}})
+	except requests.RequestException:
+		frappe.log_error(title="QTT Studio: vision not reachable")
+		return None
+	if r.status_code != 200:
+		frappe.log_error(title="QTT Studio: vision failed", message=f"{r.status_code} {r.text[:500]}")
+		return None
+	try:
+		return r.json()["choices"][0]["message"]["content"]
+	except (KeyError, IndexError, ValueError):
+		return None
+
+
 def logo_marks(prompt: str, colours: list[str], setup: tuple[str, str, str, str], count: int = 2) -> list[str]:
 	"""AI logo symbols (SVG text) in the brand's colours — the symbol only; the name is set beside it in a real font.
 	[] when it failed (logged, never shown to the client)."""

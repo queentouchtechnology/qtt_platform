@@ -123,6 +123,38 @@ def post_caption(words: dict) -> str:
 	return "\n\n".join(x for x in (head, w["subline"], "\n".join(items), w["cta"]) if x)
 
 
+def poster_prompt(*, image_url: str, brief: str, language: str, templates: list[dict]) -> list[dict]:
+	"""Template intake: a poster the owner likes → the closest library design and words for THIS business. The poster's
+	own words, names, prices, logos and pictures are never copied — only its kind of layout and mood are used."""
+	lib = "\n".join(f"- {t['key']}: {t['label']} — for {', '.join(t['post_types'])}" for t in templates)
+	return [
+		{"role": "system", "content": (
+			"You are QTT Studio. Look at the poster only to understand its STRUCTURE: what kind of post it is (offer, product, "
+			"festival wish, hiring, event, tips…), where the headline, the small line, the button and any badge sit, how many "
+			"listed items, and whether it is light, dark or in a strong brand colour. Then choose the ONE closest design from "
+			"the list and write NEW words for the business in the brief. Never copy the poster's words, names, prices, phone "
+			"numbers, logos or claims; never invent prices, discounts, dates or claims the brief doesn't give — leave them out. "
+			f"Write in {'Tamil' if language == 'ta' else 'English'}. Short words: kicker up to 6 words, headline up to 8 (mark one "
+			"key word with *stars*), subline one sentence, cta up to 4 words, badge up to 3 words (only a word the brief gives), "
+			"items up to 4 {title, text} only for things the brief names. "
+			'Reply with JSON only: {"saw": "one short line on what kind of poster it is", "template": "<key>", '
+			'"look": "light|dark|brand", "words": {"kicker": "", "headline": "", "subline": "", "cta": "", "badge": "", "items": []}}.')},
+		{"role": "user", "content": [
+			{"type": "text", "text": f"Business brief:\n{brief}\n\nDesigns:\n{lib}"},
+			{"type": "image_url", "image_url": {"url": image_url, "detail": "low"}},
+		]},
+	]
+
+
+def parse_poster(text: str, keys: set[str]) -> dict | None:
+	"""The vision answer → {saw, template, look, words}; None when it chose no known design or wrote no headline."""
+	d = _json(text)
+	made = parse_make(json.dumps({"template": d.get("template"), "look": d.get("look"), "words": d.get("words")}), keys)
+	if not made:
+		return None
+	return {**made, "saw": re.sub(r"\s+", " ", str(d.get("saw") or "")).strip()[:160]}
+
+
 def short_prompt(*, about: str, brief: str, language: str, scenes: int) -> list[dict]:
 	"""A Short's words: a hook, one caption a photo, an end line — from the business brief only."""
 	return [

@@ -24,7 +24,7 @@ from frappe import _
 
 from qtt_platform.api import knowledge, post_templates as pt
 from qtt_platform.design import content as library_words
-from qtt_platform.design import library, post
+from qtt_platform.design import library
 from qtt_platform.studio import rules
 
 DESIGN = "QTT Design"
@@ -236,13 +236,7 @@ def make(request: str) -> dict:
 		frappe.throw(_("Say what you'd like to make."))
 	_need_design_room(tenant, ent)
 	brief, lang = _brief(tenant)
-	rows = [library.row_dict(frappe.get_doc(library.DT, n)) for n in frappe.get_all(library.DT, filters={"enabled": 1}, pluck="name", order_by="sort asc")]
-	group = pt._group_of(tenant)
-	from qtt_platform.design import catalog
-
-	rows = [r for r in rows if catalog.matches(r, group=group or None)] or rows
-	templates = [{"key": r["key"], "label": catalog.LAYOUTS.get(r["layout"], {}).get("label", r["title"]) + " · " + r["title"].split(" · ")[-1],
-				  "post_types": r["post_types"]} for r in rows]
+	rows, templates = _library(tenant)
 	f, _lang = pt._facts(tenant)
 	ideas = [{"key": k, "headline": (w.get("kicker", "") + " " + w["headline"]).strip()} for k, i in library_words.IDEAS.items()
 			 if (w := library_words.fill(i, f, lang)) and not i.get("occasion")]
@@ -251,6 +245,60 @@ def make(request: str) -> dict:
 	if not answer:
 		frappe.throw(_("Studio couldn't match that to a design — try saying it another way (\"a Pongal wish\", \"a post about our meals\")."))
 	return _create(tenant, template=answer["template"], words=answer["words"], lang=lang, look=answer["look"], made_by="AI", request=request)
+
+
+def _library(tenant: str) -> tuple[list[dict], list[dict]]:
+	"""The library designs for this business's kind (all when none fit), and how the AI sees them."""
+	from qtt_platform.design import catalog
+
+	rows = [library.row_dict(frappe.get_doc(library.DT, n)) for n in frappe.get_all(library.DT, filters={"enabled": 1}, pluck="name", order_by="sort asc")]
+	group = pt._group_of(tenant)
+	rows = [r for r in rows if catalog.matches(r, group=group or None)] or rows
+	templates = [{"key": r["key"], "label": catalog.LAYOUTS.get(r["layout"], {}).get("label", r["title"]) + " · " + r["title"].split(" · ")[-1],
+				  "post_types": r["post_types"]} for r in rows]
+	return rows, templates
+
+
+@frappe.whitelist(methods=["POST"])
+def from_poster() -> dict:
+	"""Template intake — multipart `file`: a poster you like (JPG, PNG or WEBP, up to 8 MB). AI reads only its kind of
+	layout and mood, picks the closest library design and writes new words for your business from Business knowledge — the
+	poster's words, logos and pictures are never copied (3 AI credits, none if it fails). The design is drawn in your brand
+	and saved. {design, saw}."""
+	import base64
+	import io
+
+	from PIL import Image
+
+	from qtt_platform.studio import images
+
+	tenant = _tenant()
+	ent = _need_studio(tenant)
+	_need_design_room(tenant, ent)
+	setup = images.need_ready(images.VISION_TASK)
+	upload = frappe.request.files.get("file") if frappe.request else None
+	if not upload:
+		frappe.throw(_("Choose a poster."))
+	data = upload.stream.read(8 * 1024 * 1024 + 1)
+	if len(data) > 8 * 1024 * 1024:
+		frappe.throw(_("A poster must be 8 MB or smaller."))
+	try:
+		im = Image.open(io.BytesIO(data)).convert("RGB")
+	except Exception:
+		frappe.throw(_("That isn't a picture — choose a JPG, PNG or WEBP poster."))
+	im.thumbnail((1024, 1024))  # the AI looks at it small; it isn't kept
+	buf = io.BytesIO()
+	im.save(buf, "JPEG", quality=85)
+	url = "data:image/jpeg;base64," + base64.b64encode(buf.getvalue()).decode()
+	brief, lang = _brief(tenant)
+	rows, templates = _library(tenant)
+	keys = {r["key"] for r in rows}
+	answer = paid(tenant, "read_image", lambda: rules.parse_poster(images.vision_json(rules.poster_prompt(image_url=url, brief=brief, language=lang,
+																									  templates=templates), setup) or "", keys),
+				  provider=setup[0], model=setup[1], provider_cost=0.002)
+	design = _create(tenant, template=answer["template"], words=answer["words"], lang=lang, look=answer["look"], made_by="AI",
+					 request=f"From a poster: {answer.get('saw') or ''}")
+	return {"design": design, "saw": answer.get("saw") or ""}
 
 
 @frappe.whitelist(methods=["POST"])
