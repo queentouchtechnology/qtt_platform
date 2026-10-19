@@ -184,7 +184,7 @@
    "fieldname": "openai_admin_key",
    "fieldtype": "Password",
    "label": "OpenAI admin key",
-   "length": 200,
+   "length": 300,
    "description": "Read-only usage and costs (QTT Admin's AI spend). Not the AI key — that's QTT AI Provider › openai › API key."
   }
  ],
@@ -200,5 +200,5 @@
   }
  ],
  "links": [],
- "modified": "2026-10-19 18:00:00.000000"
+ "modified": "2026-10-19 21:00:00.000000"
 }

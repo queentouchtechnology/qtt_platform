@@ -55,7 +55,8 @@
    "fieldname": "api_key",
    "fieldtype": "Password",
    "label": "API Key",
-   "description": "Server-side only. Read via frappe.utils.password.get_decrypted_password() from provider code — never exposed through any whitelisted method's return value."
+   "description": "Server-side only. Read via frappe.utils.password.get_decrypted_password() from provider code — never exposed through any whitelisted method's return value.",
+   "length": 300
   }
  ],
  "permissions": [
@@ -69,5 +70,6 @@
    "export": 1
   }
  ],
- "links": []
+ "links": [],
+ "modified": "2026-10-19 21:00:00.000000"
 }
