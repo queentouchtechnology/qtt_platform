@@ -13,7 +13,8 @@ import requests
 from frappe import _
 
 MODELS = {"person": "u2net_human_seg", "general": "isnet-general-use"}
-FINE_MODELS = {"person": "birefnet-portrait", "general": "birefnet-general-lite"}
+# the lite model for people too: the full-size BiRefNet (portrait) needs more than the 4.5 GB the service may use
+FINE_MODELS = {"person": "birefnet-general-lite", "general": "birefnet-general-lite"}
 TIMEOUT = 120
 FINE_TIMEOUT = 240
 
