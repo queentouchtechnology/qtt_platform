@@ -7298,6 +7298,102 @@
    "status": "OK"
   },
   {
+   "endpoint": "qtt_services.api.content_series.content_series",
+   "product": "Managed Services",
+   "area": "api.content_series",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "The business's article and newsletter series, newest first; which kinds its package can run (and why not).",
+   "details": "The business's article and newsletter series, newest first; which kinds its package can run (and why not).",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.contentSeries",
+   "screens": "products/services/screens/content_series_pages.dart › _ContentSeriesPageState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/content_series.py:45",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.content_series.delete_content",
+   "product": "Managed Services",
+   "area": "api.content_series",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Delete a series — the articles and newsletters it already wrote stay.",
+   "details": "Delete a series — the articles and newsletters it already wrote stay.",
+   "arguments": "name",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.contentSeriesDelete",
+   "screens": "products/services/screens/content_series_pages.dart › _ContentSeriesPageState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/content_series.py:102",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.content_series.save_content",
+   "product": "Managed Services",
+   "area": "api.content_series",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Make or change a series. A theme or at least one topic is needed. A new one starts today (if its time hasn't passed) or tomorrow. Counts toward the package's series (with post series).",
+   "details": "Make or change a series. A theme or at least one topic is needed. A new one starts today (if its time hasn't\npassed) or tomorrow. Counts toward the package's series (with post series).",
+   "arguments": "data, name",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.contentSeriesSave",
+   "screens": "products/services/screens/content_series_pages.dart › _ContentSeriesEditorPageState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/content_series.py:57",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.content_series.set_content",
+   "product": "Managed Services",
+   "area": "api.content_series",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Pause, carry on (Active) or stop (Ended) a series.",
+   "details": "Pause, carry on (Active) or stop (Ended) a series.",
+   "arguments": "name, status",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.contentSeriesSet",
+   "screens": "products/services/screens/content_series_pages.dart › _ContentSeriesPageState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/content_series.py:84",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.content_series.whatsapp",
+   "product": "Managed Services",
+   "area": "api.content_series",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "An article or newsletter as a short WhatsApp message — for Status, groups or a Channel. Its own words only: the title, the opening, its points, and the link to read it all (a published article). {text}.",
+   "details": "An article or newsletter as a short WhatsApp message — for Status, groups or a Channel. Its own words only: the\ntitle, the opening, its points, and the link to read it all (a published article). {text}.",
+   "arguments": "kind, name",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.whatsappVersion",
+   "screens": "products/services/screens/content_series_pages.dart › _ContentSeriesEditorPageState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/content_series.py:130",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.content_series.write_now",
+   "product": "Managed Services",
+   "area": "api.content_series",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Write a series' next one now (to see it) — it counts as the series' next. {kind, name}.",
+   "details": "Write a series' next one now (to see it) — it counts as the series' next. {kind, name}.",
+   "arguments": "name",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.contentSeriesWriteNow",
+   "screens": "products/services/screens/content_series_pages.dart › _ContentSeriesPageState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/content_series.py:113",
+   "status": "OK"
+  },
+  {
    "endpoint": "qtt_services.api.designs.demo_job",
    "product": "Managed Services",
    "area": "api.designs",
@@ -7630,7 +7726,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.articleIdeas",
    "screens": "products/services/screens/article_pages.dart › _ArticlesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:551",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:555",
    "status": "OK"
   },
   {
@@ -7806,7 +7902,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.removeArticle",
    "screens": "products/services/screens/article_pages.dart › _ArticleEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:534",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:538",
    "status": "OK"
   },
   {
@@ -7870,7 +7966,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.seriesAutopilot",
    "screens": "products/services/screens/series_pages.dart › _SeriesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:90",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:92",
    "status": "OK"
   },
   {
@@ -7886,7 +7982,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingCalendar",
    "screens": "products/services/screens/series_pages.dart › MarketingCalendarPage",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:148",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:150",
    "status": "OK"
   },
   {
@@ -7902,7 +7998,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.seriesDelete",
    "screens": "products/services/screens/series_pages.dart › _SeriesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:124",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:126",
    "status": "OK"
   },
   {
@@ -7918,7 +8014,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.seriesMakeNow",
    "screens": "products/services/screens/series_pages.dart › _SeriesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:134",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:136",
    "status": "OK"
   },
   {
@@ -7934,7 +8030,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.seriesSave",
    "screens": "products/services/screens/series_pages.dart › _SeriesEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:69",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:71",
    "status": "OK"
   },
   {
@@ -7950,7 +8046,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.seriesList",
    "screens": "products/services/screens/series_pages.dart › _SeriesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:59",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:61",
    "status": "OK"
   },
   {
@@ -7966,7 +8062,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.seriesSet",
    "screens": "products/services/screens/series_pages.dart › _SeriesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:106",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:108",
    "status": "OK"
   },
   {
@@ -8654,7 +8750,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterAddCustomers",
    "screens": "products/services/screens/newsletter_pages.dart › _NewslettersPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:112",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:113",
    "status": "OK"
   },
   {
@@ -8670,7 +8766,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.approveNewsletter",
    "screens": "products/services/screens/newsletter_pages.dart › _NewsletterEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:282",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:305",
    "status": "OK"
   },
   {
@@ -8686,7 +8782,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterIdeas",
    "screens": "products/services/screens/newsletter_pages.dart › _NewslettersPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:347",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:373",
    "status": "OK"
   },
   {
@@ -8702,7 +8798,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterImage",
    "screens": "products/services/screens/newsletter_pages.dart › _NewsletterEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:222",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:226",
    "status": "OK"
   },
   {
@@ -8718,7 +8814,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newslettersPage",
    "screens": "products/services/screens/newsletter_pages.dart › _NewslettersPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:186",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:187",
    "status": "OK"
   },
   {
@@ -8734,7 +8830,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:504",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:535",
    "status": "Not used by the app"
   },
   {
@@ -8750,7 +8846,23 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterOverview",
    "screens": "products/services/screens/newsletter_pages.dart › _NewslettersPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:81",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:82",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.newsletters.preview",
+   "product": "Managed Services",
+   "area": "api.newsletters",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "How the email looks (the app shows it as a page) — the words as they stand in the editor, in the layout picked.",
+   "details": "How the email looks (the app shows it as a page) — the words as they stand in the editor, in the layout picked.",
+   "arguments": "subject, body, preheader, image_url, layout",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterPreview",
+   "screens": "products/services/screens/newsletter_pages.dart › _NewsletterEditorPageState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:266",
    "status": "OK"
   },
   {
@@ -8766,7 +8878,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.removeNewsletter",
    "screens": "products/services/screens/newsletter_pages.dart › _NewsletterEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:335",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:361",
    "status": "OK"
   },
   {
@@ -8775,14 +8887,14 @@
    "area": "api.newsletters",
    "http_methods": "POST",
    "guest": 0,
-   "purpose": "Write or change a newsletter (drafts and ones that failed). body: simple text with headings and bullets.",
-   "details": "Write or change a newsletter (drafts and ones that failed). body: simple text with headings and bullets.",
-   "arguments": "subject, body, preheader, image_url, scheduled_at, name",
+   "purpose": "Write or change a newsletter (drafts and ones that failed). body: simple text with headings and bullets. layout: simple | banner | card | digest — all in the business's own brand kit (kept as it was when not sent).",
+   "details": "Write or change a newsletter (drafts and ones that failed). body: simple text with headings and bullets.\nlayout: simple | banner | card | digest — all in the business's own brand kit (kept as it was when not sent).",
+   "arguments": "subject, body, preheader, image_url, scheduled_at, name, layout",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.saveNewsletter",
    "screens": "products/services/screens/newsletter_pages.dart › _NewsletterEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:202",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:203",
    "status": "OK"
   },
   {
@@ -8798,7 +8910,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterTest",
    "screens": "products/services/screens/newsletter_pages.dart › _NewsletterEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:269",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:292",
    "status": "OK"
   },
   {
@@ -8814,7 +8926,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:464",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:495",
    "status": "Not used by the app"
   },
   {
@@ -8830,7 +8942,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.setSubscriber",
    "screens": "products/services/screens/newsletter_pages.dart › _SubscribersPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:171",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:172",
    "status": "OK"
   },
   {
@@ -8846,7 +8958,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.subscribersPage",
    "screens": "products/services/screens/newsletter_pages.dart › _SubscribersPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:94",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:95",
    "status": "OK"
   },
   {
@@ -8862,7 +8974,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterSyncWebsite",
    "screens": "products/services/screens/newsletter_pages.dart › _NewslettersPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:147",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:148",
    "status": "OK"
   },
   {
@@ -8878,7 +8990,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:443",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:474",
    "status": "Not used by the app"
   },
   {
@@ -8894,7 +9006,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterUpload",
    "screens": "products/services/screens/newsletter_pages.dart › _NewslettersPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:125",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:126",
    "status": "OK"
   },
   {

@@ -1017,6 +1017,28 @@ open it from that service).
   marked Bounced and skipped; a spam complaint unsubscribes that person. Every email has an
   unsubscribe link; someone who unsubscribes is never emailed again, even if
   they're on a list you upload later. Up to 5,000 people per newsletter.
+- **Newsletter layouts**: in a newsletter, **Layout** — Simple (a thin line in
+  your colour, your logo), Banner (your logo and the subject on a band of
+  your main colour), Card (the email on a white card over a soft tint of your
+  colour) or Numbered tips (each "## " heading a numbered section — good for
+  tips and round-ups). Every layout uses your own logo, colours and fonts
+  (Business › Knowledge › Brand kit); **Preview** shows how it looks.
+- **WhatsApp version** (in an article or a newsletter): the same piece as a
+  short WhatsApp message — the title, the opening, its points and, for a
+  published article, the link to read it all. Copy it or Open WhatsApp to
+  share it on your Status, in groups or on your Channel. Made from its own
+  words, no AI, free.
+- **Article and newsletter series** (Marketing assistant › Article and
+  newsletter series): a theme ("Healthy eating tips") written about every
+  week, 2 weeks or month — 4, 6, 12 or until you stop it — at a time you pick.
+  Add your own topics (one a line, used in turn) or leave them empty and a new
+  angle on the theme is picked each time; all from your Business knowledge.
+  Newsletters use the layout you pick. Each one waits for your OK, or switch
+  on Publish on its own / Send on its own (it still counts toward the month
+  and stops at the package's limit). Write the next one now, Pause, Carry on,
+  Change, Stop. Articles need Growth or Pro and a QTT-built website;
+  newsletters need Pro. They share the package's series limit with post
+  series, and their days show on the Calendar.
 
 ## Managed Services — online store (Managed E-Commerce Websites)
 QTT creates, hosts, secures and manages a full online store (WooCommerce) for
