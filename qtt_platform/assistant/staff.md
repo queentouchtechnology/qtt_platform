@@ -32,6 +32,14 @@ day), or Meta changed a template's category. The WhatsApp items come from an hou
   now**, "Only the ones with a problem". **Use and cost**: a month at a time — by business: designs by kind, AI
   credits used, what QTT paid the AI providers; by AI job (make, ask, letter, short script, AI background, AI logo,
   reading a poster); failed AI jobs.
+- **Marketing assistant** — the clients' Marketing assistant (not QTT's own marketing, which is **Marketing**).
+  **Library**: post designs on / with a problem (managed in Studio), ready ideas by kind of business, and festivals —
+  tap a festival that moves each year to set this year's date, switch one off to stop its wishes; ones that need a date
+  come first (and show on QTT Admin's home as "N festivals need this year's date"). **Queue**: the design renderer and
+  the cut-out service (up / down, how fast — "down" also shows on the home), problems this week (series that failed,
+  posts / articles / newsletters not sent, with why), series due and posts going out in the next 24 hours, **Run due
+  series now** (they run every hour anyway). **Usage**: a month at a time — each business with its package and posts /
+  articles / newsletters / series against the limits; those near a limit (80%) come first with a warning sign.
 - **Website designs** — what owners choose from before a website is built (Website Development): six designs (theme
   styles: Classic, Modern, Bold, Elegant, Minimal, Warm) and colour palettes. Rename them, change their one line and
   order, show or hide them. Each design shows how many screenshots are up to date (one per business type × computer /
@@ -165,8 +173,9 @@ numbers. Its own messages are billed to its own Meta account, not QTT's. If the 
 
 ## Festival dates for the content library (PROJ-0011 C2)
 
-- Desk › **QTT Occasion**: the days businesses get wishes for. Fixed days (New Year, Republic Day, Women's Day, Tamil New
-  Year, May Day, Independence Day, Teachers' Day, Children's Day, Christmas) roll to next year by themselves. Festivals
+- QTT Admin › Marketing assistant › Library (or Desk › **QTT Occasion**): the days businesses get wishes for. Fixed days
+  (New Year, Republic Day, Women's Day, Tamil New Year, May Day, Independence Day, Teachers' Day, Children's Day,
+  Christmas) roll to next year by themselves (checked daily). Festivals
   that move (Pongal, Ramzan, Bakrid, Onam, Vinayagar Chathurthi, Ayudha Puja, Deepavali, Karthigai Deepam) need **this
   year's date set by staff** — without a date their wishes aren't offered (they show 30 days before). Untick "Offer
   wishes for it" to stop one.

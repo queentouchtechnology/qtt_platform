@@ -14,7 +14,8 @@ IDS = {s["id"] for s in REG}
 
 EMPLOYEE = {"products": {"QTT_OFFICE_PULSE": "Employee"}, "owner": False, "manager": False}
 HR = {"products": {"QTT_OFFICE_PULSE": "HR"}, "owner": False, "manager": False}
-OWNER = {"products": {"QTT_OFFICE_PULSE": "HR Admin", "QTT_ORBITRA": "Orbitra Admin", "QTT_ONBOX": "Manager", "QTT_SERVICES": "Owner"},
+OWNER = {"products": {"QTT_OFFICE_PULSE": "HR Admin", "QTT_ORBITRA": "Orbitra Admin", "QTT_ONBOX": "Manager", "QTT_SERVICES": "Owner",
+					  "QTT_STUDIO": "Owner"},
 		 "owner": True, "manager": True}
 CASHIER = {"products": {"QTT_ORBITRA": "Cashier"}, "owner": False, "manager": False, "customers": True}
 

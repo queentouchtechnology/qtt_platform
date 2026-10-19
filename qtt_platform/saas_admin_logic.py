@@ -162,7 +162,7 @@ _KIND_ORDER = {"server": 0, "client_site": 1, "domain": 2, "setup": 3, "payment"
 
 def attention_items(*, servers=(), trials=(), past_due=(), approvals=(), setup_errors=(), domains=(), snapshots=(), client_sites=(),
 					 client_requests=(), automation=(), whatsapp=(), website_cache=(), domain_wait=(), builds=(),
-					 studio=(), today_str: str) -> list[dict]:
+					 studio=(), marketing=(), today_str: str) -> list[dict]:
 	"""Everything a QTT admin should look at, most urgent first. Each item:
 	{level, kind, title, area, target} plus facts the app turns into a
 	translated sentence (product, days, count, status) and, where the server
@@ -207,6 +207,11 @@ def attention_items(*, servers=(), trials=(), past_due=(), approvals=(), setup_e
 		# QTT Studio's nightly check (studio_admin.attention): templates that didn't draw right — one item for all of them
 		items.append({"level": "warning", "kind": "studio_templates", "count": len(studio), "title": studio[0]["title"],
 					  "detail": studio[0].get("note") or None, "area": "studio", "target": None})
+	for m in marketing:
+		# Marketing assistant (qtt_services marketing_admin.attention): {level, what (renderer_down | cutout_down |
+		# occasion_dates | series_failing), count, title, detail}
+		items.append({"level": m["level"], "kind": "marketing", "what": m["what"], "count": m.get("count") or 1, "title": m.get("title") or "",
+					  "detail": m.get("detail") or None, "area": "marketing_assistant", "target": m["what"]})
 	for c in website_cache:
 		# A live website whose CloudPanel cache staff haven't switched on yet: {label, tenant, tenant_name, task}
 		items.append({"level": "info", "kind": "website_cache", "title": c["label"], "client": c.get("tenant_name"),

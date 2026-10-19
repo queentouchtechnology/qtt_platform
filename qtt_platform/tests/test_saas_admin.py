@@ -119,5 +119,14 @@ class AttentionTest(unittest.TestCase):
 		approval = next(i for i in items if i["kind"] == "approval")
 		self.assertEqual((approval["count"], approval["area"]), (2, "marketing"))
 
+	def test_marketing_assistant(self):
+		items = logic.attention_items(marketing=[
+			{"level": "info", "what": "occasion_dates", "count": 2, "title": "Deepavali", "detail": "Deepavali, Pongal"},
+			{"level": "critical", "what": "renderer_down", "count": 1, "title": "renderer", "detail": "ConnectTimeout"},
+		], today_str="2026-10-10")
+		self.assertEqual([i["what"] for i in items], ["renderer_down", "occasion_dates"])  # down first
+		self.assertEqual((items[0]["kind"], items[0]["area"], items[0]["target"]), ("marketing", "marketing_assistant", "renderer_down"))
+		self.assertEqual(items[1]["count"], 2)
+
 	def test_nothing_to_do(self):
 		self.assertEqual(logic.attention_items(today_str="2026-10-10"), [])

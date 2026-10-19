@@ -23,11 +23,12 @@ PRODUCTS = {
 	"QTT_ORBITRA": "Orbitra",
 	"QTT_ONBOX": "Onbox",
 	"QTT_SERVICES": "Managed Services",
+	"QTT_STUDIO": "QTT Studio",
 }
 
 SKILL = """---
 name: qtt-os-assistant
-description: Answer questions about QTT OS customer software and services (the QTT OS app, Office Pulse, Orbitra, Onbox, Managed Services) — features, which screen to open, steps, roles. Never about Queen Touch Technology's marketing system or internal tools.
+description: Answer questions about QTT OS customer software and services (the QTT OS app, Office Pulse, Orbitra, Onbox, Managed Services, QTT Studio) — features, which screen to open, steps, roles. Never about Queen Touch Technology's marketing system or internal tools.
 version: 1.0.0
 author: Queen Touch Technology
 license: Proprietary

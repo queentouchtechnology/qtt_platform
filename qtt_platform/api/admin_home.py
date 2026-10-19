@@ -83,6 +83,16 @@ def _studio_attention() -> list[dict]:
 		return []
 
 
+def _marketing_attention() -> list[dict]:
+	"""Marketing assistant (qtt_services, when installed): renderer down, festivals needing this year's date, series failing."""
+	try:
+		from qtt_services.api.marketing_admin import attention
+
+		return attention()
+	except Exception:
+		return []
+
+
 def _client_attention() -> tuple[list, list]:
 	"""Managed Services (qtt_services, when installed): client sites that are down,
 	and client requests still waiting for QTT's first answer."""
@@ -172,6 +182,7 @@ def home() -> dict:
 										   snapshots=snapshots, client_sites=client_sites, client_requests=client_requests, automation=automation,
 										   whatsapp=_whatsapp_attention(), website_cache=_cache_attention(), domain_wait=_domain_wait_attention(), builds=_build_attention(),
 										   studio=_studio_attention(),
+										   marketing=_marketing_attention(),
 										   today_str=today()),
 		"subscriptions_by_product": overview.get("subscriptions_by_product") or {},
 	}
