@@ -974,6 +974,15 @@ open it from that service).
   Make the next post now, Pause, Carry on, Change, Stop (asks first), Delete
   a stopped one (its posts stay). Series running at once: Starter 1, Growth
   3, Pro 10.
+- **Suggestions** (Marketing assistant › Suggestions): festivals in the next
+  3 weeks, your products not posted in the last 30 days and ready ideas for
+  your kind of business — only ones with every fact they need. Make this post
+  draws it in one of your designs (your own words and prices), on all your
+  connected pages, waiting for your OK. **Something special?** Ask QTT for a
+  custom AI poster — QTT replies in Requests with the price before making it.
+- **Posts a month**: a package sends a number of posts a month — Starter 12,
+  Growth 30, Pro 60 (approved by you or sent by a series); the Marketing
+  assistant shows how many are left. More come on the 1st.
 - **Calendar** (Marketing assistant › Calendar): the next 30 days — posts
   scheduled with their time, posts waiting for your OK, and the days each
   series will post.
