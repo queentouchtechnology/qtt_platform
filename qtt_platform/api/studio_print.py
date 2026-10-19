@@ -55,6 +55,22 @@ def _files(tenant: str, product: str) -> tuple[dict, str | None, str | None]:
 	return files, logo, photo
 
 
+def _contacts(tenant: str) -> dict:
+	"""The business's contacts: its Business profile, else what its invoices already print (its company's address,
+	phone, email, website) — the same as every PDF."""
+	from qtt_platform import print_brand
+
+	c = dict(knowledge.contacts(tenant))
+	try:
+		b = print_brand.brand(tenant=tenant)
+	except Exception:
+		return c
+	for key, value in (("phone", b.phone), ("email", b.email), ("website", b.website), ("address", ", ".join(b.address or []))):
+		if not c.get(key) and value:
+			c[key] = value
+	return c
+
+
 def _need_product(product: str, style: str | None = None) -> None:
 	if product not in pr.PRODUCTS:
 		frappe.throw(_("Choose what to print."))
@@ -116,7 +132,7 @@ def start(product: str) -> dict:
 	person = frappe.db.get_value("User", frappe.session.user, "full_name") or ""
 	k = dict(knowledge.for_tenant(tenant) or {})
 	k["tagline"] = (frappe.db.get_value("QTT Business Profile", tenant, "tagline") if frappe.db.exists("QTT Business Profile", tenant) else "") or ""
-	words = pr.fields_for(product, name=name, contacts=knowledge.contacts(tenant), knowledge=k, person=person)
+	words = pr.fields_for(product, name=name, contacts=_contacts(tenant), knowledge=k, person=person)
 	return {"words": words, "fields": [{"key": k, "label": label, "multiline": multi} for k, label, _n, multi in pr.FIELDS[pr.group_of(product)]],
 			"menu": product == "menu"}
 

@@ -6270,7 +6270,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.printDelete",
    "screens": "products/studio/print_studio.dart › PrintResultPage",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio_print.py:173",
+   "source": "qtt_platform/qtt_platform/api/studio_print.py:189",
    "status": "OK"
   },
   {
@@ -6286,7 +6286,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.printMake",
    "screens": "products/studio/print_studio.dart › _PrintEditorPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio_print.py:140",
+   "source": "qtt_platform/qtt_platform/api/studio_print.py:156",
    "status": "OK"
   },
   {
@@ -6302,7 +6302,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.printPreviews",
    "screens": "products/studio/print_studio.dart › _PrintEditorPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio_print.py:125",
+   "source": "qtt_platform/qtt_platform/api/studio_print.py:141",
    "status": "OK"
   },
   {
@@ -6318,7 +6318,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.printHome",
    "screens": "products/studio/print_studio.dart › _PrintStudioPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio_print.py:98",
+   "source": "qtt_platform/qtt_platform/api/studio_print.py:114",
    "status": "OK"
   },
   {
@@ -6334,7 +6334,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.printStart",
    "screens": "products/studio/print_studio.dart › _PrintEditorPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio_print.py:110",
+   "source": "qtt_platform/qtt_platform/api/studio_print.py:126",
    "status": "OK"
   },
   {
