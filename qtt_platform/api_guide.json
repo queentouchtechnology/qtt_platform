@@ -5726,7 +5726,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioAllSizes",
    "screens": "products/studio/design_editor.dart › _DesignEditorPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:443",
+   "source": "qtt_platform/qtt_platform/api/studio.py:448",
    "status": "OK"
   },
   {
@@ -5742,7 +5742,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioAsk",
    "screens": "products/studio/design_editor.dart › _DesignEditorPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:370",
+   "source": "qtt_platform/qtt_platform/api/studio.py:375",
    "status": "OK"
   },
   {
@@ -5758,7 +5758,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioDeleteDesign",
    "screens": "products/studio/design_editor.dart › _DesignEditorPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:484",
+   "source": "qtt_platform/qtt_platform/api/studio.py:489",
    "status": "OK"
   },
   {
@@ -5774,7 +5774,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:337",
+   "source": "qtt_platform/qtt_platform/api/studio.py:342",
    "status": "Not used by the app"
   },
   {
@@ -5790,7 +5790,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioDesigns",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:328",
+   "source": "qtt_platform/qtt_platform/api/studio.py:333",
    "status": "OK"
   },
   {
@@ -5806,7 +5806,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioEditor",
    "screens": "products/studio/move_resize.dart › _MoveResizePageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:399",
+   "source": "qtt_platform/qtt_platform/api/studio.py:404",
    "status": "OK"
   },
   {
@@ -5818,12 +5818,12 @@
    "purpose": "Template intake — multipart `file`: a poster you like (JPG, PNG or WEBP, up to 8 MB). AI reads only its kind of layout and mood, picks the closest library design and writes new words for your business from Business knowledge — the poster's words, logos and pictures are never copied (3 AI credits, none if it fails). The design is drawn in your brand and saved. {design, saw}.",
    "details": "Template intake — multipart `file`: a poster you like (JPG, PNG or WEBP, up to 8 MB). AI reads only its kind of\nlayout and mood, picks the closest library design and writes new words for your business from Business knowledge — the\nposter's words, logos and pictures are never copied (3 AI credits, none if it fails). The design is drawn in your brand\nand saved. {design, saw}.",
    "arguments": "",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioFromPoster",
+   "screens": "products/studio/studio_root.dart › _StudioHomeState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:263",
-   "status": "Not used by the app"
+   "source": "qtt_platform/qtt_platform/api/studio.py:265",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.studio.home",
@@ -5854,7 +5854,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioLibrary",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:497",
+   "source": "qtt_platform/qtt_platform/api/studio.py:502",
    "status": "OK"
   },
   {
@@ -5886,7 +5886,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioNewDesign",
    "screens": "products/studio/studio_root.dart › TemplatePickerPage",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:305",
+   "source": "qtt_platform/qtt_platform/api/studio.py:310",
    "status": "OK"
   },
   {
@@ -5902,7 +5902,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioSaveMoves",
    "screens": "products/studio/move_resize.dart › _MoveResizePageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:416",
+   "source": "qtt_platform/qtt_platform/api/studio.py:421",
    "status": "OK"
   },
   {
@@ -5918,7 +5918,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioToPost",
    "screens": "products/studio/design_editor.dart › _DesignEditorPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:463",
+   "source": "qtt_platform/qtt_platform/api/studio.py:468",
    "status": "OK"
   },
   {
@@ -5934,7 +5934,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioUpdateDesign",
    "screens": "products/studio/design_editor.dart › _DesignEditorPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:343",
+   "source": "qtt_platform/qtt_platform/api/studio.py:348",
    "status": "OK"
   },
   {

@@ -244,7 +244,9 @@ def make(request: str) -> dict:
 							  {r["key"] for r in rows})
 	if not answer:
 		frappe.throw(_("Studio couldn't match that to a design — try saying it another way (\"a Pongal wish\", \"a post about our meals\")."))
-	return _create(tenant, template=answer["template"], words=answer["words"], lang=lang, look=answer["look"], made_by="AI", request=request)
+	words = rules.ground_words(answer["words"], brief + "\n" + request)  # what the business and the request said, nothing more
+	words["headline"] = words.get("headline") or answer["words"]["headline"]
+	return _create(tenant, template=answer["template"], words=words, lang=lang, look=answer["look"], made_by="AI", request=request)
 
 
 def _library(tenant: str) -> tuple[list[dict], list[dict]]:
@@ -296,7 +298,10 @@ def from_poster() -> dict:
 	answer = paid(tenant, "read_image", lambda: rules.parse_poster(images.vision_json(rules.poster_prompt(image_url=url, brief=brief, language=lang,
 																									  templates=templates), setup) or "", keys),
 				  provider=setup[0], model=setup[1], provider_cost=0.002)
-	design = _create(tenant, template=answer["template"], words=answer["words"], lang=lang, look=answer["look"], made_by="AI",
+	words = rules.ground_words(answer["words"], brief)  # only what the business said — never the poster's points or made-up claims
+	if not words.get("headline"):
+		words["headline"] = answer["words"].get("headline", "")
+	design = _create(tenant, template=answer["template"], words=words, lang=lang, look=answer["look"], made_by="AI",
 					 request=f"From a poster: {answer.get('saw') or ''}")
 	return {"design": design, "saw": answer.get("saw") or ""}
 

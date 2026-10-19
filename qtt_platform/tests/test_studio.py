@@ -40,6 +40,18 @@ class Plans(unittest.TestCase):
 		self.assertIsNone(rules.parse_poster("not json", {"offer-a"}))
 		self.assertEqual(rules.CREDITS["read_image"], 3)
 
+	def test_ground_words_keeps_only_what_the_business_said(self):
+		brief = "Queen Touch Technology. Offerings: Website design, WhatsApp chatbot, Website backup."
+		w = rules.ground_words({"headline": "*Empower* your business 24/7", "subline": "The best tech in town", "badge": "Tech Support",
+								"items": [{"title": "Website backup", "text": "Daily"}, {"title": "Quick Restores", "text": "Minutes"},
+										  {"title": "24/7 Support", "text": "Always"}]}, brief)
+		self.assertEqual([i["title"] for i in w["items"]], ["Website backup"])  # the poster's own points and made-up promises go
+		self.assertNotIn("badge", w)
+		self.assertEqual(w["headline"], "*Empower* your business")
+		self.assertEqual(w["subline"], "The tech in town")
+		ok = rules.ground_words({"headline": "Open 24/7", "badge": "Website design"}, "We are open 24/7. Website design.")
+		self.assertEqual((ok["headline"], ok["badge"]), ("Open 24/7", "Website design"))  # said by the business: kept
+
 	def test_post_caption_is_the_design_words(self):
 		w = {"kicker": "Pongal special", "headline": "Sweet *pongal* for all", "subline": "Fresh  every morning.", "cta": "Call now",
 			 "items": [{"title": "Sakkarai pongal", "text": "jaggery"}, {"title": "Ven pongal"}]}

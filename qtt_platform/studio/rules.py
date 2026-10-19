@@ -146,6 +146,38 @@ def poster_prompt(*, image_url: str, brief: str, language: str, templates: list[
 	]
 
 
+_CLAIMS = re.compile(r"\b(24\s*[/x×]\s*7|24\s*hours?|no\.?\s*1|number\s*one|#\s*1|best|cheapest|lowest|guaranteed?|100\s*%|award[- ]?winning|"
+					 r"\d+\s*\+?\s*(years?|customers?|clients?|happy))\b", re.I)
+
+
+def _words_of(text: str) -> set[str]:
+	return {w for w in re.findall(r"[^\W\d_]{4,}", (text or "").lower(), re.U)}
+
+
+def ground_words(words: dict, brief: str) -> dict:
+	"""Keep only what the business itself said: list items whose name shares a real word with the brief, a badge whose
+	words are in the brief, and no claim ("24/7", "No. 1", "best", "100 %", "10 years") the brief doesn't make — even
+	when the AI wrote them (a poster's own points, made-up promises)."""
+	known = _words_of(brief)
+	b = (brief or "").lower()
+	out = dict(words or {})
+	items = [i for i in out.get("items") or [] if _words_of(i.get("title", "")) & known]
+	if items:
+		out["items"] = items
+	else:
+		out.pop("items", None)
+	if out.get("badge") and not (_words_of(out["badge"]) and _words_of(out["badge"]) <= known):
+		out.pop("badge")
+	for slot in ("kicker", "headline", "subline", "cta", "tagline"):
+		v = out.get(slot)
+		if v:
+			for m in _CLAIMS.finditer(v):
+				if m.group(0).lower() not in b:  # a claim the business didn't make goes
+					v = v.replace(m.group(0), "")
+			out[slot] = re.sub(r"\s{2,}", " ", v).strip(" ,.-–")
+	return {k: v for k, v in out.items() if v}
+
+
 def parse_poster(text: str, keys: set[str]) -> dict | None:
 	"""The vision answer → {saw, template, look, words}; None when it chose no known design or wrote no headline."""
 	d = _json(text)

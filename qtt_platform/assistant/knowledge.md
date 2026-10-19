@@ -1141,6 +1141,14 @@ passwords, codes or keys.
   picks a design and writes its words (1 AI credit; refunded if it fails).
   Or Start from a design (no AI). It never invents prices, offers, dates or
   claims — only what's in Business › Knowledge and what you typed.
+- **From a poster you like** (Studio home): choose a poster (JPG, PNG or
+  WEBP up to 8 MB) — AI looks only at its kind of layout and mood (an offer,
+  a festival wish, a list…), picks the closest QTT design and writes new
+  words for your business from Business knowledge. The poster's words,
+  names, prices, logos and pictures are never copied, list points are only
+  things you offer, and claims you never made ("24/7", "best", "No. 1") are
+  left out. 3 AI credits (none if it fails); the poster isn't kept. The
+  design opens to change like any other.
 - **A design**: Square / Portrait / Story, Light / Dark / Your colour; Ask
   AI to change it in plain words (1 credit); Quick edit of the words, Save;
   Delete (asks first). Each saved design is in the Business Library.
