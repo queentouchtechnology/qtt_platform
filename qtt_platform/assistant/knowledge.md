@@ -1125,9 +1125,9 @@ passwords, codes or keys.
 - **What it is**: an app of its own (Explore QTT OS › QTT Studio) that makes
   what the business needs with AI — in its logo, colours and fonts, written
   from Business › Knowledge, saved to one **Business Library** every app
-  uses. Now: social posts and Photo Lab. Coming phase by phase: business
-  documents (letterhead, invoice, payslip, letters, cards), logo and brand,
-  flyers and brochures, Shorts and video, landing pages.
+  uses. Now: social posts, Photo Lab and business documents (letterhead
+  styles, letters). Coming phase by phase: logo and brand, flyers and
+  brochures, visiting and ID cards, Shorts and video, landing pages.
 - **Free without Studio**: everything QTT already made — Marketing assistant
   › Post designs (64 designs + ready words), the brand kit and See your
   brand, Photos for your posts and Remove background, website and store
@@ -1163,6 +1163,22 @@ passwords, codes or keys.
   again puts that size back (asks first). Save draws the picture exactly as
   arranged and keeps it in the library. Changing the words later with Quick
   edit or Ask AI keeps the moves (words typed on the design give way).
+- **Business documents** (Studio home › Documents): how every PDF the
+  business prints looks — Orbitra's invoices, quotations, delivery challans,
+  receipts and purchase orders; Office Pulse's payslips, offer / appointment
+  / experience letters, salary certificates and ID cards. Four letterhead
+  styles, each shown with the business's own logo, colour and details: QTT
+  dark band (free, the default), Clean, Your colour, Classic letterhead. Tap
+  one to use it for every document (owner and admins; the three others need
+  Studio — when Studio ends, documents go back to the free style). The
+  logo, colour, address, GSTIN, bank and footer come from Business ›
+  Business profile. **Write a letter**: to, subject, greeting, the letter,
+  closing — or Ask AI to write it from a few words (1 AI credit; it never
+  invents prices, dates or promises and marks missing facts [ ], which must
+  be filled in before the PDF is made) — Make the PDF puts it on the
+  letterhead. **Blank letterhead**: the letterhead alone as a PDF for a print
+  shop. Letters and letterheads are kept under Your documents (open, or
+  delete — asks first).
 - **Photo Lab** (Studio home › Photo Lab): works on the business's own photos
   (the same as Business › Knowledge › Photos for your posts; Add photo there
   or here). Pick a photo, then: **Enhance** (light, colour and sharpness put

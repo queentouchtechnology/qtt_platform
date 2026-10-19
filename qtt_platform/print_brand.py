@@ -32,13 +32,30 @@ def _color(value: str | None) -> str:
 	return value if re.fullmatch(r"#[0-9a-fA-F]{6}", value) else DEFAULT_COLOR
 
 
-def brand(company: str | None = None) -> dict:
+def _has_studio(tenant: str | None) -> bool:
+	"""A chosen document style is QTT Studio's (QTT's own business always has it)."""
+	if not tenant:
+		return False
+	try:
+		from qtt_platform.entitlement.engine import get_entitlements
+		from qtt_platform.house import is_house
+
+		return is_house(tenant) or bool(get_entitlements(tenant, "QTT_STUDIO"))
+	except Exception:
+		return False
+
+
+def brand(company: str | None = None, tenant: str | None = None) -> dict:
 	"""Everything a document header/footer needs, as plain values (already safe to print)."""
-	company = company or frappe.defaults.get_user_default("Company")
+	if not company and tenant:  # QTT Studio: the business's own company, never the user's default one
+		for doctype in ("Orbitra Workspace", "Office Pulse Workspace"):
+			if not company and frappe.db.table_exists(doctype):
+				company = frappe.db.get_value(doctype, {"tenant": tenant}, "company")
+	company = company or (None if tenant else frappe.defaults.get_user_default("Company"))
 	c = frappe.db.get_value("Company", company, ["company_name", "company_logo", "tax_id", "phone_no", "email", "website",
 												 "default_currency"], as_dict=True) if company else None
 	c = c or frappe._dict()
-	tenant = _tenant_for_company(company)
+	tenant = tenant or _tenant_for_company(company)
 	p = frappe.db.get_value("QTT Business Profile", tenant, ["*"], as_dict=True) if tenant and frappe.db.table_exists("QTT Business Profile") else None
 	p = p or frappe._dict()
 	t = frappe.db.get_value("QTT Tenant", tenant, ["tenant_name", "legal_name", "logo"], as_dict=True) if tenant else frappe._dict()
@@ -50,7 +67,13 @@ def brand(company: str | None = None) -> dict:
 		addr = get_company_address(company)
 		if addr and addr.get("company_address_display"):
 			address = [x.strip() for x in re.split(r"<br\s*/?>", addr.company_address_display) if x.strip()]
+	from qtt_platform.studio import docs_rules
+
+	color = _color(p.brand_color)
+	style = docs_rules.style_for(p.get("document_style"), _has_studio(tenant))
 	return frappe._dict({
+		"style": style,
+		"ink": frappe._dict(docs_rules.colours(color, style)),  # the colours this style draws with
 		"name": t.get("legal_name") or t.get("tenant_name") or c.company_name or company or "",
 		"tagline": p.tagline or "",
 		"logo": t.get("logo") or c.company_logo or "",
@@ -61,7 +84,7 @@ def brand(company: str | None = None) -> dict:
 		"whatsapp": p.whatsapp or "",
 		"email": p.email or c.email or "",
 		"website": p.website or c.website or "",
-		"color": _color(p.brand_color),
+		"color": color,
 		"footer": p.letterhead_footer or "",
 		"bank": frappe._dict({"account_name": p.bank_account_name or "", "bank": p.bank_name or "", "branch": p.bank_branch or "",
 							  "number": p.bank_account_number or "", "ifsc": p.bank_ifsc or "", "upi": p.upi_id or ""}),

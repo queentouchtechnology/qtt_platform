@@ -41,6 +41,7 @@
   "brand_color",
   "column_break_brand",
   "letterhead_footer",
+  "document_style",
   "section_bank",
   "bank_account_name",
   "bank_name",
@@ -205,6 +206,14 @@
    "description": "Printed at the bottom of invoices, quotes and payslips."
   },
   {
+   "fieldname": "document_style",
+   "fieldtype": "Select",
+   "label": "Document style",
+   "options": "band\nclean\ncolour\nclassic",
+   "default": "band",
+   "description": "The letterhead every PDF uses (QTT Studio › Business documents). band is QTT's free default; the others need QTT Studio."
+  },
+  {
    "fieldname": "section_bank",
    "fieldtype": "Section Break",
    "label": "Bank",
@@ -260,5 +269,6 @@
  ],
  "links": [],
  "autoname": "field:tenant",
- "naming_rule": "By fieldname"
+ "naming_rule": "By fieldname",
+ "modified": "2026-10-19 19:00:00.000000"
 }

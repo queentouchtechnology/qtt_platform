@@ -1,0 +1,24 @@
+{#-
+  A letter on the business's letterhead (QTT Studio › Business documents, PROJ-0012 S3) — the same head/foot as every
+  other PDF, so it follows the document style. l: {ref, date, to, subject, greeting, paragraphs, closing, signer}.
+  l = None draws the blank letterhead (for a print shop, or to write on by hand).
+-#}
+{% from "qtt_platform/templates/print/qtt.html" import head, foot, sign %}
+{{ head(b, "", "") }}
+{% if l %}
+<table style="margin:16px 0 8px"><tr>
+	<td class="muted">{% if l.ref %}{{ _("Ref") }}: {{ l.ref|e }}{% endif %}</td>
+	<td class="r muted">{{ _("Date") }}: {{ l.date|e }}</td>
+</tr></table>
+<div class="letter">
+	{% if l.to %}<p>{{ l.to|e|replace("\n", "<br>") }}</p>{% endif %}
+	{% if l.subject %}<p><b>{{ _("Subject") }}: {{ l.subject|e }}</b></p>{% endif %}
+	{% if l.greeting %}<p>{{ l.greeting|e }}</p>{% endif %}
+	{% for p in l.paragraphs %}<p>{{ p|e|replace("\n", "<br>") }}</p>{% endfor %}
+	{% if l.closing %}<p>{{ l.closing|e }}</p>{% endif %}
+</div>
+{{ sign("", l.signer or (_("For") ~ " " ~ b.name)) }}
+{% else %}
+<div style="height:760px"></div>
+{% endif %}
+{{ foot(b) }}

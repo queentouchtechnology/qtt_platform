@@ -11,15 +11,15 @@
 	.qtt { font-family: Poppins, Lato, Carlito, "Liberation Sans", Arial, sans-serif; font-size: 11px; color: #0B0D12; line-height: 1.45; }
 	.qtt table { width: 100%; border-collapse: collapse; }
 	.qtt td, .qtt th { vertical-align: top; font-size: 11px; line-height: 1.45; }
-	.qtt .hdr { background: #0B0D12; color: #fff; }
+	.qtt .hdr { background: {{ b.ink.head_bg }}; color: {{ b.ink.head_ink }}; }
 	.qtt .hdr td { padding: 14px 16px; vertical-align: middle; }
 	.qtt .hdr .bn { font-size: 18px !important; }
 	.qtt .hdr .logo { max-height: 54px; max-width: 170px; background: #fff; padding: 4px; border-radius: 4px; }
-	.qtt .hdr td, .qtt .hdr div { color: #fff; }
+	.qtt .hdr td, .qtt .hdr div { color: {{ b.ink.head_ink }}; }
 	.qtt .hdr .bn { font-size: 18px; font-weight: 700; letter-spacing: .3px; }
-	.qtt .hdr .tg { font-size: 10px; color: #aeb6c6; }
+	.qtt .hdr .tg { font-size: 10px; color: {{ b.ink.head_muted }}; }
 	.qtt .hdr .ttl { text-align: right; font-size: 20px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
-	.qtt .hdr .ttl small { display: block; font-size: 10px; font-weight: 400; letter-spacing: 0; color: #aeb6c6; text-transform: none; }
+	.qtt .hdr .ttl small { display: block; font-size: 10px; font-weight: 400; letter-spacing: 0; color: {{ b.ink.head_muted }}; text-transform: none; }
 	.qtt .bar { height: 4px; background: {{ b.color }}; }
 	.qtt .from { font-size: 10px; color: #4a5263; padding: 8px 0 0; }
 	.qtt .meta { margin: 12px 0; }
@@ -31,7 +31,7 @@
 	.qtt .kv td.k { color: #5b6475; width: 1%; white-space: nowrap; padding-right: 12px !important; }
 	.qtt .kv td.v { font-weight: 700; text-align: right; }
 	.qtt h2 { font-size: 13px; margin: 16px 0 6px; padding-bottom: 3px; border-bottom: 2px solid {{ b.color }}; display: inline-block; }
-	.qtt table.items th { background: #0B0D12; color: #fff; font-size: 9.5px; text-transform: uppercase; letter-spacing: .5px; padding: 6px 6px; text-align: left; }
+	.qtt table.items th { background: {{ b.ink.th_bg }}; color: {{ b.ink.th_ink }}; font-size: 9.5px; text-transform: uppercase; letter-spacing: .5px; padding: 6px 6px; text-align: left; }
 	.qtt table.items td { padding: 6px !important; border-bottom: 1px solid #e4e7ee; }
 	.qtt table.items td.r, .qtt table.sum td.r, .qtt .kv td.v { white-space: nowrap; }
 	.qtt table.items tr:nth-child(even) td { background: #f6f7fa; }
@@ -39,7 +39,7 @@
 	.qtt .c { text-align: center !important; }
 	.qtt .muted { color: #6b7385; font-size: 10px; }
 	.qtt table.sum td { padding: 4px 6px !important; }
-	.qtt table.sum tr.tot td { background: #EEF1FF; font-size: 13px !important; font-weight: 700; border-top: 2px solid {{ b.color }}; }
+	.qtt table.sum tr.tot td { background: {{ b.ink.soft }}; font-size: 13px !important; font-weight: 700; border-top: 2px solid {{ b.color }}; }
 	.qtt .words { margin-top: 8px; padding: 6px 10px; background: #F7F8FA; font-style: italic; }
 	.qtt .note { margin-top: 12px; padding: 8px 10px; border: 1px dashed #c9cfdb; font-size: 10px; }
 	.qtt .sign { margin-top: 28px; }
@@ -51,13 +51,39 @@
 	.qtt .stamp.green { border-color: #1f9d55; color: #1f9d55; }
 	.qtt .letter p { margin: 0 0 10px; text-align: justify; }
 	.qtt .letter { font-size: 12px; line-height: 1.65; }
+	/* QTT Studio document styles (studio/docs_rules.py): clean, colour, classic — band is the default above */
+	.qtt.clean .hdr td { padding: 6px 0 10px; }
+	.qtt.clean .hdr .bn { color: {{ b.color }} !important; font-size: 20px !important; }
+	.qtt.clean .hdr .ttl { color: {{ b.color }} !important; }
+	.qtt.clean .bar { height: 2px; }
+	.qtt.clean .logo, .qtt.classic .logo { padding: 0; }
+	.qtt.classic .chead { text-align: center; padding: 4px 0 8px; }
+	.qtt.classic .chead .bn { font-size: 22px; font-weight: 700; letter-spacing: .5px; font-family: Georgia, "Times New Roman", serif; }
+	.qtt.classic .chead .tg { font-size: 10px; color: #5b6475; font-style: italic; }
+	.qtt.classic .chead .logo { max-height: 60px; max-width: 200px; margin-bottom: 4px; }
+	.qtt.classic .chead .ct { font-size: 9.5px; color: #4a5263; margin-top: 3px; }
+	.qtt.classic .rule { border-top: 3px solid {{ b.color }}; border-bottom: 1px solid {{ b.color }}; height: 2px; margin-bottom: 8px; }
+	.qtt.classic .cttl { text-align: center; font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin: 6px 0 2px; }
+	.qtt.classic .cttl small { display: block; font-size: 10px; font-weight: 400; letter-spacing: 0; color: #5b6475; text-transform: none; }
+	.qtt.classic .foot { border-top: 4px double {{ b.color }}; }
 </style>
 {%- endmacro %}
 
 {# Dark brand band: logo + business name on the left, document title on the right. Opens the .qtt wrapper. #}
 {% macro head(b, title, subtitle="") -%}
 {{ css(b) }}
-<div class="qtt">
+<div class="qtt {{ b.style or 'band' }}">
+{%- set addr = b.address|join(", ") -%}
+{% if b.style == "classic" %}
+<div class="chead">
+	{% if b.logo %}<img class="logo" src="{{ b.logo }}"><br>{% endif %}
+	<div class="bn">{{ b.name|e }}</div>
+	{% if b.tagline %}<div class="tg">{{ b.tagline|e }}</div>{% endif %}
+	<div class="ct">{{ addr|e }}{% if b.phone and b.phone not in addr %} · {{ b.phone|e }}{% endif %}{% if b.email and b.email not in addr %} · {{ b.email|e }}{% endif %}{% if b.website %} · {{ b.website|e }}{% endif %}{% if b.gstin %} · <b>GSTIN {{ b.gstin|e }}</b>{% endif %}</div>
+</div>
+<div class="rule"></div>
+{% if title %}<div class="cttl">{{ title }}{% if subtitle %}<small>{{ subtitle }}</small>{% endif %}</div>{% endif %}
+{% else %}
 <table class="hdr"><tr>
 	<td style="width:60%">
 		<table><tr>
@@ -69,12 +95,12 @@
 </tr></table>
 <div class="bar"></div>
 <div class="from">
-	{%- set addr = b.address|join(", ") -%}
 	{{ addr|e }}
 	{% if b.phone and b.phone not in addr %} · {{ _("Phone") }} {{ b.phone|e }}{% endif %}
 	{% if b.email and b.email not in addr %} · {{ b.email|e }}{% endif %}
 	{% if b.gstin %} · <b>GSTIN {{ b.gstin|e }}</b>{% endif %}
 </div>
+{% endif %}
 {%- endmacro %}
 
 {# Closes the .qtt wrapper that head() opened — every document ends with foot(). #}

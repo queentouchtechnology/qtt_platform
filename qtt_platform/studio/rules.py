@@ -26,12 +26,12 @@ PLANS = (
 TRIAL_DAYS = 14
 
 # AI credits each action takes (the plan's ai_credits_grant arrives every month; more can be bought).
-CREDITS = {"make": 1, "ask": 1, "short_script": 2, "read_image": 3, "ai_background": 10, "ai_logo": 20}
+CREDITS = {"make": 1, "ask": 1, "letter": 1, "short_script": 2, "read_image": 3, "ai_background": 10, "ai_logo": 20}
 
 # What can be made, and from which phase (S0: posts, S1: Photo Lab; the rest arrive phase by phase).
 CATEGORIES = (
 	("posts", "Social posts", "post", True),
-	("documents", "Business documents", "document", False),
+	("documents", "Business documents", "document", True),  # S3: letterhead styles and letters
 	("logos", "Logo and brand", "logo", False),
 	("print", "Flyers and brochures", "print", False),
 	("photos", "Photo Lab", "photo", True),  # S1
