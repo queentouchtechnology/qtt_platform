@@ -1144,6 +1144,15 @@ passwords, codes or keys.
 - **A design**: Square / Portrait / Story, Light / Dark / Your colour; Ask
   AI to change it in plain words (1 credit); Quick edit of the words, Save;
   Delete (asks first). Each saved design is in the Business Library.
+- **Every size** (a design › Every size): draws the design as square (feed
+  posts), portrait (Instagram) and story (Stories and WhatsApp Status) at
+  once, each with its own moves, each kept in the Business Library; Open
+  full size to save or share one.
+- **Post it** (a design › Post it; owner, with the Marketing assistant): the
+  design becomes a Marketing assistant post waiting for your OK — its
+  picture attached and its own words as the caption. Change the caption,
+  choose the pages and the time there, then approve. Nothing is posted
+  without your OK.
 - **Move and resize** (a design › Move and resize, in the phone app): the
   design itself opens with every piece movable — tap a line of words, the
   button, the badge, the logo, a photo or a decoration, drag it anywhere,

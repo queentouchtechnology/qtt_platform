@@ -134,24 +134,34 @@ def _out(doc) -> dict:
 			"picture": get_url(doc.output) if doc.output else None, "modified": str(doc.modified)}
 
 
+def _item_for(doc, fmt: str):
+	"""The design's library picture for one size (each size drawn is its own picture in the library), or None."""
+	name = frappe.db.get_value(ITEM, {"design": doc.name, "format": fmt}, "name")
+	return frappe.get_doc(ITEM, name) if name else None
+
+
 def _draw(tenant: str, doc) -> None:
-	"""Draw the design in the business's brand (only when something changed) and keep it in the library."""
+	"""Draw the design in its current size, in the business's brand — only when something changed since that size was
+	last drawn — and keep that size's picture in the library."""
 	t = pt.template_row(doc.template)
 	c = json.loads(doc.content or "{}")
 	parts = pt.post_parts(tenant, t, look=doc.look, words=c.get("words") or None, lang=c.get("lang"))
 	parts["edits"] = c.get("edits") or {}
 	sig = pt.parts_sig(t, doc.format, parts)
-	if doc.output and doc.output_sig == sig:
+	item = _item_for(doc, doc.format)
+	if item and item.file and f"sig:{sig}" in (item.tags or "").split():
+		if doc.output != item.file or doc.library_item != item.name:  # this size was drawn already, as it is now
+			doc.output, doc.output_sig, doc.library_item = item.file, sig, item.name
+			doc.save(ignore_permissions=True)
 		return
 	url = frappe.get_doc({"doctype": "File", "file_name": f"studio-{doc.name}-{sig}.png", "content": pt.draw(t, doc.format, parts),
 						  "is_private": 0, "attached_to_doctype": DESIGN, "attached_to_name": doc.name}).insert(ignore_permissions=True).file_url
-	old = doc.output
-	doc.output, doc.output_sig = url, sig
-	item = frappe.get_doc(ITEM, doc.library_item) if doc.library_item and frappe.db.exists(ITEM, doc.library_item) else frappe.new_doc(ITEM)
+	old = item.file if item else None
+	item = item or frappe.new_doc(ITEM)
 	item.update({"tenant": tenant, "title": doc.title, "kind": doc.kind, "design": doc.name, "file": url, "format": doc.format,
-				 "products": item.products or "all"})
+				 "products": item.products or "all", "tags": f"sig:{sig}"})
 	item.save(ignore_permissions=True) if not item.is_new() else item.insert(ignore_permissions=True)
-	doc.library_item = item.name
+	doc.output, doc.output_sig, doc.library_item = url, sig, item.name
 	doc.save(ignore_permissions=True)
 	if old and old != url:
 		for f in frappe.get_all("File", filters={"file_url": old, "attached_to_doctype": DESIGN, "attached_to_name": doc.name}, pluck="name"):
@@ -382,12 +392,53 @@ def save_moves(name: str, format: str, edits=None) -> dict:
 
 
 @frappe.whitelist(methods=["POST"])
+def all_sizes(name: str) -> dict:
+	"""Magic resize: the design drawn in every size — square (feed), portrait (Instagram) and story (Stories, WhatsApp
+	Status) — each kept in the library, with any moves made for that size. {design, sizes: [{format, picture}]}."""
+	from frappe.utils import get_url
+
+	tenant = _tenant()
+	_need_studio(tenant)
+	doc = _mine(tenant, name)
+	keep = doc.format
+	sizes = []
+	for fmt in rules.FORMATS:
+		doc.format = fmt
+		_draw(tenant, doc)
+		sizes.append({"format": fmt, "picture": get_url(doc.output) if doc.output else None})
+	doc.format = keep
+	_draw(tenant, doc)  # back to the size it was on (already drawn)
+	return {"design": _out(doc), "sizes": sizes}
+
+
+@frappe.whitelist(methods=["POST"])
+def to_post(name: str, format: str | None = None) -> dict:
+	"""Post it: the design (in `format`, or its own size) becomes a Marketing assistant post waiting for the owner's OK —
+	its picture attached, its words as the caption to change there; the owner picks the pages and the time and approves.
+	Needs the Marketing assistant. {post}."""
+	from frappe.utils import get_url
+
+	tenant = _tenant()
+	_need_studio(tenant)
+	doc = _mine(tenant, name)
+	if "qtt_services" not in frappe.get_installed_apps():
+		frappe.throw(_("Posting needs the Marketing assistant — order it in Managed Services › Explore."))
+	if format in rules.FORMATS and format != doc.format:
+		doc.format = format
+	_draw(tenant, doc)
+	save = frappe.get_attr("qtt_services.api.marketing.save")  # the owner's own post (checks the service and the owner)
+	c = json.loads(doc.content or "{}")
+	post = save(caption=rules.post_caption(c.get("words") or {}), media=json.dumps([get_url(doc.output)]))
+	return {"post": post}
+
+
+@frappe.whitelist(methods=["POST"])
 def delete_design(name: str) -> dict:
 	"""Delete a design, its picture and its library item."""
 	tenant = _tenant()
 	doc = _mine(tenant, name)
-	if doc.library_item and frappe.db.exists(ITEM, doc.library_item):
-		frappe.delete_doc(ITEM, doc.library_item, ignore_permissions=True, force=True)
+	for item in frappe.get_all(ITEM, filters={"design": doc.name}, pluck="name"):  # every size's picture
+		frappe.delete_doc(ITEM, item, ignore_permissions=True, force=True)
 	for f in frappe.get_all("File", filters={"attached_to_doctype": DESIGN, "attached_to_name": doc.name}, pluck="name"):
 		frappe.delete_doc("File", f, ignore_permissions=True)
 	frappe.delete_doc(DESIGN, doc.name, ignore_permissions=True, force=True)

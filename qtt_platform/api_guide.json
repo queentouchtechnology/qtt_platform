@@ -5714,6 +5714,22 @@
    "status": "OK"
   },
   {
+   "endpoint": "qtt_platform.api.studio.all_sizes",
+   "product": "Platform",
+   "area": "api.studio",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Magic resize: the design drawn in every size — square (feed), portrait (Instagram) and story (Stories, WhatsApp Status) — each kept in the library, with any moves made for that size. {design, sizes: [{format, picture}]}.",
+   "details": "Magic resize: the design drawn in every size — square (feed), portrait (Instagram) and story (Stories, WhatsApp\nStatus) — each kept in the library, with any moves made for that size. {design, sizes: [{format, picture}]}.",
+   "arguments": "name",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioAllSizes",
+   "screens": "products/studio/design_editor.dart › _DesignEditorPageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/studio.py:395",
+   "status": "OK"
+  },
+  {
    "endpoint": "qtt_platform.api.studio.ask",
    "product": "Platform",
    "area": "api.studio",
@@ -5726,7 +5742,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioAsk",
    "screens": "products/studio/design_editor.dart › _DesignEditorPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:312",
+   "source": "qtt_platform/qtt_platform/api/studio.py:322",
    "status": "OK"
   },
   {
@@ -5742,7 +5758,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioDeleteDesign",
    "screens": "products/studio/design_editor.dart › _DesignEditorPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:385",
+   "source": "qtt_platform/qtt_platform/api/studio.py:436",
    "status": "OK"
   },
   {
@@ -5758,7 +5774,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:279",
+   "source": "qtt_platform/qtt_platform/api/studio.py:289",
    "status": "Not used by the app"
   },
   {
@@ -5774,7 +5790,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioDesigns",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:270",
+   "source": "qtt_platform/qtt_platform/api/studio.py:280",
    "status": "OK"
   },
   {
@@ -5790,7 +5806,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioEditor",
    "screens": "products/studio/move_resize.dart › _MoveResizePageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:341",
+   "source": "qtt_platform/qtt_platform/api/studio.py:351",
    "status": "OK"
   },
   {
@@ -5806,7 +5822,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioHome",
    "screens": "products/studio/studio_root.dart › _StudioHomeState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:195",
+   "source": "qtt_platform/qtt_platform/api/studio.py:205",
    "status": "OK"
   },
   {
@@ -5822,7 +5838,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioLibrary",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:398",
+   "source": "qtt_platform/qtt_platform/api/studio.py:449",
    "status": "OK"
   },
   {
@@ -5838,7 +5854,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioMake",
    "screens": "products/studio/studio_root.dart › _StudioHomeState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:220",
+   "source": "qtt_platform/qtt_platform/api/studio.py:230",
    "status": "OK"
   },
   {
@@ -5854,7 +5870,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioNewDesign",
    "screens": "products/studio/studio_root.dart › TemplatePickerPage",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:247",
+   "source": "qtt_platform/qtt_platform/api/studio.py:257",
    "status": "OK"
   },
   {
@@ -5870,7 +5886,23 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioSaveMoves",
    "screens": "products/studio/move_resize.dart › _MoveResizePageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:358",
+   "source": "qtt_platform/qtt_platform/api/studio.py:368",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.studio.to_post",
+   "product": "Platform",
+   "area": "api.studio",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Post it: the design (in `format`, or its own size) becomes a Marketing assistant post waiting for the owner's OK — its picture attached, its words as the caption to change there; the owner picks the pages and the time and approves. Needs the Marketing assistant. {post}.",
+   "details": "Post it: the design (in `format`, or its own size) becomes a Marketing assistant post waiting for the owner's OK —\nits picture attached, its words as the caption to change there; the owner picks the pages and the time and approves.\nNeeds the Marketing assistant. {post}.",
+   "arguments": "name, format",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioToPost",
+   "screens": "products/studio/design_editor.dart › _DesignEditorPageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/studio.py:415",
    "status": "OK"
   },
   {
@@ -5886,7 +5918,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioUpdateDesign",
    "screens": "products/studio/design_editor.dart › _DesignEditorPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:285",
+   "source": "qtt_platform/qtt_platform/api/studio.py:295",
    "status": "OK"
   },
   {

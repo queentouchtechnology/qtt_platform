@@ -24,6 +24,14 @@ class Plans(unittest.TestCase):
 		self.assertEqual(ready, ["posts", "photos"])  # S0 posts, S1 Photo Lab
 		self.assertEqual(rules.CREDITS["ai_background"], 10)
 
+	def test_post_caption_is_the_design_words(self):
+		w = {"kicker": "Pongal special", "headline": "Sweet *pongal* for all", "subline": "Fresh  every morning.", "cta": "Call now",
+			 "items": [{"title": "Sakkarai pongal", "text": "jaggery"}, {"title": "Ven pongal"}]}
+		self.assertEqual(rules.post_caption(w), "Pongal special — Sweet pongal for all\n\nFresh every morning.\n\n"
+												"• Sakkarai pongal: jaggery\n• Ven pongal\n\nCall now")
+		self.assertEqual(rules.post_caption({"headline": "Just *this*"}), "Just this")
+		self.assertEqual(rules.post_caption({}), "")
+
 	def test_limits(self):
 		self.assertEqual(rules.limit_left(30, 12), 18)
 		self.assertEqual(rules.limit_left(30, 40), 0)

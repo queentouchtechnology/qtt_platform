@@ -114,6 +114,15 @@ def clean_words(words) -> dict:
 	return out
 
 
+def post_caption(words: dict) -> str:
+	"""A first caption from the design's own words (no stars), to change in the Marketing assistant: the small line and
+	the headline, the line below, the button's words. Nothing added that the design doesn't say."""
+	w = {k: re.sub(r"\s+", " ", str((words or {}).get(k) or "").replace("*", "")).strip() for k in ("kicker", "headline", "subline", "cta")}
+	head = " — ".join(x for x in (w["kicker"], w["headline"]) if x)
+	items = [f"• {i['title']}" + (f": {i['text']}" if i.get("text") else "") for i in (words or {}).get("items") or [] if isinstance(i, dict) and i.get("title")]
+	return "\n\n".join(x for x in (head, w["subline"], "\n".join(items), w["cta"]) if x)
+
+
 def parse_make(text: str, keys: set[str]) -> dict | None:
 	"""The AI's answer → {template, look, words}; None when it chose no known design or wrote no headline."""
 	d = _json(text)
