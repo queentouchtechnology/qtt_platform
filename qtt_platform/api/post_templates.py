@@ -115,18 +115,51 @@ WORD_SLOTS = ("kicker", "headline", "subline", "cta", "badge", "tagline", "items
 			  "problems")
 
 
-def post_parts(tenant: str, t: dict, *, look: str | None = None, words: dict | None = None, lang: str | None = None) -> dict:
+def _file_bytes(url: str) -> bytes | None:
+	try:
+		return frappe.get_doc("File", {"file_url": url}).get_content()
+	except Exception:
+		return None
+
+
+def showcase_media(media: dict | None) -> tuple[list, list]:
+	"""A showcase design's pictures: (its screenshots, in order — as they are, never changed; other files: the backdrop).
+	File names carry a short hash of the address, so a new screenshot is drawn again."""
+	shots, extra = [], []
+	for i, url in enumerate((media or {}).get("shots") or []):
+		data = _file_bytes(url)
+		if data:
+			shots.append((f"shot{i}-{hashlib.sha1(url.encode()).hexdigest()[:8]}{url[url.rfind('.'):].lower() if '.' in url[-6:] else '.png'}", data))
+	b = (media or {}).get("backdrop")
+	data = _file_bytes(b) if b else None
+	if data:
+		extra.append((f"backdrop-{hashlib.sha1(b.encode()).hexdigest()[:8]}.jpg", data))
+	return shots, extra
+
+
+def post_parts(tenant: str, t: dict, *, look: str | None = None, words: dict | None = None, lang: str | None = None,
+			   media: dict | None = None) -> dict:
 	"""Everything a post of this business is drawn with: its brand (colours, fonts, logo), its own photos (else photos for
-	its kind), its name and contacts, and the words — the template's sample, or `words` in place of the sample's."""
+	its kind), its name and contacts, and the words — the template's sample, or `words` in place of the sample's.
+	`media` (showcase designs, S10): {shots: [file urls], backdrop, palette} — the owner's screenshots are its pictures
+	(never the business photos), and a curated colour set may stand in for colours (the logo and fonts stay theirs)."""
 	from qtt_platform.api import business_photos
+	from qtt_platform.design import palettes
 
 	k = knowledge.for_tenant(tenant) or knowledge.save_for(tenant, {})
 	kit = knowledge.rules.brand(k, knowledge.contacts(tenant).get("brand_color") or "")
 	fonts = (kit["font_heading"] or catalog.FONT_SETS[t["fonts"]][0], kit["font_body"] or catalog.FONT_SETS[t["fonts"]][1])
 	group = _group_of(tenant) or (t["groups"][0] if t["groups"][0] != "any" else "any")
 	btype = k.get("business_type")
-	photos, cut = business_photos.for_design(tenant, t["layout"])  # the business's own photos first
-	if not photos:
+	extra = []
+	if "showcase" in t["post_types"]:
+		photos, extra = showcase_media(media)  # the owner's screenshots only; none → a plain sample screen
+		cut = False
+		if (media or {}).get("palette") in palettes.CURATED:
+			kit = {**kit, "colors": dict(palettes.CURATED[media["palette"]][2])}
+	else:
+		photos, cut = business_photos.for_design(tenant, t["layout"])  # the business's own photos first
+	if not photos and "showcase" not in t["post_types"]:
 		photos = post.kit_photos(business_types.photo_kit(btype) if btype else catalog.sample_kit(t["layout"], group), 5)
 	content = business_content(tenant, t["layout"], group)
 	if words:
@@ -135,8 +168,10 @@ def post_parts(tenant: str, t: dict, *, look: str | None = None, words: dict | N
 		content.update(words)
 	if cut:
 		content["cutout"] = True
+	if extra:
+		content["backdrop"] = extra[0][0]
 	language = "Tamil" if lang == "ta" else (k.get("language") or "")
-	return {"kit": kit, "fonts": fonts, "photos": photos, "content": content, "logo": knowledge._logo(tenant),
+	return {"kit": kit, "fonts": fonts, "photos": photos, "extra": extra, "content": content, "logo": knowledge._logo(tenant),
 			"look": look if look in ("light", "dark", "brand") else t["look"], "language": language}
 
 
@@ -144,7 +179,7 @@ def parts_sig(t: dict, fmt: str, parts: dict) -> str:
 	logo = parts["logo"]
 	moves = (parts.get("edits") or {}).get(fmt) or {}
 	return hashlib.sha1(json.dumps([t, fmt, parts["look"], parts["kit"], parts["fonts"], parts["content"], parts["language"], logo[0],
-									len(logo[1] or b""), [n for n, _ in parts["photos"]], catalog.catalog_hash(), moves],
+									len(logo[1] or b""), [n for n, _ in parts["photos"] + (parts.get("extra") or [])], catalog.catalog_hash(), moves],
 								   sort_keys=True, default=str).encode()).hexdigest()[:14]
 
 
@@ -152,7 +187,7 @@ def draw(t: dict, fmt: str, parts: dict) -> bytes:
 	logo = parts["logo"]
 	return post.render(t["layout"], t["variant"], colors=parts["kit"]["colors"] or {"primary": base.DEFAULT_PRIMARY}, fonts=parts["fonts"],
 					   look=parts["look"], fmt=fmt, content=parts["content"], photos=parts["photos"], logo=logo if logo[1] else None,
-					   language=parts["language"], edits=parts.get("edits"))
+					   language=parts["language"], edits=parts.get("edits"), extra=parts.get("extra"))
 
 
 def editor_html(t: dict, fmt: str, parts: dict) -> str:
@@ -161,6 +196,7 @@ def editor_html(t: dict, fmt: str, parts: dict) -> str:
 
 	logo = parts["logo"]
 	files, content = post.files_for(parts["content"], parts["photos"], logo if logo[1] else None)
+	files.update(dict(parts.get("extra") or []))
 	page, w, _h = post.page_for(t["layout"], t["variant"], colors=parts["kit"]["colors"] or {"primary": base.DEFAULT_PRIMARY},
 								fonts=parts["fonts"], look=parts["look"], fmt=fmt, content=content,
 								photo_names=[n for n, _ in parts["photos"]], language=parts["language"])

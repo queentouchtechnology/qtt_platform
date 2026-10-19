@@ -40,7 +40,8 @@ def check_templates() -> dict:
 		for fmt, (w, h) in quality.SIZES.items():
 			try:
 				png = post.render(t["layout"], t["variant"], colors=catalog.PALETTES[t["palette"]], fonts=catalog.FONT_SETS[t["fonts"]], look=t["look"],
-								  fmt=fmt, content=catalog.sample_for(t["layout"], g), photos=post.kit_photos(catalog.sample_kit(t["layout"], g), 5), out_width=w)
+								  fmt=fmt, content=catalog.sample_for(t["layout"], g), out_width=w,
+								  photos=[] if "showcase" in t["post_types"] else post.kit_photos(catalog.sample_kit(t["layout"], g), 5))
 				p = quality.picture_problem(png, w, h)
 			except Exception as e:
 				frappe.clear_messages()

@@ -476,3 +476,8 @@ LAYOUTS = {"hero_split": hero_split, "center_hero": center_hero, "listing": list
 		   "quote_tip": quote_tip, "problem_solution": problem_solution, "circles_labels": circles_labels, "question_rows": question_rows,
 		   "greeting": greeting, "curve_photo": curve_photo, "wave_agency": wave_agency, "sale": sale,
 		   "numbered_services": numbered_services, "gallery": gallery, "product_promo": product_promo}
+
+# Showcase layouts (S10 Poster variations): screenshots in device compositions — same engine, same rules
+from qtt_platform.design import showcase as _showcase  # noqa: E402
+
+LAYOUTS.update(_showcase.LAYOUTS)

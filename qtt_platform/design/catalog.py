@@ -10,15 +10,16 @@ Sample words are examples for the thumbnail only — a real post's words, prices
 import hashlib
 import json
 
-from qtt_platform.design import business_types
+from qtt_platform.design import business_types, showcase
 
 POST_TYPES = {
 	"offer": "Offer or sale", "product": "Product", "service": "Service", "event": "Event", "greeting": "Festival and wishes",
 	"tribute": "Tribute", "listing": "Listing (property, vehicle)", "problem": "Problem and solution", "tip": "Tip or quote",
 	"announcement": "Announcement", "course": "Course or admission", "launch": "Launch or new", "hiring": "We're hiring",
-	"contact": "Contact us",
+	"contact": "Contact us", "showcase": "App or product showcase",
 }
 FORMATS = ("square", "portrait", "story")
+WIDE = ("wide", "landscape")  # 16:9 and 3:2 — the showcase designs only (they lay text and device side by side)
 
 PALETTES = {  # showcase colours for the library pictures (never a business's own)
 	"blue": {"primary": "#2563eb", "accent": "#0ea5e9", "dark": "#0b1220"},
@@ -36,6 +37,11 @@ PALETTES = {  # showcase colours for the library pictures (never a business's ow
 	"black_gold": {"primary": "#a16207", "accent": "#eab308", "dark": "#0a0a0a"},
 	"slate": {"primary": "#334155", "accent": "#94a3b8", "dark": "#0f172a"},
 }
+# the curated colour sets (palettes.py) are library palettes too
+from qtt_platform.design import palettes as _palettes  # noqa: E402
+
+PALETTES.update({k: c for k, (_label, _mood, c) in _palettes.CURATED.items()})
+
 FONT_SETS = {"modern": ("Montserrat", "Inter"), "friendly": ("Poppins", "Inter"), "rounded": ("Baloo 2", "Nunito"),
 			 "elegant": ("Playfair Display", "Lato"), "bold": ("Archivo Black", "Archivo"), "classic": ("DM Serif Display", "DM Sans")}
 
@@ -58,6 +64,9 @@ LAYOUTS = {
 	"gallery": {"label": "Gallery and services", "post_types": ["service", "product"], "groups": ["services", "beauty", "places"]},
 	"product_promo": {"label": "Product promo", "post_types": ["product", "offer"], "groups": ["food", "shops"]},
 }
+# Showcase layouts (S10 Poster variations): any product's screenshots — every kind of business, offered only in Studio's
+# Poster variations (catalog.matches keeps them out of the post library: they need the owner's screenshots).
+LAYOUTS.update({k: {"label": label, "post_types": ["showcase"], "groups": ["any"]} for k, (label, _what, _need) in showcase.DIRECTIONS.items()})
 
 # The templates: (layout, name, variant, palette, fonts, look). Each becomes one library entry.
 _T = [
@@ -129,6 +138,40 @@ _T = [
 	("quote_tip", "Night thought", {"pattern": "rings"}, "indigo", "elegant", "dark"),
 	("quote_tip", "Warm waves", {"pattern": "waves"}, "orange", "rounded", "light"),
 	("quote_tip", "Frame", {"pattern": "frame_lines", "quote_mark": False}, "black_gold", "classic", "dark"),
+	# showcase (S10): one creative direction each, drawn in the business's brand
+	("ui_showcase", "Night", {}, "indigo_cyan", "modern", "dark"),
+	("ui_showcase", "Day", {}, "navy_gold", "friendly", "light"),
+	("device_tilt", "Glow", {}, "purple_lavender", "modern", "dark"),
+	("pop_cards", "Cards", {}, "teal_mint", "friendly", "light"),
+	("minimal_device", "Clean", {}, "charcoal_gold", "modern", "light"),
+	("bold_promo", "Bold", {}, "mono_yellow", "bold", "brand"),
+	("stat_hero", "Numbers", {}, "navy_gold", "modern", "dark"),
+	("steps_flow", "Steps", {}, "forest_cream", "friendly", "light"),
+	("chips_cloud", "Chips", {}, "indigo_cyan", "modern", "dark"),
+	("editorial", "Magazine", {}, "burgundy_cream", "elegant", "light"),
+	("scene_device", "Scene", {}, "forest_cream", "modern", "dark"),
+	("duo_screens", "Two screens", {}, "purple_lavender", "friendly", "light"),
+	# showcase, second set — each with a curated colour set that suits it (a business always sees its own brand)
+	("tilt_premium", "Reflection", {}, "navy_gold", "modern", "light"),
+	("screen_pop", "Break out", {}, "indigo_cyan", "modern", "dark"),
+	("ui_orbit", "Orbit", {}, "teal_mint", "friendly", "light"),
+	("big_type", "Big type", {}, "mono_yellow", "bold", "light"),
+	("full_phone", "Full height", {}, "purple_lavender", "bold", "dark"),
+	("split_benefits", "Split", {}, "royal_orange", "friendly", "light"),
+	("diagonal_layers", "Diagonal", {}, "orange_navy", "modern", "light"),
+	("glass_cards", "Glass", {}, "purple_lavender", "modern", "dark"),
+	("swiss_grid", "Swiss", {}, "mono_yellow", "modern", "light"),
+	("cinematic", "Spotlight beam", {}, "charcoal_gold", "elegant", "dark"),
+	("product_stage", "Stage", {}, "indigo_cyan", "modern", "dark"),
+	("connected_chips", "Connected", {}, "teal_mint", "friendly", "light"),
+	("stat_badge", "Badge", {}, "navy_gold", "modern", "light"),
+	("timeline_steps", "Timeline", {}, "forest_cream", "friendly", "light"),
+	("problem_solution_ui", "Before and after", {}, "royal_orange", "modern", "light"),
+	("globe_reach", "Globe", {}, "navy_gold", "modern", "dark"),
+	("pill_rows", "Pills", {}, "orange_navy", "bold", "brand"),
+	("open_book", "Open book", {}, "burgundy_cream", "elegant", "dark"),
+	("color_blocks", "Blocks", {}, "royal_orange", "bold", "light"),
+	("magazine_cover", "Cover", {}, "burgundy_cream", "elegant", "light"),
 ]
 
 # ---- sample words for the library pictures (by layout and business group) ------------------------------------------
@@ -140,7 +183,16 @@ _TECH = {"business": "Queen Touch Technology", "kicker": "Website backup", "head
 				   {"icon": "icon_team", "title": "Real support", "text": "A person when you need one"}],
 		 "pillars": [["icon_rocket", "Innovate"], ["icon_gear", "Automate"], ["icon_chart", "Analyze"], ["icon_shield", "Protect"]],
 		 "tagline": "Technology today.\n*Success tomorrow.*", "phone": "95669 66764", "website": "queentouchtech.com"}
+_APP = {"business": "Queen Touch Technology", "kicker": "QTT OS", "headline": "Your whole business *in one app*",
+		"subline": "Chats, bills, your team and your posts — together.", "cta": "Get the app",
+		"items": [{"icon": "icon_mail", "title": "Every chat in one inbox", "text": "WhatsApp, Instagram, Facebook"},
+				  {"icon": "icon_chart", "title": "Bills and stock", "text": "GST invoices in seconds"},
+				  {"icon": "icon_team", "title": "Your team", "text": "Attendance and payroll"}],
+		"stat": "4", "stat_label": "apps, one sign-in", "list": ["Onbox", "Orbitra", "Office Pulse", "Studio", "Tamil", "English"],
+		"steps": ["Sign up", "Add your team", "Start selling"], "step_icons": ["icon_rocket", "icon_team", "icon_chart"],
+		"website": "queentouchtech.com"}
 SAMPLES = {
+	**{k: {"any": _APP} for k in showcase.DIRECTIONS},
 	"hero_split": {"any": _TECH, "services": {**_TECH, "business": "Arun & Co. Chartered Accountants", "kicker": "GST filing",
 											   "headline": "File your *GST* on time, every time",
 											   "subline": "Monthly returns, reminders and clear reports.",
@@ -278,7 +330,8 @@ def templates() -> list[dict]:
 		out.append({
 			"key": _key(layout, name), "title": f"{meta['label']} · {name}", "layout": layout, "variant": variant,
 			"post_types": list(meta["post_types"]), "groups": list(meta["groups"]), "look": look, "palette": palette,
-			"fonts": fonts, "formats": list(FORMATS), "sort": i, "sample_group": group,
+			"fonts": fonts, "formats": list(FORMATS) + (list(WIDE) if meta["post_types"] == ["showcase"] else []), "sort": i,
+			"sample_group": group,
 		})
 	return out
 
@@ -288,7 +341,7 @@ def catalog_hash() -> str:
 	from pathlib import Path
 
 	here = Path(__file__).parent
-	code = b"".join((here / f).read_bytes() for f in ("archetypes.py", "layouts.py", "patterns.py", "elements.py", "base.py"))
+	code = b"".join((here / f).read_bytes() for f in ("archetypes.py", "layouts.py", "patterns.py", "elements.py", "base.py", "showcase.py", "showcase_more.py", "palettes.py"))
 	return hashlib.sha1(json.dumps([templates(), SAMPLES], sort_keys=True, ensure_ascii=False).encode() + code).hexdigest()[:16]
 
 
@@ -296,6 +349,8 @@ def matches(t: dict, *, post_type: str | None = None, group: str | None = None, 
 	"""Does a template suit this filter? A business type is matched through its group."""
 	if post_type and post_type not in t["post_types"]:
 		return False
+	if "showcase" in t["post_types"] and post_type != "showcase":
+		return False  # showcase designs need the owner's screenshots: only Studio's Poster variations offers them
 	g = group or (business_types.group_of(business_type) if business_type else None)
 	if g and "any" not in t["groups"] and g not in t["groups"]:
 		return False

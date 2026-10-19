@@ -1200,6 +1200,35 @@ passwords, codes or keys.
   things you offer, and claims you never made ("24/7", "best", "No. 1") are
   left out. 3 AI credits (none if it fails); the poster isn't kept. The
   design opens to change like any other.
+- **Poster variations** (Studio home): 1 to 3 real screenshots of your app,
+  website or product (PNG, JPG or WEBP up to 10 MB, taken at full size — a
+  small one looks soft and Studio says so) and a few words — a headline, your
+  main points, button words; under More, a number and what it counts ("159+ ·
+  Bible modules"), chips (languages, platforms, categories), steps and the
+  problems it solves. Choose designs or let Studio pick different ones: 31
+  directions (Product UI showcase, 3D product showcase, Pop-out cards, Minimal
+  premium, Bold promotional, Feature in numbers, How it works, Floating chips,
+  Editorial, In context, Two screens, Premium 3D phone, Screen pops out, Points
+  in orbit, Oversized headline, Full-height phone, Split screen, Diagonal
+  layers, Glass cards, Swiss grid, Cinematic light, On stage, Connected chips,
+  Number badge, Three-step guide, Problem and solution, Global reach, Language
+  pills, Open book, Colour blocks, Magazine cover). A design that needs a
+  number, steps, chips or two screens is offered only when you gave them. How
+  many (2–8), the size (Square, Portrait, Story, Wide 16:9, Landscape 3:2) and
+  the colours: your brand (always, if you have brand colours), colours that
+  suit your screenshot (sets whose colours would fight its own buttons go
+  last), or one of ten colour sets (Navy and gold, Deep purple and lavender,
+  Royal blue and orange, Teal and mint, Charcoal gold and cream, Black white
+  and yellow, Indigo and cyan, Forest green cream and gold, Burgundy cream and
+  gold, Warm orange and deep navy). Your screenshot is placed exactly as it
+  is, inside a phone — never redrawn or written on; nothing you didn't give is
+  added (no numbers, prices, ratings or claims). Write different words for
+  each poster with AI: 1 credit for all. Each poster counts as a design this
+  month. The posters open side by side; Another like this makes the same
+  design in the next colour set; each opens like any design (also Wide and
+  Landscape sizes, Move and resize moves the phone as one piece, Every size,
+  Post it). AI background (In context, Floating chips, Open book): describe the
+  scene — only the background is made, 10 AI credits.
 - **A design**: Square / Portrait / Story, Light / Dark / Your colour; Ask
   AI to change it in plain words (1 credit); Quick edit of the words, Save;
   Delete (asks first). Each saved design is in the Business Library.

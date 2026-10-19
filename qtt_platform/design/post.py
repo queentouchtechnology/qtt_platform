@@ -12,7 +12,7 @@ import frappe
 
 from qtt_platform.design import archetypes, base, catalog, layouts, render as renderer
 
-SIZES = {"square": 1080, "portrait": 1350, "story": 1920}
+SIZES = {"square": 1080, "portrait": 1350, "story": 1920, "wide": 608, "landscape": 720}  # height at 1080 wide (wide 16:9, landscape 3:2)
 EXTRA_FACES = ("Kaushan Script", "Caveat", "Bebas Neue", "Cinzel", "Great Vibes", "Lilita One", "Rubik Dirt", "Pacifico",
 			   "Dancing Script", "Satisfy", "Anton")
 
@@ -61,8 +61,10 @@ def files_for(content: dict, photos: list[tuple[str, bytes]], logo: tuple[str, b
 
 def render(layout: str, variant: dict, *, colors: dict, fonts: tuple[str, str], look: str, fmt: str, content: dict,
 		   photos: list[tuple[str, bytes]], logo: tuple[str, bytes] | None = None, language: str = "", out_width: int = 1080,
-		   edits: dict | None = None) -> bytes:
+		   edits: dict | None = None, extra: list[tuple[str, bytes]] | None = None) -> bytes:
+	"""`extra`: files the page uses that aren't its photos (a showcase design's backdrop)."""
 	files, content = files_for(content, photos, logo)
+	files.update(dict(extra or []))
 	page, w, h = page_for(layout, variant, colors=colors, fonts=fonts, look=look, fmt=fmt, content=content,
 						  photo_names=[n for n, _ in photos], language=language, out_width=out_width, edits=edits)
 	return renderer.png(page, w, h, files)
@@ -71,6 +73,7 @@ def render(layout: str, variant: dict, *, colors: dict, fonts: tuple[str, str], 
 def thumbnail(t: dict, group: str, out_width: int = 540) -> bytes:
 	"""The library picture of a template for a business group: its showcase palette and fonts, the group's sample."""
 	content = catalog.sample_for(t["layout"], group)
-	photos = kit_photos(catalog.sample_kit(t["layout"], group), 5)
+	# showcase designs (S10) show the owner's screenshots; their library picture keeps the plain sample screen
+	photos = [] if "showcase" in t.get("post_types", []) else kit_photos(catalog.sample_kit(t["layout"], group), 5)
 	return render(t["layout"], t["variant"], colors=catalog.PALETTES[t["palette"]], fonts=catalog.FONT_SETS[t["fonts"]], look=t["look"],
 				  fmt="square", content=content, photos=photos, language="Tamil" if "லட்சம்" in str(content) else "", out_width=out_width)

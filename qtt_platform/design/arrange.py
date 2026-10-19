@@ -18,15 +18,15 @@ import io
 import json
 import re
 
-FORMATS = ("square", "portrait", "story")
+FORMATS = ("square", "portrait", "story", "wide", "landscape")  # wide sizes: showcase designs only (studio checks)
 MOVEABLE = "https://cdn.jsdelivr.net/npm/moveable@0.53.0/dist/moveable.min.js"
 MAX_PIECES = 400
 MAX_TEXT = 300
 _NUM = r"[-+]?[0-9.]+(?:[eE][-+]?[0-9]+)?(?:px|deg|rad|turn|%)?"
 _TF = re.compile(r"^(?:\s*(?:translate|translateX|translateY|rotate|scale|matrix)\(\s*" + _NUM + r"(?:\s*,\s*" + _NUM + r"){0,5}\s*\)\s*)*$")
 
-# The pieces: walking the post, the first element that has its own words, or is a picture / drawing / decoration, is a
-# piece (its insides aren't). Anything covering most of the post (the background) isn't. Then the saved changes:
+# The pieces: walking the post, the first element that has its own words, or is a picture / drawing / decoration (or is
+# marked data-piece — a device with its screenshot moves as one), is a piece (its insides aren't). Anything covering most of the post (the background) isn't. Then the saved changes:
 # words (before the text is fitted), and after fitting the moves — window.qttEdits = {"3": {t, tf, text, hide}}.
 PIECES_JS = """<script>
 window.qttPieces=function(){
@@ -37,7 +37,7 @@ window.qttPieces=function(){
     const tag=c.tagName.toLowerCase();if(tag==='script'||tag==='style')continue;
     const r=c.getBoundingClientRect(),cs=getComputedStyle(c);
     const words=[...c.childNodes].some(n=>n.nodeType===3&&n.textContent.trim());
-    const media=tag==='img'||tag==='svg'||c.classList.contains('ph')||(cs.backgroundImage!=='none'&&!c.children.length);
+    const media=tag==='img'||tag==='svg'||c.hasAttribute('data-piece')||c.classList.contains('ph')||(cs.backgroundImage!=='none'&&!c.children.length);
     if((words||media)&&r.width>3&&r.height>3&&r.width*r.height<area*.85){out.push(c);continue}
     if(tag!=='svg')walk(c);
   }};

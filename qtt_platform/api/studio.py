@@ -129,9 +129,13 @@ def _out(doc) -> dict:
 	from frappe.utils import get_url
 
 	c = json.loads(doc.content or "{}")
+	showcase = bool(c.get("media"))
 	return {"name": doc.name, "title": doc.title, "kind": doc.kind, "template": doc.template, "format": doc.format, "look": doc.look,
 			"made_by": doc.made_by, "words": c.get("words") or {}, "lang": c.get("lang") or "en",
-			"picture": get_url(doc.output) if doc.output else None, "modified": str(doc.modified)}
+			"picture": get_url(doc.output) if doc.output else None, "modified": str(doc.modified),
+			"formats": list(rules.FORMATS + rules.WIDE if showcase else rules.FORMATS), "showcase": showcase,
+			"palette": (c.get("media") or {}).get("palette"), "batch": (c.get("media") or {}).get("batch"),
+			"direction": frappe.db.get_value(library.DT, doc.template, "layout") if showcase else None}
 
 
 def _item_for(doc, fmt: str):
@@ -145,7 +149,7 @@ def _draw(tenant: str, doc) -> None:
 	last drawn — and keep that size's picture in the library."""
 	t = pt.template_row(doc.template)
 	c = json.loads(doc.content or "{}")
-	parts = pt.post_parts(tenant, t, look=doc.look, words=c.get("words") or None, lang=c.get("lang"))
+	parts = pt.post_parts(tenant, t, look=doc.look, words=c.get("words") or None, lang=c.get("lang"), media=c.get("media"))
 	parts["edits"] = c.get("edits") or {}
 	sig = pt.parts_sig(t, doc.format, parts)
 	item = _item_for(doc, doc.format)
@@ -166,6 +170,11 @@ def _draw(tenant: str, doc) -> None:
 	if old and old != url:
 		for f in frappe.get_all("File", filters={"file_url": old, "attached_to_doctype": DESIGN, "attached_to_name": doc.name}, pluck="name"):
 			frappe.delete_doc("File", f, ignore_permissions=True)
+
+
+def _formats(doc) -> tuple:
+	"""The sizes this design can be drawn in (showcase designs also 16:9 and 3:2)."""
+	return rules.formats_for(pt.template_row(doc.template)["post_types"])
 
 
 def _mine(tenant: str, name: str):
@@ -354,9 +363,10 @@ def update_design(name: str, data=None) -> dict:
 	d = json.loads(data) if isinstance(data, str) else (data or {})
 	c = json.loads(doc.content or "{}")
 	if isinstance(d.get("words"), dict):
-		c["words"] = {**{k: v for k, v in (c.get("words") or {}).items() if k == "items"}, **rules.clean_words(d["words"])}
+		keep = ("items",) + tuple(rules.LIST_SLOTS) + ("stat", "stat_label", "step_icons")  # what Quick edit doesn't show stays
+		c["words"] = {**{k: v for k, v in (c.get("words") or {}).items() if k in keep}, **rules.clean_words(d["words"])}
 		_new_words(c)
-	if d.get("format") in rules.FORMATS:
+	if d.get("format") in _formats(doc):
 		doc.format = d["format"]
 	if d.get("look") in rules.LOOKS:
 		doc.look = d["look"]
@@ -407,10 +417,10 @@ def editor(name: str, format: str | None = None) -> dict:
 	tenant = _tenant()
 	_need_studio(tenant)
 	doc = _mine(tenant, name)
-	fmt = format if format in rules.FORMATS else doc.format
+	fmt = format if format in _formats(doc) else doc.format
 	t = pt.template_row(doc.template)
 	c = json.loads(doc.content or "{}")
-	parts = pt.post_parts(tenant, t, look=doc.look, words=c.get("words") or None, lang=c.get("lang"))
+	parts = pt.post_parts(tenant, t, look=doc.look, words=c.get("words") or None, lang=c.get("lang"), media=c.get("media"))
 	parts["edits"] = c.get("edits") or {}
 	from qtt_platform.design.post import SIZES
 
@@ -426,7 +436,7 @@ def save_moves(name: str, format: str, edits=None) -> dict:
 	tenant = _tenant()
 	_need_studio(tenant)
 	doc = _mine(tenant, name)
-	if format not in rules.FORMATS:
+	if format not in _formats(doc):
 		frappe.throw(_("Choose a size."))
 	raw = json.loads(edits) if isinstance(edits, str) else (edits or {})
 	one = arrange.clean_edits({format: raw}).get(format) or {}
@@ -455,7 +465,7 @@ def all_sizes(name: str) -> dict:
 	doc = _mine(tenant, name)
 	keep = doc.format
 	sizes = []
-	for fmt in rules.FORMATS:
+	for fmt in _formats(doc):
 		doc.format = fmt
 		_draw(tenant, doc)
 		sizes.append({"format": fmt, "picture": get_url(doc.output) if doc.output else None})
@@ -476,7 +486,7 @@ def to_post(name: str, format: str | None = None) -> dict:
 	doc = _mine(tenant, name)
 	if "qtt_services" not in frappe.get_installed_apps():
 		frappe.throw(_("Posting needs the Marketing assistant — order it in Managed Services › Explore."))
-	if format in rules.FORMATS and format != doc.format:
+	if format in _formats(doc) and format != doc.format:
 		doc.format = format
 	_draw(tenant, doc)
 	save = frappe.get_attr("qtt_services.api.marketing.save")  # the owner's own post (checks the service and the owner)

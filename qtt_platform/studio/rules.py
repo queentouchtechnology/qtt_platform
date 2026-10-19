@@ -40,8 +40,10 @@ CATEGORIES = (
 )
 KINDS = ("post", "document", "logo", "print", "photo", "video", "page")
 FORMATS = ("square", "portrait", "story")
+WIDE = ("wide", "landscape")  # 16:9 and 3:2 — showcase designs (Poster variations) only
 LOOKS = ("light", "dark", "brand")
-SLOTS = {"kicker": 60, "headline": 90, "subline": 220, "cta": 40, "badge": 30, "tagline": 80, "quote": 160}
+SLOTS = {"kicker": 60, "headline": 90, "subline": 220, "cta": 40, "badge": 30, "tagline": 80, "quote": 160, "stat": 16, "stat_label": 50}
+LIST_SLOTS = {"list": (10, 30), "steps": (4, 40), "problems": (4, 90)}  # the owner's own short lists: (how many, how long)
 
 
 def limit_left(limit, used: int) -> int | None:
@@ -96,6 +98,12 @@ def _json(text: str) -> dict:
 	return d if isinstance(d, dict) else {}
 
 
+def _icons() -> set:
+	from qtt_platform.design.elements import ELEMENTS
+
+	return {k for k in ELEMENTS if k.startswith("icon_") and k != "icon_tile"}
+
+
 def clean_words(words) -> dict:
 	"""Only known slots, trimmed to their size; items as up to 4 {icon, title, text}; nothing empty."""
 	out = {}
@@ -108,10 +116,79 @@ def clean_words(words) -> dict:
 	items = []
 	for it in (words.get("items") or [])[:4] if isinstance(words.get("items"), list) else []:
 		if isinstance(it, dict) and str(it.get("title") or "").strip():
-			items.append({"icon": "icon_check", "title": str(it["title"]).strip()[:60], "text": str(it.get("text") or "").strip()[:100]})
+			icon = it.get("icon") if isinstance(it.get("icon"), str) and it["icon"] in _icons() else "icon_check"
+			items.append({"icon": icon, "title": str(it["title"]).strip()[:60], "text": str(it.get("text") or "").strip()[:100]})
 	if items:
 		out["items"] = items
+	for slot, (n, size) in LIST_SLOTS.items():
+		vals = [re.sub(r"\s+", " ", str(v)).strip()[:size] for v in (words.get(slot) or [])[:n]] if isinstance(words.get(slot), list) else []
+		if any(vals):
+			out[slot] = [v for v in vals if v]
 	return out
+
+
+def formats_for(post_types) -> tuple:
+	"""The sizes a design can be drawn in: every design square, portrait and story; showcase designs also wide ones."""
+	return FORMATS + WIDE if "showcase" in (post_types or []) else FORMATS
+
+
+# ---- Poster variations (S10) ---------------------------------------------------------------------------------------
+_NUMBER = re.compile(r"\d[\d,.]*\s*(?:\+|%|k|lakh|crore|million|x)?", re.I)
+
+
+def ground_numbers(words: dict, source: str) -> dict:
+	"""No number the owner didn't give: a line with a number that isn't in their own words loses it (the headline keeps
+	its other words; other lines go) — "159+" stays only when they typed 159."""
+	known = {re.sub(r"[^\d]", "", m.group(0)) for m in _NUMBER.finditer(source or "")}
+	out = dict(words or {})
+	for slot in ("kicker", "headline", "subline", "cta", "badge", "tagline"):
+		v = out.get(slot)
+		if not v:
+			continue
+		bad = [m.group(0) for m in _NUMBER.finditer(v) if re.sub(r"[^\d]", "", m.group(0)) not in known]
+		if not bad:
+			continue
+		if slot != "headline":
+			out.pop(slot)
+			continue
+		for b in bad:
+			v = v.replace(b, "")
+		out[slot] = re.sub(r"\s{2,}", " ", v).strip(" ,.-–")
+	return {k: v for k, v in out.items() if v}
+
+
+def showcase_prompt(*, brief: str, about: str, given: dict, count: int, language: str) -> list[dict]:
+	"""The owner's product + what they wrote → `count` different sets of poster words (each a different angle)."""
+	return [
+		{"role": "system", "content": (
+			f"You write the words for {count} different marketing posters of ONE product, shown with its real screenshot. Each set "
+			"takes a different angle (the benefit, who it's for, how easy it is, an invitation…) — not the same line reworded. Use "
+			"ONLY facts in the product description, the owner's points and the business brief: never invent numbers, prices, "
+			"ratings, users, awards, testimonials or features. Use a number only if the owner wrote it. "
+			f"Write in {'Tamil' if language == 'ta' else 'English'}. kicker up to 4 words, headline up to 7 words (mark one or two "
+			"key words with *stars*), subline one short sentence, cta up to 3 words. "
+			'Reply with JSON only: {"sets": [{"kicker": "", "headline": "", "subline": "", "cta": ""}]}.')},
+		{"role": "user", "content": f"Product: {(about or '').strip()[:800]}\n\nThe owner's own words: {json.dumps(given, ensure_ascii=False)[:1500]}\n\n"
+									f"Business brief:\n{brief[:2500]}"},
+	]
+
+
+def parse_showcase(text: str) -> list[dict]:
+	"""The AI's sets → clean word sets with a headline (others dropped)."""
+	sets = _json(text).get("sets")
+	out = []
+	for s in sets if isinstance(sets, list) else []:
+		w = clean_words({k: s.get(k) for k in ("kicker", "headline", "subline", "cta")} if isinstance(s, dict) else {})
+		if w.get("headline"):
+			out.append(w)
+	return out
+
+
+def backdrop_prompt(what: str) -> str:
+	"""An empty, calm background for a poster (the AI never draws a phone, a screen, words or a logo — those are the owner's)."""
+	return ("An atmospheric background picture for a poster: " + ((what or "").strip()[:200] or "soft abstract light") + ". Calm, with soft "
+			"empty space in the middle where a phone will be placed later; gentle depth of field. Empty: no phones, no screens, no "
+			"devices, no people, no hands, no text, no letters, no numbers, no logos, no watermarks.")
 
 
 def post_caption(words: dict) -> str:
