@@ -349,12 +349,10 @@ scheduler_events = {
 
 # Printed documents: every business's branding and GST summary in print formats
 # (qtt_platform/templates/print/*, Orbitra and Office Pulse print formats).
-jenv = {
-	"methods": [
-		"qtt_brand:qtt_platform.print_brand.brand",
-		"qtt_gst_summary:qtt_platform.print_brand.gst_summary",
-		"qtt_hsn:qtt_platform.print_brand.hsn",
-	],
+# qtt_brand / qtt_gst_summary / qtt_hsn in every print format. Frappe 15 reads "jinja" (the old "jenv" hook is ignored —
+# with it the branded print formats failed with "'qtt_brand' is undefined"); each function in the module is a global.
+jinja = {
+	"methods": ["qtt_platform.print_jinja"],
 }
 
 # Roles and access — each app's roles and what each can do (qtt_platform.role_access, the owner's

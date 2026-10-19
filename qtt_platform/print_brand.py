@@ -1,6 +1,6 @@
 """
 Branding and GST helpers for printed documents (PDFs) — available in every print
-format as `qtt_brand(company)`, `qtt_gst_summary(doc)` and `qtt_hsn(item)` (hooks.jenv).
+format as `qtt_brand(company)`, `qtt_gst_summary(doc)` and `qtt_hsn(item)` (hooks.jinja › print_jinja.py).
 
 Each business's logo, name, address, GSTIN, contacts, bank and brand colour come
 from its own Business profile (QTT Business Profile + the workspace logo), so a
