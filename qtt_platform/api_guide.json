@@ -7614,7 +7614,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.approveArticle",
    "screens": "products/services/screens/article_pages.dart › _ArticleEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:476",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:482",
    "status": "OK"
   },
   {
@@ -7630,7 +7630,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.articleIdeas",
    "screens": "products/services/screens/article_pages.dart › _ArticlesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:535",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:541",
    "status": "OK"
   },
   {
@@ -7646,7 +7646,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.articleImage",
    "screens": "products/services/screens/article_pages.dart › _ArticleEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:456",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:462",
    "status": "OK"
   },
   {
@@ -7662,7 +7662,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.articlesPage",
    "screens": "products/services/screens/article_pages.dart › _ArticlesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:417",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:423",
    "status": "OK"
   },
   {
@@ -7678,7 +7678,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.articlesOverview",
    "screens": "products/services/screens/article_pages.dart › _ArticlesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:405",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:411",
    "status": "OK"
   },
   {
@@ -7726,7 +7726,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingDraftIdeas",
    "screens": "products/services/screens/marketing_pages.dart › _MarketingPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:277",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:283",
    "status": "OK"
   },
   {
@@ -7790,7 +7790,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingRemove",
    "screens": "products/services/screens/marketing_pages.dart › _PostEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:264",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:270",
    "status": "OK"
   },
   {
@@ -7806,7 +7806,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.removeArticle",
    "screens": "products/services/screens/article_pages.dart › _ArticleEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:518",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:524",
    "status": "OK"
   },
   {
@@ -7838,7 +7838,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.saveArticle",
    "screens": "products/services/screens/article_pages.dart › _ArticleEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:433",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:439",
    "status": "OK"
   },
   {
@@ -7856,6 +7856,118 @@
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:224",
    "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.marketing_series.autopilot",
+   "product": "Managed Services",
+   "area": "api.marketing_series",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Autopilot: a post every 2 days from the business's products and ready ideas, until stopped — waiting for the owner's OK. On makes (or carries on) it; off stops it.",
+   "details": "Autopilot: a post every 2 days from the business's products and ready ideas, until stopped — waiting for the\nowner's OK. On makes (or carries on) it; off stops it.",
+   "arguments": "on, accounts",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:90",
+   "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_services.api.marketing_series.calendar",
+   "product": "Managed Services",
+   "area": "api.marketing_series",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "The next `days` days (up to 60): posts scheduled or waiting for the OK (with their time), and the days each active series will post. {days: [{date, posts: [...], series: [...]}]} — only days with something.",
+   "details": "The next `days` days (up to 60): posts scheduled or waiting for the OK (with their time), and the days each\nactive series will post. {days: [{date, posts: [...], series: [...]}]} — only days with something.",
+   "arguments": "days",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:148",
+   "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_services.api.marketing_series.delete_series",
+   "product": "Managed Services",
+   "area": "api.marketing_series",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Delete a series — the posts it already made stay (drafts, scheduled or posted).",
+   "details": "Delete a series — the posts it already made stay (drafts, scheduled or posted).",
+   "arguments": "name",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:124",
+   "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_services.api.marketing_series.make_now",
+   "product": "Managed Services",
+   "area": "api.marketing_series",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Make a series' next post now (to see how it looks) — it counts as the series' next post. {post}.",
+   "details": "Make a series' next post now (to see how it looks) — it counts as the series' next post. {post}.",
+   "arguments": "name",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:134",
+   "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_services.api.marketing_series.save_series",
+   "product": "Managed Services",
+   "area": "api.marketing_series",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Make or change a series. A new one starts today (if its time hasn't passed) or tomorrow.",
+   "details": "Make or change a series. A new one starts today (if its time hasn't passed) or tomorrow.",
+   "arguments": "data, name",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:69",
+   "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_services.api.marketing_series.series_list",
+   "product": "Managed Services",
+   "area": "api.marketing_series",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "The business's series, newest first, each with its next post's preview; how many the package allows.",
+   "details": "The business's series, newest first, each with its next post's preview; how many the package allows.",
+   "arguments": "",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:59",
+   "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_services.api.marketing_series.set_series",
+   "product": "Managed Services",
+   "area": "api.marketing_series",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Pause, carry on (Active) or stop (Ended) a series.",
+   "details": "Pause, carry on (Active) or stop (Ended) a series.",
+   "arguments": "name, status",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:106",
+   "status": "Not used by the app"
   },
   {
    "endpoint": "qtt_services.api.messaging.chatwoot_reply",
