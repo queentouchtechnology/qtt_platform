@@ -59,9 +59,15 @@ window.qttWords=function(edits){const p=qttPieces();
   for(const k in (edits||{})){const e=edits[k],el=p[+k];if(!el||el.tagName!==e.t)continue;
     if(typeof e.text==='string')qttSetText(el,e.text);}
 };
+// a moved piece comes to the front: it, and every layer around it that has a stacking order of its own
+window.qttFront=function(el){
+  for(let a=el;a&&!(a.classList&&a.classList.contains('post'));a=a.parentElement){const cs=getComputedStyle(a);
+    if(a===el||cs.position!=='static'||cs.transform!=='none'||cs.zIndex!=='auto'||parseFloat(cs.opacity)<1){
+      if(cs.position==='static')a.style.position='relative';a.style.zIndex='60'}}
+};
 window.qttMoves=function(edits){const p=qttPieces();
   for(const k in (edits||{})){const e=edits[k],el=p[+k];if(!el||el.tagName!==e.t)continue;
-    if(e.tf)el.style.transform=e.tf;if(e.hide)el.style.visibility='hidden';}
+    if(e.tf){el.style.transform=e.tf;qttFront(el)}if(e.hide)el.style.visibility='hidden';}
 };
 </script>"""
 
@@ -157,6 +163,7 @@ EDITOR_JS = """<script>
   const edits=JSON.parse(JSON.stringify(window.qttSaved||{}));let mv=null,sel=-1;
   const kind=el=>[...el.childNodes].some(n=>n.nodeType===3&&n.textContent.trim())?'text':'picture';
   const keep=(i,el,extra)=>{const e=edits[i]||(edits[i]={t:el.tagName});e.t=el.tagName;Object.assign(e,extra||{});
+    if(e.tf)qttFront(el);
     if(e.tf==='')delete e.tf;send({type:'changed'})};
   function select(i){
     const p=qttPieces(),el=p[i];if(!el)return;sel=i;
