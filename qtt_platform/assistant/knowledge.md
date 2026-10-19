@@ -959,6 +959,24 @@ open it from that service).
   post / Approve and schedule** sends it; **Save for later** keeps it as a
   draft. Instagram, TikTok, YouTube and Pinterest need a photo or video; X
   takes 280 characters (the app shows what's too long before you approve).
+- **Post series and Autopilot** (Marketing assistant › Post series and
+  Autopilot): a series makes a post every few days — your products in turn
+  (their own prices from Business › Knowledge), ready ideas for your kind of
+  business, or both — each drawn in one of your post designs (your logo,
+  colours, fonts and photos), plus a festival wish on its day. Choose how
+  often (every day, every 2 or 3 days, every week), how many (10, 20, 30 or
+  until you stop it), the time and the pages. Each post waits for your OK in
+  your posts — or switch on "Post on its own" and it goes out at its time
+  through the same checks as an approval. **Autopilot** is one switch: a post
+  every 2 days from your products and ideas until you stop it, each waiting
+  for your OK. Each series shows its next post; if it says "Only N different
+  posts so far", add your products, hours and more in Business › Knowledge.
+  Make the next post now, Pause, Carry on, Change, Stop (asks first), Delete
+  a stopped one (its posts stay). Series running at once: Starter 1, Growth
+  3, Pro 10.
+- **Calendar** (Marketing assistant › Calendar): the next 30 days — posts
+  scheduled with their time, posts waiting for your OK, and the days each
+  series will post.
 - **After posting**: Posted, Partly posted or Not posted, with how it went on
   each page and a link to the post. A post not posted can be changed and
   approved again. A scheduled post can be called off; a draft can be deleted.
