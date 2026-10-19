@@ -952,7 +952,9 @@ open it from that service).
   seminar posters with date and QR code, coaching posts, festival wishes,
   tributes) and modern agency posts (big sale, product promo on a chalkboard,
   expert with a photo, numbered services, gallery).
-- **A post**: change the words, add photos or videos (Add), choose the pages
+- **A post**: change the words, add photos or videos (Add, or the library
+  button — pictures and Shorts made in QTT Studio, picked straight from the
+  Business Library), choose the pages
   (Post on), and When — as soon as you approve, or pick a time. **Approve and
   post / Approve and schedule** sends it; **Save for later** keeps it as a
   draft. Instagram, TikTok, YouTube and Pinterest need a photo or video; X

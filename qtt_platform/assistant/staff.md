@@ -25,6 +25,13 @@ day), or Meta changed a template's category. The WhatsApp items come from an hou
   Google Business profile, Care plan, 3 more pages, Move my existing website — priced and switched on/off here too.
 - **Automation library** — the automations businesses choose from (name, what it does, when it runs, group, default
   time, order, shown or hidden) and how many businesses use each.
+- **Studio** — QTT Studio's post template library and its use. **Templates**: every design's picture, how many
+  times businesses used it, the nightly check (each enabled template drawn in square, portrait and story on the
+  renderer; a problem — didn't draw, blank, wrong size — shows with what was wrong, and on QTT Admin's home as
+  "Studio templates didn't draw right"), on / off (an off template isn't offered; designs made from it stay), **Check
+  now**, "Only the ones with a problem". **Use and cost**: a month at a time — by business: designs by kind, AI
+  credits used, what QTT paid the AI providers; by AI job (make, ask, letter, short script, AI background, AI logo,
+  reading a poster); failed AI jobs.
 - **Website designs** — what owners choose from before a website is built (Website Development): six designs (theme
   styles: Classic, Modern, Bold, Elegant, Minimal, Warm) and colour palettes. Rename them, change their one line and
   order, show or hide them. Each design shows how many screenshots are up to date (one per business type × computer /

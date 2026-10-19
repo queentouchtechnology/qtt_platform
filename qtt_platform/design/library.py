@@ -17,6 +17,43 @@ def _lines(v) -> list[str]:
 	return [x.strip() for x in str(v or "").splitlines() if x.strip()]
 
 
+def queue_checks() -> None:
+	"""Daily (hooks): the nightly quality check, on the long queue — one at a time."""
+	frappe.enqueue("qtt_platform.design.library.check_templates", queue="long", timeout=3600, job_id="qtt_template_checks", deduplicate=True)
+
+
+def check_templates() -> dict:
+	"""Every enabled template drawn in every size with a sample (its first group's words and photos, its own palette and
+	fonts); each gets ok, or problem with what was wrong. {ok, problem}."""
+	from frappe.utils import now_datetime
+
+	from qtt_platform.design import post, quality, render
+
+	if not render.ready():
+		return {}
+	done = {"ok": 0, "problem": 0}
+	for name in frappe.get_all(DT, filters={"enabled": 1}, pluck="name", order_by="sort asc"):
+		doc = frappe.get_doc(DT, name)
+		t = row_dict(doc)
+		g = t["groups"][0] if t["groups"] and t["groups"][0] != "any" else "any"
+		problems = []
+		for fmt, (w, h) in quality.SIZES.items():
+			try:
+				png = post.render(t["layout"], t["variant"], colors=catalog.PALETTES[t["palette"]], fonts=catalog.FONT_SETS[t["fonts"]], look=t["look"],
+								  fmt=fmt, content=catalog.sample_for(t["layout"], g), photos=post.kit_photos(catalog.sample_kit(t["layout"], g), 5), out_width=w)
+				p = quality.picture_problem(png, w, h)
+			except Exception as e:
+				frappe.clear_messages()
+				p = f"didn't draw ({str(e)[:120]})"
+			if p:
+				problems.append(f"{fmt}: {p}")
+		status = "problem" if problems else "ok"
+		done[status] += 1
+		doc.db_set({"check_status": status, "check_note": "\n".join(problems)[:1000], "checked_on": now_datetime()}, update_modified=False)
+		frappe.db.commit()
+	return done
+
+
 def row_dict(doc) -> dict:
 	"""A template row as the catalogue's plain data."""
 	return {"key": doc.key, "title": doc.title, "layout": doc.layout, "variant": json.loads(doc.variant or "{}"), "look": doc.look,

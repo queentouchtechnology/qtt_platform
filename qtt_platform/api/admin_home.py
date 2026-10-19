@@ -73,6 +73,16 @@ def _whatsapp_attention() -> list[dict]:
 	return attention()
 
 
+def _studio_attention() -> list[dict]:
+	"""QTT Studio post templates whose nightly check found a problem."""
+	try:
+		from qtt_platform.api.studio_admin import attention
+
+		return attention()
+	except Exception:
+		return []
+
+
 def _client_attention() -> tuple[list, list]:
 	"""Managed Services (qtt_services, when installed): client sites that are down,
 	and client requests still waiting for QTT's first answer."""
@@ -161,6 +171,7 @@ def home() -> dict:
 										   approvals=approvals, setup_errors=setup_errors, domains=domains,
 										   snapshots=snapshots, client_sites=client_sites, client_requests=client_requests, automation=automation,
 										   whatsapp=_whatsapp_attention(), website_cache=_cache_attention(), domain_wait=_domain_wait_attention(), builds=_build_attention(),
+										   studio=_studio_attention(),
 										   today_str=today()),
 		"subscriptions_by_product": overview.get("subscriptions_by_product") or {},
 	}

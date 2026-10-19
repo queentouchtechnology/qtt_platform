@@ -329,6 +329,8 @@ scheduler_events = {
 		"qtt_platform.api.analytics.purge_old_events",
 		# Content library occasions: fixed days roll to next year once they pass (moving festivals are set in Desk).
 		"qtt_platform.design.library.sync_occasions",
+		# QTT Studio S9: every enabled post template drawn in every size; problems in QTT Admin › Studio and its home.
+		"qtt_platform.design.library.queue_checks",
 		"qtt_platform.billing.service.reconcile_payments",
 		"qtt_platform.billing.service.expire_stale_trials",
 		"qtt_platform.subscription.service.finalize_pending_cancellations",
