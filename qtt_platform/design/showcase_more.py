@@ -147,7 +147,7 @@ def big_type(x: Ctx, v: dict) -> tuple[str, str]:
 		   + (".bt h1{position:relative;z-index:1}.btlow{position:absolute;right:40px;top:40px;bottom:40px;width:30%}.btl{display:none}"
 			  ".btlow .pw.small{width:100%}" if x.wide else "")
 		   + (f".bt h1 em{{color:{x.p['dark']};background:{x.p['accent']};padding:0 .12em;box-decoration-break:clone;-webkit-box-decoration-break:clone}}"
-			  if base.contrast(x.p["accent"], bg) < 2.6 and _hl_on(bg, x) == ink else ""))
+			  if base.contrast(x.p["accent"], bg) < 2.6 else ""))
 	return body, css
 
 
