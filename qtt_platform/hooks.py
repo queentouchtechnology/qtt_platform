@@ -351,6 +351,9 @@ scheduler_events = {
 # (qtt_platform/templates/print/*, Orbitra and Office Pulse print formats).
 # qtt_brand / qtt_gst_summary / qtt_hsn in every print format. Frappe 15 reads "jinja" (the old "jenv" hook is ignored —
 # with it the branded print formats failed with "'qtt_brand' is undefined"); each function in the module is a global.
+# QTT Studio landing pages at /p/<address> (pages_renderer.py)
+page_renderer = ["qtt_platform.pages_renderer.LandingPageRenderer"]
+
 jinja = {
 	"methods": ["qtt_platform.print_jinja"],
 }

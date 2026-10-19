@@ -1126,8 +1126,8 @@ passwords, codes or keys.
   what the business needs with AI — in its logo, colours and fonts, written
   from Business › Knowledge, saved to one **Business Library** every app
   uses. Now: social posts, Photo Lab, logos, print (cards, flyers, menus) and business documents (letterhead
-  styles, letters) and Shorts. Coming phase by phase: brochures,
-  voice and music for Shorts, landing pages.
+  styles, letters), Shorts and landing pages. Coming phase by phase: brochures,
+  voice and music for Shorts, own domains for pages.
 - **Free without Studio**: everything QTT already made — Marketing assistant
   › Post designs (64 designs + ready words), the brand kit and See your
   brand, Photos for your posts and Remove background, website and store
@@ -1163,6 +1163,20 @@ passwords, codes or keys.
   again puts that size back (asks first). Save draws the picture exactly as
   arranged and keeps it in the library. Changing the words later with Quick
   edit or Ask AI keeps the moves (words typed on the design give way).
+- **Landing pages** (Studio home › Pages): a one-page site for an offer, an
+  event, a product launch or the business, at
+  app.queentouchtech.in/p/<address>, in its logo, colours and fonts, fast
+  and readable on a phone. New page › pick what it's for: it starts filled
+  from Business knowledge (points from what you offer, questions from your
+  FAQs, contacts, hours, map). Change the title and address, switch
+  sections on or off (top with headline and button, points, offer, event
+  details, photo gallery, questions, contact), the button (WhatsApp, call or
+  a link), the top photo and gallery from your own photos, the offer (only
+  a real one: price, usual price, until, terms), event date / time / place,
+  search title and description. Save; Preview opens a private link (not
+  shown to Google); Publish puts it on the web, Take it off the web removes
+  it; views are counted. Live pages a plan: Starter none, Growth 1, Pro 5.
+  Your own domain for a page comes later (QTT Sites).
 - **Shorts** (Studio home › Shorts): 9:16 videos (1080 × 1920, about 8–13
   seconds) for Instagram Reels, YouTube Shorts, Facebook and WhatsApp
   Status, from the business's own photos (Business › Knowledge › Photos for

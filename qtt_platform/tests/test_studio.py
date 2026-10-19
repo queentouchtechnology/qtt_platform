@@ -21,7 +21,7 @@ class Plans(unittest.TestCase):
 
 	def test_what_is_ready(self):
 		ready = [c[0] for c in rules.CATEGORIES if c[3]]
-		self.assertEqual(ready, ["posts", "documents", "logos", "print", "photos", "shorts"])  # S0, S3, S5, S4, S1, S6
+		self.assertEqual(ready, ["posts", "documents", "logos", "print", "photos", "shorts", "pages"])  # S0, S3, S5, S4, S1, S6, S7
 		self.assertEqual(rules.CREDITS["ai_background"], 10)
 
 	def test_post_caption_is_the_design_words(self):

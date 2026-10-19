@@ -36,7 +36,7 @@ CATEGORIES = (
 	("print", "Cards, flyers and menus", "print", True),  # S4 (brochures later)
 	("photos", "Photo Lab", "photo", True),  # S1
 	("shorts", "Shorts and video", "video", True),  # S6
-	("pages", "Landing pages", "page", False),
+	("pages", "Landing pages", "page", True),  # S7
 )
 KINDS = ("post", "document", "logo", "print", "photo", "video", "page")
 FORMATS = ("square", "portrait", "story")
