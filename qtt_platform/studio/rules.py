@@ -151,7 +151,8 @@ _CLAIMS = re.compile(r"\b(24\s*[/x×]\s*7|24\s*hours?|no\.?\s*1|number\s*one|#\s
 
 
 def _words_of(text: str) -> set[str]:
-	return {w for w in re.findall(r"[^\W\d_]{4,}", (text or "").lower(), re.U)}
+	"""Real words (4+ letters), plural endings off — "Backups" matches "backup"."""
+	return {re.sub(r"(es|s)$", "", w) for w in re.findall(r"[^\W\d_]{4,}", (text or "").lower(), re.U)}
 
 
 def ground_words(words: dict, brief: str) -> dict:
@@ -170,11 +171,17 @@ def ground_words(words: dict, brief: str) -> dict:
 		out.pop("badge")
 	for slot in ("kicker", "headline", "subline", "cta", "tagline"):
 		v = out.get(slot)
-		if v:
-			for m in _CLAIMS.finditer(v):
-				if m.group(0).lower() not in b:  # a claim the business didn't make goes
-					v = v.replace(m.group(0), "")
-			out[slot] = re.sub(r"\s{2,}", " ", v).strip(" ,.-–")
+		if not v:
+			continue
+		made_up = [m.group(0) for m in _CLAIMS.finditer(v) if m.group(0).lower() not in b]  # claims the business didn't make
+		if not made_up:
+			continue
+		if slot != "headline":
+			out.pop(slot)  # the whole line goes — taking a word out leaves a broken sentence
+			continue
+		for claim in made_up:
+			v = v.replace(claim, "")
+		out[slot] = re.sub(r"\s{2,}", " ", v).strip(" ,.-–")
 	return {k: v for k, v in out.items() if v}
 
 

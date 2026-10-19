@@ -48,7 +48,8 @@ class Plans(unittest.TestCase):
 		self.assertEqual([i["title"] for i in w["items"]], ["Website backup"])  # the poster's own points and made-up promises go
 		self.assertNotIn("badge", w)
 		self.assertEqual(w["headline"], "*Empower* your business")
-		self.assertEqual(w["subline"], "The tech in town")
+		self.assertNotIn("subline", w)  # a line with a made-up claim goes whole (no broken sentence)
+		self.assertEqual(rules.ground_words({"headline": "x", "items": [{"title": "Website backups"}]}, brief)["items"][0]["title"], "Website backups")
 		ok = rules.ground_words({"headline": "Open 24/7", "badge": "Website design"}, "We are open 24/7. Website design.")
 		self.assertEqual((ok["headline"], ok["badge"]), ("Open 24/7", "Website design"))  # said by the business: kept
 
