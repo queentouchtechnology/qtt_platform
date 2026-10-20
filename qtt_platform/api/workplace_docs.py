@@ -124,6 +124,7 @@ def _ok(error: int = 0) -> Response:
 def saved(t: str = ""):
 	"""OnlyOffice's call: the document's state. On "save" (2) or "saved by a person" (6) the new file replaces the old
 	one. Only a call signed with the OnlyOffice secret is believed; the new file is fetched only from OnlyOffice."""
+	t = t or (frappe.request.args.get("t") if frappe.request else "")  # a JSON call: Frappe leaves the URL's ?t= out
 	try:
 		who = _check(t)
 	except frappe.PermissionError:
