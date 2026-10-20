@@ -204,7 +204,8 @@ def upload(space: str = "team", path: str = "") -> dict:
 	core.save(ctx.tenant, key, data, ctx.user, up.mimetype or mimetypes.guess_type(name)[0])
 	new_path = "/".join(p for p in (at.path, name) if p)
 	core.log(ctx.tenant, key, _space_of(at), new_path, "replace" if exists else "upload", ctx.user)
-	return {"name": name, "path": new_path}
+	moved = core.automate(ctx.tenant, "upload", key, ctx.user)  # a rule may tag, move, share or tell
+	return {"name": name, "path": new_path, "moved_to": core.space_path(moved)[1] if moved != key else None}
 
 
 @frappe.whitelist(methods=["POST"])

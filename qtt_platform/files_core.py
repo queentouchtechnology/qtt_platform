@@ -88,6 +88,27 @@ def _lock(tenant: str, key: str) -> tuple:
 	return (m.locked_by, get_datetime(m.locked_until) if m.locked_until else None) if m else (None, None)
 
 
+def space_path(key: str) -> tuple[str, str]:
+	"""A store key → (space, path in it): team / company / hr, or mine for a person's own files."""
+	parts = key.split("/", 2)
+	if len(parts) < 3:
+		return "", ""
+	if parts[1] == "people":
+		rest = parts[2].split("/", 1)
+		return "mine", rest[1] if len(rest) > 1 else ""
+	return parts[1], parts[2]
+
+
+def automate(tenant: str, event: str, key: str, by: str) -> str:
+	"""The business's automatic rules for a file just uploaded or tagged (api/files_auto.py). → its key afterwards."""
+	from qtt_platform.api import files_auto
+
+	space, path = space_path(key)
+	if not space or not path or not store.head(key):  # rules act on files, not folders
+		return key
+	return files_auto.run(tenant, event, space, path, key, by)
+
+
 # ---- the activity log --------------------------------------------------------------------------------------------------
 def log(tenant: str, key: str, space: str, path: str, action: str, actor: str, *, link: str | None = None, detail: str | None = None) -> None:
 	try:

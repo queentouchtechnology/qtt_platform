@@ -4258,6 +4258,54 @@
    "status": "OK"
   },
   {
+   "endpoint": "qtt_platform.api.files_auto.automations",
+   "product": "Platform",
+   "area": "api.files_auto",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "The business's automatic rules this person may manage, ready-made ones to start from, the people to tell.",
+   "details": "The business's automatic rules this person may manage, ready-made ones to start from, the people to tell.",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesAutomations",
+   "screens": "platform/workplace/files_more.dart › FilesAutomationsPage",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/files_auto.py:49",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.files_auto.delete_automation",
+   "product": "Platform",
+   "area": "api.files_auto",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Remove a rule (files it already moved or tagged stay as they are).",
+   "details": "Remove a rule (files it already moved or tagged stay as they are).",
+   "arguments": "name",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesDeleteAutomation",
+   "screens": "platform/workplace/files_more.dart › _AutomationEditorPageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/files_auto.py:97",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.files_auto.save_automation",
+   "product": "Platform",
+   "area": "api.files_auto",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Make or change a rule. data: {name (to change), title, enabled, event: upload | tag, space, folder, kinds, name_words, has_tag, add_tags, move_to, notify, share_with, share_permission}.",
+   "details": "Make or change a rule. data: {name (to change), title, enabled, event: upload | tag, space, folder, kinds,\nname_words, has_tag, add_tags, move_to, notify, share_with, share_permission}.",
+   "arguments": "data",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesSaveAutomation",
+   "screens": "platform/workplace/files_more.dart › _AutomationEditorPageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/files_auto.py:66",
+   "status": "OK"
+  },
+  {
    "endpoint": "qtt_platform.api.files_links.drop",
    "product": "Platform",
    "area": "api.files_links",
@@ -4366,7 +4414,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/files_links.py:410",
+   "source": "qtt_platform/qtt_platform/api/files_links.py:411",
    "status": "Not used by the app"
   },
   {
@@ -4458,12 +4506,12 @@
    "purpose": "Files this person may open that match every word — in the name, the folder, the tags or the text inside. → {results: [{name, space, path, folder, snippet, size_text, type, editable, tags}]}",
    "details": "Files this person may open that match every word — in the name, the folder, the tags or the text inside.\n→ {results: [{name, space, path, folder, snippet, size_text, type, editable, tags}]}",
    "arguments": "q, limit",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesSearch",
+   "screens": "platform/workplace/files_page.dart › _FilesPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/files_search.py:103",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.files_share.activity",
@@ -4478,7 +4526,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/files_share.py:453",
+   "source": "qtt_platform/qtt_platform/api/files_share.py:455",
    "status": "Not used by the app"
   },
   {
@@ -4510,7 +4558,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/files_share.py:468",
+   "source": "qtt_platform/qtt_platform/api/files_share.py:470",
    "status": "Not used by the app"
   },
   {
@@ -4542,7 +4590,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/files_share.py:418",
+   "source": "qtt_platform/qtt_platform/api/files_share.py:420",
    "status": "Not used by the app"
   },
   {
@@ -4558,7 +4606,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/files_share.py:407",
+   "source": "qtt_platform/qtt_platform/api/files_share.py:409",
    "status": "Not used by the app"
   },
   {
@@ -4590,7 +4638,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/files_share.py:536",
+   "source": "qtt_platform/qtt_platform/api/files_share.py:538",
    "status": "Not used by the app"
   },
   {
@@ -4606,7 +4654,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/files_share.py:491",
+   "source": "qtt_platform/qtt_platform/api/files_share.py:493",
    "status": "Not used by the app"
   },
   {
@@ -4702,7 +4750,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/files_share.py:509",
+   "source": "qtt_platform/qtt_platform/api/files_share.py:511",
    "status": "Not used by the app"
   },
   {
@@ -4766,7 +4814,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/files_share.py:397",
+   "source": "qtt_platform/qtt_platform/api/files_share.py:399",
    "status": "Not used by the app"
   },
   {
@@ -6047,6 +6095,38 @@
    "screens": "shared/search/global_search.dart › _GlobalSearchScreenState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/search.py:61",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.security.set_two_step",
+   "product": "Platform",
+   "area": "api.security",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Turn two-step login on or off for everyone in this business (owners and admins). With it on, each new sign-in needs a code sent to the person's email; signing in with Google or a phone's fingerprint stays as it is.",
+   "details": "Turn two-step login on or off for everyone in this business (owners and admins). With it on, each new sign-in\nneeds a code sent to the person's email; signing in with Google or a phone's fingerprint stays as it is.",
+   "arguments": "on",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.setTwoStep",
+   "screens": "platform/workspace/two_step_card.dart › _TwoStepCardState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/security.py:80",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.security.two_step",
+   "product": "Platform",
+   "area": "api.security",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "Is two-step login on for this business? Who may change it.",
+   "details": "Is two-step login on for this business? Who may change it.",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.twoStep",
+   "screens": "platform/workspace/two_step_card.dart › _TwoStepCardState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/security.py:73",
    "status": "OK"
   },
   {
@@ -8062,7 +8142,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:482",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:483",
    "status": "Not used by the app"
   },
   {
@@ -8078,7 +8158,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:274",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:275",
    "status": "Not used by the app"
   },
   {
@@ -8094,7 +8174,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:470",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:471",
    "status": "Not used by the app"
   },
   {
@@ -8110,7 +8190,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:384",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:385",
    "status": "Not used by the app"
   },
   {
@@ -8142,7 +8222,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:336",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:337",
    "status": "Not used by the app"
   },
   {
@@ -8158,7 +8238,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:505",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:506",
    "status": "Not used by the app"
   },
   {
@@ -8206,7 +8286,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:211",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:212",
    "status": "Not used by the app"
   },
   {
@@ -8222,7 +8302,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:224",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:225",
    "status": "Not used by the app"
   },
   {
@@ -8238,7 +8318,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:289",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:290",
    "status": "Not used by the app"
   },
   {
@@ -8254,7 +8334,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:360",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:361",
    "status": "Not used by the app"
   },
   {
@@ -8270,7 +8350,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:246",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:247",
    "status": "Not used by the app"
   },
   {
@@ -8286,7 +8366,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:456",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:457",
    "status": "Not used by the app"
   },
   {
@@ -8302,7 +8382,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:402",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:403",
    "status": "Not used by the app"
   },
   {
@@ -8318,7 +8398,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:308",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:309",
    "status": "Not used by the app"
   },
   {
@@ -8334,7 +8414,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:440",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:441",
    "status": "Not used by the app"
   },
   {
@@ -9900,7 +9980,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.automations",
-   "screens": "admin/marketing_dashboard_models.dart › DayReport\nadmin/marketing_reports_view.dart › DayReportBody\nproducts/services/models.dart › SvcService\nproducts/services/screens/automation_pages.dart › (top level)\nproducts/services/screens/automation_pages.dart › _AutomationsPageState\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › _ServicesRootState",
+   "screens": "admin/marketing_dashboard_models.dart › DayReport\nadmin/marketing_reports_view.dart › DayReportBody\nplatform/data/platform_repository.dart › PlatformRepository\nplatform/workplace/files_more.dart › FilesAutomationsPage\nplatform/workplace/files_page.dart › _FilesPageState\nproducts/services/models.dart › SvcService\nproducts/services/screens/automation_pages.dart › (top level)\nproducts/services/screens/automation_pages.dart › _AutomationsPageState\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › _ServicesRootState\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/my_automations.py:98",
    "status": "OK"

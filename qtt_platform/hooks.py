@@ -123,8 +123,10 @@ doc_events = {
     },
     "QTT Tenant Membership": {
         # + Team chat (api/team.py): the business's workspace follows its members (team_events.py).
-        "on_update": ["qtt_platform.realtime.on_membership_change", "qtt_platform.team_events.on_membership"],
-        "on_trash": ["qtt_platform.realtime.on_membership_change", "qtt_platform.team_events.on_membership"],
+        # + two-step login follows the business (api/security.py).
+        "after_insert": ["qtt_platform.api.security.on_membership"],
+        "on_update": ["qtt_platform.realtime.on_membership_change", "qtt_platform.team_events.on_membership", "qtt_platform.api.security.on_membership"],
+        "on_trash": ["qtt_platform.realtime.on_membership_change", "qtt_platform.team_events.on_membership", "qtt_platform.api.security.on_membership"],
     },
     # Team chat: live updates + phone notifications for business chats (team_events.py).
     "Raven Message": {
@@ -159,7 +161,8 @@ after_install = "qtt_platform.app_setup.seed_app_defaults"
 # api_guide.sync: Desk › QTT API Endpoint, the backend guide generated from the code (api_guide.json).
 # QTT Studio registers first, so house workspaces get it in the same migrate.
 after_migrate = ["qtt_platform.app_setup.seed_app_defaults", "qtt_platform.studio.setup.register", "qtt_platform.house.ensure_all",
-	"qtt_platform.api_guide.sync", "qtt_platform.design.library.sync", "qtt_platform.design.library.sync_occasions"]
+	"qtt_platform.api_guide.sync", "qtt_platform.design.library.sync", "qtt_platform.design.library.sync_occasions",
+	"qtt_platform.api.security.ensure_setup"]
 
 # Kept by a full cache clear (deploys, migrate, bench clear-cache): each person's chosen
 # business. Without it every request after a deploy fails with "Choose your business first".

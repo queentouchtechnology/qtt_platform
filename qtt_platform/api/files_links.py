@@ -393,6 +393,7 @@ def drop(ticket: str) -> dict:
 		return {"state": "full"}
 	store.write(folder + final, data, up.mimetype or mimetypes.guess_type(final)[0])
 	core.index_later(folder + final)
+	core.automate(l.tenant, "upload", folder + final, l.created_by or "")
 	frappe.db.set_value(LINK, l.name, "uploads", (l.uploads or 0) + 1, update_modified=False)
 	who = c.get("e") or "guest"
 	core.log(l.tenant, folder + final, l.space, f"{l.path}/{final}", "link_upload", who, link=l.name, detail=final)

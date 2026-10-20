@@ -145,6 +145,25 @@ everyone in every business — no plan needed.
   Approve / Decline; and what you asked for), Activity here, Folder access and
   (owners and admins) the **Audit log** — who did what with the business's
   files, with the IP for link visits.
+  **Search** (the box under the spaces): every word, in file names, folders,
+  tags and the words inside PDFs, Word, Excel, PowerPoint and text files — only
+  what you may open (your spaces, your own files, what's shared with you); tap
+  a result to go to its folder (a document opens). Scanned pictures of paper
+  have no words to find unless they were saved with text.
+  **Automatic rules** (Files menu; owners and admins, HR for HR and Company):
+  when a file is uploaded (in the app or through an upload link) or tagged, in
+  a space / folder (and the folders inside it), of some kinds (PDF, photos,
+  documents…), with any of some words in its name → add tags, move it to a
+  folder ({year} and {month} become the date it arrived; nothing is ever
+  replaced — a number is added), tell people, share it (view or edit). Ready
+  ones: payslips into a folder for each month, offer and appointment letters,
+  ID proofs, invoices to Accounts, tell me about new contracts. Each rule
+  counts how many times it acted; turn one off or remove it any time.
+- **Two-step login** (Business › Roles and access › Sign-in; the owner or an
+  admin turns it on): everyone in the business confirms each new sign-in with a
+  6-digit code sent to their email. Signing in with Google or a phone's
+  fingerprint stays as it is. Someone in two businesses needs it if either has
+  it on.
 - **Documents**: tap a Word, Excel, PowerPoint or PDF to open it in the
   editor (OnlyOffice, on QTT's own server): it saves as you type, and
   everyone who has it open edits together (you see their cursors). On a

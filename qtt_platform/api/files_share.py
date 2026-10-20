@@ -390,6 +390,8 @@ def tag(space: str, path: str, tags) -> dict:
 	m.tags = ",".join(clean)
 	m.save(ignore_permissions=True)
 	core.log(ctx.tenant, at.key, _space_of(at), at.path, "tag", ctx.user, detail=m.tags)
+	if not at.key.endswith("/"):
+		core.automate(ctx.tenant, "tag", at.key.rstrip("/"), ctx.user)
 	return {"tags": clean}
 
 
