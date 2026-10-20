@@ -1,12 +1,10 @@
 """
 Office Pulse Files' storage: one private S3 bucket (Garage on QTT-AI-OS — QTT Workplace Settings › storage_*), reached
-only by Frappe. Folders are prefixes (an empty folder is a zero-byte "<name>/" marker). Nothing is ever deleted at
-once: a deleted or replaced file is moved to trash/<day>/ and purged after 30 days (purge_trash, daily).
-The rules (keys, listings, quotas) are in workplace_rules.py.
+only by Frappe. Folders are prefixes (an empty folder is a zero-byte "<name>/" marker). Plain storage: versions, the
+recycle bin, rights and the activity log are files_core.py's; keys, listings and quotas are workplace_rules.py's.
 """
 
 import threading
-from datetime import date
 
 import frappe
 from frappe import _
@@ -124,28 +122,9 @@ def read(key: str) -> bytes:
 		_fail(e, "read")
 
 
-# ---- writing -----------------------------------------------------------------------------------------------------------
-def _today() -> str:
-	return date.today().isoformat()
-
-
-def to_trash(key: str) -> None:
-	"""Keep a copy for 30 days (a deleted or replaced file), then remove the original."""
-	try:
-		_client().copy_object(Bucket=bucket(), Key=rules.trash_key(key, _today()), CopySource={"Bucket": bucket(), "Key": key})
-		_client().delete_object(Bucket=bucket(), Key=key)
-	except Exception as e:
-		_fail(e, "trash")
-	_forget_use(key)
-
-
+# ---- writing (plain storage — versions, the recycle bin and rights are in files_core.py) ----------------------------
 def write(key: str, data: bytes, content_type: str | None = None) -> str:
-	"""Put a file (an older one with the same name goes to the trash first). → its etag."""
-	if head(key):
-		try:
-			_client().copy_object(Bucket=bucket(), Key=rules.trash_key(key, _today()), CopySource={"Bucket": bucket(), "Key": key})
-		except Exception as e:
-			_fail(e, "keep old version")
+	"""Put a file. → its etag."""
 	try:
 		kw = {"ContentType": content_type} if content_type else {}
 		r = _client().put_object(Bucket=bucket(), Key=key, Body=data, **kw)
@@ -155,6 +134,25 @@ def write(key: str, data: bytes, content_type: str | None = None) -> str:
 	return str(r.get("ETag") or "").strip('"')
 
 
+def copy(src: str, dst: str) -> None:
+	try:
+		_client().copy_object(Bucket=bucket(), Key=dst, CopySource={"Bucket": bucket(), "Key": src})
+	except Exception as e:
+		_fail(e, "copy")
+	_forget_use(dst)
+
+
+def remove(keys: list[str]) -> None:
+	"""Remove objects for good."""
+	try:
+		for i in range(0, len(keys), 1000):
+			_client().delete_objects(Bucket=bucket(), Delete={"Objects": [{"Key": k} for k in keys[i:i + 1000]], "Quiet": True})
+	except Exception as e:
+		_fail(e, "remove")
+	for k in keys[:50]:
+		_forget_use(k)
+
+
 def mkdir(prefix: str) -> None:
 	try:
 		_client().put_object(Bucket=bucket(), Key=prefix.rstrip("/") + "/", Body=b"")
@@ -162,28 +160,15 @@ def mkdir(prefix: str) -> None:
 		_fail(e, "folder")
 
 
-def delete(key: str, is_dir: bool) -> int:
-	"""A file, or a folder with everything in it, to the trash. → how many files."""
-	objs = keys_under(key.rstrip("/") + "/") if is_dir else [{"Key": key}]
-	for o in objs:
-		if o["Key"].endswith("/"):
-			_client().delete_object(Bucket=bucket(), Key=o["Key"])  # a folder marker: nothing to keep
-		else:
-			to_trash(o["Key"])
-	return len(objs)
-
-
-def move(old: str, new: str, is_dir: bool) -> None:
-	"""Rename a file or a folder (S3 has no rename: copy, then remove the original)."""
-	pairs = ([(o["Key"], new.rstrip("/") + "/" + o["Key"][len(old.rstrip("/") + "/"):]) for o in keys_under(old.rstrip("/") + "/")]
-			 if is_dir else [(old, new)])
-	try:
-		for a, b in pairs:
-			_client().copy_object(Bucket=bucket(), Key=b, CopySource={"Bucket": bucket(), "Key": a})
-		for a, _b in pairs:
-			_client().delete_object(Bucket=bucket(), Key=a)
-	except Exception as e:
-		_fail(e, "rename")
+def copy_tree(src: str, dst: str) -> list[dict]:
+	"""Copy a file (src without a trailing /) or everything under a folder prefix to dst. → the objects copied."""
+	if src.endswith("/"):
+		objs = keys_under(src)
+		for o in objs:
+			copy(o["Key"], dst + o["Key"][len(src):])
+		return objs
+	copy(src, dst)
+	return [{"Key": src, "Size": int((head(dst) or {}).get("ContentLength") or 0)}]
 
 
 def exists_dir(prefix: str) -> bool:
@@ -192,20 +177,3 @@ def exists_dir(prefix: str) -> bool:
 	except Exception as e:
 		_fail(e, "list")
 	return bool(r.get("KeyCount"))
-
-
-# ---- trash -------------------------------------------------------------------------------------------------------------
-def purge_trash() -> None:
-	"""Scheduler (daily): files deleted or replaced more than 30 days ago are removed for good."""
-	try:
-		s = frappe.get_cached_doc(SETTINGS)
-		if not s.files_enabled or not s.storage_url:
-			return
-		r = _client().list_objects_v2(Bucket=bucket(), Prefix=rules.TRASH, Delimiter="/")
-		days = [p["Prefix"][len(rules.TRASH):].strip("/") for p in r.get("CommonPrefixes") or []]
-		for day in rules.trash_days_to_purge(days, _today()):
-			objs = keys_under(f"{rules.TRASH}{day}/")
-			for i in range(0, len(objs), 1000):
-				_client().delete_objects(Bucket=bucket(), Delete={"Objects": [{"Key": o["Key"]} for o in objs[i:i + 1000]], "Quiet": True})
-	except Exception:
-		frappe.log_error(title="Files: trash purge failed")

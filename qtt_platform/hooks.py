@@ -331,8 +331,8 @@ scheduler_events = {
 		"qtt_platform.billing.service.reconcile_subscriptions",
 	],
 	"daily": [
-		# Office Pulse Files: files deleted or replaced more than 30 days ago are removed for good (file_store.py).
-		"qtt_platform.file_store.purge_trash",
+		# Office Pulse Files: versions and recycle-bin items older than 30 days are removed for good (files_core.py).
+		"qtt_platform.files_core.purge",
 		# Delete my account: requests whose 7-day wait is over (close businesses owned alone, then anonymise).
 		"qtt_platform.api.account_deletion.run_due",
 		# Apps assigned by QTT Admin to paying businesses: next invoice 3 days before the paid time ends; suspended 7 days after if unpaid.
@@ -388,3 +388,11 @@ auth_hooks = ["qtt_platform.view_as.auth_hook"]
 # Assistant: what's true right now on a screen (qtt_platform.api.assistant._screen_conditions) —
 # each app: (user, tenant, screen) -> set of condition names used by screens.json "when".
 qtt_assistant_conditions = []
+
+
+# Office Pulse Files share links (api/files_links.py): app.queentouchtech.in/s/<key> (the key in the link) and
+# /sl/<id> (the key sent separately — the page asks for it).
+website_redirects = [
+	{"source": r"/s/([A-Za-z0-9_-]{20,60})", "target": r"/api/method/qtt_platform.api.files_links.page?k=\1"},
+	{"source": r"/sl/([a-z0-9]{6,20})", "target": r"/api/method/qtt_platform.api.files_links.page?id=\1"},
+]

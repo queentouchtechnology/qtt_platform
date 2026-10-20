@@ -1,0 +1,92 @@
+{
+ "doctype": "DocType",
+ "name": "QTT File Share",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "engine": "InnoDB",
+ "autoname": "hash",
+ "description": "A file or folder in Office Pulse Files shared with a person (view or edit) — in their Shared with me.",
+ "modified": "2026-10-20 16:00:00",
+ "track_changes": 0,
+ "field_order": [
+  "tenant",
+  "space",
+  "path",
+  "file_key",
+  "is_dir",
+  "user",
+  "permission",
+  "shared_by"
+ ],
+ "fields": [
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "label": "Business",
+   "options": "QTT Tenant",
+   "reqd": 1,
+   "search_index": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "space",
+   "fieldtype": "Data",
+   "label": "Space"
+  },
+  {
+   "fieldname": "path",
+   "fieldtype": "Data",
+   "label": "Path",
+   "length": 700,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "file_key",
+   "fieldtype": "Data",
+   "label": "Store key",
+   "length": 700,
+   "search_index": 1
+  },
+  {
+   "fieldname": "is_dir",
+   "fieldtype": "Check",
+   "label": "Folder"
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "Shared with",
+   "options": "User",
+   "reqd": 1,
+   "search_index": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "permission",
+   "fieldtype": "Select",
+   "label": "Can",
+   "options": "view\nedit",
+   "default": "view",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "shared_by",
+   "fieldtype": "Link",
+   "label": "Shared by",
+   "options": "User"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC"
+}

@@ -9,7 +9,9 @@ what. Each business's spaces:
   company  Company — policies, forms: everyone reads; owners, admins and HR write
   hr       HR — owners, admins and HR only; People/<name>/ holds each employee's documents
   mydocs   an employee's own folder from HR (People/<their name>), read-only
-A deleted or replaced file stays in the trash for 30 days.
+  shared   what others shared with this person (view or edit) — files_share.py
+Every action checks what this person may do (files_core.access: the space, folder rules, locks); a replaced file is
+kept as a version, a deleted one in the recycle bin, both for 30 days; everything is in the activity log.
 
   info          what this person has: spaces, quotas, remote control settings, whether they can manage computers
   list          a folder of a space (folders first) and the space's use
@@ -17,8 +19,8 @@ A deleted or replaced file stays in the trash for 30 days.
   upload        a file into a folder (multipart `file`, up to 100 MB)
   mkdir         a new folder
   new_doc       a new Word / Excel / PowerPoint file (blank) — then open it
-  rename        rename a file or folder
-  delete        delete a file or folder (kept in the trash for 30 days)
+  rename        rename a file or folder (its shares, links, tags, comments and versions go with it)
+  delete        delete a file or folder (in the recycle bin for 30 days)
   open          edit a document in OnlyOffice (with everyone else who has it open): a link for the app's browser view
   send_to_chat  put a copy of a file into a Team chat
   employee_docs HR: an employee's document folder (made the first time)
@@ -37,9 +39,10 @@ import time
 
 import frappe
 from frappe import _
-from frappe.utils import cint, now_datetime
+from frappe.utils import cint, get_datetime, now_datetime
 
 from qtt_platform import file_store as store
+from qtt_platform import files_core as core
 from qtt_platform import workplace_rules as rules
 from qtt_platform.api import team
 
@@ -70,18 +73,13 @@ def _settings():
 	return frappe.get_cached_doc(SETTINGS)
 
 
-def _prefix(ctx, space: str) -> str:
-	"""Where a space starts in the store, for this person ("" for "My documents from HR" before HR made one)."""
-	if space == "hr" and not ctx.hr:
-		frappe.throw(_("HR's folder is for owners, admins and HR."), frappe.PermissionError)
-	if space not in rules.SPACES:
-		frappe.throw(_("Choose Team files, My files or Company."))
-	folder = frappe.db.get_value(HR_FOLDER, {"tenant": ctx.tenant, "user": ctx.user}, "folder") if space == "mydocs" else ""
-	return rules.space_prefix(ctx.tenant, space, ctx.user, folder or "")
+def _hr_folder(ctx) -> str:
+	return frappe.db.get_value(HR_FOLDER, {"tenant": ctx.tenant, "user": ctx.user}, "folder") or ""
 
 
-def _can_write(ctx, key: str) -> bool:
-	return key in ("team", "mine") or (key in ("company", "hr") and ctx.hr)
+def _at(ctx, space: str, path: str = "") -> frappe._dict:
+	"""Where this is and what this person may do there (files_core.access)."""
+	return core.access(ctx, space, path, hr_folder=_hr_folder(ctx) if space == "mydocs" else "")
 
 
 def _quota_gb(space: str) -> int | None:
@@ -89,60 +87,94 @@ def _quota_gb(space: str) -> int | None:
 	return (cint(s.team_quota_gb) or 10) if space == "team" else (cint(s.personal_quota_gb) or 2) if space == "mine" else None
 
 
-def _need_write(ctx, space: str) -> str:
-	if not _can_write(ctx, space):
-		frappe.throw(_("You can't change this folder."), frappe.PermissionError)
-	prefix = _prefix(ctx, space)
-	if not prefix:
-		frappe.throw(_("You can't change this folder."), frappe.PermissionError)
-	return prefix
+def _quota_root(at: frappe._dict) -> str:
+	"""Whose room a write uses: the space's (team / mine), or the shared item's own space."""
+	if at.space == "shared" and at.share:
+		parts = at.share.file_key.split("/")
+		return "/".join(parts[:3]) + "/" if len(parts) > 2 and parts[1] == "people" else "/".join(parts[:2]) + "/"
+	return at.prefix
 
 
-def _file_key(ctx, space: str, path: str) -> str:
-	prefix = _prefix(ctx, space)
-	if not prefix or not rules.clean_path(path):
-		frappe.throw(_("That isn't here any more."), frappe.DoesNotExistError)
-	return rules.object_key(prefix, path)
+def _space_of(at) -> str:
+	return at.share.space if at.space == "shared" and at.share else at.space
+
+
+def _child(at: frappe._dict, name: str) -> str:
+	"""The store key of `name` inside the folder `at` points to."""
+	base = at.key if at.path else at.prefix
+	return (base.rstrip("/") + "/" if base else "") + rules.clean_path(name)
+
+
+def _is_dir(key: str) -> bool:
+	return not store.head(key) and store.exists_dir(key)
 
 
 # ---- endpoints: files ---------------------------------------------------------------------------------------------------
 @frappe.whitelist(methods=["GET"])
 def info() -> dict:
-	"""What this person has in the Workplace: the spaces, whether they can write in each, remote control."""
+	"""What this person has in the Workplace: the spaces, whether they can write in each, remote control, how many
+	requests wait for them."""
 	ctx = _ctx()
 	s = _settings()
 	spaces = [{"key": "team", "title": "Team files", "write": True}, {"key": "mine", "title": "My files", "write": True},
 			  {"key": "company", "title": "Company", "write": ctx.hr}]
 	if ctx.hr:
 		spaces.append({"key": "hr", "title": "HR", "write": True})
+	spaces.append({"key": "shared", "title": "Shared with me", "write": False})
 	spaces.append({"key": "mydocs", "title": "My documents from HR", "write": False})
+	from qtt_platform.api import files_share
+
 	return {"files": bool(s.files_enabled), "spaces": spaces, "hr": ctx.hr, "manager": ctx.manager, "remote": bool(s.remote_enabled),
-			"onlyoffice": bool(s.onlyoffice_url)}
+			"onlyoffice": bool(s.onlyoffice_url), "requests": files_share.waiting_count(ctx), "admin": ctx.admin}
 
 
 @frappe.whitelist(methods=["GET"])
 def list_folder(space: str = "team", path: str = "") -> dict:
-	"""A folder in a space: folders first, then files; how full the space is."""
+	"""A folder in a space: folders first, then files (each with its tags, lock and whether it's shared); what this
+	person may do here (rights); how full the space is."""
 	ctx = _ctx()
-	prefix = _prefix(ctx, space)
-	if not prefix:
-		return {"items": [], "path": "", "write": False, "used": 0, "free": None, "empty_reason": "none"}
-	folder = rules.clean_path(path)
-	items = store.list_folder(prefix + (folder + "/" if folder else ""))
-	for i in items:
+	if space == "shared" and not rules.clean_path(path):
+		from qtt_platform.api import files_share
+
+		return files_share.shared_root(ctx)
+	at = _at(ctx, space, path)
+	if not at.prefix:
+		return {"items": [], "path": "", "write": False, "rights": [], "used": 0, "free": None, "empty_reason": "none"}
+	core.need(at, "read")
+	folder = at.key.rstrip("/") + "/" if at.path else at.prefix
+	items = store.list_folder(folder)
+	keys = {folder + i["name"]: i for i in items}
+	metas = {m.file_key: m for m in frappe.get_all(core.META, filters={"tenant": ctx.tenant, "file_key": ["in", list(keys) or [""]]},
+												   fields=["file_key", "tags", "locked_by", "locked_until"])}
+	shared = set(frappe.get_all(core.SHARE, filters={"tenant": ctx.tenant, "file_key": ["in", list(keys) or [""]]}, pluck="file_key"))
+	linked = set(frappe.get_all("QTT Share Link", filters={"tenant": ctx.tenant, "status": "Active", "file_key": ["in", list(keys) or [""]]}, pluck="file_key"))
+	now = now_datetime()
+	for k, i in keys.items():
+		m = metas.get(k)
 		i["size_text"] = "" if i["is_dir"] else rules.human_size(i["size"])
 		i["editable"] = not i["is_dir"] and rules.editable(i["name"])
-		i["path"] = "/".join(p for p in (folder, i["name"]) if p)
-	used = store.used(prefix)
-	return {"items": items, "path": folder, "write": _can_write(ctx, space), "used": used, "free": rules.free_bytes(used, _quota_gb(space))}
+		i["path"] = "/".join(p for p in (at.path, i["name"]) if p)
+		i["tags"] = [t for t in (m.tags or "").split(",") if t] if m else []
+		locked = m and m.locked_by and (not m.locked_until or get_datetime(m.locked_until) > now)
+		i["locked_by"] = m.locked_by if locked else None
+		i["locked_by_name"] = team._names(ctx).get(m.locked_by, m.locked_by) if locked else None
+		i["shared"] = k in shared or k.rstrip("/") in shared
+		i["linked"] = k in linked or k.rstrip("/") in linked
+	root = _quota_root(at)
+	used = store.used(root) if root else 0
+	return {"items": items, "path": at.path, "write": "create" in at.rights, "rights": sorted(at.rights), "used": used,
+			"free": rules.free_bytes(used, _quota_gb(_space_of(at)))}
 
 
 @frappe.whitelist(methods=["GET"])
 def download(space: str, path: str):
 	"""A file's bytes (to preview or save)."""
 	ctx = _ctx()
-	data = store.read(_file_key(ctx, space, path))
-	frappe.local.response.filename = rules.clean_path(path).rsplit("/", 1)[-1]
+	at = _at(ctx, space, path)
+	core.need(at, "read")
+	data = store.read(at.key)
+	core.log(ctx.tenant, at.key, _space_of(at), at.path, "download", ctx.user)
+	frappe.local.response.filename = at.key.rsplit("/", 1)[-1]
 	frappe.local.response.filecontent = data
 	frappe.local.response.type = "download"
 	frappe.local.response.display_content_as = "inline"
@@ -150,32 +182,41 @@ def download(space: str, path: str):
 
 @frappe.whitelist(methods=["POST"])
 def upload(space: str = "team", path: str = "") -> dict:
-	"""Multipart `file` into a folder (up to 100 MB). A file with the same name is replaced (the old one stays in the
-	trash for 30 days)."""
+	"""Multipart `file` into a folder (up to 100 MB). A file with the same name is replaced — the old one is kept as a
+	version for 30 days."""
 	ctx = _ctx()
-	prefix = _need_write(ctx, space)
+	at = _at(ctx, space, path)
 	up = frappe.request.files.get("file") if frappe.request else None
 	if not up:
 		frappe.throw(_("Choose a file."))
+	name = rules.clean_name(up.filename or "file") or "file"
+	key = _child(at, name)
+	exists = bool(store.head(key))
+	core.need(at, "write" if exists else "create")
+	if exists:
+		core.need(_at(ctx, space, "/".join(p for p in (at.path, name) if p)), "write")  # locked by someone else?
 	data = up.stream.read(MAX_UPLOAD + 1)
 	if len(data) > MAX_UPLOAD:
 		frappe.throw(_("A file can be up to 100 MB."))
-	if not rules.fits(store.used(prefix), _quota_gb(space), len(data)):
+	root = _quota_root(at)
+	if not rules.fits(store.used(root), _quota_gb(_space_of(at)), len(data)):
 		frappe.throw(_("This space is full — delete something, or ask QTT for more room."))
-	name = rules.clean_name(up.filename or "file") or "file"
-	store.write(rules.object_key(prefix, f"{path}/{name}"), data, up.mimetype or mimetypes.guess_type(name)[0])
-	return {"name": name, "path": rules.clean_path(f"{path}/{name}")}
+	core.save(ctx.tenant, key, data, ctx.user, up.mimetype or mimetypes.guess_type(name)[0])
+	new_path = "/".join(p for p in (at.path, name) if p)
+	core.log(ctx.tenant, key, _space_of(at), new_path, "replace" if exists else "upload", ctx.user)
+	return {"name": name, "path": new_path}
 
 
 @frappe.whitelist(methods=["POST"])
 def mkdir(space: str, path: str, name: str) -> dict:
 	"""A new folder."""
 	ctx = _ctx()
-	prefix = _need_write(ctx, space)
+	at = _at(ctx, space, path)
+	core.need(at, "create")
 	name = rules.clean_name(name)
 	if not name:
 		frappe.throw(_("Give the folder a name."))
-	store.mkdir(rules.object_key(prefix, f"{path}/{name}"))
+	store.mkdir(_child(at, name))
 	return {"name": name}
 
 
@@ -183,66 +224,83 @@ def mkdir(space: str, path: str, name: str) -> dict:
 def new_doc(space: str, path: str = "", kind: str = "word", title: str | None = None) -> dict:
 	"""A new blank Word / Excel / PowerPoint file in a folder. {name, path} — then open it."""
 	ctx = _ctx()
-	prefix = _need_write(ctx, space)
+	at = _at(ctx, space, path)
+	core.need(at, "create")
 	try:
 		name = rules.new_doc_name(kind, title)
 	except ValueError:
 		frappe.throw(_("Choose a document, a sheet or a presentation."))
-	if store.head(rules.object_key(prefix, f"{path}/{name}")):
+	if store.head(_child(at, name)):
 		stem, e = name.rsplit(".", 1)
 		name = f"{stem} {time.strftime('%d-%m %H%M')}.{e}"
+	key = _child(at, name)
 	with open(os.path.join(TEMPLATES, f"new.{rules.NEW_DOCS[kind]}"), "rb") as f:
-		store.write(rules.object_key(prefix, f"{path}/{name}"), f.read(), mimetypes.guess_type(name)[0])
-	return {"name": name, "path": rules.clean_path(f"{path}/{name}")}
+		store.write(key, f.read(), mimetypes.guess_type(name)[0])
+	new_path = "/".join(p for p in (at.path, name) if p)
+	core.log(ctx.tenant, key, _space_of(at), new_path, "create", ctx.user)
+	return {"name": name, "path": new_path}
 
 
 @frappe.whitelist(methods=["POST"])
 def rename(space: str, path: str, name: str) -> dict:
-	"""Rename a file or folder (in the same folder)."""
+	"""Rename a file or folder (in the same folder). Its shares, links, tags, comments and versions go with it."""
 	ctx = _ctx()
-	prefix = _need_write(ctx, space)
+	at = _at(ctx, space, path)
+	core.need(at, "write")
 	new = rules.clean_name(name)
-	if not new or not rules.clean_path(path):
+	if not new or not at.path:
 		frappe.throw(_("Give it a name."))
-	old = rules.object_key(prefix, path)
-	parent = rules.clean_path(path).rsplit("/", 1)[0] if "/" in rules.clean_path(path) else ""
-	target = rules.object_key(prefix, f"{parent}/{new}")
-	is_dir = not store.head(old)
-	if is_dir and not store.exists_dir(old):
+	parent = at.key.rsplit("/", 1)[0]
+	target = parent + "/" + new
+	is_dir = _is_dir(at.key)
+	if not is_dir and not store.head(at.key):
 		frappe.throw(_("That isn't here any more."), frappe.DoesNotExistError)
 	if store.head(target) or store.exists_dir(target):
 		frappe.throw(_("Something with that name is already here."))
-	store.move(old, target, is_dir)
+	if is_dir:
+		objs = store.copy_tree(at.key.rstrip("/") + "/", target + "/")
+		store.remove([o["Key"] for o in objs])
+	else:
+		store.copy(at.key, target)
+		store.remove([at.key])
+	core.rekey(ctx.tenant, at.key, target, is_dir)
+	core.log(ctx.tenant, target, _space_of(at), at.path.rsplit("/", 1)[0] + "/" + new if "/" in at.path else new, "rename", ctx.user,
+			 detail=at.key.rsplit("/", 1)[-1])
 	return {"name": new}
 
 
 @frappe.whitelist(methods=["POST"])
 def delete(space: str, path: str) -> dict:
-	"""Delete a file or folder (it stays in the trash for 30 days)."""
+	"""Delete a file or folder: it goes to the recycle bin for 30 days (restore it from there)."""
 	ctx = _ctx()
-	prefix = _need_write(ctx, space)
-	if not rules.clean_path(path):
+	at = _at(ctx, space, path)
+	core.need(at, "delete")
+	if not at.path:
 		frappe.throw(_("You can't change this folder."), frappe.PermissionError)
-	key = rules.object_key(prefix, path)
-	store.delete(key, is_dir=not store.head(key))
+	is_dir = _is_dir(at.key)
+	core.to_bin(ctx.tenant, _space_of(at), at.path, at.key, is_dir, ctx.user)
+	core.forget(ctx.tenant, at.key, is_dir)
+	core.log(ctx.tenant, at.key, _space_of(at), at.path, "delete", ctx.user)
 	return {"deleted": True}
 
 
 @frappe.whitelist(methods=["POST"])
 def open_doc(space: str, path: str) -> dict:
-	"""Edit a document in OnlyOffice — with everyone else who has it open. {url}: a link to the editor page (it works
-	for a few hours, for this person only)."""
+	"""Edit a document in OnlyOffice — with everyone else who has it open (read-only when this person may only read it
+	or someone else locked it). {url}: a link to the editor page (a few hours, this person only)."""
 	from qtt_platform.api import workplace_docs
 
 	ctx = _ctx()
-	key = _file_key(ctx, space, path)
-	name = rules.clean_path(path).rsplit("/", 1)[-1]
+	at = _at(ctx, space, path)
+	core.need(at, "read")
+	name = at.key.rsplit("/", 1)[-1]
 	if not rules.editable(name):
 		frappe.throw(_("This file opens as it is — download it."))
-	h = store.head(key)
+	h = store.head(at.key)
 	if not h:
 		frappe.throw(_("That isn't here any more."), frappe.DoesNotExistError)
-	return {"url": workplace_docs.editor_link(ctx, key, name, str(h.get("ETag") or "").strip('"'), _can_write(ctx, space))}
+	core.log(ctx.tenant, at.key, _space_of(at), at.path, "open", ctx.user)
+	return {"url": workplace_docs.editor_link(ctx, at.key, name, str(h.get("ETag") or "").strip('"'), "write" in at.rights)}
 
 
 @frappe.whitelist(methods=["POST"])
@@ -250,18 +308,20 @@ def send_to_chat(space: str, path: str, channel: str) -> dict:
 	"""A copy of the file in a Team chat (everyone in the chat can open it; the original stays in Files)."""
 	ctx = _ctx()
 	team._channel(ctx, channel, need_member=True)
-	key = _file_key(ctx, space, path)
-	h = store.head(key)
+	at = _at(ctx, space, path)
+	core.need(at, "share")
+	h = store.head(at.key)
 	if not h:
 		frappe.throw(_("That isn't here any more."), frappe.DoesNotExistError)
 	if int(h.get("ContentLength") or 0) > team_rules_max():
 		frappe.throw(_("A file can be up to 25 MB in a chat."))
-	name = rules.clean_path(path).rsplit("/", 1)[-1]
+	name = at.key.rsplit("/", 1)[-1]
 	from qtt_platform import team_rules
 
-	f = frappe.get_doc({"doctype": "File", "file_name": name, "content": store.read(key), "is_private": 1, "attached_to_doctype": team.CH,
+	f = frappe.get_doc({"doctype": "File", "file_name": name, "content": store.read(at.key), "is_private": 1, "attached_to_doctype": team.CH,
 						"attached_to_name": channel}).insert(ignore_permissions=True)
 	m = team._post(ctx, channel, message_type=team_rules.kind_of(name), file_url=f.file_url)
+	core.log(ctx.tenant, at.key, _space_of(at), at.path, "send_to_chat", ctx.user, detail=channel)
 	return {"message": m.name}
 
 

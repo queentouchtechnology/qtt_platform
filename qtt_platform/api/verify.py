@@ -27,7 +27,7 @@ from frappe.rate_limiter import rate_limit
 from qtt_platform import otp_logic as logic
 from qtt_platform.errors import fail, ok
 
-PURPOSES = ("signup",)
+PURPOSES = ("signup", "file_link")  # file_link: a guest proving their email to open a Files share link
 SETTINGS = "QTT App Settings"
 
 
@@ -172,7 +172,7 @@ def _email_html(code: str, brand: str) -> str:
       <div style="font-size:32px;font-weight:700;letter-spacing:6px;color:#3B5CFF;background:#EEF1FF;border-radius:10px;padding:14px 0;text-align:center">{spaced}</div>
       <div style="font-size:13px;color:#5B6372;margin-top:18px;line-height:1.6">
         It expires in {logic.CODE_TTL // 60} minutes. Never share this code with anyone — {frappe.utils.escape_html(brand)} will never ask for it.
-        If you didn't try to create an account, you can ignore this email.
+        If you didn't ask for it, you can ignore this email.
       </div>
     </div>
   </div>

@@ -1,0 +1,106 @@
+{
+ "doctype": "DocType",
+ "name": "QTT File Request",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "engine": "InnoDB",
+ "autoname": "hash",
+ "description": "Someone asked for access to a file or folder in Office Pulse Files; someone who may share it approves or declines.",
+ "modified": "2026-10-20 16:00:00",
+ "track_changes": 0,
+ "field_order": [
+  "tenant",
+  "space",
+  "path",
+  "file_key",
+  "is_dir",
+  "requested_by",
+  "permission",
+  "note",
+  "status",
+  "decided_by"
+ ],
+ "fields": [
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "label": "Business",
+   "options": "QTT Tenant",
+   "reqd": 1,
+   "search_index": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "space",
+   "fieldtype": "Data",
+   "label": "Space"
+  },
+  {
+   "fieldname": "path",
+   "fieldtype": "Data",
+   "label": "Path",
+   "length": 700,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "file_key",
+   "fieldtype": "Data",
+   "label": "Store key",
+   "length": 700,
+   "search_index": 1
+  },
+  {
+   "fieldname": "is_dir",
+   "fieldtype": "Check",
+   "label": "Folder"
+  },
+  {
+   "fieldname": "requested_by",
+   "fieldtype": "Link",
+   "label": "Asked by",
+   "options": "User",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "permission",
+   "fieldtype": "Select",
+   "label": "Wants to",
+   "options": "view\nedit",
+   "default": "view"
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Small Text",
+   "label": "Note"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Pending\nApproved\nDeclined",
+   "default": "Pending",
+   "in_list_view": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "decided_by",
+   "fieldtype": "Link",
+   "label": "Decided by",
+   "options": "User"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC"
+}

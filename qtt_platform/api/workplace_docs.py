@@ -5,7 +5,7 @@ Office Pulse documents: OnlyOffice Document Server (office.queentouchtech.in), t
   editor        the page the app shows: OnlyOffice's editor with a set-up signed with the OnlyOffice secret
   file          OnlyOffice fetches the file here (a signed link, a few hours) — the store itself stays private
   saved         OnlyOffice's save call: checked with the OnlyOffice secret; the new file replaces the old one (the old
-                one stays in the trash for 30 days)
+                one is kept as a version for 30 days)
 
 The links carry a token signed with the site's own key: which file, who, whether they may edit, until when.
 """
@@ -61,15 +61,26 @@ def _api(method: str, **params) -> str:
 
 def editor_link(ctx, key: str, name: str, etag: str, can_edit: bool) -> str:
 	"""A link to the editor page: its set-up is made now (the person's name and language, what they may do)."""
-	base, secret = _office()
-	who = {"k": key, "u": ctx.user, "w": 1 if can_edit else 0}
 	from qtt_platform.api import team
 
 	names = team._names(ctx)
+	return _page(key, name, etag, can_edit=can_edit, user=ctx.user, user_id=rules.person_id(ctx.user),
+				 user_name=names.get(ctx.user) or frappe.db.get_value("User", ctx.user, "full_name") or ctx.user,
+				 lang=(frappe.db.get_value("User", ctx.user, "language") or "en")[:2])
+
+
+def guest_link(key: str, name: str, etag: str, who: str, allow_download: bool) -> str:
+	"""A view-only editor page for someone opening a share link (download, print and copy off for preview-only links)."""
+	return _page(key, name, etag, can_edit=False, user="", user_id="guest-" + rules.person_id(who or "guest")[:8], user_name=who or "Guest",
+				 lang="en", allow_download=allow_download)
+
+
+def _page(key: str, name: str, etag: str, *, can_edit: bool, user: str, user_id: str, user_name: str, lang: str, allow_download: bool = True) -> str:
+	base, secret = _office()
+	who = {"k": key, "u": user, "w": 1 if can_edit else 0}
 	cfg = rules.editor_config(name=name, key=key, etag=etag, file_url=_api("file", t=_sign(who, LINK_TTL)),
 							  callback_url=_api("saved", t=_sign({**who, "e": etag}, SAVE_TTL)), can_edit=can_edit,
-							  user_id=rules.person_id(ctx.user), user_name=names.get(ctx.user) or frappe.db.get_value("User", ctx.user, "full_name") or ctx.user,
-							  lang=(frappe.db.get_value("User", ctx.user, "language") or "en")[:2])
+							  user_id=user_id, user_name=user_name, lang=lang, allow_download=allow_download)
 	cfg["token"] = rules.jwt_hs256(cfg, secret)
 	page = secrets.token_urlsafe(24)
 	frappe.cache().set_value(f"qtt_doc_page|{page}", json.dumps({"cfg": cfg, "base": base}), expires_in_sec=LINK_TTL)
@@ -151,7 +162,11 @@ def saved(t: str = ""):
 		r = requests.get(url, timeout=120)
 		r.raise_for_status()
 		frappe.set_user("Administrator")  # a guest call; the store write is the system's
-		store.write(who["k"], r.content)
+		from qtt_platform import files_core as core
+
+		tenant = who["k"].split("/", 1)[0]
+		core.save(tenant, who["k"], r.content, who.get("u") or "")  # the version it replaces is kept (30 days)
+		core.log(tenant, who["k"], who["k"].split("/")[1], who["k"].split("/", 2)[-1], "edit", who.get("u") or "", detail="OnlyOffice")
 		frappe.db.commit()
 	except Exception:
 		frappe.log_error(title="Documents: couldn't save the edited file")

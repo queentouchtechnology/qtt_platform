@@ -1,0 +1,169 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Share Link",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "engine": "InnoDB",
+ "autoname": "hash",
+ "description": "A link to a file or folder in Office Pulse Files for people outside the app. Only the hash of its secret key is kept.",
+ "modified": "2026-10-20 16:00:00",
+ "track_changes": 0,
+ "field_order": [
+  "tenant",
+  "space",
+  "path",
+  "file_key",
+  "is_dir",
+  "label",
+  "key_hash",
+  "key_hint",
+  "mode",
+  "password_hash",
+  "expires_at",
+  "max_views",
+  "max_downloads",
+  "views",
+  "downloads",
+  "uploads",
+  "allowed_emails",
+  "require_approval",
+  "status",
+  "created_by"
+ ],
+ "fields": [
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "label": "Business",
+   "options": "QTT Tenant",
+   "reqd": 1,
+   "search_index": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "space",
+   "fieldtype": "Data",
+   "label": "Space"
+  },
+  {
+   "fieldname": "path",
+   "fieldtype": "Data",
+   "label": "Path",
+   "length": 700,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "file_key",
+   "fieldtype": "Data",
+   "label": "Store key",
+   "length": 700,
+   "search_index": 1
+  },
+  {
+   "fieldname": "is_dir",
+   "fieldtype": "Check",
+   "label": "Folder"
+  },
+  {
+   "fieldname": "label",
+   "fieldtype": "Data",
+   "label": "Name"
+  },
+  {
+   "fieldname": "key_hash",
+   "fieldtype": "Data",
+   "label": "Key hash",
+   "length": 64,
+   "unique": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "key_hint",
+   "fieldtype": "Data",
+   "label": "Key ends with",
+   "length": 8
+  },
+  {
+   "fieldname": "mode",
+   "fieldtype": "Select",
+   "label": "Can",
+   "options": "preview\ndownload\nupload",
+   "default": "download",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "password_hash",
+   "fieldtype": "Data",
+   "label": "Password hash",
+   "length": 200
+  },
+  {
+   "fieldname": "expires_at",
+   "fieldtype": "Datetime",
+   "label": "Ends"
+  },
+  {
+   "fieldname": "max_views",
+   "fieldtype": "Int",
+   "label": "Views allowed"
+  },
+  {
+   "fieldname": "max_downloads",
+   "fieldtype": "Int",
+   "label": "Downloads allowed"
+  },
+  {
+   "fieldname": "views",
+   "fieldtype": "Int",
+   "label": "Views"
+  },
+  {
+   "fieldname": "downloads",
+   "fieldtype": "Int",
+   "label": "Downloads"
+  },
+  {
+   "fieldname": "uploads",
+   "fieldtype": "Int",
+   "label": "Uploads"
+  },
+  {
+   "fieldname": "allowed_emails",
+   "fieldtype": "Small Text",
+   "label": "Only these emails"
+  },
+  {
+   "fieldname": "require_approval",
+   "fieldtype": "Check",
+   "label": "Ask me first"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Active\nRevoked",
+   "default": "Active",
+   "in_list_view": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "created_by",
+   "fieldtype": "Link",
+   "label": "Made by",
+   "options": "User"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC"
+}

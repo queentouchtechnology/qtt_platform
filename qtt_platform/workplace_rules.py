@@ -183,14 +183,15 @@ def doc_key(key: str, etag: str) -> str:
 
 
 def editor_config(*, name: str, key: str, etag: str, file_url: str, callback_url: str, can_edit: bool, user_id: str,
-				  user_name: str, lang: str = "en") -> dict:
+				  user_name: str, lang: str = "en", allow_download: bool = True) -> dict:
 	"""The editor's set-up (signed with the OnlyOffice secret before it goes to the page)."""
 	e = ext(name)
 	kind = OFFICE_TYPES.get(e, ("", "word"))[1]
 	edit = bool(can_edit) and kind != "pdf"
 	return {
 		"document": {"fileType": e, "key": doc_key(key, etag), "title": name[:120], "url": file_url,
-					 "permissions": {"edit": edit, "download": True, "print": True, "comment": edit}},
+					 "permissions": {"edit": edit, "download": bool(allow_download), "print": bool(allow_download), "copy": bool(allow_download),
+									 "comment": edit}},
 		"documentType": kind,
 		"editorConfig": {"mode": "edit" if edit else "view", "callbackUrl": callback_url, "lang": lang or "en",
 						 "user": {"id": user_id, "name": user_name[:60]},
