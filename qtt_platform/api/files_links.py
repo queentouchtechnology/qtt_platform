@@ -227,7 +227,8 @@ def _ticket(ticket: str):
 
 def _info(l) -> dict:
 	business = frappe.db.get_value("QTT Tenant", l.tenant, "tenant_name") or ""
-	out = {"title": _title(l.file_key), "mode": l.mode,  # the link's name is only for the person who made it "is_dir": bool(l.is_dir), "business": business,
+	# the link's own name stays with the person who made it — the page shows the file's name
+	out = {"title": _title(l.file_key), "mode": l.mode, "is_dir": bool(l.is_dir), "business": business,
 		   "expires_at": str(l.expires_at or "")[:16], "can_download": l.mode == "download"}
 	if not l.is_dir:
 		h = store.head(l.file_key) or {}
@@ -391,6 +392,7 @@ def drop(ticket: str) -> dict:
 	if not rules.fits(store.used(root), quota, len(data)):
 		return {"state": "full"}
 	store.write(folder + final, data, up.mimetype or mimetypes.guess_type(final)[0])
+	core.index_later(folder + final)
 	frappe.db.set_value(LINK, l.name, "uploads", (l.uploads or 0) + 1, update_modified=False)
 	who = c.get("e") or "guest"
 	core.log(l.tenant, folder + final, l.space, f"{l.path}/{final}", "link_upload", who, link=l.name, detail=final)

@@ -4270,7 +4270,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/files_links.py:366",
+   "source": "qtt_platform/qtt_platform/api/files_links.py:367",
    "status": "Not used by the app"
   },
   {
@@ -4286,7 +4286,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/files_links.py:322",
+   "source": "qtt_platform/qtt_platform/api/files_links.py:323",
    "status": "Not used by the app"
   },
   {
@@ -4302,7 +4302,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/files_links.py:306",
+   "source": "qtt_platform/qtt_platform/api/files_links.py:307",
    "status": "Not used by the app"
   },
   {
@@ -4350,7 +4350,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/files_links.py:241",
+   "source": "qtt_platform/qtt_platform/api/files_links.py:242",
    "status": "Not used by the app"
   },
   {
@@ -4366,7 +4366,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/files_links.py:408",
+   "source": "qtt_platform/qtt_platform/api/files_links.py:410",
    "status": "Not used by the app"
   },
   {
@@ -4430,7 +4430,39 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/files_links.py:349",
+   "source": "qtt_platform/qtt_platform/api/files_links.py:350",
+   "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_platform.api.files_search.reindex",
+   "product": "Platform",
+   "area": "api.files_search",
+   "http_methods": "GET, POST",
+   "guest": 0,
+   "purpose": "(System Manager) Build the search index for one business, or every business.",
+   "details": "(System Manager) Build the search index for one business, or every business.",
+   "arguments": "tenant",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/files_search.py:61",
+   "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_platform.api.files_search.search",
+   "product": "Platform",
+   "area": "api.files_search",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "Files this person may open that match every word — in the name, the folder, the tags or the text inside. → {results: [{name, space, path, folder, snippet, size_text, type, editable, tags}]}",
+   "details": "Files this person may open that match every word — in the name, the folder, the tags or the text inside.\n→ {results: [{name, space, path, folder, snippet, size_text, type, editable, tags}]}",
+   "arguments": "q, limit",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/files_search.py:103",
    "status": "Not used by the app"
   },
   {
@@ -8030,7 +8062,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:481",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:482",
    "status": "Not used by the app"
   },
   {
@@ -8046,7 +8078,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:273",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:274",
    "status": "Not used by the app"
   },
   {
@@ -8062,7 +8094,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:469",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:470",
    "status": "Not used by the app"
   },
   {
@@ -8078,7 +8110,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:383",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:384",
    "status": "Not used by the app"
   },
   {
@@ -8110,7 +8142,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:335",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:336",
    "status": "Not used by the app"
   },
   {
@@ -8126,7 +8158,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:504",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:505",
    "status": "Not used by the app"
   },
   {
@@ -8206,7 +8238,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:288",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:289",
    "status": "Not used by the app"
   },
   {
@@ -8222,7 +8254,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:359",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:360",
    "status": "Not used by the app"
   },
   {
@@ -8238,7 +8270,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:245",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:246",
    "status": "Not used by the app"
   },
   {
@@ -8254,7 +8286,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:455",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:456",
    "status": "Not used by the app"
   },
   {
@@ -8270,7 +8302,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:401",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:402",
    "status": "Not used by the app"
   },
   {
@@ -8286,7 +8318,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:307",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:308",
    "status": "Not used by the app"
   },
   {
@@ -8302,7 +8334,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:439",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:440",
    "status": "Not used by the app"
   },
   {
