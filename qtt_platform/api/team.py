@@ -114,7 +114,11 @@ def _workspace(tenant: str) -> str:
 		frappe.get_doc({"doctype": WS, "workspace_name": name, "type": "Private", "can_only_join_via_invite": 1,
 						"description": frappe.db.get_value("QTT Tenant", tenant, "tenant_name") or tenant,
 						"only_admins_can_create_channels": 0}).insert(ignore_permissions=True)
-	sync(tenant)
+		sync(tenant)
+	elif not frappe.cache().get_value(f"qtt_team_synced|{tenant}"):
+		# membership changes sync at once (team_events); this catches anything missed, at most every 5 minutes
+		sync(tenant)
+		frappe.cache().set_value(f"qtt_team_synced|{tenant}", 1, expires_in_sec=300)
 	return name
 
 

@@ -33,6 +33,7 @@ Remote control (RustDesk, the standard app set to QTT's server):
 import os
 import re
 import secrets
+import threading
 import time
 from urllib.parse import quote
 
@@ -99,12 +100,46 @@ def _ocs(method: str, path: str, auth, data=None, params=None, ok=(100, 200, 102
 	return (body.get("ocs") or {}).get("data") or {}
 
 
+_local = threading.local()
+
+
+def _http() -> requests.Session:
+	"""One kept-alive connection pool to Nextcloud per worker thread (no new TLS handshake per request)."""
+	s = getattr(_local, "session", None)
+	if s is None:
+		s = _local.session = requests.Session()
+	return s
+
+
+def _app_password(cu: str, pw: str) -> str | None:
+	"""A Nextcloud app password for this account: checked far faster than the login password on every request
+	(~100 ms instead of ~500 ms), and revocable on its own."""
+	base, _a = _nc()
+	r = requests.get(f"{base}/ocs/v2.php/core/getapppassword", auth=(cu, pw), headers={"OCS-APIRequest": "true"},
+					 params={"format": "json"}, timeout=30)
+	try:
+		return r.json()["ocs"]["data"]["apppassword"]
+	except (ValueError, KeyError, TypeError):
+		frappe.log_error(title="Workplace: no Nextcloud app password", message=f"{r.status_code} {r.text[:200]}")
+		return None
+
+
 def _account(user: str, name: str) -> tuple[str, str]:
-	"""The person's Nextcloud user (made the first time) → (cloud user, password)."""
+	"""The person's Nextcloud user (made the first time) → (cloud user, app password — or the login password while
+	there's none yet)."""
 	_base, admin = _nc()
 	if frappe.db.exists(ACCOUNT, user):
 		doc = frappe.get_doc(ACCOUNT, user)
-		return doc.cloud_user, doc.get_password("cloud_password")
+		token = doc.get_password("cloud_token", raise_exception=False)
+		if token:
+			return doc.cloud_user, token
+		pw = doc.get_password("cloud_password")
+		token = _app_password(doc.cloud_user, pw)
+		if token:
+			doc.cloud_token = token
+			doc.save(ignore_permissions=True)
+			return doc.cloud_user, token
+		return doc.cloud_user, pw
 	cu = rules.cloud_user(user)
 	pw = secrets.token_urlsafe(24)
 	s = _settings()
@@ -112,8 +147,9 @@ def _account(user: str, name: str) -> tuple[str, str]:
 	# an account that existed already (made before, its row lost): set a new password we know
 	_ocs("PUT", f"cloud/users/{cu}", admin, data={"key": "password", "value": pw})
 	_ocs("PUT", f"cloud/users/{cu}", admin, data={"key": "quota", "value": f"{cint(s.personal_quota_gb) or 2} GB"})
-	frappe.get_doc({"doctype": ACCOUNT, "user": user, "cloud_user": cu, "cloud_password": pw}).insert(ignore_permissions=True)
-	return cu, pw
+	token = _app_password(cu, pw)
+	frappe.get_doc({"doctype": ACCOUNT, "user": user, "cloud_user": cu, "cloud_password": pw, "cloud_token": token}).insert(ignore_permissions=True)
+	return cu, token or pw
 
 
 def _groupfolder(admin, mount: str, groups: dict[str, int], quota_gb: int | None) -> int:
@@ -190,7 +226,7 @@ def _dav(space, root: str, path: str = "") -> str:
 
 
 def _req(space, method: str, url: str, **kw) -> requests.Response:
-	r = requests.request(method, url, auth=(space.cloud_user, space.cloud_password), timeout=kw.pop("timeout", 60), **kw)
+	r = _http().request(method, url, auth=(space.cloud_user, space.cloud_password), timeout=kw.pop("timeout", 60), **kw)
 	if r.status_code == 404:
 		frappe.throw(_("That isn't here any more."), frappe.DoesNotExistError)
 	if r.status_code == 507:
