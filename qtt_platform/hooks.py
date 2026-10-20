@@ -122,8 +122,14 @@ doc_events = {
         "before_save": "qtt_platform.permissions.handlers.guard_tenant_change_before_save",
     },
     "QTT Tenant Membership": {
-        "on_update": "qtt_platform.realtime.on_membership_change",
-        "on_trash": "qtt_platform.realtime.on_membership_change",
+        # + Team chat (api/team.py): the business's workspace follows its members (team_events.py).
+        "on_update": ["qtt_platform.realtime.on_membership_change", "qtt_platform.team_events.on_membership"],
+        "on_trash": ["qtt_platform.realtime.on_membership_change", "qtt_platform.team_events.on_membership"],
+    },
+    # Team chat: live updates + phone notifications for business chats (team_events.py).
+    "Raven Message": {
+        "after_insert": "qtt_platform.team_events.on_message",
+        "on_trash": "qtt_platform.team_events.on_message",
     },
     "QTT Product Access": {
         "on_update": "qtt_platform.realtime.on_product_access_change",
