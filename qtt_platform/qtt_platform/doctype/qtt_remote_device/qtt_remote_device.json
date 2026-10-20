@@ -1,0 +1,95 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Remote Device",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 0,
+ "engine": "InnoDB",
+ "description": "Company computers (Office Pulse): a computer with the RustDesk app, who uses it, and an optional permanent password for one-tap support (seen only by owners, admins and HR Admins).",
+ "modified": "2026-10-21 10:00:00",
+ "field_order": [
+  "tenant",
+  "title",
+  "rustdesk_id",
+  "password",
+  "assigned_to",
+  "platform",
+  "notes",
+  "last_connected_at",
+  "last_connected_by"
+ ],
+ "fields": [
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "label": "Business",
+   "options": "QTT Tenant",
+   "reqd": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Name",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "rustdesk_id",
+   "fieldtype": "Data",
+   "label": "RustDesk ID",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "password",
+   "fieldtype": "Password",
+   "label": "Permanent password"
+  },
+  {
+   "fieldname": "assigned_to",
+   "fieldtype": "Link",
+   "label": "Used by",
+   "options": "User",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "platform",
+   "fieldtype": "Select",
+   "label": "System",
+   "options": "\nWindows\nmacOS\nLinux\nAndroid"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "last_connected_at",
+   "fieldtype": "Datetime",
+   "label": "Last connected"
+  },
+  {
+   "fieldname": "last_connected_by",
+   "fieldtype": "Link",
+   "label": "Last connected by",
+   "options": "User"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  }
+ ],
+ "autoname": "hash",
+ "title_field": "title",
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}

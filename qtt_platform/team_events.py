@@ -141,7 +141,12 @@ def send_push(users, title, body, data):
 
 
 def on_membership(doc, method=None):
-	"""The business's Team workspace follows its members (only once the business has opened Team)."""
+	"""The business's Team workspace follows its members (only once the business has opened Team); someone who leaves
+	(or is suspended) also leaves its Nextcloud groups (Workplace)."""
+	if method == "on_trash" or doc.status != "active":
+		from qtt_platform.api.workplace import drop
+
+		drop(doc.tenant, doc.user)
 	try:
 		if "raven" not in frappe.get_installed_apps():
 			return

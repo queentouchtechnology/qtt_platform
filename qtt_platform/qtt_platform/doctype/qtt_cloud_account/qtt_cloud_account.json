@@ -1,0 +1,54 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Cloud Account",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 0,
+ "engine": "InnoDB",
+ "description": "A person's Nextcloud login, made by QTT when they first open Files (one per person, across businesses).",
+ "modified": "2026-10-21 10:00:00",
+ "field_order": [
+  "user",
+  "cloud_user",
+  "cloud_password"
+ ],
+ "fields": [
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "cloud_user",
+   "fieldtype": "Data",
+   "label": "Nextcloud user",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "cloud_password",
+   "fieldtype": "Password",
+   "label": "Nextcloud password"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  }
+ ],
+ "autoname": "field:user",
+ "title_field": "user",
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}

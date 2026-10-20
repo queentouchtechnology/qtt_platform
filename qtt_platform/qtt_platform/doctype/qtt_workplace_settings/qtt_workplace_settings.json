@@ -1,0 +1,140 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Workplace Settings",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 1,
+ "quick_entry": 0,
+ "track_changes": 1,
+ "engine": "InnoDB",
+ "description": "Team calls and the Office Pulse Workplace (PROJ-0015): where LiveKit, Nextcloud, OnlyOffice and RustDesk run and their keys. Secrets are typed here (or set by the setup script), never shown.",
+ "modified": "2026-10-21 10:00:00",
+ "field_order": [
+  "calls_section",
+  "calls_enabled",
+  "livekit_url",
+  "livekit_api_key",
+  "livekit_api_secret",
+  "files_section",
+  "files_enabled",
+  "nextcloud_url",
+  "nextcloud_admin_user",
+  "nextcloud_admin_password",
+  "onlyoffice_url",
+  "team_quota_gb",
+  "personal_quota_gb",
+  "remote_section",
+  "remote_enabled",
+  "rustdesk_host",
+  "rustdesk_key"
+ ],
+ "fields": [
+  {
+   "fieldname": "calls_section",
+   "fieldtype": "Section Break",
+   "label": "Calls (LiveKit)"
+  },
+  {
+   "fieldname": "calls_enabled",
+   "fieldtype": "Check",
+   "label": "Calls on",
+   "default": "1"
+  },
+  {
+   "fieldname": "livekit_url",
+   "fieldtype": "Data",
+   "label": "LiveKit URL",
+   "default": "wss://meet.queentouchtech.in",
+   "description": "What the app connects to (wss://…)."
+  },
+  {
+   "fieldname": "livekit_api_key",
+   "fieldtype": "Data",
+   "label": "LiveKit API key"
+  },
+  {
+   "fieldname": "livekit_api_secret",
+   "fieldtype": "Password",
+   "label": "LiveKit API secret"
+  },
+  {
+   "fieldname": "files_section",
+   "fieldtype": "Section Break",
+   "label": "Files (Nextcloud) and documents (OnlyOffice)"
+  },
+  {
+   "fieldname": "files_enabled",
+   "fieldtype": "Check",
+   "label": "Files on",
+   "default": "1"
+  },
+  {
+   "fieldname": "nextcloud_url",
+   "fieldtype": "Data",
+   "label": "Nextcloud URL",
+   "default": "https://cloud.queentouchtech.in"
+  },
+  {
+   "fieldname": "nextcloud_admin_user",
+   "fieldtype": "Data",
+   "label": "Nextcloud service user",
+   "default": "qtt-service"
+  },
+  {
+   "fieldname": "nextcloud_admin_password",
+   "fieldtype": "Password",
+   "label": "Nextcloud service password"
+  },
+  {
+   "fieldname": "onlyoffice_url",
+   "fieldtype": "Data",
+   "label": "OnlyOffice URL",
+   "default": "https://office.queentouchtech.in"
+  },
+  {
+   "fieldname": "team_quota_gb",
+   "fieldtype": "Int",
+   "label": "Team files per business (GB)",
+   "default": "10"
+  },
+  {
+   "fieldname": "personal_quota_gb",
+   "fieldtype": "Int",
+   "label": "My files per person (GB)",
+   "default": "2"
+  },
+  {
+   "fieldname": "remote_section",
+   "fieldtype": "Section Break",
+   "label": "Remote control (RustDesk)"
+  },
+  {
+   "fieldname": "remote_enabled",
+   "fieldtype": "Check",
+   "label": "Remote control on",
+   "default": "1"
+  },
+  {
+   "fieldname": "rustdesk_host",
+   "fieldtype": "Data",
+   "label": "RustDesk server",
+   "default": "remote.queentouchtech.in"
+  },
+  {
+   "fieldname": "rustdesk_key",
+   "fieldtype": "Data",
+   "label": "RustDesk public key",
+   "description": "id_ed25519.pub on the server — public, safe to share."
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  }
+ ]
+}

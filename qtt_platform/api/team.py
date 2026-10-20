@@ -85,6 +85,11 @@ def _names(ctx) -> dict[str, str]:
 	return {u: p["name"] for u, p in _people(ctx.tenant).items()}
 
 
+def _names_of(users: list[str]) -> dict[str, str]:
+	"""Full names of these users (no business needed — webhooks)."""
+	return {u.name: u.full_name or u.name for u in frappe.get_all("User", filters={"name": ["in", list(users) or [""]]}, fields=["name", "full_name"])}
+
+
 def _raven_user(user: str) -> None:
 	"""The person's Raven User (kept switched on — Raven switches off users without its role on every profile save;
 	QTT decides who belongs, from the business membership)."""
@@ -332,7 +337,12 @@ def home() -> dict:
 						"muted": not mine[c.name].allow_notifications, "last": _last(c)})
 	dms.sort(key=lambda d: (d["last"] or {}).get("at") or "", reverse=True)
 	extras.touch(ctx.user)
-	return {"channels": channels, "dms": dms,
+	from qtt_platform.api import team_calls
+
+	calls = team_calls.active([c["id"] for c in channels] + [d["id"] for d in dms])
+	for c in channels + dms:
+		c["call"] = calls.get(c["id"])
+	return {"channels": channels, "dms": dms, "pulse": team_calls.can_screen_share(ctx.tenant, ctx.user),
 			"people": [{**p, **live.get(u, {})} for u, p in people.items() if u != ctx.user],
 			"me": ctx.user, "my_status": extras.my_status(ctx.user), "can_manage": ctx.admin,
 			"threads_unread": sum(t["unread"] for t in _my_threads(ctx, limit=50)),
