@@ -518,6 +518,8 @@ def help_request(channel: str, rustdesk_id: str, password: str | None = None) ->
 
 
 def drop(tenant: str, user: str) -> None:
-	"""Someone left the business (or was suspended). Files need nothing here: every request checks membership and
-	Office Pulse access, so they can't reach the business's files any more. Kept for team_events' call."""
-	return None
+	"""Someone left the business (or was suspended). Every request checks membership and Office Pulse access, so they
+	can't reach the business's files any more; their sync passwords (WebDAV) are stopped too."""
+	from qtt_platform.api import dav
+
+	dav.revoke_all(tenant, user)

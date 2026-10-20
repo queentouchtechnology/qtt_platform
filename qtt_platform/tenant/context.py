@@ -39,6 +39,10 @@ def resolve_active_tenant(user: str | None = None) -> str | None:
 	user = user or frappe.session.user
 	if not user or user == "Guest":
 		return None
+	# A call pinned to one business (the WebDAV gateway: a sync password belongs to one business).
+	pinned = getattr(frappe.local, "qtt_pinned_tenant", None)
+	if pinned and user == pinned["user"]:
+		return pinned["tenant"]
 	# Viewing as someone (qtt_platform.view_as): always the owner's business, never the person's own choice.
 	viewing = getattr(frappe.local, "qtt_view_as", None)
 	if viewing and user == viewing["target"]:

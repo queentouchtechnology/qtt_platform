@@ -9,7 +9,7 @@
  "track_changes": 1,
  "engine": "InnoDB",
  "description": "Team calls and the Office Pulse Workplace (PROJ-0015): where LiveKit, the file storage (Garage, S3), OnlyOffice and RustDesk run and their keys. Secrets are typed here (or set by the setup script), never shown.",
- "modified": "2026-10-21 10:00:00",
+ "modified": "2026-10-21 12:00:00",
  "field_order": [
   "calls_section",
   "calls_enabled",
@@ -32,6 +32,10 @@
   "encryption_status",
   "files_master_key",
   "files_key_fingerprint",
+  "dav_section",
+  "dav_enabled",
+  "dav_url",
+  "dav_gateway_secret",
   "remote_section",
   "remote_enabled",
   "rustdesk_host",
@@ -159,6 +163,30 @@
    "fieldtype": "Data",
    "label": "Files key fingerprint",
    "read_only": 1
+  },
+  {
+   "fieldname": "dav_section",
+   "fieldtype": "Section Break",
+   "label": "Sync from computers and phones (WebDAV)"
+  },
+  {
+   "fieldname": "dav_enabled",
+   "fieldtype": "Check",
+   "label": "Offer sync",
+   "default": "0",
+   "description": "People with Office Pulse can open Files as a drive on Windows / macOS / Linux and in phone file apps, with a sync password they make in the app. Everything goes through the same rights, locks, versions and recycle bin as the app."
+  },
+  {
+   "fieldname": "dav_url",
+   "fieldtype": "Data",
+   "label": "WebDAV address",
+   "default": "https://office.queentouchtech.in/dav/"
+  },
+  {
+   "fieldname": "dav_gateway_secret",
+   "fieldtype": "Password",
+   "label": "Gateway secret",
+   "description": "Shared with the WebDAV gateway on QTT-AI-OS (/opt/qtt-workplace/dav.env) — it signs every call the gateway makes here."
   },
   {
    "fieldname": "remote_section",

@@ -114,8 +114,19 @@ everyone in every business — no plan needed.
   every file, its older versions and the recycle bin are stored encrypted
   (AES-256, a separate key for each business) — preview, search, editing and
   sharing work as before. It isn't end-to-end: QTT's servers can open files to
-  show previews and search inside them. Desktop sync folders and Nextcloud
-  federation aren't offered.
+  show previews and search inside them. Nextcloud federation isn't offered.
+- **Sync to computer or phone** (Files › menu › Sync to computer or phone):
+  open Files as a drive — Windows (File Explorer › This PC › Map network drive
+  › Connect to a Web site), Mac (Finder › Go › Connect to Server), iPhone / iPad
+  (Files › ⋯ › Connect to Server) or an Android file app with WebDAV (Solid
+  Explorer, Material Files, CX File Explorer). The page shows the **address**
+  and your **user name** (your email); **New** makes a **sync password** for
+  one computer or phone — shown only once, copy it in right away; **Stop**
+  ends it (lost or old devices). You see Team files, My files, Company, HR (HR,
+  owners and admins), From HR and Shared with me — with the same rights, locks,
+  versions and recycle bin as the app (deleting on the computer sends it to the
+  recycle bin). Files up to 100 MB. Leaving the business stops your sync
+  passwords. Ten wrong passwords in 15 minutes and that email waits 15 minutes.
   ⋮ on a file or folder (what shows depends on what you may do there):
   - **Share** — people in the business (Can view / Can edit; it appears in
     their Shared with me; remove anyone) and **links for people outside**
