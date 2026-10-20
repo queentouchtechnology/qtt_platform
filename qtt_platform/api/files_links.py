@@ -227,7 +227,7 @@ def _ticket(ticket: str):
 
 def _info(l) -> dict:
 	business = frappe.db.get_value("QTT Tenant", l.tenant, "tenant_name") or ""
-	out = {"title": _title(l.file_key), "label": l.label or "", "mode": l.mode, "is_dir": bool(l.is_dir), "business": business,
+	out = {"title": _title(l.file_key), "mode": l.mode,  # the link's name is only for the person who made it "is_dir": bool(l.is_dir), "business": business,
 		   "expires_at": str(l.expires_at or "")[:16], "can_download": l.mode == "download"}
 	if not l.is_dir:
 		h = store.head(l.file_key) or {}

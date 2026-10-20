@@ -95,7 +95,7 @@ function codeStep(r, err) {
 const ICONS = {folder: "📁", image: "🖼", video: "🎬", audio: "🎵", word: "📄", cell: "📊", slide: "📽", pdf: "📕", archive: "🗜", file: "📄"};
 function head() {
   const i = S.info;
-  return `<h1>${esc(i.label || i.title)}</h1><p class="muted small">${i.is_dir ? "Folder" : esc(i.size_text || "")}${i.expires_at ? " · until " + esc(i.expires_at) : ""}</p>` +
+  return `<h1>${esc(i.title)}</h1><p class="muted small">${i.is_dir ? "Folder" : esc(i.size_text || "")}${i.expires_at ? " · until " + esc(i.expires_at) : ""}</p>` +
     (i.mode === "preview" ? `<div class="note">Preview only — downloading is turned off for this link. (Nothing can stop a screenshot.)</div>` : "");
 }
 async function show() {
