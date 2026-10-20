@@ -195,21 +195,27 @@ numbers. Its own messages are billed to its own Meta account, not QTT's. If the 
 
 ## Calls and the Office Pulse Workplace (PROJ-0015)
 - Servers: LiveKit (calls, meet.queentouchtech.in), OnlyOffice (office.queentouchtech.in) and RustDesk
-  (remote.queentouchtech.in) run in /opt/qtt-workplace on the QTT-AI-OS server (31.220.83.224), behind its Caddy;
-  Nextcloud (cloud.queentouchtech.in) is on the n8n server. Keys: Desk › QTT Workplace Settings (secrets never shown).
+  (remote.queentouchtech.in) run in /opt/qtt-workplace on the QTT-AI-OS server (31.220.83.224), behind its Caddy,
+  with Garage (S3 file storage for Files). Keys: Desk › QTT Workplace Settings (secrets never shown).
 - Calls: free for every business; screen sharing / remote control / Files need the person's Office Pulse access.
   A call's room is the chat id; LiveKit's webhook (team_calls.webhook) tracks who's in and writes the summary line.
-- Files: each person is a Nextcloud user qtt-<hash> (QTT Cloud Account), each business a group qtt-<tenant> (+ -hr)
-  with group folders "<Business> · Team files" (10 GB), "· Company", "· HR" (QTT Cloud Space). Quotas: Workplace
-  Settings. Deleted files: Nextcloud trash (30 days) — restore as the admin in Nextcloud if a customer asks.
+- Files (since 2026-10-20, no Nextcloud): one private bucket qtt-files in Garage (/opt/qtt-workplace/garage, 4 MB of
+  memory), reached only by Frappe through Caddy office.queentouchtech.in:9443 (Frappe's IP only — Docker ports skip
+  ufw, so the check is in Caddy). Keys per business: <tenant>/team/, /company/, /hr/, /people/<person id>/; an
+  employee's HR folder is a QTT HR Folder record. Frappe checks every permission and the quotas (Workplace Settings).
+  Deleted or replaced files: trash/<day>/<key> for 30 days (file_store.purge_trash, daily) — to restore, copy the
+  object back. Code: file_store.py, api/workplace.py.
+- Documents: OnlyOffice talked to directly (api/workplace_docs.py) — open_doc makes an editor page link (a few hours,
+  one person); OnlyOffice fetches the file through a signed Frappe link and saves through a signed call. Its JWT
+  header is AuthorizationJwt (Frappe takes "Authorization" as a login and refuses it).
 - OnlyOffice Community: its logo shows and 20 editors at once across all businesses; a paid licence lifts both.
 - Remote control: the standard RustDesk app pointed at our server (Copy server settings in the app). Company
   computers: QTT Remote Device (permanent passwords encrypted).
 - Uploads: the site's max_file_size is 110 MB (site_config.json, set 2026-10-21) so Files' own 100 MB check decides;
   Team chat keeps its 25 MB check in code. Frappe's default (25 MB) would refuse Files uploads over 25 MB.
-- Nextcloud's OnlyOffice settings live in config.php ('onlyoffice' block: DocumentServerUrl, jwt_secret, jwt_header) —
-  they override the app settings; backup before the 2026-10-21 change: /root/config.php.bak-20261021 on the n8n server.
-- Verified 2026-10-21: 32 API authorization checks, Nextcloud permission / quota checks, OnlyOffice JWT both ways,
+- Nextcloud (cloud.queentouchtech.in, n8n server) is QTT's own team cloud only — QTT OS no longer uses it (its QTT OS
+  folders and users were removed 2026-10-20; backup /root/qtt-os-nextcloud-backup-20261020.tgz on that server).
+- Verified 2026-10-21: 32 API authorization checks, permission / quota checks, OnlyOffice JWT both ways,
   LiveKit load (6 publishers × 24 viewers: 144/144 streams, 0.03 % loss, ~1.5 of 4 cores), 10 conversions at once,
   crash recovery (restart: unless-stopped; docker on boot).
 

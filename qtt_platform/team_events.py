@@ -142,7 +142,7 @@ def send_push(users, title, body, data):
 
 def on_membership(doc, method=None):
 	"""The business's Team workspace follows its members (only once the business has opened Team); someone who leaves
-	(or is suspended) also leaves its Nextcloud groups (Workplace)."""
+	(or is suspended) loses Files with it (every Files request checks membership)."""
 	if method == "on_trash" or doc.status != "active":
 		from qtt_platform.api.workplace import drop
 		from qtt_platform.api.workplace_agent import on_access_lost

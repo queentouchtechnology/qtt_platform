@@ -14,3 +14,4 @@ qtt_platform.patches.v0_12.qtt_midnight_flat_cards
 qtt_platform.patches.v0_13.invitation_short_codes
 qtt_platform.patches.v0_14.app_highlights
 qtt_platform.patches.v0_15.studio_ai_providers
+qtt_platform.patches.v0_16.drop_nextcloud

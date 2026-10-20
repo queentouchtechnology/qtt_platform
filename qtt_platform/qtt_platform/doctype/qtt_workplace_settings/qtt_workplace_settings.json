@@ -8,7 +8,7 @@
  "quick_entry": 0,
  "track_changes": 1,
  "engine": "InnoDB",
- "description": "Team calls and the Office Pulse Workplace (PROJ-0015): where LiveKit, Nextcloud, OnlyOffice and RustDesk run and their keys. Secrets are typed here (or set by the setup script), never shown.",
+ "description": "Team calls and the Office Pulse Workplace (PROJ-0015): where LiveKit, the file storage (Garage, S3), OnlyOffice and RustDesk run and their keys. Secrets are typed here (or set by the setup script), never shown.",
  "modified": "2026-10-20 14:00:00",
  "field_order": [
   "calls_section",
