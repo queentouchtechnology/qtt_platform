@@ -117,7 +117,10 @@ the payment method set in Settings; QTT's cost each month is limited (Domains bo
 above it a task "Approve buying <domain>" appears and Builds shows **Approve**. A domain already in QTT's Hostinger
 account is never bought twice. A go-live tries the security certificate up to 4 times; if it still
 doesn't install, the site is live without https and a task "Secure <domain> (https)" appears (CloudPanel › Sites › the
-site › SSL/TLS › New Let's Encrypt Certificate). Deleting a website cancels its cache task.
+site › SSL/TLS › New Let's Encrypt Certificate). Deleting a website cancels its cache task. A website Frappe has built
+once stays with Frappe (its go-live and deletion too) even if its product's switch is off — so a test business can be
+run through Frappe before a product is switched, and n8n never touches the same site. Websites and online stores have
+run on Frappe since 17 Oct 2026; n8n's build workflows 11–16 are kept, unused, until the week's watch ends.
 
 ## Online store add-ons: staff tasks
 Managed E-Commerce add-ons (marked Add-on in Services and pricing; owners pick any with one plan): Payment gateway setup,
