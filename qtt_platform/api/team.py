@@ -67,7 +67,9 @@ def _ctx() -> frappe._dict:
 
 def _people(tenant: str) -> dict[str, dict]:
 	"""Everyone active in the business: {user: {user, name, image, role}}."""
-	cache = frappe.local.__dict__.setdefault("qtt_team_people", {})
+	cache = getattr(frappe.local, "qtt_team_people", None)
+	if cache is None:
+		cache = frappe.local.qtt_team_people = {}
 	if tenant in cache:
 		return cache[tenant]
 	rows = frappe.get_all("QTT Tenant Membership", filters={"tenant": tenant, "status": "active"}, fields=["user", "tenant_role"])
@@ -114,7 +116,7 @@ def sync(tenant: str, exclude: str | None = None) -> None:
 	name = rules.workspace_name(tenant)
 	if not frappe.db.exists(WS, name):
 		return
-	frappe.local.__dict__.get("qtt_team_people", {}).pop(tenant, None)
+	(getattr(frappe.local, "qtt_team_people", None) or {}).pop(tenant, None)
 	people = dict(_people(tenant))
 	people.pop(exclude, None)  # a membership being deleted
 	for user in people:

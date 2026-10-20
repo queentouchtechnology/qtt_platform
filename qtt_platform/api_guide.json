@@ -6782,7 +6782,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamAddMembers",
    "screens": "platform/team/team_screen.dart › TeamChannelInfoPage",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:735",
+   "source": "qtt_platform/qtt_platform/api/team.py:737",
    "status": "OK"
   },
   {
@@ -6798,7 +6798,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamChannel",
    "screens": "platform/team/team_screen.dart › TeamChannelInfoPage",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:684",
+   "source": "qtt_platform/qtt_platform/api/team.py:686",
    "status": "OK"
   },
   {
@@ -6814,7 +6814,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamDeleteMessage",
    "screens": "platform/team/team_chat_page.dart › _TeamChatPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:495",
+   "source": "qtt_platform/qtt_platform/api/team.py:497",
    "status": "OK"
   },
   {
@@ -6830,7 +6830,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:468",
+   "source": "qtt_platform/qtt_platform/api/team.py:470",
    "status": "Not used by the app"
   },
   {
@@ -6846,7 +6846,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:627",
+   "source": "qtt_platform/qtt_platform/api/team.py:629",
    "status": "Not used by the app"
   },
   {
@@ -6862,7 +6862,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamFileLink",
    "screens": "platform/team/team_chat_page.dart › _TeamChatPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:610",
+   "source": "qtt_platform/qtt_platform/api/team.py:612",
    "status": "OK"
   },
   {
@@ -6878,7 +6878,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamHome",
    "screens": "platform/team/team_screen.dart › TeamChannelInfoPage\nplatform/team/team_screen.dart › _TeamScreenState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:303",
+   "source": "qtt_platform/qtt_platform/api/team.py:305",
    "status": "OK"
   },
   {
@@ -6894,7 +6894,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamLeave",
    "screens": "platform/team/team_screen.dart › TeamChannelInfoPage",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:751",
+   "source": "qtt_platform/qtt_platform/api/team.py:753",
    "status": "OK"
   },
   {
@@ -6910,7 +6910,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamMessages",
    "screens": "platform/team/team_chat_page.dart › _TeamChatPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:342",
+   "source": "qtt_platform/qtt_platform/api/team.py:344",
    "status": "OK"
   },
   {
@@ -6926,7 +6926,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:767",
+   "source": "qtt_platform/qtt_platform/api/team.py:769",
    "status": "Not used by the app"
   },
   {
@@ -6942,7 +6942,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamNewChannel",
    "screens": "platform/team/team_screen.dart › _NewChannelPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:664",
+   "source": "qtt_platform/qtt_platform/api/team.py:666",
    "status": "OK"
   },
   {
@@ -6958,7 +6958,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:532",
+   "source": "qtt_platform/qtt_platform/api/team.py:534",
    "status": "Not used by the app"
   },
   {
@@ -6974,7 +6974,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:509",
+   "source": "qtt_platform/qtt_platform/api/team.py:511",
    "status": "Not used by the app"
   },
   {
@@ -6990,7 +6990,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamSend",
    "screens": "platform/team/team_chat_page.dart › _TeamChatPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:437",
+   "source": "qtt_platform/qtt_platform/api/team.py:439",
    "status": "OK"
   },
   {
@@ -7006,7 +7006,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamSendFile",
    "screens": "platform/team/team_chat_page.dart › _TeamChatPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:448",
+   "source": "qtt_platform/qtt_platform/api/team.py:450",
    "status": "OK"
   },
   {
@@ -7022,7 +7022,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamStartDm",
    "screens": "platform/team/team_screen.dart › _TeamScreenState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:650",
+   "source": "qtt_platform/qtt_platform/api/team.py:652",
    "status": "OK"
   },
   {
@@ -7038,7 +7038,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:553",
+   "source": "qtt_platform/qtt_platform/api/team.py:555",
    "status": "Not used by the app"
   },
   {
@@ -7054,7 +7054,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:591",
+   "source": "qtt_platform/qtt_platform/api/team.py:593",
    "status": "Not used by the app"
   },
   {
@@ -7070,7 +7070,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:707",
+   "source": "qtt_platform/qtt_platform/api/team.py:709",
    "status": "Not used by the app"
   },
   {
