@@ -2158,7 +2158,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/onbox/onbox_repository.dart › OnboxRepository.assign",
    "screens": "products/onbox/chat_controller.dart › ChatController\nproducts/onbox/screens/conversation_actions.dart › (top level)",
    "other_callers": "",
-   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:120",
+   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:125",
    "status": "OK"
   },
   {
@@ -2174,7 +2174,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/onbox/onbox_repository.dart › OnboxRepository.getConversation",
    "screens": "products/onbox/chat_controller.dart › ChatController",
    "other_callers": "",
-   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:62",
+   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:64",
    "status": "Not described"
   },
   {
@@ -2190,7 +2190,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/onbox/onbox_repository.dart › OnboxRepository.getMessages",
    "screens": "products/onbox/chat_controller.dart › ChatController",
    "other_callers": "",
-   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:69",
+   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:71",
    "status": "Not described"
   },
   {
@@ -2206,7 +2206,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/onbox/onbox_repository.dart › OnboxRepository.listConversations",
    "screens": "products/onbox/onbox_provider.dart › OnboxProvider",
    "other_callers": "",
-   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:31",
+   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:32",
    "status": "Not described"
   },
   {
@@ -2222,7 +2222,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/onbox/onbox_repository.dart › OnboxRepository.markRead",
    "screens": "products/onbox/chat_controller.dart › ChatController",
    "other_callers": "",
-   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:161",
+   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:166",
    "status": "Not described"
   },
   {
@@ -2238,7 +2238,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/onbox/onbox_repository.dart › OnboxRepository.sendAttachments",
    "screens": "products/onbox/chat_controller.dart › ChatController",
    "other_callers": "",
-   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:95",
+   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:99",
    "status": "OK"
   },
   {
@@ -2254,7 +2254,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/onbox/onbox_repository.dart › OnboxRepository.sendMessage",
    "screens": "products/onbox/chat_controller.dart › ChatController",
    "other_callers": "",
-   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:82",
+   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:85",
    "status": "Not described"
   },
   {
@@ -2270,7 +2270,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/onbox/onbox_repository.dart › OnboxRepository.setLabels",
    "screens": "products/onbox/chat_controller.dart › ChatController\nproducts/onbox/screens/conversation_actions.dart › ConversationActions",
    "other_callers": "",
-   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:168",
+   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:173",
    "status": "Not described"
   },
   {
@@ -2286,7 +2286,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/onbox/onbox_repository.dart › OnboxRepository.setPriority",
    "screens": "products/onbox/chat_controller.dart › ChatController\nproducts/onbox/screens/conversation_actions.dart › ConversationActions",
    "other_callers": "",
-   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:151",
+   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:156",
    "status": "Not described"
   },
   {
@@ -2302,7 +2302,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/onbox/onbox_repository.dart › OnboxRepository.setStatus",
    "screens": "products/onbox/chat_controller.dart › ChatController\nproducts/onbox/screens/chat_pane.dart › _ChatViewState\nproducts/onbox/screens/conversation_actions.dart › ConversationActions",
    "other_callers": "",
-   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:141",
+   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:146",
    "status": "Not described"
   },
   {
@@ -2318,7 +2318,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/onbox/onbox_repository.dart › OnboxRepository.typing",
    "screens": "platform/data/platform_repository.dart › PlatformRepository\nproducts/onbox/chat_controller.dart › ChatController",
    "other_callers": "",
-   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:180",
+   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:185",
    "status": "Not described"
   },
   {
@@ -4238,7 +4238,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.activateApp",
    "screens": "platform/explore/explore_screen.dart › _ItemPage",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/explore.py:93",
+   "source": "qtt_platform/qtt_platform/api/explore.py:97",
    "status": "OK"
   },
   {
@@ -4254,7 +4254,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.explore",
    "screens": "platform/data/platform_models.dart › AssistantTip\nplatform/explore/explore_screen.dart › (top level)\nplatform/explore/explore_screen.dart › ExploreScreen",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/explore.py:76",
+   "source": "qtt_platform/qtt_platform/api/explore.py:79",
    "status": "OK"
   },
   {
@@ -5246,7 +5246,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.plans",
    "screens": "admin/plans_view.dart › _PlanEditScreenState\nadmin/plans_view.dart › _PlansViewState\nadmin/saas_models.dart › PlansCatalog\nadmin/saas_models.dart › WorkspaceProduct\nadmin/workspace_billing_view.dart › _ProductCard\nplatform/data/platform_models.dart › ExploreItem\nplatform/explore/explore_screen.dart › ExploreScreen\nplatform/explore/explore_screen.dart › _ItemPage\nplatform/onboarding/signup_screen.dart › _SignupScreenState\nshared/setup/welcome_screen.dart › _WelcomeScreenState\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/saas.py:193",
+   "source": "qtt_platform/qtt_platform/api/saas.py:208",
    "status": "OK"
   },
   {
@@ -5255,8 +5255,8 @@
    "area": "api.saas",
    "http_methods": "POST",
    "guest": 1,
-   "purpose": "Customer -> Frappe User -> QTT Tenant -> Tenant Owner Membership -> QTT Product Subscription (trial) -> QMP_LMS Product Access(Manager), all in one request-transaction. See the module docstring for the atomicity guarantee. Returns {\"success\": True, \"data\": {...}} on success — never a password, hash, or any secret — or {\"success\": False, \"error\": {\"code\": ..., \"message\": ...}} for every expected failure mode. An unexpected exception is logged server-side (frappe.log_error) and reported to the cal",
-   "details": "Customer -> Frappe User -> QTT Tenant -> Tenant Owner Membership ->\nQTT Product Subscription (trial) -> QMP_LMS Product Access(Manager),\nall in one request-transaction. See the module docstring for the\natomicity guarantee. Returns {\"success\": True, \"data\": {...}} on\nsuccess — never a password, hash, or any secret — or\n{\"success\": False, \"error\": {\"code\": ..., \"message\": ...}} for every\nexpected failure mode. An unexpected exception is logged server-side\n(frappe.log_error) and reported to the caller only as a generic\nINTERNAL_ERROR — no stack trace ever crosses this boundary.",
+   "purpose": "Customer -> Frappe User -> QTT Tenant -> Tenant Owner Membership -> QTT Product Subscription (trial) -> QMP_LMS Product Access(Manager), all in one request-transaction. product_key \"\" (the QTT OS app): the business alone — Team is its free core and apps are started later in Explore QTT OS — so no subscription, product access or plan. See the module docstring for the atomicity guarantee. Returns {\"success\": True, \"data\": {...}} on success — never a password, hash, or any secret — or {\"success\": F",
+   "details": "Customer -> Frappe User -> QTT Tenant -> Tenant Owner Membership ->\nQTT Product Subscription (trial) -> QMP_LMS Product Access(Manager),\nall in one request-transaction. product_key \"\" (the QTT OS app): the\nbusiness alone — Team is its free core and apps are started later in\nExplore QTT OS — so no subscription, product access or plan. See the module docstring for the\natomicity guarantee. Returns {\"success\": True, \"data\": {...}} on\nsuccess — never a password, hash, or any secret — or\n{\"success\": False, \"error\": {\"code\": ..., \"message\": ...}} for every\nexpected failure mode. An unexpected exception is logged server-side\n(frappe.log_error) and reported to the caller only as a generic\nINTERNAL_ERROR — no stack trace ever crosses this boundary.",
    "arguments": "full_name, email, password, organization_name, country, language, product_key, plan_key, email_token, phone, phone_token",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.signup",

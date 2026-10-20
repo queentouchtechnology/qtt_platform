@@ -73,7 +73,9 @@ def signup(
 ) -> dict:
 	"""Customer -> Frappe User -> QTT Tenant -> Tenant Owner Membership ->
 	QTT Product Subscription (trial) -> QMP_LMS Product Access(Manager),
-	all in one request-transaction. See the module docstring for the
+	all in one request-transaction. product_key "" (the QTT OS app): the
+	business alone — Team is its free core and apps are started later in
+	Explore QTT OS — so no subscription, product access or plan. See the module docstring for the
 	atomicity guarantee. Returns {"success": True, "data": {...}} on
 	success — never a password, hash, or any secret — or
 	{"success": False, "error": {"code": ..., "message": ...}} for every
@@ -84,8 +86,10 @@ def signup(
 	try:
 		_validate_signup_input(full_name, email, password, organization_name)
 		phone = _check_verification(email, email_token, phone, phone_token)
-		product = _resolve_product(product_key)
-		plan = _resolve_plan(product_key, plan_key)
+		product_key = (product_key or "").strip()
+		if product_key:
+			_resolve_product(product_key)
+			plan = _resolve_plan(product_key, plan_key)
 		_validate_locale_refs(country, language)
 
 		user = _provision_user(full_name.strip(), email.strip().lower(), password)
@@ -103,6 +107,17 @@ def signup(
 			}
 		)
 		membership.insert(ignore_permissions=True)
+
+		if not product_key:
+			write_audit_event("signup", tenant=tenant.name, actor=user.name, target_doctype="QTT Tenant", target_name=tenant.name)
+			write_audit_event("membership_created", tenant=tenant.name, actor=user.name, target_doctype="QTT Tenant Membership",
+							  target_name=membership.name, metadata={"tenant_role": membership.tenant_role})
+			_verify().consume_token("signup", "email", email_token)
+			_verify().consume_token("signup", "whatsapp", phone_token)
+			return ok({"user": user.name, "tenant": tenant.name, "tenant_name": tenant.tenant_name,
+					   "tenant_role": membership.tenant_role, "product": None, "product_role": None, "subscription": None,
+					   "plan": None, "plan_code": None, "subscription_status": None, "trial_ends_on": None,
+					   "current_period_end": None, "ai_credits_granted": 0})
 
 		subscription = subscription_service.create_subscription(tenant.name, product_key, plan.name)
 

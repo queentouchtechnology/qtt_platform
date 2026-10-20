@@ -23,7 +23,10 @@ from qtt_platform.tenant.guards import require_tenant_membership, require_tenant
 
 SUB = "QTT Product Subscription"
 SERVICES = "QTT_SERVICES"  # Managed Services: the home of the services, not an app of its own here
-APP_ORDER = ("QTT_ORBITRA", "QTT_ONBOX", "QTT_OFFICE_PULSE", "QTT_STUDIO")
+APP_ORDER = ("QTT_ORBITRA", "QTT_OFFICE_PULSE", "QTT_STUDIO")
+# Not offered here: the team inbox (Onbox) comes with AI & WhatsApp Automation and the website services
+# (qtt_services/inbox.py); a business that already has it keeps it.
+NOT_OFFERED = ("QTT_ONBOX",)
 _ACTIVATE_ROLES = ["Tenant Owner"]  # starting an app is a billing decision (api/subscription.py)
 
 
@@ -79,7 +82,8 @@ def catalog() -> dict:
 	tenant = _tenant()
 	house = is_house(tenant)
 	fields = ["product_key", "display_name", "description", "icon"] + (["highlights"] if frappe.get_meta("QTT Product").has_field("highlights") else [])
-	products = [p for p in frappe.get_all("QTT Product", filters={"status": "active"}, fields=fields) if p.product_key != SERVICES]
+	products = [p for p in frappe.get_all("QTT Product", filters={"status": "active"}, fields=fields)
+				if p.product_key != SERVICES and (p.product_key not in NOT_OFFERED or subscription_service.get_current_subscription(tenant, p.product_key))]
 	products.sort(key=lambda p: (APP_ORDER.index(p.product_key) if p.product_key in APP_ORDER else len(APP_ORDER), p.display_name or ""))
 	items = [_app(p, tenant, house) for p in products]
 	if "qtt_services" in frappe.get_installed_apps():
@@ -98,7 +102,7 @@ def activate(product: str, plan: str, trial=0) -> dict:
 	require_tenant_role(tenant, _ACTIVATE_ROLES)
 	p = frappe.db.get_value("QTT Plan", {"name": plan, "product": product, "is_public": 1},
 							["name", "base_price", "billing_period", "trial_days", "display_name"], as_dict=True)
-	if not p or product == SERVICES:
+	if not p or product in (SERVICES,) + NOT_OFFERED:
 		frappe.throw(_("That plan isn't available. Please choose again."))
 	current = subscription_service.get_current_subscription(tenant, product)
 	if current and current.status in OPEN_SUBSCRIPTION_STATUSES + ("suspended",):

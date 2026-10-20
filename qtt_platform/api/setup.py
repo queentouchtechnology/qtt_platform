@@ -116,13 +116,15 @@ def welcome() -> dict:
 	everyday = [{"title": e["title"], "body": e["body"]} for e in spec["everyday"] if _for_me(e, None, ctx)]
 	more = replaces = None
 	if ctx.get("owner"):
+		from qtt_platform.api.explore import NOT_OFFERED  # the inbox comes with the services, not on its own
+
 		r = spec["replaces"]
 		rows = [{**{k: row[k] for k in ("product", "need", "instead")}, "app": names[row["product"]].display_name or row["product"], "have": row["product"] in ctx["products"]}
 				for row in r["rows"] if row["product"] in names]
 		replaces = {"title": r["title"], "body": r["body"], "footer": r["footer"], "rows": rows}
 		have = set(frappe.get_all("QTT Tenant Product Subscription Pointer", filters={"tenant": tenant}, pluck="product"))
 		others = [{"product": p.name, "title": p.display_name or p.name, "description": p.description, "icon": p.icon}
-				  for p in names.values() if p.name not in have and not any(w in p.name.upper() for w in HIDDEN_PRODUCT_WORDS)]
+				  for p in names.values() if p.name not in have and p.name not in NOT_OFFERED and not any(w in p.name.upper() for w in HIDDEN_PRODUCT_WORDS)]
 		if others:
 			more = {**spec["more"], "apps": others}
 	return {"intro": spec["intro"], "apps": apps, "everyday": everyday, "replaces": replaces, "more": more}

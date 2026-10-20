@@ -349,8 +349,8 @@ everyone in every business — no plan needed.
   - **Onbox** — "Set up Onbox" (Manager; Onbox › Onbox settings › Start here): first — connect
     WhatsApp Business (Meta Cloud API: phone number ID, business account ID,
     access key; the number can't be in the WhatsApp app at the same time),
-    website chat, invite the team, answer a first chat; then — Facebook,
-    Instagram, email; optional — who sees which inbox.
+    website chat (a website QTT built: ask QTT and it's done for you), invite
+    the team, answer a first chat; optional — who sees which inbox.
   - **Managed Services** — "Get your website or store live" (Owner;
     Managed Services › Start here): choose what
     QTT builds → pay to start → check the preview and approve → go live on
@@ -359,7 +359,8 @@ everyone in every business — no plan needed.
 - **One app instead of separate companies** (say this to owners when it
   helps): QTT OS does the jobs businesses usually pay different companies for
   — Office Pulse instead of separate HR software and attendance machines'
-  software; Orbitra instead of separate billing software; Onbox instead of a
+  software; Orbitra instead of separate billing software; the team inbox
+  (Onbox — comes with the WhatsApp and website services) instead of a
   separate WhatsApp inbox company; Managed Services instead of a web agency,
   hosting company and developer. One login, one team list, one place for
   help; each app has its own plan (Business › Plans) — start with one, add
@@ -827,12 +828,21 @@ told "Your role in Orbitra can't do this" — the owner can switch it on there.
 - **Settings** (admin): prices include GST or not, main store, invoice note.
   Business details on invoices come from Business › Profile.
 
-## Onbox — every customer conversation in one inbox
+## Onbox — the team inbox that comes with the services
+Onbox isn't bought on its own any more (since 20 Oct 2026): a business gets it
+with its services — the **WhatsApp inbox** with AI & WhatsApp Automation (and
+the WhatsApp AI receptionist, which hands chats over to the team here), the
+**website chat** with Website Development or an online store from QTT. The
+owner gets it as Manager when the service starts; give others access in
+Business › Roles and access. When a service is paused (unpaid) or ends, its
+channel stops — its chats leave the list and can't be answered — and comes
+back when the service starts again. A business that already had Onbox on its
+own keeps it. Facebook, Instagram and email channels aren't available now.
 Roles: **Agent** (answers chats assigned to them or their channels),
 **Supervisor** and **Manager** (see every channel; managers also manage
 settings).
-- Channels: WhatsApp Business (Meta Cloud API), website chat (paste a code on
-  your website), Facebook, Instagram and email (forwarding or mailbox).
+- Channels: WhatsApp Business (Meta Cloud API) and website chat (paste a code
+  on your website — on a website QTT built, ask QTT and it's done for you).
 - Conversations: Mine / Unassigned / All; filter by status (open, pending,
   snoozed, resolved) and channel; reply or add a private note; attach files
   (up to 16 MB); assign to a person or team; snooze; labels; priority;
@@ -1267,10 +1277,11 @@ to remember or share.
 ## Plans and trials — Explore QTT OS
 Each app has its own plans (there are no bundles). **Explore QTT OS** (Home ›
 the Explore QTT OS card, or Business › Plans and billing › Explore QTT OS)
-shows all of QTT OS in one place: the apps (Orbitra, Onbox, Office Pulse) and
+shows all of QTT OS in one place: the apps (Orbitra, Office Pulse, QTT Studio) and
 the managed services (Website Development, Managed E-Commerce Websites, AI &
 WhatsApp Automation, Marketing assistant), each with what it does and its
-plans. Owners and admins can look; only the **owner** starts things:
+plans. The team inbox (Onbox) isn't in the list — it comes with AI & WhatsApp
+Automation and the website services; Team (the business's own chat) is free for everyone. Owners and admins can look; only the **owner** starts things:
 - An app: **Start free trial** (when its plans have one — once per app; the
   first invoice comes 3 days before the trial ends, Pay now keeps it on) or
   **Choose <plan>** (a paid plan starts as soon as its first invoice is paid —

@@ -31,7 +31,7 @@
   "QTT_ONBOX": {
    "title": "Onbox — every customer chat",
    "lines": [
-    {"text": "WhatsApp, website chat, Facebook, Instagram and email — in one inbox"},
+    {"text": "WhatsApp and website chat — in one inbox, with your services"},
     {"text": "Reply, add private notes and take chats for yourself"},
     {"text": "Share chats across the team and see every inbox", "for": ["Manager", "Supervisor"]},
     {"text": "Connect your channels in a few taps", "for": ["Manager"]}
@@ -60,8 +60,8 @@
   "rows": [
    {"product": "QTT_OFFICE_PULSE", "need": "Attendance, leave, shifts and payroll", "instead": "Instead of separate HR software and attendance machines"},
    {"product": "QTT_ORBITRA", "need": "Billing, stock and GST", "instead": "Instead of separate billing software and an accounts tool"},
-   {"product": "QTT_ONBOX", "need": "WhatsApp and website chats for the whole team", "instead": "Instead of a separate WhatsApp inbox company"},
-   {"product": "QTT_SERVICES", "need": "Your website or online store — built, hosted and looked after", "instead": "Instead of a web agency, a hosting company and a developer"}
+   {"product": "QTT_SERVICES", "need": "Your website or online store — built, hosted and looked after", "instead": "Instead of a web agency, a hosting company and a developer"},
+   {"product": "QTT_SERVICES", "need": "WhatsApp and website chats for the whole team — with your services", "instead": "Instead of a separate WhatsApp inbox company"}
   ],
   "footer": "Each app has its own simple plan — start with one, add the others when you need them."
  },
