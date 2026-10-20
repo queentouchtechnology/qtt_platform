@@ -113,7 +113,7 @@ def _is_dir(key: str) -> bool:
 @frappe.whitelist(methods=["GET"])
 def info() -> dict:
 	"""What this person has in the Workplace: the spaces, whether they can write in each, remote control, how many
-	requests wait for them."""
+	requests wait for them, whether stored files are encrypted on the server."""
 	ctx = _ctx()
 	s = _settings()
 	spaces = [{"key": "team", "title": "Team files", "write": True}, {"key": "mine", "title": "My files", "write": True},
@@ -125,7 +125,8 @@ def info() -> dict:
 	from qtt_platform.api import files_share
 
 	return {"files": bool(s.files_enabled), "spaces": spaces, "hr": ctx.hr, "manager": ctx.manager, "remote": bool(s.remote_enabled),
-			"onlyoffice": bool(s.onlyoffice_url), "requests": files_share.waiting_count(ctx), "admin": ctx.admin}
+			"onlyoffice": bool(s.onlyoffice_url), "requests": files_share.waiting_count(ctx), "admin": ctx.admin,
+			"encrypted": bool(s.get("encrypt_files"))}
 
 
 @frappe.whitelist(methods=["GET"])

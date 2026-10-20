@@ -9,7 +9,7 @@
  "track_changes": 1,
  "engine": "InnoDB",
  "description": "Team calls and the Office Pulse Workplace (PROJ-0015): where LiveKit, the file storage (Garage, S3), OnlyOffice and RustDesk run and their keys. Secrets are typed here (or set by the setup script), never shown.",
- "modified": "2026-10-20 14:00:00",
+ "modified": "2026-10-21 10:00:00",
  "field_order": [
   "calls_section",
   "calls_enabled",
@@ -27,6 +27,11 @@
   "onlyoffice_url",
   "team_quota_gb",
   "personal_quota_gb",
+  "encryption_section",
+  "encrypt_files",
+  "encryption_status",
+  "files_master_key",
+  "files_key_fingerprint",
   "remote_section",
   "remote_enabled",
   "rustdesk_host",
@@ -122,6 +127,38 @@
    "fieldtype": "Int",
    "label": "My files per person (GB)",
    "default": "2"
+  },
+  {
+   "fieldname": "encryption_section",
+   "fieldtype": "Section Break",
+   "label": "Encryption at rest",
+   "collapsible": 0
+  },
+  {
+   "fieldname": "encrypt_files",
+   "fieldtype": "Check",
+   "label": "Encrypt stored files",
+   "default": "0",
+   "description": "Every file, version and recycle-bin item is kept encrypted on the storage server's disks (AES-256, a key for each business, made from the files key below). Preview, search and editing keep working. Switching on (or off) changes the files already stored in the background — see Status."
+  },
+  {
+   "fieldname": "encryption_status",
+   "fieldtype": "Data",
+   "label": "Status",
+   "read_only": 1
+  },
+  {
+   "fieldname": "files_master_key",
+   "fieldtype": "Password",
+   "label": "Files key",
+   "read_only": 1,
+   "description": "Made once when encryption is first switched on and never changed. It is kept encrypted with this site's encryption key — back up the site config (encryption_key) with the database, or the files can't be read."
+  },
+  {
+   "fieldname": "files_key_fingerprint",
+   "fieldtype": "Data",
+   "label": "Files key fingerprint",
+   "read_only": 1
   },
   {
    "fieldname": "remote_section",

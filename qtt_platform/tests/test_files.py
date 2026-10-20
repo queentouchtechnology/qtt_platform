@@ -152,5 +152,33 @@ class Text(unittest.TestCase):
 		self.assertEqual(ft.snippet("nothing here", ["gst"]), "")
 
 
+class EncryptionAtRest(unittest.TestCase):
+	"""PROJ-0016 E: a key per business from one files key; telling 'the other kind' refusals apart."""
+
+	M = "ab" * 32
+
+	def test_keys(self):
+		from qtt_platform import workplace_rules as w
+
+		k1, k2 = w.tenant_key(self.M, "t1"), w.tenant_key(self.M, "t2")
+		self.assertEqual(len(k1), 32)
+		self.assertNotEqual(k1, k2)
+		self.assertEqual(k1, w.tenant_key(self.M, "t1"))  # the same every time — nothing stored per business
+		self.assertNotEqual(k1, w.tenant_key("cd" * 32, "t1"))
+		with self.assertRaises(ValueError):
+			w.tenant_key("", "t1")
+		self.assertEqual(len(w.key_fingerprint(self.M)), 16)
+		self.assertNotIn(self.M[:16], w.key_fingerprint(self.M))
+
+	def test_mismatch(self):
+		from qtt_platform import workplace_rules as w
+
+		self.assertTrue(w.crypt_mismatch("InvalidRequest", "Bad request: Object is encrypted"))
+		self.assertTrue(w.crypt_mismatch("InvalidRequest", "Bad request: Trying to decrypt a plaintext object"))
+		self.assertTrue(w.crypt_mismatch("400", "Bad Request"))  # a head has no message
+		self.assertFalse(w.crypt_mismatch("NoSuchKey", "gone"))
+		self.assertFalse(w.crypt_mismatch("InvalidRequest", "Bad request: bad range"))
+
+
 if __name__ == "__main__":
 	unittest.main()

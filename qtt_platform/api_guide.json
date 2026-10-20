@@ -9150,7 +9150,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.remoteConnect",
    "screens": "platform/team/team_call.dart › _ControlSheetState\nplatform/workplace/remote_page.dart › (top level)",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:483",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:484",
    "status": "OK"
   },
   {
@@ -9166,7 +9166,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesDelete",
    "screens": "platform/workplace/files_page.dart › _FilesPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:275",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:276",
    "status": "OK"
   },
   {
@@ -9182,7 +9182,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.remoteDeleteDevice",
    "screens": "platform/workplace/remote_page.dart › _RemoteBody",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:471",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:472",
    "status": "OK"
   },
   {
@@ -9198,7 +9198,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.remoteDevices",
    "screens": "platform/team/team_call.dart › _ControlSheetState\nplatform/workplace/remote_page.dart › RemoteHelpPage\nplatform/workplace/remote_page.dart › _SetupComputerPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:385",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:386",
    "status": "OK"
   },
   {
@@ -9214,7 +9214,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:170",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:171",
    "status": "Not used by the app"
   },
   {
@@ -9230,7 +9230,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.employeeDocs",
    "screens": "platform/workplace/files_page.dart › EmployeeDocsPage",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:337",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:338",
    "status": "OK"
   },
   {
@@ -9246,7 +9246,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.remoteHelpRequest",
    "screens": "platform/workplace/remote_page.dart › _AskHelpSheetState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:506",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:507",
    "status": "OK"
   },
   {
@@ -9255,8 +9255,8 @@
    "area": "api.workplace",
    "http_methods": "GET",
    "guest": 0,
-   "purpose": "What this person has in the Workplace: the spaces, whether they can write in each, remote control, how many requests wait for them.",
-   "details": "What this person has in the Workplace: the spaces, whether they can write in each, remote control, how many\nrequests wait for them.",
+   "purpose": "What this person has in the Workplace: the spaces, whether they can write in each, remote control, how many requests wait for them, whether stored files are encrypted on the server.",
+   "details": "What this person has in the Workplace: the spaces, whether they can write in each, remote control, how many\nrequests wait for them, whether stored files are encrypted on the server.",
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.workplaceInfo",
@@ -9278,7 +9278,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesList",
    "screens": "platform/workplace/files_page.dart › _FilesPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:132",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:133",
    "status": "OK"
   },
   {
@@ -9294,7 +9294,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesMkdir",
    "screens": "platform/workplace/files_page.dart › _FilesPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:212",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:213",
    "status": "OK"
   },
   {
@@ -9310,7 +9310,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesNewDoc",
    "screens": "platform/workplace/files_page.dart › _FilesPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:225",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:226",
    "status": "OK"
   },
   {
@@ -9326,7 +9326,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesOpen",
    "screens": "platform/workplace/files_page.dart › _FilesPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:290",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:291",
    "status": "OK"
   },
   {
@@ -9342,7 +9342,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.remoteSettings",
    "screens": "platform/workplace/remote_page.dart › RemoteHelpPage",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:361",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:362",
    "status": "OK"
   },
   {
@@ -9358,7 +9358,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesRename",
    "screens": "platform/workplace/files_page.dart › _FilesPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:247",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:248",
    "status": "OK"
   },
   {
@@ -9374,7 +9374,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.remoteRotate",
    "screens": "platform/workplace/remote_page.dart › _RemoteBody",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:457",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:458",
    "status": "OK"
   },
   {
@@ -9390,7 +9390,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.remoteSaveDevice",
    "screens": "platform/workplace/remote_page.dart › _ComputerFormState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:403",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:404",
    "status": "OK"
   },
   {
@@ -9406,7 +9406,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesSendToChat",
    "screens": "platform/workplace/files_page.dart › _FilesPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:309",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:310",
    "status": "OK"
   },
   {
@@ -9422,7 +9422,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.remoteSetupDevice",
    "screens": "platform/workplace/remote_page.dart › _SetupComputerPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:441",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:442",
    "status": "OK"
   },
   {
@@ -9438,7 +9438,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesUpload",
    "screens": "platform/workplace/files_page.dart › _FilesPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:184",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:185",
    "status": "OK"
   },
   {

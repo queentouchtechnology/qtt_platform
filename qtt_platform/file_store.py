@@ -2,6 +2,11 @@
 Office Pulse Files' storage: one private S3 bucket (Garage on QTT-AI-OS — QTT Workplace Settings › storage_*), reached
 only by Frappe. Folders are prefixes (an empty folder is a zero-byte "<name>/" marker). Plain storage: versions, the
 recycle bin, rights and the activity log are files_core.py's; keys, listings and quotas are workplace_rules.py's.
+
+Encryption at rest (QTT Workplace Settings › Encrypt stored files): files are written with SSE-C — Garage encrypts each
+object with AES-256 and a key sent with every request (one per business, made from the files key; Garage never keeps
+it). Reads try the expected way first and the other if the storage says the file is the other kind (while
+files_crypto.py switches the stored files over).
 """
 
 import threading
@@ -33,6 +38,40 @@ def _client():
 									   connect_timeout=10, read_timeout=120, max_pool_connections=10))
 		_local.client, _local.sig = c, sig
 	return c
+
+
+def _crypto() -> tuple[bool, str]:
+	"""(encrypt new writes?, the files key — '' when never made)."""
+	s = frappe.get_cached_doc(SETTINGS)
+	fp = s.get("files_key_fingerprint") or ""
+	if getattr(_local, "fp", None) != fp:  # read once per worker (and again if the key's fingerprint changes)
+		master = s.get_password("files_master_key", raise_exception=False) if fp else ""
+		if master and rules.key_fingerprint(master) != fp:
+			frappe.throw(_("The files key doesn't match its fingerprint — files are left untouched. Tell QTT."))
+		_local.master, _local.fp = master or "", fp
+	return bool(s.get("encrypt_files")) and bool(_local.master), _local.master
+
+
+def _sse(key: str, on: bool | None = None, prefix: str = "") -> dict:
+	"""The SSE-C arguments for an object (prefix "CopySource" for a copy's source); {} when plain."""
+	enc, master = _crypto()
+	if not (enc if on is None else on) or not master:
+		return {}
+	return {f"{prefix}SSECustomerAlgorithm": "AES256", f"{prefix}SSECustomerKey": rules.tenant_key(master, key.split("/", 1)[0])}
+
+
+def _either(call, key: str, prefix: str = "", **kw):
+	"""call(**kw) the expected way (encrypted or plain), then the other way if the storage says it's the other kind."""
+	from botocore.exceptions import ClientError
+
+	first = _sse(key, prefix=prefix)
+	try:
+		return call(**kw, **first)
+	except ClientError as e:
+		err = e.response.get("Error", {})
+		if not _crypto()[1] or not rules.crypt_mismatch(err.get("Code"), err.get("Message")):
+			raise
+		return call(**kw, **_sse(key, on=not first, prefix=prefix))
 
 
 def bucket() -> str:
@@ -108,7 +147,7 @@ def head(key: str) -> dict | None:
 	from botocore.exceptions import ClientError
 
 	try:
-		return _client().head_object(Bucket=bucket(), Key=key)
+		return _either(_client().head_object, key, Bucket=bucket(), Key=key)
 	except ClientError as e:
 		if e.response.get("Error", {}).get("Code") in ("404", "NoSuchKey", "NotFound"):
 			return None
@@ -117,7 +156,7 @@ def head(key: str) -> dict | None:
 
 def read(key: str) -> bytes:
 	try:
-		return _client().get_object(Bucket=bucket(), Key=key)["Body"].read()
+		return _either(_client().get_object, key, Bucket=bucket(), Key=key)["Body"].read()
 	except Exception as e:
 		_fail(e, "read")
 
@@ -127,7 +166,7 @@ def write(key: str, data: bytes, content_type: str | None = None) -> str:
 	"""Put a file. → its etag."""
 	try:
 		kw = {"ContentType": content_type} if content_type else {}
-		r = _client().put_object(Bucket=bucket(), Key=key, Body=data, **kw)
+		r = _client().put_object(Bucket=bucket(), Key=key, Body=data, **kw, **_sse(key))
 	except Exception as e:
 		_fail(e, "write")
 	_forget_use(key)
@@ -136,7 +175,7 @@ def write(key: str, data: bytes, content_type: str | None = None) -> str:
 
 def copy(src: str, dst: str) -> None:
 	try:
-		_client().copy_object(Bucket=bucket(), Key=dst, CopySource={"Bucket": bucket(), "Key": src})
+		_either(_client().copy_object, src, prefix="CopySource", Bucket=bucket(), Key=dst, CopySource={"Bucket": bucket(), "Key": src}, **_sse(dst))
 	except Exception as e:
 		_fail(e, "copy")
 	_forget_use(dst)

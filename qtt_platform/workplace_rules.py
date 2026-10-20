@@ -284,3 +284,26 @@ def can_manage_devices(role: str | None, pulse_role: str | None) -> bool:
 
 def stamp(ts: float | None) -> str | None:
 	return datetime.fromtimestamp(ts).isoformat(sep=" ", timespec="seconds") if ts else None
+
+
+# ---- encryption at rest (PROJ-0016 E; file_store.py, files_crypto.py) ----------------------------------------------------
+def tenant_key(master_hex: str, tenant: str) -> bytes:
+	"""The 32-byte AES key for one business's files (and anything under the same first key segment): made from the files
+	key, so nothing per business needs storing, and one business's key opens nothing of another's."""
+	import hmac
+
+	if len(master_hex or "") < 64:
+		raise ValueError("The files key is missing.")
+	return hmac.new(bytes.fromhex(master_hex), f"qtt-files|{tenant}".encode(), hashlib.sha256).digest()
+
+
+def key_fingerprint(master_hex: str) -> str:
+	"""Tells two files keys apart without showing either."""
+	return hashlib.sha256(b"qtt-files-fp|" + bytes.fromhex(master_hex)).hexdigest()[:16]
+
+
+def crypt_mismatch(code: str | None, message: str | None) -> bool:
+	"""The storage refused because the file is encrypted and no key was sent, or plain and a key was sent (while files
+	are being switched over) — try the other way."""
+	m = (message or "").lower()
+	return str(code) in ("400", "InvalidRequest", "BadRequest") and ("encrypt" in m or "plaintext" in m or "decrypt" in m or str(code) == "400")

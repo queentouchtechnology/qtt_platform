@@ -110,6 +110,12 @@ everyone in every business — no plan needed.
   (your own documents HR keeps for you, read-only) and **Shared with me**
   (what others shared with you). **+ New**: Upload a file, New folder, New
   document / sheet / presentation. The bar on top shows how much space is used.
+  **Encrypted on our servers** (under the bar, when QTT has switched it on):
+  every file, its older versions and the recycle bin are stored encrypted
+  (AES-256, a separate key for each business) — preview, search, editing and
+  sharing work as before. It isn't end-to-end: QTT's servers can open files to
+  show previews and search inside them. Desktop sync folders and Nextcloud
+  federation aren't offered.
   ⋮ on a file or folder (what shows depends on what you may do there):
   - **Share** — people in the business (Can view / Can edit; it appears in
     their Shared with me; remove anyone) and **links for people outside**
