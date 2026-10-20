@@ -159,6 +159,35 @@ everyone in every business — no plan needed.
   ones: payslips into a folder for each month, offer and appointment letters,
   ID proofs, invoices to Accounts, tell me about new contracts. Each rule
   counts how many times it acted; turn one off or remove it any time.
+- **Calendar** (Office Pulse › Calendar): the business's team calendar and
+  your own events, a month at a time with the chosen day's events under it.
+  New event: title, all day or times, repeats (every day, every weekday, week,
+  month, year — until a date or not), a reminder on your phone (when it starts,
+  5 / 15 / 30 minutes, 1 hour or 1 day before), Team calendar (everyone sees it)
+  or Only who I invite, where, a meeting link, notes, a colour; invite people in
+  the business (told on their phones) and people outside by email (they get an
+  invitation for their own calendar, and an update or a cancellation when it
+  changes). Invited people answer Yes / Maybe / No — the organiser is told. Only
+  the organiser changes or deletes an event (owners and admins too for team
+  events). **Show in another calendar** (top right): a private link for Google
+  Calendar (Other calendars › From URL), Outlook (Subscribe from web) or a
+  phone's calendar — keep it to yourself; New link stops the old one.
+- **Contacts** (Office Pulse › Contacts): **People** — everyone in the business
+  with call, WhatsApp and email buttons; **Address book** — customers, suppliers,
+  partners and others (the same list as Customers, which shows only customers),
+  searchable, with call / WhatsApp / email. + New contact (as the kind chosen).
+  The menu: **Import a .vcf** (from a phone, Google or Outlook — someone already
+  there by phone or email is skipped) and **Export as .vcf**.
+- **Mail** (Office Pulse › Mail): your own work mailbox in the app. Connect it
+  once: the email address (QTT guesses the server settings — Gmail, Outlook,
+  Yahoo, Zoho, iCloud and most hosting), the password (Gmail, Outlook, Yahoo and
+  iCloud need an app password), your name and a signature; QTT signs in to check
+  before saving. Your mail stays on your mail server; QTT keeps only the settings
+  and the password, encrypted. Folders with unread counts, search (your mail
+  server searches), messages as you scroll; a message: Reply, Reply all,
+  Forward (with its attachments), Mark as unread, Flag, Delete (to your Trash);
+  attachments: Download or Save to my files. Write: To, Cc / Bcc, subject,
+  message, attach files (up to 20 MB). Mailbox settings / Disconnect at the top.
 - **Two-step login** (Business › Roles and access › Sign-in; the owner or an
   admin turns it on): everyone in the business confirms each new sign-in with a
   6-digit code sent to their email. Signing in with Google or a phone's
