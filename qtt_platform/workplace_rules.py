@@ -4,10 +4,11 @@ Team calls and the Office Pulse Workplace (PROJ-0014 / PROJ-0015) — the rules,
   Calls        LiveKit (self-hosted, meet.queentouchtech.in): a call's room is the chat's id; a person joins with a
                short token naming what they may send — microphone and camera for everyone, screen sharing only with
                Office Pulse. LiveKit tells Frappe what happened (signed webhooks): who joined / left, when it ended.
-  Files        Nextcloud (cloud.queentouchtech.in): every person a Nextcloud user of their own ("qtt-…"), every
-               business a group and a group folder ("Team files", its quota) — plus "Company" (everyone reads, owners /
-               admins / HR write) for Office Pulse's company documents. The app reaches them over WebDAV as the person.
-  Documents    OnlyOffice Document Server (office.queentouchtech.in), opened through Nextcloud's direct editing.
+  Files        One private S3 bucket (Garage on QTT-AI-OS, reached only by Frappe): each business's spaces are folders
+               in it (space_prefix) — Team files, Company, HR, each person's own files; Frappe decides who may see
+               and change what, and keeps the quotas. Deleted and replaced files go to a trash for 30 days.
+  Documents    OnlyOffice Document Server (office.queentouchtech.in), talked to directly: a signed editor set-up
+               (editor_config) and a signed save call back to Frappe.
   Remote       RustDesk ID / relay server (remote.queentouchtech.in): the standard RustDesk app, set to QTT's server.
 """
 
@@ -105,19 +106,99 @@ def call_summary(video: bool, minutes: int, names: list[str]) -> str:
 
 
 # ---- files -----------------------------------------------------------------------------------------------------------
-def cloud_user(user: str) -> str:
-	"""A person's Nextcloud user name (the same in every business): qtt- and a short, stable hash of their login."""
-	return "qtt-" + hashlib.sha1(str(user).strip().lower().encode()).hexdigest()[:12]
+TRASH = "trash/"  # trash/<YYYY-MM-DD>/<key>: deleted and replaced files, kept TRASH_DAYS
+TRASH_DAYS = 30
+SPACES = ("team", "mine", "company", "hr", "mydocs")
 
 
-def cloud_group(tenant: str, kind: str = "") -> str:
-	return f"qtt-{tenant}" + (f"-{kind}" if kind else "")
+def person_id(user: str) -> str:
+	"""A short, stable id for a person's own folder (not their e-mail in the store)."""
+	return hashlib.sha1(str(user).strip().lower().encode()).hexdigest()[:12]
 
 
-def folder_name(business: str, kind: str = "team") -> str:
-	"""A group folder's name in each member's files: "<Business> · Team files" / "<Business> · Company"."""
-	b = re.sub(r"\s+", " ", re.sub(r"[\\/:*?\"<>|]+", " ", str(business or "Business"))).strip()[:60] or "Business"
-	return f"{b} · {'Company' if kind == 'company' else 'Team files'}"
+def space_prefix(tenant: str, space: str, user: str = "", hr_folder: str = "") -> str:
+	"""Where a space starts in the bucket: <business>/team/, /company/, /hr/, /people/<person>/; an employee's
+	"My documents from HR" is their folder inside HR (\"\" when HR hasn't made one)."""
+	t = re.sub(r"[^A-Za-z0-9_-]", "", str(tenant or ""))
+	if not t:
+		raise ValueError("tenant")
+	if space == "mine":
+		return f"{t}/people/{person_id(user)}/"
+	if space == "mydocs":
+		return f"{t}/hr/{clean_path(hr_folder)}/" if clean_path(hr_folder) else ""
+	if space in ("team", "company", "hr"):
+		return f"{t}/{space}/"
+	raise ValueError(space)
+
+
+def object_key(prefix: str, path: str = "") -> str:
+	"""A file's key: the space's prefix + its cleaned path (never outside the space)."""
+	return prefix + clean_path(path)
+
+
+def listing(prefix: str, folders: list[str], files: list[dict]) -> list[dict]:
+	"""One folder of an S3 listing (Delimiter "/") → items, folders first: name, is_dir, size, modified, type.
+	folders: CommonPrefixes; files: Contents ({Key, Size, LastModified}) — the folder's own marker is left out."""
+	out = []
+	for f in folders:
+		name = f[len(prefix):].strip("/")
+		if name and "/" not in name:
+			out.append({"name": name, "is_dir": True, "size": 0, "modified": None, "type": "folder"})
+	for o in files:
+		name = str(o.get("Key", ""))[len(prefix):]
+		if not name or "/" in name:
+			continue  # the folder's marker, or something deeper
+		mod = o.get("LastModified")
+		if hasattr(mod, "astimezone"):
+			mod = mod.astimezone().replace(tzinfo=None).isoformat(sep=" ", timespec="seconds")
+		out.append({"name": name, "is_dir": False, "size": int(o.get("Size") or 0), "modified": mod, "type": kind_of_file(name)})
+	out.sort(key=lambda i: (not i["is_dir"], i["name"].lower()))
+	return out
+
+
+def trash_key(key: str, day: str) -> str:
+	return f"{TRASH}{day}/{key}"
+
+
+def trash_days_to_purge(days: list[str], today: str) -> list[str]:
+	"""The trash's day folders older than TRASH_DAYS (YYYY-MM-DD strings)."""
+	from datetime import date, timedelta
+
+	cut = (date.fromisoformat(today) - timedelta(days=TRASH_DAYS)).isoformat()
+	return sorted(d for d in days if re.fullmatch(r"\d{4}-\d{2}-\d{2}", d) and d < cut)
+
+
+def fits(used: int, quota_gb: int | None, adding: int) -> bool:
+	return not quota_gb or used + adding <= quota_gb * 1024 ** 3
+
+
+def free_bytes(used: int, quota_gb: int | None) -> int | None:
+	return None if not quota_gb else max(0, quota_gb * 1024 ** 3 - used)
+
+
+# ---- documents (OnlyOffice) --------------------------------------------------------------------------------------------
+def doc_key(key: str, etag: str) -> str:
+	"""OnlyOffice's document key: the same while the file is unchanged (so people edit together), new once saved."""
+	return hashlib.sha256(f"{key}|{etag}".encode()).hexdigest()[:40]
+
+
+def editor_config(*, name: str, key: str, etag: str, file_url: str, callback_url: str, can_edit: bool, user_id: str,
+				  user_name: str, lang: str = "en") -> dict:
+	"""The editor's set-up (signed with the OnlyOffice secret before it goes to the page)."""
+	e = ext(name)
+	kind = OFFICE_TYPES.get(e, ("", "word"))[1]
+	edit = bool(can_edit) and kind != "pdf"
+	return {
+		"document": {"fileType": e, "key": doc_key(key, etag), "title": name[:120], "url": file_url,
+					 "permissions": {"edit": edit, "download": True, "print": True, "comment": edit}},
+		"documentType": kind,
+		"editorConfig": {"mode": "edit" if edit else "view", "callbackUrl": callback_url, "lang": lang or "en",
+						 "user": {"id": user_id, "name": user_name[:60]},
+						 "customization": {"forcesave": True, "compactHeader": True, "hideRightMenu": True}},
+	}
+
+
+SAVE_STATUSES = (2, 6)  # 2: everyone closed it — save; 6: saved by a person (Ctrl+S)
 
 
 def clean_path(path: str | None) -> str:
@@ -163,45 +244,6 @@ def new_doc_name(kind: str, title: str | None) -> str:
 		raise ValueError(kind)
 	base = clean_name(title or "") or {"word": "Document", "cell": "Sheet", "slide": "Presentation"}[kind]
 	return base if base.lower().endswith("." + e) else f"{base}.{e}"
-
-
-def parse_propfind(xml: str, base: str) -> list[dict]:
-	"""WebDAV PROPFIND (depth 1) → the folder's items (not the folder itself): name, path (under `base`), is_dir, size,
-	modified (ISO), type, etag, fileid."""
-	import xml.etree.ElementTree as ET
-	from email.utils import parsedate_to_datetime
-	from urllib.parse import unquote
-
-	ns = {"d": "DAV:", "oc": "http://owncloud.org/ns", "nc": "http://nextcloud.org/ns"}
-	root = ET.fromstring(xml)
-	base = "/" + base.strip("/") + "/"
-	out = []
-	for r in root.findall("d:response", ns):
-		href = unquote(r.findtext("d:href", default="", namespaces=ns))
-		if base not in href:
-			continue
-		rel = href.split(base, 1)[1].strip("/")
-		prop = r.find("d:propstat/d:prop", ns)
-		if prop is None:
-			continue
-		is_dir = prop.find("d:resourcetype/d:collection", ns) is not None
-		if not rel:
-			continue  # the folder itself
-		if "/" in rel:
-			rel_name = rel.rsplit("/", 1)[-1]
-		else:
-			rel_name = rel
-		mod = prop.findtext("d:getlastmodified", default="", namespaces=ns)
-		try:
-			mod = parsedate_to_datetime(mod).astimezone().replace(tzinfo=None).isoformat(sep=" ", timespec="seconds") if mod else None
-		except (TypeError, ValueError):
-			mod = None
-		size = prop.findtext("oc:size", default="", namespaces=ns) or prop.findtext("d:getcontentlength", default="0", namespaces=ns)
-		out.append({"name": rel_name, "path": rel, "is_dir": is_dir, "size": int(size or 0), "modified": mod,
-					"type": kind_of_file(rel_name, is_dir), "fileid": prop.findtext("oc:fileid", default="", namespaces=ns),
-					"etag": (prop.findtext("d:getetag", default="", namespaces=ns) or "").strip('"')})
-	out.sort(key=lambda i: (not i["is_dir"], i["name"].lower()))
-	return out
 
 
 def human_size(n: int) -> str:

@@ -7502,7 +7502,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:591",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:421",
    "status": "Not used by the app"
   },
   {
@@ -7518,7 +7518,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:374",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:220",
    "status": "Not used by the app"
   },
   {
@@ -7534,7 +7534,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:579",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:409",
    "status": "Not used by the app"
   },
   {
@@ -7550,7 +7550,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:493",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:323",
    "status": "Not used by the app"
   },
   {
@@ -7566,7 +7566,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:292",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:141",
    "status": "Not used by the app"
   },
   {
@@ -7575,14 +7575,14 @@
    "area": "api.workplace",
    "http_methods": "POST",
    "guest": 0,
-   "purpose": "HR: an employee's document folder (HR › People › <name>), shared with them read-only so it shows in their \"My documents from HR\". {space: \"hr\", path}.",
-   "details": "HR: an employee's document folder (HR › People › <name>), shared with them read-only so it shows in their\n\"My documents from HR\". {space: \"hr\", path}.",
+   "purpose": "HR: an employee's document folder (HR › People › <name>); the employee sees it, read-only, as \"My documents from HR\". {space: \"hr\", path}.",
+   "details": "HR: an employee's document folder (HR › People › <name>); the employee sees it, read-only, as \"My documents\nfrom HR\". {space: \"hr\", path}.",
    "arguments": "user",
    "used_by": "—",
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:446",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:275",
    "status": "Not used by the app"
   },
   {
@@ -7598,7 +7598,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:614",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:444",
    "status": "Not used by the app"
   },
   {
@@ -7614,7 +7614,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:249",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:110",
    "status": "Not used by the app"
   },
   {
@@ -7630,7 +7630,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:263",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:124",
    "status": "Not used by the app"
   },
   {
@@ -7646,7 +7646,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:323",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:171",
    "status": "Not used by the app"
   },
   {
@@ -7662,7 +7662,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:337",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:183",
    "status": "Not used by the app"
   },
   {
@@ -7671,14 +7671,14 @@
    "area": "api.workplace",
    "http_methods": "POST",
    "guest": 0,
-   "purpose": "Edit a document in OnlyOffice — with everyone else who has it open. {url}: a link that opens the editor without signing in to Nextcloud (it works for a short while).",
-   "details": "Edit a document in OnlyOffice — with everyone else who has it open. {url}: a link that opens the editor without\nsigning in to Nextcloud (it works for a short while).",
+   "purpose": "Edit a document in OnlyOffice — with everyone else who has it open. {url}: a link to the editor page (it works for a few hours, for this person only).",
+   "details": "Edit a document in OnlyOffice — with everyone else who has it open. {url}: a link to the editor page (it works\nfor a few hours, for this person only).",
    "arguments": "space, path",
    "used_by": "—",
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:385",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:232",
    "status": "Not used by the app"
   },
   {
@@ -7694,7 +7694,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:469",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:299",
    "status": "Not used by the app"
   },
   {
@@ -7710,7 +7710,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:358",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:200",
    "status": "Not used by the app"
   },
   {
@@ -7726,7 +7726,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:565",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:395",
    "status": "Not used by the app"
   },
   {
@@ -7742,7 +7742,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:511",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:341",
    "status": "Not used by the app"
   },
   {
@@ -7758,7 +7758,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:406",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:249",
    "status": "Not used by the app"
   },
   {
@@ -7774,7 +7774,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:549",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:379",
    "status": "Not used by the app"
   },
   {
@@ -7783,14 +7783,14 @@
    "area": "api.workplace",
    "http_methods": "POST",
    "guest": 0,
-   "purpose": "Multipart `file` into a folder (up to 100 MB). A file with the same name is replaced (Nextcloud keeps the old version).",
-   "details": "Multipart `file` into a folder (up to 100 MB). A file with the same name is replaced (Nextcloud keeps the old\nversion).",
+   "purpose": "Multipart `file` into a folder (up to 100 MB). A file with the same name is replaced (the old one stays in the trash for 30 days).",
+   "details": "Multipart `file` into a folder (up to 100 MB). A file with the same name is replaced (the old one stays in the\ntrash for 30 days).",
    "arguments": "space, path",
    "used_by": "—",
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:304",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:152",
    "status": "Not used by the app"
   },
   {
@@ -7855,6 +7855,54 @@
    "screens": "",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/workplace_agent.py:206",
+   "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_platform.api.workplace_docs.editor",
+   "product": "Platform",
+   "area": "api.workplace_docs",
+   "http_methods": "GET",
+   "guest": 1,
+   "purpose": "The editor page the app opens (a link made by open_doc for one person, a few hours).",
+   "details": "The editor page the app opens (a link made by open_doc for one person, a few hours).",
+   "arguments": "p",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/workplace_docs.py:80",
+   "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_platform.api.workplace_docs.file",
+   "product": "Platform",
+   "area": "api.workplace_docs",
+   "http_methods": "GET",
+   "guest": 1,
+   "purpose": "The file, for OnlyOffice (a signed link from editor_link).",
+   "details": "The file, for OnlyOffice (a signed link from editor_link).",
+   "arguments": "t",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/workplace_docs.py:107",
+   "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_platform.api.workplace_docs.saved",
+   "product": "Platform",
+   "area": "api.workplace_docs",
+   "http_methods": "POST",
+   "guest": 1,
+   "purpose": "OnlyOffice's call: the document's state. On \"save\" (2) or \"saved by a person\" (6) the new file replaces the old one. Only a call signed with the OnlyOffice secret is believed; the new file is fetched only from OnlyOffice.",
+   "details": "OnlyOffice's call: the document's state. On \"save\" (2) or \"saved by a person\" (6) the new file replaces the old\none. Only a call signed with the OnlyOffice secret is believed; the new file is fetched only from OnlyOffice.",
+   "arguments": "t",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/workplace_docs.py:124",
    "status": "Not used by the app"
   },
   {

@@ -331,6 +331,8 @@ scheduler_events = {
 		"qtt_platform.billing.service.reconcile_subscriptions",
 	],
 	"daily": [
+		# Office Pulse Files: files deleted or replaced more than 30 days ago are removed for good (file_store.py).
+		"qtt_platform.file_store.purge_trash",
 		# Delete my account: requests whose 7-day wait is over (close businesses owned alone, then anonymise).
 		"qtt_platform.api.account_deletion.run_due",
 		# Apps assigned by QTT Admin to paying businesses: next invoice 3 days before the paid time ends; suspended 7 days after if unpaid.

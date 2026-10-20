@@ -1,14 +1,15 @@
 """
 Office Pulse Workplace (PROJ-0015) — files, documents and remote control for people with Office Pulse. QTT's own
-servers (QTT Workplace Settings): Nextcloud (files), OnlyOffice (documents), RustDesk (remote control).
+servers (QTT Workplace Settings): S3 storage (Garage, files), OnlyOffice (documents), RustDesk (remote control).
 
-Files: the app never shows Nextcloud — QTT makes each person a Nextcloud user ("qtt-…", their password kept here,
-encrypted), each business a group and group folders, and reaches them over WebDAV as that person:
-  team     "<Business> · Team files" — everyone in the business reads and writes (quota: Team files per business)
-  mine     the person's own files (quota: My files per person)
-  company  "<Business> · Company" — policies, forms: everyone reads; owners, admins and HR write
-  hr       "<Business> · HR" — owners, admins and HR only; People/<name>/ holds each employee's documents
-  mydocs   an employee's own folder from HR (People/<their name>), read-only, shared with them
+Files live in one private bucket that only Frappe reaches (file_store.py); Frappe decides who may see and change
+what. Each business's spaces:
+  team     Team files — everyone in the business reads and writes (quota: Team files per business)
+  mine     the person's own files in this business (quota: My files per person)
+  company  Company — policies, forms: everyone reads; owners, admins and HR write
+  hr       HR — owners, admins and HR only; People/<name>/ holds each employee's documents
+  mydocs   an employee's own folder from HR (People/<their name>), read-only
+A deleted or replaced file stays in the trash for 30 days.
 
   info          what this person has: spaces, quotas, remote control settings, whether they can manage computers
   list          a folder of a space (folders first) and the space's use
@@ -17,10 +18,10 @@ encrypted), each business a group and group folders, and reaches them over WebDA
   mkdir         a new folder
   new_doc       a new Word / Excel / PowerPoint file (blank) — then open it
   rename        rename a file or folder
-  delete        delete a file or folder (Nextcloud keeps it in its trash for 30 days)
+  delete        delete a file or folder (kept in the trash for 30 days)
   open          edit a document in OnlyOffice (with everyone else who has it open): a link for the app's browser view
   send_to_chat  put a copy of a file into a Team chat
-  employee_docs HR: an employee's document folder (made and shared with them the first time)
+  employee_docs HR: an employee's document folder (made the first time)
 
 Remote control (RustDesk, the standard app set to QTT's server):
   remote        server settings (the import string, host, key, download link)
@@ -30,36 +31,32 @@ Remote control (RustDesk, the standard app set to QTT's server):
   help_request  "I need remote help" in a chat, with this computer's RustDesk ID (and a one-time password if given)
 """
 
+import mimetypes
 import os
-import re
-import secrets
-import threading
 import time
-from urllib.parse import quote
 
 import frappe
-import requests
 from frappe import _
 from frappe.utils import cint, now_datetime
 
+from qtt_platform import file_store as store
 from qtt_platform import workplace_rules as rules
 from qtt_platform.api import team
 
 SETTINGS = "QTT Workplace Settings"
-ACCOUNT = "QTT Cloud Account"
-SPACE = "QTT Cloud Space"
+HR_FOLDER = "QTT HR Folder"
 DEVICE = "QTT Remote Device"
 HR_ROLES = ("HR", "HR Admin")
 MAX_UPLOAD = 100 * 1024 * 1024
 TEMPLATES = os.path.join(os.path.dirname(os.path.dirname(__file__)), "workplace_templates")
 
 
-# ---- who and the servers ------------------------------------------------------------------------------------------------
+# ---- who and where ------------------------------------------------------------------------------------------------------
 def _ctx() -> frappe._dict:
 	"""Team's checks + Office Pulse (the Workplace comes with it) + the person's Pulse role."""
 	from qtt_platform.api.team_calls import can_screen_share
 
-	ctx = team._ctx()  # (also asks Frappe to save this request's writes, GET included: accounts, spaces)
+	ctx = team._ctx()  # (also asks Frappe to save this request's writes, GET included)
 	if not can_screen_share(ctx.tenant, ctx.user):
 		frappe.throw(_("Files, documents and remote control come with Office Pulse — ask your business owner."), frappe.PermissionError)
 	m = frappe.db.get_value("QTT Tenant Membership", {"user": ctx.user, "tenant": ctx.tenant}, "name")
@@ -73,175 +70,39 @@ def _settings():
 	return frappe.get_cached_doc(SETTINGS)
 
 
-def _nc() -> tuple[str, tuple[str, str]]:
-	s = _settings()
-	pw = s.get_password("nextcloud_admin_password", raise_exception=False)
-	if not s.files_enabled or not s.nextcloud_url or not pw:
-		frappe.throw(_("Files aren't set up yet."))
-	return s.nextcloud_url.rstrip("/"), (s.nextcloud_admin_user, pw)
-
-
-def _ocs(method: str, path: str, auth, data=None, params=None, ok=(100, 200, 102)) -> dict:
-	"""A Nextcloud OCS call; {} for "already there" style answers (code 102 / 400 where we expect them)."""
-	base, _admin = _nc()
-	url = f"{base}/ocs/v1.php/{path}" if path.startswith("cloud/") else f"{base}/{path}"
-	r = requests.request(method, url, auth=auth, data=data, params={**(params or {}), "format": "json"},
-						 headers={"OCS-APIRequest": "true", "Accept": "application/json"}, timeout=30)
-	try:
-		body = r.json()
-	except ValueError:
-		frappe.log_error(title="Workplace: Nextcloud answered oddly", message=f"{method} {path}: {r.status_code} {r.text[:500]}")
-		frappe.throw(_("Files are having a problem right now. Please try again in a minute."))
-	meta = (body.get("ocs") or {}).get("meta") or {}
-	code = int(meta.get("statuscode") or r.status_code)
-	if code not in ok:
-		frappe.log_error(title="Workplace: Nextcloud refused", message=f"{method} {path}: {meta}")
-		frappe.throw(_("Files are having a problem right now. Please try again in a minute."))
-	return (body.get("ocs") or {}).get("data") or {}
-
-
-_local = threading.local()
-
-
-def _http() -> requests.Session:
-	"""One kept-alive connection pool to Nextcloud per worker thread (no new TLS handshake per request)."""
-	s = getattr(_local, "session", None)
-	if s is None:
-		s = _local.session = requests.Session()
-	return s
-
-
-def _app_password(cu: str, pw: str) -> str | None:
-	"""A Nextcloud app password for this account: checked far faster than the login password on every request
-	(~100 ms instead of ~500 ms), and revocable on its own."""
-	base, _a = _nc()
-	r = requests.get(f"{base}/ocs/v2.php/core/getapppassword", auth=(cu, pw), headers={"OCS-APIRequest": "true"},
-					 params={"format": "json"}, timeout=30)
-	try:
-		return r.json()["ocs"]["data"]["apppassword"]
-	except (ValueError, KeyError, TypeError):
-		frappe.log_error(title="Workplace: no Nextcloud app password", message=f"{r.status_code} {r.text[:200]}")
-		return None
-
-
-def _account(user: str, name: str) -> tuple[str, str]:
-	"""The person's Nextcloud user (made the first time) → (cloud user, app password — or the login password while
-	there's none yet)."""
-	_base, admin = _nc()
-	if frappe.db.exists(ACCOUNT, user):
-		doc = frappe.get_doc(ACCOUNT, user)
-		token = doc.get_password("cloud_token", raise_exception=False)
-		if token:
-			return doc.cloud_user, token
-		pw = doc.get_password("cloud_password")
-		token = _app_password(doc.cloud_user, pw)
-		if token:
-			doc.cloud_token = token
-			doc.save(ignore_permissions=True)
-			return doc.cloud_user, token
-		return doc.cloud_user, pw
-	cu = rules.cloud_user(user)
-	pw = secrets.token_urlsafe(24)
-	s = _settings()
-	_ocs("POST", "cloud/users", admin, data={"userid": cu, "password": pw, "displayName": name[:60]}, ok=(100, 200, 102))
-	# an account that existed already (made before, its row lost): set a new password we know
-	_ocs("PUT", f"cloud/users/{cu}", admin, data={"key": "password", "value": pw})
-	_ocs("PUT", f"cloud/users/{cu}", admin, data={"key": "quota", "value": f"{cint(s.personal_quota_gb) or 2} GB"})
-	token = _app_password(cu, pw)
-	frappe.get_doc({"doctype": ACCOUNT, "user": user, "cloud_user": cu, "cloud_password": pw, "cloud_token": token}).insert(ignore_permissions=True)
-	return cu, token or pw
-
-
-def _groupfolder(admin, mount: str, groups: dict[str, int], quota_gb: int | None) -> int:
-	base, _a = _nc()
-	data = _ocs("POST", "index.php/apps/groupfolders/folders", admin, data={"mountpoint": mount})
-	fid = int(data.get("id"))
-	for g, perms in groups.items():
-		_ocs("POST", f"index.php/apps/groupfolders/folders/{fid}/groups", admin, data={"group": g})
-		_ocs("POST", f"index.php/apps/groupfolders/folders/{fid}/groups/{g}", admin, data={"permissions": perms})
-	if quota_gb:
-		_ocs("POST", f"index.php/apps/groupfolders/folders/{fid}/quota", admin, data={"quota": quota_gb * 1024 ** 3})
-	return fid
-
-
-def _space(ctx) -> frappe._dict:
-	"""The business's groups and folders (made the first time), and this person in the right groups."""
-	_base, admin = _nc()
-	business = frappe.db.get_value("QTT Tenant", ctx.tenant, "tenant_name") or ctx.tenant
-	everyone, hr = rules.cloud_group(ctx.tenant), rules.cloud_group(ctx.tenant, "hr")
-	if not frappe.db.exists(SPACE, ctx.tenant):
-		for g in (everyone, hr):
-			_ocs("POST", "cloud/groups", admin, data={"groupid": g, "displayname": f"{business}{' · HR' if g == hr else ''}"}, ok=(100, 200, 102))
-		_ocs("POST", f"cloud/users/{admin[0]}/groups", admin, data={"groupid": hr}, ok=(100, 200, 102))
-		s = _settings()
-		team_name, company_name = rules.folder_name(business, "team"), rules.folder_name(business, "company")
-		hr_name = team_name.replace("Team files", "HR")
-		frappe.get_doc({"doctype": SPACE, "tenant": ctx.tenant,
-						"team_folder_id": _groupfolder(admin, team_name, {everyone: 31}, cint(s.team_quota_gb) or 10), "team_folder": team_name,
-						"company_folder_id": _groupfolder(admin, company_name, {everyone: 1, hr: 31}, None), "company_folder": company_name,
-						}).insert(ignore_permissions=True)
-		_groupfolder(admin, hr_name, {hr: 31}, None)
-		frappe.db.commit()  # the folders exist on Nextcloud now; keep the record even if the rest of this call fails
-	space = frappe.get_doc(SPACE, ctx.tenant)
-	space.hr_folder = space.team_folder.replace("Team files", "HR")
-	cu, pw = _account(ctx.user, team._names(ctx).get(ctx.user, ctx.user))
-	want = [everyone] + ([hr] if ctx.hr else [])
-	key = f"qtt_cloud_groups|{ctx.user}|{ctx.tenant}|{','.join(want)}"
-	if not frappe.cache().get_value(key):
-		for g in want:
-			_ocs("POST", f"cloud/users/{cu}/groups", admin, data={"groupid": g}, ok=(100, 200, 102))
-		if not ctx.hr:
-			_ocs("DELETE", f"cloud/users/{cu}/groups", admin, data={"groupid": hr}, ok=(100, 200, 102, 105))
-		frappe.cache().set_value(key, 1, expires_in_sec=6 * 3600)
-	space.cloud_user, space.cloud_password = cu, pw
-	return space
-
-
-def _root(ctx, space, key: str) -> str:
-	"""Where a space starts in the person's files."""
-	match key:
-		case "team":
-			return space.team_folder
-		case "company":
-			return space.company_folder
-		case "hr":
-			if not ctx.hr:
-				frappe.throw(_("HR's folder is for owners, admins and HR."), frappe.PermissionError)
-			return space.hr_folder
-		case "mine":
-			return ""
-		case "mydocs":
-			return _my_docs_mount(ctx, space)
-	frappe.throw(_("Choose Team files, My files or Company."))
+def _prefix(ctx, space: str) -> str:
+	"""Where a space starts in the store, for this person ("" for "My documents from HR" before HR made one)."""
+	if space == "hr" and not ctx.hr:
+		frappe.throw(_("HR's folder is for owners, admins and HR."), frappe.PermissionError)
+	if space not in rules.SPACES:
+		frappe.throw(_("Choose Team files, My files or Company."))
+	folder = frappe.db.get_value(HR_FOLDER, {"tenant": ctx.tenant, "user": ctx.user}, "folder") if space == "mydocs" else ""
+	return rules.space_prefix(ctx.tenant, space, ctx.user, folder or "")
 
 
 def _can_write(ctx, key: str) -> bool:
 	return key in ("team", "mine") or (key in ("company", "hr") and ctx.hr)
 
 
-def _dav(space, root: str, path: str = "") -> str:
-	base, _a = _nc()
-	full = "/".join(p for p in (root, rules.clean_path(path)) if p)
-	return f"{base}/remote.php/dav/files/{space.cloud_user}/" + quote(full)
+def _quota_gb(space: str) -> int | None:
+	s = _settings()
+	return (cint(s.team_quota_gb) or 10) if space == "team" else (cint(s.personal_quota_gb) or 2) if space == "mine" else None
 
 
-def _req(space, method: str, url: str, **kw) -> requests.Response:
-	r = _http().request(method, url, auth=(space.cloud_user, space.cloud_password), timeout=kw.pop("timeout", 60), **kw)
-	if r.status_code == 404:
-		frappe.throw(_("That isn't here any more."), frappe.DoesNotExistError)
-	if r.status_code == 507:
-		frappe.throw(_("This space is full — delete something, or ask QTT for more room."))
-	if r.status_code in (403, 401):
+def _need_write(ctx, space: str) -> str:
+	if not _can_write(ctx, space):
 		frappe.throw(_("You can't change this folder."), frappe.PermissionError)
-	if r.status_code >= 400 and r.status_code != 405:
-		frappe.log_error(title="Workplace: WebDAV refused", message=f"{method} {url}: {r.status_code} {r.text[:300]}")
-		frappe.throw(_("Files are having a problem right now. Please try again in a minute."))
-	return r
+	prefix = _prefix(ctx, space)
+	if not prefix:
+		frappe.throw(_("You can't change this folder."), frappe.PermissionError)
+	return prefix
 
 
-PROPFIND = """<?xml version="1.0"?><d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns"><d:prop>
-<d:getlastmodified/><d:getcontentlength/><d:resourcetype/><d:getetag/><oc:size/><oc:fileid/>
-<d:quota-used-bytes/><d:quota-available-bytes/></d:prop></d:propfind>"""
+def _file_key(ctx, space: str, path: str) -> str:
+	prefix = _prefix(ctx, space)
+	if not prefix or not rules.clean_path(path):
+		frappe.throw(_("That isn't here any more."), frappe.DoesNotExistError)
+	return rules.object_key(prefix, path)
 
 
 # ---- endpoints: files ---------------------------------------------------------------------------------------------------
@@ -263,59 +124,46 @@ def info() -> dict:
 def list_folder(space: str = "team", path: str = "") -> dict:
 	"""A folder in a space: folders first, then files; how full the space is."""
 	ctx = _ctx()
-	sp = _space(ctx)
-	root = _root(ctx, sp, space)
-	if space == "mydocs" and not root:
+	prefix = _prefix(ctx, space)
+	if not prefix:
 		return {"items": [], "path": "", "write": False, "used": 0, "free": None, "empty_reason": "none"}
-	r = _req(sp, "PROPFIND", _dav(sp, root, path), data=PROPFIND, headers={"Depth": "1", "Content-Type": "application/xml"})
-	base = f"/remote.php/dav/files/{sp.cloud_user}/" + "/".join(p for p in (root, rules.clean_path(path)) if p)
-	items = rules.parse_propfind(r.text, base)
-	if space == "mine":
-		# the business folders and shares are their own spaces
-		items = [i for i in items if not re.search(r" · (Team files|Company|HR)$", i["name"]) and i["name"] != "Shared"]
-	used, free = _quota(r.text)
+	folder = rules.clean_path(path)
+	items = store.list_folder(prefix + (folder + "/" if folder else ""))
 	for i in items:
 		i["size_text"] = "" if i["is_dir"] else rules.human_size(i["size"])
 		i["editable"] = not i["is_dir"] and rules.editable(i["name"])
-		i["path"] = "/".join(p for p in (rules.clean_path(path), i["name"]) if p)
-	return {"items": items, "path": rules.clean_path(path), "write": _can_write(ctx, space), "used": used, "free": free}
-
-
-def _quota(xml: str) -> tuple[int, int | None]:
-	m_used = re.search(r"<d:quota-used-bytes>(\d+)</d:quota-used-bytes>", xml)
-	m_free = re.search(r"<d:quota-available-bytes>(-?\d+)</d:quota-available-bytes>", xml)
-	free = int(m_free.group(1)) if m_free else None
-	return int(m_used.group(1)) if m_used else 0, (free if free is not None and free >= 0 else None)
+		i["path"] = "/".join(p for p in (folder, i["name"]) if p)
+	used = store.used(prefix)
+	return {"items": items, "path": folder, "write": _can_write(ctx, space), "used": used, "free": rules.free_bytes(used, _quota_gb(space))}
 
 
 @frappe.whitelist(methods=["GET"])
 def download(space: str, path: str):
 	"""A file's bytes (to preview or save)."""
 	ctx = _ctx()
-	sp = _space(ctx)
-	r = _req(sp, "GET", _dav(sp, _root(ctx, sp, space), path), timeout=120)
+	data = store.read(_file_key(ctx, space, path))
 	frappe.local.response.filename = rules.clean_path(path).rsplit("/", 1)[-1]
-	frappe.local.response.filecontent = r.content
+	frappe.local.response.filecontent = data
 	frappe.local.response.type = "download"
 	frappe.local.response.display_content_as = "inline"
 
 
 @frappe.whitelist(methods=["POST"])
 def upload(space: str = "team", path: str = "") -> dict:
-	"""Multipart `file` into a folder (up to 100 MB). A file with the same name is replaced (Nextcloud keeps the old
-	version)."""
+	"""Multipart `file` into a folder (up to 100 MB). A file with the same name is replaced (the old one stays in the
+	trash for 30 days)."""
 	ctx = _ctx()
-	if not _can_write(ctx, space):
-		frappe.throw(_("You can't change this folder."), frappe.PermissionError)
-	sp = _space(ctx)
+	prefix = _need_write(ctx, space)
 	up = frappe.request.files.get("file") if frappe.request else None
 	if not up:
 		frappe.throw(_("Choose a file."))
 	data = up.stream.read(MAX_UPLOAD + 1)
 	if len(data) > MAX_UPLOAD:
 		frappe.throw(_("A file can be up to 100 MB."))
-	name = rules.clean_name(up.filename or "file")
-	_req(sp, "PUT", _dav(sp, _root(ctx, sp, space), f"{path}/{name}"), data=data, timeout=300)
+	if not rules.fits(store.used(prefix), _quota_gb(space), len(data)):
+		frappe.throw(_("This space is full — delete something, or ask QTT for more room."))
+	name = rules.clean_name(up.filename or "file") or "file"
+	store.write(rules.object_key(prefix, f"{path}/{name}"), data, up.mimetype or mimetypes.guess_type(name)[0])
 	return {"name": name, "path": rules.clean_path(f"{path}/{name}")}
 
 
@@ -323,13 +171,11 @@ def upload(space: str = "team", path: str = "") -> dict:
 def mkdir(space: str, path: str, name: str) -> dict:
 	"""A new folder."""
 	ctx = _ctx()
-	if not _can_write(ctx, space):
-		frappe.throw(_("You can't change this folder."), frappe.PermissionError)
+	prefix = _need_write(ctx, space)
 	name = rules.clean_name(name)
 	if not name:
 		frappe.throw(_("Give the folder a name."))
-	sp = _space(ctx)
-	_req(sp, "MKCOL", _dav(sp, _root(ctx, sp, space), f"{path}/{name}"))
+	store.mkdir(rules.object_key(prefix, f"{path}/{name}"))
 	return {"name": name}
 
 
@@ -337,20 +183,16 @@ def mkdir(space: str, path: str, name: str) -> dict:
 def new_doc(space: str, path: str = "", kind: str = "word", title: str | None = None) -> dict:
 	"""A new blank Word / Excel / PowerPoint file in a folder. {name, path} — then open it."""
 	ctx = _ctx()
-	if not _can_write(ctx, space):
-		frappe.throw(_("You can't change this folder."), frappe.PermissionError)
+	prefix = _need_write(ctx, space)
 	try:
 		name = rules.new_doc_name(kind, title)
 	except ValueError:
 		frappe.throw(_("Choose a document, a sheet or a presentation."))
-	sp = _space(ctx)
-	root = _root(ctx, sp, space)
-	head = requests.head(_dav(sp, root, f"{path}/{name}"), auth=(sp.cloud_user, sp.cloud_password), timeout=30)
-	if head.status_code == 200:
+	if store.head(rules.object_key(prefix, f"{path}/{name}")):
 		stem, e = name.rsplit(".", 1)
 		name = f"{stem} {time.strftime('%d-%m %H%M')}.{e}"
 	with open(os.path.join(TEMPLATES, f"new.{rules.NEW_DOCS[kind]}"), "rb") as f:
-		_req(sp, "PUT", _dav(sp, root, f"{path}/{name}"), data=f.read())
+		store.write(rules.object_key(prefix, f"{path}/{name}"), f.read(), mimetypes.guess_type(name)[0])
 	return {"name": name, "path": rules.clean_path(f"{path}/{name}")}
 
 
@@ -358,15 +200,19 @@ def new_doc(space: str, path: str = "", kind: str = "word", title: str | None = 
 def rename(space: str, path: str, name: str) -> dict:
 	"""Rename a file or folder (in the same folder)."""
 	ctx = _ctx()
-	if not _can_write(ctx, space):
-		frappe.throw(_("You can't change this folder."), frappe.PermissionError)
+	prefix = _need_write(ctx, space)
 	new = rules.clean_name(name)
-	if not new:
+	if not new or not rules.clean_path(path):
 		frappe.throw(_("Give it a name."))
-	sp = _space(ctx)
-	root = _root(ctx, sp, space)
+	old = rules.object_key(prefix, path)
 	parent = rules.clean_path(path).rsplit("/", 1)[0] if "/" in rules.clean_path(path) else ""
-	_req(sp, "MOVE", _dav(sp, root, path), headers={"Destination": _dav(sp, root, f"{parent}/{new}"), "Overwrite": "F"})
+	target = rules.object_key(prefix, f"{parent}/{new}")
+	is_dir = not store.head(old)
+	if is_dir and not store.exists_dir(old):
+		frappe.throw(_("That isn't here any more."), frappe.DoesNotExistError)
+	if store.head(target) or store.exists_dir(target):
+		frappe.throw(_("Something with that name is already here."))
+	store.move(old, target, is_dir)
 	return {"name": new}
 
 
@@ -374,32 +220,29 @@ def rename(space: str, path: str, name: str) -> dict:
 def delete(space: str, path: str) -> dict:
 	"""Delete a file or folder (it stays in the trash for 30 days)."""
 	ctx = _ctx()
-	if not _can_write(ctx, space) or not rules.clean_path(path):
+	prefix = _need_write(ctx, space)
+	if not rules.clean_path(path):
 		frappe.throw(_("You can't change this folder."), frappe.PermissionError)
-	sp = _space(ctx)
-	_req(sp, "DELETE", _dav(sp, _root(ctx, sp, space), path))
+	key = rules.object_key(prefix, path)
+	store.delete(key, is_dir=not store.head(key))
 	return {"deleted": True}
 
 
 @frappe.whitelist(methods=["POST"])
 def open_doc(space: str, path: str) -> dict:
-	"""Edit a document in OnlyOffice — with everyone else who has it open. {url}: a link that opens the editor without
-	signing in to Nextcloud (it works for a short while)."""
+	"""Edit a document in OnlyOffice — with everyone else who has it open. {url}: a link to the editor page (it works
+	for a few hours, for this person only)."""
+	from qtt_platform.api import workplace_docs
+
 	ctx = _ctx()
-	sp = _space(ctx)
-	full = "/" + "/".join(p for p in (_root(ctx, sp, space), rules.clean_path(path)) if p)
-	if not rules.editable(full):
+	key = _file_key(ctx, space, path)
+	name = rules.clean_path(path).rsplit("/", 1)[-1]
+	if not rules.editable(name):
 		frappe.throw(_("This file opens as it is — download it."))
-	base, _a = _nc()
-	r = requests.post(f"{base}/ocs/v2.php/apps/files/api/v1/directEditing/open", auth=(sp.cloud_user, sp.cloud_password),
-					  data={"path": full, "editorId": "onlyoffice"}, params={"format": "json"},
-					  headers={"OCS-APIRequest": "true", "Accept": "application/json"}, timeout=30)
-	try:
-		url = r.json()["ocs"]["data"]["url"]
-	except (ValueError, KeyError, TypeError):
-		frappe.log_error(title="Workplace: OnlyOffice didn't open", message=f"{r.status_code} {r.text[:400]}")
-		frappe.throw(_("Documents are having a problem right now. Please try again in a minute."))
-	return {"url": url}
+	h = store.head(key)
+	if not h:
+		frappe.throw(_("That isn't here any more."), frappe.DoesNotExistError)
+	return {"url": workplace_docs.editor_link(ctx, key, name, str(h.get("ETag") or "").strip('"'), _can_write(ctx, space))}
 
 
 @frappe.whitelist(methods=["POST"])
@@ -407,14 +250,16 @@ def send_to_chat(space: str, path: str, channel: str) -> dict:
 	"""A copy of the file in a Team chat (everyone in the chat can open it; the original stays in Files)."""
 	ctx = _ctx()
 	team._channel(ctx, channel, need_member=True)
-	sp = _space(ctx)
-	r = _req(sp, "GET", _dav(sp, _root(ctx, sp, space), path), timeout=120)
-	if len(r.content) > team_rules_max():
+	key = _file_key(ctx, space, path)
+	h = store.head(key)
+	if not h:
+		frappe.throw(_("That isn't here any more."), frappe.DoesNotExistError)
+	if int(h.get("ContentLength") or 0) > team_rules_max():
 		frappe.throw(_("A file can be up to 25 MB in a chat."))
 	name = rules.clean_path(path).rsplit("/", 1)[-1]
 	from qtt_platform import team_rules
 
-	f = frappe.get_doc({"doctype": "File", "file_name": name, "content": r.content, "is_private": 1, "attached_to_doctype": team.CH,
+	f = frappe.get_doc({"doctype": "File", "file_name": name, "content": store.read(key), "is_private": 1, "attached_to_doctype": team.CH,
 						"attached_to_name": channel}).insert(ignore_permissions=True)
 	m = team._post(ctx, channel, message_type=team_rules.kind_of(name), file_url=f.file_url)
 	return {"message": m.name}
@@ -426,41 +271,26 @@ def team_rules_max() -> int:
 	return team_rules.MAX_FILE
 
 
-def _my_docs_mount(ctx, space) -> str:
-	"""Where HR's folder for this person shows in their files ("" when HR hasn't made one)."""
-	base, _a = _nc()
-	r = requests.get(f"{base}/ocs/v2.php/apps/files_sharing/api/v1/shares", auth=(space.cloud_user, space.cloud_password),
-					 params={"shared_with_me": "true", "format": "json"}, headers={"OCS-APIRequest": "true"}, timeout=30)
-	try:
-		shares = r.json()["ocs"]["data"]
-	except (ValueError, KeyError, TypeError):
-		return ""
-	owner = _settings().nextcloud_admin_user
-	for sh in shares:
-		if sh.get("uid_owner") == owner and "/People/" in str(sh.get("path") or "") + str(sh.get("file_target") or ""):
-			return str(sh.get("file_target") or "").strip("/")
-	return ""
-
-
 @frappe.whitelist(methods=["POST"])
 def employee_docs(user: str) -> dict:
-	"""HR: an employee's document folder (HR › People › <name>), shared with them read-only so it shows in their
-	"My documents from HR". {space: "hr", path}."""
+	"""HR: an employee's document folder (HR › People › <name>); the employee sees it, read-only, as "My documents
+	from HR". {space: "hr", path}."""
 	ctx = _ctx()
 	if not ctx.hr:
 		frappe.throw(_("HR's folder is for owners, admins and HR."), frappe.PermissionError)
 	people = team._people(ctx.tenant)
 	if user not in people:
 		frappe.throw(_("Choose someone in your business."))
-	sp = _space(ctx)
-	base, admin = _nc()
-	name = rules.clean_name(people[user]["name"]) or rules.cloud_user(user)
+	have = frappe.db.get_value(HR_FOLDER, {"tenant": ctx.tenant, "user": user}, "folder")
+	if have:
+		return {"space": "hr", "path": have}
+	name = rules.clean_name(people[user]["name"]) or rules.person_id(user)
 	path = f"People/{name}"
-	for part in ("People", path):
-		requests.request("MKCOL", f"{base}/remote.php/dav/files/{admin[0]}/" + quote(f"{sp.hr_folder}/{part}"), auth=admin, timeout=30)
-	cu, _pw = _account(user, people[user]["name"])
-	_ocs("POST", "ocs/v2.php/apps/files_sharing/api/v1/shares", admin,
-		 data={"path": f"/{sp.hr_folder}/{path}", "shareType": 0, "shareWith": cu, "permissions": 1}, ok=(100, 200, 403))
+	hr = rules.space_prefix(ctx.tenant, "hr")
+	if store.exists_dir(rules.object_key(hr, path)) and frappe.db.exists(HR_FOLDER, {"tenant": ctx.tenant, "folder": path}):
+		path = f"People/{name} {rules.person_id(user)[:4]}"  # two people with the same name
+	store.mkdir(rules.object_key(hr, path))
+	frappe.get_doc({"doctype": HR_FOLDER, "tenant": ctx.tenant, "user": user, "folder": path}).insert(ignore_permissions=True)
 	return {"space": "hr", "path": path}
 
 
@@ -625,14 +455,6 @@ def help_request(channel: str, rustdesk_id: str, password: str | None = None) ->
 
 
 def drop(tenant: str, user: str) -> None:
-	"""Someone left the business (or was suspended): out of its Nextcloud groups. Never breaks the save it hangs on."""
-	try:
-		if not frappe.db.exists(SPACE, tenant) or not frappe.db.exists(ACCOUNT, user):
-			return
-		_base, admin = _nc()
-		cu = frappe.db.get_value(ACCOUNT, user, "cloud_user")
-		for g in (rules.cloud_group(tenant), rules.cloud_group(tenant, "hr")):
-			_ocs("DELETE", f"cloud/users/{cu}/groups", admin, data={"groupid": g}, ok=(100, 200, 102, 105))
-		frappe.cache().delete_keys(f"qtt_cloud_groups|{user}|{tenant}")
-	except Exception:
-		frappe.log_error(title="Workplace: couldn't take someone out of Nextcloud groups")
+	"""Someone left the business (or was suspended). Files need nothing here: every request checks membership and
+	Office Pulse access, so they can't reach the business's files any more. Kept for team_events' call."""
+	return None

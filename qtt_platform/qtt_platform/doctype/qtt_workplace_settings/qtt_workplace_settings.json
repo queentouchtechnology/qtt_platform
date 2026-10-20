@@ -9,7 +9,7 @@
  "track_changes": 1,
  "engine": "InnoDB",
  "description": "Team calls and the Office Pulse Workplace (PROJ-0015): where LiveKit, Nextcloud, OnlyOffice and RustDesk run and their keys. Secrets are typed here (or set by the setup script), never shown.",
- "modified": "2026-10-21 10:00:00",
+ "modified": "2026-10-20 14:00:00",
  "field_order": [
   "calls_section",
   "calls_enabled",
@@ -18,9 +18,12 @@
   "livekit_api_secret",
   "files_section",
   "files_enabled",
-  "nextcloud_url",
-  "nextcloud_admin_user",
-  "nextcloud_admin_password",
+  "storage_url",
+  "storage_bucket",
+  "storage_region",
+  "storage_key",
+  "storage_secret",
+  "onlyoffice_jwt",
   "onlyoffice_url",
   "team_quota_gb",
   "personal_quota_gb",
@@ -61,7 +64,7 @@
   {
    "fieldname": "files_section",
    "fieldtype": "Section Break",
-   "label": "Files (Nextcloud) and documents (OnlyOffice)"
+   "label": "Files (S3 storage) and documents (OnlyOffice)"
   },
   {
    "fieldname": "files_enabled",
@@ -70,21 +73,37 @@
    "default": "1"
   },
   {
-   "fieldname": "nextcloud_url",
+   "fieldname": "storage_url",
    "fieldtype": "Data",
-   "label": "Nextcloud URL",
-   "default": "https://cloud.queentouchtech.in"
+   "label": "File storage URL (S3)",
+   "description": "Garage on QTT-AI-OS, through Caddy :9443 — only the Frappe server may reach it."
   },
   {
-   "fieldname": "nextcloud_admin_user",
+   "fieldname": "storage_bucket",
    "fieldtype": "Data",
-   "label": "Nextcloud service user",
-   "default": "qtt-service"
+   "label": "Bucket"
   },
   {
-   "fieldname": "nextcloud_admin_password",
+   "fieldname": "storage_region",
+   "fieldtype": "Data",
+   "label": "Region",
+   "default": "garage"
+  },
+  {
+   "fieldname": "storage_key",
+   "fieldtype": "Data",
+   "label": "Access key"
+  },
+  {
+   "fieldname": "storage_secret",
    "fieldtype": "Password",
-   "label": "Nextcloud service password"
+   "label": "Secret key"
+  },
+  {
+   "fieldname": "onlyoffice_jwt",
+   "fieldtype": "Password",
+   "label": "OnlyOffice JWT secret",
+   "description": "Signs what QTT sends the editor and checks what it sends back."
   },
   {
    "fieldname": "onlyoffice_url",
