@@ -87,8 +87,56 @@ everyone in every business — no plan needed.
     (from your apps' plans); the summary only says what the messages say.
   - **Wide screens** (tablet, computer, the web app): the chat list on the left,
     the chat on the right, a thread beside it.
-  - People in another business never see your chats. Voice and video calls
-    aren't part of Team yet.
+  - **Calls** (free for every business): 📞 voice or 🎥 video in any chat's
+    header. A direct message rings the other person (a phone notification
+    too — tap to join); a channel shows "call started" to its people; a green
+    bar in the chat shows a call going on — tap to join. In the call: mute,
+    camera, switch camera and speaker (phones), Leave; everyone's camera or
+    photo in a grid, whoever speaks gets a green ring. When it ends the chat
+    shows "📞 Call · 12 min · who was in it" (or "missed"). Calls go through
+    QTT's own server (meet.queentouchtech.in), up to 50 people.
+  - **With Office Pulse — the Workplace** (Team gets more for businesses with
+    Office Pulse): **Share your screen** in a call (from a computer, the web
+    app or Android), **Control a computer** (remote control, below), **Files**
+    and **Remote help** in Team's hub (also on Office Pulse's home).
+  - People in another business never see your chats.
+
+## Office Pulse Workplace — Files, documents, remote control (with Office Pulse)
+- **Files** (Team › Files or Office Pulse › Files): the business's files on
+  QTT's own cloud, in the app. Spaces: **Team files** (everyone in the
+  business reads and writes; 10 GB per business), **My files** (each person's
+  own; 2 GB), **Company** (policies and forms — everyone reads; owners,
+  admins and HR write), **HR** (owners, admins and HR only) and **From HR**
+  (your own documents HR keeps for you, read-only). **+ New**: Upload a file,
+  New folder, New document / sheet / presentation. ⋮ on a file: Send to a
+  chat (a copy in a Team chat), Rename, Delete (kept in the trash 30 days —
+  QTT can bring it back). The bar on top shows how much space is used.
+- **Documents**: tap a Word, Excel, PowerPoint or PDF to open it in the
+  editor (OnlyOffice, on QTT's own server): it saves as you type, and
+  everyone who has it open edits together (you see their cursors). On a
+  phone it opens in the app; on a computer or the web app, in a new tab.
+  For now the editor shows the OnlyOffice logo, and up to 20 people can be
+  editing at the same moment across QTT.
+- **Employee documents** (Office Pulse › Manage › Employee documents, HR /
+  owners / admins): pick a person → their folder (offer letter, ID proofs,
+  contracts, letters). The employee sees only theirs, read-only, in Files ›
+  From HR. **Company files** (Manage › Company files) opens Company.
+- **Remote help** (Team › Remote help or Office Pulse › Remote help): see and
+  control a computer as if sitting at it, through QTT's own server
+  (RustDesk; remote.queentouchtech.in). The person at the computer sees it
+  and can stop it any time.
+  - Get help on this computer: 1) install the free **RustDesk** app
+    (rustdesk.com), 2) **Copy server settings** and import them in RustDesk
+    (⋮ › Network › ID/Relay server › Import), 3) **Ask for help in a chat**
+    with your RustDesk ID (and its one-time password, which changes after
+    each session) — the helper taps **Connect** on that message.
+  - **Company computers**: owners, admins and HR Admins add the business's
+    computers (name, RustDesk ID, an optional permanent password for one-tap
+    help when nobody is at it — kept encrypted, used only by them, who uses
+    it) and connect in one tap; everyone else sees the computers they use.
+  - **Connect to an ID** someone reads out; or in a call, **Control a
+    computer** (the others' Company computers, or their ID).
+  - Connect opens the RustDesk app on your device (computer or phone).
 - **Business** (owner / admin): Profile (logo, address, GSTIN, phone, bank,
   UPI — printed on invoices, payslips, PDFs); Team (invite by email, choose
   each person's apps and role, remove); Roles and access (below); **Plans and

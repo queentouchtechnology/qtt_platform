@@ -192,3 +192,16 @@ numbers. Its own messages are billed to its own Meta account, not QTT's. If the 
   Profile shows status and Do not disturb until). Muted chats only notify for @mentions.
 - Reminders on saved messages run every 5 minutes (QTT Team Saved). Tasks are Frappe ToDos linked to the message.
 - Catch me up / Fill with AI take 1 credit each from the business's fullest AI wallet; QTT's own business doesn't pay.
+
+## Calls and the Office Pulse Workplace (PROJ-0015)
+- Servers: LiveKit (calls, meet.queentouchtech.in), OnlyOffice (office.queentouchtech.in) and RustDesk
+  (remote.queentouchtech.in) run in /opt/qtt-workplace on the QTT-AI-OS server (31.220.83.224), behind its Caddy;
+  Nextcloud (cloud.queentouchtech.in) is on the n8n server. Keys: Desk › QTT Workplace Settings (secrets never shown).
+- Calls: free for every business; screen sharing / remote control / Files need the person's Office Pulse access.
+  A call's room is the chat id; LiveKit's webhook (team_calls.webhook) tracks who's in and writes the summary line.
+- Files: each person is a Nextcloud user qtt-<hash> (QTT Cloud Account), each business a group qtt-<tenant> (+ -hr)
+  with group folders "<Business> · Team files" (10 GB), "· Company", "· HR" (QTT Cloud Space). Quotas: Workplace
+  Settings. Deleted files: Nextcloud trash (30 days) — restore as the admin in Nextcloud if a customer asks.
+- OnlyOffice Community: its logo shows and 20 editors at once across all businesses; a paid licence lifts both.
+- Remote control: the standard RustDesk app pointed at our server (Copy server settings in the app). Company
+  computers: QTT Remote Device (permanent passwords encrypted).

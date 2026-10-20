@@ -63,7 +63,9 @@ maintenance and growth.
   (designs, posts, logos, print, Shorts, landing pages with AI) and Managed
   Services (websites, online stores, WhatsApp automation, Marketing assistant —
   built and run by QTT). **Team** — the business's own team chat (channels,
-  direct messages, threads, voice notes, tasks) — is free for every business.
+  direct messages, threads, voice notes, tasks, voice and video calls) — is
+  free for every business. With Office Pulse, Team adds screen sharing,
+  remote control of computers, shared Files and documents edited together.
   Website: **queentouchtech.in** (every app, service and price); use it on
   Android, iOS, computers or the web at **queentouchtech.in/app**. Details in
   the QTT OS knowledge.
