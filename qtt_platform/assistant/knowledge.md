@@ -107,10 +107,44 @@ everyone in every business — no plan needed.
   business reads and writes; 10 GB per business), **My files** (each person's
   own; 2 GB), **Company** (policies and forms — everyone reads; owners,
   admins and HR write), **HR** (owners, admins and HR only) and **From HR**
-  (your own documents HR keeps for you, read-only). **+ New**: Upload a file,
-  New folder, New document / sheet / presentation. ⋮ on a file: Send to a
-  chat (a copy in a Team chat), Rename, Delete (kept in the trash 30 days —
-  QTT can bring it back). The bar on top shows how much space is used.
+  (your own documents HR keeps for you, read-only) and **Shared with me**
+  (what others shared with you). **+ New**: Upload a file, New folder, New
+  document / sheet / presentation. The bar on top shows how much space is used.
+  ⋮ on a file or folder (what shows depends on what you may do there):
+  - **Share** — people in the business (Can view / Can edit; it appears in
+    their Shared with me; remove anyone) and **links for people outside**
+    (Make a link): what it does — Preview only (they look, can't download or
+    print; nothing can stop a screenshot), Download, or Upload only on a folder
+    (File Drop: they send files in and can't see what's there); a name only you
+    see; a password (6+ characters — send it separately); when it ends (1 hour,
+    1 day, 7 days, 30 days, never, or a date); how many opens / downloads;
+    only these emails (they get a code by email); Ask me first (each person
+    asks, you approve in Requests); Send the key separately (the link alone
+    won't open it). The link is shown once — QTT keeps only a fingerprint of
+    its key; New key makes another and the old link stops at once; Stop the
+    link ends it now; Who used it shows each open / download / upload with the
+    time and IP, and the people who asked.
+  - **Versions** — every time a file is replaced or edited the one before is
+    kept 30 days; Restore one (what it is now is kept too).
+  - **Lock while I work on it** — others can open it but not change or
+    delete it, for 24 hours or until you unlock it (owners and admins can
+    unlock anyone's). **Tags** (#Invoices…), **Comments** (the people it's
+    shared with are told), **Activity** (who viewed, downloaded, changed,
+    shared it).
+  - **Folder access** (owners and admins; HR for Company and HR): rules for a
+    folder and everything in it — for everyone, a role or a person: Open,
+    Change, Add, Delete, Share (none = no access). A person's rule beats a
+    role's, a role's beats everyone's; owners and admins always have full
+    access. Someone who can't open a folder taps **Ask for access** (to view
+    or edit, with a note); owners, admins (and HR for HR / Company) approve or
+    decline in **Requests** — approving puts it in their Shared with me.
+  - Send to a chat, Rename (its shares, links, tags, comments and versions
+    go with it), Delete — to the **Recycle bin** for 30 days.
+  The Files menu (top right): **Recycle bin** (Restore, or Delete for good),
+  **Requests** (people asking for files, people outside asking to open a link —
+  Approve / Decline; and what you asked for), Activity here, Folder access and
+  (owners and admins) the **Audit log** — who did what with the business's
+  files, with the IP for link visits.
 - **Documents**: tap a Word, Excel, PowerPoint or PDF to open it in the
   editor (OnlyOffice, on QTT's own server): it saves as you type, and
   everyone who has it open edits together (you see their cursors). On a

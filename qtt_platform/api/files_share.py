@@ -29,10 +29,13 @@ def _title(key: str) -> str:
 
 
 def _push(users: list[str], title: str, body: str, data: dict) -> None:
+	"""A phone notification; a tap opens Files there (kind "files": space / path, or open: requests)."""
 	try:
 		from qtt_platform.push import notify
+		from qtt_platform.tenant.context import resolve_active_tenant
 
-		notify([u for u in users if u], title=title, body=body, data={"type": "files", **data})
+		data = {"kind": "files", "tenant": resolve_active_tenant() or "", **{k: str(v) for k, v in data.items()}}
+		notify([u for u in users if u], title=title, body=body, data=data)
 	except Exception:
 		frappe.log_error(title="Files: notification not sent")
 

@@ -275,7 +275,7 @@ def open(k: str = "", id: str = "", key: str = "", password: str = "", email: st
 					from qtt_platform.push import notify
 
 					notify([l.created_by], title=_("{0} asks to open {1}").format(email, _title(l.file_key)), body=_("Approve or decline in Files › Requests."),
-						   data={"type": "files", "open": "requests"})
+						   data={"kind": "files", "tenant": l.tenant, "open": "requests"})
 				except Exception:
 					pass
 				return {"need": "approval", "sent": True}
@@ -398,7 +398,7 @@ def drop(ticket: str) -> dict:
 	try:
 		from qtt_platform.push import notify
 
-		notify([l.created_by], title=_("A file arrived in {0}").format(_title(l.file_key)), body=final, data={"type": "files", "space": l.space, "path": l.path})
+		notify([l.created_by], title=_("A file arrived in {0}").format(_title(l.file_key)), body=final, data={"kind": "files", "tenant": l.tenant, "space": l.space, "path": l.path})
 	except Exception:
 		pass
 	return {"state": "ok", "name": final}

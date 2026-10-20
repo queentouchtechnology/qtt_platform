@@ -205,6 +205,12 @@ numbers. Its own messages are billed to its own Meta account, not QTT's. If the 
   employee's HR folder is a QTT HR Folder record. Frappe checks every permission and the quotas (Workplace Settings).
   Deleted or replaced files: trash/<day>/<key> for 30 days (file_store.purge_trash, daily) — to restore, copy the
   object back. Code: file_store.py, api/workplace.py.
+- Files sharing and control (PROJ-0016 A, api/files_share.py, api/files_links.py, files_core.py): every action goes through
+  files_core.access (space rights → QTT Folder Rule → a lock). Versions (QTT File Version) and the recycle bin (QTT File
+  Trash) live at <tenant>/.versions/ and <tenant>/.bin/, 30 days (files_core.purge daily). Share links (QTT Share Link):
+  only the key's sha256 is kept — a lost link can't be recovered, the customer makes a New key. Public page:
+  app.queentouchtech.in/s/<key> (or /sl/<id> + key). Guests prove emails with the signup code system (purpose
+  file_link). Everything is in QTT File Activity (with IPs for link visits) — the customer's Audit log.
 - Documents: OnlyOffice talked to directly (api/workplace_docs.py) — open_doc makes an editor page link (a few hours,
   one person); OnlyOffice fetches the file through a signed Frappe link and saves through a signed call. Its JWT
   header is AuthorizationJwt (Frappe takes "Authorization" as a login and refuses it).
