@@ -1,7 +1,9 @@
 #!/bin/bash
 # QTT backup on the Frappe server (185.217.127.94) — /usr/local/bin/qtt-backup, /etc/cron.d/qtt-backup (22:45 CEST daily)
 #  1. Frappe sites: each site's database, site config (holds encryption_key — without it no password or the files key
-#     can be opened) and its files → /root/qtt-backups/frappe/<day>/ (14 days). The n8n server copies this folder.
+#     can be opened) and its files → /root/qtt-backups/frappe/<day>/ (14 days; a files archive identical to the day
+#     before is hard-linked, not kept twice). Then pushed to the n8n server's write-only drop folder (its outbound SSH is
+#     blocked on purpose, so it can't pull) — its own job moves it where this server can't reach (30 days).
 #  2. Files store: the Garage data of Office Pulse Files (already encrypted — SSE-C) and its metadata snapshot, pulled
 #     from QTT-AI-OS read-only → /root/qtt-backups/files-store/<day>/ (14 days, unchanged blocks hard-linked).
 # Status for QTT Admin › Servers: /var/lib/qtt-backup/{frappe-sites,files-store}.json (qtt-backup-status).
@@ -30,6 +32,23 @@ for site in $(docker exec $C bash -lc "ls $B/sites" | grep -E '\.' | grep -vE '\
   docker exec $C bash -lc "find $dir -type f -mtime +2 -delete"  # the container keeps only the last few days
 done
 docker cp "$C:$B/sites/common_site_config.json" "$ROOT/frappe/$DAY/common_site_config.json" >/dev/null 2>&1 || true
+# an unchanged files archive: a hard link to yesterday's (and it isn't pushed again)
+prevd=$(ls -1d "$ROOT"/frappe/20* 2>/dev/null | grep -v "/$DAY$" | tail -1)
+same=()
+for f in "$ROOT/frappe/$DAY"/*files.tar; do
+  [ -e "$f" ] || continue
+  t=${f##*/}; t=${t#*-}
+  old=$(ls "$prevd"/*-"$t" 2>/dev/null | head -1)
+  if [ -n "$old" ] && cmp -s "$f" "$old"; then ln -f "$old" "$f"; same+=(--exclude "${f##*/}"); fi
+done
+pushed=0
+for i in 1 2 3; do
+  if rsync -a "${same[@]}" -e "ssh -i /root/.ssh/qtt_backup_push -o BatchMode=yes -o ConnectTimeout=20" "$ROOT/frappe/$DAY" root@173.249.7.188:/ >/tmp/qtt-backup-push.log 2>&1; then
+    pushed=1; break
+  fi
+  sleep 30
+done
+[ "$pushed" = 1 ] || { ok=0; why="push to the n8n server failed: $(tail -1 /tmp/qtt-backup-push.log | cut -c1-80)"; }
 find "$ROOT/frappe" -mindepth 1 -maxdepth 1 -type d -mtime +13 -exec rm -rf {} +
 /usr/local/bin/qtt-backup-status frappe-sites "Frappe sites (database, site config, files)" "$ok" "$ROOT/frappe/$DAY" "${why:-$(ls "$ROOT/frappe/$DAY" | wc -l) files}"
 
