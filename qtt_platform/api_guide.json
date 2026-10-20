@@ -3932,7 +3932,7 @@
    "arguments": "archived",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.boards",
-   "screens": "platform/workplace/boards_page.dart › (top level)\nplatform/workplace/boards_page.dart › _BoardsPageState\nplatform/workplace/notes_page.dart › _NotePageState\nproducts/office_pulse/screens/home_view.dart › PulseHomeView\nshell/home_shell.dart › _HomeShellState",
+   "screens": "core/links/web_location.dart › (top level)\nplatform/workplace/boards_page.dart › (top level)\nplatform/workplace/boards_page.dart › _BoardsPageState\nplatform/workplace/notes_page.dart › _NotePageState\nproducts/office_pulse/screens/home_view.dart › PulseHomeView\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/boards.py:93",
    "status": "OK"
