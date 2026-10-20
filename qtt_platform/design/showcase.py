@@ -54,10 +54,35 @@ def _skeleton(x: Ctx) -> str:
 	return f'<div class="sk"><div class="skh"><b></b><i></i><u></u></div><div class="skb">{rows}</div></div>'
 
 
+POSITIONS = ("top", "middle", "bottom", "whole")
+
+
+def shot_fit(x: Ctx, i: int) -> str:
+	"""Which part of screenshot i shows (the owner's choice, TASK-218): top (default), middle, bottom, or whole."""
+	fits = x.content.get("shot_fit") or []
+	f = fits[i] if i < len(fits) else "top"
+	return f if f in POSITIONS else "top"
+
+
+def shot_img(x: Ctx, i: int = 0) -> str:
+	"""Screenshot i as it is: cropped to the part the owner chose, or whole — letterboxed on a soft blurred copy of
+	itself, so nothing of the screen is cut and nothing is redrawn."""
+	if not x.photos:
+		return _skeleton(x)
+	src = esc(x.photos[i % len(x.photos)])
+	fit = shot_fit(x, i % len(x.photos))
+	if fit == "whole":
+		return f'<img class="shot blurfill" src="{src}" alt=""><img class="shot whole" src="{src}">'
+	return f'<img class="shot pos-{fit}" src="{src}">'
+
+
+def clear_screen(x: Ctx) -> bool:
+	"""Keep the screen clear (TASK-219): cards and points sit beside the device, never over the screenshot."""
+	return bool(x.content.get("clear_screen"))
+
+
 def _phone(x: Ctx, i: int = 0, cls: str = "") -> str:
-	shot = x.photos[i % len(x.photos)] if x.photos else None
-	screen = f'<img class="shot" src="{esc(shot)}">' if shot else _skeleton(x)
-	return f'<div class="phone {cls}" data-piece><div class="scr">{screen}</div><i class="notch"></i></div>'
+	return f'<div class="phone {cls}" data-piece><div class="scr">{shot_img(x, i)}</div><i class="notch"></i></div>'
 
 
 def _phone_css(x: Ctx) -> str:
@@ -67,8 +92,11 @@ def _phone_css(x: Ctx) -> str:
 		".phone{position:relative;box-sizing:border-box;aspect-ratio:.49;height:min(100cqh,calc(100cqw / .49));width:auto;flex:none;border-radius:62px;background:#0c0d12;"
 		"padding:14px;box-shadow:0 50px 90px rgba(0,0,0,.38),0 0 0 2px rgba(255,255,255,.07) inset}"
 		# the notch sits in its own band at the top of the screen — it never covers any of the screenshot
-		".phone .scr{box-sizing:border-box;width:100%;height:100%;border-radius:50px;overflow:hidden;background:#0c0d12;padding-top:8%}"
+		".phone .scr{position:relative;box-sizing:border-box;width:100%;height:100%;border-radius:50px;overflow:hidden;background:#0c0d12;padding-top:8%}"
 		".phone .shot{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;background:#fff}"
+		".phone .shot.pos-middle{object-position:center}.phone .shot.pos-bottom{object-position:bottom center}"
+		".phone .shot.whole{object-fit:contain;background:transparent;position:relative;z-index:1}"
+		".phone .shot.blurfill{position:absolute;left:0;right:0;bottom:0;top:8%;height:92%;object-fit:cover;filter:blur(22px) brightness(.9);transform:scale(1.12)}"
 		".phone .notch{position:absolute;top:2.1%;left:50%;transform:translateX(-50%);width:24%;height:2.2%;background:#000;border-radius:20px;"
 		"box-shadow:0 0 0 2px #1d1e26}"
 		f".sk{{height:100%;display:flex;flex-direction:column;background:{p['light']};font-size:0}}"
@@ -252,7 +280,13 @@ def pop_cards(x: Ctx, v: dict) -> tuple[str, str]:
 	cards = "".join(f'<div class="card" style="{pos};transform:rotate({rot})">{x.el("icon_tile", 56, 56, text=it.get("icon") or "icon_check", tone="primary")}'
 					f'<div><b>{esc(it.get("title"))}</b>{f"<span>{esc(it.get(chr(116) + chr(101) + chr(120) + chr(116)))}</span>" if it.get("text") else ""}</div></div>'
 					for it, (pos, rot) in zip(items, spots))
-	stage = f'<div class="stage"><div class="holder">{_phone(x)}{cards}</div></div>'
+	if clear_screen(x):
+		plain = "".join(f'<div class="card">{x.el("icon_tile", 56, 56, text=it.get("icon") or "icon_check", tone="primary")}'
+						f'<div><b>{esc(it.get("title"))}</b>{f"<span>{esc(it.get(chr(116) + chr(101) + chr(120) + chr(116)))}</span>" if it.get("text") else ""}</div></div>'
+						for it in items)
+		stage = f'<div class="stage clear"><div class="hb"><div class="holder">{_phone(x)}</div></div><div class="cards">{plain}</div></div>'
+	else:
+		stage = f'<div class="stage"><div class="holder">{_phone(x)}{cards}</div></div>'
 	if _side(x):
 		comp = f'<div class="wrap row"><div class="txt">{_top(x)}{_head(x, hs)}{_cta(x, 380, 80)}</div>{stage}</div>'
 	else:
@@ -267,7 +301,10 @@ def pop_cards(x: Ctx, v: dict) -> tuple[str, str]:
 			 f".card{{position:absolute;display:flex;align-items:center;gap:14px;background:#fff;border-radius:24px;padding:16px 22px 16px 16px;"
 			 f"box-shadow:0 26px 50px rgba(0,0,0,.28);max-width:440px;z-index:2}}.card svg{{flex:none}}"
 			 f".card b{{display:block;font:800 26px/1.15 var(--font-heading);color:{x.p['dark']}}}.card span{{display:block;font:400 18px/1.3 var(--font-body);color:{base.mix(x.p['dark'], '#ffffff', .35)}}}"
-			 ".cta{flex:none}")
+			 ".cta{flex:none}"
+			 ".stage.clear{gap:22px}.stage.clear .hb{flex:1;min-width:0;height:100%;display:flex;justify-content:center;align-items:center;container-type:size}"
+			 ".stage.clear .cards{flex:none;display:flex;flex-direction:column;gap:16px;max-width:44%}"
+			 ".stage.clear .card{position:static;transform:none;max-width:none}")
 	return deco + comp, css
 
 
@@ -467,3 +504,9 @@ from qtt_platform.design import showcase_more as _more  # noqa: E402
 
 DIRECTIONS.update(_more.DIRECTIONS)
 LAYOUTS.update(_more.LAYOUTS)
+
+# Other devices: a laptop, a tablet, before-and-after (showcase_devices.py)
+from qtt_platform.design import showcase_devices as _devices  # noqa: E402
+
+DIRECTIONS.update(_devices.DIRECTIONS)
+LAYOUTS.update(_devices.LAYOUTS)

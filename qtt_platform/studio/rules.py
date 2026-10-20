@@ -42,7 +42,8 @@ KINDS = ("post", "document", "logo", "print", "photo", "video", "page")
 FORMATS = ("square", "portrait", "story")
 WIDE = ("wide", "landscape")  # 16:9 and 3:2 — showcase designs (Poster variations) only
 LOOKS = ("light", "dark", "brand")
-SLOTS = {"kicker": 60, "headline": 90, "subline": 220, "cta": 40, "badge": 30, "tagline": 80, "quote": 160, "stat": 16, "stat_label": 50}
+SLOTS = {"kicker": 60, "headline": 90, "subline": 220, "cta": 40, "badge": 30, "tagline": 80, "quote": 160, "stat": 16, "stat_label": 50,
+		 "before_label": 24, "after_label": 24}  # before-and-after posters: the two screens' labels
 LIST_SLOTS = {"list": (10, 30), "steps": (4, 40), "problems": (4, 90)}  # the owner's own short lists: (how many, how long)
 
 

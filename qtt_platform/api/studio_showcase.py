@@ -30,8 +30,8 @@ from qtt_platform.api import studio
 from qtt_platform.design import library, palettes, showcase
 from qtt_platform.studio import rules
 
-from qtt_platform.studio.showcase_rules import (BACKDROP, MAX_BYTES, MAX_CONCEPTS, MAX_SHOTS, SMALL, SUGGESTED, clean_brief, colour_sets,
-											 pick_directions)
+from qtt_platform.studio.showcase_rules import (BACKDROP, MAX_BYTES, MAX_CONCEPTS, MAX_SHOTS, SMALL, SUGGESTED, clean_brief, clean_media,
+											 colour_sets, pick_directions, upscale)
 
 
 def _tenant() -> tuple[str, dict]:
@@ -73,7 +73,9 @@ def directions() -> dict:
 @frappe.whitelist(methods=["POST"])
 def upload_shot() -> dict:
 	"""Multipart `file`: a screenshot (PNG, JPG or WEBP, up to 10 MB), kept as it is — private, for this business's
-	designs. {url, width, height, small, palettes: best colour sets for it first}."""
+	designs; a small one (both sides under 1200 px) is enlarged and lightly sharpened so it isn't soft on the poster.
+	{url, width, height, small (it was small — a full-size one is still better), upscaled, palettes: best colour sets
+	for it first}."""
 	from PIL import Image
 
 	tenant, _ent = _tenant()
@@ -96,9 +98,14 @@ def upload_shot() -> dict:
 	if w < 200 or h < 300:
 		frappe.throw(_("That picture is too small to show — take the screenshot again at full size."))
 	ext = {"PNG": ".png", "JPEG": ".jpg", "WEBP": ".webp"}[fmt]
+	small = h < SMALL and w < SMALL
+	big = upscale(data) if small else None
+	if big:
+		data, w, h = big
+		ext = ".png"
 	f = frappe.get_doc({"doctype": "File", "file_name": f"screenshot-{frappe.generate_hash(length=10)}{ext}", "content": data, "is_private": 1,
 						"attached_to_doctype": "QTT Tenant", "attached_to_name": tenant}).insert(ignore_permissions=True)
-	return {"url": f.file_url, "width": w, "height": h, "small": h < SMALL and w < SMALL,
+	return {"url": f.file_url, "width": w, "height": h, "small": small, "upscaled": bool(big),
 			"palettes": palettes.rank(palettes.shot_colours(data))}
 
 
@@ -108,8 +115,9 @@ def _shot_ok(tenant: str, url: str) -> bool:
 
 @frappe.whitelist(methods=["POST"])
 def generate(data=None) -> dict:
-	"""Make poster concepts. data: {shots: [urls from upload_shot], about (what the product is), headline, kicker, subline,
-	cta, items: [points], stat + stat_label, list: [chips], steps, problems, directions: [keys] (empty: Studio picks),
+	"""Make poster concepts. data: {shots: [urls from upload_shot], fit: [top | middle | bottom | whole per screenshot],
+	clear (keep the screen clear of cards), about (what the product is), headline, kicker, subline, cta, items: [points],
+	stat + stat_label, before_label + after_label, list: [chips], steps, problems, directions: [keys] (empty: Studio picks),
 	count (1–8, default 4), format, colours: brand | auto | a colour set, ai: write the words with AI (1 credit)}.
 	{batch, designs: [design + direction]}. Each concept counts as a design this month."""
 	tenant, ent = _tenant()
@@ -153,7 +161,7 @@ def generate(data=None) -> dict:
 	batch = uuid.uuid4().hex[:12]
 	out = []
 	for key, w, colour in zip(keys, sets, colours):
-		out.append(_make(tenant, on[key], w, lang, fmt, {"shots": shots, "palette": colour, "batch": batch}, made_by="AI" if d.get("ai") else "Template",
+		out.append(_make(tenant, on[key], w, lang, fmt, {"shots": shots, "palette": colour, "batch": batch, **clean_media(d, len(shots))}, made_by="AI" if d.get("ai") else "Template",
 						 request=f"Poster variations: {about or w.get('headline', '')}"[:500]))
 	return {"batch": batch, "designs": out}
 

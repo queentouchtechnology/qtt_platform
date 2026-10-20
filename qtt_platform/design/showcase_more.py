@@ -13,7 +13,7 @@ import math
 from qtt_platform.design import base
 from qtt_platform.design.layouts import Ctx, esc
 from qtt_platform.design.showcase import (_backdrop, _chip_css, _chips, _cta, _feats, _feats_css, _head, _head_css, _phone,
-										  _phone_css, _side, _sizes, _top)
+										  _phone_css, _side, _sizes, _top, clear_screen)
 
 DIRECTIONS = {
 	"tilt_premium": ("Premium 3D phone", "A strongly angled phone on a reflective floor", {}),
@@ -115,16 +115,17 @@ def screen_pop(x: Ctx, v: dict) -> tuple[str, str]:
 def ui_orbit(x: Ctx, v: dict) -> tuple[str, str]:
 	bg = x.bg
 	items = _items(x, 4)
-	spots = [("2%", "14%"), ("62%", "30%"), ("0%", "62%"), ("60%", "78%")]
+	clear = clear_screen(x)
+	spots = [("0%", "12%"), ("70%", "30%"), ("0%", "58%"), ("70%", "76%")] if clear else [("2%", "14%"), ("62%", "30%"), ("0%", "62%"), ("60%", "78%")]
 	cards = "".join(f'<div class="ob" style="left:{l};top:{t}">{x.el("icon_tile", 48, 48, text=it.get("icon") or "icon_check", tone="primary")}'
 					f'<b>{esc(it.get("title"))}</b></div>' for it, (l, t) in zip(items, spots))
 	visual = (f'<div class="fv orbit"><div class="ring"></div><div class="pw ph2">{_phone(x)}</div>{cards}</div>')
 	html, css = _frame(x, _text(x, align="center" if not _side(x) else "left"), visual, center=True, vflex=1.3)
 	css += (_phone_css(x) + _head_css(x) + f".post{{background:{bg}}}"
 			f".orbit{{width:100%}}.ring{{position:absolute;inset:6% 8%;border:3px dashed {base.mix(x.p['primary'], bg, .55)};border-radius:50%}}"
-			".ph2{position:absolute;inset:8% 22%;display:flex;justify-content:center;align-items:center;container-type:size}"
-			f".ob{{position:absolute;display:flex;align-items:center;gap:12px;background:#fff;border-radius:999px;padding:10px 22px 10px 10px;"
-			f"box-shadow:0 18px 40px rgba(0,0,0,.18);z-index:2;max-width:46%}}.ob svg{{flex:none}}"
+			f".ph2{{position:absolute;inset:{'10% 35%' if clear else '8% 22%'};display:flex;justify-content:center;align-items:center;container-type:size}}"
+			f".ob{{position:absolute;display:flex;align-items:center;gap:12px;background:#fff;border-radius:{'22px' if clear else '999px'};padding:10px 22px 10px 10px;"
+			f"box-shadow:0 18px 40px rgba(0,0,0,.18);z-index:2;max-width:{'30%' if clear else '46%'}}}.ob svg{{flex:none}}"
 			f".ob b{{font:700 {19 if x.wide else 23}px/1.15 var(--font-heading);color:{x.p['dark']}}}")
 	return html, css
 
@@ -222,8 +223,8 @@ def glass_cards(x: Ctx, v: dict) -> tuple[str, str]:
 	visual = f'<div class="fv gv"><div class="pw gp">{_phone(x)}</div><div class="gcs">{cards}</div></div>'
 	html, css = _frame(x, _text(x, light=True, align="left" if _side(x) else "center"), visual, center=True, vflex=1.25)
 	css += (_phone_css(x) + _head_css(x, ink="#ffffff", soft="rgba(255,255,255,.82)", hl="#ffffff", kick="rgba(255,255,255,.85)") + f".post{{background:{bg}}}"
-			".gv{width:100%}.gp{position:absolute;inset:0 0 0 36%;display:flex;justify-content:center;container-type:size}"
-			".gcs{position:absolute;left:0;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:16px;width:48%;z-index:2}"
+			f".gv{{width:100%}}.gp{{position:absolute;inset:{'0 0 0 46%' if clear_screen(x) else '0 0 0 36%'};display:flex;justify-content:center;container-type:size}}"
+			f".gcs{{position:absolute;left:0;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:16px;width:{'44%' if clear_screen(x) else '48%'};z-index:2}}"
 			".gc{display:flex;align-items:center;gap:14px;padding:18px 20px;border-radius:24px;background:rgba(255,255,255,.14);"
 			"border:1.5px solid rgba(255,255,255,.35);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 20px 40px rgba(0,0,0,.25)}"
 			f".gc svg{{flex:none}}.gc b{{display:block;font:700 {19 if x.wide else 24}px/1.15 var(--font-heading);color:#fff}}"

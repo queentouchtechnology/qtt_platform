@@ -32,8 +32,8 @@ def _page(layout: str, content: dict, fmt: str, photos=("shot0.png",)) -> str:
 
 
 class Directions(unittest.TestCase):
-	def test_thirty_one_directions_each_a_layout_and_a_template(self):
-		self.assertEqual(len(showcase.DIRECTIONS), 31)  # 11 first, 20 more (32 templates: two looks of the UI showcase)
+	def test_thirty_four_directions_each_a_layout_and_a_template(self):
+		self.assertEqual(len(showcase.DIRECTIONS), 34)  # 11 first, 20 more, 3 other devices (laptop, tablet, before-and-after)
 		keys = {t["layout"] for t in catalog.templates() if t["post_types"] == ["showcase"]}
 		self.assertEqual(keys, set(showcase.DIRECTIONS))
 		for k in showcase.DIRECTIONS:
@@ -49,9 +49,32 @@ class Directions(unittest.TestCase):
 		for k in showcase.DIRECTIONS:
 			for fmt in SIZES:
 				html = _page(k, FULL, fmt, photos=("shot0.png", "shot1.png"))
-				self.assertIn('<img class="shot" src="shot0.png">', html, (k, fmt))  # the owner's own screenshot, untouched
+				self.assertRegex(html, r'<img class="shot( pos-top)?" src="shot0.png">', (k, fmt))  # the owner's own screenshot, untouched
 				self.assertIn("data-piece", html, (k, fmt))  # the device moves as one in Move and resize
 				self.assertIn("Plan your day", html)
+
+	def test_screenshot_position_and_whole(self):
+		html = _page("ui_showcase", {**FULL, "shot_fit": ["bottom"]}, "square")
+		self.assertIn('<img class="shot pos-bottom" src="shot0.png">', html)
+		html = _page("laptop_showcase", {**FULL, "shot_fit": ["whole"]}, "wide")
+		self.assertIn('class="shot whole" src="shot0.png"', html)  # the whole screen, nothing cut
+		self.assertIn('class="shot blurfill"', html)
+		html = _page("ui_showcase", {**FULL, "shot_fit": ["javascript"]}, "square")
+		self.assertIn("pos-top", html)  # anything unknown → the top
+
+	def test_keep_the_screen_clear(self):
+		self.assertIn('class="stage clear"', _page("pop_cards", {**FULL, "clear_screen": True}, "portrait"))
+		self.assertNotIn('class="stage clear"', _page("pop_cards", FULL, "portrait"))
+		self.assertIn("inset:10% 35%", _page("ui_orbit", {**FULL, "clear_screen": True}, "square"))
+
+	def test_before_and_after_labels(self):
+		html = _page("before_after", FULL, "square", photos=("shot0.png", "shot1.png"))
+		self.assertIn(">Before<", html)
+		self.assertIn(">After<", html)
+		html = _page("before_after", {**FULL, "before_label": "Paper", "after_label": "Acme"}, "story", photos=("shot0.png", "shot1.png"))
+		self.assertIn(">Paper<", html)
+		self.assertIn('src="shot1.png"', html)
+		self.assertFalse(showcase.can_use("before_after", FULL, 1))
 
 	def test_without_a_screenshot_a_plain_sample_screen(self):
 		html = _page("ui_showcase", FULL, "square", photos=())
@@ -160,6 +183,25 @@ class Decisions(unittest.TestCase):
 			self.assertTrue(showcase.can_use(k, words, 1))
 		self.assertEqual(sr.pick_directions(["stat_hero", "minimal_device"], words, 1, self.ON, 4), ["minimal_device"])
 		self.assertEqual(set(sr.SUGGESTED), set(showcase.DIRECTIONS))
+
+	def test_media(self):
+		self.assertEqual(sr.clean_media({}, 2), {"fit": ["top", "top"], "clear": False})
+		self.assertEqual(sr.clean_media({"fit": ["whole", "nope", "bottom", "middle"], "clear": True}, 3),
+						 {"fit": ["whole", "top", "bottom"], "clear": True})
+		self.assertEqual(sr.clean_brief({"headline": "A", "before_label": "Paper", "after_label": "Acme"})["after_label"], "Acme")
+
+	def test_small_screenshots_enlarged(self):
+		from PIL import Image
+
+		def png(w, h):
+			buf = io.BytesIO()
+			Image.new("RGB", (w, h), "#3366cc").save(buf, "PNG")
+			return buf.getvalue()
+
+		data, w, h = sr.upscale(png(540, 1170))
+		self.assertEqual((w, h), (831, 1800))
+		self.assertEqual(Image.open(io.BytesIO(data)).format, "PNG")
+		self.assertIsNone(sr.upscale(png(1080, 2340)))  # big enough: kept exactly as it is
 
 	def test_colours(self):
 		ranked = list(palettes.CURATED)

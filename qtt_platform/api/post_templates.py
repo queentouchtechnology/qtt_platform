@@ -170,6 +170,12 @@ def post_parts(tenant: str, t: dict, *, look: str | None = None, words: dict | N
 		content["cutout"] = True
 	if extra:
 		content["backdrop"] = extra[0][0]
+	if "showcase" in t["post_types"]:
+		fits = [f if f in ("top", "middle", "bottom", "whole") else "top" for f in ((media or {}).get("fit") or [])][:3]
+		if any(f != "top" for f in fits):
+			content["shot_fit"] = fits
+		if (media or {}).get("clear"):
+			content["clear_screen"] = True
 	language = "Tamil" if lang == "ta" else (k.get("language") or "")
 	return {"kit": kit, "fonts": fonts, "photos": photos, "extra": extra, "content": content, "logo": knowledge._logo(tenant),
 			"look": look if look in ("light", "dark", "brand") else t["look"], "language": language}

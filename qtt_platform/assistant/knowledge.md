@@ -1324,11 +1324,17 @@ passwords, codes or keys.
   design opens to change like any other.
 - **Poster variations** (Studio home): 1 to 3 real screenshots of your app,
   website or product (PNG, JPG or WEBP up to 10 MB, taken at full size — a
-  small one looks soft and Studio says so) and a few words — a headline, your
+  small one is enlarged and lightly sharpened so it isn't soft, and Studio
+  still suggests a full-size one). Each screenshot has a label for which part
+  shows: Top (the first), Middle, Bottom or Whole screen (the whole tall screen
+  on a soft blurred copy of itself — nothing cut). Keep the screen clear: the
+  points sit beside the phone, never over the screenshot. And a few words — a headline, your
   main points, button words; under More, a number and what it counts ("159+ ·
   Bible modules"), chips (languages, platforms, categories), steps and the
-  problems it solves. Choose designs or let Studio pick different ones: 31
-  directions (Product UI showcase, 3D product showcase, Pop-out cards, Minimal
+  problems it solves, and the Before / After labels. Choose designs or let
+  Studio pick different ones: 34 directions (Product UI showcase, Website on a
+  laptop, On a tablet, Before and after (two screenshots, labelled — your words
+  or Before / After), 3D product showcase, Pop-out cards, Minimal
   premium, Bold promotional, Feature in numbers, How it works, Floating chips,
   Editorial, In context, Two screens, Premium 3D phone, Screen pops out, Points
   in orbit, Oversized headline, Full-height phone, Split screen, Diagonal
@@ -1349,7 +1355,8 @@ passwords, codes or keys.
   month. The posters open side by side; Another like this makes the same
   design in the next colour set; each opens like any design (also Wide and
   Landscape sizes, Move and resize moves the phone as one piece, Every size,
-  Post it). AI background (In context, Floating chips, Open book): describe the
+  Post it, Your screen — change which part of each screenshot shows and Keep
+  the screen clear, without using a design). AI background (In context, Floating chips, Open book): describe the
   scene — only the background is made, 10 AI credits.
 - **A design**: Square / Portrait / Story, Light / Dark / Your colour; Ask
   AI to change it in plain words (1 credit); Quick edit of the words, Save;

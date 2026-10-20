@@ -172,6 +172,10 @@ _T = [
 	("open_book", "Open book", {}, "burgundy_cream", "elegant", "dark"),
 	("color_blocks", "Blocks", {}, "royal_orange", "bold", "light"),
 	("magazine_cover", "Cover", {}, "burgundy_cream", "elegant", "light"),
+	# other devices (TASK-220)
+	("laptop_showcase", "Laptop", {}, "navy_gold", "modern", "dark"),
+	("tablet_showcase", "Tablet", {}, "teal_mint", "friendly", "light"),
+	("before_after", "Before and after", {}, "royal_orange", "modern", "light"),
 ]
 
 # ---- sample words for the library pictures (by layout and business group) ------------------------------------------
@@ -341,7 +345,8 @@ def catalog_hash() -> str:
 	from pathlib import Path
 
 	here = Path(__file__).parent
-	code = b"".join((here / f).read_bytes() for f in ("archetypes.py", "layouts.py", "patterns.py", "elements.py", "base.py", "showcase.py", "showcase_more.py", "palettes.py"))
+	code = b"".join((here / f).read_bytes() for f in ("archetypes.py", "layouts.py", "patterns.py", "elements.py", "base.py", "showcase.py", "showcase_more.py",
+													 "showcase_devices.py", "palettes.py"))
 	return hashlib.sha1(json.dumps([templates(), SAMPLES], sort_keys=True, ensure_ascii=False).encode() + code).hexdigest()[:16]
 
 

@@ -135,6 +135,8 @@ def _out(doc) -> dict:
 			"picture": get_url(doc.output) if doc.output else None, "modified": str(doc.modified),
 			"formats": list(rules.FORMATS + rules.WIDE if showcase else rules.FORMATS), "showcase": showcase,
 			"palette": (c.get("media") or {}).get("palette"), "batch": (c.get("media") or {}).get("batch"),
+			"shots": len((c.get("media") or {}).get("shots") or []), "fit": (c.get("media") or {}).get("fit") or [],
+			"clear": bool((c.get("media") or {}).get("clear")),
 			"direction": frappe.db.get_value(library.DT, doc.template, "layout") if showcase else None}
 
 
@@ -355,7 +357,8 @@ def design(name: str) -> dict:
 
 @frappe.whitelist(methods=["POST"])
 def update_design(name: str, data=None) -> dict:
-	"""Change a design — words, size (square, portrait, story), look (light, dark, brand), its library design or title — and
+	"""Change a design — words, size (square, portrait, story), look (light, dark, brand), its library design or title; a
+	poster variation also how its screenshots sit (fit: [top | middle | bottom | whole], clear: keep the screen clear) — and
 	draw it again."""
 	tenant = _tenant()
 	_need_studio(tenant)
@@ -363,9 +366,14 @@ def update_design(name: str, data=None) -> dict:
 	d = json.loads(data) if isinstance(data, str) else (data or {})
 	c = json.loads(doc.content or "{}")
 	if isinstance(d.get("words"), dict):
-		keep = ("items",) + tuple(rules.LIST_SLOTS) + ("stat", "stat_label", "step_icons")  # what Quick edit doesn't show stays
+		keep = ("items",) + tuple(rules.LIST_SLOTS) + ("stat", "stat_label", "step_icons", "before_label", "after_label")  # what Quick edit doesn't show stays
 		c["words"] = {**{k: v for k, v in (c.get("words") or {}).items() if k in keep}, **rules.clean_words(d["words"])}
 		_new_words(c)
+	if (c.get("media") or {}).get("shots") and ("fit" in d or "clear" in d):
+		from qtt_platform.studio.showcase_rules import clean_media
+
+		m = c["media"]
+		c["media"] = {**m, **clean_media({"fit": d.get("fit", m.get("fit")), "clear": d.get("clear", m.get("clear"))}, len(m["shots"]))}
 	if d.get("format") in _formats(doc):
 		doc.format = d["format"]
 	if d.get("look") in rules.LOOKS:
