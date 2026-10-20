@@ -4,4 +4,5 @@ import frappe
 
 
 def execute():
+	frappe.reload_doc("qtt_platform", "doctype", "qtt_customer")  # patches run before the model sync: add the field first
 	frappe.db.sql("update `tabQTT Customer` set kind = 'Customer' where ifnull(kind, '') = ''")
