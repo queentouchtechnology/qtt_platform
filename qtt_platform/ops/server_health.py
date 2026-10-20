@@ -102,7 +102,21 @@ def clean_report(raw: dict) -> dict:
 		"ssh_password_login": raw.get("ssh_password_login") if isinstance(raw.get("ssh_password_login"), bool) else None,
 		"ssh_failed_24h": _int(raw.get("ssh_failed_24h")),
 		"hermes": clean_hermes(raw.get("hermes")),
+		"backups": clean_backups(raw.get("backups")),
 	}
+
+
+def clean_backups(raw) -> list[dict]:
+	"""The server's backup jobs as the agent read them (/var/lib/qtt-backup/*.json): name, whether the last run worked,
+	when it finished (unix time), its size, a short detail, and how old it may get before it counts as missed."""
+	out = []
+	for b in (raw or [])[:10] if isinstance(raw, list) else []:
+		if not isinstance(b, dict) or not b.get("name"):
+			continue
+		out.append({"name": str(b["name"])[:60], "ok": bool(b.get("ok")), "finished_at": _int(b.get("finished_at"), 0, 4 * 10**9),
+					"size_bytes": _int(b.get("size_bytes"), 0, 10**15), "detail": str(b.get("detail") or "")[:160],
+					"max_age_hours": _int(b.get("max_age_hours"), 1, 24 * 60) or 26})
+	return out
 
 
 def clean_hermes(raw) -> dict | None:
@@ -168,6 +182,14 @@ def evaluate(report: dict | None, *, last_report_at: datetime | None, now: datet
 		notices.append("Hermes gateway (Telegram) is not running.")
 	if h and h.get("error"):
 		notices.append("Hermes usage couldn't be read (after a Hermes update?).")
+
+	for b in report.get("backups") or []:
+		age_h = (now.timestamp() - b["finished_at"]) / 3600 if b.get("finished_at") else None
+		if not b.get("ok"):
+			problems.append({"level": "warning", "text": f"Backup failed: {b['name']}" + (f" — {b['detail']}" if b.get("detail") else "") + "."})
+		elif age_h is None or age_h > b.get("max_age_hours", 26):
+			problems.append({"level": "warning", "text": f"Backup missed: {b['name']} — last one {int(age_h)} h ago." if age_h is not None
+							 else f"Backup missed: {b['name']}."})
 
 	status = "critical" if any(p["level"] == "critical" for p in problems) else "warning" if problems else "ok"
 	return {"status": status, "problems": problems, "notices": notices}

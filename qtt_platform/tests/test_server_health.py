@@ -103,5 +103,30 @@ class HermesTest(unittest.TestCase):
 		self.assertIn("Hermes gateway (Telegram) is not running.", ev["notices"])
 
 
+class BackupsTest(unittest.TestCase):
+	"""The server's backup jobs: a failed or missed one is a problem (QTT Admin › Servers, and the alert)."""
+
+	def ev(self, backups):
+		small = raw(disk={"total_bytes": 100, "used_bytes": 10}, containers=[], reboot_required=False, backups=backups)
+		return h.evaluate(h.clean_report(small), last_report_at=NOW, now=NOW)
+
+	def test_fresh_ok(self):
+		e = self.ev([{"name": "Frappe sites", "ok": True, "finished_at": NOW.timestamp() - 3600, "size_bytes": 6e6}])
+		self.assertEqual(e["status"], "ok")
+
+	def test_failed_and_missed(self):
+		e = self.ev([{"name": "Frappe sites", "ok": False, "finished_at": NOW.timestamp(), "detail": "bench backup failed"},
+					 {"name": "Files store copy", "ok": True, "finished_at": NOW.timestamp() - 30 * 3600}])
+		self.assertEqual(e["status"], "warning")
+		texts = [p["text"] for p in e["problems"]]
+		self.assertIn("Backup failed: Frappe sites — bench backup failed.", texts)
+		self.assertIn("Backup missed: Files store copy — last one 30 h ago.", texts)
+
+	def test_own_limit_and_junk(self):
+		e = self.ev([{"name": "Weekly", "ok": True, "finished_at": NOW.timestamp() - 100 * 3600, "max_age_hours": 170}, {"ok": True}, "x"])
+		self.assertEqual(e["status"], "ok")
+		self.assertEqual(h.clean_report(raw())["backups"], [])
+
+
 if __name__ == "__main__":
 	unittest.main()

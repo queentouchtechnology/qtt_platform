@@ -23,7 +23,7 @@ import time
 import urllib.error
 import urllib.request
 
-VERSION = "1.2"
+VERSION = "1.3"
 ENV_FILE = "/etc/qtt-server-agent.env"
 CACHE = "/var/cache/qtt-server-agent.json"
 SLOW_EVERY = 3600  # seconds between slow checks (apt, journal, sshd)
@@ -148,6 +148,27 @@ def ports():
 
 
 HERMES_HOME = "/home/hermes/.hermes"
+BACKUP_STATUS = "/var/lib/qtt-backup"
+
+
+def backups():
+    """This server's backup jobs as they left them (/var/lib/qtt-backup/<job>.json, written by each backup script):
+    name, ok, finished_at, size_bytes, detail, max_age_hours. Only what the files say — nothing is read from backups."""
+    out = []
+    try:
+        names = sorted(n for n in os.listdir(BACKUP_STATUS) if n.endswith(".json"))
+    except OSError:
+        return out
+    for n in names[:10]:
+        try:
+            with open(os.path.join(BACKUP_STATUS, n)) as f:
+                b = json.load(f)
+            if isinstance(b, dict):
+                out.append({k: b.get(k) for k in ("name", "ok", "finished_at", "size_bytes", "detail", "max_age_hours")})
+        except (OSError, ValueError):
+            out.append({"name": n[:-5], "ok": False, "detail": "status file unreadable"})
+    return out
+
 
 
 def hermes():
@@ -221,6 +242,9 @@ def collect(save=True):
     h = hermes()
     if h is not None:
         report["hermes"] = h
+    b = backups()
+    if b:
+        report["backups"] = b
     report.update(slow_checks(save))
     return report
 
