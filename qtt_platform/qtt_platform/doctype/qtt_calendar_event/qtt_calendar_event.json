@@ -1,0 +1,150 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Calendar Event",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "engine": "InnoDB",
+ "autoname": "hash",
+ "description": "Office Pulse Calendar: an event in the business's team calendar or someone's own — with the people invited, a reminder, and how it repeats.",
+ "modified": "2026-10-20 20:00:00",
+ "track_changes": 0,
+ "field_order": [
+  "tenant",
+  "title",
+  "starts_at",
+  "ends_at",
+  "all_day",
+  "visibility",
+  "organizer",
+  "location",
+  "meeting_url",
+  "call_channel",
+  "notes",
+  "color",
+  "repeat",
+  "repeat_until",
+  "remind_minutes",
+  "sequence",
+  "attendees"
+ ],
+ "fields": [
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "label": "Business",
+   "options": "QTT Tenant",
+   "reqd": 1,
+   "search_index": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "starts_at",
+   "fieldtype": "Datetime",
+   "label": "Starts",
+   "reqd": 1,
+   "search_index": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "ends_at",
+   "fieldtype": "Datetime",
+   "label": "Ends",
+   "reqd": 1
+  },
+  {
+   "fieldname": "all_day",
+   "fieldtype": "Check",
+   "label": "All day"
+  },
+  {
+   "fieldname": "visibility",
+   "fieldtype": "Select",
+   "label": "Who sees it",
+   "options": "team\nprivate",
+   "default": "team"
+  },
+  {
+   "fieldname": "organizer",
+   "fieldtype": "Link",
+   "label": "Organiser",
+   "options": "User",
+   "search_index": 1
+  },
+  {
+   "fieldname": "location",
+   "fieldtype": "Data",
+   "label": "Where",
+   "length": 200
+  },
+  {
+   "fieldname": "meeting_url",
+   "fieldtype": "Data",
+   "label": "Meeting link",
+   "length": 500
+  },
+  {
+   "fieldname": "call_channel",
+   "fieldtype": "Data",
+   "label": "Team chat for the call"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Text",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "color",
+   "fieldtype": "Data",
+   "label": "Colour",
+   "length": 12
+  },
+  {
+   "fieldname": "repeat",
+   "fieldtype": "Select",
+   "label": "Repeats",
+   "options": "\ndaily\nweekdays\nweekly\nmonthly\nyearly"
+  },
+  {
+   "fieldname": "repeat_until",
+   "fieldtype": "Date",
+   "label": "Until"
+  },
+  {
+   "fieldname": "remind_minutes",
+   "fieldtype": "Int",
+   "label": "Remind (minutes before)",
+   "default": "15"
+  },
+  {
+   "fieldname": "sequence",
+   "fieldtype": "Int",
+   "label": "Changes sent"
+  },
+  {
+   "fieldname": "attendees",
+   "fieldtype": "Table",
+   "label": "People",
+   "options": "QTT Calendar Attendee"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC"
+}

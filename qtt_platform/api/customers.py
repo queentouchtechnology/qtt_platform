@@ -18,9 +18,10 @@ from qtt_platform.smart_list import smart_get_all
 
 DT = "QTT Customer"
 GOVERNANCE = ["Tenant Owner", "Tenant Admin"]
-LIST_FIELDS = ["name", "customer_name", "customer_type", "company_name", "phone", "email", "city", "tags", "status",
+LIST_FIELDS = ["name", "customer_name", "customer_type", "kind", "company_name", "phone", "whatsapp", "email", "city", "tags", "status",
 			   "source", "modified"]
-FIELDS = ("customer_name", "customer_type", "company_name", "contact_person", "phone", "whatsapp", "email",
+KINDS = ("Customer", "Supplier", "Partner", "Other")  # the address book (Office Pulse › Contacts); Customers shows only customers
+FIELDS = ("customer_name", "customer_type", "kind", "company_name", "contact_person", "phone", "whatsapp", "email",
 		  "address_line1", "address_line2", "city", "state", "pincode", "country", "gstin", "pan", "tags", "notes")
 
 
@@ -85,9 +86,10 @@ SORTS = {"name": "customer_name asc", "newest": "creation desc", "recent": "modi
 
 @frappe.whitelist(methods=["GET"])
 def customers(q: str | None = None, status: str = "Active", tag: str | None = None, start: int = 0,
-			  page_length: int = 50, sort: str | None = None, customer_type: str | None = None) -> dict:
+			  page_length: int = 50, sort: str | None = None, customer_type: str | None = None, kind: str = "Customer") -> dict:
 	"""A page of the business's customers. sort: name | newest | recent | city (with a search,
-	best matches come first); customer_type: Individual | Business."""
+	best matches come first); customer_type: Individual | Business; kind: Customer (the default) | Supplier | Partner |
+	Other | all (the whole address book)."""
 	from qtt_platform import list_sort
 
 	tenant, _m = _tenant()
@@ -99,6 +101,8 @@ def customers(q: str | None = None, status: str = "Active", tag: str | None = No
 		filters.append([DT, "tags", "like", f"%{tag.strip()}%"])
 	if customer_type in ("Individual", "Business"):
 		filters.append([DT, "customer_type", "=", customer_type])
+	if kind in KINDS:
+		filters.append([DT, "kind", "=", kind])
 	# Intelligent search: every word, any order, phone digits, one typo forgiven.
 	rows, has_more = smart_get_all(DT, filters=filters, fields=LIST_FIELDS, q=q, title_field="customer_name",
 								   search_fields=["customer_name", "company_name", "email", "city", "gstin"], digits_field="phone",
@@ -136,6 +140,10 @@ def save_customer(data, name: str | None = None) -> dict:
 		frappe.throw(_(str(e)))
 	if values["country"] and not frappe.db.exists("Country", values["country"]):
 		frappe.throw(_("Choose a country from the list."))
+	if data.get("kind") in KINDS:
+		values["kind"] = data["kind"]
+	elif not name:
+		values["kind"] = "Customer"  # a change without a kind keeps the one it has
 	_duplicate(tenant, values, name)
 	if name:
 		doc = _doc(tenant, name)

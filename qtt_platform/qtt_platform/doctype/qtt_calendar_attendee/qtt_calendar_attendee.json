@@ -1,0 +1,47 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Calendar Attendee",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 1,
+ "issingle": 0,
+ "engine": "InnoDB",
+ "autoname": "hash",
+ "description": "Someone invited to a calendar event: a person in the business, or an email outside it — and their answer.",
+ "modified": "2026-10-20 20:00:00",
+ "track_changes": 0,
+ "field_order": [
+  "user",
+  "email",
+  "guest_name",
+  "response"
+ ],
+ "fields": [
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "Person",
+   "options": "User",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email (outside)",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "guest_name",
+   "fieldtype": "Data",
+   "label": "Name"
+  },
+  {
+   "fieldname": "response",
+   "fieldtype": "Select",
+   "label": "Answer",
+   "options": "needs\nyes\nno\nmaybe",
+   "default": "needs",
+   "in_list_view": 1
+  }
+ ]
+}

@@ -15,6 +15,7 @@
   "tenant",
   "customer_name",
   "customer_type",
+  "kind",
   "company_name",
   "contact_person",
   "status",
@@ -64,6 +65,16 @@
    "options": "Individual\nBusiness",
    "default": "Individual",
    "in_list_view": 1
+  },
+  {
+   "fieldname": "kind",
+   "fieldtype": "Select",
+   "label": "Kind",
+   "options": "Customer\nSupplier\nPartner\nOther",
+   "default": "Customer",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "description": "The address book: customers, and the suppliers, partners and others the business works with."
   },
   {
    "fieldname": "company_name",
@@ -215,5 +226,6 @@
  "autoname": "hash",
  "title_field": "customer_name",
  "show_title_field_in_link": 1,
- "search_fields": "phone,email,company_name"
+ "search_fields": "phone,email,company_name",
+ "modified": "2026-10-20 20:00:00"
 }
