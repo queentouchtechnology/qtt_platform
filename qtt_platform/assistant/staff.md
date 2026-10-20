@@ -212,3 +212,11 @@ numbers. Its own messages are billed to its own Meta account, not QTT's. If the 
 - Verified 2026-10-21: 32 API authorization checks, Nextcloud permission / quota checks, OnlyOffice JWT both ways,
   LiveKit load (6 publishers × 24 viewers: 144/144 streams, 0.03 % loss, ~1.5 of 4 cores), 10 conversions at once,
   crash recovery (restart: unless-stopped; docker on boot).
+
+- Remote control hardening (2026-10-21; full write-up: qtt-os/docs/remote-access-security.md): company computers set up
+  with the QTT agent (api/workplace_agent.py, scripts in qtt_platform/workplace_agent/) get a QTT-made password nobody
+  sees, rotated automatically on revocation (team_events.on_membership / on_pulse_access); removal locks them. Audit:
+  Desk › QTT Remote Access Log. RustDesk web-client ports 21118/21119 are closed (not used).
+- Rotating the RustDesk server key (only if it leaks): stop hbbs/hbbr, move /opt/qtt-workplace/rustdesk/id_ed25519*
+  aside, start them (new key), update Desk › QTT Workplace Settings › RustDesk public key; agents pick the new server
+  settings on their next check-in; computers added by hand and helpers' RustDesk apps need the new settings again.

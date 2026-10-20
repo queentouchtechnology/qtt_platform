@@ -131,9 +131,22 @@ everyone in every business — no plan needed.
     with your RustDesk ID (and its one-time password, which changes after
     each session) — the helper taps **Connect** on that message.
   - **Company computers**: owners, admins and HR Admins add the business's
-    computers (name, RustDesk ID, an optional permanent password for one-tap
-    help when nobody is at it — kept encrypted, used only by them, who uses
-    it) and connect in one tap; everyone else sees the computers they use.
+    computers and connect in one tap; everyone else sees the computers they
+    use (and connects without the saved password — the person there accepts).
+    **Add computer › Set up automatically (recommended)**: one command on the
+    computer (Windows: PowerShell as Administrator; Mac / Linux: Terminal with
+    sudo, RustDesk installed first; the command works once, for an hour). It
+    points RustDesk at QTT's server, locks its settings (no direct IP
+    connections, no LAN discovery, no remote settings changes, no tunnels,
+    idle sessions end after 30 minutes) and sets a long password made by QTT
+    that **nobody sees**. A small QTT agent checks in every 15 minutes and
+    **changes the password by itself when access is revoked** — someone who
+    used it leaves, is suspended or loses owner / admin / HR Admin rights, the
+    computer is given to someone else, or an owner taps **Change password
+    now**. Removing such a computer locks it with a password nobody knows.
+    **Add by hand**: type its RustDesk ID and permanent password; when access
+    is revoked it shows "Change its password on the computer" and owners get a
+    notification. Every connect is recorded.
   - **Connect to an ID** someone reads out; or in a call, **Control a
     computer** (the others' Company computers, or their ID).
   - Connect opens the RustDesk app on your device (computer or phone).
