@@ -132,8 +132,9 @@ doc_events = {
         "on_trash": "qtt_platform.team_events.on_message",
     },
     "QTT Product Access": {
-        "on_update": "qtt_platform.realtime.on_product_access_change",
-        "on_trash": "qtt_platform.realtime.on_product_access_change",
+        # + Remote control: losing Office Pulse HR Admin rotates the company computers' passwords they used.
+        "on_update": ["qtt_platform.realtime.on_product_access_change", "qtt_platform.team_events.on_pulse_access"],
+        "on_trash": ["qtt_platform.realtime.on_product_access_change", "qtt_platform.team_events.on_pulse_access"],
     },
     "QTT Tenant": {
         "on_update": ["qtt_platform.realtime.on_tenant_change", "qtt_platform.house.on_tenant_update"],

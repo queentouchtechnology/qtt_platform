@@ -1,0 +1,83 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Remote Access Log",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 0,
+ "engine": "InnoDB",
+ "autoname": "hash",
+ "title_field": "device",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "modified": "2026-10-21 19:00:00",
+ "description": "Remote control audit: every connect from QTT (with or without the saved password), agent setup, password change and lock-out.",
+ "fields": [
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "label": "Business",
+   "options": "QTT Tenant",
+   "reqd": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "device",
+   "fieldtype": "Data",
+   "label": "Computer",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "device_title",
+   "fieldtype": "Data",
+   "label": "Computer name",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "Who",
+   "options": "User",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "action",
+   "fieldtype": "Select",
+   "label": "What",
+   "options": "Connect\nConnect with saved password\nSet up\nPassword changed\nPassword change asked\nLock-out asked\nLocked\nRemoved",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "detail",
+   "fieldtype": "Small Text",
+   "label": "Detail"
+  },
+  {
+   "fieldname": "ip",
+   "fieldtype": "Data",
+   "label": "From (IP)"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "field_order": [
+  "tenant",
+  "device",
+  "device_title",
+  "user",
+  "action",
+  "detail",
+  "ip"
+ ]
+}

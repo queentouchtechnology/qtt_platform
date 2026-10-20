@@ -145,8 +145,14 @@ def on_membership(doc, method=None):
 	(or is suspended) also leaves its Nextcloud groups (Workplace)."""
 	if method == "on_trash" or doc.status != "active":
 		from qtt_platform.api.workplace import drop
+		from qtt_platform.api.workplace_agent import on_access_lost
 
 		drop(doc.tenant, doc.user)
+		on_access_lost(doc.tenant, doc.user, "someone who used it left the business" if method == "on_trash" else "someone who used it was suspended")
+	elif doc.has_value_changed("tenant_role") and doc.tenant_role not in ("Tenant Owner", "Tenant Admin"):
+		from qtt_platform.api.workplace_agent import on_access_lost
+
+		on_access_lost(doc.tenant, doc.user, "someone who used it is no longer an owner / admin")
 	try:
 		if "raven" not in frappe.get_installed_apps():
 			return
@@ -157,3 +163,21 @@ def on_membership(doc, method=None):
 		sync(doc.tenant, exclude=doc.user if method == "on_trash" else None)
 	except Exception:
 		frappe.log_error(title="Team chat: member sync failed")
+
+
+def on_pulse_access(doc, method=None):
+	"""Office Pulse access changed: someone who's no longer an HR Admin (or lost Office Pulse) can't keep using company
+	computers' saved passwords — they change (api/workplace_agent)."""
+	try:
+		if doc.product != "QTT_OFFICE_PULSE":
+			return
+		lost = method == "on_trash" or doc.status != "active" or (doc.has_value_changed("product_role") and doc.product_role != "HR Admin")
+		if not lost:
+			return
+		m = frappe.db.get_value("QTT Tenant Membership", doc.membership, ["tenant", "user", "tenant_role"], as_dict=True)
+		if m and m.tenant_role not in ("Tenant Owner", "Tenant Admin"):
+			from qtt_platform.api.workplace_agent import on_access_lost
+
+			on_access_lost(m.tenant, m.user, "someone who used it lost Office Pulse HR Admin rights")
+	except Exception:
+		frappe.log_error(title="Remote control: rotation after a Pulse role change failed")

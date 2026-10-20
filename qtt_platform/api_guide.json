@@ -7502,7 +7502,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:541",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:591",
    "status": "Not used by the app"
   },
   {
@@ -7534,7 +7534,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:531",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:579",
    "status": "Not used by the app"
   },
   {
@@ -7550,7 +7550,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:488",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:493",
    "status": "Not used by the app"
   },
   {
@@ -7598,7 +7598,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:559",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:614",
    "status": "Not used by the app"
   },
   {
@@ -7714,6 +7714,22 @@
    "status": "Not used by the app"
   },
   {
+   "endpoint": "qtt_platform.api.workplace.rotate_device",
+   "product": "Platform",
+   "area": "api.workplace",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Change a computer's password now (owners, admins, HR Admins): the agent does it within 15 minutes; a computer without the agent is flagged until its new password is saved.",
+   "details": "Change a computer's password now (owners, admins, HR Admins): the agent does it within 15 minutes; a computer\nwithout the agent is flagged until its new password is saved.",
+   "arguments": "name",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:565",
+   "status": "Not used by the app"
+  },
+  {
    "endpoint": "qtt_platform.api.workplace.save_device",
    "product": "Platform",
    "area": "api.workplace",
@@ -7726,7 +7742,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/workplace.py:504",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:511",
    "status": "Not used by the app"
   },
   {
@@ -7746,6 +7762,22 @@
    "status": "Not used by the app"
   },
   {
+   "endpoint": "qtt_platform.api.workplace.setup_device",
+   "product": "Platform",
+   "area": "api.workplace",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Add a computer the safe way (owners, admins, HR Admins): a one-use setup code (1 hour) and the command to run on it — Windows PowerShell as Administrator, or Mac / Linux with sudo. QTT then manages its RustDesk password.",
+   "details": "Add a computer the safe way (owners, admins, HR Admins): a one-use setup code (1 hour) and the command to run\non it — Windows PowerShell as Administrator, or Mac / Linux with sudo. QTT then manages its RustDesk password.",
+   "arguments": "title, assigned_to",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/workplace.py:549",
+   "status": "Not used by the app"
+  },
+  {
    "endpoint": "qtt_platform.api.workplace.upload",
    "product": "Platform",
    "area": "api.workplace",
@@ -7759,6 +7791,70 @@
    "screens": "",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/workplace.py:304",
+   "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_platform.api.workplace_agent.confirm",
+   "product": "Platform",
+   "area": "api.workplace_agent",
+   "http_methods": "POST",
+   "guest": 1,
+   "purpose": "The agent applied the new password (or the lock-out): QTT keeps it, or forgets the computer.",
+   "details": "The agent applied the new password (or the lock-out): QTT keeps it, or forgets the computer.",
+   "arguments": "agent_key, nonce",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/workplace_agent.py:237",
+   "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_platform.api.workplace_agent.enroll",
+   "product": "Platform",
+   "area": "api.workplace_agent",
+   "http_methods": "POST",
+   "guest": 1,
+   "purpose": "Setup code + the computer's RustDesk ID → {agent_key, password, policy}. The code works once.",
+   "details": "Setup code + the computer's RustDesk ID → {agent_key, password, policy}. The code works once.",
+   "arguments": "code, rustdesk_id, os, host",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/workplace_agent.py:177",
+   "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_platform.api.workplace_agent.script",
+   "product": "Platform",
+   "area": "api.workplace_agent",
+   "http_methods": "GET",
+   "guest": 1,
+   "purpose": "The setup script for one setup code (plain text, to pipe into PowerShell / bash).",
+   "details": "The setup script for one setup code (plain text, to pipe into PowerShell / bash).",
+   "arguments": "os, code",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/workplace_agent.py:160",
+   "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_platform.api.workplace_agent.sync",
+   "product": "Platform",
+   "area": "api.workplace_agent",
+   "http_methods": "POST",
+   "guest": 1,
+   "purpose": "Agent check-in: the policy every time; a new password when one is due ({password, nonce}); {lock: password} when the computer was removed.",
+   "details": "Agent check-in: the policy every time; a new password when one is due ({password, nonce}); {lock: password}\nwhen the computer was removed.",
+   "arguments": "agent_key, rustdesk_id, version",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/workplace_agent.py:206",
    "status": "Not used by the app"
   },
   {

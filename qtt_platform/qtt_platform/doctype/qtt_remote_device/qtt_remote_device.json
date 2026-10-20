@@ -8,8 +8,8 @@
  "quick_entry": 0,
  "track_changes": 0,
  "engine": "InnoDB",
- "description": "Company computers (Office Pulse): a computer with the RustDesk app, who uses it, and an optional permanent password for one-tap support (seen only by owners, admins and HR Admins).",
- "modified": "2026-10-21 10:00:00",
+ "description": "Company computers (Office Pulse): a computer with RustDesk on QTT's server. With the QTT agent its permanent password is made by QTT, never shown to anyone, and changed automatically when access is revoked; without it, the owner types the password in.",
+ "modified": "2026-10-21 19:00:00",
  "field_order": [
   "tenant",
   "title",
@@ -19,7 +19,19 @@
   "platform",
   "notes",
   "last_connected_at",
-  "last_connected_by"
+  "last_connected_by",
+  "agent_section",
+  "managed",
+  "state",
+  "enroll_hash",
+  "enroll_expires_at",
+  "agent_hash",
+  "agent_seen_at",
+  "agent_os",
+  "pending_password",
+  "rotate_required",
+  "rotate_reason",
+  "password_set_at"
  ],
  "fields": [
   {
@@ -77,6 +89,81 @@
    "fieldtype": "Link",
    "label": "Last connected by",
    "options": "User"
+  },
+  {
+   "fieldname": "agent_section",
+   "fieldtype": "Section Break",
+   "label": "QTT agent (password managed and rotated by QTT)"
+  },
+  {
+   "fieldname": "managed",
+   "fieldtype": "Check",
+   "label": "Managed by the QTT agent",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Select",
+   "label": "State",
+   "options": "Active\nWaiting for setup\nLocking\nLocked",
+   "default": "Active",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "enroll_hash",
+   "fieldtype": "Data",
+   "label": "Setup code (hash)",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "enroll_expires_at",
+   "fieldtype": "Datetime",
+   "label": "Setup code valid until",
+   "read_only": 1
+  },
+  {
+   "fieldname": "agent_hash",
+   "fieldtype": "Data",
+   "label": "Agent key (hash)",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "agent_seen_at",
+   "fieldtype": "Datetime",
+   "label": "Agent last checked in",
+   "read_only": 1
+  },
+  {
+   "fieldname": "agent_os",
+   "fieldtype": "Data",
+   "label": "Agent system",
+   "read_only": 1
+  },
+  {
+   "fieldname": "pending_password",
+   "fieldtype": "Password",
+   "label": "Next password (waiting for the agent)"
+  },
+  {
+   "fieldname": "rotate_required",
+   "fieldtype": "Check",
+   "label": "Password must change",
+   "read_only": 1
+  },
+  {
+   "fieldname": "rotate_reason",
+   "fieldtype": "Data",
+   "label": "Why",
+   "read_only": 1
+  },
+  {
+   "fieldname": "password_set_at",
+   "fieldtype": "Datetime",
+   "label": "Password last changed",
+   "read_only": 1
   }
  ],
  "permissions": [

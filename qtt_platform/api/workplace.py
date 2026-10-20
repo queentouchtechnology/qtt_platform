@@ -481,7 +481,12 @@ def _device_out(d, ctx, names) -> dict:
 	return {"id": d.name, "title": d.title, "rustdesk_id": d.rustdesk_id, "assigned_to": d.assigned_to,
 			"assigned_name": names.get(d.assigned_to, d.assigned_to) if d.assigned_to else None, "platform": d.platform or "",
 			"notes": d.notes or "", "has_password": bool(d.password) if ctx.manager else False,
-			"last_connected_at": str(d.last_connected_at) if d.last_connected_at else None}
+			"last_connected_at": str(d.last_connected_at) if d.last_connected_at else None,
+			"managed": bool(d.get("managed")), "state": d.get("state") or "Active",
+			"rotate_required": bool(d.get("rotate_required")) if ctx.manager else False,
+			"rotate_reason": (d.get("rotate_reason") or "") if ctx.manager else "",
+			"agent_seen_at": str(d.agent_seen_at) if d.get("agent_seen_at") else None,
+			"password_set_at": str(d.password_set_at) if d.get("password_set_at") and ctx.manager else None}
 
 
 @frappe.whitelist(methods=["GET"])
@@ -494,8 +499,10 @@ def devices(user: str | None = None) -> dict:
 		filters["assigned_to"] = ctx.user
 	elif user:
 		filters["assigned_to"] = user
+	filters["state"] = ["!=", "Locked"]
 	rows = frappe.get_all(DEVICE, filters=filters, fields=["name", "title", "rustdesk_id", "password", "assigned_to", "platform", "notes",
-															 "last_connected_at"], order_by="title asc")
+															 "last_connected_at", "managed", "state", "rotate_required", "rotate_reason",
+															 "agent_seen_at", "password_set_at"], order_by="title asc")
 	names = team._names(ctx)
 	return {"devices": [_device_out(d, ctx, names) for d in rows], "manager": ctx.manager}
 
@@ -513,27 +520,70 @@ def save_device(title: str, rustdesk_id: str, name: str | None = None, password:
 		frappe.throw(_("A RustDesk ID is 9 or 10 digits — it's on the RustDesk app's first screen."))
 	if assigned_to and assigned_to not in team._people(ctx.tenant):
 		frappe.throw(_("Choose someone in your business."))
+	from qtt_platform.api import workplace_agent as agent
+
+	before = None
 	if name:
 		d = frappe.get_doc(DEVICE, name)
 		if d.tenant != ctx.tenant:
 			frappe.throw(_("That computer isn't in this business."), frappe.PermissionError)
+		before = d.assigned_to
 	else:
 		d = frappe.get_doc({"doctype": DEVICE, "tenant": ctx.tenant})
+	if d.get("managed") and rid != d.rustdesk_id:
+		rid = d.rustdesk_id  # the agent keeps the ID up to date
 	d.update({"title": str(title or "").strip()[:80] or rid, "rustdesk_id": rid, "assigned_to": assigned_to or None,
 			  "platform": platform or "", "notes": (notes or "").strip()[:500]})
-	if password:
-		d.password = password
+	if password and not d.get("managed"):
+		d.password = password  # with the agent, only QTT sets the password
+		d.password_set_at = now_datetime()
+		d.rotate_required = 0
+		d.rotate_reason = None
 	d.save(ignore_permissions=True)
+	if name and before and before != (assigned_to or None):
+		agent.ask_rotation(frappe.get_doc(DEVICE, d.name), f"given to someone else (was {team._names(ctx).get(before, before)})", ctx.user)
 	return _device_out(frappe.get_doc(DEVICE, d.name), ctx, team._names(ctx))
+
+
+@frappe.whitelist(methods=["POST"])
+def setup_device(title: str = "New computer", assigned_to: str | None = None) -> dict:
+	"""Add a computer the safe way (owners, admins, HR Admins): a one-use setup code (1 hour) and the command to run
+	on it — Windows PowerShell as Administrator, or Mac / Linux with sudo. QTT then manages its RustDesk password."""
+	from qtt_platform.api import workplace_agent as agent
+
+	ctx = _ctx()
+	if not ctx.manager:
+		frappe.throw(_("Owners, admins and HR Admins look after Company computers."), frappe.PermissionError)
+	if assigned_to and assigned_to not in team._people(ctx.tenant):
+		frappe.throw(_("Choose someone in your business."))
+	d = frappe.get_doc({"doctype": DEVICE, "tenant": ctx.tenant, "title": str(title or "").strip()[:80] or "New computer",
+						"rustdesk_id": "000000000", "state": "Waiting for setup", "assigned_to": assigned_to or None}).insert(ignore_permissions=True)
+	return {"device": d.name, **agent.setup_code(d)}
+
+
+@frappe.whitelist(methods=["POST"])
+def rotate_device(name: str) -> dict:
+	"""Change a computer's password now (owners, admins, HR Admins): the agent does it within 15 minutes; a computer
+	without the agent is flagged until its new password is saved."""
+	from qtt_platform.api import workplace_agent as agent
+
+	ctx = _ctx()
+	d = frappe.get_doc(DEVICE, name)
+	if not ctx.manager or d.tenant != ctx.tenant:
+		frappe.throw(_("Owners, admins and HR Admins look after Company computers."), frappe.PermissionError)
+	agent.ask_rotation(d, f"asked by {team._names(ctx).get(ctx.user, ctx.user)}", ctx.user)
+	return _device_out(frappe.get_doc(DEVICE, name), ctx, team._names(ctx))
 
 
 @frappe.whitelist(methods=["POST"])
 def delete_device(name: str) -> dict:
 	"""Take a computer off the list (owners, admins, HR Admins)."""
+	from qtt_platform.api import workplace_agent as agent
+
 	ctx = _ctx()
 	if not ctx.manager or frappe.db.get_value(DEVICE, name, "tenant") != ctx.tenant:
 		frappe.throw(_("Owners, admins and HR Admins look after Company computers."), frappe.PermissionError)
-	frappe.delete_doc(DEVICE, name, ignore_permissions=True)
+	agent.lock(frappe.get_doc(DEVICE, name), ctx.user)
 	return {"deleted": True}
 
 
@@ -543,11 +593,16 @@ def connect(name: str | None = None, rustdesk_id: str | None = None) -> dict:
 	owners / admins / HR Admins), or any RustDesk ID someone gave you. {uri}."""
 	ctx = _ctx()
 	if name:
+		from qtt_platform.api import workplace_agent as agent
+
 		d = frappe.get_doc(DEVICE, name)
 		if d.tenant != ctx.tenant or (not ctx.manager and d.assigned_to != ctx.user):
 			frappe.throw(_("That computer isn't yours to open."), frappe.PermissionError)
+		if d.get("state") in ("Waiting for setup", "Locking", "Locked"):
+			frappe.throw(_("This computer isn't ready — finish its setup in Remote help."))
 		pw = d.get_password("password", raise_exception=False) if ctx.manager else None
 		frappe.db.set_value(DEVICE, d.name, {"last_connected_at": now_datetime(), "last_connected_by": ctx.user}, update_modified=False)
+		agent.log(d, "Connect with saved password" if pw else "Connect", ctx.user)
 		return {"uri": rules.rustdesk_uri(d.rustdesk_id, pw), "rustdesk_id": d.rustdesk_id}
 	rid = rules.rustdesk_id(rustdesk_id)
 	if not rid:
