@@ -3914,12 +3914,12 @@
    "purpose": "A board with its cards by list (positions in order). Filters: only mine, a label, words in the title.",
    "details": "A board with its cards by list (positions in order). Filters: only mine, a label, words in the title.",
    "arguments": "name, mine, label, q",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.board",
+   "screens": "platform/workplace/boards_page.dart › BoardSettingsPage\nplatform/workplace/boards_page.dart › _BoardPageState\nplatform/workplace/boards_page.dart › _BoardSettingsPageState\nplatform/workplace/boards_page.dart › _BoardsPageState\nplatform/workplace/boards_page.dart › _CardPageState\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/boards.py:109",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.boards.boards",
@@ -3930,12 +3930,12 @@
    "purpose": "The boards this person sees, with their open and overdue card counts; the ready templates.",
    "details": "The boards this person sees, with their open and overdue card counts; the ready templates.",
    "arguments": "archived",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.boards",
+   "screens": "platform/workplace/boards_page.dart › (top level)\nplatform/workplace/boards_page.dart › _BoardsPageState\nplatform/workplace/notes_page.dart › _NotePageState\nproducts/office_pulse/screens/home_view.dart › PulseHomeView\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/boards.py:93",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.boards.card",
@@ -3946,12 +3946,12 @@
    "purpose": "One card with its description, checklist and comments.",
    "details": "One card with its description, checklist and comments.",
    "arguments": "name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.card",
+   "screens": "core/theme/app_theme.dart › SmoothScrollBehavior\ncore/theme/ui_prefs.dart › ComponentStyle\nplatform/workplace/boards_page.dart › BoardCardTile\nplatform/workplace/boards_page.dart › _BoardPageState\nplatform/workplace/boards_page.dart › _CardPageState\nplatform/workplace/work_page.dart › _MyWorkPageState\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/boards.py:259",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.boards.cards_from",
@@ -3978,12 +3978,12 @@
    "purpose": "Tick (or untick) one checklist item.",
    "details": "Tick (or untick) one checklist item.",
    "arguments": "name, index, done",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.cardCheck",
+   "screens": "platform/workplace/boards_page.dart › _CardPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/boards.py:324",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.boards.comment",
@@ -3994,12 +3994,12 @@
    "purpose": "A comment on a card — the people on it are told.",
    "details": "A comment on a card — the people on it are told.",
    "arguments": "name, text",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.cardComment",
+   "screens": "platform/workplace/boards_page.dart › _CardPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/boards.py:308",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.boards.delete_board",
@@ -4010,12 +4010,12 @@
    "purpose": "Delete a board and its cards (who made it, owners and admins).",
    "details": "Delete a board and its cards (who made it, owners and admins).",
    "arguments": "name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.boardDelete",
+   "screens": "platform/workplace/boards_page.dart › _BoardPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/boards.py:180",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.boards.delete_card",
@@ -4026,12 +4026,12 @@
    "purpose": "Delete a card, or archive it (kept, out of the board).",
    "details": "Delete a card, or archive it (kept, out of the board).",
    "arguments": "name, archive",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.cardDelete",
+   "screens": "platform/workplace/boards_page.dart › _CardPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/boards.py:295",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.boards.move_card",
@@ -4042,12 +4042,12 @@
    "purpose": "Move a card to a list, between two cards (their names; none = the end). Into the done list = done; out of it = open.",
    "details": "Move a card to a list, between two cards (their names; none = the end). Into the done list = done; out of it = open.",
    "arguments": "name, list, before, after",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.cardMove",
+   "screens": "platform/workplace/boards_page.dart › _BoardPageState\nplatform/workplace/boards_page.dart › _CardPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/boards.py:267",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.boards.save_board",
@@ -4058,12 +4058,12 @@
    "purpose": "Make or change a board. data: {name, title, description, visibility: team | members, members: [logins], lists: [{id, title}], labels: [{id, name, color}], done_list, color, template (new boards: a ready one)}. Cards on a list that's taken away move to the first list.",
    "details": "Make or change a board. data: {name, title, description, visibility: team | members, members: [logins],\nlists: [{id, title}], labels: [{id, name, color}], done_list, color, template (new boards: a ready one)}.\nCards on a list that's taken away move to the first list.",
    "arguments": "data",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.boardSave",
+   "screens": "platform/workplace/boards_page.dart › _BoardPageState\nplatform/workplace/boards_page.dart › _BoardSettingsPageState\nplatform/workplace/boards_page.dart › _BoardsPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/boards.py:133",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.boards.save_card",
@@ -4074,12 +4074,12 @@
    "purpose": "Make or change a card. data: {name, board, list, title, description, people: [logins], labels: [label ids], due, done, checklist: [{text, done}], cover}. New people on it are told.",
    "details": "Make or change a card. data: {name, board, list, title, description, people: [logins], labels: [label ids], due,\ndone, checklist: [{text, done}], cover}. New people on it are told.",
    "arguments": "data",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.cardSave",
+   "screens": "platform/workplace/boards_page.dart › _BoardPageState\nplatform/workplace/boards_page.dart › _CardPageState\nplatform/workplace/work_page.dart › _MyWorkPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/boards.py:215",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.business.get_profile",
@@ -4586,12 +4586,12 @@
    "purpose": "Who opened, downloaded or uploaded through this link, when, from where; and the people asking to use it.",
    "details": "Who opened, downloaded or uploaded through this link, when, from where; and the people asking to use it.",
    "arguments": "name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesLinkActivity",
+   "screens": "platform/workplace/files_more.dart › LinkActivityPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/files_links.py:166",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.files_links.make_link",
@@ -4602,12 +4602,12 @@
    "purpose": "A share link to a file or folder. data: {mode: preview | download | upload, label, password, expiry: 1h | 1d | 7d | 30d | date | \"\" (never), date, max_views, max_downloads, emails, approval, key_in_url (default yes)}. → {name, url, key (when sent separately)} — the only time the key is shown.",
    "details": "A share link to a file or folder. data: {mode: preview | download | upload, label, password, expiry: 1h | 1d | 7d |\n30d | date | \"\" (never), date, max_views, max_downloads, emails, approval, key_in_url (default yes)}.\n→ {name, url, key (when sent separately)} — the only time the key is shown.",
    "arguments": "space, path, data",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesMakeLink",
+   "screens": "platform/workplace/files_more.dart › _LinkEditorPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/files_links.py:100",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.files_links.open",
@@ -4650,12 +4650,12 @@
    "purpose": "Stop a link now (before it ends by itself).",
    "details": "Stop a link now (before it ends by itself).",
    "arguments": "name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesRevokeLink",
+   "screens": "platform/workplace/files_more.dart › FileSharePage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/files_links.py:153",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.files_links.rotate_link",
@@ -4666,12 +4666,12 @@
    "purpose": "A new key for the link: the old URL stops working at once. → {url, key}.",
    "details": "A new key for the link: the old URL stops working at once. → {url, key}.",
    "arguments": "name, key_in_url",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesRotateLink",
+   "screens": "platform/workplace/files_more.dart › FileSharePage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/files_links.py:138",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.files_links.update_link",
@@ -4682,12 +4682,12 @@
    "purpose": "Change a link's password, expiry, limits, emails, approval or what it does (the URL stays the same).",
    "details": "Change a link's password, expiry, limits, emails, approval or what it does (the URL stays the same).",
    "arguments": "name, data",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesUpdateLink",
+   "screens": "platform/workplace/files_more.dart › _LinkEditorPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/files_links.py:126",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.files_links.view",
@@ -4746,12 +4746,12 @@
    "purpose": "What happened to a file, or in a folder (and everything in it), newest first.",
    "details": "What happened to a file, or in a folder (and everything in it), newest first.",
    "arguments": "space, path, limit",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesActivity",
+   "screens": "platform/workplace/files_more.dart › FileActivityPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/files_share.py:455",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.files_share.ask",
@@ -4762,12 +4762,12 @@
    "purpose": "Ask for access to a file or folder you can't open (or can only view). Owners, admins (and HR for HR / Company) are told; any of them — or anyone who may share it — approves or declines.",
    "details": "Ask for access to a file or folder you can't open (or can only view). Owners, admins (and HR for HR / Company)\nare told; any of them — or anyone who may share it — approves or declines.",
    "arguments": "space, path, permission, note",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesAsk",
+   "screens": "platform/workplace/files_more.dart › _TagsDialogState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/files_share.py:151",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.files_share.audit",
@@ -4778,12 +4778,12 @@
    "purpose": "The business's file audit log (owners and admins): who viewed, downloaded, changed, shared or deleted what — with the IP for link visits.",
    "details": "The business's file audit log (owners and admins): who viewed, downloaded, changed, shared or deleted what — with\nthe IP for link visits.",
    "arguments": "who, action, days, limit",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesAudit",
+   "screens": "platform/workplace/files_more.dart › FileActivityPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/files_share.py:470",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.files_share.bin",
@@ -4794,12 +4794,12 @@
    "purpose": "The recycle bin: what was deleted in the spaces this person may change (kept 30 days).",
    "details": "The recycle bin: what was deleted in the spaces this person may change (kept 30 days).",
    "arguments": "",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesBin",
+   "screens": "platform/workplace/files_more.dart › FilesBinPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/files_share.py:306",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.files_share.comment",
@@ -4810,12 +4810,12 @@
    "purpose": "Comment on a file; the people it's shared with and earlier commenters are told.",
    "details": "Comment on a file; the people it's shared with and earlier commenters are told.",
    "arguments": "space, path, text",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesComment",
+   "screens": "platform/workplace/files_more.dart › _FileCommentsPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/files_share.py:420",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.files_share.comments",
@@ -4826,12 +4826,12 @@
    "purpose": "A file's comments, oldest first.",
    "details": "A file's comments, oldest first.",
    "arguments": "space, path",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesComments",
+   "screens": "platform/workplace/files_more.dart › _FileCommentsPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/files_share.py:409",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.files_share.decide",
@@ -4842,12 +4842,12 @@
    "purpose": "Approve or decline a request (kind \"file\": a person in the business — approving shares it with them; kind \"guest\": someone asking to open a share link — approving lets them in after they confirm their email).",
    "details": "Approve or decline a request (kind \"file\": a person in the business — approving shares it with them; kind\n\"guest\": someone asking to open a share link — approving lets them in after they confirm their email).",
    "arguments": "name, approve, kind",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesDecide",
+   "screens": "platform/workplace/files_more.dart › FilesRequestsPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/files_share.py:221",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.files_share.delete_rule",
@@ -4858,12 +4858,12 @@
    "purpose": "Remove a folder rule (the folder goes back to what it inherits).",
    "details": "Remove a folder rule (the folder goes back to what it inherits).",
    "arguments": "name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesDeleteRule",
+   "screens": "platform/workplace/files_more.dart › FolderAccessPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/files_share.py:538",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.files_share.folder_rules",
@@ -4874,12 +4874,12 @@
    "purpose": "Who may do what in this folder (its own rules and the ones it inherits from folders above).",
    "details": "Who may do what in this folder (its own rules and the ones it inherits from folders above).",
    "arguments": "space, path",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesFolderRules",
+   "screens": "platform/workplace/files_more.dart › FolderAccessPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/files_share.py:493",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.files_share.lock",
@@ -4890,12 +4890,12 @@
    "purpose": "Lock a file while you work on it (others can open it, not change it) — for 24 hours or until you unlock it. Owners and admins can unlock anyone's lock.",
    "details": "Lock a file while you work on it (others can open it, not change it) — for 24 hours or until you unlock it.\nOwners and admins can unlock anyone's lock.",
    "arguments": "space, path, on",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesLock",
+   "screens": "platform/workplace/files_page.dart › _FilesPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/files_share.py:355",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.files_share.purge_item",
@@ -4906,12 +4906,12 @@
    "purpose": "Delete a recycle-bin item for good (it can't be brought back).",
    "details": "Delete a recycle-bin item for good (it can't be brought back).",
    "arguments": "name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesPurge",
+   "screens": "platform/workplace/files_more.dart › FilesBinPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/files_share.py:339",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.files_share.requests",
@@ -4922,12 +4922,12 @@
    "purpose": "Requests waiting for this person: people in the business asking for files, guests asking to open a link.",
    "details": "Requests waiting for this person: people in the business asking for files, guests asking to open a link.",
    "arguments": "",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesRequests",
+   "screens": "platform/workplace/files_more.dart › FilesRequestsPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/files_share.py:201",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.files_share.restore",
@@ -4938,12 +4938,12 @@
    "purpose": "Put a deleted file or folder back where it was.",
    "details": "Put a deleted file or folder back where it was.",
    "arguments": "name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesRestore",
+   "screens": "platform/workplace/files_more.dart › FilesBinPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/files_share.py:329",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.files_share.restore_version",
@@ -4954,12 +4954,12 @@
    "purpose": "Make an older version the file again (what it is now is kept as a version too).",
    "details": "Make an older version the file again (what it is now is kept as a version too).",
    "arguments": "space, path, version",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesRestoreVersion",
+   "screens": "platform/workplace/files_more.dart › FileVersionsPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/files_share.py:265",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.files_share.set_rule",
@@ -4970,12 +4970,12 @@
    "purpose": "Set who may do what in a folder and everything in it: everyone / a role / a person → read, write, create, delete, share (none = no access). Owners and admins always keep full access.",
    "details": "Set who may do what in a folder and everything in it: everyone / a role / a person → read, write, create, delete,\nshare (none = no access). Owners and admins always keep full access.",
    "arguments": "space, path, who_type, who, rights",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesSetRule",
+   "screens": "platform/workplace/files_more.dart › FolderAccessPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/files_share.py:511",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.files_share.share",
@@ -4986,12 +4986,12 @@
    "purpose": "Share a file or folder with people in the business (view or edit). users: a list (or JSON list) of logins.",
    "details": "Share a file or folder with people in the business (view or edit). users: a list (or JSON list) of logins.",
    "arguments": "space, path, users, permission",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesShare",
+   "screens": "platform/workplace/files_more.dart › FileSharePage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/files_share.py:74",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.files_share.shares",
@@ -5002,12 +5002,12 @@
    "purpose": "Who has this (people and links).",
    "details": "Who has this (people and links).",
    "arguments": "space, path",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesShares",
+   "screens": "platform/workplace/files_more.dart › FileSharePage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/files_share.py:108",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.files_share.tag",
@@ -5018,12 +5018,12 @@
    "purpose": "Set a file's or folder's tags (a list or comma-separated).",
    "details": "Set a file's or folder's tags (a list or comma-separated).",
    "arguments": "space, path, tags",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesTag",
+   "screens": "platform/workplace/files_page.dart › _FilesPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/files_share.py:382",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.files_share.tags_in_use",
@@ -5034,12 +5034,12 @@
    "purpose": "The business's tags (for suggestions).",
    "details": "The business's tags (for suggestions).",
    "arguments": "",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesTagsInUse",
+   "screens": "platform/workplace/files_more.dart › _RuleSheetState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/files_share.py:399",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.files_share.unshare",
@@ -5050,12 +5050,12 @@
    "purpose": "Stop sharing with a person (anyone who may share the item, or the person themselves).",
    "details": "Stop sharing with a person (anyone who may share the item, or the person themselves).",
    "arguments": "name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesUnshare",
+   "screens": "platform/workplace/files_more.dart › FileSharePage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/files_share.py:123",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.files_share.version_file",
@@ -5082,12 +5082,12 @@
    "purpose": "A file's older versions (kept 30 days), newest first.",
    "details": "A file's older versions (kept 30 days), newest first.",
    "arguments": "space, path",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesVersions",
+   "screens": "platform/workplace/files_more.dart › FileVersionsPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/files_share.py:249",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.forms.answer",
@@ -5098,12 +5098,12 @@
    "purpose": "This person's answer to a team survey (once each — anonymous surveys keep only that they answered).",
    "details": "This person's answer to a team survey (once each — anonymous surveys keep only that they answered).",
    "arguments": "name, answers",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.surveyAnswer",
+   "screens": "platform/workplace/forms_page.dart › _SurveyPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/forms.py:296",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.forms.delete_form",
@@ -5114,12 +5114,12 @@
    "purpose": "Delete a form and its answers.",
    "details": "Delete a form and its answers.",
    "arguments": "name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.formDelete",
+   "screens": "platform/workplace/forms_page.dart › _FormResultsPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/forms.py:141",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.forms.export_csv",
@@ -5146,12 +5146,12 @@
    "purpose": "One form with its questions and settings (who made it, owners and admins).",
    "details": "One form with its questions and settings (who made it, owners and admins).",
    "arguments": "name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.form",
+   "screens": "platform/workplace/forms_page.dart › FormEditorPage\nplatform/workplace/forms_page.dart › _FormEditorPageState\nplatform/workplace/forms_page.dart › _FormResultsPageState\nplatform/workplace/forms_page.dart › _FormsPageState\nshared/whatsapp/whatsapp_more.dart › WhatsappFormEditor\nshared/whatsapp/whatsapp_more.dart › _WhatsappFormEditorState\nshared/whatsapp/whatsapp_more.dart › _WhatsappFormsViewState\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/forms.py:92",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.forms.forms",
@@ -5162,12 +5162,12 @@
    "purpose": "The forms this person made (owners and admins: all the business's), the newest first; team surveys waiting for their answer; the kinds of questions.",
    "details": "The forms this person made (owners and admins: all the business's), the newest first; team surveys waiting for\ntheir answer; the kinds of questions.",
    "arguments": "",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.forms",
+   "screens": "platform/workplace/forms_page.dart › (top level)\nplatform/workplace/forms_page.dart › _FormsPageState\nproducts/office_pulse/screens/home_view.dart › PulseHomeView\nshared/whatsapp/whatsapp_more.dart › _WhatsappFormsViewState\nshared/whatsapp/whatsapp_views.dart › _WhatsappNumberViewState\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/forms.py:77",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.forms.new_link",
@@ -5178,12 +5178,12 @@
    "purpose": "A new public link — the old one stops working.",
    "details": "A new public link — the old one stops working.",
    "arguments": "name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.formNewLink",
+   "screens": "platform/workplace/forms_page.dart › _FormResultsPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/forms.py:151",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.forms.page",
@@ -5226,12 +5226,12 @@
    "purpose": "A page of answers, the newest first (anonymous surveys: no names).",
    "details": "A page of answers, the newest first (anonymous surveys: no names).",
    "arguments": "name, start",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.formResponses",
+   "screens": "platform/workplace/forms_page.dart › _FormResultsPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/forms.py:173",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.forms.save_form",
@@ -5242,12 +5242,12 @@
    "purpose": "Make or change a form. data: {name, title, description, questions: [{id, type, label, help, required, options}], audience: public | team, anonymous, one_each, accepting, closes_at, max_responses, thanks, to_contacts, contact_kind, notify}. Questions with answers already keep their ids, so the answers still line up.",
    "details": "Make or change a form. data: {name, title, description, questions: [{id, type, label, help, required, options}],\naudience: public | team, anonymous, one_each, accepting, closes_at, max_responses, thanks, to_contacts,\ncontact_kind, notify}. Questions with answers already keep their ids, so the answers still line up.",
    "arguments": "data",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.formSave",
+   "screens": "platform/workplace/forms_page.dart › _FormEditorPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/forms.py:99",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.forms.submit",
@@ -5274,12 +5274,12 @@
    "purpose": "How people answered each question (counts, averages, the latest written answers).",
    "details": "How people answered each question (counts, averages, the latest written answers).",
    "arguments": "name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.formSummary",
+   "screens": "platform/workplace/forms_page.dart › _FormResultsPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/forms.py:187",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.forms.survey",
@@ -5290,12 +5290,12 @@
    "purpose": "A team survey to answer: its questions.",
    "details": "A team survey to answer: its questions.",
    "arguments": "name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.survey",
+   "screens": "platform/workplace/forms_page.dart › _FormsPageState\nplatform/workplace/forms_page.dart › _SurveyPageState\nplatform/workplace/work_page.dart › _MyWorkPageState\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/forms.py:285",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.forms.to_answer",
@@ -5546,12 +5546,12 @@
    "purpose": "This person's mailbox settings (never the password) — or suggested settings for an address.",
    "details": "This person's mailbox settings (never the password) — or suggested settings for an address.",
    "arguments": "email",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.mailAccount",
+   "screens": "platform/workplace/mail_page.dart › _MailPageState\nplatform/workplace/mail_page.dart › _MailSetupPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/mail.py:116",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.mail.act",
@@ -5562,12 +5562,12 @@
    "purpose": "On messages: read | unread | flag | unflag | delete (to Trash; in Trash, for good) | move (to a folder).",
    "details": "On messages: read | unread | flag | unflag | delete (to Trash; in Trash, for good) | move (to a folder).",
    "arguments": "folder, uids, action, to",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.mailAct",
+   "screens": "platform/workplace/mail_page.dart › MessagePage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/mail.py:408",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.mail.attachment",
@@ -5594,12 +5594,12 @@
    "purpose": "Connect (or change) your mailbox. data: {email, password (empty: keep the saved one), display_name, login, imap_host, imap_port, smtp_host, smtp_port, smtp_starttls, signature}. Signs in to both servers before saving.",
    "details": "Connect (or change) your mailbox. data: {email, password (empty: keep the saved one), display_name, login,\nimap_host, imap_port, smtp_host, smtp_port, smtp_starttls, signature}. Signs in to both servers before saving.",
    "arguments": "data",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.mailConnect",
+   "screens": "platform/workplace/mail_page.dart › _MailSetupPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/mail.py:130",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.mail.disconnect",
@@ -5610,12 +5610,12 @@
    "purpose": "Remove your mailbox from QTT (your mail stays on your mail server).",
    "details": "Remove your mailbox from QTT (your mail stays on your mail server).",
    "arguments": "",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.mailDisconnect",
+   "screens": "platform/workplace/mail_page.dart › _MailPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/mail.py:165",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.mail.folders",
@@ -5626,12 +5626,12 @@
    "purpose": "The mailbox's folders (Inbox, Sent, Drafts, Trash, Spam first) with unread counts.",
    "details": "The mailbox's folders (Inbox, Sent, Drafts, Trash, Spam first) with unread counts.",
    "arguments": "",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.mailFolders",
+   "screens": "platform/workplace/mail_page.dart › _MailPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/mail.py:176",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.mail.message",
@@ -5642,12 +5642,12 @@
    "purpose": "One message (marked read): who, when, the text and safe HTML, attachments.",
    "details": "One message (marked read): who, when, the text and safe HTML, attachments.",
    "arguments": "folder, uid",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.mailMessage",
+   "screens": "platform/workplace/mail_page.dart › MessagePage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/mail.py:257",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.mail.messages",
@@ -5658,12 +5658,12 @@
    "purpose": "A page of a folder, newest first (30 at a time) — or what matches q (the mail server searches subject, people and text).",
    "details": "A page of a folder, newest first (30 at a time) — or what matches q (the mail server searches subject, people and text).",
    "arguments": "folder, page, q",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.mailMessages",
+   "screens": "platform/workplace/mail_page.dart › _MailPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/mail.py:225",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.mail.send",
@@ -5674,12 +5674,12 @@
    "purpose": "Send mail. data: {to, cc, bcc, subject, text, reply: {folder, uid, all} or forward: {folder, uid}}; files: multipart `files` (up to 20 MB together). A forward carries the original's attachments. A copy goes into the Sent folder.",
    "details": "Send mail. data: {to, cc, bcc, subject, text, reply: {folder, uid, all} or forward: {folder, uid}}; files: multipart\n`files` (up to 20 MB together). A forward carries the original's attachments. A copy goes into the Sent folder.",
    "arguments": "data",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.mailSend",
+   "screens": "platform/workplace/mail_page.dart › _ComposePageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/mail.py:337",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.mail.to_files",
@@ -5690,12 +5690,12 @@
    "purpose": "Save an attachment into Files (your files by default) — kept as a version if the name is already there.",
    "details": "Save an attachment into Files (your files by default) — kept as a version if the name is already there.",
    "arguments": "folder, uid, index, space, path",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.mailToFiles",
+   "screens": "platform/workplace/mail_page.dart › MessagePage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/mail.py:294",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.marketing.get_settings",
@@ -6074,12 +6074,12 @@
    "purpose": "Delete a note (who wrote it, owners and admins).",
    "details": "Delete a note (who wrote it, owners and admins).",
    "arguments": "name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.noteDelete",
+   "screens": "platform/workplace/notes_page.dart › _NotePageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/notes.py:138",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.notes.from_event",
@@ -6090,12 +6090,12 @@
    "purpose": "The meeting notes of a calendar event: who's invited, the agenda, notes, decisions and action items. Made the first time (shared like the event: a team event → a team note, a private one → the people invited); opened after that.",
    "details": "The meeting notes of a calendar event: who's invited, the agenda, notes, decisions and action items. Made the first\ntime (shared like the event: a team event → a team note, a private one → the people invited); opened after that.",
    "arguments": "event",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.noteFromEvent",
+   "screens": "platform/workplace/calendar_page.dart › EventPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/notes.py:163",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.notes.note",
@@ -6106,12 +6106,12 @@
    "purpose": "One note with its text, its open action items and who it's shared with.",
    "details": "One note with its text, its open action items and who it's shared with.",
    "arguments": "name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.note",
+   "screens": "admin/business_admin.dart › _TenantServicesSectionState\nadmin/clients_models.dart › StaffService\nadmin/clients_view.dart › _ClientConsoleState\nadmin/marketing_content_models.dart › ContentItem\nadmin/marketing_content_view.dart › _ContentDetailScreenState\nplatform/workplace/calendar_page.dart › EventPage\nplatform/workplace/notes_page.dart › _NotePageState\nplatform/workplace/notes_page.dart › _NotesPageState\nplatform/workspace/roles_access_tab.dart › RoleTable\nplatform/workspace/roles_access_tab.dart › _RolesBodyState\nproducts/office_pulse/models.dart › ApprovalItem\nproducts/office_pulse/models.dart › CalendarDay\nproducts/office_pulse/models.dart › Handover\nproducts/office_pulse/screens/approvals_view.dart › _ApprovalsViewState\nproducts/office_pulse/screens/attendance_view.dart › _DayCell\nproducts/office_pulse/screens/home_view.dart › _CheckinCardState\nproducts/services/models.dart › SvcDomainResult\nproducts/services/models.dart › SvcService\nproducts/services/screens/order_pages.dart › _OrderPageState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/services_home.dart › _NeedCard\nproducts/services/screens/services_home.dart › _ServicePage\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/notes.py:95",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.notes.notes",
@@ -6122,12 +6122,12 @@
    "purpose": "Notes this person sees (pinned first, then the newest changed): search words in the title and text, one collection, or show: all | mine | pinned. With the collections and how many notes each has.",
    "details": "Notes this person sees (pinned first, then the newest changed): search words in the title and text, one\ncollection, or show: all | mine | pinned. With the collections and how many notes each has.",
    "arguments": "q, collection, show",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.notes",
+   "screens": "admin/business_admin.dart › _TenantServicesSectionState\nadmin/clients_models.dart › StaffService\nadmin/clients_view.dart › _ClientConsoleState\nadmin/marketing_dashboard_models.dart › DayReport\nadmin/marketing_dashboard_models.dart › ScheduleItem\nadmin/marketing_dashboard_models.dart › ScheduleSlot\nadmin/marketing_dashboard_models.dart › TargetProgress\nadmin/marketing_reports_view.dart › DayReportBody\nadmin/marketing_schedule_view.dart › _SlotEditScreenState\nplatform/team/team_sheets.dart › _TaskSheetState\nplatform/workplace/boards_page.dart › BoardCardTile\nplatform/workplace/forms_page.dart › _FormsPageState\nplatform/workplace/notes_page.dart › (top level)\nplatform/workplace/notes_page.dart › _NotesPageState\nproducts/office_pulse/screens/home_view.dart › PulseHomeView\nproducts/services/store/store_pages.dart › _StoreOrderPageState\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/notes.py:70",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.notes.save_note",
@@ -6138,12 +6138,12 @@
    "purpose": "Make or change a note. data: {name, title, body, collection, visibility: team | private | people, people: [logins], pinned, base: the `modified` it was opened at}. When someone else changed it since `base` → {conflict: true, theirs: their note} and nothing is saved (unless force).",
    "details": "Make or change a note. data: {name, title, body, collection, visibility: team | private | people, people: [logins],\npinned, base: the `modified` it was opened at}. When someone else changed it since `base` →\n{conflict: true, theirs: their note} and nothing is saved (unless force).",
    "arguments": "data",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.noteSave",
+   "screens": "platform/workplace/notes_page.dart › _NotePageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/notes.py:102",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.notes.to_board",
@@ -6154,12 +6154,12 @@
    "purpose": "The note's open checkboxes become cards on a board (on a list; the first when none).",
    "details": "The note's open checkboxes become cards on a board (on a list; the first when none).",
    "arguments": "name, board, list",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.noteToBoard",
+   "screens": "platform/workplace/notes_page.dart › _NotePageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/notes.py:183",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.notes.toggle",
@@ -6170,12 +6170,12 @@
    "purpose": "Tick or untick the index-th checkbox in the note's text.",
    "details": "Tick or untick the index-th checkbox in the note's text.",
    "arguments": "name, index",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.noteToggle",
+   "screens": "platform/workplace/notes_page.dart › _NotePageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/notes.py:149",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.planning.my_work",
@@ -8170,12 +8170,12 @@
    "purpose": "Add people from the business to a channel you're in.",
    "details": "Add people from the business to a channel you're in.",
    "arguments": "channel, members",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamAddMembers",
+   "screens": "platform/team/team_sheets.dart › TeamChannelInfoPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team.py:754",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team.channel",
@@ -8186,12 +8186,12 @@
    "purpose": "A chat's details: the people in it (with presence), pinned messages, notifications.",
    "details": "A chat's details: the people in it (with presence), pinned messages, notifications.",
    "arguments": "channel",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamChannel",
+   "screens": "platform/team/team_sheets.dart › TeamChannelInfoPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team.py:703",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team.delete_message",
@@ -8202,12 +8202,12 @@
    "purpose": "Delete your own message (and its thread).",
    "details": "Delete your own message (and its thread).",
    "arguments": "message",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamDeleteMessage",
+   "screens": "platform/team/team_chat_page.dart › _TeamChatPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team.py:514",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team.edit_message",
@@ -8218,12 +8218,12 @@
    "purpose": "Change your own message (it shows \"edited\").",
    "details": "Change your own message (it shows \"edited\").",
    "arguments": "message, text",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamEdit",
+   "screens": "platform/team/team_chat_page.dart › _TeamChatPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team.py:487",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team.file",
@@ -8250,12 +8250,12 @@
    "purpose": "A link to a message's file that opens in the browser for 10 minutes (the app's login doesn't go with it). Only for people in that chat.",
    "details": "A link to a message's file that opens in the browser for 10 minutes (the app's login doesn't go with it).\nOnly for people in that chat.",
    "arguments": "message",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamFileLink",
+   "screens": "platform/team/team_chat_page.dart › _TeamChatPageState\nplatform/team/team_voice.dart › _VoiceNotePlayerState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team.py:629",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team.home",
@@ -8266,12 +8266,12 @@
    "purpose": "The business's chats for this person: channels (open to the business, or private ones they're in), direct messages with people in the business, each with unread, @mentions and the last message; threads with new replies; the people with presence and status; my status; unread activity; whether the AI extras can be used.",
    "details": "The business's chats for this person: channels (open to the business, or private ones they're in), direct\nmessages with people in the business, each with unread, @mentions and the last message; threads with new replies;\nthe people with presence and status; my status; unread activity; whether the AI extras can be used.",
    "arguments": "",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamHome",
+   "screens": "platform/team/team_chat_page.dart › _TeamChatPageState\nplatform/team/team_screen.dart › _TeamScreenState\nplatform/workplace/files_page.dart › EmployeeDocsPage\nplatform/workplace/files_page.dart › _FilesPageState\nplatform/workplace/remote_page.dart › _AskHelpSheetState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team.py:317",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team.leave",
@@ -8282,12 +8282,12 @@
    "purpose": "Leave a channel or a thread (#general can't be left — it's everyone in the business).",
    "details": "Leave a channel or a thread (#general can't be left — it's everyone in the business).",
    "arguments": "channel",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamLeave",
+   "screens": "platform/team/team_sheets.dart › TeamChannelInfoPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team.py:770",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team.messages",
@@ -8298,12 +8298,12 @@
    "purpose": "A page of the chat's messages (oldest first): the newest by default, those before / after a timestamp, or those around a message (to open a search result or a mention). Opening the newest page marks the chat read. {messages, more, newer, channel, seen, pins}.",
    "details": "A page of the chat's messages (oldest first): the newest by default, those before / after a timestamp, or those\naround a message (to open a search result or a mention). Opening the newest page marks the chat read.\n{messages, more, newer, channel, seen, pins}.",
    "arguments": "channel, before, after, around, limit",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamMessages",
+   "screens": "platform/team/team_chat_page.dart › _TeamChatPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team.py:361",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team.mute",
@@ -8314,12 +8314,12 @@
    "purpose": "Phone notifications for a chat: muted = only when someone @mentions you; unmuted = every message.",
    "details": "Phone notifications for a chat: muted = only when someone @mentions you; unmuted = every message.",
    "arguments": "channel, muted",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamMute",
+   "screens": "platform/team/team_sheets.dart › TeamChannelInfoPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team.py:786",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team.new_channel",
@@ -8330,12 +8330,12 @@
    "purpose": "A channel: open to everyone in the business, or private with the people chosen (you're always in it). {id}.",
    "details": "A channel: open to everyone in the business, or private with the people chosen (you're always in it). {id}.",
    "arguments": "name, about, private, members",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamNewChannel",
+   "screens": "platform/team/team_sheets.dart › _NewChannelPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team.py:683",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team.pin",
@@ -8346,12 +8346,12 @@
    "purpose": "Pin a message to its chat, or unpin it. Anyone in the chat can. {pinned}.",
    "details": "Pin a message to its chat, or unpin it. Anyone in the chat can. {pinned}.",
    "arguments": "message",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamPin",
+   "screens": "platform/team/team_chat_page.dart › _TeamChatPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team.py:551",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team.react",
@@ -8362,12 +8362,12 @@
    "purpose": "Add a reaction to a message, or take yours back if you'd already reacted with it. {reactions}.",
    "details": "Add a reaction to a message, or take yours back if you'd already reacted with it. {reactions}.",
    "arguments": "message, emoji",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamReact",
+   "screens": "platform/team/team_chat_page.dart › _TeamChatPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team.py:528",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team.send",
@@ -8378,12 +8378,12 @@
    "purpose": "Send a message (up to 4,000 characters): *bold* _italic_ ~strike~ `code`, links, @Name for people who can see the chat, @everyone. reply_to: quote a message of the same chat. thread_of: reply in that message's thread.",
    "details": "Send a message (up to 4,000 characters): *bold* _italic_ ~strike~ `code`, links, @Name for people who can see the\nchat, @everyone. reply_to: quote a message of the same chat. thread_of: reply in that message's thread.",
    "arguments": "channel, text, reply_to, thread_of",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamSend",
+   "screens": "platform/team/team_chat_page.dart › _TeamChatPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team.py:456",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team.send_file",
@@ -8394,12 +8394,12 @@
    "purpose": "Multipart `file`: a photo, file or voice note (voice-<seconds>s-….wav) for the chat, up to 25 MB. Kept private — only people in the chat can open it.",
    "details": "Multipart `file`: a photo, file or voice note (voice-<seconds>s-….wav) for the chat, up to 25 MB. Kept private —\nonly people in the chat can open it.",
    "arguments": "channel, caption, thread_of",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamSendFile",
+   "screens": "platform/team/team_chat_page.dart › _TeamChatPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team.py:467",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team.start_dm",
@@ -8410,12 +8410,12 @@
    "purpose": "A direct message with someone in the business (the same one each time). {id}.",
    "details": "A direct message with someone in the business (the same one each time). {id}.",
    "arguments": "user",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamStartDm",
+   "screens": "platform/team/team_screen.dart › _TeamScreenState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team.py:669",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team.thread",
@@ -8426,12 +8426,12 @@
    "purpose": "A message's thread: the message, its replies (oldest first), who's in it. Opening it marks it read.",
    "details": "A message's thread: the message, its replies (oldest first), who's in it. Opening it marks it read.",
    "arguments": "message",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamThread",
+   "screens": "platform/team/team_chat_page.dart › _TeamChatPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team.py:572",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team.threads",
@@ -8442,12 +8442,12 @@
    "purpose": "Threads you're in, newest reply first, with new replies on top of each.",
    "details": "Threads you're in, newest reply first, with new replies on top of each.",
    "arguments": "",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamThreads",
+   "screens": "platform/team/team_hub.dart › TeamThreadsPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team.py:610",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team.update_channel",
@@ -8458,12 +8458,12 @@
    "purpose": "Describe a channel (anyone in it), or rename it (channel admins and the business's owners / admins). #general keeps its name.",
    "details": "Describe a channel (anyone in it), or rename it (channel admins and the business's owners / admins). #general keeps\nits name.",
    "arguments": "channel, about, name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamUpdateChannel",
+   "screens": "platform/team/team_sheets.dart › TeamChannelInfoPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team.py:726",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team_calendar.delete_event",
@@ -8474,12 +8474,12 @@
    "purpose": "Delete an event (the organiser; owners / admins for team events). Everyone invited is told.",
    "details": "Delete an event (the organiser; owners / admins for team events). Everyone invited is told.",
    "arguments": "name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.calendarDelete",
+   "screens": "platform/workplace/calendar_page.dart › EventPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team_calendar.py:163",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team_calendar.event",
@@ -8490,12 +8490,12 @@
    "purpose": "One event with everyone invited and their answers; whether this person may change it.",
    "details": "One event with everyone invited and their answers; whether this person may change it.",
    "arguments": "name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.calendarEvent",
+   "screens": "platform/workplace/calendar_page.dart › EventPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team_calendar.py:80",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team_calendar.events",
@@ -8506,12 +8506,12 @@
    "purpose": "What this person sees from start to end (dates or date-times): team events, their own and those they're invited to, each repeat as its own occurrence.",
    "details": "What this person sees from start to end (dates or date-times): team events, their own and those they're invited to,\neach repeat as its own occurrence.",
    "arguments": "start, end",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.calendarEvents",
+   "screens": "platform/workplace/calendar_page.dart › _CalendarPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team_calendar.py:56",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team_calendar.feed",
@@ -8538,12 +8538,12 @@
    "purpose": "A private link for Google Calendar, Outlook or a phone's calendar to subscribe to (your events and the team's). Anyone with it can read them — change it with new_feed_link.",
    "details": "A private link for Google Calendar, Outlook or a phone's calendar to subscribe to (your events and the team's).\nAnyone with it can read them — change it with new_feed_link.",
    "arguments": "",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.calendarFeedLink",
+   "screens": "platform/workplace/calendar_page.dart › _CalendarPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team_calendar.py:279",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team_calendar.new_feed_link",
@@ -8554,12 +8554,12 @@
    "purpose": "A new subscription link — the old one stops working.",
    "details": "A new subscription link — the old one stops working.",
    "arguments": "",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.calendarNewFeedLink",
+   "screens": "platform/workplace/calendar_page.dart › _FeedDialogState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team_calendar.py:291",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team_calendar.respond",
@@ -8570,12 +8570,12 @@
    "purpose": "Your answer to an invitation: yes, no or maybe (the organiser is told).",
    "details": "Your answer to an invitation: yes, no or maybe (the organiser is told).",
    "arguments": "name, answer",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.calendarRespond",
+   "screens": "platform/workplace/calendar_page.dart › EventPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team_calendar.py:175",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team_calendar.save_event",
@@ -8586,12 +8586,12 @@
    "purpose": "Make or change an event. data: {name, title, start, end, all_day, visibility: team | private, location, meeting_url, notes, color, repeat: \"\" | daily | weekdays | weekly | monthly | yearly, repeat_until, remind_minutes, people: [logins], guests: [emails]}. New people are told; outside guests get an email invitation (and an update when it changes).",
    "details": "Make or change an event. data: {name, title, start, end, all_day, visibility: team | private, location, meeting_url,\nnotes, color, repeat: \"\" | daily | weekdays | weekly | monthly | yearly, repeat_until, remind_minutes, people: [logins],\nguests: [emails]}. New people are told; outside guests get an email invitation (and an update when it changes).",
    "arguments": "data",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.calendarSave",
+   "screens": "platform/workplace/calendar_page.dart › _EventEditorPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team_calendar.py:104",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team_calls.call",
@@ -8602,12 +8602,12 @@
    "purpose": "The chat's call now (who's in it), and what you may do in it.",
    "details": "The chat's call now (who's in it), and what you may do in it.",
    "arguments": "channel",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamCall",
+   "screens": "platform/team/team_chat_page.dart › _TeamChatPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team_calls.py:91",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team_calls.decline",
@@ -8618,12 +8618,12 @@
    "purpose": "Don't take the ringing call — the people in it see \"declined\".",
    "details": "Don't take the ringing call — the people in it see \"declined\".",
    "arguments": "channel",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamCallDecline",
+   "screens": "platform/team/team_call.dart › (top level)",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team_calls.py:158",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team_calls.join",
@@ -8634,12 +8634,12 @@
    "purpose": "Join the chat's call (or be the first in it): {url, token, …} for the app.",
    "details": "Join the chat's call (or be the first in it): {url, token, …} for the app.",
    "arguments": "channel",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamCallJoin",
+   "screens": "platform/team/team_call.dart › (top level)",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team_calls.py:144",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team_calls.start",
@@ -8650,12 +8650,12 @@
    "purpose": "Start a call in a chat and join it. A direct message rings the other person (a phone notification too); a channel shows \"call started\" to its people (a phone notification for those who haven't muted it). If a call is already going on, this just joins it.",
    "details": "Start a call in a chat and join it. A direct message rings the other person (a phone notification too); a\nchannel shows \"call started\" to its people (a phone notification for those who haven't muted it). If a call is\nalready going on, this just joins it.",
    "arguments": "channel, video",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamCallStart",
+   "screens": "platform/team/team_call.dart › (top level)",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team_calls.py:108",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team_calls.webhook",
@@ -8682,12 +8682,12 @@
    "purpose": "What needs you, newest first: @mentions, replies in your threads, reactions to your messages (last 30 days). {items: [{kind, message (as in a chat), by, chat, open_chat, thread_of, emoji, at, new}]}",
    "details": "What needs you, newest first: @mentions, replies in your threads, reactions to your messages (last 30 days).\n{items: [{kind, message (as in a chat), by, chat, open_chat, thread_of, emoji, at, new}]}",
    "arguments": "",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamActivity",
+   "screens": "platform/team/team_hub.dart › _TeamActivityPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team_extras.py:264",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team_extras.activity_read",
@@ -8698,12 +8698,12 @@
    "purpose": "Mark your Activity read (the count on Activity goes back to none).",
    "details": "Mark your Activity read (the count on Activity goes back to none).",
    "arguments": "",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamActivityRead",
+   "screens": "platform/team/team_hub.dart › _TeamActivityPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team_extras.py:281",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team_extras.catch_up",
@@ -8714,12 +8714,12 @@
    "purpose": "✨ Catch me up: the chat's new messages for you (or the latest ones when nothing is new) summed up by AI — key points, decisions, what's asked of you, to-dos. 1 AI credit. {summary, decisions, asks, todos, count, credits}.",
    "details": "✨ Catch me up: the chat's new messages for you (or the latest ones when nothing is new) summed up by AI —\nkey points, decisions, what's asked of you, to-dos. 1 AI credit. {summary, decisions, asks, todos, count, credits}.",
    "arguments": "channel, language",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamCatchUp",
+   "screens": "platform/team/team_sheets.dart › _TaskSheetState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team_extras.py:502",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team_extras.make_task",
@@ -8730,12 +8730,12 @@
    "purpose": "A task from a message: what to do, who does it (someone in the business; you by default), by when.",
    "details": "A task from a message: what to do, who does it (someone in the business; you by default), by when.",
    "arguments": "message, title, assign_to, due",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamMakeTask",
+   "screens": "platform/team/team_sheets.dart › _TaskSheetState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team_extras.py:374",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team_extras.ping",
@@ -8746,12 +8746,12 @@
    "purpose": "I'm here (the app calls it every minute while it's open).",
    "details": "I'm here (the app calls it every minute while it's open).",
    "arguments": "",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamPing",
+   "screens": "shell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team_extras.py:105",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team_extras.save",
@@ -8762,12 +8762,12 @@
    "purpose": "Save a message for later. remind: 20m, 1h, 3h, tonight, tomorrow, next_week (a phone notification then), or empty. Saving it again changes the reminder.",
    "details": "Save a message for later. remind: 20m, 1h, 3h, tonight, tomorrow, next_week (a phone notification then), or\nempty. Saving it again changes the reminder.",
    "arguments": "message, remind",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamSave",
+   "screens": "platform/team/team_chat_page.dart › _TeamChatPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team_extras.py:292",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team_extras.saved",
@@ -8778,12 +8778,12 @@
    "purpose": "Your saved messages in this business (reminders due first). {items: [{message, chat, open_chat, thread_of, remind_at, due}]}",
    "details": "Your saved messages in this business (reminders due first). {items: [{message, chat, open_chat, thread_of, remind_at, due}]}",
    "arguments": "done",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamSaved",
+   "screens": "platform/team/team_hub.dart › TeamSavedPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team_extras.py:323",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team_extras.search",
@@ -8794,12 +8794,12 @@
    "purpose": "Messages in the chats you can see in this business, newest first, 20 at a time. Every word must be in the message. channel: only that chat (and its threads); person: only their messages; has: file | photo | link | voice. {results: [{message, chat_id, chat, thread_of, snippet}], more}.",
    "details": "Messages in the chats you can see in this business, newest first, 20 at a time. Every word must be in the\nmessage. channel: only that chat (and its threads); person: only their messages; has: file | photo | link | voice.\n{results: [{message, chat_id, chat, thread_of, snippet}], more}.",
    "arguments": "q, channel, person, has, start",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamSearch",
+   "screens": "platform/team/team_hub.dart › _TeamSearchPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team_extras.py:179",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team_extras.set_status",
@@ -8810,12 +8810,12 @@
    "purpose": "Your status, seen next to your name in Team: emoji + words (empty clears it), and for how long (30m, 1h, 2h, 4h, today, tomorrow, week, or empty = until you change it). dnd: Do not disturb for (30m … week), \"off\" to end it, or empty to leave it as it is.",
    "details": "Your status, seen next to your name in Team: emoji + words (empty clears it), and for how long (30m, 1h, 2h, 4h,\ntoday, tomorrow, week, or empty = until you change it). dnd: Do not disturb for (30m … week), \"off\" to end it, or\nempty to leave it as it is.",
    "arguments": "emoji, text, until, dnd",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamSetStatus",
+   "screens": "platform/team/team_sheets.dart › _StatusSheetState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team_extras.py:114",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team_extras.task_done",
@@ -8826,12 +8826,12 @@
    "purpose": "Mark a task done (or open again) — the person it's for, or who gave it.",
    "details": "Mark a task done (or open again) — the person it's for, or who gave it.",
    "arguments": "task, done",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamTaskDone",
+   "screens": "platform/team/team_hub.dart › _TeamTasksPageState\nplatform/workplace/work_page.dart › _MyWorkPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team_extras.py:427",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team_extras.task_suggest",
@@ -8842,12 +8842,12 @@
    "purpose": "✨ The task in a message, worked out by AI: {title, assign_to, due}. 1 AI credit. Check it before making it.",
    "details": "✨ The task in a message, worked out by AI: {title, assign_to, due}. 1 AI credit. Check it before making it.",
    "arguments": "message",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamTaskSuggest",
+   "screens": "platform/team/team_sheets.dart › _TaskSheetState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team_extras.py:524",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team_extras.tasks",
@@ -8858,12 +8858,12 @@
    "purpose": "Tasks made from Team messages in this business. show: mine (assigned to you), given (you gave others), done. Open ones by due date first.",
    "details": "Tasks made from Team messages in this business. show: mine (assigned to you), given (you gave others), done.\nOpen ones by due date first.",
    "arguments": "show",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamTasks",
+   "screens": "platform/team/team_hub.dart › _TeamTasksPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team_extras.py:397",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team_extras.typing",
@@ -8874,12 +8874,12 @@
    "purpose": "\"… is typing\" to the others in the chat (not saved).",
    "details": "\"… is typing\" to the others in the chat (not saved).",
    "arguments": "channel",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamTyping",
+   "screens": "platform/team/team_chat_page.dart › _TeamChatPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team_extras.py:133",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team_extras.unsave",
@@ -8890,12 +8890,12 @@
    "purpose": "Take a message out of Saved (done = mark it done instead, kept in Done).",
    "details": "Take a message out of Saved (done = mark it done instead, kept in Done).",
    "arguments": "message, done",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamUnsave",
+   "screens": "platform/team/team_hub.dart › TeamSavedPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/team_extras.py:307",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.usage_dashboard.dashboard",
@@ -9018,12 +9018,12 @@
    "purpose": "Delete a whiteboard (who made it, owners and admins).",
    "details": "Delete a whiteboard (who made it, owners and admins).",
    "arguments": "name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.whiteboardDelete",
+   "screens": "platform/workplace/work_page.dart › _WhiteboardsPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/whiteboard.py:83",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.whiteboard.open_whiteboard",
@@ -9034,12 +9034,12 @@
    "purpose": "A link to draw on it (for 12 hours) — in the app's web view on phones, a browser tab elsewhere.",
    "details": "A link to draw on it (for 12 hours) — in the app's web view on phones, a browser tab elsewhere.",
    "arguments": "name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.whiteboardOpen",
+   "screens": "platform/workplace/work_page.dart › _WhiteboardsPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/whiteboard.py:94",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.whiteboard.page",
@@ -9098,12 +9098,12 @@
    "purpose": "Make a whiteboard, or rename it / change who sees it (who made it, owners and admins).",
    "details": "Make a whiteboard, or rename it / change who sees it (who made it, owners and admins).",
    "arguments": "name, title, visibility",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.whiteboardSave",
+   "screens": "platform/workplace/work_page.dart › _WhiteboardsPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/whiteboard.py:65",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.whiteboard.scene",
@@ -9130,12 +9130,12 @@
    "purpose": "The whiteboards this person sees, the newest changed first.",
    "details": "The whiteboards this person sees, the newest changed first.",
    "arguments": "",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.whiteboards",
+   "screens": "platform/workplace/work_page.dart › _WhiteboardsPageState\nproducts/office_pulse/screens/home_view.dart › PulseHomeView\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/whiteboard.py:54",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.workplace.connect",
@@ -9146,12 +9146,12 @@
    "purpose": "Open a computer in the RustDesk app on this computer: a Company computer (with its permanent password for owners / admins / HR Admins), or any RustDesk ID someone gave you. {uri}.",
    "details": "Open a computer in the RustDesk app on this computer: a Company computer (with its permanent password for\nowners / admins / HR Admins), or any RustDesk ID someone gave you. {uri}.",
    "arguments": "name, rustdesk_id",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.remoteConnect",
+   "screens": "platform/team/team_call.dart › _ControlSheetState\nplatform/workplace/remote_page.dart › (top level)",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/workplace.py:483",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.workplace.delete",
@@ -9162,12 +9162,12 @@
    "purpose": "Delete a file or folder: it goes to the recycle bin for 30 days (restore it from there).",
    "details": "Delete a file or folder: it goes to the recycle bin for 30 days (restore it from there).",
    "arguments": "space, path",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesDelete",
+   "screens": "platform/workplace/files_page.dart › _FilesPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/workplace.py:275",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.workplace.delete_device",
@@ -9178,12 +9178,12 @@
    "purpose": "Take a computer off the list (owners, admins, HR Admins).",
    "details": "Take a computer off the list (owners, admins, HR Admins).",
    "arguments": "name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.remoteDeleteDevice",
+   "screens": "platform/workplace/remote_page.dart › _RemoteBody",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/workplace.py:471",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.workplace.devices",
@@ -9194,12 +9194,12 @@
    "purpose": "Company computers: all of them for owners / admins / HR Admins, the ones you use for everyone else. user: only that person's (to control their computer from a call).",
    "details": "Company computers: all of them for owners / admins / HR Admins, the ones you use for everyone else. user: only\nthat person's (to control their computer from a call).",
    "arguments": "user",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.remoteDevices",
+   "screens": "platform/team/team_call.dart › _ControlSheetState\nplatform/workplace/remote_page.dart › RemoteHelpPage\nplatform/workplace/remote_page.dart › _SetupComputerPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/workplace.py:385",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.workplace.download",
@@ -9226,12 +9226,12 @@
    "purpose": "HR: an employee's document folder (HR › People › <name>); the employee sees it, read-only, as \"My documents from HR\". {space: \"hr\", path}.",
    "details": "HR: an employee's document folder (HR › People › <name>); the employee sees it, read-only, as \"My documents\nfrom HR\". {space: \"hr\", path}.",
    "arguments": "user",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.employeeDocs",
+   "screens": "platform/workplace/files_page.dart › EmployeeDocsPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/workplace.py:337",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.workplace.help_request",
@@ -9242,12 +9242,12 @@
    "purpose": "Ask for remote help in a chat: a message with this computer's RustDesk ID (and its one-time password if given — it changes after each session) that the others can tap to connect.",
    "details": "Ask for remote help in a chat: a message with this computer's RustDesk ID (and its one-time password if given —\nit changes after each session) that the others can tap to connect.",
    "arguments": "channel, rustdesk_id, password",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.remoteHelpRequest",
+   "screens": "platform/workplace/remote_page.dart › _AskHelpSheetState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/workplace.py:506",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.workplace.info",
@@ -9258,12 +9258,12 @@
    "purpose": "What this person has in the Workplace: the spaces, whether they can write in each, remote control, how many requests wait for them.",
    "details": "What this person has in the Workplace: the spaces, whether they can write in each, remote control, how many\nrequests wait for them.",
    "arguments": "",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.workplaceInfo",
+   "screens": "platform/workplace/files_page.dart › _FilesPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/workplace.py:114",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.workplace.list_folder",
@@ -9274,12 +9274,12 @@
    "purpose": "A folder in a space: folders first, then files (each with its tags, lock and whether it's shared); what this person may do here (rights); how full the space is.",
    "details": "A folder in a space: folders first, then files (each with its tags, lock and whether it's shared); what this\nperson may do here (rights); how full the space is.",
    "arguments": "space, path",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesList",
+   "screens": "platform/workplace/files_page.dart › _FilesPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/workplace.py:132",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.workplace.mkdir",
@@ -9290,12 +9290,12 @@
    "purpose": "A new folder.",
    "details": "A new folder.",
    "arguments": "space, path, name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesMkdir",
+   "screens": "platform/workplace/files_page.dart › _FilesPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/workplace.py:212",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.workplace.new_doc",
@@ -9306,12 +9306,12 @@
    "purpose": "A new blank Word / Excel / PowerPoint file in a folder. {name, path} — then open it.",
    "details": "A new blank Word / Excel / PowerPoint file in a folder. {name, path} — then open it.",
    "arguments": "space, path, kind, title",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesNewDoc",
+   "screens": "platform/workplace/files_page.dart › _FilesPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/workplace.py:225",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.workplace.open_doc",
@@ -9322,12 +9322,12 @@
    "purpose": "Edit a document in OnlyOffice — with everyone else who has it open (read-only when this person may only read it or someone else locked it). {url}: a link to the editor page (a few hours, this person only).",
    "details": "Edit a document in OnlyOffice — with everyone else who has it open (read-only when this person may only read it\nor someone else locked it). {url}: a link to the editor page (a few hours, this person only).",
    "arguments": "space, path",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesOpen",
+   "screens": "platform/workplace/files_page.dart › _FilesPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/workplace.py:290",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.workplace.remote",
@@ -9338,12 +9338,12 @@
    "purpose": "QTT's RustDesk server for the RustDesk app: the string for \"Import server config\", the host and key (to type in by hand), where to get the app.",
    "details": "QTT's RustDesk server for the RustDesk app: the string for \"Import server config\", the host and key (to type in\nby hand), where to get the app.",
    "arguments": "",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.remoteSettings",
+   "screens": "platform/workplace/remote_page.dart › RemoteHelpPage",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/workplace.py:361",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.workplace.rename",
@@ -9354,12 +9354,12 @@
    "purpose": "Rename a file or folder (in the same folder). Its shares, links, tags, comments and versions go with it.",
    "details": "Rename a file or folder (in the same folder). Its shares, links, tags, comments and versions go with it.",
    "arguments": "space, path, name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesRename",
+   "screens": "platform/workplace/files_page.dart › _FilesPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/workplace.py:247",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.workplace.rotate_device",
@@ -9370,12 +9370,12 @@
    "purpose": "Change a computer's password now (owners, admins, HR Admins): the agent does it within 15 minutes; a computer without the agent is flagged until its new password is saved.",
    "details": "Change a computer's password now (owners, admins, HR Admins): the agent does it within 15 minutes; a computer\nwithout the agent is flagged until its new password is saved.",
    "arguments": "name",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.remoteRotate",
+   "screens": "platform/workplace/remote_page.dart › _RemoteBody",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/workplace.py:457",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.workplace.save_device",
@@ -9386,12 +9386,12 @@
    "purpose": "Add or change a Company computer (owners, admins, HR Admins). password: its RustDesk permanent password (kept encrypted; empty leaves it as it is).",
    "details": "Add or change a Company computer (owners, admins, HR Admins). password: its RustDesk permanent password (kept\nencrypted; empty leaves it as it is).",
    "arguments": "title, rustdesk_id, name, password, assigned_to, platform, notes",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.remoteSaveDevice",
+   "screens": "platform/workplace/remote_page.dart › _ComputerFormState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/workplace.py:403",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.workplace.send_to_chat",
@@ -9402,12 +9402,12 @@
    "purpose": "A copy of the file in a Team chat (everyone in the chat can open it; the original stays in Files).",
    "details": "A copy of the file in a Team chat (everyone in the chat can open it; the original stays in Files).",
    "arguments": "space, path, channel",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesSendToChat",
+   "screens": "platform/workplace/files_page.dart › _FilesPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/workplace.py:309",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.workplace.setup_device",
@@ -9418,12 +9418,12 @@
    "purpose": "Add a computer the safe way (owners, admins, HR Admins): a one-use setup code (1 hour) and the command to run on it — Windows PowerShell as Administrator, or Mac / Linux with sudo. QTT then manages its RustDesk password.",
    "details": "Add a computer the safe way (owners, admins, HR Admins): a one-use setup code (1 hour) and the command to run\non it — Windows PowerShell as Administrator, or Mac / Linux with sudo. QTT then manages its RustDesk password.",
    "arguments": "title, assigned_to",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.remoteSetupDevice",
+   "screens": "platform/workplace/remote_page.dart › _SetupComputerPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/workplace.py:441",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.workplace.upload",
@@ -9434,12 +9434,12 @@
    "purpose": "Multipart `file` into a folder (up to 100 MB). A file with the same name is replaced — the old one is kept as a version for 30 days.",
    "details": "Multipart `file` into a folder (up to 100 MB). A file with the same name is replaced — the old one is kept as a\nversion for 30 days.",
    "arguments": "space, path",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesUpload",
+   "screens": "platform/workplace/files_page.dart › _FilesPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/workplace.py:184",
-   "status": "Not used by the app"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.workplace_agent.confirm",
