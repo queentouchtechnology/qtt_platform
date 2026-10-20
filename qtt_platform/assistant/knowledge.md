@@ -28,6 +28,20 @@ person in it gets access to some products, with a role in each.
   the owner switched Customers off for your Orbitra role, it's Customers in
   the menu. Search, then the filter button: Active / Archived and tags; a
   filter that's on shows as a chip under the search (× removes it).
+- **Team** (everyone, free — no plan needed): your business's own chat, a tab
+  on the phone and in the side menu. **#general** has everyone in the business
+  (people join it when they join the business and leave it when they're
+  removed). **New message** → **New channel** for a team, project or topic:
+  open to everyone in the business (anyone can read it and joins by writing),
+  or **Private** (only the people added see it). Or pick a person to start a
+  **direct message** — only people in the same business. In a chat: type and
+  Send; 📎 sends a photo or file (up to 25 MB; only people in that chat can
+  open it); long-press a message to **Reply**, **Copy text** or **Delete** your
+  own (it goes for everyone). Channel details (ⓘ): who's in it, **Add people**
+  (anyone in the channel), **Leave channel** (not #general). Unread counts show
+  on each chat; new messages arrive live, and as a phone notification when the
+  app is closed (tap it to open that chat). People in another business never
+  see your chats.
 - **Business** (owner / admin): Profile (logo, address, GSTIN, phone, bank,
   UPI — printed on invoices, payslips, PDFs); Team (invite by email, choose
   each person's apps and role, remove); Roles and access (below); **Plans and

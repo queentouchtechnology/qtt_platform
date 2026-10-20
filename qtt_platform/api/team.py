@@ -10,6 +10,7 @@ message, system messages, its realtime).
   send           a message (plain text; reply_to for a reply)
   send_file      a photo or file (multipart `file`, up to 25 MB)
   file           a photo / file of a message — only for people in that chat
+  file_link      a 10-minute link to a message's file, to open it in the browser
   delete_message your own message
   start_dm       a direct message with someone in the business
   new_channel    a channel: open to the whole business, or private with the people chosen
@@ -280,14 +281,48 @@ def send_file(channel: str, caption: str | None = None) -> dict:
 	return _out(frappe.get_doc(MSG, m.name), names, ctx.user)
 
 
+def _sign(message: str, exp: int) -> str:
+	import hashlib
+	import hmac
+
+	from frappe.utils.password import get_encryption_key
+
+	return hmac.new(get_encryption_key().encode(), f"team-file:{message}:{exp}".encode(), hashlib.sha256).hexdigest()[:32]
+
+
 @frappe.whitelist(methods=["GET"])
-def file(message: str):
-	"""A message's photo or file — only for people in that chat."""
+def file_link(message: str) -> dict:
+	"""A link to a message's file that opens in the browser for 10 minutes (the app's login doesn't go with it).
+	Only for people in that chat."""
+	import time
+
+	from frappe.utils import get_url
+
 	ctx = _ctx()
 	row = frappe.db.get_value(MSG, message, ["channel_id", "file"], as_dict=True)
 	if not row or not row.file:
 		frappe.throw(_("That file isn't here any more."), frappe.DoesNotExistError)
 	_channel(ctx, row.channel_id)
+	exp = int(time.time()) + 600
+	return {"url": get_url(f"/api/method/qtt_platform.api.team.file?message={message}&exp={exp}&sig={_sign(message, exp)}")}
+
+
+@frappe.whitelist(methods=["GET"], allow_guest=True)
+def file(message: str, exp: int | None = None, sig: str | None = None):
+	"""A message's photo or file — for people in that chat, or with a link from file_link (10 minutes)."""
+	import hmac
+	import time
+
+	row = frappe.db.get_value(MSG, message, ["channel_id", "file"], as_dict=True)
+	if not row or not row.file:
+		frappe.throw(_("That file isn't here any more."), frappe.DoesNotExistError)
+	if sig and exp:
+		if cint(exp) < time.time() or not hmac.compare_digest(str(sig), _sign(message, cint(exp))):
+			frappe.throw(_("This link has expired. Open the file again from the chat."), frappe.PermissionError)
+	else:
+		if frappe.session.user == "Guest":
+			frappe.throw(_("Sign in to open this file."), frappe.PermissionError)
+		_channel(_ctx(), row.channel_id)
 	f = frappe.get_doc("File", {"file_url": row.file})
 	frappe.local.response.filename = f.file_name
 	frappe.local.response.filecontent = f.get_content()

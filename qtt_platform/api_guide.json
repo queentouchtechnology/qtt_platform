@@ -604,7 +604,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.leave",
-   "screens": "products/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/office_pulse/screens/home_view.dart › PulseHomeView\nproducts/office_pulse/screens/leave_view.dart › _LeaveViewState\nproducts/office_pulse/screens/pulse_shell.dart › PulseShell\nshared/widgets/states.dart › AsyncView",
+   "screens": "platform/data/platform_repository.dart › PlatformRepository\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/office_pulse/screens/home_view.dart › PulseHomeView\nproducts/office_pulse/screens/leave_view.dart › _LeaveViewState\nproducts/office_pulse/screens/pulse_shell.dart › PulseShell\nshared/widgets/states.dart › AsyncView",
    "other_callers": "",
    "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/leave.py:13",
    "status": "OK"
@@ -1612,7 +1612,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.team",
-   "screens": "products/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/office_pulse/screens/home_view.dart › PulseHomeView\nproducts/office_pulse/screens/home_view.dart › _TeamToday\nproducts/office_pulse/screens/pulse_shell.dart › PulseShell\nproducts/office_pulse/screens/team_view.dart › _TeamViewState\nproducts/onbox/models.dart › Conversation\nproducts/onbox/screens/chat_pane.dart › _ChatViewState\nproducts/onbox/screens/conversation_actions.dart › ConversationActions\nshell/home_shell.dart › _HomeShellState",
+   "screens": "platform/data/platform_repository.dart › PlatformRepository\nplatform/team/team_chat_page.dart › (top level)\nplatform/team/team_screen.dart › (top level)\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/office_pulse/screens/home_view.dart › PulseHomeView\nproducts/office_pulse/screens/home_view.dart › _TeamToday\nproducts/office_pulse/screens/pulse_shell.dart › PulseShell\nproducts/office_pulse/screens/team_view.dart › _TeamViewState\nproducts/onbox/models.dart › Conversation\nproducts/onbox/screens/chat_pane.dart › _ChatViewState\nproducts/onbox/screens/conversation_actions.dart › ConversationActions\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/team.py:14",
    "status": "Not described"
@@ -3164,7 +3164,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.settings",
-   "screens": "admin/marketing_view.dart › _MarketingViewState\napp/app.dart › AppServices\napp/app.dart › _QttOsAppState\ncore/analytics/analytics.dart › AnalyticsRouteObserver\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/onbox/onbox_root.dart › _InboxRootState\nproducts/onbox/screens/conversation_list_pane.dart › OnboxMenuButton\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/more_view.dart › _OrbitraSettingsViewState\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_design.dart › _GroupEditPageState\nproducts/services/store/store_more.dart › _TrackingCardState\nshared/search/global_search.dart › _GlobalSearchScreenState",
+   "screens": "admin/marketing_view.dart › _MarketingViewState\napp/app.dart › AppServices\napp/app.dart › _QttOsAppState\ncore/analytics/analytics.dart › AnalyticsRouteObserver\nplatform/team/team_screen.dart › TeamChannelInfoPage\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/onbox/onbox_root.dart › _InboxRootState\nproducts/onbox/screens/conversation_list_pane.dart › OnboxMenuButton\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/more_view.dart › _OrbitraSettingsViewState\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_design.dart › _GroupEditPageState\nproducts/services/store/store_more.dart › _TrackingCardState\nshared/search/global_search.dart › _GlobalSearchScreenState",
    "other_callers": "",
    "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/settings.py:14",
    "status": "Not described"
@@ -3548,7 +3548,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.home",
-   "screens": "admin/admin_home.dart › _AdminHomeBodyState\ncore/assistant/screen_context.dart › CurrentScreen\nplatform/data/platform_repository.dart › PlatformRepository\nplatform/explore/explore_screen.dart › _ItemPage\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/onbox/onbox_root.dart › _InboxRootState\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/orbitra_shell.dart › _OrbitraHomeState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/services_root.dart › _ServicesRootState\nproducts/studio/studio_root.dart › StudioRoot\nproducts/studio/studio_root.dart › _StudioHomeState\nshared/widgets/action_cards.dart › (top level)\nshell/home_shell.dart › _HomeShellState",
+   "screens": "admin/admin_home.dart › _AdminHomeBodyState\ncore/assistant/screen_context.dart › CurrentScreen\nplatform/data/platform_repository.dart › PlatformRepository\nplatform/explore/explore_screen.dart › _ItemPage\nplatform/team/team_screen.dart › _TeamScreenState\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/onbox/onbox_root.dart › _InboxRootState\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/orbitra_shell.dart › _OrbitraHomeState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/services_root.dart › _ServicesRootState\nproducts/studio/studio_root.dart › StudioRoot\nproducts/studio/studio_root.dart › _StudioHomeState\nshared/widgets/action_cards.dart › (top level)\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/admin_home.py:143",
    "status": "Not described"
@@ -6778,12 +6778,12 @@
    "purpose": "Add people from the business to a channel you're in.",
    "details": "Add people from the business to a channel you're in.",
    "arguments": "channel, members",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamAddMembers",
+   "screens": "platform/team/team_screen.dart › TeamChannelInfoPage",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:360",
-   "status": "Not used by the app"
+   "source": "qtt_platform/qtt_platform/api/team.py:395",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team.channel",
@@ -6794,12 +6794,12 @@
    "purpose": "A channel's details and the people in it.",
    "details": "A channel's details and the people in it.",
    "arguments": "channel",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamChannel",
+   "screens": "platform/team/team_screen.dart › TeamChannelInfoPage",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:347",
-   "status": "Not used by the app"
+   "source": "qtt_platform/qtt_platform/api/team.py:382",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team.delete_message",
@@ -6810,28 +6810,44 @@
    "purpose": "Delete your own message.",
    "details": "Delete your own message.",
    "arguments": "message",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamDeleteMessage",
+   "screens": "platform/team/team_chat_page.dart › _TeamChatPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:299",
-   "status": "Not used by the app"
+   "source": "qtt_platform/qtt_platform/api/team.py:334",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team.file",
    "product": "Platform",
    "area": "api.team",
    "http_methods": "GET",
-   "guest": 0,
-   "purpose": "A message's photo or file — only for people in that chat.",
-   "details": "A message's photo or file — only for people in that chat.",
-   "arguments": "message",
+   "guest": 1,
+   "purpose": "A message's photo or file — for people in that chat, or with a link from file_link (10 minutes).",
+   "details": "A message's photo or file — for people in that chat, or with a link from file_link (10 minutes).",
+   "arguments": "message, exp, sig",
    "used_by": "—",
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:284",
+   "source": "qtt_platform/qtt_platform/api/team.py:311",
    "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_platform.api.team.file_link",
+   "product": "Platform",
+   "area": "api.team",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "A link to a message's file that opens in the browser for 10 minutes (the app's login doesn't go with it). Only for people in that chat.",
+   "details": "A link to a message's file that opens in the browser for 10 minutes (the app's login doesn't go with it).\nOnly for people in that chat.",
+   "arguments": "message",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamFileLink",
+   "screens": "platform/team/team_chat_page.dart › _TeamChatPageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/team.py:294",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team.home",
@@ -6842,12 +6858,12 @@
    "purpose": "The business's chats for this person: channels (open to the business, or private ones they're in), direct messages with people in the business, each with unread and the last message; and the people.",
    "details": "The business's chats for this person: channels (open to the business, or private ones they're in), direct\nmessages with people in the business, each with unread and the last message; and the people.",
    "arguments": "",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamHome",
+   "screens": "platform/team/team_screen.dart › TeamChannelInfoPage\nplatform/team/team_screen.dart › _TeamScreenState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:172",
-   "status": "Not used by the app"
+   "source": "qtt_platform/qtt_platform/api/team.py:173",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team.leave",
@@ -6858,12 +6874,12 @@
    "purpose": "Leave a channel (#general can't be left — it's everyone in the business).",
    "details": "Leave a channel (#general can't be left — it's everyone in the business).",
    "arguments": "channel",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamLeave",
+   "screens": "platform/team/team_screen.dart › TeamChannelInfoPage",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:379",
-   "status": "Not used by the app"
+   "source": "qtt_platform/qtt_platform/api/team.py:414",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team.messages",
@@ -6874,12 +6890,12 @@
    "purpose": "A page of the chat's messages (oldest first), the newest by default or those before `before` (a timestamp). Opening the newest page marks the chat read. {messages, more, channel}.",
    "details": "A page of the chat's messages (oldest first), the newest by default or those before `before` (a timestamp).\nOpening the newest page marks the chat read. {messages, more, channel}.",
    "arguments": "channel, before, limit",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamMessages",
+   "screens": "platform/team/team_chat_page.dart › _TeamChatPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:214",
-   "status": "Not used by the app"
+   "source": "qtt_platform/qtt_platform/api/team.py:215",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team.new_channel",
@@ -6890,12 +6906,12 @@
    "purpose": "A channel: open to everyone in the business, or private with the people chosen (you're always in it). {id}.",
    "details": "A channel: open to everyone in the business, or private with the people chosen (you're always in it). {id}.",
    "arguments": "name, about, private, members",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamNewChannel",
+   "screens": "platform/team/team_screen.dart › _NewChannelPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:327",
-   "status": "Not used by the app"
+   "source": "qtt_platform/qtt_platform/api/team.py:362",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team.send",
@@ -6906,12 +6922,12 @@
    "purpose": "Send a message (plain text, up to 4,000 characters; links become links). reply_to: a message in the same chat.",
    "details": "Send a message (plain text, up to 4,000 characters; links become links). reply_to: a message in the same chat.",
    "arguments": "channel, text, reply_to",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamSend",
+   "screens": "platform/team/team_chat_page.dart › _TeamChatPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:241",
-   "status": "Not used by the app"
+   "source": "qtt_platform/qtt_platform/api/team.py:242",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team.send_file",
@@ -6922,12 +6938,12 @@
    "purpose": "Multipart `file`: a photo or file for the chat (up to 25 MB). Kept private — only people in the chat can open it.",
    "details": "Multipart `file`: a photo or file for the chat (up to 25 MB). Kept private — only people in the chat can open it.",
    "arguments": "channel, caption",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamSendFile",
+   "screens": "platform/team/team_chat_page.dart › _TeamChatPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:261",
-   "status": "Not used by the app"
+   "source": "qtt_platform/qtt_platform/api/team.py:262",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.team.start_dm",
@@ -6938,12 +6954,12 @@
    "purpose": "A direct message with someone in the business (the same one each time). {id}.",
    "details": "A direct message with someone in the business (the same one each time). {id}.",
    "arguments": "user",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamStartDm",
+   "screens": "platform/team/team_screen.dart › _TeamScreenState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:313",
-   "status": "Not used by the app"
+   "source": "qtt_platform/qtt_platform/api/team.py:348",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.usage_dashboard.dashboard",
@@ -9436,7 +9452,7 @@
    "arguments": "name, message",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.reply",
-   "screens": "products/onbox/screens/composer.dart › _ComposerState\nproducts/services/screens/requests_pages.dart › _RequestPageState\nshared/whatsapp/whatsapp_views.dart › _Preview",
+   "screens": "platform/team/team_chat_page.dart › _TeamChatPageState\nproducts/onbox/screens/composer.dart › _ComposerState\nproducts/services/screens/requests_pages.dart › _RequestPageState\nshared/whatsapp/whatsapp_views.dart › _Preview",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/portal.py:112",
    "status": "Not described"
@@ -9532,7 +9548,7 @@
    "arguments": "service",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.cancel",
-   "screens": "admin/admin_repository.dart › AdminRepository\napp/app.dart › _QttOsAppState\napp/app_gate.dart › _SplashState\ncore/analytics/analytics.dart › Analytics\ncore/config/remote_config.dart › RemoteConfigStore\ncore/push/push_service.dart › PushService\nplatform/onboarding/signup_screen.dart › _SignupScreenState\nplatform/session/app_session.dart › AppSession\nproducts/office_pulse/office_pulse_root.dart › PulseState\nproducts/office_pulse/screens/pattern_who.dart › _PatternWhoState\nproducts/onbox/chat_controller.dart › ChatController\nproducts/onbox/onbox_provider.dart › OnboxProvider\nproducts/onbox/screens/conversation_list_pane.dart › _ConversationListPaneState\nproducts/orbitra/orbitra_root.dart › OrbitraState\nproducts/services/screens/deploy_pages.dart › _DeploymentPageState\nproducts/services/screens/golive_pages.dart › _DeletingDialogState\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › ServicesState\nproducts/studio/shorts_studio.dart › _ShortPageState\nshared/search/global_search.dart › _GlobalSearchScreenState\nshared/widgets/list_kit.dart › _SearchFilterBarState",
+   "screens": "admin/admin_repository.dart › AdminRepository\napp/app.dart › _QttOsAppState\napp/app_gate.dart › _SplashState\ncore/analytics/analytics.dart › Analytics\ncore/config/remote_config.dart › RemoteConfigStore\ncore/push/push_service.dart › PushService\nplatform/onboarding/signup_screen.dart › _SignupScreenState\nplatform/session/app_session.dart › AppSession\nplatform/team/team_chat_page.dart › _TeamChatPageState\nplatform/team/team_screen.dart › _TeamScreenState\nproducts/office_pulse/office_pulse_root.dart › PulseState\nproducts/office_pulse/screens/pattern_who.dart › _PatternWhoState\nproducts/onbox/chat_controller.dart › ChatController\nproducts/onbox/onbox_provider.dart › OnboxProvider\nproducts/onbox/screens/conversation_list_pane.dart › _ConversationListPaneState\nproducts/orbitra/orbitra_root.dart › OrbitraState\nproducts/services/screens/deploy_pages.dart › _DeploymentPageState\nproducts/services/screens/golive_pages.dart › _DeletingDialogState\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › ServicesState\nproducts/studio/shorts_studio.dart › _ShortPageState\nshared/search/global_search.dart › _GlobalSearchScreenState\nshared/widgets/list_kit.dart › _SearchFilterBarState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/shop.py:373",
    "status": "Not described"
