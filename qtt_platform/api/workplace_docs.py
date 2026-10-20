@@ -133,7 +133,7 @@ def saved(t: str = ""):
 		body = json.loads(frappe.request.get_data() or b"{}")
 	except ValueError:
 		return _ok(1)
-	signed = rules.jwt_verify(body.get("token") or frappe.get_request_header("Authorization") or "", secret)
+	signed = rules.jwt_verify(body.get("token") or frappe.get_request_header("AuthorizationJwt") or "", secret)  # not "Authorization": Frappe takes that as a login
 	if not signed:
 		return _ok(1)
 	data = signed.get("payload") if isinstance(signed.get("payload"), dict) else signed
