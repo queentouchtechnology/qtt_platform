@@ -147,3 +147,45 @@ def email_allowed(link: dict, email: str) -> bool:
 
 def new_code() -> str:
 	return f"{secrets.randbelow(10 ** 6):06d}"
+
+
+# ---- automatic rules (PROJ-0016 B) -------------------------------------------------------------------------------------
+AUTO_EVENTS = ("upload", "tag")
+AUTO_KINDS = ("pdf", "image", "word", "cell", "slide", "video", "audio", "archive", "file")
+
+
+def _csv(text) -> list[str]:
+	return [x.strip().lower() for x in re.split(r"[,\n]+", str(text or "")) if x.strip()]
+
+
+def auto_matches(rule: dict, *, event: str, space: str, path: str, kind: str, tags: list[str]) -> bool:
+	"""Does this rule apply to a file that was just uploaded (event "upload") or tagged ("tag")?
+	rule: {enabled, event, space ("" = any), folder (inside it, at any depth), kinds, name_words (any of them in the
+	name), has_tag}."""
+	if not rule.get("enabled") or (rule.get("event") or "upload") != event:
+		return False
+	if rule.get("space") and rule["space"] != space:
+		return False
+	folder, path = clean(rule.get("folder")), clean(path)
+	parent = path.rsplit("/", 1)[0] if "/" in path else ""
+	if folder and not (parent == folder or parent.startswith(folder + "/")):
+		return False
+	kinds = _csv(rule.get("kinds"))
+	if kinds and kind not in kinds:
+		return False
+	words = _csv(rule.get("name_words"))
+	name = path.rsplit("/", 1)[-1].lower()
+	if words and not any(w in name for w in words):
+		return False
+	tag = str(rule.get("has_tag") or "").strip().lower()
+	return not tag or tag in {t.lower() for t in tags}
+
+
+def auto_folder(template: str, when: datetime) -> str:
+	"""Where a rule moves a file: a folder path with {year}, {month} (01–12) and {month_name} filled in."""
+	t = str(template or "").replace("{year}", f"{when.year}").replace("{month}", f"{when.month:02d}").replace("{month_name}", when.strftime("%B"))
+	return clean(t)
+
+
+def auto_tags(text) -> list[str]:
+	return [t[:30] for t in dict.fromkeys(x.strip() for x in re.split(r"[,\n]+", str(text or "")) if x.strip())][:12]

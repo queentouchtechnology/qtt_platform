@@ -238,6 +238,7 @@ def new_doc(space: str, path: str = "", kind: str = "word", title: str | None = 
 		store.write(key, f.read(), mimetypes.guess_type(name)[0])
 	new_path = "/".join(p for p in (at.path, name) if p)
 	core.log(ctx.tenant, key, _space_of(at), new_path, "create", ctx.user)
+	core.index_later(key)
 	return {"name": name, "path": new_path}
 
 

@@ -24,7 +24,8 @@ from qtt_platform import files_rules as fr
 from qtt_platform import workplace_rules as rules
 
 VERSION, BIN, SHARE, META, RULE, ACTIVITY = "QTT File Version", "QTT File Trash", "QTT File Share", "QTT File Meta", "QTT Folder Rule", "QTT File Activity"
-KEYED = ("QTT File Version", "QTT File Share", "QTT File Request", "QTT Share Link", "QTT File Meta", "QTT File Comment", "QTT File Activity")
+KEYED = ("QTT File Version", "QTT File Share", "QTT File Request", "QTT Share Link", "QTT File Meta", "QTT File Comment", "QTT File Activity",
+		 "QTT File Index")
 
 
 # ---- who may do what ---------------------------------------------------------------------------------------------------
@@ -106,7 +107,17 @@ def save(tenant: str, key: str, data: bytes, by: str, content_type: str | None =
 		store.copy(key, kept)
 		frappe.get_doc({"doctype": VERSION, "tenant": tenant, "file_key": key, "store_key": kept, "size": int(old.get("ContentLength") or 0),
 						"by_user": by if frappe.db.exists("User", by) else None}).insert(ignore_permissions=True)
-	return store.write(key, data, content_type)
+	etag = store.write(key, data, content_type)
+	index_later(key)
+	return etag
+
+
+def index_later(key: str = "", prefix: str = "") -> None:
+	"""Search: (re)read a file — or everything under a folder — into the index, after this request commits."""
+	try:
+		frappe.enqueue("qtt_platform.api.files_search.run_index", queue="short", key=key, prefix=prefix, enqueue_after_commit=True)
+	except Exception:
+		frappe.log_error(title="Files: search index not queued")
 
 
 def restore_version(tenant: str, name: str, by: str) -> str:
@@ -148,6 +159,7 @@ def restore_bin(tenant: str, name: str) -> frappe._dict:
 		store.copy(b.store_key, dest)
 		store.remove([b.store_key])
 	frappe.delete_doc(BIN, b.name, ignore_permissions=True, force=True)
+	index_later(prefix=dest.rstrip("/") + "/") if b.is_dir else index_later(dest)
 	return frappe._dict(space=b.space, key=dest, path=b.path if dest == b.file_key else dest[len(b.file_key) - len(b.path):])
 
 
@@ -177,7 +189,7 @@ def forget(tenant: str, key: str, is_dir: bool) -> None:
 	"""A deleted file / folder: its shares, links, requests and lock end (its versions and comments stay with the bin item
 	for 30 days, keyed by where it was)."""
 	cond, val = ("file_key like %s", _like(key.rstrip("/")) + "/%") if is_dir else ("file_key = %s", key)
-	for dt in ("QTT File Share", "QTT File Request", "QTT File Meta"):
+	for dt in ("QTT File Share", "QTT File Request", "QTT File Meta", "QTT File Index"):
 		frappe.db.sql(f"delete from `tab{dt}` where tenant = %s and ({cond} or file_key = %s)", (tenant, val, key.rstrip("/")))
 	frappe.db.sql(f"update `tabQTT Share Link` set status = 'Revoked' where tenant = %s and ({cond} or file_key = %s)", (tenant, val, key.rstrip("/")))
 

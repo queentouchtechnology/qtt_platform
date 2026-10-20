@@ -1,0 +1,141 @@
+{
+ "doctype": "DocType",
+ "name": "QTT File Automation",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "engine": "InnoDB",
+ "autoname": "hash",
+ "description": "Office Pulse Files: a rule that acts on files by itself — when one is uploaded or tagged in a space / folder, of some types, with some words in its name → add tags, move it, notify people, share it.",
+ "modified": "2026-10-20 18:00:00",
+ "track_changes": 0,
+ "field_order": [
+  "tenant",
+  "title",
+  "enabled",
+  "event",
+  "space",
+  "folder",
+  "kinds",
+  "name_words",
+  "has_tag",
+  "add_tags",
+  "move_to",
+  "notify",
+  "share_with",
+  "share_permission",
+  "runs",
+  "created_by"
+ ],
+ "fields": [
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "label": "Business",
+   "options": "QTT Tenant",
+   "reqd": 1,
+   "search_index": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Name",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "On",
+   "default": "1",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "event",
+   "fieldtype": "Select",
+   "label": "When a file is",
+   "options": "upload\ntag",
+   "default": "upload"
+  },
+  {
+   "fieldname": "space",
+   "fieldtype": "Select",
+   "label": "In",
+   "options": "\nteam\ncompany\nhr\nmine"
+  },
+  {
+   "fieldname": "folder",
+   "fieldtype": "Data",
+   "label": "In the folder",
+   "length": 700
+  },
+  {
+   "fieldname": "kinds",
+   "fieldtype": "Data",
+   "label": "Kinds of file",
+   "length": 200
+  },
+  {
+   "fieldname": "name_words",
+   "fieldtype": "Small Text",
+   "label": "Name has any of"
+  },
+  {
+   "fieldname": "has_tag",
+   "fieldtype": "Data",
+   "label": "Has the tag"
+  },
+  {
+   "fieldname": "add_tags",
+   "fieldtype": "Small Text",
+   "label": "Add tags"
+  },
+  {
+   "fieldname": "move_to",
+   "fieldtype": "Data",
+   "label": "Move to the folder",
+   "length": 700
+  },
+  {
+   "fieldname": "notify",
+   "fieldtype": "Small Text",
+   "label": "Tell (logins)"
+  },
+  {
+   "fieldname": "share_with",
+   "fieldtype": "Small Text",
+   "label": "Share with (logins)"
+  },
+  {
+   "fieldname": "share_permission",
+   "fieldtype": "Select",
+   "label": "They can",
+   "options": "view\nedit",
+   "default": "view"
+  },
+  {
+   "fieldname": "runs",
+   "fieldtype": "Int",
+   "label": "Times it acted"
+  },
+  {
+   "fieldname": "created_by",
+   "fieldtype": "Link",
+   "label": "Made by",
+   "options": "User"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC"
+}

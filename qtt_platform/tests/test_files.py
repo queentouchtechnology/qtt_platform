@@ -79,5 +79,78 @@ class Links(unittest.TestCase):
 		self.assertRegex(r.new_code(), r"^\d{6}$")
 
 
+class Automation(unittest.TestCase):
+	RULE = {"enabled": 1, "event": "upload", "space": "hr", "folder": "Inbox", "kinds": "pdf", "name_words": "payslip, salary", "has_tag": ""}
+
+	def test_matches(self):
+		self.assertTrue(r.auto_matches(self.RULE, event="upload", space="hr", path="Inbox/Payslip Oct.pdf", kind="pdf", tags=[]))
+		self.assertTrue(r.auto_matches(self.RULE, event="upload", space="hr", path="Inbox/2026/salary.pdf", kind="pdf", tags=[]))  # any depth
+		self.assertFalse(r.auto_matches(self.RULE, event="upload", space="hr", path="Inbox/Offer letter.pdf", kind="pdf", tags=[]))  # no word
+		self.assertFalse(r.auto_matches(self.RULE, event="upload", space="hr", path="Inbox/payslip.docx", kind="word", tags=[]))  # not a PDF
+		self.assertFalse(r.auto_matches(self.RULE, event="upload", space="team", path="Inbox/payslip.pdf", kind="pdf", tags=[]))  # other space
+		self.assertFalse(r.auto_matches(self.RULE, event="upload", space="hr", path="Payslip.pdf", kind="pdf", tags=[]))  # not in the folder
+		self.assertFalse(r.auto_matches({**self.RULE, "enabled": 0}, event="upload", space="hr", path="Inbox/payslip.pdf", kind="pdf", tags=[]))
+		tag_rule = {"enabled": 1, "event": "tag", "has_tag": "Invoices"}
+		self.assertTrue(r.auto_matches(tag_rule, event="tag", space="team", path="a/b.pdf", kind="pdf", tags=["invoices"]))
+		self.assertFalse(r.auto_matches(tag_rule, event="upload", space="team", path="a/b.pdf", kind="pdf", tags=["invoices"]))
+
+	def test_folder_and_tags(self):
+		self.assertEqual(r.auto_folder("Payslips/{year}/{month}", datetime(2026, 10, 20)), "Payslips/2026/10")
+		self.assertEqual(r.auto_folder("../Archive/{month_name}", datetime(2026, 10, 20)), "Archive/October")
+		self.assertEqual(r.auto_tags("Payslip, HR,, Payslip"), ["Payslip", "HR"])
+
+
+class Text(unittest.TestCase):
+	def _zip(self, files: dict) -> bytes:
+		import io
+		import zipfile
+
+		b = io.BytesIO()
+		with zipfile.ZipFile(b, "w") as z:
+			for n, t in files.items():
+				z.writestr(n, t)
+		return b.getvalue()
+
+	def test_office_and_text(self):
+		from qtt_platform import files_text as ft
+
+		docx = self._zip({"word/document.xml": "<w:document><w:body><w:p><w:r><w:t>Offer letter for Ann</w:t></w:r></w:p><w:p><w:t>Salary &amp; benefits</w:t></w:p></w:body></w:document>"})
+		t = ft.text_of("Offer.docx", docx)
+		self.assertIn("Offer letter for Ann", t)
+		self.assertIn("Salary & benefits", t)
+		xlsx = self._zip({"xl/sharedStrings.xml": "<sst><si><t>Invoice</t></si><si><t>GST 18%</t></si></sst>", "xl/worksheets/sheet1.xml": "<sheetData><row><c><v>1250</v></c></row></sheetData>"})
+		self.assertIn("GST 18%", ft.text_of("Budget.xlsx", xlsx))
+		self.assertIn("1250", ft.text_of("Budget.xlsx", xlsx))
+		pptx = self._zip({"ppt/slides/slide2.xml": "<p:sld><a:p><a:t>Second</a:t></a:p></p:sld>", "ppt/slides/slide1.xml": "<p:sld><a:p><a:t>First</a:t></a:p></p:sld>"})
+		self.assertLess(ft.text_of("Deck.pptx", pptx).index("First"), ft.text_of("Deck.pptx", pptx).index("Second"))
+		self.assertEqual(ft.text_of("notes.txt", b"hello\n\n\nworld"), "hello\nworld")
+		self.assertEqual(ft.text_of("photo.jpg", b"\xff\xd8"), "")
+		self.assertEqual(ft.text_of("broken.docx", b"not a zip"), "")  # never raises
+
+	def test_pdf(self):
+		from qtt_platform import files_text as ft
+
+		try:
+			from pypdf import PdfWriter
+		except ImportError:
+			self.skipTest("pypdf is on the server")
+		import io
+
+		w = PdfWriter()
+		w.add_blank_page(100, 100)
+		b = io.BytesIO()
+		w.write(b)
+		self.assertEqual(ft.text_of("blank.pdf", b.getvalue()), "")
+
+	def test_snippet_and_words(self):
+		from qtt_platform import files_text as ft
+
+		self.assertEqual(ft.search_words('  GST "invoice" a 2026  '), ["gst", "invoice", "2026"])
+		s = ft.snippet("x " * 200 + "the GST invoice for October " + "y " * 200, ["invoice"])
+		self.assertIn("GST invoice", s)
+		self.assertTrue(s.startswith("…"))
+		self.assertEqual(ft.snippet("nothing here", ["gst"]), "")
+
+
 if __name__ == "__main__":
 	unittest.main()

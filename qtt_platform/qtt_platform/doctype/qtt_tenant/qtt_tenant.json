@@ -31,7 +31,8 @@
   "timezone",
   "currency",
   "language",
-  "country"
+  "country",
+  "require_two_step"
  ],
  "fields": [
   {
@@ -142,6 +143,12 @@
    "fieldtype": "Link",
    "label": "Country",
    "options": "Country"
+  },
+  {
+   "fieldname": "require_two_step",
+   "fieldtype": "Check",
+   "label": "Two-step login for everyone",
+   "description": "Everyone in this business confirms each new sign-in with a code sent to their email (Frappe's own two-factor check)."
   }
  ],
  "permissions": [
@@ -156,5 +163,5 @@
   }
  ],
  "links": [],
- "modified": "2026-10-12 12:00:00.000000"
+ "modified": "2026-10-20 18:00:00"
 }
