@@ -55,6 +55,9 @@ MSG_FIELDS = ["name", "channel_id", "owner", "creation", "text", "content", "mes
 
 # ---- who and where ---------------------------------------------------------------------------------------------------
 def _ctx() -> frappe._dict:
+	# Team's reads also write (the person's Raven user, the business's workspace, "read up to here"): Frappe only
+	# saves a GET request's writes when asked to.
+	frappe.local.flags.commit = True
 	if "raven" not in frappe.get_installed_apps():
 		frappe.throw(_("Team chat isn't set up on this server yet."))
 	tenant = resolve_active_tenant()

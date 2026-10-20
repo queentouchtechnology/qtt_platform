@@ -58,7 +58,7 @@ def _ctx() -> frappe._dict:
 	"""Team's checks + Office Pulse (the Workplace comes with it) + the person's Pulse role."""
 	from qtt_platform.api.team_calls import can_screen_share
 
-	ctx = team._ctx()
+	ctx = team._ctx()  # (also asks Frappe to save this request's writes, GET included: accounts, spaces)
 	if not can_screen_share(ctx.tenant, ctx.user):
 		frappe.throw(_("Files, documents and remote control come with Office Pulse — ask your business owner."), frappe.PermissionError)
 	m = frappe.db.get_value("QTT Tenant Membership", {"user": ctx.user, "tenant": ctx.tenant}, "name")
