@@ -320,7 +320,9 @@ scheduler_events = {
 	"cron": {
 		# QTT Admin → Servers: servers that stop reporting become offline.
 		# Marketing approvals: reminders before the deadline, QTT's decision at it.
-		"*/5 * * * *": ["qtt_platform.api.servers.check_offline", "qtt_platform.api.marketing_content.tick"],
+		# Team: reminders on saved messages.
+		"*/5 * * * *": ["qtt_platform.api.servers.check_offline", "qtt_platform.api.marketing_content.tick",
+						"qtt_platform.api.team_extras.remind_due"],
 		# QTT Admin → Servers / Domains: Contabo servers + snapshots, Hostinger domains.
 		"20 */6 * * *": ["qtt_platform.api.servers.sync_providers"],
 	},

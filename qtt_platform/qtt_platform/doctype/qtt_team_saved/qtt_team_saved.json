@@ -1,0 +1,86 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Team Saved",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 0,
+ "engine": "InnoDB",
+ "autoname": "hash",
+ "title_field": "user",
+ "description": "Team chat: messages someone saved for later, with an optional reminder (a phone notification at remind_at, checked every 5 minutes).",
+ "modified": "2026-10-20 12:00:00",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "field_order": [
+  "user",
+  "tenant",
+  "message",
+  "channel",
+  "remind_at",
+  "reminded",
+  "done"
+ ],
+ "fields": [
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User",
+   "reqd": 1,
+   "in_list_view": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "label": "Business",
+   "options": "QTT Tenant",
+   "reqd": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "message",
+   "fieldtype": "Data",
+   "label": "Message",
+   "reqd": 1,
+   "description": "Raven Message name (a plain value, so deleting the message isn't blocked)."
+  },
+  {
+   "fieldname": "channel",
+   "fieldtype": "Data",
+   "label": "Chat"
+  },
+  {
+   "fieldname": "remind_at",
+   "fieldtype": "Datetime",
+   "label": "Remind at",
+   "in_list_view": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "reminded",
+   "fieldtype": "Check",
+   "label": "Reminded"
+  },
+  {
+   "fieldname": "done",
+   "fieldtype": "Check",
+   "label": "Done",
+   "in_list_view": 1
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ]
+}

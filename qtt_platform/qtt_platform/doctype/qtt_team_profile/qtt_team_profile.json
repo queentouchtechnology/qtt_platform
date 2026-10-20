@@ -1,0 +1,75 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Team Profile",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 0,
+ "engine": "InnoDB",
+ "autoname": "field:user",
+ "title_field": "user",
+ "description": "Team chat (qtt_platform/api/team_extras.py): each person's status (emoji, words, until when) and Do not disturb (no phone notifications until then). One per person, across their businesses.",
+ "modified": "2026-10-20 12:00:00",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "field_order": [
+  "user",
+  "status_emoji",
+  "status_text",
+  "status_until",
+  "dnd_until",
+  "activity_seen_at"
+ ],
+ "fields": [
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "status_emoji",
+   "fieldtype": "Data",
+   "label": "Status emoji",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "status_text",
+   "fieldtype": "Data",
+   "label": "Status",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "status_until",
+   "fieldtype": "Datetime",
+   "label": "Status clears at"
+  },
+  {
+   "fieldname": "dnd_until",
+   "fieldtype": "Datetime",
+   "label": "Do not disturb until",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "activity_seen_at",
+   "fieldtype": "Datetime",
+   "label": "Activity read up to"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ]
+}
