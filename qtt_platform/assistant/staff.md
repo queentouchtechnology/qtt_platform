@@ -205,3 +205,10 @@ numbers. Its own messages are billed to its own Meta account, not QTT's. If the 
 - OnlyOffice Community: its logo shows and 20 editors at once across all businesses; a paid licence lifts both.
 - Remote control: the standard RustDesk app pointed at our server (Copy server settings in the app). Company
   computers: QTT Remote Device (permanent passwords encrypted).
+- Uploads: the site's max_file_size is 110 MB (site_config.json, set 2026-10-21) so Files' own 100 MB check decides;
+  Team chat keeps its 25 MB check in code. Frappe's default (25 MB) would refuse Files uploads over 25 MB.
+- Nextcloud's OnlyOffice settings live in config.php ('onlyoffice' block: DocumentServerUrl, jwt_secret, jwt_header) —
+  they override the app settings; backup before the 2026-10-21 change: /root/config.php.bak-20261021 on the n8n server.
+- Verified 2026-10-21: 32 API authorization checks, Nextcloud permission / quota checks, OnlyOffice JWT both ways,
+  LiveKit load (6 publishers × 24 viewers: 144/144 streams, 0.03 % loss, ~1.5 of 4 cores), 10 conversions at once,
+  crash recovery (restart: unless-stopped; docker on boot).
