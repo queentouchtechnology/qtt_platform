@@ -219,8 +219,8 @@ numbers. Its own messages are billed to its own Meta account, not QTT's. If the 
   computers: QTT Remote Device (permanent passwords encrypted).
 - Uploads: the site's max_file_size is 110 MB (site_config.json, set 2026-10-21) so Files' own 100 MB check decides;
   Team chat keeps its 25 MB check in code. Frappe's default (25 MB) would refuse Files uploads over 25 MB.
-- Nextcloud (cloud.queentouchtech.in, n8n server) is QTT's own team cloud only — QTT OS no longer uses it (its QTT OS
-  folders and users were removed 2026-10-20; backup /root/qtt-os-nextcloud-backup-20261020.tgz on that server).
+- Nextcloud was removed completely on 2026-10-20 (owner: no backup) — cloud.queentouchtech.in no longer exists; Office
+  Pulse Files gives the same features (sharing, links, versions, recycle bin, folder rules).
 - Verified 2026-10-21: 32 API authorization checks, permission / quota checks, OnlyOffice JWT both ways,
   LiveKit load (6 publishers × 24 viewers: 144/144 streams, 0.03 % loss, ~1.5 of 4 cores), 10 conversions at once,
   crash recovery (restart: unless-stopped; docker on boot).

@@ -34,7 +34,7 @@ AGENT_PATH = "/assets/qtt_platform/ops/qtt-server-agent.py"
 # Known servers (docs/ops/vps-report-2026-10-10.md). Created once; edit in the app or Desk.
 KNOWN = [
 	("frappe", "Frappe (app.queentouchtech.in)", "185.217.127.94", "Contabo vmi2748666", "Frappe bench in Docker: app.queentouchtech.in, learn.truthofbible.org; Nginx Proxy Manager; Uptime Kuma"),
-	("n8n", "n8n · Chatwoot · Nextcloud", "173.249.7.188", "Contabo vmi2682166", "n8n, Chatwoot (watz), Nextcloud, Discourse, MinIO, Qdrant, PostgreSQL, MariaDB"),
+	("n8n", "n8n · Chatwoot", "173.249.7.188", "Contabo vmi2682166", "n8n, Chatwoot (watz), Discourse, MinIO, Qdrant, PostgreSQL, MariaDB"),
 	("ai-os", "QTT-AI-OS", "31.220.83.224", "Contabo vmi3592353", "Marketing automation server (empty on 2026-10-10)"),
 	("cloudpanel", "Cloud Panel", "169.58.212.154", "Contabo vmi3523687", "CloudPanel hosting"),
 ]
