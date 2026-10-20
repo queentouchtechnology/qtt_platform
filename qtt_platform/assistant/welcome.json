@@ -49,6 +49,7 @@
  },
  "everyday": [
   {"title": "Ask QTT anything", "body": "The ✦ button on every screen answers questions about that screen — what to do first and how things work — in your language."},
+  {"title": "Team — chat with your team", "body": "Free in QTT OS: #general for everyone, channels, direct messages, threads, voice notes and reactions — see who's online, set a status, and turn any message into a task."},
   {"title": "What needs you, on Home", "body": "Cards on Home show what needs you now. Search finds people, customers, items and screens — even with a typo."},
   {"title": "Your business", "body": "Invite your team, choose what each role can do and see your plans — under Business.", "for": ["@owner"]}
  ],

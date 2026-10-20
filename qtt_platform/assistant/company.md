@@ -58,8 +58,15 @@ the business outcome; QTT supports what it builds — from development through
 maintenance and growth.
 
 ## Our own products
-- **QTT OS** — one app to run a small business (Office Pulse, Orbitra, Onbox,
-  Managed Services). Details in the QTT OS knowledge.
+- **QTT OS** — one app to run a small business: Office Pulse (HR, attendance,
+  payroll), Orbitra (billing, stock, GST), Onbox (customer chats), QTT Studio
+  (designs, posts, logos, print, Shorts, landing pages with AI) and Managed
+  Services (websites, online stores, WhatsApp automation, Marketing assistant —
+  built and run by QTT). **Team** — the business's own team chat (channels,
+  direct messages, threads, voice notes, tasks) — is free for every business.
+  Website: **queentouchtech.in** (every app, service and price); use it on
+  Android, iOS, computers or the web at **queentouchtech.in/app**. Details in
+  the QTT OS knowledge.
 - **Truth of Bible** — Bible study and learning platform, 160+ translations.
   truthofbible.org · Android app on Google Play.
 - **Quiz Master Plus** — learning management system with AI: courses,

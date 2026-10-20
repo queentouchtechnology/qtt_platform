@@ -1,9 +1,12 @@
 # QTT OS — what the assistant knows
 
 QTT OS is Queen Touch Technology's one app for running a small business: one
-login, every product inside it, on Android, iOS, the web and computers. A
-business (called a workspace) subscribes to the products it needs; each
-person in it gets access to some products, with a role in each.
+login, every product inside it, on Android, iOS, the web
+(**queentouchtech.in/app** — the website **queentouchtech.in** explains every
+app and service, with prices) and computers. A business (called a workspace)
+subscribes to the products it needs; each person in it gets access to some
+products, with a role in each. **Team** (the business's own chat) is free for
+everyone in every business — no plan needed.
 
 ## The app itself (every user)
 - **Apps (home)**: greeting, what needs you today (the "For you" cards), your
@@ -28,20 +31,64 @@ person in it gets access to some products, with a role in each.
   the owner switched Customers off for your Orbitra role, it's Customers in
   the menu. Search, then the filter button: Active / Archived and tags; a
   filter that's on shows as a chip under the search (× removes it).
-- **Team** (everyone, free — no plan needed): your business's own chat, a tab
-  on the phone and in the side menu. **#general** has everyone in the business
-  (people join it when they join the business and leave it when they're
-  removed). **New message** → **New channel** for a team, project or topic:
-  open to everyone in the business (anyone can read it and joins by writing),
-  or **Private** (only the people added see it). Or pick a person to start a
-  **direct message** — only people in the same business. In a chat: type and
-  Send; 📎 sends a photo or file (up to 25 MB; only people in that chat can
-  open it); long-press a message to **Reply**, **Copy text** or **Delete** your
-  own (it goes for everyone). Channel details (ⓘ): who's in it, **Add people**
-  (anyone in the channel), **Leave channel** (not #general). Unread counts show
-  on each chat; new messages arrive live, and as a phone notification when the
-  app is closed (tap it to open that chat). People in another business never
-  see your chats.
+- **Team** (everyone, free — no plan needed): your business's own chat (like
+  Slack or WhatsApp groups, but private to your business and inside QTT OS), a
+  tab on the phone and in the side menu. Nothing to buy; only the AI extras use
+  AI credits.
+  - **Chats**: **#general** has everyone in the business (people join it when
+    they join the business, and leave it when suspended or removed). **New
+    message** → **New channel** (open to everyone in the business — anyone can
+    read it and joins by writing — or **Private**, only the people added) or a
+    person for a **direct message** (only people in the same business).
+  - **Writing**: *bold* _italic_ ~strike~ `code` (WhatsApp-style marks, or the
+    **Aa** button), links, **@Name** to mention someone (they're notified even
+    if they muted the chat) and **@everyone** in a channel. **⊕** sends a photo
+    or file (up to 25 MB; only people in that chat can open it); the **mic**
+    records a **voice note** (up to 5 minutes). Ctrl+Enter sends on a computer.
+  - **On a message** (hover on a computer, long-press on a phone): react with
+    any emoji (tap a reaction to add yours or take it back), **Reply in
+    thread**, **Quote in reply**, **Copy text**, **Edit** or **Delete** your own
+    (shows "edited"; deleting removes it for everyone), **Pin to chat** (pinned
+    ones are in Details), **Save for later** (with a reminder), **Make a task**.
+  - **Threads**: a reply thread under a message keeps a topic together; the
+    chat shows "N replies". The writer and everyone who replies get
+    notifications for new replies. On a wide screen a thread opens beside the
+    chat. **Threads** (in the hub) lists yours with new replies.
+  - **Live**: messages, edits and reactions arrive at once; "Ravi is typing";
+    under your latest message **Sent** / **Seen** (a direct message) or **Seen
+    by N** (a channel). A **New** line marks where you left off.
+  - **Presence and status**: a green dot = online now, amber = away (in the
+    app in the last 15 minutes), none = offline ("Active 2 h ago"). Tap
+    yourself at the top of Team to set a **status** (📅 In a meeting, 🚗 On the
+    way, 🏗 At the site, 🍽 Lunch break, 🏠 Working from home, 🎯 Focusing, 🤒 Off
+    sick, 🌴 On leave, or your own words and emoji) that clears after 30
+    minutes … this week, or stays. People on approved leave today (Office
+    Pulse) show "🌴 On leave today" by themselves. **Do not disturb** (30
+    minutes to a week) holds all Team phone notifications until it ends (a
+    moon on your photo).
+  - **Notifications**: a phone notification for each new message in your chats
+    (tap it to open that chat or thread). In a chat's **Details** switch off
+    "Notify me of every message" to hear only when someone @mentions you.
+  - **The hub**: **Activity** — @mentions, replies in your threads and
+    reactions to your messages (last 30 days; a count shows what's new).
+    **Saved** — messages you kept, with reminders (20 minutes, 1 or 3 hours,
+    tonight, tomorrow morning, next week; a phone notification then). **Tasks** —
+    tasks made from messages (For me, I gave, Done): what, who (they're
+    notified), by when; tick when done.
+  - **Search**: the 🔍 in Team (or in a chat for just that chat) finds messages
+    in every chat you can see: every word must be in the message; filter by
+    who wrote it, photos, files, voice notes or links; tap a result to jump to
+    it.
+  - **AI extras (AI credits)**: **✨ Catch me up** (in a chat, or the banner
+    when 5+ messages are new) sums up what happened, what was decided, what's
+    asked of you and the to-dos — 1 AI credit. **✨ Fill with AI** in Make a
+    task suggests the task, the person and the date from the message — 1 AI
+    credit; check it before making it. They use your business's AI credits
+    (from your apps' plans); the summary only says what the messages say.
+  - **Wide screens** (tablet, computer, the web app): the chat list on the left,
+    the chat on the right, a thread beside it.
+  - People in another business never see your chats. Voice and video calls
+    aren't part of Team yet.
 - **Business** (owner / admin): Profile (logo, address, GSTIN, phone, bank,
   UPI — printed on invoices, payslips, PDFs); Team (invite by email, choose
   each person's apps and role, remove); Roles and access (below); **Plans and
@@ -1191,7 +1238,7 @@ passwords, codes or keys.
   what the business needs with AI — in its logo, colours and fonts, written
   from Business › Knowledge, saved to one **Business Library** every app
   uses. Now: social posts, Photo Lab, logos, print (cards, flyers, menus) and business documents (letterhead
-  styles, letters), Shorts and landing pages. Coming phase by phase: brochures,
+  styles, letters), Shorts, landing pages and Poster variations (posters from your app's screenshots). Coming phase by phase: brochures,
   voice and music for Shorts, own domains for pages.
 - **Free without Studio**: everything QTT already made — Marketing assistant
   › Post designs (64 designs + ready words), the brand kit and See your

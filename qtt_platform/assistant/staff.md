@@ -181,3 +181,14 @@ numbers. Its own messages are billed to its own Meta account, not QTT's. If the 
   wishes for it" to stop one.
 - The ready-written words themselves live in qtt_platform/design/content.py (English + Tamil), filled from each
   business's knowledge; an idea is only offered when every fact it needs is there.
+
+## Team chat (support notes, PROJ-0013 / 0014)
+- Every business's Team is a private Raven workspace named `qtt-<tenant>` (Desk › Raven Workspace); QTT's own
+  Raven workspace ("Raven") is separate and unchanged. Customers never get the Raven User role (it would open Desk) —
+  all their access goes through qtt_platform.api.team / team_extras, which check the business and membership.
+- #general holds every active member and follows Business › Team (added / suspended / removed). A person "missing"
+  from Team is almost always not active in the business.
+- Phone notifications need the person's device registered (QTT Push Device) and no Do not disturb (Desk › QTT Team
+  Profile shows status and Do not disturb until). Muted chats only notify for @mentions.
+- Reminders on saved messages run every 5 minutes (QTT Team Saved). Tasks are Frappe ToDos linked to the message.
+- Catch me up / Fill with AI take 1 credit each from the business's fullest AI wallet; QTT's own business doesn't pay.
