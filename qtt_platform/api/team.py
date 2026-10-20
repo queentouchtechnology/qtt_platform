@@ -67,8 +67,11 @@ def _raven_user(user: str) -> None:
 		if not frappe.db.get_value(RU, user, "enabled"):
 			frappe.db.set_value(RU, user, "enabled", 1, update_modified=False)
 		return
-	full = frappe.db.get_value("User", user, "full_name") or user
-	frappe.get_doc({"doctype": RU, "user": user, "type": "User", "full_name": full, "first_name": full.split(" ")[0], "enabled": 1}).insert(ignore_permissions=True)
+	full, image = frappe.db.get_value("User", user, ["full_name", "user_image"]) or (user, None)
+	full = full or user
+	# the photo's link as it is: Raven would otherwise copy the file, and fails when it's gone from disk
+	frappe.get_doc({"doctype": RU, "user": user, "type": "User", "full_name": full, "first_name": full.split(" ")[0], "enabled": 1,
+					"user_image": image}).insert(ignore_permissions=True)
 
 
 def _workspace(tenant: str) -> str:

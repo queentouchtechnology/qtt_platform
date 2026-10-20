@@ -6782,7 +6782,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:357",
+   "source": "qtt_platform/qtt_platform/api/team.py:360",
    "status": "Not used by the app"
   },
   {
@@ -6798,7 +6798,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:344",
+   "source": "qtt_platform/qtt_platform/api/team.py:347",
    "status": "Not used by the app"
   },
   {
@@ -6814,7 +6814,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:296",
+   "source": "qtt_platform/qtt_platform/api/team.py:299",
    "status": "Not used by the app"
   },
   {
@@ -6830,7 +6830,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:281",
+   "source": "qtt_platform/qtt_platform/api/team.py:284",
    "status": "Not used by the app"
   },
   {
@@ -6846,7 +6846,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:169",
+   "source": "qtt_platform/qtt_platform/api/team.py:172",
    "status": "Not used by the app"
   },
   {
@@ -6862,7 +6862,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:376",
+   "source": "qtt_platform/qtt_platform/api/team.py:379",
    "status": "Not used by the app"
   },
   {
@@ -6878,7 +6878,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:211",
+   "source": "qtt_platform/qtt_platform/api/team.py:214",
    "status": "Not used by the app"
   },
   {
@@ -6894,7 +6894,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:324",
+   "source": "qtt_platform/qtt_platform/api/team.py:327",
    "status": "Not used by the app"
   },
   {
@@ -6910,7 +6910,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:238",
+   "source": "qtt_platform/qtt_platform/api/team.py:241",
    "status": "Not used by the app"
   },
   {
@@ -6926,7 +6926,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:258",
+   "source": "qtt_platform/qtt_platform/api/team.py:261",
    "status": "Not used by the app"
   },
   {
@@ -6942,7 +6942,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team.py:310",
+   "source": "qtt_platform/qtt_platform/api/team.py:313",
    "status": "Not used by the app"
   },
   {
