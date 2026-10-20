@@ -329,6 +329,8 @@ scheduler_events = {
 						"qtt_platform.api.team_extras.remind_due"],
 		# QTT Admin → Servers / Domains: Contabo servers + snapshots, Hostinger domains.
 		"20 */6 * * *": ["qtt_platform.api.servers.sync_providers"],
+		# Office Pulse My work: "your day" at 9 AM for people with cards due today or overdue.
+		"0 9 * * *": ["qtt_platform.api.planning.morning"],
 	},
 	"hourly": [
 		"qtt_platform.billing.service.reconcile_subscriptions",
@@ -398,4 +400,5 @@ qtt_assistant_conditions = []
 website_redirects = [
 	{"source": r"/s/([A-Za-z0-9_-]{20,60})", "target": r"/api/method/qtt_platform.api.files_links.page?k=\1"},
 	{"source": r"/sl/([a-z0-9]{6,20})", "target": r"/api/method/qtt_platform.api.files_links.page?id=\1"},
+	{"source": r"/f/([A-Za-z0-9_-]{12,40})", "target": r"/api/method/qtt_platform.api.forms.page?k=\1"},
 ]

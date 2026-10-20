@@ -1,0 +1,111 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Board",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "engine": "InnoDB",
+ "autoname": "hash",
+ "description": "Office Pulse Boards: a Kanban board — its lists, labels, who's on it (members-only boards) and the list that means done.",
+ "modified": "2026-10-20 23:00:00",
+ "track_changes": 0,
+ "field_order": [
+  "tenant",
+  "title",
+  "description",
+  "visibility",
+  "members",
+  "lists",
+  "labels",
+  "done_list",
+  "color",
+  "template",
+  "created_by_user",
+  "archived"
+ ],
+ "fields": [
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "label": "Business",
+   "options": "QTT Tenant",
+   "reqd": 1,
+   "search_index": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "visibility",
+   "fieldtype": "Select",
+   "label": "Who sees it",
+   "options": "team\nmembers",
+   "default": "team"
+  },
+  {
+   "fieldname": "members",
+   "fieldtype": "Long Text",
+   "label": "Members (JSON)"
+  },
+  {
+   "fieldname": "lists",
+   "fieldtype": "Long Text",
+   "label": "Lists (JSON)"
+  },
+  {
+   "fieldname": "labels",
+   "fieldtype": "Long Text",
+   "label": "Labels (JSON)"
+  },
+  {
+   "fieldname": "done_list",
+   "fieldtype": "Data",
+   "label": "Done list"
+  },
+  {
+   "fieldname": "color",
+   "fieldtype": "Data",
+   "label": "Colour"
+  },
+  {
+   "fieldname": "template",
+   "fieldtype": "Data",
+   "label": "Made from"
+  },
+  {
+   "fieldname": "created_by_user",
+   "fieldtype": "Link",
+   "label": "Made by",
+   "options": "User",
+   "search_index": 1
+  },
+  {
+   "fieldname": "archived",
+   "fieldtype": "Check",
+   "label": "Archived",
+   "default": "0"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC"
+}

@@ -188,6 +188,57 @@ everyone in every business — no plan needed.
   Forward (with its attachments), Mark as unread, Flag, Delete (to your Trash);
   attachments: Download or Save to my files. Write: To, Cc / Bcc, subject,
   message, attach files (up to 20 MB). Mailbox settings / Disconnect at the top.
+- **My work** (Office Pulse › My work): everything waiting for you in one
+  list — cards given to you on boards and tasks from Team messages, grouped
+  Overdue / Today / Tomorrow / Later this week / Later / No date (tick the circle
+  to mark one done) — plus today's calendar and team surveys waiting for your
+  answer. Owners and admins see **Team workload** (top right): each person's open
+  and overdue cards, due this week and Team tasks, the most overdue first. At 9 AM
+  everyone with cards due today or overdue gets "Your day" on their phone.
+- **Boards** (Office Pulse › Boards): Kanban boards — lists side by side, cards
+  in each. New board: start from a ready one — To do (To do / Doing / Done),
+  Project, Sales pipeline (New lead → Contacted → Quote sent → Won / Lost), Hiring,
+  Content calendar, Customer issues. Long-press a card to drag it to another
+  place or list; + on a list adds a card. Moving a card into the board's done list
+  (Done, Won, Joined, Posted, Solved) marks it done. A card: title, description,
+  its list, Done, a due date, people (they're told on their phones), labels, a
+  checklist, comments (the people on it are told); Archive or Delete. Top right:
+  Only my cards, a label to show, and (who made the board, owners and admins)
+  Lists, labels and people — rename / add / reorder lists, which list means done,
+  labels and their colours, Everyone in the business or Only the people I choose;
+  Archive or Delete the board.
+- **Notes** (Office Pulse › Notes): the business's knowledge — how things are
+  done, price lists, recipes, the Wi-Fi password — and your own notes. Search
+  finds words in titles and text; chips: All, Pinned, Mine and each collection.
+  A note: title, text ("- [ ] " makes a checkbox — tap it to tick when reading,
+  "## " a heading, "- " a list, **words** bold), a collection (e.g. How we work),
+  who sees it (Everyone in the business — they can read and improve it; The
+  people I choose; Only me — only who wrote it changes this), Pin it to the top.
+  If someone else changed the note while you wrote, you choose Keep mine or Take
+  theirs. **Send the open checkboxes to a board** makes a card for each.
+  **Meeting notes**: on a calendar event, Meeting notes makes (or opens) a note
+  with who's coming, the agenda, notes, decisions and action items — shared like
+  the event — in the Meeting notes collection.
+- **Whiteboards** (Office Pulse › Whiteboards): drawing boards several people
+  draw on at the same time — a shop layout, a project plan, a mind map. New
+  whiteboard: a name and Everyone in the business can draw (or only you). It opens
+  in the app on phones and in a browser tab on computers and saves as you draw.
+  **Save picture** (top right of the whiteboard) puts a picture of it in your
+  Files › Whiteboards. The ⋮ on one: Rename or share, Delete.
+- **Forms and surveys** (Office Pulse › Forms): **Anyone with the link** — a
+  public form for customers (enquiries, orders, feedback, registrations) to share
+  on WhatsApp, your website or a QR code; **My team, in the app** — a survey or
+  poll (Anonymous: names aren't kept, only that each person answered once).
+  Questions: short answer, paragraph, one choice, several choices, dropdown,
+  number, date, rating 1–5, yes / no, email, phone — each with a hint and Must be
+  answered. Settings: Taking answers, One answer each, an end date, stop after a
+  number of answers, a thank-you message, Tell me on my phone for each answer, and
+  **Add people who answer to the address book** (a phone or email question is
+  needed; a name question gives their name) as a customer, supplier, partner or
+  other. A form's page: the link (Copy, Send on WhatsApp), Summary (counts and bars
+  per question, averages, the latest written answers) and Answers; ⋮ Change form,
+  Download a spreadsheet, New link (the old one stops working), Delete form.
+  Team surveys waiting for you show at the top of Forms and in My work.
 - **Two-step login** (Business › Roles and access › Sign-in; the owner or an
   admin turns it on): everyone in the business confirms each new sign-in with a
   6-digit code sent to their email. Signing in with Google or a phone's
