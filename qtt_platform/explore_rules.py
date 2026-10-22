@@ -34,7 +34,15 @@ PRODUCT_LIMITS = {
 PRODUCT_UNLIMITED = {
 	"QTT_STUDIO": {"studio_designs": "Unlimited new designs", "studio_doc_templates": "Unlimited document templates of your own"},
 }
-PRODUCT_SWITCHES = {"QTT_STUDIO": {"studio_design_mode": "Design mode (drag and drop)"}}
+PRODUCT_SWITCHES = {
+	"QTT_STUDIO": {"studio_design_mode": "Design mode (drag and drop)"},
+	"QTT_ORBITRA": {"sales_flow": "Sales orders, delivery notes, purchase orders and goods receipts, price lists",
+					"stock_depth": "Batches, serial numbers, pick lists, packing slips and landed cost",
+					"crm": "Leads, opportunities, sales funnel, loyalty, customer portal and supplier quotes",
+					"accounts_depth": "Balance sheet, trial balance, cash flow, bank reconciliation, budgets and assets",
+					"manufacturing": "Manufacturing, quality and maintenance"},
+	"QTT_OFFICE_PULSE": {"training": "Training and skills", "appraisal": "Performance appraisals", "recruitment": "Recruitment and interviews"},
+}
 UNLIMITED = {
 	"max_agents": "Unlimited team members",
 	"max_inboxes": "Unlimited inboxes",
