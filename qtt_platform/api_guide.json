@@ -4626,6 +4626,22 @@
    "status": "Not described"
   },
   {
+   "endpoint": "qtt_platform.api.enquiry.submit",
+   "product": "Platform",
+   "area": "api.enquiry",
+   "http_methods": "POST",
+   "guest": 1,
+   "purpose": "An enquiry from one of QTT's websites → a CRM Lead. `website` is a hidden trap field: people leave it empty.",
+   "details": "An enquiry from one of QTT's websites → a CRM Lead. `website` is a hidden trap field: people leave it empty.",
+   "arguments": "name, email, phone, message, site, page, interest, company, website",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/enquiry.py:42",
+   "status": "Not used by the app"
+  },
+  {
    "endpoint": "qtt_platform.api.entitlements.can_i",
    "product": "Platform",
    "area": "api.entitlements",
