@@ -2,9 +2,13 @@
 Website enquiries → Frappe CRM (2026-10-22). One door for every enquiry form of Queen Touch Technology's sites
 (queentouchtech.in, .com, qtterp.in, quizmasterplus.in, sathishkumar.pro): each becomes a CRM Lead (source "Website
 Form", the site and page in its note) that the team works in Frappe CRM, and QTT's managers get a bell notification. Truth of Bible's forms
-are a separate path (its own site). No login; rate-limited; a hidden "website" field filled in = a bot, quietly dropped.
+are a separate path (its own site). No login. Bot defence in layers (enquiry_rules.py): a hidden trap field, a signed
+single-use form ticket that must be 3 s – 2 h old, spam words, a rate limit per address, a repeat from the same email /
+phone in a day added to its first lead, and a daily cap for the whole door. Bots are told "ok" and dropped quietly,
+so they learn nothing.
 
-  submit   name, email and/or phone, message, site, page, interest (what they asked about) → {ok}
+  ticket   GET: a signed form ticket (the page asks when the form shows)
+  submit   name, email and/or phone, message, site, page, interest, ticket → {ok}
 """
 
 import re
@@ -12,6 +16,8 @@ import re
 import frappe
 from frappe import _
 from frappe.rate_limiter import rate_limit
+
+from qtt_platform import enquiry_rules as rules
 
 SOURCE = "Website Form"
 SITES = ("queentouchtech.in", "queentouchtech.com", "queentouchtechnology.com", "qtterp.in", "quizmasterplus.in", "sathishkumar.pro")
@@ -31,6 +37,28 @@ def site_of(site: str, origin: str = "") -> str:
 	return ""
 
 
+def _secret() -> str:
+	from frappe.utils.password import get_encryption_key
+
+	return "qtt-enquiry:" + get_encryption_key()
+
+
+def _drop(why: str) -> dict:
+	"""A bot: logged for the team's numbers, told 'ok' so it learns nothing."""
+	try:
+		frappe.cache.incrby(f"qtt_enquiry_dropped:{frappe.utils.today()}:{why}", 1)
+	except Exception:
+		pass
+	return {"ok": True}
+
+
+@frappe.whitelist(allow_guest=True, methods=["GET"])
+@rate_limit(limit=40, seconds=3600)
+def ticket() -> dict:
+	"""A signed form ticket for one enquiry (single use, valid 3 seconds to 2 hours after it's given)."""
+	return {"ticket": rules.make_ticket(_secret())}
+
+
 def _source() -> str:
 	if not frappe.db.exists("CRM Lead Source", SOURCE):
 		frappe.get_doc({"doctype": "CRM Lead Source", "source_name": SOURCE}).insert(ignore_permissions=True)
@@ -40,10 +68,17 @@ def _source() -> str:
 @frappe.whitelist(allow_guest=True, methods=["POST"])
 @rate_limit(limit=8, seconds=3600)
 def submit(name: str = "", email: str = "", phone: str = "", message: str = "", site: str = "", page: str = "", interest: str = "",
-		   company: str = "", website: str = "") -> dict:
-	"""An enquiry from one of QTT's websites → a CRM Lead. `website` is a hidden trap field: people leave it empty."""
+		   company: str = "", website: str = "", ticket: str = "") -> dict:
+	"""An enquiry from one of QTT's websites → a CRM Lead. `website` is a hidden trap field: people leave it empty;
+	`ticket` comes from ticket() when the form showed."""
 	if website:
-		return {"ok": True}  # a bot filled the hidden field
+		return _drop("trap")
+	bad = rules.check_ticket(ticket, _secret())
+	if bad:
+		return _drop(bad)
+	if frappe.cache.get_value(f"qtt_enquiry_used:{ticket}"):
+		return _drop("replay")
+	frappe.cache.set_value(f"qtt_enquiry_used:{ticket}", 1, expires_in_sec=rules.MAX_SECONDS + 60)
 	name, email, phone = _clean(name, _MAX["name"]), _clean(email, _MAX["email"]).lower(), _clean(phone, _MAX["phone"])
 	if not name or not (email or phone):
 		frappe.throw(_("Please give your name and an email or phone number."))
@@ -52,6 +87,21 @@ def submit(name: str = "", email: str = "", phone: str = "", message: str = "", 
 	from_site = site_of(site, frappe.get_request_header("Origin") or "")
 	if not from_site:
 		frappe.throw(_("This form isn't from a Queen Touch Technology site."), frappe.PermissionError)
+	if rules.spam_reason(name, str(message or ""), str(company or "")):
+		return _drop("spam")
+	day = f"qtt_enquiry_count:{frappe.utils.today()}"
+	if int(frappe.cache.get_value(day) or 0) >= rules.DAILY_CAP:
+		frappe.log_error(title="Website enquiries: daily cap reached", message=f"{rules.DAILY_CAP} today — later ones dropped")
+		return _drop("cap")
+	frappe.cache.set_value(day, int(frappe.cache.get_value(day) or 0) + 1, expires_in_sec=2 * 86400)
+	# the same person again today: added to their first lead, not a new one
+	since = frappe.utils.add_days(frappe.utils.now_datetime(), -1)
+	again = frappe.db.get_value("CRM Lead", {"source": SOURCE, "creation": [">", since], **({"email": email} if email else {"mobile_no": phone})}, "name")
+	if again:
+		frappe.get_doc("CRM Lead", again).add_comment("Comment", frappe.utils.escape_html(
+			f"Another message from {from_site}" + (f" — {_clean(interest, _MAX['interest'])}" if interest else "") + "\n\n"
+			+ str(message or "")[:_MAX["message"]].strip()).replace("\n", "<br>"))
+		return {"ok": True}
 	first, _sp, last = name.partition(" ")
 	lead = frappe.get_doc({
 		"doctype": "CRM Lead", "first_name": first, "last_name": last, "email": email or None, "mobile_no": phone or None,
