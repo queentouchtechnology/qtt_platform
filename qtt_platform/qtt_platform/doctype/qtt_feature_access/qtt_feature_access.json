@@ -1,0 +1,96 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Feature Access",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "engine": "InnoDB",
+ "autoname": "field:screen_id",
+ "naming_rule": "By fieldname",
+ "title_field": "title",
+ "sort_field": "product",
+ "sort_order": "ASC",
+ "description": "Every screen and feature of QTT OS and who can open it (owners, admins, managers, each product role). Filled from the assistant's screen registry on every deploy — change it in qtt_platform/assistant/screens.json.",
+ "field_order": [
+  "screen_id",
+  "title",
+  "product",
+  "who_can_open",
+  "path",
+  "roles",
+  "description",
+  "questions"
+ ],
+ "fields": [
+  {
+   "fieldname": "screen_id",
+   "fieldtype": "Data",
+   "label": "Screen ID",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 0,
+   "read_only": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Feature",
+   "in_list_view": 1,
+   "read_only": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "product",
+   "fieldtype": "Data",
+   "label": "Product",
+   "in_list_view": 1,
+   "read_only": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "who_can_open",
+   "fieldtype": "Small Text",
+   "label": "Who can open it",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "path",
+   "fieldtype": "Data",
+   "label": "Where in the app",
+   "read_only": 1
+  },
+  {
+   "fieldname": "roles",
+   "fieldtype": "Small Text",
+   "label": "Roles (as the app checks them)",
+   "read_only": 1,
+   "description": "* = everyone in the business · @owner = owner and admins · @manager = people who manage a team · @customers = people with customer access · other words = that product's role"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "What it does",
+   "read_only": 1
+  },
+  {
+   "fieldname": "questions",
+   "fieldtype": "Small Text",
+   "label": "Questions the assistant offers here",
+   "read_only": 1
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "export": 1,
+   "report": 1,
+   "print": 1
+  }
+ ],
+ "in_create": 1,
+ "read_only": 0,
+ "track_changes": 0
+}
