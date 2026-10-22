@@ -276,7 +276,7 @@ def device_tilt(x: Ctx, v: dict) -> tuple[str, str]:
 def pop_cards(x: Ctx, v: dict) -> tuple[str, str]:
 	hs, pad = _sizes(x)
 	items = (x.content.get("items") or [])[:3]
-	spots = [("left:-18%;top:18%", "-4deg"), ("right:-20%;top:44%", "3deg"), ("left:-14%;top:72%", "-2deg")]
+	spots = [("left:-12%;top:18%", "-4deg"), ("right:-12%;top:44%", "3deg"), ("left:-10%;top:72%", "-2deg")]
 	cards = "".join(f'<div class="card" style="{pos};transform:rotate({rot})">{x.el("icon_tile", 56, 56, text=it.get("icon") or "icon_check", tone="primary")}'
 					f'<div><b>{esc(it.get("title"))}</b>{f"<span>{esc(it.get(chr(116) + chr(101) + chr(120) + chr(116)))}</span>" if it.get("text") else ""}</div></div>'
 					for it, (pos, rot) in zip(items, spots))
@@ -299,7 +299,7 @@ def pop_cards(x: Ctx, v: dict) -> tuple[str, str]:
 			 ".stage{flex:1;min-height:0;width:100%;display:flex;justify-content:center;align-items:center;container-type:size}"
 			 ".holder{position:relative;aspect-ratio:.49;height:min(100cqh,calc(100cqw / .49))}.holder .phone{height:100%}"
 			 f".card{{position:absolute;display:flex;align-items:center;gap:14px;background:#fff;border-radius:24px;padding:16px 22px 16px 16px;"
-			 f"box-shadow:0 26px 50px rgba(0,0,0,.28);max-width:440px;z-index:2}}.card svg{{flex:none}}"
+			 f"box-shadow:0 26px 50px rgba(0,0,0,.28);max-width:380px;z-index:2}}.card svg{{flex:none}}"
 			 f".card b{{display:block;font:800 26px/1.15 var(--font-heading);color:{x.p['dark']}}}.card span{{display:block;font:400 18px/1.3 var(--font-body);color:{base.mix(x.p['dark'], '#ffffff', .35)}}}"
 			 ".cta{flex:none}"
 			 ".stage.clear{gap:22px}.stage.clear .hb{flex:1;min-width:0;height:100%;display:flex;justify-content:center;align-items:center;container-type:size}"

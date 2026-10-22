@@ -219,7 +219,7 @@ def template_row(key: str) -> dict:
 def preview(key: str, format: str = "square", look: str | None = None, idea: str | None = None) -> dict:  # noqa: A002
 	"""One template in the business's own brand (logo, colours, fonts, name, contacts; its own photos, else photos for its
 	type of business). idea: a content-library idea's words (filled from the knowledge) instead of the sample's.
-	{url, width, height}."""
+	{url, width, height, warnings}: warnings — word slots longer than this design holds (design/fitcheck.py)."""
 	from frappe.utils import get_url, today
 
 	tenant = _tenant()
@@ -246,4 +246,7 @@ def preview(key: str, format: str = "square", look: str | None = None, idea: str
 		frappe.cache.set_value(ck, n, expires_in_sec=2 * 86400)
 		have = frappe.get_doc({"doctype": "File", "file_name": fname, "content": draw(t, fmt, parts), "is_private": 0,
 							   "attached_to_doctype": knowledge.DT, "attached_to_name": name}).insert(ignore_permissions=True).file_url
-	return {"url": get_url(have), "width": 1080, "height": post.SIZES[fmt], "key": key, "format": fmt, "look": parts["look"]}
+	from qtt_platform.design import fitcheck
+
+	return {"url": get_url(have), "width": 1080, "height": post.SIZES[fmt], "key": key, "format": fmt, "look": parts["look"],
+			"warnings": fitcheck.check(t["layout"], parts["content"], fmt)}

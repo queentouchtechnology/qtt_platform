@@ -52,7 +52,7 @@ window.qttSetText=function(el,t){
   el.innerHTML=e.replace(/\\*([^*]+)\\*/g,'<em>$1</em>').replace(/\\n/g,'<br>');
 };
 window.qttFit=function(el){if(!el.hasAttribute('data-fit'))return;el.style.fontSize='';const cs=getComputedStyle(el);
-  let s=parseFloat(cs.fontSize),m=s*.42;const mh=cs.maxHeight==='none'?el.clientHeight:parseFloat(cs.maxHeight);
+  let s=parseFloat(cs.fontSize),m=el.dataset.min?parseFloat(el.dataset.min):s*.42;const mh=cs.maxHeight==='none'?el.clientHeight:parseFloat(cs.maxHeight);
   while((el.scrollHeight>mh+6||el.scrollWidth>el.clientWidth+2)&&s>m){s-=1.5;el.style.fontSize=s+'px'}
 };
 window.qttWords=function(edits){const p=qttPieces();

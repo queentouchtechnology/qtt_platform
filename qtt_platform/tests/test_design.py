@@ -160,5 +160,76 @@ class Sheet(unittest.TestCase):
 		self.assertEqual(html_.count("<svg"), len(patterns.PATTERNS) + 10)
 
 
+class PremiumUpgrade(unittest.TestCase):
+	"""The premium finish, lit elements, roomy buttons, fit warnings and the new layouts (docs/design/studio-design-rules.md)."""
+
+	def test_finish_layers(self):
+		from qtt_platform.design import finish
+
+		p = base.palette({"primary": "#2563eb"})
+		self.assertEqual(finish.layers("clean", p, "dark", 1080, 1080), ("", ""))
+		html_, css = finish.layers("premium", p, "light", 1080, 1080, "k")
+		self.assertIn("fx-grain", html_)
+		self.assertNotIn("fx-bokeh", html_)  # specks of light only in the cinematic direction
+		html_, css = finish.layers("cinematic", p, "dark", 1080, 1080, "k")
+		self.assertIn("fx-bokeh", html_)
+		self.assertIn("pointer-events:none", css)  # never takes a touch in Move and resize
+		self.assertEqual(finish.layers("cinematic", p, "dark", 1080, 1080, "k"), (html_, css))  # the same every render
+		self.assertEqual(finish.default_for("dark"), "premium")
+
+	def test_lit_elements_are_valid_svg(self):
+		p = base.palette({"primary": "#2563eb", "accent": "#fff"})
+		for n in ("badge", "pill", "cta", "icon_tile", "date_block", "ribbon", "price_tag", "starburst", "device_laptop", "device_phone"):
+			ET.fromstring(elements.element(n, p, 240, 120, text="icon_cloud" if n == "icon_tile" else "Hello", tone="accent"))
+
+	def test_buttons_widen_instead_of_shrinking(self):
+		from qtt_platform.design import layouts
+
+		x = layouts.Ctx(palette=base.palette({"primary": "#2563eb"}), fonts={}, height=1080, look="light", content={})
+		svg = x.el("cta", 300, 70, text="Book your free visit today", tone="primary")
+		w = int(re.search(r'width="(\d+)"', svg).group(1))
+		self.assertGreater(w, 300)
+		self.assertIn('width="300"', x.el("cta", 300, 70, text="Go", tone="primary"))
+
+	def test_fit_warnings(self):
+		from qtt_platform.design import fitcheck
+
+		fitcheck.budgets.cache_clear()
+		real = fitcheck.budgets
+		fitcheck.budgets = lambda: {"sale": {"headline": 20, "phone": 16}}
+		try:
+			self.assertEqual(fitcheck.check("sale", {"headline": "Big *sale*", "phone": "98400 12345"}), [])
+			w = fitcheck.check("sale", {"headline": "A very long headline that will never fit in the box"})
+			self.assertEqual(w[0]["slot"], "headline")
+			self.assertEqual(w[0]["max"], 20)
+			self.assertEqual(fitcheck.check("sale", {"headline": "x" * 26}, "story"), [])  # taller sizes hold more
+			self.assertEqual(fitcheck.check("unknown", {"headline": "x" * 300}), [])
+		finally:
+			fitcheck.budgets = real
+
+	def test_new_layouts_render_every_size(self):
+		from qtt_platform.design import archetypes, archetypes_more, catalog, layouts
+
+		for name, fn in archetypes_more.LAYOUTS.items():
+			self.assertIs(archetypes.LAYOUTS[name], fn, name)
+			t = next(t for t in catalog.templates() if t["layout"] == name)
+			for h in (1080, 1350, 1920):
+				for content in (catalog.sample_for(name, t["sample_group"]), {"business": "Shop"}):
+					x = layouts.Ctx(palette=base.palette(catalog.PALETTES[t["palette"]]), fonts=base.fonts("Poppins", "Inter"), height=h,
+									look=t["look"], content=content, photos=["a.jpg"], finish="premium", key=name)
+					body, css = fn(x, t["variant"])
+					page = layouts.page(body, css, x, 1080, h)
+					self.assertIn("qttReady", page)
+					self.assertNotIn("None", body, name)  # an empty slot is left out, never printed
+
+	def test_trend_sets_are_readable(self):
+		from qtt_platform.design import palettes
+
+		for key, (_l, _m, c) in palettes.CURATED.items():
+			p = base.palette(c)
+			for role in ("primary", "dark", "light"):
+				self.assertGreaterEqual(base.contrast(p[role], p["on_" + role]), 4.5, f"{key} {role}")
+
+
 if __name__ == "__main__":
 	unittest.main()

@@ -157,14 +157,14 @@ def full_phone(x: Ctx, v: dict) -> tuple[str, str]:
 	bg = x.p["dark"]
 	word = (x.content.get("headline") or "").replace("*", "").split()
 	big = " ".join(word[:3]) if word else ""
-	back = f'<div class="bgword">{esc(big)}</div>'
+	back = f'<div class="bgword" data-deco aria-hidden="true">{esc(big)}</div>'
 	head = _head(x, 52 if x.wide else (78 if x.tall else 60), align="center")
 	body = (f'{back}<div class="fp">{_top(x, light=True)}<div class="pw fpp">{_phone(x)}</div>{head}{_cta(x)}</div>')
 	if x.wide:
 		body = (f'{back}<div class="fp fpw"><div class="fptext">{_top(x, light=True)}{_head(x, 52)}{_cta(x)}</div><div class="pw fpp">{_phone(x)}</div></div>')
 	css = (_phone_css(x) + _head_css(x, ink="#ffffff", soft="rgba(255,255,255,.8)", hl=_hl_on(bg, x), kick=_hl_on(bg, x)) + f".post{{background:{bg}}}"
 		   f".bgword{{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;font:900 {200 if x.tall else 170}px/.86 var(--font-heading);"
-		   f"text-transform:uppercase;color:transparent;-webkit-text-stroke:3px {base.mix(x.p['primary'], bg, .35)};letter-spacing:-4px;padding:0 20px;word-break:break-word}}"
+		   f"text-transform:uppercase;color:transparent;-webkit-text-stroke:3px {base.mix(x.p['primary'], bg, .35)};letter-spacing:-4px;padding:0 20px;word-break:break-word;opacity:.55}}"
 		   f".fp{{position:absolute;inset:0;padding:{36 if x.wide else 50}px;display:flex;flex-direction:column;align-items:center;gap:20px}}.fp .top{{align-self:flex-start}}"
 		   ".fpp{flex:1;min-height:0;width:100%;display:flex;justify-content:center;container-type:size}"
 		   ".fpw{flex-direction:row;align-items:stretch}.fptext{flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px}.fpw .fpp{flex:.8}"
@@ -206,10 +206,10 @@ def diagonal_layers(x: Ctx, v: dict) -> tuple[str, str]:
 		layer = f'<div class="layer" style="background:linear-gradient(160deg,{bg} 0 38%,{band} 38% 70%,{x.p["dark"]} 70%)"></div>'
 	css += (_phone_css(x) + _head_css(x, ink=x.p["dark"], hl=_hl_on(bg, x)) + f".post{{background:{bg}}}"
 			".dv{justify-content:flex-start}.phone.dg{height:min(94cqh,calc(94cqw / .49));transform:rotate(-12deg);margin-left:6%}"
-			".dcs{position:absolute;right:0;top:12%;display:flex;flex-direction:column;gap:18px;width:52%}"
+			f".dcs{{position:absolute;right:0;top:12%;display:flex;flex-direction:column;gap:{64 if x.tall or not _side(x) else 34}px;width:52%}}"
 			f".dc{{background:#fff;border-radius:20px;padding:18px 22px;box-shadow:0 22px 40px rgba(0,0,0,.25);transform:rotate(-12deg) translateX(calc(var(--i) * 26px));"
 			f"border-left:8px solid {x.p['accent']}}}.dc b{{display:block;font:800 {19 if x.wide else 24}px/1.15 var(--font-heading);color:{x.p['dark']}}}"
-			f".dc span{{display:block;font:400 17px/1.3 var(--font-body);color:{base.mix(x.p['dark'], '#ffffff', .35)}}}")
+			f".dc span{{display:block;font:400 19px/1.3 var(--font-body);color:{base.mix(x.p['dark'], '#ffffff', .35)}}}")
 	return layer + html, css
 
 
@@ -228,7 +228,7 @@ def glass_cards(x: Ctx, v: dict) -> tuple[str, str]:
 			".gc{display:flex;align-items:center;gap:14px;padding:18px 20px;border-radius:24px;background:rgba(255,255,255,.14);"
 			"border:1.5px solid rgba(255,255,255,.35);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 20px 40px rgba(0,0,0,.25)}"
 			f".gc svg{{flex:none}}.gc b{{display:block;font:700 {19 if x.wide else 24}px/1.15 var(--font-heading);color:#fff}}"
-			".gc span{display:block;font:400 17px/1.3 var(--font-body);color:rgba(255,255,255,.8)}")
+			".gc span{display:block;font:400 19px/1.3 var(--font-body);color:rgba(255,255,255,.8)}")
 	return blobs + html, css
 
 
@@ -410,7 +410,7 @@ def pill_rows(x: Ctx, v: dict) -> tuple[str, str]:
 	rows = ""
 	for r in range(5 if x.tall else 4):
 		seq = (words[r % max(1, len(words)):] + words[:r % max(1, len(words))]) * 3
-		rows += f'<div class="pr" style="margin-left:{-(r * 90) % 300}px">' + "".join(f'<span class="pl{(k + r) % 3}">{w}</span>' for k, w in enumerate(seq)) + "</div>"
+		rows += f'<div class="pr" data-deco aria-hidden="true" style="margin-left:{-(r * 90) % 300}px">' + "".join(f'<span class="pl{(k + r) % 3}">{w}</span>' for k, w in enumerate(seq)) + "</div>"
 	body = (f'<div class="prs">{rows}</div><div class="prw {"prr" if _side(x) else "prc"}"><div class="prt">{_top(x, light=_ink_on(bg, x) == "#ffffff")}'
 			f'{_head(x, _sizes(x)[0])}{_cta(x, tone="dark")}</div><div class="pw prp">{_phone(x)}</div></div>')
 	ink = _ink_on(bg, x)

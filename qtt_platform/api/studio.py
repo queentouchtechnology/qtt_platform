@@ -128,16 +128,21 @@ def _ai(tenant: str, feature: str, messages: list[dict], *, max_tokens: int = 90
 def _out(doc) -> dict:
 	from frappe.utils import get_url
 
+	from qtt_platform.design import fitcheck
+
 	c = json.loads(doc.content or "{}")
 	showcase = bool(c.get("media"))
+	layout = frappe.db.get_value(library.DT, doc.template, "layout")
 	return {"name": doc.name, "title": doc.title, "kind": doc.kind, "template": doc.template, "format": doc.format, "look": doc.look,
+			# words longer than this design holds at this size: told to the owner, never silently cut (design/fitcheck.py)
+			"warnings": fitcheck.check(layout, c.get("words") or {}, doc.format) if layout else [],
 			"made_by": doc.made_by, "words": c.get("words") or {}, "lang": c.get("lang") or "en",
 			"picture": get_url(doc.output) if doc.output else None, "modified": str(doc.modified),
 			"formats": list(rules.FORMATS + rules.WIDE if showcase else rules.FORMATS), "showcase": showcase,
 			"palette": (c.get("media") or {}).get("palette"), "batch": (c.get("media") or {}).get("batch"),
 			"shots": len((c.get("media") or {}).get("shots") or []), "fit": (c.get("media") or {}).get("fit") or [],
 			"clear": bool((c.get("media") or {}).get("clear")),
-			"direction": frappe.db.get_value(library.DT, doc.template, "layout") if showcase else None}
+			"direction": layout if showcase else None}
 
 
 def _item_for(doc, fmt: str):

@@ -1215,7 +1215,11 @@ open it from that service).
 - **Post designs** (Marketing assistant › Post designs, owner / admin): the
   library of designs — offers and sales, products, events, festival wishes,
   tributes, listings (property, vehicles), problem and solution, tips and
-  quotes, courses and admissions, launches, hiring, contact — first for your
+  quotes, courses and admissions, launches, hiring, contact, customer reviews,
+  menus with prices, results in numbers, travel packages, personal brands,
+  product spotlights — in ten styles (minimal and editorial, premium luxury,
+  modern corporate, bold promotional, cinematic, playful, organic, words-led,
+  product-focused, geometric), every one with a premium finish — first for your
   kind of business (Business › Knowledge › Type of business; or pick another,
   or every kind), filtered by post type. Open one to see it as your post: your
   logo as it is, your brand colours and fonts, your name, phone, website and
@@ -1463,7 +1467,7 @@ passwords, codes or keys.
   styles, letters), Shorts, landing pages and Poster variations (posters from your app's screenshots). Coming phase by phase: brochures,
   voice and music for Shorts, own domains for pages.
 - **Free without Studio**: everything QTT already made — Marketing assistant
-  › Post designs (64 designs + ready words), the brand kit and See your
+  › Post designs (114 designs + ready words), the brand kit and See your
   brand, Photos for your posts and Remove background, website and store
   kits, the default documents. **Making something new needs Studio.**
 - **Plans** (prices editable by QTT): Studio Starter ₹499 a month (30 new
@@ -1521,7 +1525,11 @@ passwords, codes or keys.
   scene — only the background is made, 10 AI credits.
 - **A design**: Square / Portrait / Story, Light / Dark / Your colour; Ask
   AI to change it in plain words (1 credit); Quick edit of the words, Save;
-  Delete (asks first). Each saved design is in the Business Library.
+  Delete (asks first). Each saved design is in the Business Library. When
+  words are longer than the design holds, it says so ("Some words don't fit
+  this design") and the line that's too long shows how many letters fit —
+  shorten it, or pick a taller size or a roomier design. Words are never
+  cut or shrunk out of sight.
 - **Every size** (a design › Every size): draws the design as square (feed
   posts), portrait (Instagram) and story (Stories and WhatsApp Status) at
   once, each with its own moves, each kept in the Business Library; Open
@@ -1570,11 +1578,14 @@ passwords, codes or keys.
   failed one isn't counted). No voice or music yet — add music in the app
   you post to.
 - **Print** (Studio home › Print): visiting card (89 × 51 mm, front and
-  back; Colour band, Split, Minimal with a QR code), flyer A5 and A4 (Big
-  photo — the business's own photo first — or Colour block; headline with
+  back; Colour band, Split, Minimal with a QR code, Luxe — dark with a fine
+  frame — or Gradient with a QR code), flyer A5 and A4 (Big
+  photo — the business's own photo first — Colour block, or Luxe: dark with
+  a fine double frame, the photo in an arch, a serif headline; headline with
   *word* in colour, a line under it, up to 5 points, an offer badge only when
   the owner types a real offer, call to action, contacts and a QR code), menu
-  / price list A4 (Classic or Modern; sections and items with the business's
+  / price list A4 (Classic, Modern, Elegant — cream with serif titles and
+  ornaments — or Night, dark with gold prices; sections and items with the business's
   own prices from Business › Knowledge › What you offer, or added / changed
   here — never made up; opening hours, a note). Words start filled from the
   Business profile and knowledge; change any. Show the styles draws each
@@ -1602,10 +1613,12 @@ passwords, codes or keys.
 - **Business documents** (Studio home › Documents): how every PDF the
   business prints looks — Orbitra's invoices, quotations, delivery challans,
   receipts and purchase orders; Office Pulse's payslips, offer / appointment
-  / experience letters, salary certificates and ID cards. Four letterhead
+  / experience letters, salary certificates and ID cards. Seven letterhead
   styles, each shown with the business's own logo, colour and details: QTT
-  dark band (free, the default), Clean, Your colour, Classic letterhead. Tap
-  one to use it for every document (owner and admins; the three others need
+  dark band (free, the default), Clean, Your colour, Classic letterhead,
+  Luxe (centred serif name in spaced capitals between fine lines), Modern
+  block (logo and name on a block of your colour, the title on a soft tint),
+  Gradient band. Tap one to use it for every document (owner and admins; the others need
   Studio — when Studio ends, documents go back to the free style). The
   logo, colour, address, GSTIN, bank and footer come from Business ›
   Business profile. **Write a letter**: to, subject, greeting, the letter,

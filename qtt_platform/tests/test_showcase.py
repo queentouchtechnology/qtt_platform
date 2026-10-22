@@ -116,7 +116,7 @@ class Directions(unittest.TestCase):
 
 class Palettes(unittest.TestCase):
 	def test_every_set_complete_and_readable(self):
-		self.assertEqual(len(palettes.CURATED), 10)
+		self.assertGreaterEqual(len(palettes.CURATED), 30)  # the first ten, then the trend and premium sets
 		for key, (_label, _mood, c) in palettes.CURATED.items():
 			self.assertEqual(set(c), {"primary", "secondary", "accent", "dark", "light"}, key)
 			p = base.palette(c)
@@ -135,7 +135,9 @@ class Palettes(unittest.TestCase):
 
 	def test_sets_that_fight_the_screenshot_go_last(self):
 		orange = palettes.rank(palettes.shot_colours(self._png("#f59e0b")))
-		self.assertIn(orange[-1], ("royal_orange", "orange_navy", "navy_gold", "charcoal_gold", "forest_cream", "burgundy_cream"))
+		# last: a set whose own colours sit on the screenshot's orange (amber, gold, butter, marigold…)
+		self.assertGreater(palettes._clash(palettes.CURATED[orange[-1]][2]["primary"], palettes.shot_colours(self._png("#f59e0b"))["hues"])
+						   + palettes._clash(palettes.CURATED[orange[-1]][2]["accent"], palettes.shot_colours(self._png("#f59e0b"))["hues"]), 0)
 		self.assertLess(orange.index("purple_lavender"), orange.index("royal_orange"))
 		blue = palettes.rank(palettes.shot_colours(self._png("#1d4ed8")))
 		self.assertGreater(blue.index("royal_orange"), blue.index("teal_mint"))

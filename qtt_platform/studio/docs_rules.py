@@ -21,6 +21,10 @@ STYLES = {
 	"clean": ("Clean", "White and light: your name in your colour, a thin line, your details on the right"),
 	"colour": ("Your colour", "A band in your own colour with your logo and name"),
 	"classic": ("Classic letterhead", "Logo and name in the middle, your details below, a double line"),
+	# premium (2026): the same tables-only page, finer type and colour
+	"luxe": ("Luxe", "Centred serif name in spaced capitals between fine double lines — for jewellers, hotels, firms"),
+	"modern": ("Modern block", "Your logo and name on a block of your colour, the document title on a soft tint"),
+	"gradient": ("Gradient band", "A rich band that deepens from your colour, your logo on white"),
 }
 MAX_BODY = 6000
 
@@ -49,7 +53,15 @@ def _mix(a: str, b: str, t: float) -> str:
 
 
 def colours(color: str, style: str) -> dict:
-	"""{head_bg, head_ink, head_muted, th_bg, th_ink, soft} for a style and a brand colour (#rrggbb)."""
+	"""{head_bg, head_ink, head_muted, th_bg, th_ink, soft, tint, deep} for a style and a brand colour (#rrggbb) — every
+	style the same keys (tint: a pale wash of the colour; deep: the colour darkened, for gradients)."""
+	c = _colours(color, style)
+	c.setdefault("tint", _mix(color, "#ffffff", 0.88))
+	c.setdefault("deep", _mix(color, "#0B0D12", 0.55))
+	return c
+
+
+def _colours(color: str, style: str) -> dict:
 	dark = "#0B0D12"
 	L = _lum(color)
 	on = "#ffffff" if 1.05 / (L + 0.05) >= (L + 0.05) / (_lum(dark) + 0.05) else dark  # whichever reads better on it
@@ -60,6 +72,15 @@ def colours(color: str, style: str) -> dict:
 		return {"head_bg": "#ffffff", "head_ink": dark, "head_muted": "#5b6475", "th_bg": soft, "th_ink": dark, "soft": soft}
 	if style == "classic":
 		return {"head_bg": "#ffffff", "head_ink": dark, "head_muted": "#5b6475", "th_bg": dark, "th_ink": "#ffffff", "soft": soft}
+	if style == "luxe":
+		return {"head_bg": "#ffffff", "head_ink": dark, "head_muted": "#6b6457", "th_bg": _mix(color, dark, 0.35), "th_ink": "#ffffff",
+				"soft": _mix(color, "#ffffff", 0.93)}
+	if style == "modern":
+		return {"head_bg": color, "head_ink": on, "head_muted": _mix(on, color, 0.3), "th_bg": color, "th_ink": on, "soft": soft,
+				"tint": _mix(color, "#ffffff", 0.88)}
+	if style == "gradient":
+		deep = _mix(color, dark, 0.55)
+		return {"head_bg": color, "head_ink": "#ffffff", "head_muted": "#e6e9f2", "th_bg": deep, "th_ink": "#ffffff", "soft": soft, "deep": deep}
 	return {"head_bg": dark, "head_ink": "#ffffff", "head_muted": "#aeb6c6", "th_bg": dark, "th_ink": "#ffffff", "soft": "#EEF1FF"}
 
 

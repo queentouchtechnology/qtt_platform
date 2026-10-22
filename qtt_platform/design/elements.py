@@ -7,10 +7,11 @@ never invents an offer. tone picks the element's colour: accent (default), prima
 is ever drawn (no WhatsApp, Instagram or payment marks) — icons are plain shapes.
 """
 
+import hashlib
 import html
 import math
 
-from qtt_platform.design.base import mix
+from qtt_platform.design.base import contrast, hex6, mix
 
 # name: (label, needs text)
 ELEMENTS = {
@@ -93,31 +94,69 @@ def _fit(t: str, w: float, h: float, base: float = 0.42) -> float:
 	return max(10.0, min(h * base, w * 0.86 / (n * 0.58)))
 
 
+# ---- premium finish: a soft fall of light over a shape, a glass highlight, a fine light edge (the shape's own colour) --
+def _gid(*parts) -> str:
+	"""A gradient id from what it draws: the same id is always the same gradient, so SVGs on one page never clash."""
+	return "q" + hashlib.md5("|".join(str(x) for x in parts).encode()).hexdigest()[:10]
+
+
+def _lit(colour: str) -> tuple[str, str]:
+	"""(defs, fill) — the colour lit from above: a little lighter at the top, a little deeper at the bottom. A colour that
+	isn't plain hex (#fff, a CSS name) is drawn flat."""
+	c = str(colour or "").strip()
+	if len(c) == 4 and c.startswith("#"):
+		c = "#" + "".join(ch * 2 for ch in c[1:])
+	if not hex6(c):
+		return "", colour
+	colour = c
+	gid = _gid("lit", colour)
+	return (f'<linearGradient id="{gid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{mix(colour, "#ffffff", .2)}"/>'
+			f'<stop offset=".55" stop-color="{colour}"/><stop offset="1" stop-color="{mix(colour, "#000000", .16)}"/></linearGradient>'), f"url(#{gid})"
+
+
+def _gloss(x: float, y: float, w: float, h: float, rx: float) -> str:
+	"""A glass highlight over the top of a rounded shape, and its fine light edge."""
+	gid = _gid("gloss")
+	return (f'<defs><linearGradient id="{gid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".34"/>'
+			f'<stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>'
+			f'<rect x="{x + 1:.1f}" y="{y + 1:.1f}" width="{max(0, w - 2):.1f}" height="{h * .52:.1f}" rx="{rx:.1f}" fill="url(#{gid})"/>'
+			f'<rect x="{x + .75:.1f}" y="{y + .75:.1f}" width="{max(0, w - 1.5):.1f}" height="{max(0, h - 1.5):.1f}" rx="{rx:.1f}" fill="none" '
+			f'stroke="#fff" stroke-opacity=".22" stroke-width="1.5"/>')
+
+
 def element(name: str, palette: dict, width: int, height: int, *, text: str = "", tone: str = "accent") -> str:
 	w, h = int(width), int(height)
 	bg, fg = _colours(palette, tone)
 	t = str(text or "")
 	b = ""
+	lit_defs, lit = _lit(bg)
 	if name == "badge":
 		r = min(w, h) / 2
-		b = (f'<circle cx="{w / 2}" cy="{h / 2}" r="{r:.0f}" fill="{bg}"/><circle cx="{w / 2}" cy="{h / 2}" r="{r * .86:.0f}" fill="none" '
+		b = (f'<defs>{lit_defs}</defs><circle cx="{w / 2}" cy="{h / 2}" r="{r:.0f}" fill="{lit}"/>'
+			 f'<ellipse cx="{w / 2}" cy="{h / 2 - r * .45:.0f}" rx="{r * .7:.0f}" ry="{r * .4:.0f}" fill="#fff" fill-opacity=".14"/>'
+			 f'<circle cx="{w / 2}" cy="{h / 2}" r="{r * .86:.0f}" fill="none" '
 			 f'stroke="{fg}" stroke-opacity=".5" stroke-width="{r * .03:.1f}" stroke-dasharray="{r * .06:.1f} {r * .05:.1f}"/>'
 			 + _text(t, w / 2, h / 2, _fit(t, r * 1.5, r * 1.5, .34), fg))
 	elif name == "price_tag":
 		n = h / 2
-		b = (f'<path d="M{n:.0f} 0 H{w - 8} Q{w} 0 {w} 8 V{h - 8} Q{w} {h} {w - 8} {h} H{n:.0f} L0 {h / 2} Z" fill="{bg}"/>'
+		b = (f'<defs>{lit_defs}</defs><path d="M{n:.0f} 0 H{w - 8} Q{w} 0 {w} 8 V{h - 8} Q{w} {h} {w - 8} {h} H{n:.0f} L0 {h / 2} Z" fill="{lit}"/>'
+			 f'<path d="M{n:.0f} 1.5 H{w - 8} Q{w - 1.5} 1.5 {w - 1.5} 8 V{h * .45:.0f} H{n * .1:.0f} Z" fill="#fff" fill-opacity=".14"/>'
 			 f'<circle cx="{n * .62:.0f}" cy="{h / 2}" r="{h * .09:.1f}" fill="{fg}" fill-opacity=".9"/>'
 			 + _text(t, n + (w - n) / 2, h / 2, _fit(t, w - n, h, .5), fg))
 	elif name == "ribbon":
 		k = h * .35
-		b = (f'<path d="M0 0 H{w} L{w - k:.0f} {h / 2} L{w} {h} H0 L{k:.0f} {h / 2} Z" fill="{bg}"/>'
+		b = (f'<defs>{lit_defs}</defs><path d="M0 0 H{w} L{w - k:.0f} {h / 2} L{w} {h} H0 L{k:.0f} {h / 2} Z" fill="{lit}"/>'
+			 f'<path d="M{k * .4:.0f} 1.5 H{w - k * .4:.0f} L{w - k * .9:.0f} {h * .42:.0f} H{k * .9:.0f} Z" fill="#fff" fill-opacity=".13"/>'
 			 + _text(t, w / 2, h / 2, _fit(t, w - 2 * k, h, .5), fg))
 	elif name == "starburst":
 		cx, cy, R = w / 2, h / 2, min(w, h) / 2
 		pts = " ".join(f"{cx + (R if k % 2 == 0 else R * .82) * math.cos(k * math.pi / 16):.1f},{cy + (R if k % 2 == 0 else R * .82) * math.sin(k * math.pi / 16):.1f}" for k in range(32))
-		b = f'<polygon points="{pts}" fill="{bg}"/>' + _text(t, cx, cy, _fit(t, R * 1.4, R * 1.4, .34), fg)
+		b = (f'<defs>{lit_defs}</defs><polygon points="{pts}" fill="{lit}"/>'
+			 f'<ellipse cx="{cx:.0f}" cy="{cy - R * .42:.0f}" rx="{R * .62:.0f}" ry="{R * .34:.0f}" fill="#fff" fill-opacity=".13"/>'
+			 + _text(t, cx, cy, _fit(t, R * 1.4, R * 1.4, .34), fg))
 	elif name == "pill":
-		b = f'<rect width="{w}" height="{h}" rx="{h / 2:.0f}" fill="{bg}"/>' + _text(t, w / 2, h / 2, _fit(t, w - h, h, .5), fg, 700)
+		b = (f'<defs>{lit_defs}</defs><rect width="{w}" height="{h}" rx="{h / 2:.0f}" fill="{lit}"/>' + _gloss(0, 0, w, h, h / 2)
+			 + _text(t, w / 2, h / 2, _fit(t, w - h, h, .5), fg, 700))
 	elif name == "corner_ribbon":
 		b = (f'<path d="M{w * .45:.0f} 0 H{w * .75:.0f} L{w} {h * .25:.0f} V{h * .55:.0f} Z" fill="{bg}"/>'
 			 + f'<g transform="rotate(45 {w * .72:.0f} {h * .28:.0f})">{_text(t, w * .72, h * .28, _fit(t, w * .42, h * .2, .9), fg)}</g>')
@@ -146,7 +185,7 @@ def element(name: str, palette: dict, width: int, height: int, *, text: str = ""
 	elif name == "date_block":
 		# "18 OCT" → the day big, the month under it
 		day, _, month = t.partition(" ")
-		b = (f'<rect width="{w}" height="{h}" rx="{w * .12:.0f}" fill="{bg}"/>'
+		b = (f'<defs>{lit_defs}</defs><rect width="{w}" height="{h}" rx="{w * .12:.0f}" fill="{lit}"/>' + _gloss(0, 0, w, h, w * .12)
 			 + _text(day, w / 2, h * .4, h * .44, fg, 900) + _text(month.upper(), w / 2, h * .78, h * .2, fg, 800))
 	elif name == "qr":
 		# text: what the code opens (a map link, wa.me, the website). Made here, never by a third-party service.
@@ -158,7 +197,8 @@ def element(name: str, palette: dict, width: int, height: int, *, text: str = ""
 		d = min(w, h * .72)
 		inner = element(icon, {**palette, tone: fg}, int(d * .5), int(d * .5), tone=tone)
 		soft = mix(bg, "#ffffff", .75)
-		b = (f'<circle cx="{w / 2:.0f}" cy="{d / 2:.0f}" r="{d / 2:.0f}" fill="{bg}"/>'
+		b = (f'<defs>{lit_defs}</defs><circle cx="{w / 2:.0f}" cy="{d / 2:.0f}" r="{d / 2:.0f}" fill="{lit}"/>'
+			 f'<ellipse cx="{w / 2:.0f}" cy="{d * .27:.0f}" rx="{d * .32:.0f}" ry="{d * .17:.0f}" fill="#fff" fill-opacity=".16"/>'
 			 f'<g transform="translate({w / 2 - d * .25:.0f} {d * .25:.0f})">{inner}</g>'
 			 f'<rect x="{w * .04:.0f}" y="{h * .76:.0f}" width="{w * .92:.0f}" height="{h * .22:.0f}" rx="{h * .11:.0f}" fill="{soft}"/>'
 			 + _text(label, w / 2, h * .87, _fit(label, w * .85, h * .22, .7), palette["dark"], 800))
@@ -195,10 +235,12 @@ def element(name: str, palette: dict, width: int, height: int, *, text: str = ""
 		sw = max(2, min(w, h) * .012)
 		b = f'<rect x="{sw:.0f}" y="{sw:.0f}" width="{w - 2 * sw:.0f}" height="{h - 2 * sw:.0f}" rx="{min(w, h) * .18:.0f}" fill="none" stroke="{bg}" stroke-width="{sw:.1f}"/>'
 	elif name == "vertical_label":
-		b = (f'<rect width="{w}" height="{h}" rx="{w * .14:.0f}" fill="{bg}"/>'
+		b = (f'<defs>{lit_defs}</defs><rect width="{w}" height="{h}" rx="{w * .14:.0f}" fill="{lit}"/>' + _gloss(0, 0, w, h, w * .14) +
 			 f'<g transform="rotate(-90 {w / 2:.0f} {h / 2:.0f})">{_text(t, w / 2, h / 2, _fit(t, h * .9, w, .5), fg, 800)}</g>')
 	elif name == "order_bar":
 		# a white rounded bar: "Order now" outline pill on the left, then the text (a phone number, "Order on Zomato")
+		if contrast(bg, "#ffffff") < 2.6:  # a pale accent would vanish on the white bar
+			bg = palette["primary"] if contrast(palette["primary"], "#ffffff") >= 2.6 else palette["dark"]
 		b = (f'<rect width="{w}" height="{h}" rx="{h * .2:.0f}" fill="#ffffff"/>'
 			 f'<rect x="{h * .2:.0f}" y="{h * .2:.0f}" width="{w * .28:.0f}" height="{h * .6:.0f}" rx="{h * .3:.0f}" fill="none" stroke="{bg}" stroke-width="{h * .04:.1f}"/>'
 			 + _text("ORDER NOW", h * .2 + w * .14, h / 2, _fit("ORDER NOW", w * .24, h * .6, .5), bg, 800)
@@ -210,23 +252,45 @@ def element(name: str, palette: dict, width: int, height: int, *, text: str = ""
 		icon = t if t in ICONS else "icon_check"
 		s = min(w, h)
 		inner = element(icon, {**palette, tone: fg}, int(s * .56), int(s * .56), tone=tone)
-		b = (f'<rect width="{s}" height="{s}" rx="{s * .26:.0f}" fill="{bg}"/>'
-			 f'<g transform="translate({s * .22:.0f} {s * .22:.0f})">{inner}</g>')
+		b = (f'<defs>{lit_defs}</defs><rect width="{s}" height="{s}" rx="{s * .26:.0f}" fill="{lit}"/>' + _gloss(0, 0, s, s, s * .26)
+			 + f'<g transform="translate({s * .22:.0f} {s * .22:.0f})">{inner}</g>')
 	elif name == "device_laptop":
-		frame = mix(palette["dark"], "#64748b", .45)  # a slate frame — seen on light and on dark posts
-		# a plain laptop frame; the screen (x 11.5%, y 6%, 77% × 76% of the lid) is where a photo or screenshot goes
+		# a laptop: anodised lid with a black glass bezel and camera, the screen (x 11.5%, y 6%, 77% × 76% of the lid) where a
+		# photo or screenshot goes, then a brushed-aluminium base with its lip and a soft contact shadow
 		lid_h = h * .86
-		b = (f'<rect x="{w * .09:.0f}" y="0" width="{w * .82:.0f}" height="{lid_h:.0f}" rx="{w * .025:.0f}" fill="{frame}"/>'
+		metal = mix(palette["dark"], "#9aa4b2", .55)
+		g1, g2, g3 = _gid("lid", metal), _gid("base", metal), _gid("shadow")
+		b = (f'<defs><linearGradient id="{g1}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{mix(metal, "#ffffff", .25)}"/>'
+			 f'<stop offset="1" stop-color="{mix(metal, "#000000", .25)}"/></linearGradient>'
+			 f'<linearGradient id="{g2}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{mix(metal, "#ffffff", .55)}"/>'
+			 f'<stop offset=".35" stop-color="{mix(metal, "#ffffff", .2)}"/><stop offset="1" stop-color="{mix(metal, "#000000", .35)}"/></linearGradient>'
+			 f'<radialGradient id="{g3}"><stop offset="0" stop-color="#000" stop-opacity=".35"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient></defs>'
+			 f'<ellipse cx="{w / 2:.0f}" cy="{h:.0f}" rx="{w * .52:.0f}" ry="{h * .05:.0f}" fill="url(#{g3})"/>'
+			 f'<rect x="{w * .09:.0f}" y="0" width="{w * .82:.0f}" height="{lid_h:.0f}" rx="{w * .028:.0f}" fill="url(#{g1})"/>'
+			 f'<rect x="{w * .096:.0f}" y="{w * .006:.0f}" width="{w * .808:.0f}" height="{lid_h - w * .012:.0f}" rx="{w * .024:.0f}" fill="#07080b"/>'
+			 f'<circle cx="{w / 2:.0f}" cy="{lid_h * .03:.0f}" r="{max(1.2, w * .004):.1f}" fill="#1f2937"/>'
 			 f'<rect x="{w * .115:.0f}" y="{lid_h * .06:.0f}" width="{w * .77:.0f}" height="{lid_h * .86:.0f}" rx="{w * .006:.0f}" fill="{palette["light"]}"/>'
-			 f'<path d="M0 {lid_h:.0f} H{w} L{w * .96:.0f} {h} H{w * .04:.0f} Z" fill="{palette["primary_deep"]}"/>'
-			 f'<rect x="{w * .42:.0f}" y="{lid_h:.0f}" width="{w * .16:.0f}" height="{h * .03:.0f}" rx="{h * .015:.0f}" fill="{palette["dark"]}"/>')
+			 f'<path d="M0 {lid_h:.0f} H{w} L{w * .965:.0f} {h * .985:.0f} Q{w * .96:.0f} {h} {w * .94:.0f} {h} H{w * .06:.0f} Q{w * .04:.0f} {h} {w * .035:.0f} {h * .985:.0f} Z" fill="url(#{g2})"/>'
+			 f'<rect x="{w * .42:.0f}" y="{lid_h:.0f}" width="{w * .16:.0f}" height="{h * .028:.0f}" rx="{h * .014:.0f}" fill="{mix(metal, "#000000", .35)}"/>'
+			 f'<path d="M{w * .09:.0f} 1 H{w * .91:.0f}" stroke="#fff" stroke-opacity=".35" stroke-width="1"/>')
 	elif name == "device_phone":
-		b = (f'<rect width="{w}" height="{h}" rx="{w * .14:.0f}" fill="{mix(palette["dark"], "#64748b", .45)}"/>'
+		# a phone: a metal rim catching the light, black glass, the screen (x 6%, y 6% of the width, 88% wide) where a
+		# screenshot goes, a camera pill, side buttons
+		rim = mix(palette["dark"], "#9aa4b2", .5)
+		g1 = _gid("rim", rim)
+		b = (f'<defs><linearGradient id="{g1}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="{mix(rim, "#ffffff", .45)}"/>'
+			 f'<stop offset=".12" stop-color="{mix(rim, "#000000", .2)}"/><stop offset=".88" stop-color="{mix(rim, "#000000", .2)}"/>'
+			 f'<stop offset="1" stop-color="{mix(rim, "#ffffff", .45)}"/></linearGradient></defs>'
+			 f'<rect x="{-w * .012:.1f}" y="{h * .2:.0f}" width="{w * .02:.1f}" height="{h * .08:.0f}" rx="{w * .01:.1f}" fill="{rim}"/>'
+			 f'<rect x="{w * .992:.1f}" y="{h * .24:.0f}" width="{w * .02:.1f}" height="{h * .12:.0f}" rx="{w * .01:.1f}" fill="{rim}"/>'
+			 f'<rect width="{w}" height="{h}" rx="{w * .15:.0f}" fill="url(#{g1})"/>'
+			 f'<rect x="{w * .022:.1f}" y="{w * .022:.1f}" width="{w * .956:.1f}" height="{h - w * .044:.1f}" rx="{w * .13:.0f}" fill="#06070a"/>'
 			 f'<rect x="{w * .06:.0f}" y="{w * .06:.0f}" width="{w * .88:.0f}" height="{h - w * .12:.0f}" rx="{w * .1:.0f}" fill="{palette["light"]}"/>'
-			 f'<rect x="{w * .38:.0f}" y="{w * .09:.0f}" width="{w * .24:.0f}" height="{w * .05:.0f}" rx="{w * .025:.0f}" fill="{palette["dark"]}"/>')
+			 f'<rect x="{w * .37:.0f}" y="{w * .085:.0f}" width="{w * .26:.0f}" height="{w * .075:.0f}" rx="{w * .0375:.0f}" fill="#050506"/>'
+			 f'<rect x=".75" y=".75" width="{w - 1.5:.1f}" height="{h - 1.5:.1f}" rx="{w * .15:.0f}" fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="1.2"/>')
 	elif name == "cta":
 		size = _fit(t + "  →", w - h * .6, h, .42)
-		b = (f'<rect width="{w}" height="{h}" rx="{h / 2:.0f}" fill="{bg}"/>'
+		b = (f'<defs>{lit_defs}</defs><rect width="{w}" height="{h}" rx="{h / 2:.0f}" fill="{lit}"/>' + _gloss(0, 0, w, h, h / 2)
 			 + _text(f"{t}  →" if t else "→", w / 2, h / 2, size, fg, 700))
 	elif name.startswith("icon_"):
 		s = min(w, h)

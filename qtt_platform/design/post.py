@@ -36,6 +36,14 @@ def kit_photos(kit: str, count: int = 5) -> list[tuple[str, bytes]]:
 	return [(f"photo{k}{f.suffix.lower()}", f.read_bytes()) for k, f in enumerate(wide[:count])]
 
 
+def sample_photos(name: str) -> list[tuple[str, bytes]]:
+	"""A library photo set (design/sample_photos/<name>/photo*.webp) as (file name, bytes) — [] when it isn't there."""
+	d = Path(__file__).parent / "sample_photos" / name
+	if not name or not d.is_dir():
+		return []
+	return [(f.name, f.read_bytes()) for f in sorted(d.glob("photo*.webp"))]
+
+
 def page_for(layout: str, variant: dict, *, colors: dict, fonts: tuple[str, str], look: str, fmt: str, content: dict,
 			 photo_names: list[str], language: str = "", out_width: int = 1080, edits: dict | None = None) -> tuple[str, int, int]:
 	"""(html, width, height) of one post. `edits`: Studio's Move and resize changes ({format: {piece: …}})."""
@@ -44,7 +52,11 @@ def page_for(layout: str, variant: dict, *, colors: dict, fonts: tuple[str, str]
 	hh = SIZES.get(fmt, 1080)
 	p = base.palette(colors)
 	f = base.fonts(fonts[0], fonts[1], language, extra=EXTRA_FACES)
-	x = layouts.Ctx(palette=p, fonts=f, height=hh, look=look if look in layouts.LOOKS else "light", content=content, photos=photo_names)
+	from qtt_platform.design import finish
+
+	lk = look if look in layouts.LOOKS else "light"
+	fin = (variant or {}).get("finish") or finish.default_for(lk)
+	x = layouts.Ctx(palette=p, fonts=f, height=hh, look=lk, content=content, photos=photo_names, finish=fin, key=layout + repr(sorted((variant or {}).items())))
 	body, css = archetypes.LAYOUTS[layout](x, variant or {})
 	out_h = round(out_width * hh / 1080)
 	return layouts.page(body, css, x, out_width, out_h, arrange.script_for(edits, fmt)), out_width, out_h
@@ -74,6 +86,7 @@ def thumbnail(t: dict, group: str, out_width: int = 540) -> bytes:
 	"""The library picture of a template for a business group: its showcase palette and fonts, the group's sample."""
 	content = catalog.sample_for(t["layout"], group)
 	# showcase designs (S10) show the owner's screenshots; their library picture keeps the plain sample screen
-	photos = [] if "showcase" in t.get("post_types", []) else kit_photos(catalog.sample_kit(t["layout"], group), 5)
+	photos = [] if "showcase" in t.get("post_types", []) else (sample_photos(catalog.sample_photo_set(t["layout"], group))
+																 or kit_photos(catalog.sample_kit(t["layout"], group), 5))
 	return render(t["layout"], t["variant"], colors=catalog.PALETTES[t["palette"]], fonts=catalog.FONT_SETS[t["fonts"]], look=t["look"],
 				  fmt="square", content=content, photos=photos, language="Tamil" if "லட்சம்" in str(content) else "", out_width=out_width)

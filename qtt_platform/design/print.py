@@ -19,13 +19,14 @@ from qtt_platform.design import elements
 
 BLEED, SLUG, SAFE = 3.0, 6.0, 4.0  # mm: colour past the cut; room for the crop marks; keep words this far inside
 PRODUCTS = {
-	"card": ("Visiting card", 89, 51, ("front", "back"), ("band", "split", "minimal")),
-	"flyer_a5": ("Flyer (A5)", 148, 210, ("front",), ("photo", "block")),
-	"flyer_a4": ("Flyer (A4)", 210, 297, ("front",), ("photo", "block")),
-	"menu": ("Menu / price list (A4)", 210, 297, ("front",), ("classic", "modern")),
+	"card": ("Visiting card", 89, 51, ("front", "back"), ("band", "split", "minimal", "luxe", "gradient")),
+	"flyer_a5": ("Flyer (A5)", 148, 210, ("front",), ("photo", "block", "luxe")),
+	"flyer_a4": ("Flyer (A4)", 210, 297, ("front",), ("photo", "block", "luxe")),
+	"menu": ("Menu / price list (A4)", 210, 297, ("front",), ("classic", "modern", "elegant", "night")),
 }
 STYLE_NAMES = {"band": "Colour band", "split": "Split", "minimal": "Minimal", "photo": "Big photo", "block": "Colour block",
-			   "classic": "Classic", "modern": "Modern"}
+			   "classic": "Classic", "modern": "Modern", "luxe": "Luxe", "gradient": "Gradient", "elegant": "Elegant", "night": "Night"}
+GOLDISH = "#c8a96a"  # a fine champagne line for the luxe styles (beside the brand colour, never instead of it)
 # field: (label, max length, multi-line)
 FIELDS = {
 	"card": (("person", "Name on the card", 60, False), ("role", "Role (Owner, Manager…)", 60, False), ("phone", "Phone", 30, False),
@@ -117,6 +118,12 @@ def _card(style: str, side: str, w: dict, pal: dict, logo: str | None) -> str:
 	link = w.get("website") or (f"tel:{w['phone']}" if w.get("phone") else "")
 	if side == "back":
 		tag = f'<div class="tg">{_e(w.get("tagline"))}</div>' if w.get("tagline") else ""
+		if style == "luxe":
+			return (f'<div class="fill lx" style="background:{pal["dark"]};color:#fff"><div class="frame"></div>'
+					f'<div class="center">{_logo(logo, "logo big")}<div class="bn spaced">{name}</div>{tag}</div></div>')
+		if style == "gradient":
+			return (f'<div class="fill" style="background:linear-gradient(135deg,{pal["primary"]},{pal["primary_deep"]});color:{pal["on_primary"]}">'
+					f'<div class="center">{_logo(logo, "logo big")}<div class="bn">{name}</div>{tag}</div></div>')
 		return (f'<div class="fill" style="background:{pal["primary"]};color:{pal["on_primary"]}">'
 				f'<div class="center">{_logo(logo, "logo big")}<div class="bn">{name}</div>{tag}</div></div>')
 	if style == "split":
@@ -128,6 +135,15 @@ def _card(style: str, side: str, w: dict, pal: dict, logo: str | None) -> str:
 		return (f'<div class="fill pad"><div class="top">{_logo(logo)}<div class="bn sm" style="color:{pal["primary"]}">{name}</div></div>'
 				f'<div class="bottom"><div><div class="pn">{person}</div><div class="rl" style="color:{pal["primary"]}">{role}</div>'
 				f'<div class="ct">{_contact_lines(w)}</div></div>{_qr(link, pal, 14)}</div></div>')
+	if style == "luxe":
+		return (f'<div class="fill lx pad" style="background:{pal["dark"]};color:#fff"><div class="frame"></div>'
+				f'<div class="top">{_logo(logo)}<div class="bn sm spaced">{name}</div></div>'
+				f'<div class="bottom"><div><div class="pn">{person}</div><div class="rl gold">{role}</div><div class="ct">{_contact_lines(w)}</div></div></div></div>')
+	if style == "gradient":
+		return (f'<div class="fill pad" style="background:linear-gradient(135deg,{pal["primary"]} 0%,{pal["primary_deep"]} 100%);color:{pal["on_primary"]}">'
+				f'<div class="top">{_logo(logo)}<div class="bn sm">{name}</div></div>'
+				f'<div class="bottom"><div><div class="pn">{person}</div><div class="rl" style="opacity:.85">{role}</div><div class="ct">{_contact_lines(w)}</div></div>'
+				f'{_qr(link, pal, 13)}</div></div>')
 	# band
 	return (f'<div class="fill"><div class="band" style="background:{pal["primary"]};color:{pal["on_primary"]}">{_logo(logo)}'
 			f'<div class="bn sm">{name}</div></div><div class="pad2"><div class="pn">{person}</div>'
@@ -146,6 +162,14 @@ def _flyer(style: str, w: dict, pal: dict, logo: str | None, photo: str | None) 
 			f'{_qr(link, pal, 22)}</div>')
 	head = f'<div class="head">{_logo(logo)}<div class="bn sm">{_e(w.get("name"))}</div></div>'
 	cta = (f'<div class="cta" style="background:{pal["primary"]};color:{pal["on_primary"]}">{_e(w.get("cta"))}</div>' if w.get("cta") else "")
+	if style == "luxe":
+		pic = f'<div class="arch" style="background-image:url({_e(photo)})"></div>' if photo else ""
+		lfoot = f'<div class="lfoot"><div class="ct">{_contact_lines(w)}</div>{_qr(link, pal, 18)}</div>'
+		cta_l = f'<div class="lxcta">{_e(w.get("cta"))}</div>' if w.get("cta") else ""
+		return (f'<div class="fill col lx" style="background:radial-gradient(120% 80% at 50% 25%,{pal["primary_deep"]},{pal["dark"]} 70%);color:#fff">'
+				f'<div class="frame"></div><div class="lxin">{_logo(logo)}<div class="bn sm spaced">{_e(w.get("name"))}</div>{pic}'
+				f'<h1 class="serif">{_rich(w.get("headline"))}</h1><div class="sub">{_rich(w.get("subline"))}</div>'
+				f'<ul class="lxl">{pts}</ul>{cta_l}{badge}</div>{lfoot}</div>')
 	if style == "block":
 		return (f'<div class="fill col"><div class="hero block" style="background:{pal["primary"]};color:{pal["on_primary"]}">{head}'
 				f'<h1>{_rich(w.get("headline"))}</h1><div class="sub">{_rich(w.get("subline"))}</div>{badge}</div>'
@@ -169,6 +193,15 @@ def _menu(style: str, w: dict, pal: dict, logo: str | None) -> str:
 					 f'<td class="pr">{_e(i.get("price"))}</td></tr>')
 		h2 = f'<h2 style="color:{pal["primary"]}">{_e(g)}</h2>' if g else ""
 		sections += f'<div class="sec">{h2}<table>{rows}</table></div>'
+	if style in ("elegant", "night"):
+		night = style == "night"
+		top = (f'<div class="mtop">{_logo(logo)}<div class="bn spaced">{_e(w.get("name"))}</div><div class="orn"><i></i><b>✦</b><i></i></div>'
+			   f'<h1 class="serif">{_rich(w.get("headline"))}</h1><div class="sub">{_rich(w.get("subline"))}</div></div>')
+		hours = f'<div><b>{_e(w.get("hours_label") or "Hours")}</b><br>{_e(w.get("hours")).replace(chr(10), "<br>")}</div>' if w.get("hours") else ""
+		note = f'<div class="note">{_rich(w.get("note"))}</div>' if w.get("note") else ""
+		bottom = f'<div class="mfoot">{hours}<div class="ct">{_contact_lines(w)}</div>{note}</div>'
+		bg = f'background:{pal["dark"]};color:#fff' if night else f'background:{pal["light"]};color:{pal["dark"]}'
+		return f'<div class="fill col menu {style}" style="{bg}"><div class="frame"></div>{top}<div class="mbody">{sections}</div>{bottom}</div>'
 	modern = style == "modern"
 	top = (f'<div class="mtop" style="background:{pal["primary"] if modern else "transparent"};color:{pal["on_primary"] if modern else pal["dark"]}">'
 		   f'{_logo(logo)}<div class="bn">{_e(w.get("name"))}</div><h1 style="color:{"inherit" if modern else pal["primary"]}">{_rich(w.get("headline"))}</h1>'
@@ -227,6 +260,27 @@ def _css(product: str, pal: dict, fonts: dict, marks: bool) -> str:
 			f".it{{max-width:60mm}}.dt{{font-size:{7 * scale}pt;opacity:.7;font-weight:400}}.dots{{border-bottom:1px dotted #9aa3b2;width:30%}}.pr{{text-align:right;font-weight:800;white-space:nowrap;padding-left:2mm}}"
 			f".mfoot{{margin:0 {BLEED + SAFE + 6}mm {BLEED + SAFE}mm;padding-top:3mm;display:flex;gap:8mm;font-size:{7.5 * scale}pt;justify-content:space-between}}"
 			f".note{{font-style:italic;max-width:60mm}}"
+			# premium styles: fine frames, spaced capitals, serif titles, ornaments
+			f".frame{{position:absolute;inset:{BLEED + 2.2}mm;border:.35mm solid {GOLDISH};pointer-events:none}}"
+			f".frame::after{{content:'';position:absolute;inset:1.2mm;border:.2mm solid {GOLDISH};opacity:.55}}"
+			f".spaced{{letter-spacing:.22em;text-transform:uppercase;font-weight:600}}.gold{{color:{GOLDISH}}}"
+			f".serif{{font-family:Georgia,'Playfair Display',serif;font-weight:500;letter-spacing:.01em}}"
+			f".lx .ct .ln{{opacity:.92}}.lxin{{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;"
+			f"padding:{BLEED + SAFE + 6 * scale}mm {BLEED + SAFE + 8}mm 0;gap:{2.5 * scale}mm;position:relative;min-height:0}}"
+			f".arch{{width:62%;flex:1;min-height:30mm;max-height:42%;border-radius:999px 999px 3mm 3mm;background-size:cover;background-position:center;"
+			f"outline:.35mm solid {GOLDISH};outline-offset:1.6mm;margin:{2 * scale}mm 0}}"
+			f".lxl{{list-style:none;margin:1mm 0}}.lxl li{{justify-content:center;font-weight:500}}.lxl .dot{{display:none}}"
+			f".lxcta{{border:.35mm solid {GOLDISH};color:{GOLDISH};padding:{1.8 * scale}mm {6 * scale}mm;font-weight:700;letter-spacing:.18em;"
+			f"text-transform:uppercase;font-size:{9 * scale}pt}}.lx .badge{{position:static;transform:none;margin-top:1mm}}"
+			f".lfoot{{display:flex;justify-content:space-between;align-items:center;padding:{4 * scale}mm {BLEED + SAFE + 6}mm {BLEED + SAFE + 4}mm;position:relative}}"
+			f".menu.elegant .mtop,.menu.night .mtop{{position:relative;padding-top:{BLEED + SAFE + 8}mm}}"
+			f".orn{{display:flex;align-items:center;justify-content:center;gap:3mm;margin:2mm 0;color:{GOLDISH}}}.orn i{{width:18mm;height:.3mm;background:{GOLDISH}}}"
+			f".menu.elegant h2,.menu.night h2{{font-family:Georgia,serif;font-weight:500;letter-spacing:.2em;text-align:center;border-bottom:.3mm solid {GOLDISH};padding-bottom:1.5mm}}"
+			f".menu.elegant .it b,.menu.night .it b{{font-variant:small-caps;letter-spacing:.04em;font-weight:600}}"
+			f".menu.night .pr{{color:{GOLDISH}}}.menu.night .dots{{border-color:rgba(255,255,255,.35)}}.menu.elegant .pr{{color:{pal['primary']}}}"
+			f".menu.elegant .mfoot,.menu.night .mfoot{{border-top:.3mm solid {GOLDISH};position:relative}}"
+			f".menu.night h2{{color:{GOLDISH}!important}}"  # the main colour can be too dark on the night page
+			f".fill.lx.pad{{padding:{BLEED + SAFE + 2.6}mm {BLEED + SAFE + 3}mm}}"  # words clear of the fine frame
 			)
 
 

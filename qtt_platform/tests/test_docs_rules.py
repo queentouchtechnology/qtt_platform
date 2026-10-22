@@ -20,7 +20,7 @@ class Styles(unittest.TestCase):
 	def test_every_style_has_its_colours(self):
 		for s in rules.STYLES:
 			c = rules.colours("#1d4ed8", s)
-			self.assertEqual(set(c), {"head_bg", "head_ink", "head_muted", "th_bg", "th_ink", "soft"})
+			self.assertEqual(set(c), {"head_bg", "head_ink", "head_muted", "th_bg", "th_ink", "soft", "tint", "deep"})
 
 	def test_text_on_the_brand_colour_reads(self):
 		self.assertEqual(rules.colours("#1d4ed8", "colour")["head_ink"], "#ffffff")  # dark blue → white words

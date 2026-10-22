@@ -17,6 +17,7 @@ POST_TYPES = {
 	"tribute": "Tribute", "listing": "Listing (property, vehicle)", "problem": "Problem and solution", "tip": "Tip or quote",
 	"announcement": "Announcement", "course": "Course or admission", "launch": "Launch or new", "hiring": "We're hiring",
 	"contact": "Contact us", "showcase": "App or product showcase",
+	"review": "Customer review", "menu": "Menu", "results": "Results and growth",
 }
 FORMATS = ("square", "portrait", "story")
 WIDE = ("wide", "landscape")  # 16:9 and 3:2 — the showcase designs only (they lay text and device side by side)
@@ -64,6 +65,20 @@ LAYOUTS = {
 	"gallery": {"label": "Gallery and services", "post_types": ["service", "product"], "groups": ["services", "beauty", "places"]},
 	"product_promo": {"label": "Product promo", "post_types": ["product", "offer"], "groups": ["food", "shops"]},
 }
+# Premium upgrade (2026): the directions and trades the first sixteen didn't cover
+LAYOUTS.update({
+	"testimonial": {"label": "Customer review", "post_types": ["review", "tip"], "groups": ["any"]},
+	"editorial_minimal": {"label": "Minimal editorial", "post_types": ["service", "announcement", "launch"], "groups": ["services", "beauty", "places", "technology"]},
+	"luxury_frame": {"label": "Luxury frame", "post_types": ["product", "offer", "event", "launch"], "groups": ["shops", "beauty", "places"]},
+	"travel_postcard": {"label": "Travel postcard", "post_types": ["offer", "event", "listing"], "groups": ["places", "other"]},
+	"creator_card": {"label": "Personal brand", "post_types": ["service", "course", "contact"], "groups": ["services", "technology", "industry", "other"]},
+	"product_spotlight": {"label": "Product spotlight", "post_types": ["product", "offer", "launch"], "groups": ["shops", "food", "beauty", "technology"]},
+	"bold_type": {"label": "Big bold words", "post_types": ["offer", "announcement", "launch"], "groups": ["any"]},
+	"fitness_power": {"label": "Power and energy", "post_types": ["offer", "service", "course"], "groups": ["beauty", "services", "industry"]},
+	"menu_board": {"label": "Menu with prices", "post_types": ["menu", "product", "offer"], "groups": ["food"]},
+	"geo_blocks": {"label": "Geometric blocks", "post_types": ["service", "announcement"], "groups": ["technology", "services", "industry"]},
+	"growth_stats": {"label": "Results in numbers", "post_types": ["results", "service"], "groups": ["technology", "services", "industry"]},
+})
 # Showcase layouts (S10 Poster variations): any product's screenshots — every kind of business, offered only in Studio's
 # Poster variations (catalog.matches keeps them out of the post library: they need the owner's screenshots).
 LAYOUTS.update({k: {"label": label, "post_types": ["showcase"], "groups": ["any"]} for k, (label, _what, _need) in showcase.DIRECTIONS.items()})
@@ -138,6 +153,58 @@ _T = [
 	("quote_tip", "Night thought", {"pattern": "rings"}, "indigo", "elegant", "dark"),
 	("quote_tip", "Warm waves", {"pattern": "waves"}, "orange", "rounded", "light"),
 	("quote_tip", "Frame", {"pattern": "frame_lines", "quote_mark": False}, "black_gold", "classic", "dark"),
+	# trend colours, premium and cinematic finish (2026) — the same layouts in current, rich colour sets
+	("hero_split", "Aurora night", {"pattern": "glow_rings", "hero": "device", "band": "pillars"}, "aurora", "modern", "dark"),
+	("problem_solution", "Midnight neon", {"warn": "#ff2e88"}, "midnight_neon", "bold", "dark"),
+	("wave_agency", "Sapphire", {}, "sapphire_silver", "modern", "light"),
+	("numbered_services", "Sunset pop", {}, "sunset_coral", "friendly", "brand"),
+	("curve_photo", "Rose gold", {}, "rose_gold", "elegant", "light"),
+	("center_hero", "Matcha fresh", {"pattern": "spotlight", "frame": "circle", "script": "Kaushan Script"}, "matcha_cream", "friendly", "brand"),
+	("center_hero", "Mocha", {"pattern": "corner_blobs", "frame": "arch", "script": "Satisfy", "rays": False}, "mocha_mousse", "elegant", "light"),
+	("product_promo", "Espresso", {}, "butter_espresso", "friendly", "dark"),
+	("product_promo", "Cherry", {}, "cherry_cream", "bold", "dark"),
+	("sale", "Electric coral", {}, "electric_coral_navy", "modern", "light"),
+	("listing", "Emerald estate", {"swipe": "#b45309"}, "emerald_gold", "modern", "light"),
+	("gallery", "Champagne", {"frame": "rounded"}, "black_champagne", "elegant", "dark"),
+	("circles_labels", "Lavender", {"colours": ["#8b7cf6", "#3eb489", "#ff6b5b", "#0f52ba"]}, "digital_lavender", "rounded", "light"),
+	("question_rows", "Neo mint care", {"colours": ["#3eb489", "#0e7490", "#8b7cf6", "#ff6b5b"]}, "neo_mint", "friendly", "light"),
+	("event", "Plum and gold", {"title_style": "gold", "title_face": "Cinzel"}, "plum_gold", "elegant", "dark"),
+	("event", "Neon night", {"title_style": "gradient", "title_face": "Anton", "pattern": "stage_glow"}, "midnight_neon", "bold", "dark"),
+	("greeting", "Marigold", {"deco": "mandala", "title_style": "gold"}, "marigold_maroon", "elegant", "brand"),
+	("greeting", "Kumkum", {"deco": "kolam", "title_style": "gold", "title_face": "Cinzel"}, "kumkum_turmeric", "elegant", "brand"),
+	("tribute", "Sapphire calm", {}, "sapphire_silver", "classic", "dark"),
+	("quote_tip", "Terracotta", {"pattern": "waves"}, "terracotta_sage", "elegant", "light"),
+	("quote_tip", "Cyber lime", {"pattern": "grid"}, "cyber_lime", "bold", "dark"),
+	("quote_tip", "Peach", {"pattern": "corner_circles"}, "peach_plum", "friendly", "light"),
+	# premium upgrade: new layouts, each in at least two genuinely different treatments (composition, type, finish)
+	("testimonial", "Review card", {"pattern": "corner_circles"}, "peach_plum", "friendly", "light"),
+	("testimonial", "Night review", {"pattern": "frame_lines", "finish": "cinematic"}, "black_champagne", "elegant", "dark"),
+	("testimonial", "Brand review", {"pattern": "dots", "photo": False}, "sapphire_silver", "bold", "brand"),
+	("editorial_minimal", "Clinic", {}, "neo_mint", "classic", "light"),
+	("editorial_minimal", "Property", {}, "mocha_mousse", "elegant", "light"),
+	("editorial_minimal", "Journal", {}, "sapphire_silver", "elegant", "light"),
+	("luxury_frame", "Jewellery gold", {"finish": "cinematic"}, "black_champagne", "elegant", "dark"),
+	("luxury_frame", "Bridal rose", {}, "rose_gold", "elegant", "dark"),
+	("luxury_frame", "Emerald", {}, "emerald_gold", "classic", "dark"),
+	("travel_postcard", "Postcard", {"finish": "cinematic"}, "ocean_sand", "bold", "dark"),
+	("travel_postcard", "Sunset trip", {}, "sunset_coral", "modern", "dark"),
+	("creator_card", "Creator", {}, "digital_lavender", "modern", "light"),
+	("creator_card", "Coach", {}, "sapphire_silver", "bold", "light"),
+	("product_spotlight", "Spotlight", {}, "electric_coral_navy", "modern", "light"),
+	("product_spotlight", "Mocha", {}, "mocha_mousse", "elegant", "light"),
+	("product_spotlight", "Mint", {}, "neo_mint", "friendly", "light"),
+	("bold_type", "Big words", {}, "cyber_lime", "bold", "dark"),
+	("bold_type", "Cherry offer", {}, "cherry_cream", "bold", "brand"),
+	("bold_type", "Mono", {}, "mono_yellow", "bold", "light"),
+	("fitness_power", "Power", {"finish": "cinematic"}, "midnight_neon", "bold", "dark"),
+	("fitness_power", "Garage", {}, "royal_orange", "bold", "dark"),
+	("menu_board", "Café menu", {"pattern": "leaves"}, "matcha_cream", "rounded", "light"),
+	("menu_board", "Sweets menu", {"pattern": "kolam"}, "marigold_maroon", "elegant", "light"),
+	("menu_board", "Bakery", {"pattern": "half_circles"}, "butter_espresso", "friendly", "light"),
+	("geo_blocks", "Blocks", {}, "aurora", "modern", "light"),
+	("geo_blocks", "Agency blocks", {}, "royal_orange", "bold", "light"),
+	("growth_stats", "Results", {"finish": "cinematic", "pattern": "glow_rings"}, "navy_gold", "modern", "dark"),
+	("growth_stats", "Growth light", {"pattern": "grid"}, "teal_mint", "modern", "light"),
 	# showcase (S10): one creative direction each, drawn in the business's brand
 	("ui_showcase", "Night", {}, "indigo_cyan", "modern", "dark"),
 	("ui_showcase", "Day", {}, "navy_gold", "friendly", "light"),
@@ -305,11 +372,93 @@ SAMPLES = {
 				  "food": {"business": "Annapoorna Mess", "kicker": "Did you know?", "headline": "Our sambar is made *fresh every morning* — never reheated.",
 						   "subline": "Come early for the first batch at 7 am.", "phone": "98400 12345"}},
 }
+SAMPLES.update({
+	"testimonial": {"any": {"business": "Annapoorna Mess", "kicker": "What our customers say",
+							"quote": "The *sambar* tastes like home. We come every Sunday with the whole family.",
+							"person": "Lakshmi R.", "role": "Customer since 2019", "rating": "5", "phone": "98400 12345", "website": "annapoornamess.in"}},
+	"editorial_minimal": {"any": {"business": "Dr. Meena's Skin Clinic", "kicker": "Skin care", "headline": "Healthy skin, *naturally*",
+						  "subline": "Consultations with a qualified dermatologist. Evening slots available.", "cta": "Book a visit",
+						  "phone": "98400 12345", "website": "meenaskin.in"},
+				  "places": {"business": "Kavya Homes", "kicker": "New project", "headline": "Homes with *light* and air",
+							 "subline": "2 & 3 BHK villas near the lake. Site visits every weekend.", "cta": "Visit the site",
+							 "phone": "98400 12345", "website": "kavyahomes.in"}},
+	"luxury_frame": {"any": {"business": "Thangam Jewellers", "kicker": "Bridal collection", "headline": "Crafted for your *forever*",
+							 "subline": "Temple and antique designs in 22 karat gold.", "cta": "Visit our showroom",
+							 "phone": "98400 12345", "address": "18 Big Bazaar Street, Madurai"},
+					 "beauty": {"business": "Glow Bridal Studio", "kicker": "Bridal", "headline": "Your day, your *glow*",
+								"subline": "HD makeup, hair styling and saree draping.", "cta": "Book a trial", "phone": "98400 12345", "website": "glowbridal.in"}},
+	"travel_postcard": {"any": {"business": "Blue Coast Holidays", "kicker": "Holiday package", "subline": "Discover", "headline": "Andaman",
+								"date_label": "Dates", "date": "Dec 12–17", "price_label": "From", "price": "₹24,999", "cta": "Book now",
+								"phone": "98400 12345", "website": "bluecoast.in"}},
+	"creator_card": {"any": {"business": "Arun Learns", "person": "Arun Kumar", "role": "Finance coach",
+							 "headline": "Simple money habits for *salaried* families", "list": ["Budgeting", "Savings", "Insurance", "Tax"],
+							 "cta": "Join the free class", "website": "@arunlearns"}},
+	"product_spotlight": {"any": {"business": "Glow Cosmetics", "kicker": "Just launched", "headline": "Vitamin C *serum*",
+								  "items": [{"icon": "icon_drop", "title": "Light and fast-absorbing"}, {"icon": "icon_heart", "title": "For every skin type"},
+											{"icon": "icon_shield", "title": "Dermatologist tested"}],
+								  "price_label": "Price", "price": "₹599", "badge": "New", "cta": "Shop now", "website": "glowcosmetics.in"},
+						  "food": {"business": "Sri Murugan Sweets", "kicker": "Festive special", "headline": "Ghee *mysore pak*",
+								   "items": [{"icon": "icon_heart", "title": "Pure ghee"}, {"icon": "icon_clock", "title": "Made fresh daily"},
+											 {"icon": "icon_truck", "title": "Home delivery"}],
+								   "price_label": "Per kg", "price": "₹680", "badge": "Festive", "cta": "Order now", "phone": "98400 12345"}},
+	"bold_type": {"any": {"business": "Style Hub", "kicker": "This weekend only", "headline": "Mega *sale*", "badge": "Up to *50%* off",
+						  "subline": "On all kurtis, sarees and denim.", "cta": "Shop now", "phone": "98400 12345", "website": "stylehub.in"}},
+	"fitness_power": {"any": {"business": "FitZone Gym", "kicker": "New batch", "headline": "Stronger *every* day",
+							  "subline": "Strength, cardio and diet plans with certified trainers.",
+							  "items": [{"title": "6 AM", "text": "Morning batch"}, {"title": "7 PM", "text": "Evening batch"}, {"title": "1:1", "text": "Personal training"}],
+							  "cta": "Join today", "phone": "98400 12345"},
+					  "services": {"business": "SV Car Care", "kicker": "Monsoon check-up", "headline": "Ready for *the road*",
+								   "subline": "Brakes, tyres, wipers and battery checked in one visit.",
+								   "items": [{"title": "45 min", "text": "Quick check"}, {"title": "21", "text": "Point inspection"}, {"title": "Free", "text": "Car wash"}],
+								   "cta": "Book a slot", "phone": "98400 12345"}},
+	"menu_board": {"any": {"business": "Annapoorna Mess", "kicker": "Today's menu", "headline": "Breakfast", "subline": "Served 7 – 11 am",
+						   "items": [{"title": "Idli (2)", "text": "₹30"}, {"title": "Ghee roast dosa", "text": "₹70"}, {"title": "Pongal", "text": "₹50"},
+									 {"title": "Medu vada", "text": "₹20"}, {"title": "Filter coffee", "text": "₹20"}],
+						   "phone": "98400 12345", "address": "4 Temple Street, Trichy"}},
+	"geo_blocks": {"any": {"business": "Kural Digital", "kicker": "What we do", "headline": "Websites that *bring* customers",
+						   "list_title": "Our services", "list": ["Websites", "SEO", "Social media", "Google profile"], "cta": "Talk to us",
+						   "phone": "98400 12345", "website": "kuraldigital.in"}},
+	"growth_stats": {"any": {"business": "Kural Digital", "kicker": "Client results", "headline": "From 20 to *140* enquiries a month",
+							 "stat": "7×", "stat_label": "more enquiries in six months",
+							 "items": [{"title": "140", "text": "enquiries a month"}, {"title": "4.8★", "text": "Google rating"}, {"title": "3×", "text": "website visits"}],
+							 "website": "kuraldigital.in"}},
+})
 # Photos for the library pictures: a kit (kit-images/<kit>) by layout and group.
 SAMPLE_KITS = {"technology": "it", "services": "services", "industry": "education", "food": "restaurant", "shops": "fashion",
 			   "beauty": "beauty", "places": "realestate", "other": "ngo", "any": "other"}
 LAYOUT_KITS = {"listing": {"places": "realestate", "shops": "automotive"}, "event": {"other": "events", "any": "events"},
-			   "center_hero": {"food": "grocery"}, "product_promo": {"food": "restaurant", "shops": "electronics"}}
+			   "center_hero": {"food": "grocery"}, "product_promo": {"food": "restaurant", "shops": "electronics"},
+			   "travel_postcard": {"places": "hotel", "other": "hotel", "any": "hotel"}, "luxury_frame": {"shops": "jewellery", "beauty": "beauty"},
+			   "fitness_power": {"beauty": "fitness", "services": "automotive"}, "menu_board": {"food": "restaurant"},
+			   "product_spotlight": {"shops": "cosmetics", "food": "sweets"}, "creator_card": {"services": "services"},
+			   "testimonial": {"any": "restaurant"}, "editorial_minimal": {"services": "health", "places": "realestate"}}
+
+
+# The library pictures' own photos (design/sample_photos/<set>, made once with Studio's image AI from prompts.json) — the
+# subject each sample talks about (a pizza for the pizza promo, a home and its rooms for a listing). Only QTT's library
+# pictures use them; a business's posts use its own photos.
+SAMPLE_PHOTOS = {
+	"center_hero": {"any": "grocery", "shops": "fashion", "beauty": "bridal"},
+	"product_promo": {"any": "pizza", "shops": "earbuds"},
+	"listing": {"any": "home", "shops": "car"},
+	"event": {"any": "church", "industry": "seminar", "places": "banquet"},
+	"greeting": {"any": "deepavali"}, "tribute": {"any": "tribute"},
+	"hero_split": {"any": "tech", "services": "ca_office", "industry": "machining"},
+	"problem_solution": {"any": "tech"}, "wave_agency": {"any": "tech", "industry": "classroom"},
+	"numbered_services": {"any": "tech", "beauty": "bridal"}, "curve_photo": {"any": "tech", "beauty": "clinic"},
+	"circles_labels": {"any": "classroom", "beauty": "gym"}, "question_rows": {"any": "classroom", "beauty": "physio"},
+	"gallery": {"any": "photography", "beauty": "bridal"}, "sale": {"any": "fashion"},
+	"testimonial": {"any": "reviewer"}, "editorial_minimal": {"any": "clinic", "places": "villa"},
+	"luxury_frame": {"any": "jewellery", "beauty": "bridal"}, "travel_postcard": {"any": "travel"}, "creator_card": {"any": "coach"},
+	"product_spotlight": {"any": "serum", "food": "mysorepak"}, "bold_type": {"any": "fashion"},
+	"fitness_power": {"any": "gym", "services": "carcare"}, "menu_board": {"any": "mess"}, "geo_blocks": {"any": "tech"},
+}
+
+
+def sample_photo_set(layout: str, group: str) -> str:
+	"""The library-picture photo set for a layout and a business group ('' — use the website kit photos)."""
+	s = SAMPLE_PHOTOS.get(layout) or {}
+	return s.get(group) or s.get("any") or ""
 
 
 def sample_for(layout: str, group: str) -> dict:
@@ -345,9 +494,11 @@ def catalog_hash() -> str:
 	from pathlib import Path
 
 	here = Path(__file__).parent
-	code = b"".join((here / f).read_bytes() for f in ("archetypes.py", "layouts.py", "patterns.py", "elements.py", "base.py", "showcase.py", "showcase_more.py",
+	code = b"".join((here / f).read_bytes() for f in ("archetypes.py", "archetypes_more.py", "layouts.py", "finish.py", "patterns.py", "elements.py", "base.py", "showcase.py", "showcase_more.py",
 													 "showcase_devices.py", "palettes.py"))
-	return hashlib.sha1(json.dumps([templates(), SAMPLES], sort_keys=True, ensure_ascii=False).encode() + code).hexdigest()[:16]
+	# the library photos too: a new or changed photo draws the pictures again
+	photos = sorted(f"{f.parent.name}/{f.name}:{f.stat().st_size}" for f in (here / "sample_photos").glob("*/photo*.webp"))
+	return hashlib.sha1(json.dumps([templates(), SAMPLES, SAMPLE_PHOTOS, photos], sort_keys=True, ensure_ascii=False).encode() + code).hexdigest()[:16]
 
 
 def matches(t: dict, *, post_type: str | None = None, group: str | None = None, business_type: str | None = None) -> bool:

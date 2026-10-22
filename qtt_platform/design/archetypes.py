@@ -16,9 +16,9 @@ def _band(x: Ctx, kind: str, *, colour: str | None = None) -> tuple[str, str]:
 	fg = base.on(bg, dark=x.p["dark"])
 	css = (f".band{{background:{bg};color:{fg};display:flex;align-items:center;gap:30px;padding:26px 56px;min-height:120px}}"
 		   f".band .tag{{flex:1;font:500 22px/1.3 var(--font-body)}}.band .tag em{{color:{x.p['accent'] if base.contrast(x.p['accent'], bg) > 2.4 else fg}}}"
-		   f".band .pil{{display:flex;flex-direction:column;align-items:center;gap:8px;font:700 15px var(--font-body);letter-spacing:1px;"
+		   f".band .pil{{display:flex;flex-direction:column;align-items:center;gap:8px;font:700 18px var(--font-body);letter-spacing:1px;"
 		   f"padding-left:30px;border-left:1px solid {base.mix(bg, fg, .25)};text-transform:uppercase;text-align:center}}"
-		   f".band .ct{{display:flex;align-items:center;gap:12px;font:700 24px var(--font-heading)}}.band .ct small{{display:block;font:500 15px var(--font-body);opacity:.8}}"
+		   f".band .ct{{display:flex;align-items:center;gap:12px;font:700 24px var(--font-heading)}}.band .ct small{{display:block;font:500 18px var(--font-body);opacity:.8}}"
 		   f".band .ct + .ct{{padding-left:26px;border-left:1px solid {base.mix(bg, fg, .25)}}}")
 	white = {**x.p, "accent": fg, "on_accent": bg}
 	if kind == "pillars" and c.get("pillars"):
@@ -44,8 +44,8 @@ def _rows(x: Ctx, *, tile: str = "primary", size: int = 66, limit: int = 5) -> s
 
 
 def _rows_css(x: Ctx, size: int = 66) -> str:
-	return (f".row{{display:flex;gap:18px;align-items:center;margin:0 0 16px}}.row b{{display:block;font:700 23px/1.2 var(--font-heading);color:{x.ink}}}"
-			f".row span{{display:block;font:400 17px/1.35 var(--font-body);color:{x.soft}}}.row svg{{flex:0 0 {size}px}}")
+	return (f".row{{display:flex;gap:18px;align-items:center;margin:0 0 16px}}.row b{{display:block;font:700 24px/1.2 var(--font-heading);color:{x.ink}}}"
+			f".row span{{display:block;font:400 20px/1.35 var(--font-body);color:{x.soft}}}.row svg{{flex:0 0 {size}px}}")
 
 
 # ---- 1. hero split (technology: benefits + a device or photo, a band) -------------------------------------------------
@@ -76,7 +76,7 @@ def hero_split(x: Ctx, v: dict) -> tuple[str, str]:
 	body = (f'<div class="layer">{x.pattern(bgp)}</div>{dots}'
 			f'<div class="wrap"><div class="top">{x.logo(84)}</div><div class="main">'
 			f'<div class="text">{kicker}<h1 class="h fit" data-fit>{x.m("headline")}</h1><div class="rule"></div>{sub}'
-			f'<div class="rows">{_rows(x)}</div>{cta}</div><div class="hero">{hero_html}</div></div>{band}</div>')
+			f'<div class="rows" data-drop>{_rows(x)}</div>{cta}</div><div class="hero">{hero_html}</div></div>{band}</div>')
 	css = (f".wrap{{position:absolute;inset:0;display:flex;flex-direction:column}}.top{{padding:48px 56px 0}}"
 		   f".main{{flex:1;display:{'flex;flex-direction:column' if stack else 'grid;grid-template-columns:540px 1fr'};gap:24px;padding:28px 56px 30px;min-height:0}}"
 		   f".rows{{min-height:0;overflow:hidden}}"
@@ -115,7 +115,7 @@ def center_hero(x: Ctx, v: dict) -> tuple[str, str]:
 		   f"h1{{font:400 {hs}px/1 '{script}', var(--font-heading);color:{x.ink};text-align:center;width:100%;max-height:{hs * 1.25:.0f}px;white-space:nowrap}}h1 em{{color:{x.p['accent']}}}"
 		   f".mid{{flex:1;position:relative;width:100%;display:flex;align-items:center;justify-content:center;min-height:0}}"
 		   f".hero{{width:{620 if x.tall else 560}px;height:{620 if x.tall else 520}px;max-height:100%;box-shadow:0 30px 60px rgba(0,0,0,.35)}}"
-		   f".note{{position:absolute}}.n1{{left:0;top:12%;text-align:center}}.hand{{font:700 42px/1.05 'Caveat', var(--font-heading);color:{x.ink};transform:rotate(-8deg);margin-bottom:6px}}"
+		   f".note{{position:absolute}}.n1{{left:0;top:12%;text-align:center;max-width:300px}}.hand{{font:700 42px/1.05 'Caveat', var(--font-heading);color:{x.ink};transform:rotate(-8deg);margin-bottom:6px}}"
 		   f".n2{{right:-10px;top:4%}}.n3{{right:0;bottom:6%;text-align:center}}.pl{{font:700 22px var(--font-body);color:{x.ink}}}"
 		   f".foot{{width:100%;display:flex;align-items:flex-end;justify-content:space-between}}.fl{{font:800 38px var(--font-heading);color:{x.ink}}}"
 		   f".fl + .fl{{font:500 20px var(--font-body);opacity:.85}}")
@@ -148,11 +148,11 @@ def listing(x: Ctx, v: dict) -> tuple[str, str]:
 		   f".specs{{margin-top:14px}}.pr{{position:relative;margin-top:4px}}.pt{{position:absolute;inset:6px 40px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#b91c1c}}"
 		   f".pt small{{font:700 24px var(--font-body);color:{x.p['dark']}}}.pt b{{font:900 62px/1.05 var(--font-heading);max-width:100%;white-space:nowrap}}"
 		   f".strip{{display:flex;gap:12px;padding:14px 20px}}.sp{{flex:1;height:{220 if x.tall else 170}px;border-radius:14px;position:relative}}"
-		   f".sp span{{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);background:{x.p['primary']};color:{x.p['on_primary']};font:700 16px var(--font-body);padding:4px 16px;border-radius:20px;white-space:nowrap}}"
+		   f".sp span{{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);background:{x.p['primary']};color:{x.p['on_primary']};font:700 18px var(--font-body);padding:4px 16px;border-radius:20px;white-space:nowrap}}"
 		   f".ams{{background:{x.p['primary']};display:flex;justify-content:space-around;align-items:center;min-height:74px;padding:0 10px}}"
-		   f".am{{display:flex;gap:10px;align-items:center;color:{x.p['on_primary']};font:600 16px var(--font-body)}}"
+		   f".am{{display:flex;gap:10px;align-items:center;color:{x.p['on_primary']};font:600 18px var(--font-body)}}"
 		   f".foot{{background:{x.p['dark']};display:flex;align-items:center;justify-content:space-between;padding:22px 40px;min-height:140px}}"
-		   f".nm{{font:400 46px 'Kaushan Script', var(--font-heading);color:{x.p['accent']}}}.sv{{color:#fff;font:500 17px var(--font-body)}}"
+		   f".nm{{font:400 46px 'Kaushan Script', var(--font-heading);color:{x.p['accent']}}}.sv{{color:#fff;font:500 19px var(--font-body)}}"
 		   f".call{{display:flex;align-items:center;gap:14px;color:#fff;font:800 50px var(--font-heading)}}"
 		   + _rows_css(x, 72).replace(f"color:{x.ink}", f"color:{x.p['dark']}").replace(f"color:{x.soft}", "color:#475569")
 		   + ".row b{font-size:34px}")
@@ -180,7 +180,7 @@ def event(x: Ctx, v: dict) -> tuple[str, str]:
 		   f".top{{align-self:flex-start}}h1{{font:400 {190 if x.tall else 160}px/0.92 '{title_face}', var(--font-heading);letter-spacing:6px;text-transform:uppercase;"
 		   f"max-height:{420 if x.tall else 320}px;width:100%;{base.text_style(ts, x.p)}}}"
 		   f".who{{margin-top:auto;display:flex;flex-direction:column;align-items:center}}.pic{{width:{300 if x.tall else 200}px;height:{300 if x.tall else 200}px;margin-bottom:14px;"
-		   f"border:5px solid {x.p['accent']}}}.who small{{font:600 16px var(--font-body);letter-spacing:6px;opacity:.85;text-transform:uppercase}}.who b{{font:700 40px 'Cinzel', var(--font-heading)}}"
+		   f"border:5px solid {x.p['accent']}}}.who small{{font:600 18px var(--font-body);letter-spacing:6px;opacity:.85;text-transform:uppercase}}.who b{{font:700 40px 'Cinzel', var(--font-heading)}}"
 		   f".time{{margin-top:14px;font:800 {96 if x.tall else 84}px var(--font-heading);{base.text_style('gold', x.p)}}}"
 		   f".place{{font:700 30px var(--font-heading);letter-spacing:3px;text-transform:uppercase}}.addr{{font:400 38px 'Bebas Neue', var(--font-heading);letter-spacing:2px;opacity:.95}}"
 		   f".low{{width:100%;display:flex;justify-content:space-between;align-items:flex-end;margin-top:{'auto' if x.tall else '10px'}}}"
@@ -244,12 +244,12 @@ def problem_solution(x: Ctx, v: dict) -> tuple[str, str]:
 		   f"h1{{font:800 {96 if x.tall else 80}px/1 var(--font-heading);text-transform:uppercase;max-height:{460 if x.tall else 350}px}}h1 em{{color:{warn}}}"
 		   f".rule{{width:90px;height:5px;background:{x.p['accent']};margin:18px 0}}.sub{{font:400 24px/1.4 var(--font-body);opacity:.88;max-height:130px}}"
 		   f".chips{{position:relative;min-height:{360 if x.tall else 0}px}}.chip{{position:absolute;display:flex;align-items:center;gap:12px;background:#fff;color:{x.p['dark']};"
-		   f"padding:10px 18px 10px 10px;border-radius:14px;font:800 17px var(--font-heading);text-transform:uppercase;box-shadow:0 10px 24px rgba(0,0,0,.3);max-width:280px}}"
+		   f"padding:10px 18px 10px 10px;border-radius:14px;font:800 19px var(--font-heading);text-transform:uppercase;box-shadow:0 10px 24px rgba(0,0,0,.3);max-width:280px}}"
 		   f".k0{{left:10%;top:6%}}.k1{{right:0;top:22%}}.k2{{left:0;top:44%}}.k3{{right:4%;top:62%}}.k4{{left:18%;top:80%}}"
 		   f".panel{{margin:0 40px 26px;background:#fff;border-radius:22px;padding:22px 26px;color:{x.p['dark']};box-shadow:0 18px 40px rgba(0,0,0,.3)}}"
 		   f".sol{{font:800 34px var(--font-heading);text-align:center;text-transform:uppercase;max-height:50px;white-space:nowrap}}.sol em{{color:{x.p['primary']}}}"
 		   f".bens{{display:flex;justify-content:space-around;margin-top:14px}}.ben{{display:flex;flex-direction:column;align-items:center;gap:8px;"
-		   f"font:700 16px var(--font-body);text-transform:uppercase;text-align:center;max-width:170px}}" + band_css)
+		   f"font:700 19px var(--font-body);text-transform:uppercase;text-align:center;max-width:190px}}" + band_css)
 	return body, css
 
 
@@ -387,13 +387,13 @@ def sale(x: Ctx, v: dict) -> tuple[str, str]:
 			+ (f'<div class="shop">{x.t("cta")}</div>' if x.has("cta") else "") + f'<div class="lg">{x.logo(60, light=False)}</div></div>')
 	css = (f".post{{background:{x.p['light']};color:{x.p['dark']}}}.pic{{position:absolute;right:0;top:{12 if x.tall else 9}%;width:{100 if x.tall else 56}%;height:{46 if x.tall else 82}%;"
 		   f"clip-path:polygon(18% 0,100% 0,100% 100%,0 100%,6% 40%);{'top:auto;bottom:0' if x.tall else ''}}}"
-		   f".wrap{{position:absolute;inset:0;padding:50px 60px;display:flex;flex-direction:column}}.web{{align-self:flex-end;font:500 24px var(--font-body)}}"
+		   f".wrap{{position:absolute;inset:0;padding:50px 60px;display:flex;flex-direction:column}}.web{{align-self:flex-end;font:500 24px var(--font-body);max-width:46%;text-align:right;overflow-wrap:anywhere}}"
 		   f".txt{{{'margin-top:30px' if x.tall else 'margin:auto 0'};width:{'100%' if x.tall else '470px'}}}.kick{{font:300 62px var(--font-heading);text-transform:uppercase}}"
 		   f"h1{{font:800 128px/0.95 var(--font-heading);text-transform:uppercase;max-height:250px}}h1 em{{color:{x.p['primary']}}}"
 		   f".lbl{{display:inline-block;background:{x.p['dark']};color:#fff;font:800 24px var(--font-heading);letter-spacing:3px;padding:6px 26px;margin:14px 0;text-transform:uppercase}}"
 		   f".big{{font:400 112px/1 var(--font-heading);max-height:240px}}.big em{{font-weight:800;color:{x.p['primary']}}}"
 		   f".shop{{margin-top:{'34px' if x.tall else 'auto'};align-self:flex-start;border:2px solid {x.p['dark']};border-radius:30px;padding:10px 30px;font:600 24px var(--font-body);text-transform:uppercase}}"
-		   f".lg{{position:absolute;left:60px;top:48px}}")
+		   f".lg{{position:absolute;left:60px;top:48px;max-width:44%}}")
 	return body, css
 
 
@@ -441,10 +441,10 @@ def gallery(x: Ctx, v: dict) -> tuple[str, str]:
 		   f".mid{{flex:1;display:grid;grid-template-columns:{'1fr' if x.tall else '600px 1fr'};min-height:0}}.pics{{position:relative;min-height:{700 if x.tall else 0}px}}"
 		   f".g{{position:absolute;border:8px solid {gold}}}.g0{{left:40px;top:40px;width:330px;height:330px}}.g1{{left:300px;top:0;width:250px;height:250px}}"
 		   f".g2{{left:310px;top:230px;width:260px;height:260px}}.badge{{position:absolute;left:150px;bottom:10px}}"
-		   f".right{{padding:20px 40px 0 0;display:flex;flex-direction:column;align-items:flex-end;text-align:right}}ul{{list-style:none;margin-top:20px;font:600 27px/1.75 var(--font-body)}}"
-		   f"li::after{{content:' •';color:{gold}}}.who{{margin-top:auto;background:#1c1c1f;padding:16px 26px;margin-bottom:16px}}.who b{{display:block;font:900 40px var(--font-heading)}}"
-		   f".who small{{font:500 16px var(--font-body);letter-spacing:4px;text-transform:uppercase}}.foot{{background:#eceff3;color:#1f2937;display:flex;justify-content:space-around;align-items:center;min-height:110px;padding:0 30px}}"
-		   f".fi{{display:flex;gap:10px;align-items:center;font:600 22px var(--font-body)}}")
+		   f".right{{padding:20px 40px 0 0;display:flex;flex-direction:column;align-items:flex-end;text-align:right;min-width:0}}ul{{list-style:none;margin-top:20px;font:600 27px/1.75 var(--font-body);max-width:100%;overflow-wrap:anywhere}}"
+		   f"li::after{{content:' •';color:{gold}}}.who{{margin-top:auto;background:#1c1c1f;padding:16px 26px;margin-bottom:16px}}.who{{max-width:100%}}.who b{{display:block;font:900 40px var(--font-heading);overflow-wrap:anywhere}}"
+		   f".who small{{font:500 18px var(--font-body);letter-spacing:4px;text-transform:uppercase}}.foot{{background:#eceff3;color:#1f2937;display:flex;flex-wrap:wrap;justify-content:space-around;align-items:center;gap:6px 24px;min-height:110px;padding:14px 30px}}"
+		   f".fi{{display:flex;gap:10px;align-items:center;font:600 22px var(--font-body);min-width:0;overflow-wrap:anywhere}}")
 	return body, css
 
 
@@ -453,6 +453,8 @@ def product_promo(x: Ctx, v: dict) -> tuple[str, str]:
 	c = x.content
 	ph = x.photo(0)
 	white = {**x.p, "accent": "#ffffff"}
+	# the warm highlight on the dark board: the accent, or the main colour when the accent is itself dark
+	acc = x.p["accent"] if base.contrast(x.p["accent"], x.p["dark"]) >= 3 else (x.p["primary"] if base.contrast(x.p["primary"], x.p["dark"]) >= 3 else "#ffffff")
 	price = (f'<div class="price"><small>{x.t("price_label")}</small>{x.el("scribble_circle", 220, 130, text=c.get("price"), palette=white)}</div>' if x.has("price") else "")
 	order = (f'<div class="ob">{x.el("order_bar", 900, 96, text=(c.get("phone") or "") + ("   " + c["cta"] if c.get("cta") else ""), tone="accent")}</div>'
 			 if x.has("phone") else "")
@@ -463,11 +465,11 @@ def product_promo(x: Ctx, v: dict) -> tuple[str, str]:
 			f'<div class="addr">{x.t("address")}</div></div>')
 	css = (f".post{{color:#fff}}.wrap{{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding:40px 50px 22px}}"
 		   f".row{{width:100%;display:flex;justify-content:space-between;align-items:flex-start}}.price{{text-align:center;font:800 22px var(--font-heading)}}.price small{{display:block;text-transform:uppercase}}"
-		   f".kick{{font:400 58px 'Kaushan Script', var(--font-heading);color:{x.p['accent']};margin-top:-10px}}h1{{font:400 {210 if x.tall else 180}px/1 'Rubik Dirt', var(--font-heading);text-transform:uppercase;width:100%;"
-		   f"text-align:center;max-height:{240 if x.tall else 200}px;white-space:nowrap}}h1 em{{color:{x.p['accent']}}}"
+		   f".kick{{font:400 58px 'Kaushan Script', var(--font-heading);color:{acc};margin-top:-10px}}h1{{font:400 {210 if x.tall else 180}px/1 'Rubik Dirt', var(--font-heading);text-transform:uppercase;width:100%;"
+		   f"text-align:center;max-height:{300 if x.tall else 230}px;overflow-wrap:anywhere}}h1 em{{color:{acc}}}"
 		   f".pic{{flex:1;width:100%;min-height:0;border-radius:28px;margin-top:10px;-webkit-mask-image:radial-gradient(ellipse at center,#000 55%,transparent 75%);"
 		   f"mask-image:radial-gradient(ellipse at center,#000 55%,transparent 75%)}}.ob{{margin-top:6px}}"
-		   f".addr{{font:700 26px var(--font-body);letter-spacing:1px;color:{x.p['accent']};margin-top:12px;text-align:center}}"
+		   f".addr{{font:700 26px var(--font-body);letter-spacing:1px;color:{acc};margin-top:12px;text-align:center}}"
 		   f".sp1{{position:absolute;left:40px;top:42%}}.sp2{{position:absolute;right:40px;top:30%}}")
 	return body, css
 
@@ -476,6 +478,11 @@ LAYOUTS = {"hero_split": hero_split, "center_hero": center_hero, "listing": list
 		   "quote_tip": quote_tip, "problem_solution": problem_solution, "circles_labels": circles_labels, "question_rows": question_rows,
 		   "greeting": greeting, "curve_photo": curve_photo, "wave_agency": wave_agency, "sale": sale,
 		   "numbered_services": numbered_services, "gallery": gallery, "product_promo": product_promo}
+
+# The premium upgrade's layouts (archetypes_more.py): reviews, editorial, luxury, travel, personal brands, products, menus…
+from qtt_platform.design import archetypes_more as _more  # noqa: E402
+
+LAYOUTS.update(_more.LAYOUTS)
 
 # Showcase layouts (S10 Poster variations): screenshots in device compositions — same engine, same rules
 from qtt_platform.design import showcase as _showcase  # noqa: E402

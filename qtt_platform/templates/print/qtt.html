@@ -66,6 +66,32 @@
 	.qtt.classic .cttl { text-align: center; font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin: 6px 0 2px; }
 	.qtt.classic .cttl small { display: block; font-size: 10px; font-weight: 400; letter-spacing: 0; color: #5b6475; text-transform: none; }
 	.qtt.classic .foot { border-top: 4px double {{ b.color }}; }
+	/* premium styles (2026) — tables only, wkhtmltopdf-safe (-webkit- gradients) */
+	.qtt.luxe .chead { text-align: center; padding: 10px 0 10px; border-top: 1px solid {{ b.color }}; border-bottom: 1px solid {{ b.color }}; }
+	.qtt.luxe .chead .bn { font-family: Georgia, "Times New Roman", serif; font-size: 21px; letter-spacing: 5px; text-transform: uppercase; font-weight: 400; }
+	.qtt.luxe .chead .tg { font-family: Georgia, serif; font-style: italic; font-size: 10.5px; color: {{ b.ink.head_muted }}; margin-top: 2px; }
+	.qtt.luxe .chead .logo { max-height: 56px; max-width: 190px; margin-bottom: 6px; }
+	.qtt.luxe .chead .ct { font-size: 9px; letter-spacing: .6px; color: #5b6475; margin-top: 5px; }
+	.qtt.luxe .rule { height: 3px; border-bottom: 1px solid {{ b.color }}; margin-bottom: 10px; }
+	.qtt.luxe .cttl { text-align: center; font-family: Georgia, serif; font-size: 13px; letter-spacing: 6px; text-transform: uppercase; margin: 8px 0 4px; color: {{ b.color }}; }
+	.qtt.luxe .cttl small { display: block; font-family: Poppins, Arial, sans-serif; font-size: 10px; letter-spacing: 0; color: #5b6475; text-transform: none; }
+	.qtt.luxe h2 { font-family: Georgia, serif; font-weight: 400; letter-spacing: 1px; border-bottom: 1px solid {{ b.color }}; }
+	.qtt.luxe .box { border-left: 1px solid {{ b.color }}; background: {{ b.ink.soft }}; }
+	.qtt.luxe .foot { border-top: 1px solid {{ b.color }}; letter-spacing: .5px; }
+	.qtt.modern .hdr td { padding: 0; }
+	.qtt.modern .hdr .blk { background: {{ b.color }}; padding: 16px 18px; }
+	.qtt.modern .hdr .blk .logo { background: #fff; padding: 4px; border-radius: 6px; }
+	.qtt.modern .hdr .tt { background: {{ b.ink.tint or b.ink.soft }}; padding: 16px 18px; text-align: right; }
+	.qtt.modern .hdr .tt, .qtt.modern .hdr .tt div, .qtt.modern .hdr .tt small { color: #0B0D12 !important; }
+	.qtt.modern .hdr .tt .ttl { font-size: 20px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+	.qtt.modern .hdr .tt small { display: block; font-size: 10px; color: #5b6475 !important; }
+	.qtt.modern .bar { height: 3px; background: {{ b.ink.th_bg }}; }
+	.qtt.modern .box { border-left: 0; border-top: 3px solid {{ b.color }}; border-radius: 0 0 4px 4px; }
+	.qtt.gradient .hdr { background: {{ b.color }}; background: -webkit-linear-gradient(left, {{ b.color }}, {{ b.ink.deep or b.color }}); background: linear-gradient(90deg, {{ b.color }}, {{ b.ink.deep or b.color }}); }
+	.qtt.gradient .hdr td { padding: 18px 18px; }
+	.qtt.gradient .hdr .logo { border-radius: 8px; padding: 5px; }
+	.qtt.gradient .bar { height: 2px; background: {{ b.ink.deep or b.color }}; }
+	.qtt.gradient table.sum tr.tot td { color: #fff; background: {{ b.ink.deep or b.color }}; border-top: 0; }
 </style>
 {%- endmacro %}
 
@@ -74,7 +100,7 @@
 {{ css(b) }}
 <div class="qtt {{ b.style or 'band' }}">
 {%- set addr = b.address|join(", ") -%}
-{% if b.style == "classic" %}
+{% if b.style in ("classic", "luxe") %}
 <div class="chead">
 	{% if b.logo %}<img class="logo" src="{{ b.logo }}"><br>{% endif %}
 	<div class="bn">{{ b.name|e }}</div>
@@ -83,6 +109,21 @@
 </div>
 <div class="rule"></div>
 {% if title %}<div class="cttl">{{ title }}{% if subtitle %}<small>{{ subtitle }}</small>{% endif %}</div>{% endif %}
+{% elif b.style == "modern" %}
+<table class="hdr"><tr>
+	<td class="blk" style="width:62%">
+		{% if b.logo %}<img class="logo" src="{{ b.logo }}" style="vertical-align:middle;margin-right:12px;max-height:50px;max-width:160px">{% endif %}
+		<div style="display:inline-block;vertical-align:middle"><div class="bn">{{ b.name|e }}</div>{% if b.tagline %}<div class="tg">{{ b.tagline|e }}</div>{% endif %}</div>
+	</td>
+	<td class="tt"><div class="ttl">{{ title }}</div>{% if subtitle %}<small>{{ subtitle }}</small>{% endif %}</td>
+</tr></table>
+<div class="bar"></div>
+<div class="from">
+	{{ addr|e }}
+	{% if b.phone and b.phone not in addr %} · {{ _("Phone") }} {{ b.phone|e }}{% endif %}
+	{% if b.email and b.email not in addr %} · {{ b.email|e }}{% endif %}
+	{% if b.gstin %} · <b>GSTIN {{ b.gstin|e }}</b>{% endif %}
+</div>
 {% else %}
 <table class="hdr"><tr>
 	<td style="width:60%">

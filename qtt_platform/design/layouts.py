@@ -23,6 +23,10 @@ from qtt_platform.design import base, elements as E, patterns as P
 
 DESIGN_W = 1080
 LOOKS = ("light", "dark", "brand")
+MIN_TEXT = 20  # px at the design width: words in a button / pill never drawn smaller (docs/design/studio-design-rules.md)
+# element: (room beside the words in heights, share of the width the words get) — elements.element's own text boxes
+_TEXT_ROOM = {"cta": (.6, 1.0), "pill": (1.0, 1.0), "ribbon": (.7, 1.0), "brush_banner": (0, .86), "brush_swipe": (0, .86),
+			  "brush_badge": (0, .86)}
 
 FIT_SCRIPT = (
 	"<script>(async()=>{try{await document.fonts.ready}catch(e){}"
@@ -31,9 +35,12 @@ FIT_SCRIPT = (
 	"if(window.qttPieces){qttPieces();if(window.qttEdits)qttWords(qttEdits)}"
 	# too big = taller than the box's max-height (big capitals spill a few px past a tight line-height, so allow 6) or
 	# wider than the box (a long word / a nowrap line)
-	"document.querySelectorAll('[data-fit]').forEach(el=>{const cs=getComputedStyle(el);let s=parseFloat(cs.fontSize),m=s*.42;"
+	"document.querySelectorAll('[data-fit]').forEach(el=>{const cs=getComputedStyle(el);let s=parseFloat(cs.fontSize),m=el.dataset.min?parseFloat(el.dataset.min):s*.42;"
 	"const mh=cs.maxHeight==='none'?el.clientHeight:parseFloat(cs.maxHeight);"
 	"while((el.scrollHeight>mh+6||el.scrollWidth>el.clientWidth+2)&&s>m){s-=1.5;el.style.fontSize=s+'px'}});"
+	# a list that gives way (data-drop): a row that doesn't fit is hidden whole, never cut through its words
+	"document.querySelectorAll('[data-drop]').forEach(c=>{const b=c.getBoundingClientRect().bottom;"
+	"[...c.children].forEach(r=>{if(r.getBoundingClientRect().bottom>b+1)r.style.visibility='hidden'})});"
 	"if(window.qttPieces&&window.qttEdits)qttMoves(qttEdits);"
 	"window.qttReady=true})()</script>"
 )
@@ -57,6 +64,8 @@ class Ctx:
 	look: str
 	content: dict
 	photos: list = field(default_factory=list)  # file names beside the page
+	finish: str = "clean"  # light and texture over the design (finish.py): clean, premium or cinematic
+	key: str = ""  # the template's key: where its light and specks fall (the same on every render)
 
 	@property
 	def w(self) -> int:
@@ -129,6 +138,13 @@ class Ctx:
 		return P.pattern(name, self.p, self.w, self.h, base=b, seed=seed, transparent=transparent)
 
 	def el(self, name: str, w: int, h: int, *, text: str = "", tone: str = "accent", palette: dict | None = None) -> str:
+		# a button, pill, ribbon or brush banner widens for longer words instead of shrinking them under MIN_TEXT
+		if text and name in _TEXT_ROOM:
+			pad, frac = _TEXT_ROOM[name]
+			n = len(str(text)) + (3 if name == "cta" else 0)
+			need = MIN_TEXT * n * .58 / .86 / frac + pad * h
+			if need > w:
+				w = int(min(need, 900))
 		return E.element(name, palette or self.p, w, h, text=text, tone=tone)
 
 	def logo(self, height: int = 90, *, light: bool | None = None) -> str:
@@ -161,11 +177,14 @@ def page(body: str, css: str, x: Ctx, out_w: int, out_h: int, edits: str = "") -
 	from qtt_platform.design.arrange import PIECES_JS
 	from qtt_platform.design.sheet import page as wrap
 
+	from qtt_platform.design import finish
+
+	fx_html, fx_css = finish.layers(x.finish, x.p, x.look, x.w, x.h, x.key)
 	scale = out_w / DESIGN_W
-	inner = (f'<div class="post" style="transform:scale({scale:.5f});transform-origin:0 0">{body}</div>{PIECES_JS}{edits}{FIT_SCRIPT}')
-	extra = ""
+	inner = (f'<div class="post" style="transform:scale({scale:.5f});transform-origin:0 0">{body}{fx_html}</div>{PIECES_JS}{edits}{FIT_SCRIPT}')
+	extra = fx_css
 	if x.fonts.get("script") in ("tamil", "devanagari"):
 		# Script and display faces have no Tamil / Hindi letters: those lines use the heading face, bold — as local posters do
-		extra = (".post h1,.post .kick,.post .hand,.post .name,.post .nm,.post .sw span,.post .br span,.post .head span,.post .promise,"
+		extra += (".post h1,.post .kick,.post .hand,.post .name,.post .nm,.post .sw span,.post .br span,.post .head span,.post .promise,"
 				 ".post .time{font-family:var(--font-heading)!important;font-weight:800!important;letter-spacing:0!important}")
 	return wrap(inner, out_w, out_h, x.fonts, extra_css=common_css(x) + css + extra)
