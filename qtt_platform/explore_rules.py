@@ -108,6 +108,26 @@ def feature_lines(features: dict, product: str | None = None) -> list[str]:
 	return out
 
 
+def _label(text: str) -> str:
+	t = text.replace("{n}", "").replace("Up to", "").strip()
+	return t[:1].upper() + t[1:]
+
+
+def feature_catalog(product: str, used: set[str] | None = None) -> list[dict]:
+	"""The features QTT Admin's plan editor offers for a product, in the order owners read them: limits (a number;
+	0 = unlimited) and switches (on / off). A product's own keys always; shared keys when one of its plans uses them.
+	Each has the words the price list shows ({n} = the number) so the editor can preview the plan."""
+	used = set(used or ())
+	own = set(PRODUCT_LIMITS.get(product, {})) | set(PRODUCT_SWITCHES.get(product, {}))
+	limits = {**LIMITS, **PRODUCT_LIMITS.get(product, {})}
+	unlimited = {**UNLIMITED, **PRODUCT_UNLIMITED.get(product, {})}
+	out = [{"key": k, "kind": "limit", "label": _label(t), "text": t, "one": ONE.get(k), "unlimited": unlimited.get(k)}
+		   for k, t in limits.items() if k in own or k in used]
+	out += [{"key": k, "kind": "switch", "label": t, "text": t} for k, t in {**SWITCHES, **PRODUCT_SWITCHES.get(product, {})}.items()
+			if k in own or k in used]
+	return out
+
+
 def can_trial(trial_days: int, had_before: bool) -> bool:
 	"""A free trial is offered once per app: when the plan has trial days and the business never had the app."""
 	return bool(trial_days and int(trial_days) > 0) and not had_before

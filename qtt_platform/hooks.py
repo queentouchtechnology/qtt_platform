@@ -108,6 +108,10 @@ required_apps = []
 #     re-derives `tenant` from the referenced membership on every save, a
 #     stronger, self-healing guarantee.
 doc_events = {
+    # The public price list (api/public_pricing.py) shows a saved price at once.
+    "QTT Plan": {"on_update": "qtt_platform.api.public_pricing.clear", "on_trash": "qtt_platform.api.public_pricing.clear"},
+    "QTT Product": {"on_update": "qtt_platform.api.public_pricing.clear"},
+    "Managed Service Type": {"on_update": "qtt_platform.api.public_pricing.clear"},
     # A paid invoice extends the apps it covers that QTT Admin bills by invoice (invoice_billing.py).
     "QTT Invoice": {"on_update": "qtt_platform.invoice_billing.on_invoice_update"},
     "QTT Product Subscription": {

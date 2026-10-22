@@ -55,7 +55,14 @@ def list_plans(product: str | None = None) -> dict:
 		p["subscribers"] = counts.get(p.name, 0)
 		p["is_public"] = bool(p.is_public)
 	products = frappe.get_all("QTT Product", fields=["product_key", "display_name", "status"], order_by="display_name asc")
-	return {"plans": plans, "products": products, "currency": CURRENCY}
+	# The plan editor's features by name: limits and on / off switches, with the words the price list shows.
+	from qtt_platform import explore_rules
+
+	used: dict[str, set] = {}
+	for p in plans:
+		used.setdefault(p.product, set()).update(f["feature_key"] for f in p["features"])
+	catalog = {pr.product_key: explore_rules.feature_catalog(pr.product_key, used.get(pr.product_key)) for pr in products}
+	return {"plans": plans, "products": products, "currency": CURRENCY, "feature_catalog": catalog}
 
 
 @frappe.whitelist(methods=["POST"])

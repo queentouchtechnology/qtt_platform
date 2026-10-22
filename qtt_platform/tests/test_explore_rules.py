@@ -18,6 +18,15 @@ class Features(unittest.TestCase):
 		self.assertEqual(r.feature_lines({"max_users": 2, "max_stores": 1}, "QTT_ORBITRA"), ["2 users", "1 store or branch"])
 		self.assertIn("1 landing page", r.feature_lines({"studio_pages": 1}, "QTT_STUDIO"))
 
+	def test_feature_catalog_for_the_plan_editor(self):
+		cat = {f["key"]: f for f in r.feature_catalog("QTT_ORBITRA", {"max_users", "purchases"})}
+		self.assertEqual(cat["max_users"]["label"], "Users")
+		self.assertEqual(cat["max_users"]["kind"], "limit")
+		self.assertEqual(cat["purchases"]["kind"], "switch")
+		self.assertIn("manufacturing", cat)  # Orbitra's own switch, even before a plan uses it
+		self.assertNotIn("max_employees", cat)  # another product's limit
+		self.assertEqual(next(f for f in r.feature_catalog("QTT_OFFICE_PULSE", {"max_employees"}) if f["key"] == "max_employees")["label"], "Employees")
+
 	def test_limits_switches_and_unknown_keys(self):
 		self.assertEqual(r.feature_lines({"max_employees": "200", "payroll": "1"}), ["Up to 200 employees", "Payroll and payslips"])
 		self.assertEqual(r.feature_lines({"max_users": "0"}), ["Unlimited users"])

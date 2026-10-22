@@ -7122,6 +7122,22 @@
    "status": "OK"
   },
   {
+   "endpoint": "qtt_platform.api.public_pricing.get",
+   "product": "Platform",
+   "area": "api.public_pricing",
+   "http_methods": "GET",
+   "guest": 1,
+   "purpose": "The public price list (apps and managed services, with plans, features and add-ons) — for queentouchtech.in.",
+   "details": "The public price list (apps and managed services, with plans, features and add-ons) — for queentouchtech.in.",
+   "arguments": "",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/public_pricing.py:48",
+   "status": "Not used by the app"
+  },
+  {
    "endpoint": "qtt_platform.api.quick_login.device_login",
    "product": "Platform",
    "area": "api.quick_login",
@@ -7294,7 +7310,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.addProduct",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/saas_admin.py:193",
+   "source": "qtt_platform/qtt_platform/api/saas_admin.py:200",
    "status": "OK"
   },
   {
@@ -7310,7 +7326,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.cancelProduct",
    "screens": "admin/workspace_billing_view.dart › _ProductCard",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/saas_admin.py:274",
+   "source": "qtt_platform/qtt_platform/api/saas_admin.py:281",
    "status": "OK"
   },
   {
@@ -7326,7 +7342,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.changePlan",
    "screens": "admin/workspace_billing_view.dart › _ProductCard",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/saas_admin.py:225",
+   "source": "qtt_platform/qtt_platform/api/saas_admin.py:232",
    "status": "OK"
   },
   {
@@ -7342,7 +7358,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.extendTrial",
    "screens": "admin/workspace_billing_view.dart › _ProductCard",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/saas_admin.py:249",
+   "source": "qtt_platform/qtt_platform/api/saas_admin.py:256",
    "status": "Not described"
   },
   {
@@ -7374,7 +7390,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.removeOverride",
    "screens": "admin/workspace_billing_view.dart › _ProductCard",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/saas_admin.py:325",
+   "source": "qtt_platform/qtt_platform/api/saas_admin.py:332",
    "status": "Not described"
   },
   {
@@ -7390,7 +7406,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.revenue",
    "screens": "admin/revenue_view.dart › RevenueView",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/saas_admin.py:341",
+   "source": "qtt_platform/qtt_platform/api/saas_admin.py:348",
    "status": "Not described"
   },
   {
@@ -7406,7 +7422,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.savePlan",
    "screens": "admin/plans_view.dart › _PlanEditScreenState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/saas_admin.py:62",
+   "source": "qtt_platform/qtt_platform/api/saas_admin.py:69",
    "status": "OK"
   },
   {
@@ -7422,7 +7438,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.setOverride",
    "screens": "admin/workspace_billing_view.dart › _ProductCard",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/saas_admin.py:300",
+   "source": "qtt_platform/qtt_platform/api/saas_admin.py:307",
    "status": "OK"
   },
   {
@@ -7438,7 +7454,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.tenantInvoicesPage",
    "screens": "admin/workspace_billing_view.dart › _TenantInvoicesPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/saas_admin.py:175",
+   "source": "qtt_platform/qtt_platform/api/saas_admin.py:182",
    "status": "OK"
   },
   {
@@ -7454,7 +7470,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.undoCancellation",
    "screens": "admin/workspace_billing_view.dart › _ProductCard",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/saas_admin.py:292",
+   "source": "qtt_platform/qtt_platform/api/saas_admin.py:299",
    "status": "Not described"
   },
   {
@@ -7470,7 +7486,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.workspaceBilling",
    "screens": "admin/workspace_billing_view.dart › _ProductCard\nadmin/workspace_billing_view.dart › _WorkspaceBillingSectionState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/saas_admin.py:108",
+   "source": "qtt_platform/qtt_platform/api/saas_admin.py:115",
    "status": "OK"
   },
   {
