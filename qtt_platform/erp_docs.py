@@ -148,6 +148,9 @@ def _row(k: dict, d: dict, s: Scope) -> dict:
 			"status": d.get(k["status"]) if k["status"] else None, "docstatus": d.get("docstatus", 0)}
 
 
+DOCSTATUS = {"Draft": 0, "Submitted": 1, "Cancelled": 2}
+
+
 def list_docs(product: str, key: str, s: Scope, *, q: str = "", status: str = "", start: int = 0, size: int = PAGE) -> dict:
 	k = _kind(key, product)
 	meta = frappe.get_meta(k["doctype"])
@@ -155,7 +158,9 @@ def list_docs(product: str, key: str, s: Scope, *, q: str = "", status: str = ""
 												  if f and f not in ("name",) and meta.has_field(f)]
 	fields = list(dict.fromkeys(fields))
 	filters = _scope_filters(k, s) or {}
-	if status and k["status"] and meta.has_field(k["status"]):
+	if status in DOCSTATUS and meta.is_submittable:  # the app's Draft / Submitted / Cancelled are document states
+		filters["docstatus"] = DOCSTATUS[status]
+	elif status and k["status"] and meta.has_field(k["status"]):
 		filters[k["status"]] = status
 	or_filters = None
 	if q:
