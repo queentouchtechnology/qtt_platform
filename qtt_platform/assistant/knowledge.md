@@ -1200,10 +1200,15 @@ Open it from QTT Business Suite › Home › Marketing assistant → **Marketing
 assistant** (businesses that ticked it inside AI & WhatsApp Automation before
 open it from that service).
 - **Your pages** (owner): Connect → pick Facebook, Instagram, LinkedIn, X
-  (Twitter), YouTube, Threads, TikTok, Pinterest or Bluesky → sign in there and
-  allow posting → come back to the app; the page shows with its photo. A page
-  whose sign-in expired says so — connect it again. Disconnect stops posting
-  (posts already made stay).
+  (Twitter), YouTube, Threads, TikTok, Pinterest, Bluesky or **Google Business**
+  → sign in there and allow posting → come back to the app; the page shows with
+  its photo. A page whose sign-in expired says so — connect it again. Disconnect
+  stops posting (posts already made stay).
+- **Google Business**: sign in with the Google account that manages the
+  business's Google Business Profile; each of its locations (up to the package's
+  pages) becomes a page. A post goes to Google as a "What's new" update — text up
+  to 1,500 characters and the post's first photo (videos aren't posted to
+  Google) — shown on Google Search and Maps.
 - **Post ideas**: every Monday at 9 am the assistant writes 3 posts (and a
   festival offer when a festival is near) as drafts "Waiting for your OK". The
   owner can also tap **Get post ideas now** (once a day). Posts, articles and
