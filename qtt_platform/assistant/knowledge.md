@@ -22,12 +22,12 @@ everyone in every business — no plan needed.
   Paid, Sort by); whatever isn't the usual view shows as a chip under the
   search or the list's title — × removes it.
 - **Customers**: one customer list per business, shared by all apps (Orbitra
-  bills them, Onbox saves chat contacts into it). Individual or business
+  bills them, the Inbox saves chat contacts into it). Individual or business
   (GSTIN, billing address), tags and notes; call, WhatsApp or email them;
   archive instead of delete. **Where it is**: with Orbitra (and a role that
   can use Customers) it's Orbitra › Customers — the same list, where a
   customer also shows what they owe and bought and New invoice; there is no
-  separate Customers menu item then. Without Orbitra (e.g. Onbox only), or if
+  separate Customers menu item then. Without Orbitra (e.g. only the Inbox), or if
   the owner switched Customers off for your Orbitra role, it's Customers in
   the menu. Search, then the filter button: Active / Archived and tags; a
   filter that's on shows as a chip under the search (× removes it).
@@ -318,7 +318,7 @@ everyone in every business — no plan needed.
   where that role can use it. In Orbitra the owner taps a cell to let a
   Manager or Cashier use an area or not (Orbitra Admin always has everything;
   Settings stays the admin's; editing items and stock also turns on seeing
-  them); Reset puts a role back to the usual. Office Pulse, Onbox and Managed
+  them); Reset puts a role back to the usual. Office Pulse, Inbox and Managed
   Services roles are fixed and shown for reference. Changes apply at once —
   the person's app updates and the server checks every request.
 - **Business knowledge** (Business › Knowledge, owner / admin): one place for
@@ -496,7 +496,7 @@ everyone in every business — no plan needed.
     items, add opening stock, first bill at POS; then — invite the team, choose
     what each role can do, customers you give credit to; optional — supplier
     bills, more stores, reports.
-  - **Onbox** — "Set up Onbox" (Manager; Onbox › Onbox settings › Start here): first — connect
+  - **Inbox** — "Set up the Inbox" (Manager; QTT Business Suite › Inbox › Inbox settings › Start here): first — connect
     WhatsApp Business (Meta Cloud API: phone number ID, business account ID,
     access key; the number can't be in the WhatsApp app at the same time),
     website chat (a website QTT built: ask QTT and it's done for you), invite
@@ -510,7 +510,7 @@ everyone in every business — no plan needed.
   helps): QTT OS does the jobs businesses usually pay different companies for
   — Office Pulse instead of separate HR software and attendance machines'
   software; Orbitra instead of separate billing software; the team inbox
-  (Onbox — comes with the WhatsApp and website services) instead of a
+  (the Inbox — comes with the WhatsApp and website services) instead of a
   separate WhatsApp inbox company; QTT Business Suite instead of a web agency,
   hosting company and developer. One login, one team list, one place for
   help; each app has its own plan (Business › Plans) — start with one, add
@@ -978,15 +978,17 @@ told "Your role in Orbitra can't do this" — the owner can switch it on there.
 - **Settings** (admin): prices include GST or not, main store, invoice note.
   Business details on invoices come from Business › Profile.
 
-## Onbox — the team inbox that comes with the services
-Onbox isn't bought on its own any more (since 20 Oct 2026): a business gets it
+## Inbox — customer chats, inside QTT Business Suite
+The Inbox (called Onbox until 22 Oct 2026) is where the business reads and answers its customers' WhatsApp and
+website chats. It isn't an app of its own: open it from **QTT Business Suite › Inbox** (someone who only answers
+chats and has no Business Suite access sees an **Inbox** tile instead). It isn't bought on its own (since 20 Oct 2026): a business gets it
 with its services — the **WhatsApp inbox** with AI & WhatsApp Automation (and
 the WhatsApp AI receptionist, which hands chats over to the team here), the
 **website chat** with Website Development or an online store from QTT. The
 owner gets it as Manager when the service starts; give others access in
 Business › Roles and access. When a service is paused (unpaid) or ends, its
 channel stops — its chats leave the list and can't be answered — and comes
-back when the service starts again. A business that already had Onbox on its
+back when the service starts again. A business that already had the Inbox on its
 own keeps it. Facebook, Instagram and email channels aren't available now.
 Roles: **Agent** (answers chats assigned to them or their channels),
 **Supervisor** and **Manager** (see every channel; managers also manage
@@ -1122,7 +1124,7 @@ The automations (each goes to the owner's — or a manager's — WhatsApp and sh
 - Sales and money (needs Orbitra): owner's daily report (yesterday's sales, cash, low stock, absent, chats waiting),
   payment reminders (polite or firm, with a UPI pay link, on the due date / 3 days after / weekly until paid — to the
   customer), low-stock alert, weekly sales summary (Mondays), month-end summary (the 1st).
-- Customers: unanswered chats alert (Onbox, every 3 hours in working time), new online order alert (online store),
+- Customers: unanswered chats alert (Inbox, every 3 hours in working time), new online order alert (online store),
   lead follow-up (website enquiries answered at once on WhatsApp, followed up on days 1, 3 and 7 until they reply —
   a reply comes back to the business, not to QTT). The instant reply confirms the enquiry: "Hi Priya, your enquiry
   with Anna's Bakery about a birthday cake order has been received. Our team will call you shortly. Reply to this
@@ -1136,7 +1138,7 @@ payment reminders; your own first reply for lead follow-up). A full plan can't s
 move to a bigger plan. "Send me one now" tries the daily report or who's absent. A report with nothing to say isn't sent.
 
 ## QTT Business Suite — Your WhatsApp (your own WhatsApp number)
-For a business with AI & WhatsApp Automation whose own WhatsApp number is connected in Onbox › Channels (WhatsApp
+For a business with AI & WhatsApp Automation whose own WhatsApp number is connected in QTT Business Suite › Inbox › Channels (WhatsApp
 Cloud API). Owner only. Open QTT Business Suite › Home › **Your WhatsApp**. If the number isn't connected yet it says so.
 - **The number**: quality (High / Medium / Low — falls when people block or report messages), display name and whether
   Meta approved it, how many new chats it may start a day (grows as you send good messages), messages in the last 30
@@ -1177,14 +1179,14 @@ customers. Open it from QTT Business Suite › Home › your AI & WhatsApp servi
 - **Try it**: write like a customer and see its answer — nothing is sent to anyone (it uses what is saved).
 - Only the owner changes it; others in QTT Business Suite can look. The set-up guide's step is done once it
   knows your opening hours and at least 3 answers.
-- It answers on the business's own WhatsApp number connected in Onbox. QTT connects the number during setup
+- It answers on the business's own WhatsApp number connected in the Inbox. QTT connects the number during setup
   and switches the live answering on; until then Try it shows how it will answer.
 - Once live: "Answering customers on WhatsApp" shows how many replies it sent and how many chats it passed to
-  your team. Turn it off to pause it (then new chats go straight to your team in Onbox); turn it on again any time.
+  your team. Turn it off to pause it (then new chats go straight to your team in the Inbox); turn it on again any time.
 - **Passed to your team**: messages it didn't answer itself (not sure, or your hand-over rules). Tap Add an
   answer and write the answer — it becomes a question and answer, used next time — or Dismiss. Save keeps them.
 - It never leaves a customer waiting: if it can't reply in time, the customer is told your team will reply,
-  and the chat is marked for your team in Onbox with a note. Once someone on your team replies or takes the
+  and the chat is marked for your team in the Inbox with a note. Once someone on your team replies or takes the
   chat, it stays quiet in that chat.
 
 ## QTT Business Suite — Marketing assistant (posting to your pages)
@@ -1461,7 +1463,7 @@ the Explore QTT OS card, or Business › Plans and billing › Explore QTT OS)
 shows all of QTT OS in one place: the apps (Orbitra, Office Pulse, QTT Studio) and
 the QTT Business Suite services (Website Development, Managed E-Commerce Websites, AI &
 WhatsApp Automation, Marketing assistant), each with what it does and its
-plans. The team inbox (Onbox) isn't in the list — it comes with AI & WhatsApp
+plans. The Inbox isn't in the list — it comes with AI & WhatsApp
 Automation and the website services; Team (the business's own chat) is free for everyone. Owners and admins can look; only the **owner** starts things:
 - An app: **Start free trial** (when its plans have one — once per app; the
   first invoice comes 3 days before the trial ends, Pay now keeps it on) or

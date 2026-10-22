@@ -6,7 +6,7 @@ month, servers OK) and one **Needs attention** list, most urgent first; tapping 
 
 ## Needs attention (what can appear)
 Servers in warning / critical / offline; client websites that are down; domains near or past expiry; servers whose
-last Contabo snapshot is missing or old; failed payments; trials ending; set-up errors (Onbox, Office Pulse); client
+last Contabo snapshot is missing or old; failed payments; trials ending; set-up errors (Inbox, Office Pulse); client
 requests nobody answered; marketing items waiting for approval; DeepSeek balance low or n8n failures; and QTT's
 WhatsApp number — quality dropped, a template rejected / paused / disabled by Meta, a template approved (shown for a
 day), or Meta changed a template's category. The WhatsApp items come from an hourly check (minute 40).
@@ -16,7 +16,7 @@ day), or Meta changed a template's category. The WhatsApp items come from an hou
 - **Plans** — each product's plans: price, trial, limits, subscribers; create or edit. Changes apply to new
   subscriptions at once.
 - **Servers** — QTT's servers with their reports (CPU, memory, disk, services, Hermes), domains and snapshots.
-- **Receptionists** — every client's WhatsApp AI receptionist with its set-up checklist (Onbox connected, WhatsApp
+- **Receptionists** — every client's WhatsApp AI receptionist with its set-up checklist (Inbox connected, WhatsApp
   number connected, owner's answers, live) and counts; **Put it live** connects it.
 - **Services and pricing** — each managed service's name, wording, base prices and whether it's offered; each plan's
   name, monthly price, setup fee, automations allowed (AI & WhatsApp: 0 = every automation), products / pages /
@@ -155,7 +155,7 @@ the site answering from the cache and closes the task by itself. The theme clear
 site from the app.
 
 ## Businesses' own WhatsApp (Managed Services › Your WhatsApp)
-A business with AI & WhatsApp Automation whose own number is connected in its Onbox (WhatsApp Cloud API) gets the same
+A business with AI & WhatsApp Automation whose own number is connected in its Inbox (WhatsApp Cloud API) gets the same
 tools for its number (owner only): number health, profile and photo, QR codes, templates, broadcasts, forms, blocked
 numbers. Its own messages are billed to its own Meta account, not QTT's. If the number isn't connected it says so.
 

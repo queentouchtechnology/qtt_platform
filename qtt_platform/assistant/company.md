@@ -59,7 +59,7 @@ maintenance and growth.
 
 ## Our own products
 - **QTT OS** — one app to run a small business: Office Pulse (HR, attendance,
-  payroll), Orbitra (billing, stock, GST), the team inbox Onbox (customer WhatsApp and website chats — it
+  payroll), Orbitra (billing, stock, GST), the Inbox (customer WhatsApp and website chats — it
   comes with AI & WhatsApp Automation and the website services, not sold on its own), QTT Studio
   (designs, posts, logos, print, Shorts, landing pages with AI) and Managed
   Services (websites, online stores, WhatsApp automation, Marketing assistant —
