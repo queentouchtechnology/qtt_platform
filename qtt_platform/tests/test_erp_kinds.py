@@ -15,7 +15,7 @@ class Registry(unittest.TestCase):
 				self.assertIn(n["kind"], K.BY_KEY, k["key"])
 				self.assertEqual(K.BY_KEY[n["kind"]]["product"], k["product"], k["key"])
 			self.assertIn(k["group"], K.GROUP_ORDER, k["key"])
-			self.assertIn(k["scope"], ("company", "tenant", "item", "supplier", "employee", "delivery_note", "global"), k["key"])
+			self.assertIn(k["scope"], ("company", "tenant", "item", "supplier", "employee", "delivery_note", "maintenance_plan", "global"), k["key"])
 
 	def test_keys_unique_and_no_shared_global_writes(self):
 		keys = [k["key"] for k in K.KINDS]

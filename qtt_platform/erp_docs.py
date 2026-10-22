@@ -96,6 +96,8 @@ def belongs(doctype: str, name: str, scope: str, s: Scope) -> bool:
 		return frappe.db.get_value("Supplier", frappe.db.get_value(doctype, name, "supplier"), TENANT_FIELD) == s.tenant
 	if scope == "employee":
 		return frappe.db.get_value("Employee", frappe.db.get_value(doctype, name, "employee"), "company") == s.company
+	if scope == "maintenance_plan":
+		return frappe.db.get_value("Asset Maintenance", frappe.db.get_value(doctype, name, "asset_maintenance"), "company") == s.company
 	if scope == "delivery_note":
 		return frappe.db.get_value("Delivery Note", frappe.db.get_value(doctype, name, "delivery_note"), "company") == s.company
 	if scope == "employee_user":
@@ -187,7 +189,14 @@ def get_doc(product: str, key: str, s: Scope, name: str) -> dict:
 	k = _kind(key, product)
 	_assert(k, name, s)
 	doc = frappe.get_doc(k["doctype"], name)
-	head = {f["name"]: _value(f, doc.get(f["name"]) if f["name"] != "__newname" else doc.name, s) for f in k["fields"]}
+	def raw(f):
+		if f["name"] == "__newname":
+			return doc.name
+		if f["name"] == "__receipt":
+			return (doc.get("purchase_receipts") or [frappe._dict()])[0].get("receipt_document")
+		return doc.get(f["name"])
+
+	head = {f["name"]: _value(f, raw(f), s) for f in k["fields"]}
 	lines = []
 	if k["table"]:
 		for r in doc.get(k["table"]["field"]) or []:
@@ -247,6 +256,15 @@ def save_doc(product: str, key: str, s: Scope, data: dict, name: str | None = No
 		if f["name"] not in head:
 			continue
 		v = _clean(f, head[f["name"]], s)
+		if f["name"] == "__receipt":
+			if v and k["doctype"] == "Landed Cost Voucher" and not doc.get("purchase_receipts"):
+				pr = frappe.db.get_value("Purchase Receipt", v, ["supplier", "grand_total", "posting_date", "docstatus"], as_dict=True)
+				if pr.docstatus != 1:
+					frappe.throw(_("Submit the goods receipt first."))
+				doc.append("purchase_receipts", {"receipt_document_type": "Purchase Receipt", "receipt_document": v, "supplier": pr.supplier,
+												 "grand_total": pr.grand_total, "posting_date": pr.posting_date})
+				doc.get_items_from_purchase_receipts()
+			continue
 		if f["name"] == "__newname":
 			if not name:
 				doc.name = _own_name(str(v or ""), s)
@@ -358,6 +376,8 @@ def make_next(product: str, key: str, s: Scope, name: str, index: int) -> dict:
 		frappe.throw(_("Not found."))
 	n = nexts[cint(index)]
 	target = K.BY_KEY[n["kind"]]
+	if n["mapper"].startswith("prefill:"):  # a new form, already pointing at this document (the person fills the rest)
+		return {"kind": target["key"], "name": None, "prefill": {n["mapper"][len("prefill:"):]: name}}
 	fn = frappe.get_attr(n["mapper"])
 	out = fn(name) if not n["mapper"].startswith("qtt_platform.erp_docs.") else fn(name, s)
 	if isinstance(out, str):  # some mappers save and return a name
@@ -553,8 +573,22 @@ def portal_invite(s: Scope, customer: str, email: str) -> dict:
 
 
 # ---- the catalogue the app draws from ------------------------------------------------------------------------------
+def _with_required(k: dict) -> dict:
+	"""The kind as the app gets it: each field marked required when ERPNext requires it."""
+	meta = frappe.get_meta(k["doctype"])
+	out = dict(k)
+	out["fields"] = [{**f, "required": bool(f["name"] == "__newname" or (meta.get_field(f["name"]) and meta.get_field(f["name"]).reqd))}
+					 for f in k["fields"]]
+	if k["table"]:
+		tf = meta.get_field(k["table"]["field"])
+		child = frappe.get_meta(tf.options) if tf else None
+		out["table"] = {**k["table"], "fields": [{**f, "required": bool(child and child.get_field(f["name"]) and child.get_field(f["name"]).reqd)}
+												 for f in k["table"]["fields"]]}
+	return out
+
+
 def catalogue(product: str, areas: list[str], features: dict) -> dict:
-	kinds = [k for k in K.kinds_for(product) if K.allowed(k["area"], k["plan"], areas, features)]
+	kinds = [_with_required(k) for k in K.kinds_for(product) if K.allowed(k["area"], k["plan"], areas, features)]
 	reports = [{"key": key, "label": r[0], "group": r[1]} for key, r in K.REPORTS.items() if r[6] == product and K.allowed(r[2], r[3], areas, features)]
 	tools = [{"key": key, "label": t[0], "group": t[1]} for key, t in K.TOOLS.items() if t[4] == product and K.allowed(t[2], t[3], areas, features)]
 	locked = sorted({k["group"] for k in K.kinds_for(product)} - {k["group"] for k in kinds})
