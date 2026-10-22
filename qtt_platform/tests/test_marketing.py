@@ -8,7 +8,12 @@ summary (qtt_platform.marketing.n8n — no frappe import).
 import unittest
 from datetime import datetime, timezone
 
-import requests
+import sys
+
+# Another test module swaps in a stub `requests` (test_billing_subscriptions); this one needs the real library.
+if not hasattr(sys.modules.get("requests"), "RequestException"):
+	sys.modules.pop("requests", None)
+import requests  # noqa: E402
 
 from qtt_platform.marketing.n8n import N8nClient, N8nError, run_row, summarize
 
