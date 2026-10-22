@@ -498,7 +498,7 @@ def to_post(name: str, format: str | None = None) -> dict:
 	_need_studio(tenant)
 	doc = _mine(tenant, name)
 	if "qtt_services" not in frappe.get_installed_apps():
-		frappe.throw(_("Posting needs the Marketing assistant — order it in Managed Services › Explore."))
+		frappe.throw(_("Posting needs the Marketing assistant — order it in QTT Business Suite › Explore."))
 	if format in _formats(doc) and format != doc.format:
 		doc.format = format
 	_draw(tenant, doc)

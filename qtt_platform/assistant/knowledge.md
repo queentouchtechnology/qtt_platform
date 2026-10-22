@@ -304,7 +304,7 @@ everyone in every business — no plan needed.
   UPI — printed on invoices, payslips, PDFs); Team (invite by email, choose
   each person's apps and role, remove); Roles and access (below); **Plans and
   billing** (each app's plan and trial end, Explore QTT OS to start another
-  app or service, and every invoice from QTT — apps and managed services
+  app or service, and every invoice from QTT — apps and QTT Business Suite services
   together, unpaid ones first, with **Pay now** for the owner and admins;
   everyone can see them).
 - **Invoices from QTT**: when QTT gives your business an app or a service, it
@@ -501,8 +501,8 @@ everyone in every business — no plan needed.
     access key; the number can't be in the WhatsApp app at the same time),
     website chat (a website QTT built: ask QTT and it's done for you), invite
     the team, answer a first chat; optional — who sees which inbox.
-  - **Managed Services** — "Get your website or store live" (Owner;
-    Managed Services › Start here): choose what
+  - **QTT Business Suite** — "Get your website or store live" (Owner;
+    QTT Business Suite › Start here): choose what
     QTT builds → pay to start → check the preview and approve → go live on
     your own domain; for a store then add products and set payments and
     delivery; optional — ask QTT for a change, add another service.
@@ -511,7 +511,7 @@ everyone in every business — no plan needed.
   — Office Pulse instead of separate HR software and attendance machines'
   software; Orbitra instead of separate billing software; the team inbox
   (Onbox — comes with the WhatsApp and website services) instead of a
-  separate WhatsApp inbox company; Managed Services instead of a web agency,
+  separate WhatsApp inbox company; QTT Business Suite instead of a web agency,
   hosting company and developer. One login, one team list, one place for
   help; each app has its own plan (Business › Plans) — start with one, add
   others when needed. Never name or compare other companies' products.
@@ -1002,7 +1002,7 @@ settings).
   template from QTT's automations).
 - Channel access (managers): choose which team members answer each channel.
 
-## Managed Services — QTT runs it for you
+## QTT Business Suite — QTT runs it for you
 QTT offers four services, each set up, hosted and looked after by QTT:
 Website Development (a landing page, 3 pages or 5 pages), Managed E-Commerce
 Websites (an online store; Starter, Growth or Pro), AI & WhatsApp Automation
@@ -1019,7 +1019,7 @@ that are no longer listed keep running as before.
   approve; then connect your domain (3 DNS steps shown in the app; it goes
   live on its own once connected). The preview has an expiry date.
 - Requests: ask QTT for a change or help; mark urgent if something is broken.
-- Payments (Managed Services › Payments): invoices; pay by UPI, card or net
+- Payments (QTT Business Suite › Payments): invoices; pay by UPI, card or net
   banking. A new service starts once its first invoice is paid. The next
   month's invoice comes 3 days before the paid period ends (15 days before for
   yearly or 3-year terms). Not paid within 7 days after the paid period ends:
@@ -1041,11 +1041,11 @@ that are no longer listed keep running as before.
   choose. The catalogue shows "From …" (the cheapest choice). Your service
   later shows what you chose. To move to a bigger plan, ask through Requests.
 
-## Managed Services — Website Development (landing page, 3 pages, 5 pages)
+## QTT Business Suite — Website Development (landing page, 3 pages, 5 pages)
 QTT designs, hosts, secures and looks after a website for the business, and
 the owner changes it from the app — there is no website login to remember or
 share.
-- Ordering: Managed Services › Explore › Website Development. First **choose
+- Ordering: QTT Business Suite › Explore › Website Development. First **choose
   your design** before anything is built: your kind of business, then one of
   six designs — Classic, Modern, Bold, Elegant, Minimal, Warm — with pictures
   for computer and phone, and **See live demo** opens a real clickable site
@@ -1109,11 +1109,11 @@ share.
   Tag Manager; SEO plugins), Website settings (name, tagline, Show on Google).
   A website has no orders, products or coupons — for selling online choose
   Managed E-Commerce Websites.
-- New enquiries appear in Managed Services activity.
+- New enquiries appear in QTT Business Suite activity.
 
-## Managed Services — AI & WhatsApp Automation
+## QTT Business Suite — AI & WhatsApp Automation
 The WhatsApp AI receptionist on the business's own number, plus the automations the owner chooses in the app
-(Managed Services › your AI & WhatsApp service › **Automations**). Three plans (monthly, yearly — pays 10 months —
+(QTT Business Suite › your AI & WhatsApp service › **Automations**). Three plans (monthly, yearly — pays 10 months —
 or 3 years; ₹1,999 one-time setup): **Starter** ₹999 a month — the receptionist + any 3 automations; **Growth**
 ₹2,499 — + any 8; **Pro** ₹4,999 — + every automation. (QTT may change prices; the app always shows the current ones.)
 The automations (each goes to the owner's — or a manager's — WhatsApp and shows in the app):
@@ -1135,9 +1135,9 @@ Switching on: tap the switch (owner only), then Settings for the number, time an
 payment reminders; your own first reply for lead follow-up). A full plan can't switch on another — switch one off or
 move to a bigger plan. "Send me one now" tries the daily report or who's absent. A report with nothing to say isn't sent.
 
-## Managed Services — Your WhatsApp (your own WhatsApp number)
+## QTT Business Suite — Your WhatsApp (your own WhatsApp number)
 For a business with AI & WhatsApp Automation whose own WhatsApp number is connected in Onbox › Channels (WhatsApp
-Cloud API). Owner only. Open Managed Services › Home › **Your WhatsApp**. If the number isn't connected yet it says so.
+Cloud API). Owner only. Open QTT Business Suite › Home › **Your WhatsApp**. If the number isn't connected yet it says so.
 - **The number**: quality (High / Medium / Low — falls when people block or report messages), display name and whether
   Meta approved it, how many new chats it may start a day (grows as you send good messages), messages in the last 30
   days, this month's cost.
@@ -1159,9 +1159,9 @@ Cloud API). Owner only. Open Managed Services › Home › **Your WhatsApp**. If
   the last 24 hours. Answers come to **Answers** and your activity.
 - **Blocked numbers**: block or unblock someone (only someone who wrote in the last 24 hours can be blocked).
 
-## Managed Services — Your receptionist (WhatsApp AI receptionist)
+## QTT Business Suite — Your receptionist (WhatsApp AI receptionist)
 Every AI & WhatsApp Automation plan includes a WhatsApp AI receptionist that answers the business's own
-customers. Open it from Managed Services › Home › your AI & WhatsApp service › **Your receptionist**.
+customers. Open it from QTT Business Suite › Home › your AI & WhatsApp service › **Your receptionist**.
 - What it knows comes only from this page: what the business does, opening hours, holidays, address and
   map link, delivery, payment methods, bookings and orders, and "anything else it should know" (filled at
   first from what the owner wrote when ordering). Plus **Questions and answers**: tap Add, write what
@@ -1175,7 +1175,7 @@ customers. Open it from Managed Services › Home › your AI & WhatsApp service
 - Handing over to your team: it hands a chat over when it isn't sure, when the customer asks for a person,
   and in the cases you list (e.g. complaints, bulk orders); it tells customers when your team replies.
 - **Try it**: write like a customer and see its answer — nothing is sent to anyone (it uses what is saved).
-- Only the owner changes it; others in Managed Services can look. The set-up guide's step is done once it
+- Only the owner changes it; others in QTT Business Suite can look. The set-up guide's step is done once it
   knows your opening hours and at least 3 answers.
 - It answers on the business's own WhatsApp number connected in Onbox. QTT connects the number during setup
   and switches the live answering on; until then Try it shows how it will answer.
@@ -1187,14 +1187,14 @@ customers. Open it from Managed Services › Home › your AI & WhatsApp service
   and the chat is marked for your team in Onbox with a note. Once someone on your team replies or takes the
   chat, it stays quiet in that chat.
 
-## Managed Services — Marketing assistant (posting to your pages)
-Its own managed service in three packages (Managed Services › Explore ›
+## QTT Business Suite — Marketing assistant (posting to your pages)
+Its own managed service in three packages (QTT Business Suite › Explore ›
 Marketing assistant; monthly, yearly or 3 years — yearly pays 10 months):
 **Starter** ₹999 a month (posts on 2 pages, 3 post ideas a week), **Growth**
 ₹1,999 (5 pages, 5 ideas a week and festival offers), **Pro** ₹2,999 (10
 pages, 7 ideas a week and festival offers). A full package can't connect
 another page — disconnect one or ask QTT for a bigger package.
-Open it from Managed Services › Home › Marketing assistant → **Marketing
+Open it from QTT Business Suite › Home › Marketing assistant → **Marketing
 assistant** (businesses that ticked it inside AI & WhatsApp Automation before
 open it from that service).
 - **Your pages** (owner): Connect → pick Facebook, Instagram, LinkedIn, X
@@ -1326,7 +1326,7 @@ open it from that service).
   newsletters need Pro. They share the package's series limit with post
   series, and their days show on the Calendar.
 
-## Managed Services — online store (Managed E-Commerce Websites)
+## QTT Business Suite — online store (Managed E-Commerce Websites)
 QTT creates, hosts, secures and manages a full online store (WooCommerce) for
 the business, and the owner runs it from the app — there is no website login
 to remember or share.
@@ -1337,7 +1337,7 @@ to remember or share.
   products, marketing integrations and priority support. Payment gateway fees
   and paid add-ons are not included. A full shop can't add another product
   ("Your plan allows 50 products…") — move to a bigger plan through Requests.
-- Ordering: Explore QTT OS (or Managed Services › Explore) › Managed
+- Ordering: Explore QTT OS (or QTT Business Suite › Explore) ›
   E-Commerce Websites. First **choose your store's design** before anything
   is built: what you'll sell (fashion, grocery, electronics, jewellery,
   beauty, furniture and home, sweets and bakery, or a general store), then one
@@ -1377,7 +1377,7 @@ to remember or share.
 - Going live: approve the preview, then connect your website address (the app
   shows the DNS steps). Once the address points here the store moves onto it
   by itself (usually within 10 minutes), with https, and opens to Google.
-- Running it — on the website's page in Managed Services tap "Run your store":
+- Running it — on the website's page in QTT Business Suite tap "Run your store":
   - Store home: today's orders, orders to pack and send, new enquiries,
     products running low or sold out, plugin updates waiting.
   - Orders: search; tabs To send / Unpaid / Delivered; the order with items,
@@ -1411,12 +1411,12 @@ to remember or share.
   newsletter pop-up, a bottom bar on phones, catalogue-only mode (customers
   enquire instead of buying).
 - New orders, cancelled or failed payments, products running low or sold out,
-  and new enquiries appear in Managed Services activity.
+  and new enquiries appear in QTT Business Suite activity.
 - A store on another theme that QTT took over (e.g. Porto): orders, products,
   enquiries, coupons, marketing and plugins work the same; the design page
   changes the logo, colours, fonts, top-of-page announcement, social links and
   share buttons; page layouts, sliders and banners are changed by QTT.
-- Problems or bigger changes: Managed Services › Requests.
+- Problems or bigger changes: QTT Business Suite › Requests.
 
 - Payments and delivery (store › Payments and delivery): switch cash on
   delivery on or off; online payments through your own Razorpay account —
@@ -1428,11 +1428,38 @@ to remember or share.
   terms and privacy pages are written from your answers when it's built —
   nothing promised that you didn't say (no delivery times, no return window
   you didn't choose); ask through Requests to change them.
+## Launch — "What do you want to launch today?" and Help me choose
+QTT OS has four products: **Office Pulse** (your team: attendance, leave,
+payroll, tasks and files), **Orbitra** (sales, stock, bills and accounts),
+**QTT Studio** (designs and content in your brand) and **QTT Business Suite**
+(the services QTT sets up and looks after: Website Development, Managed
+E-Commerce Websites, AI & WhatsApp Automation, Marketing assistant — "live in
+minutes"; it was called Managed Services before).
+- **Home** (owner, nothing started yet): "What do you want to launch today?"
+  — a card for each of the four products, and **Help me choose**. Once
+  something runs, the home shows the counts (active products, websites,
+  automations, team members), anything still to finish from Help me choose
+  ("Finish setting up …") and **Launch something new**.
+- **A product's page** (tap its card): what it does, its real screen, what
+  you get; apps: Start the free trial or See plans; QTT Business Suite: each
+  service with its price — tap one to order it on its own page.
+- **Help me choose** (owner): 1) choose your goals (get more customers, sell
+  online, answer on WhatsApp, automate, manage the team, billing and stock,
+  marketing content, a complete system) › 2) the products recommended for
+  them, with why (View details opens the product) › 3) customize: apps
+  include everything (with their free trial); for QTT Business Suite tick
+  the services and pick the package › Solution summary › **Launch my
+  solution**: apps start their free trial at once; each Suite service is then
+  finished on its own order page (your website address, design and
+  details) — nothing is ordered or charged before you confirm there. The
+  last screen shows each part's steps (setup → design and content → connect
+  → go live) and Go to my workspace.
+
 ## Plans and trials — Explore QTT OS
 Each app has its own plans (there are no bundles). **Explore QTT OS** (Home ›
 the Explore QTT OS card, or Business › Plans and billing › Explore QTT OS)
 shows all of QTT OS in one place: the apps (Orbitra, Office Pulse, QTT Studio) and
-the managed services (Website Development, Managed E-Commerce Websites, AI &
+the QTT Business Suite services (Website Development, Managed E-Commerce Websites, AI &
 WhatsApp Automation, Marketing assistant), each with what it does and its
 plans. The team inbox (Onbox) isn't in the list — it comes with AI & WhatsApp
 Automation and the website services; Team (the business's own chat) is free for everyone. Owners and admins can look; only the **owner** starts things:

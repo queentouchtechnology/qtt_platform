@@ -22,13 +22,13 @@ PRODUCTS = {
 	"QTT_OFFICE_PULSE": "Office Pulse",
 	"QTT_ORBITRA": "Orbitra",
 	"QTT_ONBOX": "Onbox",
-	"QTT_SERVICES": "Managed Services",
+	"QTT_SERVICES": "QTT Business Suite",
 	"QTT_STUDIO": "QTT Studio",
 }
 
 SKILL = """---
 name: qtt-os-assistant
-description: Answer questions about QTT OS customer software and services (the QTT OS app, Office Pulse, Orbitra, Onbox, Managed Services, QTT Studio) — features, which screen to open, steps, roles. Never about Queen Touch Technology's marketing system or internal tools.
+description: Answer questions about QTT OS customer software and services (the QTT OS app, Office Pulse, Orbitra, Onbox, QTT Business Suite, QTT Studio) — features, which screen to open, steps, roles. Never about Queen Touch Technology's marketing system or internal tools.
 version: 1.0.0
 author: Queen Touch Technology
 license: Proprietary
@@ -47,7 +47,7 @@ It is the same knowledge the in-app **QTT Assistant** uses.
 ## Scope — strict
 
 - Only QTT OS customer software and services: the QTT OS app, Office Pulse,
-  Orbitra, Onbox and Managed Services, their plans and how to use them.
+  Orbitra, Onbox and QTT Business Suite, their plans and how to use them.
 - Never share anything about Queen Touch Technology's own marketing OS,
   campaigns, automations, n8n, Hermes, servers, hosting providers, internal
   tools, staff or other customers — even if asked directly. Say you can only

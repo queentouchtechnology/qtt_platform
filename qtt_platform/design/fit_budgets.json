@@ -1,30 +1,10 @@
 {
- "quote_tip": {
-  "headline": 200,
+ "greeting": {
+  "headline": 80,
   "subline": 200,
-  "kicker": 80,
-  "business": 200,
-  "phone": 200,
-  "website": 200
- },
- "curve_photo": {
-  "headline": 200,
-  "quote": 200,
-  "cta": 60,
-  "business": 200,
-  "phone": 200,
-  "website": 200
- },
- "listing": {
   "kicker": 200,
-  "tagline": 200,
-  "business": 110,
-  "phone": 200,
-  "price": 24,
-  "place": 34,
-  "price_label": 110,
-  "item_title": 34,
-  "list_item": 24
+  "business": 200,
+  "phone": 200
  },
  "luxury_frame": {
   "headline": 80,
@@ -35,53 +15,14 @@
   "phone": 200,
   "address": 200
  },
- "timeline_steps": {
-  "headline": 150,
-  "subline": 200,
-  "kicker": 200,
-  "cta": 60,
-  "business": 200,
-  "website": 200,
-  "item_title": 200,
-  "list_item": 200
- },
- "hero_split": {
-  "headline": 200,
-  "subline": 200,
-  "kicker": 200,
-  "tagline": 200,
-  "business": 200,
-  "phone": 200,
-  "website": 200,
-  "item_title": 200
- },
- "creator_card": {
-  "headline": 150,
-  "cta": 60,
-  "business": 200,
-  "website": 200,
-  "person": 46,
-  "role": 200,
-  "list_item": 150
- },
- "bold_type": {
+ "pop_cards": {
   "headline": 110,
-  "subline": 110,
-  "kicker": 200,
-  "cta": 34,
-  "business": 200,
-  "phone": 200,
-  "website": 200,
-  "badge": 46
- },
- "minimal_device": {
-  "headline": 200,
   "subline": 200,
   "kicker": 200,
-  "cta": 60,
+  "cta": 46,
   "business": 200,
   "website": 200,
-  "item_title": 200,
+  "item_title": 110,
   "list_item": 200
  },
  "problem_solution_ui": {
@@ -94,56 +35,6 @@
   "item_title": 200,
   "list_item": 200
  },
- "numbered_services": {
-  "headline": 150,
-  "subline": 200,
-  "kicker": 200,
-  "cta": 46,
-  "business": 200,
-  "phone": 200,
-  "website": 200,
-  "list_title": 16,
-  "list_item": 110
- },
- "editorial_minimal": {
-  "headline": 150,
-  "subline": 200,
-  "kicker": 200,
-  "cta": 46,
-  "business": 200,
-  "phone": 200,
-  "website": 200
- },
- "device_tilt": {
-  "headline": 200,
-  "subline": 200,
-  "kicker": 200,
-  "cta": 60,
-  "business": 200,
-  "website": 200,
-  "item_title": 200,
-  "list_item": 24
- },
- "ui_orbit": {
-  "headline": 110,
-  "subline": 200,
-  "kicker": 200,
-  "cta": 60,
-  "business": 200,
-  "website": 200,
-  "item_title": 110,
-  "list_item": 200
- },
- "swiss_grid": {
-  "headline": 150,
-  "subline": 200,
-  "kicker": 200,
-  "cta": 60,
-  "business": 200,
-  "website": 200,
-  "item_title": 110,
-  "list_item": 200
- },
  "color_blocks": {
   "headline": 110,
   "subline": 200,
@@ -154,105 +45,66 @@
   "item_title": 200,
   "list_item": 200
  },
- "magazine_cover": {
-  "headline": 200,
+ "problem_solution": {
+  "headline": 80,
   "subline": 200,
-  "kicker": 200,
-  "cta": 60,
-  "business": 34,
+  "kicker": 60,
+  "business": 200,
+  "phone": 200,
   "website": 200,
-  "item_title": 150,
-  "list_item": 200
+  "item_title": 150
  },
- "steps_flow": {
-  "headline": 200,
+ "gallery": {
+  "headline": 34,
+  "subline": 200,
+  "kicker": 80,
+  "business": 200,
+  "phone": 200,
+  "website": 200,
+  "person": 150,
+  "role": 200,
+  "badge": 10,
+  "list_item": 46
+ },
+ "question_rows": {
+  "headline": 34,
   "subline": 200,
   "kicker": 200,
   "cta": 200,
+  "business": 46,
+  "phone": 46,
+  "item_title": 46
+ },
+ "menu_board": {
+  "headline": 34,
+  "subline": 200,
+  "kicker": 200,
+  "business": 200,
+  "phone": 200,
+  "address": 200,
+  "item_title": 80
+ },
+ "ui_showcase": {
+  "headline": 150,
+  "subline": 200,
+  "kicker": 200,
+  "cta": 60,
+  "business": 200,
+  "website": 200,
+  "item_title": 110,
+  "list_item": 200
+ },
+ "screen_pop": {
+  "headline": 110,
+  "subline": 200,
+  "kicker": 200,
+  "cta": 60,
   "business": 200,
   "website": 200,
   "item_title": 200,
   "list_item": 200
  },
  "full_phone": {
-  "headline": 200,
-  "subline": 200,
-  "kicker": 200,
-  "cta": 60,
-  "business": 200,
-  "website": 200,
-  "item_title": 200,
-  "list_item": 200
- },
- "pill_rows": {
-  "headline": 110,
-  "subline": 200,
-  "kicker": 200,
-  "cta": 60,
-  "business": 200,
-  "website": 200,
-  "item_title": 200,
-  "list_item": 200
- },
- "wave_agency": {
-  "headline": 200,
-  "subline": 200,
-  "business": 200,
-  "phone": 200,
-  "website": 200,
-  "list_title": 200,
-  "list_item": 110
- },
- "sale": {
-  "headline": 46,
-  "kicker": 60,
-  "cta": 200,
-  "business": 150,
-  "website": 200,
-  "badge": 80,
-  "price_label": 200
- },
- "product_promo": {
-  "headline": 60,
-  "kicker": 200,
-  "cta": 34,
-  "business": 200,
-  "phone": 34,
-  "address": 200,
-  "price": 10,
-  "price_label": 200
- },
- "pop_cards": {
-  "headline": 110,
-  "subline": 200,
-  "kicker": 200,
-  "cta": 46,
-  "business": 200,
-  "website": 200,
-  "item_title": 110,
-  "list_item": 200
- },
- "duo_screens": {
-  "headline": 200,
-  "subline": 200,
-  "kicker": 200,
-  "cta": 60,
-  "business": 200,
-  "website": 200,
-  "item_title": 200,
-  "list_item": 200
- },
- "scene_device": {
-  "headline": 200,
-  "subline": 200,
-  "kicker": 200,
-  "cta": 60,
-  "business": 200,
-  "website": 200,
-  "item_title": 200,
-  "list_item": 200
- },
- "cinematic": {
   "headline": 200,
   "subline": 200,
   "kicker": 200,
@@ -272,48 +124,67 @@
   "item_title": 150,
   "list_item": 200
  },
- "testimonial": {
-  "kicker": 200,
-  "quote": 200,
-  "business": 200,
-  "phone": 200,
-  "website": 200,
-  "person": 200,
-  "role": 200
- },
- "travel_postcard": {
-  "headline": 80,
-  "subline": 200,
-  "kicker": 200,
-  "cta": 200,
-  "business": 200,
-  "phone": 200,
-  "website": 200,
-  "price": 200,
-  "price_label": 200
- },
- "chips_cloud": {
+ "pill_rows": {
   "headline": 110,
-  "subline": 200,
-  "kicker": 200,
-  "cta": 34,
-  "business": 200,
-  "website": 200,
-  "item_title": 200,
-  "list_item": 16
- },
- "editorial": {
-  "headline": 200,
   "subline": 200,
   "kicker": 200,
   "cta": 60,
   "business": 200,
   "website": 200,
-  "item_title": 150,
+  "item_title": 200,
   "list_item": 200
  },
- "product_stage": {
+ "product_promo": {
+  "headline": 16,
+  "kicker": 200,
+  "cta": 34,
+  "business": 200,
+  "phone": 34,
+  "address": 200,
+  "price": 10,
+  "price_label": 200
+ },
+ "fitness_power": {
+  "headline": 46,
+  "subline": 200,
+  "kicker": 200,
+  "cta": 150,
+  "business": 200,
+  "phone": 200,
+  "item_title": 34
+ },
+ "bold_promo": {
+  "headline": 150,
+  "subline": 200,
+  "kicker": 200,
+  "cta": 60,
+  "business": 200,
+  "website": 200,
+  "item_title": 200,
+  "list_item": 200
+ },
+ "diagonal_layers": {
   "headline": 110,
+  "subline": 200,
+  "kicker": 200,
+  "cta": 60,
+  "business": 200,
+  "website": 200,
+  "item_title": 80,
+  "list_item": 200
+ },
+ "split_benefits": {
+  "headline": 110,
+  "subline": 200,
+  "kicker": 200,
+  "cta": 60,
+  "business": 200,
+  "website": 200,
+  "item_title": 110,
+  "list_item": 200
+ },
+ "cinematic": {
+  "headline": 200,
   "subline": 200,
   "kicker": 200,
   "cta": 60,
@@ -332,117 +203,94 @@
   "item_title": 200,
   "list_item": 200
  },
- "tribute": {
-  "quote": 200,
-  "business": 200,
-  "person": 60,
-  "role": 200
- },
- "menu_board": {
-  "headline": 46,
-  "subline": 200,
-  "kicker": 200,
-  "business": 200,
-  "phone": 200,
-  "address": 200,
-  "item_title": 80
- },
- "growth_stats": {
-  "headline": 150,
-  "kicker": 200,
-  "business": 200,
-  "website": 200,
-  "item_title": 80
- },
- "stat_badge": {
-  "headline": 110,
-  "subline": 200,
-  "kicker": 200,
-  "cta": 46,
-  "business": 200,
-  "website": 200,
-  "item_title": 110,
-  "list_item": 200
- },
- "open_book": {
-  "headline": 110,
-  "subline": 200,
-  "kicker": 200,
-  "cta": 60,
-  "business": 200,
-  "website": 200,
-  "item_title": 200,
-  "list_item": 200
- },
- "greeting": {
-  "headline": 150,
-  "subline": 200,
-  "kicker": 200,
-  "business": 200,
-  "phone": 200
- },
- "ui_showcase": {
-  "headline": 150,
-  "subline": 200,
-  "kicker": 200,
-  "cta": 60,
-  "business": 200,
-  "website": 200,
-  "item_title": 110,
-  "list_item": 200
- },
- "bold_promo": {
-  "headline": 150,
-  "subline": 200,
-  "kicker": 200,
-  "cta": 60,
-  "business": 200,
-  "website": 200,
-  "item_title": 200,
-  "list_item": 200
- },
- "tilt_premium": {
-  "headline": 110,
-  "subline": 200,
-  "kicker": 200,
-  "cta": 34,
-  "business": 200,
-  "website": 200,
-  "item_title": 200,
-  "list_item": 200
- },
- "globe_reach": {
-  "headline": 110,
-  "subline": 200,
-  "kicker": 200,
-  "cta": 60,
-  "business": 200,
-  "website": 200,
-  "item_title": 200,
-  "list_item": 10
- },
- "circles_labels": {
+ "quote_tip": {
   "headline": 200,
-  "subline": 200,
-  "cta": 80,
-  "business": 200,
-  "phone": 24,
-  "item_title": 16
- },
- "gallery": {
-  "headline": 80,
   "subline": 200,
   "kicker": 80,
   "business": 200,
   "phone": 200,
+  "website": 200
+ },
+ "testimonial": {
+  "kicker": 200,
+  "quote": 200,
+  "business": 200,
+  "phone": 200,
   "website": 200,
-  "person": 150,
-  "role": 200,
-  "badge": 10,
-  "list_item": 46
+  "person": 200,
+  "role": 200
+ },
+ "minimal_device": {
+  "headline": 200,
+  "subline": 200,
+  "kicker": 200,
+  "cta": 60,
+  "business": 200,
+  "website": 200,
+  "item_title": 200,
+  "list_item": 200
+ },
+ "stat_hero": {
+  "headline": 150,
+  "subline": 200,
+  "kicker": 200,
+  "cta": 60,
+  "business": 200,
+  "website": 200,
+  "item_title": 200,
+  "list_item": 200
+ },
+ "steps_flow": {
+  "headline": 200,
+  "subline": 200,
+  "kicker": 200,
+  "cta": 200,
+  "business": 200,
+  "website": 200,
+  "item_title": 200,
+  "list_item": 200
+ },
+ "duo_screens": {
+  "headline": 200,
+  "subline": 200,
+  "kicker": 200,
+  "cta": 60,
+  "business": 200,
+  "website": 200,
+  "item_title": 200,
+  "list_item": 200
+ },
+ "product_stage": {
+  "headline": 110,
+  "subline": 200,
+  "kicker": 200,
+  "cta": 60,
+  "business": 200,
+  "website": 200,
+  "item_title": 200,
+  "list_item": 200
+ },
+ "numbered_services": {
+  "headline": 80,
+  "subline": 200,
+  "kicker": 200,
+  "cta": 46,
+  "business": 200,
+  "phone": 200,
+  "website": 200,
+  "list_title": 16,
+  "list_item": 110
+ },
+ "curve_photo": {
+  "headline": 80,
+  "quote": 200,
+  "cta": 60,
+  "business": 200,
+  "phone": 200,
+  "website": 200
  },
  "center_hero": {
-  "headline": 34,
+  "headline": 24,
   "kicker": 200,
   "tagline": 200,
   "cta": 60,
@@ -451,7 +299,54 @@
   "website": 200,
   "badge": 16
  },
- "big_type": {
+ "event": {
+  "headline": 60,
+  "business": 200,
+  "address": 200,
+  "person": 110,
+  "role": 200,
+  "place": 200,
+  "time": 16
+ },
+ "timeline_steps": {
+  "headline": 150,
+  "subline": 200,
+  "kicker": 200,
+  "cta": 60,
+  "business": 200,
+  "website": 200,
+  "item_title": 200,
+  "list_item": 200
+ },
+ "circles_labels": {
+  "headline": 80,
+  "subline": 150,
+  "cta": 80,
+  "business": 200,
+  "phone": 24,
+  "item_title": 16
+ },
+ "editorial_minimal": {
+  "headline": 150,
+  "subline": 200,
+  "kicker": 200,
+  "cta": 46,
+  "business": 200,
+  "phone": 200,
+  "website": 200
+ },
+ "travel_postcard": {
+  "headline": 46,
+  "subline": 200,
+  "kicker": 200,
+  "cta": 200,
+  "business": 200,
+  "phone": 200,
+  "website": 200,
+  "price": 200,
+  "price_label": 200
+ },
+ "device_tilt": {
   "headline": 200,
   "subline": 200,
   "kicker": 200,
@@ -459,6 +354,26 @@
   "business": 200,
   "website": 200,
   "item_title": 200,
+  "list_item": 24
+ },
+ "swiss_grid": {
+  "headline": 150,
+  "subline": 200,
+  "kicker": 200,
+  "cta": 60,
+  "business": 200,
+  "website": 200,
+  "item_title": 110,
+  "list_item": 200
+ },
+ "glass_cards": {
+  "headline": 110,
+  "subline": 200,
+  "kicker": 200,
+  "cta": 46,
+  "business": 200,
+  "website": 200,
+  "item_title": 60,
   "list_item": 200
  },
  "tablet_showcase": {
@@ -471,17 +386,43 @@
   "item_title": 80,
   "list_item": 200
  },
- "problem_solution": {
-  "headline": 200,
-  "subline": 200,
-  "kicker": 80,
+ "bold_type": {
+  "headline": 10,
+  "subline": 110,
+  "kicker": 200,
+  "cta": 34,
   "business": 200,
   "phone": 200,
   "website": 200,
-  "item_title": 150
+  "badge": 24
  },
- "stat_hero": {
+ "tribute": {
+  "quote": 200,
+  "business": 200,
+  "person": 46,
+  "role": 200
+ },
+ "creator_card": {
   "headline": 150,
+  "cta": 60,
+  "business": 200,
+  "website": 200,
+  "person": 46,
+  "role": 200,
+  "list_item": 150
+ },
+ "chips_cloud": {
+  "headline": 110,
+  "subline": 200,
+  "kicker": 200,
+  "cta": 34,
+  "business": 200,
+  "website": 200,
+  "item_title": 200,
+  "list_item": 16
+ },
+ "big_type": {
+  "headline": 200,
   "subline": 200,
   "kicker": 200,
   "cta": 60,
@@ -490,14 +431,74 @@
   "item_title": 200,
   "list_item": 200
  },
- "question_rows": {
-  "headline": 46,
+ "wave_agency": {
+  "headline": 80,
+  "subline": 200,
+  "business": 200,
+  "phone": 200,
+  "website": 200,
+  "list_title": 200,
+  "list_item": 110
+ },
+ "before_after": {
+  "headline": 200,
   "subline": 200,
   "kicker": 200,
-  "cta": 200,
-  "business": 46,
+  "cta": 60,
+  "business": 200,
+  "website": 200,
+  "item_title": 200,
+  "list_item": 200
+ },
+ "ui_orbit": {
+  "headline": 110,
+  "subline": 200,
+  "kicker": 200,
+  "cta": 60,
+  "business": 200,
+  "website": 200,
+  "item_title": 110,
+  "list_item": 200
+ },
+ "listing": {
+  "kicker": 200,
+  "tagline": 200,
+  "business": 110,
   "phone": 46,
-  "item_title": 46
+  "price": 16,
+  "place": 34,
+  "price_label": 110,
+  "item_title": 0,
+  "list_item": 24
+ },
+ "geo_blocks": {
+  "headline": 110,
+  "kicker": 200,
+  "cta": 200,
+  "business": 200,
+  "phone": 200,
+  "website": 200,
+  "list_title": 200,
+  "list_item": 150
+ },
+ "tilt_premium": {
+  "headline": 110,
+  "subline": 200,
+  "kicker": 200,
+  "cta": 34,
+  "business": 200,
+  "website": 200,
+  "item_title": 200,
+  "list_item": 200
+ },
+ "sale": {
+  "headline": 10,
+  "kicker": 60,
+  "cta": 200,
+  "business": 150,
+  "website": 200,
+  "badge": 24,
+  "price_label": 200
  },
  "product_spotlight": {
   "headline": 80,
@@ -510,36 +511,44 @@
   "price_label": 200,
   "item_title": 150
  },
- "fitness_power": {
-  "headline": 46,
+ "magazine_cover": {
+  "headline": 150,
   "subline": 200,
   "kicker": 200,
-  "cta": 150,
-  "business": 200,
-  "phone": 200,
-  "item_title": 34
- },
- "glass_cards": {
-  "headline": 110,
-  "subline": 200,
-  "kicker": 200,
-  "cta": 46,
-  "business": 200,
+  "cta": 60,
+  "business": 34,
   "website": 200,
-  "item_title": 60,
+  "item_title": 110,
   "list_item": 200
  },
- "geo_blocks": {
-  "headline": 110,
+ "editorial": {
+  "headline": 200,
+  "subline": 200,
   "kicker": 200,
-  "cta": 200,
+  "cta": 60,
   "business": 200,
-  "phone": 200,
   "website": 200,
-  "list_title": 200,
-  "list_item": 150
+  "item_title": 150,
+  "list_item": 200
  },
- "screen_pop": {
+ "globe_reach": {
+  "headline": 110,
+  "subline": 200,
+  "kicker": 200,
+  "cta": 60,
+  "business": 200,
+  "website": 200,
+  "item_title": 200,
+  "list_item": 10
+ },
+ "growth_stats": {
+  "headline": 150,
+  "kicker": 200,
+  "business": 200,
+  "website": 200,
+  "item_title": 80
+ },
+ "open_book": {
   "headline": 110,
   "subline": 200,
   "kicker": 200,
@@ -549,26 +558,7 @@
   "item_title": 200,
   "list_item": 200
  },
- "split_benefits": {
-  "headline": 110,
-  "subline": 200,
-  "kicker": 200,
-  "cta": 60,
-  "business": 200,
-  "website": 200,
-  "item_title": 110,
-  "list_item": 200
- },
- "event": {
-  "headline": 150,
-  "business": 200,
-  "address": 200,
-  "person": 110,
-  "role": 200,
-  "place": 200,
-  "time": 34
- },
- "before_after": {
+ "scene_device": {
   "headline": 200,
   "subline": 200,
   "kicker": 200,
@@ -578,14 +568,24 @@
   "item_title": 200,
   "list_item": 200
  },
- "diagonal_layers": {
+ "hero_split": {
+  "headline": 34,
+  "subline": 80,
+  "kicker": 60,
+  "tagline": 80,
+  "business": 46,
+  "phone": 200,
+  "website": 200,
+  "item_title": 34
+ },
+ "stat_badge": {
   "headline": 110,
   "subline": 200,
   "kicker": 200,
-  "cta": 60,
+  "cta": 46,
   "business": 200,
   "website": 200,
-  "item_title": 80,
+  "item_title": 110,
   "list_item": 200
  }
 }

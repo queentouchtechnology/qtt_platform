@@ -191,7 +191,7 @@ def short_to_post(name: str) -> dict:
 	if doc.kind != "video" or c.get("state") != "ready" or not c.get("video"):
 		frappe.throw(_("This Short isn't ready yet."))
 	if "qtt_services" not in frappe.get_installed_apps():
-		frappe.throw(_("Posting needs the Marketing assistant — order it in Managed Services › Explore."))
+		frappe.throw(_("Posting needs the Marketing assistant — order it in QTT Business Suite › Explore."))
 	s = c.get("script") or {}
 	caption = "\n\n".join(x for x in ((s.get("hook") or "").replace("*", ""), "\n".join(x.replace("*", "") for x in s.get("captions") or [] if x),
 									   s.get("end_line") or "") if x)
