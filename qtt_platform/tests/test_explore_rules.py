@@ -14,6 +14,10 @@ class Features(unittest.TestCase):
 								 "channel_email": "1", "ai_agent": "0", "ai_credits_grant": "0"})
 		self.assertEqual(lines, ["3 team members", "2 inboxes", "WhatsApp, Website chat and Email"])
 
+	def test_a_limit_of_one_reads_singular(self):
+		self.assertEqual(r.feature_lines({"max_users": 2, "max_stores": 1}, "QTT_ORBITRA"), ["2 users", "1 store or branch"])
+		self.assertIn("1 landing page", r.feature_lines({"studio_pages": 1}, "QTT_STUDIO"))
+
 	def test_limits_switches_and_unknown_keys(self):
 		self.assertEqual(r.feature_lines({"max_employees": "200", "payroll": "1"}), ["Up to 200 employees", "Payroll and payslips"])
 		self.assertEqual(r.feature_lines({"max_users": "0"}), ["Unlimited users"])

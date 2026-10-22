@@ -50,6 +50,16 @@ UNLIMITED = {
 	"max_stores": "Unlimited stores or branches",
 	"max_employees": "Unlimited employees",
 }
+# A limit of exactly 1 ("1 store or branch", not "1 stores or branches").
+ONE = {
+	"max_agents": "1 team member",
+	"max_inboxes": "1 inbox",
+	"max_users": "1 user",
+	"max_stores": "1 store or branch",
+	"studio_pages": "1 landing page",
+	"studio_doc_templates": "1 document template of your own",
+	"studio_shorts": "1 Short a month",
+}
 SWITCHES = {
 	"channel_whatsapp": "WhatsApp",
 	"channel_website": "Website chat",
@@ -89,7 +99,7 @@ def feature_lines(features: dict, product: str | None = None) -> list[str]:
 			if key in unlimited:
 				out.append(unlimited[key])
 			continue  # 0 AI replies: simply not offered
-		out.append(text.format(n=f"{n:,}"))
+		out.append(ONE[key] if n == 1 and key in ONE else text.format(n=f"{n:,}"))
 	on = [SWITCHES[k] for k in CHANNELS if _num(features.get(k)) == 1]
 	if on:
 		out.append(on[0] if len(on) == 1 else f"{', '.join(on[:-1])} and {on[-1]}")
