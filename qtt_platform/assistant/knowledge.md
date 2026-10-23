@@ -1111,6 +1111,28 @@ share.
   Tag Manager; SEO plugins), Website settings (name, tagline, Show on Google).
   A website has no orders, products or coupons — for selling online choose
   Managed E-Commerce Websites.
+- Live preview: every design page (Brand, Colours, Fonts and shape, Top and
+  Bottom of the page, Pop-ups, a page's Sections) shows the website itself —
+  beside the settings on a computer, under **Preview** on a phone. **Save**
+  keeps you on the page and the preview reloads with the change.
+- Pages (Design › Pages): **Add a page** (a name, then an empty page or the
+  same layout as another page), and each page's **⋮** — Rename (its address
+  stays, so links keep working), Move up / down (the home page stays first),
+  Show in / Hide from the menu, Remove page. A new page only when the plan
+  has room — Landing page 1, 3 pages 3, 5 pages 5 (+3 with the "3 more pages"
+  add-on); "2 of 3 on your plan" shows how many. When it's full, **Ask for 3
+  more pages** or **Ask for a bigger plan** sends QTT a request; QTT tells you
+  the price first, then sets it up.
+- Blog (Manage your website › Blog): every post on the website — also ones
+  written in WordPress — with search and All / Published / Drafts /
+  Scheduled. **New post**: title, a picture (from the website's pictures or
+  your phone), the text with a bar for headings, bold, italic, lists and links
+  (a blank line between paragraphs), categories and a short summary; then
+  **Publish**, **Save as a draft** or **Pick a time** and **Schedule**. A
+  published post opens on the website right there; **Take off the website**
+  keeps it as a draft; **Delete this post** moves it to the bin. A post laid
+  out in WordPress with pictures or columns inside its text keeps that text as
+  it is — change its title, picture, summary and categories in the app.
 - New enquiries appear in QTT Business Suite activity.
 
 ## QTT Business Suite — AI & WhatsApp Automation
