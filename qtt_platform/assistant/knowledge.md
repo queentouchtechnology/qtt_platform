@@ -1248,6 +1248,10 @@ open it from that service).
   → sign in there and allow posting → come back to the app; the page shows with
   its photo. A page whose sign-in expired says so — connect it again. Disconnect
   stops posting (posts already made stay).
+  **Instagram** connects with "Login with Instagram" and needs a business or
+  creator account (Instagram app › Settings › Account type — switching is
+  free). **LinkedIn** connects a company page (the owner must be an admin of
+  it); posting to a personal profile isn't offered.
 - **Google Business**: sign in with the Google account that manages the
   business's Google Business Profile; each of its locations (up to the package's
   pages) becomes a page. A post goes to Google as a "What's new" update — text up
