@@ -1260,6 +1260,20 @@ open it from that service).
   connected page — untick any you don't want. Numbers come from each page's
   feed: pages connected before 23 Oct 2026 show **Connect again for numbers**
   — connect once more and allow it (Instagram can take up to 2 days).
+- **Post history** (Social media › Post history): every post on your pages —
+  made in QTT or posted directly — newest first, as a **Feed** (like Facebook
+  and Instagram) or a **Grid** (like an Instagram profile), with likes,
+  comments, shares and people reached; filter by page; each month's posts and
+  reach; posts that weren't posted in red (**Try again**). The newest 50 posts
+  of each page show. **⋯** on a post (owner): **Edit and post again** (a new post
+  with the same words and picture), **Copy to other pages**, **Open in …**
+  (comments are read and answered there) and **Delete from …** — a post already
+  live on Instagram, Facebook, LinkedIn and the rest can't be changed or
+  deleted from QTT (the posting service doesn't allow it), so it opens the post
+  to delete it in that app. **Google posts** are edited (words; an offer's or
+  event's title, dates, coupon and terms) and deleted right here. In **Your
+  posts**, ⋯ on a post: Edit, Change the time and Delete before it goes out;
+  Post again or Remove from this list after.
 - **Post types** (in a post, **How it goes on each page**): Instagram and
   Facebook — Post, Reel (a tall video, needs a video) or Story (24 hours, needs
   a photo or video); Threads — Post or Reel; Google — Update, Offer (title,
