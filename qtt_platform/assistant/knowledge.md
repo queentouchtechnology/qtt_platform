@@ -1243,17 +1243,43 @@ another page — disconnect one or ask QTT for a bigger package.
 Open it from QTT Business Suite › Home › Marketing assistant → **Marketing
 assistant** (businesses that ticked it inside AI & WhatsApp Automation before
 open it from that service).
-- **The home** (top to bottom): what needs you now — no page yet: **Step 1:
-  connect where you post** (Instagram, Facebook, Google buttons); posts to
-  approve: **{n} posts are waiting for your OK › Review them**; else **All set —
-  Next post: …** or **Nothing planned yet › Get post ideas**. Then big buttons:
-  Write a post, Get post ideas, Ready designs (Post designs), Posts on
-  autopilot (Post series and Autopilot), Festival & offer ideas (Suggestions),
-  Calendar. Posts left this month, Your pages (tap a page to disconnect it;
-  **Add page**), More in your package (Website articles, Email newsletters,
-  Articles and newsletters on autopilot), and **Your posts** with tabs:
+- **The first screen**: **Needs your OK** — posts, website articles and
+  newsletters waiting, together (tap one to open it; **Review all**); **This
+  week** — what goes out each day (Calendar); then four doors: **Social
+  media**, **Website articles** (Growth and Pro), **Email newsletters** (Pro)
+  and **Ideas & festivals**. A door the package doesn't have says which package
+  brings it (owner: tap to see plans). Articles and newsletters on autopilot,
+  and **Better posts** (how complete Business › Knowledge is, under 80%).
+- **Social media**: people who saw your posts in the last 30 days (and the
+  change from the 30 before), likes, comments, shares and Google calls, with
+  4 weekly bars; each page with its own numbers (tap a page to connect it again
+  or disconnect it; **Add page**); your best post this month with **Open
+  post**. **What customers say**; big buttons Create a post, Get post ideas,
+  Ready designs, On autopilot; posts left this month; **Your posts** with tabs
   Waiting for your OK, Scheduled, Posted, All. A new post goes to every
-  connected page — untick any you don't want.
+  connected page — untick any you don't want. Numbers come from each page's
+  feed: pages connected before 23 Oct 2026 show **Connect again for numbers**
+  — connect once more and allow it (Instagram can take up to 2 days).
+- **Post types** (in a post, **How it goes on each page**): Instagram and
+  Facebook — Post, Reel (a tall video, needs a video) or Story (24 hours, needs
+  a photo or video); Threads — Post or Reel; Google — Update, Offer (title,
+  start and end dates, coupon code, terms, link) or Event (name, dates and a
+  button: Call now, Order online, Book, Shop, Learn more, Sign up); YouTube a
+  video title; Pinterest a pin title and link. **How it looks** shows it square
+  or tall.
+- **What customers say**: Google reviews for each Google page — rating and
+  every review; **Reply** / **Change reply** (owner) with **Suggest a reply**
+  (written in your voice — change it before **Reply on Google**; everyone sees
+  it under the review). Your Google profile's calls, directions, website visits
+  and views (30 days). Comments on your posts, most talked-about first, with
+  **Open post** — comments on Instagram, Facebook, LinkedIn and the rest are
+  read and answered in that app (QTT shows how many, not the words). If Google
+  isn't showing reviews yet, it says QTT is switching it on.
+- **Ideas & festivals**: festivals coming up (**Make the post**); **Use one
+  idea everywhere** (owner) — write it once, tick Post / Article / Newsletter
+  (as the package allows); each is written and waits for your OK; ready ideas
+  and your products (**Make post**), **Get post ideas**, **Something special?**
+  (a custom poster from QTT, price first), Calendar, All suggestions.
 - **Your pages** (owner): Connect → pick Facebook, Instagram, LinkedIn, X
   (Twitter), YouTube, Threads, TikTok, Pinterest, Bluesky or **Google Business**
   → sign in there and allow posting → come back to the app; the page shows with
