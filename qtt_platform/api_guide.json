@@ -3532,7 +3532,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.settings",
-   "screens": "admin/marketing_view.dart › _MarketingViewState\napp/app.dart › AppServices\napp/app.dart › _QttOsAppState\ncore/analytics/analytics.dart › AnalyticsRouteObserver\nplatform/team/team_sheets.dart › TeamChannelInfoPage\nplatform/workplace/remote_page.dart › _RemoteBody\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/onbox/onbox_root.dart › _InboxRootState\nproducts/onbox/screens/conversation_list_pane.dart › OnboxMenuButton\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/more_view.dart › _OrbitraSettingsViewState\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_design.dart › _GroupEditPageState\nproducts/services/store/store_more.dart › _TrackingCardState\nshared/search/global_search.dart › _GlobalSearchScreenState",
+   "screens": "admin/marketing_view.dart › _MarketingViewState\napp/app.dart › AppServices\napp/app.dart › _QttOsAppState\ncore/analytics/analytics.dart › AnalyticsRouteObserver\nplatform/team/team_sheets.dart › TeamChannelInfoPage\nplatform/workplace/remote_page.dart › _RemoteBody\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/onbox/onbox_root.dart › _InboxRootState\nproducts/onbox/screens/conversation_list_pane.dart › OnboxMenuButton\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/more_view.dart › _OrbitraSettingsViewState\nproducts/services/screens/whatsapp_page.dart › YourWhatsappPage\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_design.dart › _GroupEditPageState\nproducts/services/store/store_more.dart › _TrackingCardState\nshared/search/global_search.dart › _GlobalSearchScreenState",
    "other_callers": "",
    "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/settings.py:14",
    "status": "Not described"
@@ -3916,7 +3916,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.home",
-   "screens": "admin/admin_home.dart › _AdminHomeBodyState\ncore/assistant/screen_context.dart › CurrentScreen\nplatform/data/platform_repository.dart › PlatformRepository\nplatform/explore/explore_screen.dart › _ItemPage\nplatform/launch/launch_models.dart › (top level)\nplatform/launch/launch_screens.dart › HelpMeChoosePage\nplatform/launch/launch_screens.dart › LaunchHero\nplatform/launch/launch_screens.dart › LaunchPage\nplatform/launch/launch_screens.dart › LaunchSection\nplatform/launch/launch_screens.dart › ProductPage\nplatform/launch/launch_screens.dart › _HelpMeChooseState\nplatform/launch/launch_screens.dart › _ProductCard\nplatform/team/team_screen.dart › _TeamScreenState\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/onbox/onbox_root.dart › _InboxRootState\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/orbitra_shell.dart › _OrbitraHomeState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/services_home.dart › _ServiceGrid\nproducts/services/services_root.dart › _ServicesRootState\nproducts/studio/studio_root.dart › StudioRoot\nproducts/studio/studio_root.dart › _StudioHomeState\nshared/widgets/action_cards.dart › (top level)\nshell/home_shell.dart › _HomeShellState",
+   "screens": "admin/admin_home.dart › _AdminHomeBodyState\ncore/assistant/screen_context.dart › CurrentScreen\nplatform/data/platform_repository.dart › PlatformRepository\nplatform/explore/explore_screen.dart › _ItemPage\nplatform/launch/launch_models.dart › (top level)\nplatform/launch/launch_screens.dart › HelpMeChoosePage\nplatform/launch/launch_screens.dart › LaunchHero\nplatform/launch/launch_screens.dart › LaunchPage\nplatform/launch/launch_screens.dart › LaunchSection\nplatform/launch/launch_screens.dart › ProductPage\nplatform/launch/launch_screens.dart › _HelpMeChooseState\nplatform/launch/launch_screens.dart › _ProductCard\nplatform/team/team_screen.dart › _TeamScreenState\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/onbox/onbox_root.dart › _InboxRootState\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/orbitra_shell.dart › _OrbitraHomeState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/whatsapp_page.dart › YourWhatsappPage\nproducts/services/services_root.dart › _ServicesRootState\nproducts/studio/studio_root.dart › StudioRoot\nproducts/studio/studio_root.dart › _StudioHomeState\nshared/widgets/action_cards.dart › (top level)\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/admin_home.py:143",
    "status": "Not described"
@@ -5756,7 +5756,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.forms",
-   "screens": "platform/workplace/forms_page.dart › (top level)\nplatform/workplace/forms_page.dart › _FormsPageState\nproducts/office_pulse/screens/home_view.dart › PulseHomeView\nshared/whatsapp/whatsapp_more.dart › _WhatsappFormsViewState\nshared/whatsapp/whatsapp_views.dart › _WhatsappNumberViewState\nshell/home_shell.dart › _HomeShellState",
+   "screens": "platform/workplace/forms_page.dart › (top level)\nplatform/workplace/forms_page.dart › _FormsPageState\nproducts/office_pulse/screens/home_view.dart › PulseHomeView\nproducts/services/screens/whatsapp_page.dart › YourWhatsappPage\nshared/whatsapp/whatsapp_more.dart › _WhatsappFormsViewState\nshared/whatsapp/whatsapp_views.dart › _WhatsappNumberViewState\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/forms.py:77",
    "status": "OK"
@@ -6908,7 +6908,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.overview",
-   "screens": "admin/admin_root.dart › _Overview\nproducts/office_pulse/repository.dart › PulseRepository\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/services/repository.dart › ServicesRepository\nproducts/services/screens/article_pages.dart › ArticleEditorPage\nproducts/services/screens/article_pages.dart › _ArticleEditorPageState\nproducts/services/screens/marketing_pages.dart › PostEditorPage\nproducts/services/screens/marketing_pages.dart › _PostEditorPageState\nproducts/services/screens/newsletter_pages.dart › NewsletterEditorPage\nproducts/services/screens/newsletter_pages.dart › _NewsletterEditorPageState\nproducts/services/screens/series_pages.dart › SeriesEditorPage\nproducts/services/screens/series_pages.dart › SeriesPage\nproducts/services/screens/series_pages.dart › _SeriesEditorPageState\nproducts/services/screens/series_pages.dart › _SeriesPageState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/services_home.dart › _ActivityPageState\nproducts/services/screens/services_home.dart › _AssetPage\nproducts/services/screens/services_home.dart › _CatalogPage\nproducts/services/screens/services_home.dart › _PendingPage\nproducts/services/screens/services_home.dart › _ReviewCard\nproducts/services/screens/services_home.dart › _ServiceGrid\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/screens/services_home.dart › _ServicesListPage\nproducts/services/screens/services_home.dart › _Stats\nproducts/services/services_root.dart › ServicesState\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_pages.dart › (top level)",
+   "screens": "admin/admin_root.dart › _Overview\nproducts/office_pulse/repository.dart › PulseRepository\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/services/repository.dart › ServicesRepository\nproducts/services/screens/article_pages.dart › ArticleEditorPage\nproducts/services/screens/article_pages.dart › _ArticleEditorPageState\nproducts/services/screens/marketing_pages.dart › PostEditorPage\nproducts/services/screens/marketing_pages.dart › _PostEditorPageState\nproducts/services/screens/newsletter_pages.dart › NewsletterEditorPage\nproducts/services/screens/newsletter_pages.dart › _NewsletterEditorPageState\nproducts/services/screens/series_pages.dart › SeriesEditorPage\nproducts/services/screens/series_pages.dart › SeriesPage\nproducts/services/screens/series_pages.dart › _SeriesEditorPageState\nproducts/services/screens/series_pages.dart › _SeriesPageState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/services_home.dart › _ActivityPageState\nproducts/services/screens/services_home.dart › _AssetPage\nproducts/services/screens/services_home.dart › _CatalogPage\nproducts/services/screens/services_home.dart › _PendingPage\nproducts/services/screens/services_home.dart › _ReviewCard\nproducts/services/screens/services_home.dart › _ServiceGrid\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/screens/services_home.dart › _ServicesListPage\nproducts/services/screens/services_home.dart › _Stats\nproducts/services/screens/services_home.dart › _WebsiteTop\nproducts/services/screens/whatsapp_page.dart › _Row\nproducts/services/services_root.dart › ServicesState\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_pages.dart › (top level)",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/platform_admin.py:25",
    "status": "Not described"
@@ -11788,7 +11788,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.receptionist",
-   "screens": "products/services/models.dart › SvcService\nproducts/services/screens/receptionist_pages.dart › (top level)\nproducts/services/screens/receptionist_pages.dart › ReceptionistPage\nproducts/services/screens/receptionist_pages.dart › _EditorState\nproducts/services/screens/services_home.dart › _ServiceGrid\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › _ServicesRootState",
+   "screens": "products/services/models.dart › SvcService\nproducts/services/screens/receptionist_pages.dart › (top level)\nproducts/services/screens/receptionist_pages.dart › ReceptionistPage\nproducts/services/screens/receptionist_pages.dart › _EditorState\nproducts/services/screens/services_home.dart › _ServiceGrid\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/screens/whatsapp_page.dart › _Row\nproducts/services/services_root.dart › _ServicesRootState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:149",
    "status": "OK"
@@ -11886,7 +11886,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:119",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:125",
    "status": "Not used by the app"
   },
   {
@@ -11902,7 +11902,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:107",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:113",
    "status": "Not used by the app"
   },
   {
@@ -11918,7 +11918,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:101",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:107",
    "status": "Not used by the app"
   },
   {
@@ -11934,7 +11934,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:131",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:137",
    "status": "Not used by the app"
   },
   {
@@ -11950,7 +11950,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:113",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:119",
    "status": "Not used by the app"
   },
   {
@@ -11966,7 +11966,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:95",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:101",
    "status": "Not used by the app"
   },
   {
@@ -11982,7 +11982,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:53",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:59",
    "status": "Not used by the app"
   },
   {
@@ -11998,7 +11998,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:179",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:185",
    "status": "Not used by the app"
   },
   {
@@ -12014,7 +12014,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:155",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:161",
    "status": "Not used by the app"
   },
   {
@@ -12030,7 +12030,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:185",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:191",
    "status": "Not used by the app"
   },
   {
@@ -12046,7 +12046,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:65",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:71",
    "status": "Not used by the app"
   },
   {
@@ -12062,7 +12062,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:167",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:173",
    "status": "Not used by the app"
   },
   {
@@ -12078,7 +12078,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:83",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:89",
    "status": "Not used by the app"
   },
   {
@@ -12094,7 +12094,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:125",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:131",
    "status": "Not used by the app"
   },
   {
@@ -12110,7 +12110,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:137",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:143",
    "status": "Not used by the app"
   },
   {
@@ -12126,7 +12126,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:161",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:167",
    "status": "Not used by the app"
   },
   {
@@ -12142,7 +12142,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:71",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:77",
    "status": "Not used by the app"
   },
   {
@@ -12158,7 +12158,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:77",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:83",
    "status": "Not used by the app"
   },
   {
@@ -12174,7 +12174,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:89",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:95",
    "status": "Not used by the app"
   },
   {
@@ -12190,7 +12190,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:47",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:53",
    "status": "Not used by the app"
   },
   {
@@ -12206,7 +12206,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:143",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:149",
    "status": "Not used by the app"
   },
   {
@@ -12222,7 +12222,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:173",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:179",
    "status": "Not used by the app"
   },
   {
@@ -12231,8 +12231,8 @@
    "area": "api.my_whatsapp",
    "http_methods": "GET",
    "guest": 0,
-   "purpose": "Is the business's own WhatsApp number connected in Onbox (WhatsApp Cloud API)? {connected, phone, problem}.",
-   "details": "Is the business's own WhatsApp number connected in Onbox (WhatsApp Cloud API)? {connected, phone, problem}.",
+   "purpose": "Is the business's own WhatsApp number connected in its Inbox (WhatsApp Cloud API)? {connected, phone, name, problem, service}. A business without AI & WhatsApp Automation (or someone who isn't the owner) gets service False and why — the app still shows its Inbox and customers.",
+   "details": "Is the business's own WhatsApp number connected in its Inbox (WhatsApp Cloud API)? {connected, phone, name, problem,\nservice}. A business without AI & WhatsApp Automation (or someone who isn't the owner) gets service False and why —\nthe app still shows its Inbox and customers.",
    "arguments": "",
    "used_by": "—",
    "app_calls": "",
@@ -12254,7 +12254,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:149",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:155",
    "status": "Not used by the app"
   },
   {
@@ -12270,7 +12270,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:41",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:47",
    "status": "Not used by the app"
   },
   {
@@ -12286,7 +12286,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:59",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:65",
    "status": "Not used by the app"
   },
   {
@@ -12572,7 +12572,7 @@
    "arguments": "name",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.asset",
-   "screens": "app/app_gate.dart › _SplashState\nproducts/services/models.dart › SvcEvent\nproducts/services/screens/deploy_pages.dart › DeploymentsList\nproducts/services/screens/deploy_pages.dart › _DeploymentsListState\nproducts/services/screens/golive_pages.dart › _ConnectDomainPage\nproducts/services/screens/golive_pages.dart › _ConnectDomainPageState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/services_home.dart › _ActivityPageState\nproducts/services/screens/services_home.dart › _AssetPage\nproducts/services/screens/services_home.dart › _ConnectCard\nproducts/services/screens/services_home.dart › _DownCard\nproducts/services/screens/services_home.dart › _ReviewCard\nproducts/services/screens/services_widgets.dart › AssetTile\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_design.dart › FieldEditor\nproducts/services/store/store_design.dart › StoreDesignPage\nproducts/services/store/store_design.dart › _GroupEditPage\nproducts/services/store/store_design.dart › _GroupEditPageState\nproducts/services/store/store_design.dart › _ImageField\nproducts/services/store/store_design.dart › _ImageFieldState\nproducts/services/store/store_design.dart › _ItemEditPage\nproducts/services/store/store_design.dart › _ItemEditPageState\nproducts/services/store/store_design.dart › _ListField\nproducts/services/store/store_design.dart › _PageSectionsPage\nproducts/services/store/store_design.dart › _PageSectionsPageState\nproducts/services/store/store_design.dart › _StoreDesignPageState\nproducts/services/store/store_more.dart › StoreCouponsPage\nproducts/services/store/store_more.dart › StoreMarketingPage\nproducts/services/store/store_more.dart › StoreSettingsPage\nproducts/services/store/store_more.dart › _CouponForm\nproducts/services/store/store_more.dart › _CouponFormState\nproducts/services/store/store_more.dart › _SiteForm\nproducts/services/store/store_more.dart › _SiteFormState\nproducts/services/store/store_more.dart › _StoreCouponsPageState\nproducts/services/store/store_more.dart › _StoreMarketingPageState\nproducts/services/store/store_more.dart › _TrackingCard\nproducts/services/store/store_more.dart › _TrackingCardState\nproducts/services/store/store_pages.dart › StoreEntriesPage\nproducts/services/store/store_pages.dart › StoreHomePage\nproducts/services/store/store_pages.dart › StoreOrderPage\nproducts/services/store/store_pages.dart › StoreOrdersPage\nproducts/services/store/store_pages.dart › StoreProductEditPage\nproducts/services/store/store_pages.dart › StoreProductsPage\nproducts/services/store/store_pages.dart › _ProductForm\nproducts/services/store/store_pages.dart › _ProductFormState\nproducts/services/store/store_pages.dart › _StoreEntriesPageState\nproducts/services/store/store_pages.dart › _StoreOrderPageState\nproducts/services/store/store_pages.dart › _StoreOrdersPageState\nproducts/services/store/store_pages.dart › _StoreProductsPageState\nproducts/services/store/store_payments.dart › StorePaymentsPage\nproducts/services/store/store_payments.dart › _StorePaymentsPageState",
+   "screens": "app/app_gate.dart › _SplashState\nproducts/services/models.dart › SvcEvent\nproducts/services/screens/deploy_pages.dart › DeploymentsList\nproducts/services/screens/deploy_pages.dart › _DeploymentsListState\nproducts/services/screens/golive_pages.dart › _ConnectDomainPage\nproducts/services/screens/golive_pages.dart › _ConnectDomainPageState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/services_home.dart › _ActivityPageState\nproducts/services/screens/services_home.dart › _AssetPage\nproducts/services/screens/services_home.dart › _ConnectCard\nproducts/services/screens/services_home.dart › _DownCard\nproducts/services/screens/services_home.dart › _ProjectRows\nproducts/services/screens/services_home.dart › _ReviewCard\nproducts/services/screens/services_home.dart › _WebsiteTop\nproducts/services/screens/services_widgets.dart › AssetTile\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_design.dart › FieldEditor\nproducts/services/store/store_design.dart › StoreDesignPage\nproducts/services/store/store_design.dart › _GroupEditPage\nproducts/services/store/store_design.dart › _GroupEditPageState\nproducts/services/store/store_design.dart › _ImageField\nproducts/services/store/store_design.dart › _ImageFieldState\nproducts/services/store/store_design.dart › _ItemEditPage\nproducts/services/store/store_design.dart › _ItemEditPageState\nproducts/services/store/store_design.dart › _ListField\nproducts/services/store/store_design.dart › _PageSectionsPage\nproducts/services/store/store_design.dart › _PageSectionsPageState\nproducts/services/store/store_design.dart › _StoreDesignPageState\nproducts/services/store/store_more.dart › StoreCouponsPage\nproducts/services/store/store_more.dart › StoreMarketingPage\nproducts/services/store/store_more.dart › StoreSettingsPage\nproducts/services/store/store_more.dart › _CouponForm\nproducts/services/store/store_more.dart › _CouponFormState\nproducts/services/store/store_more.dart › _SiteForm\nproducts/services/store/store_more.dart › _SiteFormState\nproducts/services/store/store_more.dart › _StoreCouponsPageState\nproducts/services/store/store_more.dart › _StoreMarketingPageState\nproducts/services/store/store_more.dart › _TrackingCard\nproducts/services/store/store_more.dart › _TrackingCardState\nproducts/services/store/store_pages.dart › StoreEntriesPage\nproducts/services/store/store_pages.dart › StoreHomePage\nproducts/services/store/store_pages.dart › StoreOrderPage\nproducts/services/store/store_pages.dart › StoreOrdersPage\nproducts/services/store/store_pages.dart › StoreProductEditPage\nproducts/services/store/store_pages.dart › StoreProductsPage\nproducts/services/store/store_pages.dart › _ProductForm\nproducts/services/store/store_pages.dart › _ProductFormState\nproducts/services/store/store_pages.dart › _StoreEntriesPageState\nproducts/services/store/store_pages.dart › _StoreOrderPageState\nproducts/services/store/store_pages.dart › _StoreOrdersPageState\nproducts/services/store/store_pages.dart › _StoreProductsPageState\nproducts/services/store/store_payments.dart › StorePaymentsPage\nproducts/services/store/store_payments.dart › _StorePaymentsPageState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/portal.py:56",
    "status": "Not described"
@@ -12636,7 +12636,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.overview",
-   "screens": "admin/admin_repository.dart › AdminRepository\nadmin/admin_root.dart › _Overview\nproducts/office_pulse/repository.dart › PulseRepository\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/services/screens/article_pages.dart › ArticleEditorPage\nproducts/services/screens/article_pages.dart › _ArticleEditorPageState\nproducts/services/screens/marketing_pages.dart › PostEditorPage\nproducts/services/screens/marketing_pages.dart › _PostEditorPageState\nproducts/services/screens/newsletter_pages.dart › NewsletterEditorPage\nproducts/services/screens/newsletter_pages.dart › _NewsletterEditorPageState\nproducts/services/screens/series_pages.dart › SeriesEditorPage\nproducts/services/screens/series_pages.dart › SeriesPage\nproducts/services/screens/series_pages.dart › _SeriesEditorPageState\nproducts/services/screens/series_pages.dart › _SeriesPageState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/services_home.dart › _ActivityPageState\nproducts/services/screens/services_home.dart › _AssetPage\nproducts/services/screens/services_home.dart › _CatalogPage\nproducts/services/screens/services_home.dart › _PendingPage\nproducts/services/screens/services_home.dart › _ReviewCard\nproducts/services/screens/services_home.dart › _ServiceGrid\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/screens/services_home.dart › _ServicesListPage\nproducts/services/screens/services_home.dart › _Stats\nproducts/services/services_root.dart › ServicesState\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_pages.dart › (top level)",
+   "screens": "admin/admin_repository.dart › AdminRepository\nadmin/admin_root.dart › _Overview\nproducts/office_pulse/repository.dart › PulseRepository\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/services/screens/article_pages.dart › ArticleEditorPage\nproducts/services/screens/article_pages.dart › _ArticleEditorPageState\nproducts/services/screens/marketing_pages.dart › PostEditorPage\nproducts/services/screens/marketing_pages.dart › _PostEditorPageState\nproducts/services/screens/newsletter_pages.dart › NewsletterEditorPage\nproducts/services/screens/newsletter_pages.dart › _NewsletterEditorPageState\nproducts/services/screens/series_pages.dart › SeriesEditorPage\nproducts/services/screens/series_pages.dart › SeriesPage\nproducts/services/screens/series_pages.dart › _SeriesEditorPageState\nproducts/services/screens/series_pages.dart › _SeriesPageState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/services_home.dart › _ActivityPageState\nproducts/services/screens/services_home.dart › _AssetPage\nproducts/services/screens/services_home.dart › _CatalogPage\nproducts/services/screens/services_home.dart › _PendingPage\nproducts/services/screens/services_home.dart › _ReviewCard\nproducts/services/screens/services_home.dart › _ServiceGrid\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/screens/services_home.dart › _ServicesListPage\nproducts/services/screens/services_home.dart › _Stats\nproducts/services/screens/services_home.dart › _WebsiteTop\nproducts/services/screens/whatsapp_page.dart › _Row\nproducts/services/services_root.dart › ServicesState\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_pages.dart › (top level)",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/portal.py:19",
    "status": "Not described"
