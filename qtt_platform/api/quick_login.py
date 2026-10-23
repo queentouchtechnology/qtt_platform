@@ -75,7 +75,7 @@ def google(id_token: str) -> dict:
 		# New: Google has proven the email — signup skips the email code.
 		from qtt_platform.api import verify
 
-		return ok({"status": "new", "email": email, "full_name": name, "email_token": verify.issue_token("signup", "email", email)})
+		return ok({"status": "new", "email": email, "full_name": name, "email_token": verify.issue_token("signup", "email", email, via="google")})
 	except logic.QuickLoginError as e:
 		return fail(e.code, str(e))
 	except requests.RequestException:

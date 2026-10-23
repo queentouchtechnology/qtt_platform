@@ -392,10 +392,16 @@ everyone in every business — no plan needed.
   theme, text size, density), language (English, Tamil, Hindi, Arabic and
   more), tips on/off, help and support (WhatsApp or email QTT), fingerprint /
   Face ID sign-in, sign out.
-- **Signing in**: email and password, Continue with Google, or fingerprint /
-  Face ID on a phone that signed in before. Two-step verification is set by
-  the business admin. New businesses verify their email and WhatsApp number
-  with a one-time code when signing up.
+- **Signing in**: Continue with Google (on the phone app and the web app),
+  email and password, or fingerprint / Face ID on a phone that signed in
+  before. Two-step verification is set by the business admin.
+- **Signing up (a new business)**: fastest is **Continue with Google** — then
+  only the business name; no password and no codes (Google already proved the
+  email; sign in with Google next time). With email instead: name, business
+  name, email and a password, then one code sent to the email. The WhatsApp
+  number isn't asked at sign-up: Home shows **Add your WhatsApp number** (also
+  Account › Security › WhatsApp number) — one code on WhatsApp, and the daily
+  report and alerts go there.
 - **Invitations — why**: an invitation is the safe way to bring a person into
   a business. The owner never sets or knows anyone's password (the person
   chooses their own); the code goes to that email, so it proves the email is

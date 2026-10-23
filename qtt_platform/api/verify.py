@@ -8,6 +8,9 @@ and a real WhatsApp number behind it.
                                      Chatwoot, as the approved template set in
                                      QTT App Settings (default "reference_number")
   verify_code(channel, target, code) → {"token": ...} for signup to consume
+  my_number / save_my_number         (signed in) the person's WhatsApp number, proven with a code here
+                                     — signup no longer asks for it (owner, 23 Oct 2026): it's verified the
+                                     first time it's needed (Home card, Account, WhatsApp features)
 
 Which checks signup demands is set in QTT App Settings → Sign-up security.
 Codes and tokens live only in Redis (short-lived); only an HMAC of a code is
@@ -27,7 +30,8 @@ from frappe.rate_limiter import rate_limit
 from qtt_platform import otp_logic as logic
 from qtt_platform.errors import fail, ok
 
-PURPOSES = ("signup", "file_link")  # file_link: a guest proving their email to open a Files share link
+PURPOSES = ("signup", "file_link", "my_number")  # file_link: a guest proving their email to open a Files share link;
+# my_number: a signed-in person proving their own WhatsApp number
 SETTINGS = "QTT App Settings"
 
 
@@ -69,6 +73,8 @@ def send_code(channel: str, target: str, purpose: str = "signup", name: str | No
 	try:
 		if purpose not in PURPOSES:
 			raise logic.OtpError("INVALID_PURPOSE", "Unknown purpose.")
+		if purpose == "my_number" and frappe.session.user == "Guest":
+			raise logic.OtpError("INVALID_PURPOSE", "Sign in first.")
 		target = logic.normalize_target(channel, target)
 		if purpose == "signup" and channel == "email" and frappe.db.exists("User", target):
 			raise logic.OtpError("DUPLICATE_EMAIL", "An account with this email already exists. Sign in instead.")
@@ -107,11 +113,17 @@ def verify_code(channel: str, target: str, code: str, purpose: str = "signup") -
 		return fail(e.code, str(e).format(e.extra.get("left", "")))
 
 
-def issue_token(purpose: str, channel: str, target: str) -> str:
-	"""A proof for `target` obtained another way (e.g. Google has verified the email)."""
+def issue_token(purpose: str, channel: str, target: str, via: str | None = None) -> str:
+	"""A proof for `target` obtained another way (via="google": Google has verified the email)."""
 	token = logic.new_token()
-	_store(_key("token", purpose, channel, token), {"target": logic.normalize_target(channel, target)}, logic.TOKEN_TTL)
+	_store(_key("token", purpose, channel, token), {"target": logic.normalize_target(channel, target), "via": via}, logic.TOKEN_TTL)
 	return token
+
+
+def token_via(purpose: str, channel: str, token: str | None) -> str | None:
+	"""How a proof was obtained: "google", or None (a code typed by the person)."""
+	state = _load(_key("token", purpose, channel, token)) if token else None
+	return (state or {}).get("via")
 
 
 def check_token(purpose: str, channel: str, token: str | None, target: str) -> bool:
@@ -177,3 +189,26 @@ def _email_html(code: str, brand: str) -> str:
     </div>
   </div>
 </div>"""
+
+# ---------------------------------------------------------------- the person's own WhatsApp number (after signup)
+
+
+@frappe.whitelist(methods=["GET"])
+def my_number() -> dict:
+	"""The signed-in person's WhatsApp number: {phone (or null)}. Only a number proven with a code is kept."""
+	return ok({"phone": frappe.db.get_value("User", frappe.session.user, "mobile_no") or None})
+
+
+@frappe.whitelist(methods=["POST"])
+@rate_limit(limit=20, seconds=3600)
+def save_my_number(phone: str, token: str) -> dict:
+	"""Keep the signed-in person's WhatsApp number once proven (send_code / verify_code, purpose "my_number"). Reports and
+	alerts the business sends its owner on WhatsApp go here."""
+	if frappe.session.user == "Guest":
+		return fail("NOT_SIGNED_IN", "Sign in first.")
+	if not check_token("my_number", "whatsapp", token, phone):
+		return fail("PHONE_NOT_VERIFIED", "Please verify your WhatsApp number with the code we sent.")
+	number = logic.normalize_target("whatsapp", phone)
+	frappe.db.set_value("User", frappe.session.user, "mobile_no", number, update_modified=False)
+	consume_token("my_number", "whatsapp", token)
+	return ok({"phone": number})

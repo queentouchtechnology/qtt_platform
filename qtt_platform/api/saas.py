@@ -84,6 +84,8 @@ def signup(
 	INTERNAL_ERROR — no stack trace ever crosses this boundary.
 	"""
 	try:
+		google = _verify().token_via("signup", "email", email_token) == "google"
+		password = _password_for(password, google)
 		_validate_signup_input(full_name, email, password, organization_name)
 		phone = _check_verification(email, email_token, phone, phone_token)
 		product_key = (product_key or "").strip()
@@ -114,7 +116,9 @@ def signup(
 							  target_name=membership.name, metadata={"tenant_role": membership.tenant_role})
 			_verify().consume_token("signup", "email", email_token)
 			_verify().consume_token("signup", "whatsapp", phone_token)
-			return ok({"user": user.name, "tenant": tenant.name, "tenant_name": tenant.tenant_name,
+			if google:  # no password to sign in with: signed in now (the app adopts this session)
+				frappe.local.login_manager.login_as(user.name)
+			return ok({"user": user.name, "signed_in": google, "tenant": tenant.name, "tenant_name": tenant.tenant_name,
 					   "tenant_role": membership.tenant_role, "product": None, "product_role": None, "subscription": None,
 					   "plan": None, "plan_code": None, "subscription_status": None, "trial_ends_on": None,
 					   "current_period_end": None, "ai_credits_granted": 0})
@@ -170,10 +174,13 @@ def signup(
 		# One-time: the same proof can't create a second account.
 		_verify().consume_token("signup", "email", email_token)
 		_verify().consume_token("signup", "whatsapp", phone_token)
+		if google:
+			frappe.local.login_manager.login_as(user.name)
 
 		return ok(
 			{
 				"user": user.name,
+				"signed_in": google,
 				"tenant": tenant.name,
 				"tenant_name": tenant.tenant_name,
 				"tenant_role": membership.tenant_role,
@@ -267,6 +274,16 @@ def _check_verification(email, email_token, phone, phone_token) -> str | None:
 	from qtt_platform.otp_logic import normalize_phone
 
 	return normalize_phone(phone) or None
+
+
+def _password_for(password: str | None, google: bool) -> str | None:
+	"""Google proved the email: no password needed — they sign in with Google (and can set one later in Account), so the
+	account gets a long random one nobody knows. Anyone else must choose one (checked by _validate_signup_input)."""
+	if google and not password:
+		import secrets
+
+		return secrets.token_urlsafe(24)
+	return password
 
 
 def _validate_signup_input(full_name, email, password, organization_name) -> None:

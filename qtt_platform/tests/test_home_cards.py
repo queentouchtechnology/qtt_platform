@@ -56,6 +56,12 @@ class PlatformCardsTest(unittest.TestCase):
 		# trial far away: no card
 		self.assertEqual(hc.platform_cards(can_manage=True, sub_status="trialing", trial_days_left=20, profile_missing=[], team_size=5), [])
 
+	def test_whatsapp_number_card_for_owners_without_one(self):
+		out = hc.platform_cards(can_manage=True, sub_status="active", trial_days_left=None, profile_missing=[], team_size=5, whatsapp_missing=True)
+		self.assertEqual([c["key"] for c in out], ["whatsapp.verify"])
+		self.assertEqual(out[0]["action"]["target"], "account.whatsapp")
+		self.assertEqual(hc.platform_cards(can_manage=False, sub_status=None, trial_days_left=None, profile_missing=[], team_size=5,
+										   whatsapp_missing=True), [])
 
 if __name__ == "__main__":
 	unittest.main()

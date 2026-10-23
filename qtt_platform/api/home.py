@@ -43,7 +43,8 @@ def _platform(user: str, tenant: str) -> list[dict]:
 	open_inv = frappe.get_all("QTT Invoice", filters={"tenant": tenant, "status": "open"}, pluck="due_date")
 	overdue = sum(1 for d in open_inv if d and getdate(d) < getdate(today()))
 	return home_cards.platform_cards(can_manage=True, sub_status=status, trial_days_left=trial_left,
-									 profile_missing=missing, team_size=team, open_invoices=len(open_inv), overdue_invoices=overdue)
+									 profile_missing=missing, team_size=team, open_invoices=len(open_inv), overdue_invoices=overdue,
+									 whatsapp_missing=not frappe.db.get_value("User", user, "mobile_no"))
 
 
 @frappe.whitelist(methods=["GET"])

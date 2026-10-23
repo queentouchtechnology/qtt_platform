@@ -65,7 +65,8 @@ def rank(cards: list, dismissed: set[str] = frozenset(), limit: int = MAX_CARDS)
 
 
 def platform_cards(*, can_manage: bool, sub_status: str | None, trial_days_left: int | None,
-				   profile_missing: list[str], team_size: int, open_invoices: int = 0, overdue_invoices: int = 0) -> list[dict]:
+				   profile_missing: list[str], team_size: int, open_invoices: int = 0, overdue_invoices: int = 0,
+				   whatsapp_missing: bool = False) -> list[dict]:
 	"""The business-level cards (owner / admin only)."""
 	if not can_manage:
 		return []
@@ -91,6 +92,11 @@ def platform_cards(*, can_manage: bool, sub_status: str | None, trial_days_left:
 					  "body": "Add your {missing} — they appear on your bills, payslips and website.",
 					  "args": {"missing": ", ".join(profile_missing)},
 					  "action": {"label": "Finish profile", "kind": "screen", "target": "business.profile"}})
+	if whatsapp_missing:
+		# Signup no longer asks for it (owner, 23 Oct 2026): proven here, the first time it's useful.
+		cards.append({"key": "whatsapp.verify", "priority": 70, "tone": "info", "icon": "whatsapp",
+					  "title": "Add your WhatsApp number", "body": "Get your daily report and alerts on WhatsApp — one code, 30 seconds.",
+					  "action": {"label": "Add number", "kind": "screen", "target": "account.whatsapp"}})
 	if team_size <= 1:
 		cards.append({"key": "team.invite", "priority": 40, "tone": "info", "icon": "group_add",
 					  "title": "Bring your team in", "body": "Invite the people who work with you — each sees only what they need.",

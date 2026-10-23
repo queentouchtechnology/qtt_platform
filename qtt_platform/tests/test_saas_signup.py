@@ -315,3 +315,16 @@ class SignupVerificationTest(unittest.TestCase):
 	def test_checks_switched_off_in_desk(self):
 		with self._verify(verify_email=False, verify_whatsapp=False):
 			self.assertIsNone(saas._check_verification("a@b.co", None, None, None))
+
+	def test_google_signup_needs_no_password(self):
+		pw = saas._password_for("", True)
+		self.assertGreaterEqual(len(pw), 24)
+		saas._validate_signup_input("Meena", "meena@gmail.com", pw, "Meena Sweets")  # passes
+		self.assertNotEqual(saas._password_for(None, True), pw)  # a new random one each time
+
+	def test_email_signup_still_needs_a_password(self):
+		self.assertEqual(saas._password_for("", False), "")
+		with self.assertRaises(QttApiError) as ctx:
+			saas._validate_signup_input("Meena", "meena@shop.in", saas._password_for("", False), "Meena Sweets")
+		self.assertEqual(ctx.exception.code, "WEAK_PASSWORD")
+		self.assertEqual(saas._password_for("my secret 1", True), "my secret 1")  # one they chose is kept

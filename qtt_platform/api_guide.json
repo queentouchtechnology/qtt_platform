@@ -5918,7 +5918,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.homeActions",
    "screens": "shared/search/global_search.dart › _GlobalSearchScreenState\nshell/launcher_screen.dart › _HomeActionsState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/home.py:50",
+   "source": "qtt_platform/qtt_platform/api/home.py:51",
    "status": "Not described"
   },
   {
@@ -5934,7 +5934,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.dismissHomeAction",
    "screens": "shell/launcher_screen.dart › _HomeActionsState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/home.py:70",
+   "source": "qtt_platform/qtt_platform/api/home.py:71",
    "status": "Not described"
   },
   {
@@ -7191,11 +7191,11 @@
    "area": "api.quick_login",
    "http_methods": "POST",
    "guest": 1,
-   "purpose": "Google — quick login (named only: no description in the code yet)",
+   "purpose": "Known account → signed in; a new email → [GoogleNewUser] with the proof, for the one-screen signup. (from the app)",
    "details": "",
    "arguments": "id_token",
    "used_by": "App",
-   "app_calls": "qtt-os/qtt_app/lib/platform/auth/quick_login.dart › QuickLogin.signInWithGoogle",
+   "app_calls": "qtt-os/qtt_app/lib/platform/auth/quick_login.dart › QuickLogin._withIdToken",
    "screens": "platform/auth/quick_login.dart › QuickLogin",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/quick_login.py:62",
@@ -7278,7 +7278,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.plans",
    "screens": "admin/plans_view.dart › _PlanEditScreenState\nadmin/plans_view.dart › _PlansViewState\nadmin/saas_models.dart › PlansCatalog\nadmin/saas_models.dart › WorkspaceProduct\nadmin/workspace_billing_view.dart › _ProductCard\nplatform/data/platform_models.dart › ExploreItem\nplatform/explore/explore_screen.dart › ExploreScreen\nplatform/explore/explore_screen.dart › _ItemPage\nplatform/launch/launch_screens.dart › _AppAction\nplatform/launch/launch_screens.dart › _HelpMeChooseState\nplatform/onboarding/signup_screen.dart › _SignupScreenState\nshared/setup/welcome_screen.dart › _WelcomeScreenState\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/saas.py:208",
+   "source": "qtt_platform/qtt_platform/api/saas.py:215",
    "status": "OK"
   },
   {
@@ -7292,7 +7292,7 @@
    "arguments": "full_name, email, password, organization_name, country, language, product_key, plan_key, email_token, phone, phone_token",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.signup",
-   "screens": "core/analytics/analytics.dart › AppEvents\ncore/config/app_config.dart › AppConfig\ncore/config/remote_config.dart › RemoteConfig\nplatform/onboarding/signup_screen.dart › (top level)\nplatform/onboarding/signup_screen.dart › _SignupScreenState",
+   "screens": "core/analytics/analytics.dart › AppEvents\ncore/config/app_config.dart › AppConfig\ncore/config/remote_config.dart › RemoteConfig\nplatform/onboarding/signup_screen.dart › _SignupScreenState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/saas.py:61",
    "status": "OK"
@@ -9618,6 +9618,38 @@
    "status": "OK"
   },
   {
+   "endpoint": "qtt_platform.api.verify.my_number",
+   "product": "Platform",
+   "area": "api.verify",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "The signed-in person's WhatsApp number: {phone (or null)}. Only a number proven with a code is kept.",
+   "details": "The signed-in person's WhatsApp number: {phone (or null)}. Only a number proven with a code is kept.",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.myWhatsAppNumber",
+   "screens": "platform/account/whatsapp_number.dart › _WhatsAppNumberTileState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/verify.py:197",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.verify.save_my_number",
+   "product": "Platform",
+   "area": "api.verify",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Keep the signed-in person's WhatsApp number once proven (send_code / verify_code, purpose \"my_number\"). Reports and alerts the business sends its owner on WhatsApp go here.",
+   "details": "Keep the signed-in person's WhatsApp number once proven (send_code / verify_code, purpose \"my_number\"). Reports and\nalerts the business sends its owner on WhatsApp go here.",
+   "arguments": "phone, token",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.saveMyWhatsAppNumber",
+   "screens": "platform/account/whatsapp_number.dart › _NumberSheetState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/verify.py:204",
+   "status": "OK"
+  },
+  {
    "endpoint": "qtt_platform.api.verify.send_code",
    "product": "Platform",
    "area": "api.verify",
@@ -9628,9 +9660,9 @@
    "arguments": "channel, target, purpose, name",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.sendCode",
-   "screens": "platform/onboarding/signup_screen.dart › _SignupScreenState",
+   "screens": "platform/account/whatsapp_number.dart › _NumberSheetState\nplatform/onboarding/signup_screen.dart › _SignupScreenState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/verify.py:68",
+   "source": "qtt_platform/qtt_platform/api/verify.py:72",
    "status": "Not described"
   },
   {
@@ -9644,9 +9676,9 @@
    "arguments": "channel, target, code, purpose",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.verifyCode",
-   "screens": "platform/onboarding/signup_screen.dart › _SignupScreenState",
+   "screens": "platform/account/whatsapp_number.dart › _NumberSheetState\nplatform/onboarding/signup_screen.dart › _SignupScreenState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/verify.py:91",
+   "source": "qtt_platform/qtt_platform/api/verify.py:97",
    "status": "Not described"
   },
   {
@@ -12812,7 +12844,7 @@
    "arguments": "service",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.cancel",
-   "screens": "admin/admin_repository.dart › AdminRepository\napp/app.dart › _QttOsAppState\napp/app_gate.dart › _SplashState\ncore/analytics/analytics.dart › Analytics\ncore/config/remote_config.dart › RemoteConfigStore\ncore/push/push_service.dart › PushService\nplatform/onboarding/signup_screen.dart › _SignupScreenState\nplatform/session/app_session.dart › AppSession\nplatform/team/team_call.dart › _TeamCallPageState\nplatform/team/team_chat_page.dart › _TeamChatPageState\nplatform/team/team_screen.dart › _TeamScreenState\nplatform/team/team_voice.dart › VoiceRecorder\nplatform/team/team_voice.dart › _VoiceNotePlayerState\nplatform/workplace/remote_page.dart › _SetupComputerPageState\nproducts/office_pulse/office_pulse_root.dart › PulseState\nproducts/office_pulse/screens/pattern_who.dart › _PatternWhoState\nproducts/onbox/chat_controller.dart › ChatController\nproducts/onbox/onbox_provider.dart › OnboxProvider\nproducts/onbox/screens/conversation_list_pane.dart › _ConversationListPaneState\nproducts/orbitra/orbitra_root.dart › OrbitraState\nproducts/services/screens/deploy_pages.dart › _DeploymentPageState\nproducts/services/screens/golive_pages.dart › _DeletingDialogState\nproducts/services/screens/plan_change_page.dart › _PlanChangePageState\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › ServicesState\nproducts/studio/shorts_studio.dart › _ShortPageState\nshared/erp/erp_screens.dart › ErpApi\nshared/erp/erp_screens.dart › _ErpDocPageState\nshared/search/global_search.dart › _GlobalSearchScreenState\nshared/widgets/list_kit.dart › _SearchFilterBarState\nshell/home_shell.dart › _HomeShellState",
+   "screens": "admin/admin_repository.dart › AdminRepository\napp/app.dart › _QttOsAppState\napp/app_gate.dart › _SplashState\ncore/analytics/analytics.dart › Analytics\ncore/config/remote_config.dart › RemoteConfigStore\ncore/push/push_service.dart › PushService\nplatform/auth/google_web_button_web.dart › _GoogleWebButtonState\nplatform/onboarding/signup_screen.dart › _SignupScreenState\nplatform/session/app_session.dart › AppSession\nplatform/team/team_call.dart › _TeamCallPageState\nplatform/team/team_chat_page.dart › _TeamChatPageState\nplatform/team/team_screen.dart › _TeamScreenState\nplatform/team/team_voice.dart › VoiceRecorder\nplatform/team/team_voice.dart › _VoiceNotePlayerState\nplatform/workplace/remote_page.dart › _SetupComputerPageState\nproducts/office_pulse/office_pulse_root.dart › PulseState\nproducts/office_pulse/screens/pattern_who.dart › _PatternWhoState\nproducts/onbox/chat_controller.dart › ChatController\nproducts/onbox/onbox_provider.dart › OnboxProvider\nproducts/onbox/screens/conversation_list_pane.dart › _ConversationListPaneState\nproducts/orbitra/orbitra_root.dart › OrbitraState\nproducts/services/screens/deploy_pages.dart › _DeploymentPageState\nproducts/services/screens/golive_pages.dart › _DeletingDialogState\nproducts/services/screens/plan_change_page.dart › _PlanChangePageState\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › ServicesState\nproducts/studio/shorts_studio.dart › _ShortPageState\nshared/erp/erp_screens.dart › ErpApi\nshared/erp/erp_screens.dart › _ErpDocPageState\nshared/search/global_search.dart › _GlobalSearchScreenState\nshared/widgets/list_kit.dart › _SearchFilterBarState\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/shop.py:373",
    "status": "Not described"
