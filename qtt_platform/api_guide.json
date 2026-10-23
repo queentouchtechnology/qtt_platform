@@ -13038,7 +13038,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.applyStoreKit",
    "screens": "products/services/store/store_design.dart › _StoreDesignPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store.py:104",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:130",
    "status": "Not described"
   },
   {
@@ -13054,7 +13054,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.storeCategories",
    "screens": "products/services/store/store_pages.dart › StoreProductEditPage",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store.py:225",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:251",
    "status": "Not described"
   },
   {
@@ -13070,7 +13070,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.storeCoupons",
    "screens": "products/services/store/store_more.dart › _StoreCouponsPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store.py:311",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:337",
    "status": "Not described"
   },
   {
@@ -13086,7 +13086,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.deleteStoreCoupon",
    "screens": "products/services/store/store_more.dart › _CouponFormState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store.py:331",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:357",
    "status": "Not described"
   },
   {
@@ -13102,7 +13102,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.deleteStoreProduct",
    "screens": "products/services/store/store_pages.dart › _ProductFormState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store.py:210",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:236",
    "status": "Not described"
   },
   {
@@ -13111,15 +13111,15 @@
    "area": "api.store",
    "http_methods": "GET",
    "guest": 0,
-   "purpose": "Design — store (named only: no description in the code yet)",
-   "details": "",
+   "purpose": "The site's design (its theme's own scan), each ready design with a picture of how the site looks in it — the gallery's screenshot of that business type in the site's current style (else another style).",
+   "details": "The site's design (its theme's own scan), each ready design with a picture of how the site looks in it — the gallery's\nscreenshot of that business type in the site's current style (else another style).",
    "arguments": "asset",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.storeDesign",
    "screens": "products/services/store/store_design.dart › _StoreDesignPageState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/store.py:94",
-   "status": "Not described"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_services.api.store.entries",
@@ -13134,7 +13134,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.storeEntries",
    "screens": "products/services/store/store_pages.dart › _StoreEntriesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store.py:355",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:381",
    "status": "Not described"
   },
   {
@@ -13150,7 +13150,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.markStoreEntriesRead",
    "screens": "products/services/store/store_pages.dart › _StoreEntriesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store.py:361",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:387",
    "status": "Not described"
   },
   {
@@ -13166,7 +13166,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.storeOrder",
    "screens": "products/services/store/store_pages.dart › _StoreOrderPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store.py:283",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:309",
    "status": "Not described"
   },
   {
@@ -13182,7 +13182,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.storeOrders",
    "screens": "products/services/store/store_pages.dart › _StoreOrdersPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store.py:253",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:279",
    "status": "Not described"
   },
   {
@@ -13198,7 +13198,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.storePayments",
    "screens": "products/services/store/store_payments.dart › _StorePaymentsPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store.py:415",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:441",
    "status": "OK"
   },
   {
@@ -13214,7 +13214,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.storePluginAction",
    "screens": "products/services/store/store_more.dart › _StoreMarketingPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store.py:345",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:371",
    "status": "Not described"
   },
   {
@@ -13230,7 +13230,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.storePlugins",
    "screens": "products/services/store/store_more.dart › _StoreMarketingPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store.py:340",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:366",
    "status": "Not described"
   },
   {
@@ -13246,7 +13246,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.storeProduct",
    "screens": "products/services/store/store_pages.dart › StoreProductEditPage",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store.py:168",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:194",
    "status": "Not described"
   },
   {
@@ -13262,7 +13262,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.storeProducts",
    "screens": "products/services/store/store_pages.dart › _StoreProductsPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store.py:153",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:179",
    "status": "Not described"
   },
   {
@@ -13278,7 +13278,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.storeSales",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store.py:387",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:413",
    "status": "Not described"
   },
   {
@@ -13294,7 +13294,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.saveStoreCategory",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store.py:231",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:257",
    "status": "Not described"
   },
   {
@@ -13310,7 +13310,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.saveStoreCoupon",
    "screens": "products/services/store/store_more.dart › _CouponFormState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store.py:317",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:343",
    "status": "Not described"
   },
   {
@@ -13326,7 +13326,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.saveStoreDesign",
    "screens": "products/services/store/store_design.dart › _GroupEditPageState\nproducts/services/store/store_design.dart › _PageSectionsPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store.py:99",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:125",
    "status": "Not described"
   },
   {
@@ -13342,7 +13342,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.saveStorePayments",
    "screens": "products/services/store/store_payments.dart › _StorePaymentsPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store.py:435",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:461",
    "status": "OK"
   },
   {
@@ -13358,7 +13358,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.saveStoreProduct",
    "screens": "products/services/store/store_pages.dart › _ProductFormState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store.py:177",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:203",
    "status": "Not described"
   },
   {
@@ -13374,7 +13374,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.saveStoreSite",
    "screens": "products/services/store/store_more.dart › _SiteFormState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store.py:381",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:407",
    "status": "Not described"
   },
   {
@@ -13390,7 +13390,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.saveStoreTracking",
    "screens": "products/services/store/store_more.dart › _TrackingCardState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store.py:371",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:397",
    "status": "Not described"
   },
   {
@@ -13406,7 +13406,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.setStoreStock",
    "screens": "products/services/store/store_pages.dart › _StoreProductsPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store.py:217",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:243",
    "status": "Not described"
   },
   {
@@ -13422,7 +13422,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.storeSite",
    "screens": "products/services/store/store_more.dart › StoreSettingsPage",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store.py:376",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:402",
    "status": "Not described"
   },
   {
@@ -13454,7 +13454,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.storeSummary",
    "screens": "products/services/store/store_pages.dart › StoreHomePage",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store.py:264",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:290",
    "status": "OK"
   },
   {
@@ -13470,7 +13470,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.storeTracking",
    "screens": "products/services/store/store_more.dart › _StoreMarketingPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store.py:366",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:392",
    "status": "Not described"
   },
   {
@@ -13486,7 +13486,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.updateStoreOrder",
    "screens": "products/services/store/store_pages.dart › _StoreOrderPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store.py:293",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:319",
    "status": "Not described"
   },
   {
@@ -13502,7 +13502,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.uploadStoreImage",
    "screens": "products/services/store/store_design.dart › _ImageFieldState\nproducts/services/store/store_pages.dart › _ProductFormState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/store.py:109",
+   "source": "qtt-os/qtt_services/qtt_services/api/store.py:135",
    "status": "OK"
   },
   {
@@ -14126,7 +14126,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.deployment",
    "screens": "products/services/screens/deploy_pages.dart › (top level)\nproducts/services/screens/deploy_pages.dart › DeploymentTile\nproducts/services/screens/deploy_pages.dart › _DeploymentPageState\nproducts/services/screens/golive_pages.dart › _DeletingDialog\nproducts/services/screens/golive_pages.dart › _DeletingDialogState\nproducts/services/services_root.dart › _ServicesRootState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/deployments.py:201",
+   "source": "qtt-os/qtt_services/qtt_services/deployments.py:208",
    "status": "Not described"
   },
   {
@@ -14142,7 +14142,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.deployments",
    "screens": "products/services/screens/deploy_pages.dart › _DeploymentsLoader",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/deployments.py:187",
+   "source": "qtt-os/qtt_services/qtt_services/deployments.py:194",
    "status": "Not described"
   },
   {
@@ -14158,7 +14158,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 11-qttWf11BuildSite.json\nn8n: 12-qttWf12GoLive000.json\nn8n: 13-qttWf13BuyDomain.json\nn8n: 14-qttWf14StoreBld.json\nn8n: 15-qttWf15StoreLiv.json\nn8n: 16-qttWf16SiteRemov.json",
-   "source": "qtt-os/qtt_services/qtt_services/deployments.py:164",
+   "source": "qtt-os/qtt_services/qtt_services/deployments.py:171",
    "status": "Not described"
   },
   {
@@ -14174,7 +14174,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 11-qttWf11BuildSite.json\nn8n: 12-qttWf12GoLive000.json\nn8n: 13-qttWf13BuyDomain.json\nn8n: 14-qttWf14StoreBld.json\nn8n: 15-qttWf15StoreLiv.json\nn8n: 16-qttWf16SiteRemov.json",
-   "source": "qtt-os/qtt_services/qtt_services/deployments.py:117",
+   "source": "qtt-os/qtt_services/qtt_services/deployments.py:124",
    "status": "OK"
   },
   {
@@ -14190,7 +14190,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 11-qttWf11BuildSite.json\nn8n: 12-qttWf12GoLive000.json\nn8n: 13-qttWf13BuyDomain.json",
-   "source": "qtt-os/qtt_services/qtt_services/deployments.py:147",
+   "source": "qtt-os/qtt_services/qtt_services/deployments.py:154",
    "status": "Not described"
   }
  ]
