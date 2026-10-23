@@ -1243,6 +1243,17 @@ another page — disconnect one or ask QTT for a bigger package.
 Open it from QTT Business Suite › Home › Marketing assistant → **Marketing
 assistant** (businesses that ticked it inside AI & WhatsApp Automation before
 open it from that service).
+- **The home** (top to bottom): what needs you now — no page yet: **Step 1:
+  connect where you post** (Instagram, Facebook, Google buttons); posts to
+  approve: **{n} posts are waiting for your OK › Review them**; else **All set —
+  Next post: …** or **Nothing planned yet › Get post ideas**. Then big buttons:
+  Write a post, Get post ideas, Ready designs (Post designs), Posts on
+  autopilot (Post series and Autopilot), Festival & offer ideas (Suggestions),
+  Calendar. Posts left this month, Your pages (tap a page to disconnect it;
+  **Add page**), More in your package (Website articles, Email newsletters,
+  Articles and newsletters on autopilot), and **Your posts** with tabs:
+  Waiting for your OK, Scheduled, Posted, All. A new post goes to every
+  connected page — untick any you don't want.
 - **Your pages** (owner): Connect → pick Facebook, Instagram, LinkedIn, X
   (Twitter), YouTube, Threads, TikTok, Pinterest, Bluesky or **Google Business**
   → sign in there and allow posting → come back to the app; the page shows with
