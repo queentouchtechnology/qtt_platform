@@ -1,27 +1,51 @@
-{% extends "templates/web.html" %}
-
-{% block title %}{{ "Page not connected" if failed else "Page connected" }}{% endblock %}
-
-{% block page_content %}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>{{ "Not connected" if failed else "Connected" }} · QTT OS</title>
+<link rel="icon" href="https://queentouchtech.in/app/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  .qtt-done { max-width: 460px; margin: 48px auto; padding: 28px 24px; border: 1px solid #e5e7eb; border-radius: 16px; font-size: 16px; text-align: center; }
-  .qtt-done .mark { width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 34px; color: #fff; }
-  .qtt-done .ok { background: #16A34A; }
-  .qtt-done .no { background: #D92D3A; }
-  .qtt-done h2 { margin: 0 0 8px; }
-  .qtt-done p { color: #6b7280; margin: 6px 0; }
+  /* QTT OS's own look (navy, electric blue, sky) — not the backend site's layout. */
+  :root { --bg: #0b0d12; --card: #151a24; --line: #232a38; --text: #f2f4f8; --muted: #a8afbd; --blue: #3b5cff; --sky: #7fb2ff; --ok: #22c55e; --no: #ef4444; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; background: var(--bg); color: var(--text); font-family: Poppins, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 16px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 20px; margin-bottom: 28px; }
+  .brand img { width: 36px; height: 36px; border-radius: 10px; }
+  .brand span { color: var(--blue); }
+  .card { width: 100%; max-width: 440px; background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 32px 24px; text-align: center; }
+  .mark { width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 18px; display: flex; align-items: center; justify-content: center; }
+  .mark.ok { background: rgba(34, 197, 94, .15); color: var(--ok); }
+  .mark.no { background: rgba(239, 68, 68, .15); color: var(--no); }
+  h1 { margin: 0 0 8px; font-size: 24px; line-height: 1.3; }
+  p { margin: 6px 0; color: var(--muted); line-height: 1.55; font-size: 15px; }
+  b { color: var(--text); font-weight: 600; }
+  .btn { display: flex; align-items: center; justify-content: center; height: 52px; margin-top: 24px; border-radius: 14px; background: var(--blue); color: #fff; font-weight: 600; font-size: 16px; text-decoration: none; }
+  .btn:hover { background: #2f4ee6; }
+  .note { margin-top: 14px; font-size: 13px; }
 </style>
-<div class="qtt-done">
-  {% if failed %}
-    <div class="mark no">!</div>
-    <h2>The page wasn't connected</h2>
-    <p>Posting wasn't allowed, or the sign-in was cancelled.</p>
-    <p>Go back to the QTT OS app and tap <b>Connect</b> to try again.</p>
-  {% else %}
-    <div class="mark ok">✓</div>
-    <h2>Your page is connected</h2>
-    <p>Go back to the QTT OS app — it shows under <b>Marketing assistant › Your pages</b>.</p>
-    <p>You can close this tab.</p>
-  {% endif %}
-</div>
-{% endblock %}
+</head>
+<body>
+<main class="wrap">
+  <div class="brand"><img src="https://queentouchtech.in/app/icons/Icon-192.png" alt="">QTT<span> OS</span></div>
+  <div class="card">
+    {% if failed %}
+      <div class="mark no"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 7v6M12 17h.01"></path></svg></div>
+      <h1>{{ platform or "The page" }} wasn't connected</h1>
+      <p>Posting wasn't allowed, or the sign-in was cancelled.</p>
+      <p>Go back to QTT OS and tap <b>Connect</b> to try again.</p>
+    {% else %}
+      <div class="mark ok"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></div>
+      <h1>{{ platform or "Your page" }} is connected</h1>
+      <p>Your posts can go there now. You'll see it in <b>Marketing assistant › Your pages</b>.</p>
+    {% endif %}
+    <a class="btn" href="{{ app_url }}">Back to QTT OS</a>
+    <p class="note">On your phone? Just switch back to the QTT OS app — this tab can be closed.</p>
+  </div>
+</main>
+</body>
+</html>
