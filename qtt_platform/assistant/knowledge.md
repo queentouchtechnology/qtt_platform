@@ -1142,6 +1142,13 @@ share.
   keeps it as a draft; **Delete this post** moves it to the bin. A post laid
   out in WordPress with pictures or columns inside its text keeps that text as
   it is — change its title, picture, summary and categories in the app.
+- Pictures (Manage your website › Pictures): every picture on the website —
+  search, **Add pictures** from the phone (JPG, PNG, WebP, GIF, up to 10 MB
+  each). Tap one: its size, **Copy link**, Name, **What's in the picture (alt
+  text)** (Google and screen readers read it), Caption, and **Used on your
+  website** (products, blog posts, pages, categories, the design). **Delete
+  this picture**: one still in use says where and asks again — deleting it
+  leaves an empty space there until another picture is chosen.
 - New enquiries appear in QTT Business Suite activity.
 
 ## QTT Business Suite — AI & WhatsApp Automation
