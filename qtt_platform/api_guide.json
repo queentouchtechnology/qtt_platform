@@ -12606,7 +12606,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.createRequest",
    "screens": "products/services/screens/requests_pages.dart › RequestTile",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/portal.py:92",
+   "source": "qtt-os/qtt_services/qtt_services/api/portal.py:101",
    "status": "Not described"
   },
   {
@@ -12615,15 +12615,15 @@
    "area": "api.portal",
    "http_methods": "GET",
    "guest": 0,
-   "purpose": "Events — portal (named only: no description in the code yet)",
-   "details": "",
-   "arguments": "before, service, asset, limit",
+   "purpose": "What QTT did for the business, newest first, a page at a time. category: orders (the online store's orders and stock) | websites (sites, addresses and checks) | marketing (posts, articles, newsletters) — else everything.",
+   "details": "What QTT did for the business, newest first, a page at a time. category: orders (the online store's orders and\nstock) | websites (sites, addresses and checks) | marketing (posts, articles, newsletters) — else everything.",
+   "arguments": "before, service, asset, limit, category",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.events",
    "screens": "admin/clients_models.dart › ClientDetail\nadmin/clients_view.dart › _ClientConsoleState\nplatform/data/platform_repository.dart › PlatformRepository\nproducts/onbox/screens/chat_pane.dart › ChatPane\nproducts/services/models.dart › SvcOverview\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/services_home.dart › _ActivityPageState\nproducts/services/screens/services_home.dart › _ServicePage",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/portal.py:67",
-   "status": "Not described"
+   "status": "OK"
   },
   {
    "endpoint": "qtt_services.api.portal.overview",
@@ -12654,7 +12654,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.reply",
    "screens": "platform/workplace/mail_page.dart › MessagePage\nproducts/onbox/screens/composer.dart › _ComposerState\nproducts/services/screens/requests_pages.dart › _RequestPageState\nshared/whatsapp/whatsapp_views.dart › _Preview",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/portal.py:112",
+   "source": "qtt-os/qtt_services/qtt_services/api/portal.py:121",
    "status": "Not described"
   },
   {
@@ -12670,7 +12670,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.request",
    "screens": "platform/data/platform_repository.dart › PlatformRepository\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/services/screens/requests_pages.dart › RequestTile\nproducts/services/screens/requests_pages.dart › _RequestPageState\nproducts/services/services_root.dart › _ServicesRootState\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/portal.py:84",
+   "source": "qtt-os/qtt_services/qtt_services/api/portal.py:93",
    "status": "Not described"
   },
   {
