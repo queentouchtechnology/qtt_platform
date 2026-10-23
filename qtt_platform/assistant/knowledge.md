@@ -1120,9 +1120,18 @@ share.
   stays, so links keep working), Move up / down (the home page stays first),
   Show in / Hide from the menu, Remove page. A new page only when the plan
   has room — Landing page 1, 3 pages 3, 5 pages 5 (+3 with the "3 more pages"
-  add-on); "2 of 3 on your plan" shows how many. When it's full, **Ask for 3
-  more pages** or **Ask for a bigger plan** sends QTT a request; QTT tells you
-  the price first, then sets it up.
+  add-on); "2 of 3 on your plan" shows how many. When it's full, **Add 3 more
+  pages** or **See bigger plans** opens Change plan (below) — you see the price
+  first, and the pages are there as soon as it's paid.
+- Change plan (the service's page › **Change plan**, owner): pick a bigger
+  size, tick or untick add-ons, and the price shows before anything happens.
+  Bigger or an add-on more: pay only what's new — its one-time setup (a bigger
+  size: just the setup it costs more than yours) and the price difference for
+  the days you've already paid for; it switches on the moment that's paid.
+  From the next renewal you pay the new price. Smaller or an add-on off:
+  nothing to pay; you keep what you paid for and it switches at the next
+  renewal. A change waiting shows on the page with **Pay now** and **Cancel
+  the change**. A service not paid for yet can't change plan.
 - Blog (Manage your website › Blog): every post on the website — also ones
   written in WordPress — with search and All / Published / Drafts /
   Scheduled. **New post**: title, a picture (from the website's pictures or
