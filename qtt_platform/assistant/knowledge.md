@@ -21,6 +21,15 @@ everyone in every business — no plan needed.
   behind the filter button (e.g. Working / Left, Active / Archived, Unpaid /
   Paid, Sort by); whatever isn't the usual view shows as a chip under the
   search or the list's title — × removes it.
+- **No network (offline)**: the app still opens, as the last person signed
+  in, in their last business. Every screen opened before shows its last copy
+  saved on this device, with a bar on top "Offline — showing saved copy from
+  10:42" and Try again; screens never opened before say "No connection".
+  Changes (saving, approving, sending) need the network — except Office Pulse
+  check-ins (Offline attendance) and Orbitra POS sales, which are kept on the
+  device and sent by themselves. When the network is back the bar goes and
+  every screen refreshes on its own. Copies are kept per person and business,
+  and leave the device when that person signs out.
 - **Customers**: one customer list per business, shared by all apps (Orbitra
   bills them, the Inbox saves chat contacts into it). Individual or business
   (GSTIN, billing address), tags and notes; call, WhatsApp or email them;
@@ -966,6 +975,14 @@ told "Your role in Orbitra can't do this" — the owner can switch it on there.
 - **POS**: tap items (search, code or barcode), choose a customer or walk-in,
   take payment by cash, UPI or card or split two ways; change is calculated;
   any unpaid part stays on the customer; save the bill PDF.
+- **POS with no network**: finish the sale as usual — it's saved on this
+  device ("Sale saved on this device"; the bill number and PDF come once it's
+  sent). The POS shows "N sales saved on this device" with Send now; they go by
+  themselves when the network is back, at the time they were made (a wrong
+  phone clock is corrected) and never twice. Item search and barcodes still
+  work from the saved item list. A sale the server can't accept (e.g. not
+  enough stock, more than 7 days old) shows with its time and amount under
+  "saved sale wasn't accepted" — enter that bill again.
 - **Sales**: invoices (unpaid first) and quotes; new invoice or quote;
   receive payment; save / share PDF; take back items (credit note, stock
   returns); turn a quote into an invoice.

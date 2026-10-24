@@ -426,8 +426,8 @@
 
   {"id": "orbitra.home", "product": "QTT_ORBITRA", "title": "Orbitra", "path": "Orbitra", "roles": ["*"], "ask": [{"q": "How much did we sell today?", "for": ["Orbitra Admin", "Manager"]}, "How do I make a sale?", "Who owes me money?", "Which items are running low?"],
    "what": "Today's sales, money to collect, items running low, and your tiles."},
-  {"id": "orbitra.pos", "product": "QTT_ORBITRA", "title": "POS", "path": "Orbitra › POS", "roles": ["*"], "ask": ["How do I take a UPI payment?", "How do I split a payment between cash and UPI?", "How do I scan a barcode?"],
-   "what": "Quick counter sale: tap items (search or barcode), choose a customer or walk-in, take payment (cash, UPI, card, or split; change is worked out), save the bill PDF."},
+  {"id": "orbitra.pos", "product": "QTT_ORBITRA", "title": "POS", "path": "Orbitra › POS", "roles": ["*"], "ask": ["How do I take a UPI payment?", "How do I split a payment between cash and UPI?", "How do I scan a barcode?", "Can I bill without internet?"],
+   "what": "Quick counter sale: tap items (search or barcode), choose a customer or walk-in, take payment (cash, UPI, card, or split; change is worked out), save the bill PDF. With no network, finish the sale as usual: it is saved on this device and sent when the network is back (Send now sends it at once); a sale the server refuses shows with its time and amount to enter again."},
   {"id": "orbitra.sales", "product": "QTT_ORBITRA", "title": "Sales", "path": "Orbitra › Sales", "roles": ["Orbitra Admin", "Manager", "Cashier"], "ask": ["How do I receive a payment for an invoice?", "How do I turn a quote into an invoice?", "How do I take back items?"],
    "what": "Invoices (unpaid first) and quotes: new invoice, new quote, receive a payment, save or share the PDF, take back items (credit note), turn a quote into an invoice.",
    "tips": [

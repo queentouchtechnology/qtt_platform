@@ -8074,5 +8074,14 @@
  "Open: {n}": "مفتوحة: {n}",
  "Server: {n}": "الخادم: {n}",
  "The error monitor didn’t answer — try again in a minute.": "لم يستجب مراقب الأخطاء — حاول بعد دقيقة.",
- "{n}×": "{n}×"
+ "{n}×": "{n}×",
+ "Offline — showing saved copy from {time}": "غير متصل — تُعرض النسخة المحفوظة من {time}",
+ "Offline — check your connection": "غير متصل — تحقق من اتصالك",
+ "Sale saved on this device": "حُفظ البيع على هذا الجهاز",
+ "No connection — it’s sent when you’re back online. The bill number comes then.": "لا يوجد اتصال — يُرسل عند عودة الاتصال، ويصل رقم الفاتورة حينها.",
+ "1 sale saved on this device": "عملية بيع واحدة محفوظة على هذا الجهاز",
+ "{n} sales saved on this device": "{n} عمليات بيع محفوظة على هذا الجهاز",
+ "1 saved sale wasn’t accepted": "لم تُقبل عملية بيع محفوظة واحدة",
+ "{n} saved sales weren’t accepted": "لم تُقبل {n} عمليات بيع محفوظة",
+ "Enter these bills again.": "أدخل هذه الفواتير مرة أخرى."
 }

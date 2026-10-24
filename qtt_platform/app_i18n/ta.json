@@ -8074,5 +8074,14 @@
  "Open: {n}": "திறந்தவை: {n}",
  "Server: {n}": "சர்வர்: {n}",
  "The error monitor didn’t answer — try again in a minute.": "பிழை கண்காணிப்பு பதிலளிக்கவில்லை — ஒரு நிமிடத்தில் மீண்டும் முயலவும்.",
- "{n}×": "{n}×"
+ "{n}×": "{n}×",
+ "Offline — showing saved copy from {time}": "இணைப்பு இல்லை — {time} அன்று சேமித்த நகல் காட்டப்படுகிறது",
+ "Offline — check your connection": "இணைப்பு இல்லை — உங்கள் இணையத்தைச் சரிபார்க்கவும்",
+ "Sale saved on this device": "விற்பனை இந்தச் சாதனத்தில் சேமிக்கப்பட்டது",
+ "No connection — it’s sent when you’re back online. The bill number comes then.": "இணைப்பு இல்லை — இணைப்பு திரும்பியதும் அனுப்பப்படும். பில் எண் அப்போது வரும்.",
+ "1 sale saved on this device": "இந்தச் சாதனத்தில் 1 விற்பனை சேமிக்கப்பட்டுள்ளது",
+ "{n} sales saved on this device": "இந்தச் சாதனத்தில் {n} விற்பனைகள் சேமிக்கப்பட்டுள்ளன",
+ "1 saved sale wasn’t accepted": "சேமித்த 1 விற்பனை ஏற்கப்படவில்லை",
+ "{n} saved sales weren’t accepted": "சேமித்த {n} விற்பனைகள் ஏற்கப்படவில்லை",
+ "Enter these bills again.": "இந்த பில்களை மீண்டும் உள்ளிடவும்."
 }

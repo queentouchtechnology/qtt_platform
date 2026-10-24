@@ -8074,5 +8074,14 @@
  "Open: {n}": "खुले: {n}",
  "Server: {n}": "सर्वर: {n}",
  "The error monitor didn’t answer — try again in a minute.": "एरर मॉनिटर ने जवाब नहीं दिया — एक मिनट में फिर कोशिश करें।",
- "{n}×": "{n}×"
+ "{n}×": "{n}×",
+ "Offline — showing saved copy from {time}": "ऑफ़लाइन — {time} की सहेजी गई कॉपी दिख रही है",
+ "Offline — check your connection": "ऑफ़लाइन — अपना इंटरनेट कनेक्शन जाँचें",
+ "Sale saved on this device": "बिक्री इस डिवाइस पर सहेजी गई",
+ "No connection — it’s sent when you’re back online. The bill number comes then.": "कनेक्शन नहीं है — ऑनलाइन होते ही भेज दी जाएगी। बिल नंबर तब मिलेगा।",
+ "1 sale saved on this device": "इस डिवाइस पर 1 बिक्री सहेजी गई है",
+ "{n} sales saved on this device": "इस डिवाइस पर {n} बिक्रियाँ सहेजी गई हैं",
+ "1 saved sale wasn’t accepted": "सहेजी गई 1 बिक्री स्वीकार नहीं हुई",
+ "{n} saved sales weren’t accepted": "सहेजी गई {n} बिक्रियाँ स्वीकार नहीं हुईं",
+ "Enter these bills again.": "ये बिल फिर से दर्ज करें।"
 }
