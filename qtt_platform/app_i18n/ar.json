@@ -8083,5 +8083,7 @@
  "{n} sales saved on this device": "{n} عمليات بيع محفوظة على هذا الجهاز",
  "1 saved sale wasn’t accepted": "لم تُقبل عملية بيع محفوظة واحدة",
  "{n} saved sales weren’t accepted": "لم تُقبل {n} عمليات بيع محفوظة",
- "Enter these bills again.": "أدخل هذه الفواتير مرة أخرى."
+ "Enter these bills again.": "أدخل هذه الفواتير مرة أخرى.",
+ "Can I bill without internet?": "هل يمكنني إصدار فاتورة بدون إنترنت؟",
+ "Open POS, tap items, take cash, UPI or card. The bill PDF is ready to share on WhatsApp. No network? Keep billing — sales are saved on the phone and sent when it's back.": "افتح نقطة البيع، واضغط على الأصناف، واستلم نقدًا أو عبر UPI أو بالبطاقة. ملف PDF للفاتورة جاهز للمشاركة على واتساب. لا يوجد اتصال؟ تابع البيع — تُحفظ المبيعات على الهاتف وتُرسل عند عودة الاتصال."
 }

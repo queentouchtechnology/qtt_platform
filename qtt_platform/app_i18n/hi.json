@@ -8083,5 +8083,7 @@
  "{n} sales saved on this device": "इस डिवाइस पर {n} बिक्रियाँ सहेजी गई हैं",
  "1 saved sale wasn’t accepted": "सहेजी गई 1 बिक्री स्वीकार नहीं हुई",
  "{n} saved sales weren’t accepted": "सहेजी गई {n} बिक्रियाँ स्वीकार नहीं हुईं",
- "Enter these bills again.": "ये बिल फिर से दर्ज करें।"
+ "Enter these bills again.": "ये बिल फिर से दर्ज करें।",
+ "Can I bill without internet?": "क्या बिना इंटरनेट के बिल बना सकते हैं?",
+ "Open POS, tap items, take cash, UPI or card. The bill PDF is ready to share on WhatsApp. No network? Keep billing — sales are saved on the phone and sent when it's back.": "POS खोलें, आइटम टैप करें, नकद, UPI या कार्ड से भुगतान लें। बिल PDF WhatsApp पर भेजने के लिए तैयार है। नेटवर्क नहीं? बिल बनाते रहें — बिक्री फ़ोन पर सहेजी जाती है और नेटवर्क लौटने पर भेज दी जाती है।"
 }
