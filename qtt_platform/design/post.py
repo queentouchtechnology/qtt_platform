@@ -45,8 +45,10 @@ def sample_photos(name: str) -> list[tuple[str, bytes]]:
 
 
 def page_for(layout: str, variant: dict, *, colors: dict, fonts: tuple[str, str], look: str, fmt: str, content: dict,
-			 photo_names: list[str], language: str = "", out_width: int = 1080, edits: dict | None = None) -> tuple[str, int, int]:
-	"""(html, width, height) of one post. `edits`: Studio's Move and resize changes ({format: {piece: …}})."""
+			 photo_names: list[str], language: str = "", out_width: int = 1080, edits: dict | None = None,
+			 srcs: dict | None = None) -> tuple[str, int, int]:
+	"""(html, width, height) of one post. `edits`: Studio's editor changes ({format: {piece: …}}); `srcs`: the photos they
+	use ({ref: file name beside the page})."""
 	from qtt_platform.design import arrange
 
 	hh = SIZES.get(fmt, 1080)
@@ -59,7 +61,7 @@ def page_for(layout: str, variant: dict, *, colors: dict, fonts: tuple[str, str]
 	x = layouts.Ctx(palette=p, fonts=f, height=hh, look=lk, content=content, photos=photo_names, finish=fin, key=layout + repr(sorted((variant or {}).items())))
 	body, css = archetypes.LAYOUTS[layout](x, variant or {})
 	out_h = round(out_width * hh / 1080)
-	return layouts.page(body, css, x, out_width, out_h, arrange.script_for(edits, fmt)), out_width, out_h
+	return layouts.page(body, css, x, out_width, out_h, arrange.script_for(edits, fmt, srcs)), out_width, out_h
 
 
 def files_for(content: dict, photos: list[tuple[str, bytes]], logo: tuple[str, bytes] | None) -> tuple[dict, dict]:
@@ -73,13 +75,24 @@ def files_for(content: dict, photos: list[tuple[str, bytes]], logo: tuple[str, b
 
 def render(layout: str, variant: dict, *, colors: dict, fonts: tuple[str, str], look: str, fmt: str, content: dict,
 		   photos: list[tuple[str, bytes]], logo: tuple[str, bytes] | None = None, language: str = "", out_width: int = 1080,
-		   edits: dict | None = None, extra: list[tuple[str, bytes]] | None = None) -> bytes:
+		   edits: dict | None = None, extra: list[tuple[str, bytes]] | None = None, srcs: dict | None = None) -> bytes:
 	"""`extra`: files the page uses that aren't its photos (a showcase design's backdrop)."""
 	files, content = files_for(content, photos, logo)
 	files.update(dict(extra or []))
 	page, w, h = page_for(layout, variant, colors=colors, fonts=fonts, look=look, fmt=fmt, content=content,
-						  photo_names=[n for n, _ in photos], language=language, out_width=out_width, edits=edits)
+						  photo_names=[n for n, _ in photos], language=language, out_width=out_width, edits=edits, srcs=srcs)
 	return renderer.png(page, w, h, files)
+
+
+def render_pdf(layout: str, variant: dict, *, colors: dict, fonts: tuple[str, str], look: str, fmt: str, content: dict,
+			   photos: list[tuple[str, bytes]], logo: tuple[str, bytes] | None = None, language: str = "", edits: dict | None = None,
+			   extra: list[tuple[str, bytes]] | None = None, srcs: dict | None = None) -> bytes:
+	"""The same post as a PDF to print (its size at 150 dpi: 1080 px = 7.2 in), every line still sharp."""
+	files, content = files_for(content, photos, logo)
+	files.update(dict(extra or []))
+	page, w, h = page_for(layout, variant, colors=colors, fonts=fonts, look=look, fmt=fmt, content=content,
+						  photo_names=[n for n, _ in photos], language=language, edits=edits, srcs=srcs)
+	return renderer.pdf(page, w / 150, h / 150, files)
 
 
 def thumbnail(t: dict, group: str, out_width: int = 540) -> bytes:

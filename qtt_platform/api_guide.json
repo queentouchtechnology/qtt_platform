@@ -6780,7 +6780,7 @@
    "arguments": "q, collection, show",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.notes",
-   "screens": "admin/business_admin.dart › _TenantServicesSectionState\nadmin/clients_models.dart › StaffService\nadmin/clients_view.dart › _ClientConsoleState\nadmin/marketing_dashboard_models.dart › DayReport\nadmin/marketing_dashboard_models.dart › ScheduleItem\nadmin/marketing_dashboard_models.dart › ScheduleSlot\nadmin/marketing_dashboard_models.dart › TargetProgress\nadmin/marketing_reports_view.dart › DayReportBody\nadmin/marketing_schedule_view.dart › _SlotEditScreenState\nplatform/team/team_sheets.dart › _TaskSheetState\nplatform/workplace/boards_page.dart › BoardCardTile\nplatform/workplace/forms_page.dart › _FormsPageState\nplatform/workplace/notes_page.dart › (top level)\nplatform/workplace/notes_page.dart › _NotesPageState\nproducts/office_pulse/screens/home_view.dart › PulseHomeView\nproducts/services/screens/marketing_history.dart › _Media\nproducts/services/screens/marketing_pages.dart › _PostTile\nproducts/services/store/store_pages.dart › _StoreOrderPageState\nshell/home_shell.dart › _HomeShellState",
+   "screens": "admin/business_admin.dart › _TenantServicesSectionState\nadmin/clients_models.dart › StaffService\nadmin/clients_view.dart › _ClientConsoleState\nadmin/marketing_dashboard_models.dart › DayReport\nadmin/marketing_dashboard_models.dart › ScheduleItem\nadmin/marketing_dashboard_models.dart › ScheduleSlot\nadmin/marketing_dashboard_models.dart › TargetProgress\nadmin/marketing_reports_view.dart › DayReportBody\nadmin/marketing_schedule_view.dart › _SlotEditScreenState\nplatform/team/team_sheets.dart › _TaskSheetState\nplatform/workplace/boards_page.dart › BoardCardTile\nplatform/workplace/forms_page.dart › _FormsPageState\nplatform/workplace/notes_page.dart › (top level)\nplatform/workplace/notes_page.dart › _NotesPageState\nproducts/office_pulse/screens/home_view.dart › PulseHomeView\nproducts/services/screens/marketing_history.dart › _Media\nproducts/services/screens/marketing_pages.dart › _MarketingPageState\nproducts/services/screens/marketing_pages.dart › _PostTile\nproducts/services/store/store_pages.dart › _StoreOrderPageState\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/notes.py:70",
    "status": "OK"
@@ -6956,7 +6956,7 @@
    "arguments": "key",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.postTemplateIdeas",
-   "screens": "products/services/screens/design_library.dart › _DesignPreviewPageState",
+   "screens": "products/services/screens/design_library.dart › _DesignPreviewPageState\nproducts/studio/studio_pages.dart › _TemplateSheetState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/post_templates.py:87",
    "status": "OK"
@@ -6972,7 +6972,7 @@
    "arguments": "post_type, group, start, limit",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.postTemplates",
-   "screens": "products/services/screens/design_library.dart › _DesignLibraryPageState\nproducts/studio/studio_root.dart › TemplatePickerPage",
+   "screens": "products/services/screens/design_library.dart › _DesignLibraryPageState\nproducts/studio/studio_pages.dart › _StudioTemplatesPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/post_templates.py:35",
    "status": "OK"
@@ -6988,9 +6988,9 @@
    "arguments": "key, format, look, idea",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.postTemplatePreview",
-   "screens": "products/services/screens/design_library.dart › _DesignPreviewPageState",
+   "screens": "products/services/screens/design_library.dart › _DesignPreviewPageState\nproducts/studio/studio_pages.dart › _TemplateSheetState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/post_templates.py:219",
+   "source": "qtt_platform/qtt_platform/api/post_templates.py:274",
    "status": "OK"
   },
   {
@@ -7790,7 +7790,23 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioAllSizes",
    "screens": "products/studio/design_editor.dart › _DesignEditorPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:471",
+   "source": "qtt_platform/qtt_platform/api/studio.py:503",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.studio.another",
+   "product": "Platform",
+   "area": "api.studio",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Show me another one: a design asked for in words is asked again for a different design (1 AI credit); one started from a design gets the same words in another design of the same kind (no AI).",
+   "details": "Show me another one: a design asked for in words is asked again for a different design (1 AI credit); one started\nfrom a design gets the same words in another design of the same kind (no AI).",
+   "arguments": "name",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioAnother",
+   "screens": "products/studio/design_editor.dart › _DesignEditorPageState\nproducts/studio/studio_pages.dart › _StudioResultPageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/studio.py:577",
    "status": "OK"
   },
   {
@@ -7806,7 +7822,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioAsk",
    "screens": "products/studio/design_editor.dart › _DesignEditorPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:398",
+   "source": "qtt_platform/qtt_platform/api/studio.py:430",
    "status": "OK"
   },
   {
@@ -7820,9 +7836,9 @@
    "arguments": "name",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioDeleteDesign",
-   "screens": "products/studio/design_editor.dart › _DesignEditorPageState",
+   "screens": "products/studio/design_editor.dart › _DesignEditorPageState\nproducts/studio/studio_pages.dart › _StudioWorkPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:512",
+   "source": "qtt_platform/qtt_platform/api/studio.py:544",
    "status": "OK"
   },
   {
@@ -7836,9 +7852,25 @@
    "arguments": "name",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioDesign",
-   "screens": "products/studio/poster_variations.dart › _PosterConceptsPageState",
+   "screens": "products/studio/poster_variations.dart › _PosterConceptsPageState\nproducts/studio/studio_pages.dart › _StudioWorkPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:358",
+   "source": "qtt_platform/qtt_platform/api/studio.py:390",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.studio.design_pdf",
+   "product": "Platform",
+   "area": "api.studio",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "The design in its size as a PDF to print (a shop prints it as a poster) → {url}.",
+   "details": "The design in its size as a PDF to print (a shop prints it as a poster) → {url}.",
+   "arguments": "name",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioDesignPdf",
+   "screens": "products/studio/design_editor.dart › _DesignEditorPageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/studio.py:672",
    "status": "OK"
   },
   {
@@ -7854,7 +7886,23 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioDesigns",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:349",
+   "source": "qtt_platform/qtt_platform/api/studio.py:381",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.studio.duplicate",
+   "product": "Platform",
+   "area": "api.studio",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Make a copy: the same design, words, look, size and changes, as a new design (counts as one of the month's).",
+   "details": "Make a copy: the same design, words, look, size and changes, as a new design (counts as one of the month's).",
+   "arguments": "name",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioDuplicate",
+   "screens": "products/studio/studio_pages.dart › _StudioWorkPageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/studio.py:693",
    "status": "OK"
   },
   {
@@ -7868,9 +7916,57 @@
    "arguments": "name, format",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioEditor",
-   "screens": "products/studio/move_resize.dart › _MoveResizePageState",
+   "screens": "products/studio/design_canvas.dart › _DesignCanvasPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:427",
+   "source": "qtt_platform/qtt_platform/api/studio.py:459",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.studio.editor_assets",
+   "product": "Platform",
+   "area": "api.studio",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "What the editor offers: {fonts (the brand's first), colors (the brand's), photos (Photos for your posts: ref, picture, has a cut-out), pictures (Business Library photos), logo}.",
+   "details": "What the editor offers: {fonts (the brand's first), colors (the brand's), photos (Photos for your posts: ref, picture,\nhas a cut-out), pictures (Business Library photos), logo}.",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioEditorAssets",
+   "screens": "products/studio/design_canvas.dart › _DesignCanvasPageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/studio.py:601",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.studio.editor_cutout",
+   "product": "Platform",
+   "area": "api.studio",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "The photo with its background removed, for the editor ({ref, url}). A photo for your posts keeps its cut-out (post designs use it too); a Library picture's cut-out is a new Library picture (one of the month's photos).",
+   "details": "The photo with its background removed, for the editor ({ref, url}). A photo for your posts keeps its cut-out (post\ndesigns use it too); a Library picture's cut-out is a new Library picture (one of the month's photos).",
+   "arguments": "ref",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioEditorCutout",
+   "screens": "products/studio/design_canvas.dart › _DesignCanvasPageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/studio.py:640",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.studio.editor_src",
+   "product": "Platform",
+   "area": "api.studio",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "A photo for the editor to show now ({ref, url}: the picture inside the answer, brought down to 1200 px).",
+   "details": "A photo for the editor to show now ({ref, url}: the picture inside the answer, brought down to 1200 px).",
+   "arguments": "ref",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioEditorSrc",
+   "screens": "products/studio/design_canvas.dart › _DesignCanvasPageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/studio.py:627",
    "status": "OK"
   },
   {
@@ -7886,7 +7982,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioFromPoster",
    "screens": "products/studio/studio_root.dart › _StudioHomeState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:281",
+   "source": "qtt_platform/qtt_platform/api/studio.py:313",
    "status": "OK"
   },
   {
@@ -7900,9 +7996,9 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioHome",
-   "screens": "products/studio/studio_root.dart › _StudioHomeState",
+   "screens": "products/services/screens/marketing_pages.dart › _MarketingPageState\nproducts/studio/studio_root.dart › _StudioHomeState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:221",
+   "source": "qtt_platform/qtt_platform/api/studio.py:226",
    "status": "OK"
   },
   {
@@ -7916,9 +8012,9 @@
    "arguments": "kind, product, start, limit",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioLibrary",
-   "screens": "products/services/screens/marketing_pages.dart › _LibraryPickerState",
+   "screens": "products/services/screens/marketing_pages.dart › _LibraryPickerState\nproducts/studio/studio_pages.dart › _StudioWorkPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:525",
+   "source": "qtt_platform/qtt_platform/api/studio.py:557",
    "status": "OK"
   },
   {
@@ -7927,14 +8023,14 @@
    "area": "api.studio",
    "http_methods": "POST",
    "guest": 0,
-   "purpose": "What do you want to make? — AI picks a library design and writes its words from the business knowledge only (never invented prices, offers or dates), in the business's language; drawn in its brand and saved. 1 AI credit.",
-   "details": "What do you want to make? — AI picks a library design and writes its words from the business knowledge only (never\ninvented prices, offers or dates), in the business's language; drawn in its brand and saved. 1 AI credit.",
-   "arguments": "request",
+   "purpose": "What do you want to make? — AI picks a library design and writes its words from the business knowledge only (never invented prices, offers or dates), in the business's language; drawn in its brand and saved. 1 AI credit. template: write the words for this design (a template the owner chose).",
+   "details": "What do you want to make? — AI picks a library design and writes its words from the business knowledge only (never\ninvented prices, offers or dates), in the business's language; drawn in its brand and saved. 1 AI credit.\ntemplate: write the words for this design (a template the owner chose).",
+   "arguments": "request, template",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioMake",
-   "screens": "products/studio/studio_root.dart › _StudioHomeState",
+   "screens": "products/services/screens/marketing_pages.dart › _MarketingPageState\nproducts/studio/studio_pages.dart › _TemplateSheetState\nproducts/studio/studio_root.dart › _StudioHomeState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:246",
+   "source": "qtt_platform/qtt_platform/api/studio.py:266",
    "status": "OK"
   },
   {
@@ -7948,9 +8044,9 @@
    "arguments": "template, idea",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioNewDesign",
-   "screens": "products/studio/studio_root.dart › TemplatePickerPage",
+   "screens": "products/studio/studio_pages.dart › _TemplateSheetState\nproducts/studio/studio_root.dart › _StudioHomeState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:326",
+   "source": "qtt_platform/qtt_platform/api/studio.py:358",
    "status": "OK"
   },
   {
@@ -7964,9 +8060,9 @@
    "arguments": "name, format, edits",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioSaveMoves",
-   "screens": "products/studio/move_resize.dart › _MoveResizePageState",
+   "screens": "products/studio/design_canvas.dart › _DesignCanvasPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:444",
+   "source": "qtt_platform/qtt_platform/api/studio.py:476",
    "status": "OK"
   },
   {
@@ -7980,9 +8076,9 @@
    "arguments": "name, format",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioToPost",
-   "screens": "products/studio/design_editor.dart › _DesignEditorPageState",
+   "screens": "products/services/screens/marketing_pages.dart › _MarketingPageState\nproducts/studio/design_editor.dart › _DesignEditorPageState\nproducts/studio/studio_pages.dart › _StudioWorkPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:491",
+   "source": "qtt_platform/qtt_platform/api/studio.py:523",
    "status": "OK"
   },
   {
@@ -7996,9 +8092,9 @@
    "arguments": "name, data",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioUpdateDesign",
-   "screens": "products/studio/design_editor.dart › _DesignEditorPageState",
+   "screens": "products/studio/design_editor.dart › _DesignEditorPageState\nproducts/studio/studio_pages.dart › _TemplateSheetState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:364",
+   "source": "qtt_platform/qtt_platform/api/studio.py:396",
    "status": "OK"
   },
   {
@@ -11356,7 +11452,7 @@
    "arguments": "name",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingPost",
-   "screens": "products/services/screens/marketing_history.dart › _PostHistoryPageState\nproducts/services/screens/marketing_hub.dart › _MarketingHubPageState",
+   "screens": "products/services/screens/marketing_history.dart › _PostHistoryPageState\nproducts/services/screens/marketing_hub.dart › _MarketingHubPageState\nproducts/services/screens/marketing_pages.dart › _MarketingPageState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:222",
    "status": "Not described"
@@ -13084,7 +13180,7 @@
    "arguments": "code, answers, hosting_plan, domain, buy_domain, business_category, website_template, color_palette, term, options, design",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.order",
-   "screens": "platform/explore/explore_screen.dart › _ItemPage\nproducts/services/screens/order_pages.dart › (top level)\nproducts/services/screens/order_pages.dart › _OrderPageState\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_models.dart › StoreOrderDetail\nproducts/services/store/store_pages.dart › StoreHomePage\nproducts/services/store/store_pages.dart › _StoreOrderPageState\nproducts/services/store/store_pages.dart › _StoreOrdersPageState\nshared/widgets/adaptive.dart › _AdaptiveTilesState\nshell/home_shell.dart › _HomeShellState",
+   "screens": "platform/explore/explore_screen.dart › _ItemPage\nproducts/services/screens/order_pages.dart › (top level)\nproducts/services/screens/order_pages.dart › _OrderPageState\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_models.dart › StoreOrderDetail\nproducts/services/store/store_pages.dart › StoreHomePage\nproducts/services/store/store_pages.dart › _StoreOrderPageState\nproducts/services/store/store_pages.dart › _StoreOrdersPageState\nproducts/studio/studio_pages.dart › _StudioTemplatesPageState\nshared/widgets/adaptive.dart › _AdaptiveTilesState\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/shop.py:191",
    "status": "OK"

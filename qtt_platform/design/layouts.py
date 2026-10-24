@@ -29,10 +29,10 @@ _TEXT_ROOM = {"cta": (.6, 1.0), "pill": (1.0, 1.0), "ribbon": (.7, 1.0), "brush_
 			  "brush_badge": (0, .86)}
 
 FIT_SCRIPT = (
-	"<script>(async()=>{try{await document.fonts.ready}catch(e){}"
+	"<script>(async()=>{try{await window.qttLinks}catch(e){}try{await document.fonts.ready}catch(e){}"
 	# Studio's Move and resize (design/arrange.py): number the pieces now (the editor numbers them at this same moment),
 	# put in changed words before fitting, the moves after
-	"if(window.qttPieces){qttPieces();if(window.qttEdits)qttWords(qttEdits)}"
+	"if(window.qttPieces){qttPieces();if(window.qttEdits){qttWords(qttEdits);try{await document.fonts.ready}catch(e){}}}"
 	# too big = taller than the box's max-height (big capitals spill a few px past a tight line-height, so allow 6) or
 	# wider than the box (a long word / a nowrap line)
 	"document.querySelectorAll('[data-fit]').forEach(el=>{const cs=getComputedStyle(el);let s=parseFloat(cs.fontSize),m=el.dataset.min?parseFloat(el.dataset.min):s*.42;"

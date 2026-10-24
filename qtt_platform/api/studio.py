@@ -12,6 +12,11 @@ products; making something new needs Studio. What's made goes into the Business 
   ask             an AI edit in plain words ("make the title shorter", "dark background") — 1 AI credit
   delete_design   the design and its library item
   library         the Business Library: what the business made, for any product (kind / product)
+  another         Show me another one: the same request in another design (1 AI credit), or the same words in another
+                  design of the same kind (no AI)
+  editor_assets   what the editor offers: fonts (the brand's first), the business's photos and Library pictures, the logo
+  editor_src / editor_cutout   a photo for the editor (and its background removed)
+  design_pdf      the design as a PDF to print
 
 Who: the owner and admins, and team members given QTT Studio (Studio Admin, Designer).
 """
@@ -136,7 +141,7 @@ def _out(doc) -> dict:
 	return {"name": doc.name, "title": doc.title, "kind": doc.kind, "template": doc.template, "format": doc.format, "look": doc.look,
 			# words longer than this design holds at this size: told to the owner, never silently cut (design/fitcheck.py)
 			"warnings": fitcheck.check(layout, c.get("words") or {}, doc.format) if layout else [],
-			"made_by": doc.made_by, "words": c.get("words") or {}, "lang": c.get("lang") or "en",
+			"made_by": doc.made_by, "request": doc.request or "", "words": c.get("words") or {}, "lang": c.get("lang") or "en",
 			"picture": get_url(doc.output) if doc.output else None, "modified": str(doc.modified),
 			"formats": list(rules.FORMATS + rules.WIDE if showcase else rules.FORMATS), "showcase": showcase,
 			"palette": (c.get("media") or {}).get("palette"), "batch": (c.get("media") or {}).get("batch"),
@@ -157,7 +162,7 @@ def _draw(tenant: str, doc) -> None:
 	t = pt.template_row(doc.template)
 	c = json.loads(doc.content or "{}")
 	parts = pt.post_parts(tenant, t, look=doc.look, words=c.get("words") or None, lang=c.get("lang"), media=c.get("media"))
-	parts["edits"] = c.get("edits") or {}
+	pt.with_edits(tenant, parts, c.get("edits"))
 	sig = pt.parts_sig(t, doc.format, parts)
 	item = _item_for(doc, doc.format)
 	if item and item.file and f"sig:{sig}" in (item.tags or "").split():
@@ -236,23 +241,50 @@ def home() -> dict:
 		"designs": {"used": used, "left": rules.limit_left(ent.get("studio_designs", 0), used) if ent else 0},
 		"credits": _credits(tenant) if ent else 0,
 		"categories": [{"key": k, "label": label, "kind": kind, "ready": ready} for k, label, kind, ready in rules.CATEGORIES],
-		"recent": recent, "library": frappe.db.count(ITEM, {"tenant": tenant}),
+		"recent": recent, "library": frappe.db.count(ITEM, {"tenant": tenant}), "festival": _festival(tenant) if ent else None,
 		"can_activate": frappe.db.get_value("QTT Tenant Membership", {"tenant": tenant, "user": frappe.session.user, "status": "active"},
 											"tenant_role") == "Tenant Owner",
 	}
 
 
+def _festival(tenant: str) -> dict | None:
+	"""The next festival in 3 weeks with a wish ready for it: {key, label, date, idea, template} (a greeting design of this
+	business's kind) — Make starts it without AI."""
+	try:
+		soon = library.upcoming(21)
+	except Exception:
+		return None
+	rows, _templates = _library(tenant)
+	greeting = next((r["key"] for r in rows if "greeting" in (r.get("post_types") or [])), None)
+	for o in soon:
+		if greeting and f"wish-{o.key}" in library_words.IDEAS:
+			return {"key": o.key, "label": o.label, "date": str(o.date), "idea": f"wish-{o.key}", "template": greeting}
+	return None
+
+
 @frappe.whitelist(methods=["POST"])
-def make(request: str) -> dict:
+def make(request: str, template: str | None = None) -> dict:
 	"""What do you want to make? — AI picks a library design and writes its words from the business knowledge only (never
-	invented prices, offers or dates), in the business's language; drawn in its brand and saved. 1 AI credit."""
+	invented prices, offers or dates), in the business's language; drawn in its brand and saved. 1 AI credit.
+	template: write the words for this design (a template the owner chose)."""
 	tenant = _tenant()
 	ent = _need_studio(tenant)
 	if len((request or "").strip()) < 3:
 		frappe.throw(_("Say what you'd like to make."))
+	return _make(tenant, ent, request.strip(), only=template)
+
+
+def _make(tenant: str, ent: dict, request: str, *, only: str | None = None, exclude: str | None = None) -> dict:
 	_need_design_room(tenant, ent)
 	brief, lang = _brief(tenant)
 	rows, templates = _library(tenant)
+	if only:
+		rows = [r for r in rows if r["key"] == only] or [{"key": only}]
+		templates = [r for r in templates if r["key"] == only] or [{"key": only, "label": pt.template_row(only)["title"],
+																	 "post_types": pt.template_row(only)["post_types"]}]
+	elif exclude:
+		rows = [r for r in rows if r["key"] != exclude] or rows
+		templates = [r for r in templates if r["key"] != exclude] or templates
 	f, _lang = pt._facts(tenant)
 	ideas = [{"key": k, "headline": (w.get("kicker", "") + " " + w["headline"]).strip()} for k, i in library_words.IDEAS.items()
 			 if (w := library_words.fill(i, f, lang)) and not i.get("occasion")]
@@ -434,7 +466,7 @@ def editor(name: str, format: str | None = None) -> dict:
 	t = pt.template_row(doc.template)
 	c = json.loads(doc.content or "{}")
 	parts = pt.post_parts(tenant, t, look=doc.look, words=c.get("words") or None, lang=c.get("lang"), media=c.get("media"))
-	parts["edits"] = c.get("edits") or {}
+	pt.with_edits(tenant, parts, c.get("edits"))
 	from qtt_platform.design.post import SIZES
 
 	return {"html": pt.editor_html(t, fmt, parts), "width": 1080, "height": SIZES.get(fmt, 1080), "format": fmt}
@@ -539,3 +571,133 @@ def library_items(kind: str | None = None, product: str | None = None, start: in
 	if product:
 		rows = [r for r in rows if "all" in (r.products or "all").split() or product in (r.products or "").split()]
 	return {"items": [{**r, "file": get_url(r.file) if r.file else None, "modified": str(r.modified)} for r in rows]}
+
+
+@frappe.whitelist(methods=["POST"])
+def another(name: str) -> dict:
+	"""Show me another one: a design asked for in words is asked again for a different design (1 AI credit); one started
+	from a design gets the same words in another design of the same kind (no AI)."""
+	tenant = _tenant()
+	ent = _need_studio(tenant)
+	doc = _mine(tenant, name)
+	if doc.request:
+		return _make(tenant, ent, doc.request, exclude=doc.template)
+	_need_design_room(tenant, ent)
+	t = pt.template_row(doc.template)
+	rows, _templates = _library(tenant)
+	kinds = set(t["post_types"]) - {"showcase"}
+	others = [r["key"] for r in rows if r["key"] != doc.template and kinds & set(r.get("post_types") or [])]
+	if not others:
+		frappe.throw(_("There isn't another design of this kind yet — try Ask AI to change this one."))
+	seen = frappe.cache.get_value(f"qtt_studio_another:{doc.name}") or []
+	fresh = [k for k in others if k not in seen] or others
+	pick = fresh[0]
+	frappe.cache.set_value(f"qtt_studio_another:{doc.name}", (seen + [pick])[-30:], expires_in_sec=86400)
+	c = json.loads(doc.content or "{}")
+	return _create(tenant, template=pick, words=c.get("words") or {}, lang=c.get("lang") or "en", look=doc.look, made_by="Template")
+
+
+@frappe.whitelist(methods=["GET"])
+def editor_assets() -> dict:
+	"""What the editor offers: {fonts (the brand's first), colors (the brand's), photos (Photos for your posts: ref, picture,
+	has a cut-out), pictures (Business Library photos), logo}."""
+	from frappe.utils import get_url
+
+	from qtt_platform.api import business_photos as bp
+	from qtt_platform.design import base
+
+	tenant = _tenant()
+	_need_studio(tenant)
+	k = knowledge.for_tenant(tenant) or {}
+	kit = knowledge.rules.brand(k, knowledge.contacts(tenant).get("brand_color") or "")
+	brand = [f for f in (kit.get("font_heading"), kit.get("font_body")) if f]
+	pal = base.palette(kit.get("colors") or {"primary": base.DEFAULT_PRIMARY})
+	colors = list(dict.fromkeys(c for c in (pal.get("primary"), pal.get("accent"), pal.get("primary_deep"), pal.get("dark")) if c))
+	photos = [{"ref": f"photo:{r['name']}", "picture": get_url(r["image"]) if r.get("image") else None, "label": r.get("label") or r.get("kind"),
+			   "cutout": bool(r.get("cutout"))} for r in bp._out(tenant)]
+	items = frappe.get_all(ITEM, filters={"tenant": tenant, "kind": "photo"}, fields=["name", "title", "file"], order_by="creation desc", page_length=40)
+	logo = knowledge._logo(tenant)
+	return {"fonts": list(dict.fromkeys(brand + list(base.FONTS))), "brand_fonts": brand, "colors": colors,
+			"photos": [p for p in photos if p["picture"]],
+			"pictures": [{"ref": f"item:{r.name}", "picture": get_url(r.file), "label": r.title} for r in items if r.file],
+			"logo": bool(logo and logo[1])}
+
+
+@frappe.whitelist(methods=["GET"])
+def editor_src(ref: str) -> dict:
+	"""A photo for the editor to show now ({ref, url}: the picture inside the answer, brought down to 1200 px)."""
+	from qtt_platform.design import arrange
+
+	tenant = _tenant()
+	_need_studio(tenant)
+	data, ext = pt.source_bytes(tenant, ref)
+	if not data:
+		frappe.throw(_("That photo isn't here any more."))
+	return {"ref": ref, "url": arrange.data_uri(f"x.{ext}", data)}
+
+
+@frappe.whitelist(methods=["POST"])
+def editor_cutout(ref: str) -> dict:
+	"""The photo with its background removed, for the editor ({ref, url}). A photo for your posts keeps its cut-out (post
+	designs use it too); a Library picture's cut-out is a new Library picture (one of the month's photos)."""
+	from qtt_platform.api import studio_photos as sp
+	from qtt_platform.design import arrange, cutout
+
+	tenant = _tenant()
+	ent = _need_studio(tenant)
+	kind, _sep, name = str(ref).partition(":")
+	if kind in ("photo", "cut"):
+		doc = sp._photo(tenant, name)
+		sp._cut(tenant, doc, fine=False)
+		new = f"cut:{name}"
+	elif kind == "item":
+		sp._need_room(tenant, ent)
+		data, _ext = pt.source_bytes(tenant, ref)
+		if not data:
+			frappe.throw(_("That photo isn't here any more."))
+		png = cutout.remove_background(data, "general", fine=False)
+		item = frappe.get_doc({"doctype": ITEM, "tenant": tenant, "title": _("Cut-out"), "kind": "photo", "format": "cutout", "products": "all",
+							   "tags": f"cutout from:{name}"}).insert(ignore_permissions=True)
+		url = frappe.get_doc({"doctype": "File", "file_name": f"studio-photo-cutout-{frappe.generate_hash(length=10)}.png", "content": png,
+							  "is_private": 0, "attached_to_doctype": ITEM, "attached_to_name": item.name}).insert(ignore_permissions=True).file_url
+		item.db_set("file", url)
+		new = f"item:{item.name}"
+	else:
+		frappe.throw(_("Pick one of your photos first."))
+	data, ext = pt.source_bytes(tenant, new)
+	return {"ref": new, "url": arrange.data_uri(f"x.{ext}", data)}
+
+
+@frappe.whitelist(methods=["POST"])
+def design_pdf(name: str) -> dict:
+	"""The design in its size as a PDF to print (a shop prints it as a poster) → {url}."""
+	from frappe.utils import get_url
+
+	tenant = _tenant()
+	_need_studio(tenant)
+	doc = _mine(tenant, name)
+	t = pt.template_row(doc.template)
+	c = json.loads(doc.content or "{}")
+	parts = pt.post_parts(tenant, t, look=doc.look, words=c.get("words") or None, lang=c.get("lang"), media=c.get("media"))
+	pt.with_edits(tenant, parts, c.get("edits"))
+	sig = pt.parts_sig(t, doc.format, parts)
+	fname = f"studio-{doc.name}-{sig}.pdf"
+	have = frappe.db.get_value("File", {"file_name": fname, "attached_to_doctype": DESIGN, "attached_to_name": doc.name}, "file_url")
+	if not have:
+		have = frappe.get_doc({"doctype": "File", "file_name": fname, "content": pt.draw_pdf(t, doc.format, parts), "is_private": 0,
+							   "attached_to_doctype": DESIGN, "attached_to_name": doc.name}).insert(ignore_permissions=True).file_url
+	return {"url": get_url(have)}
+
+
+@frappe.whitelist(methods=["POST"])
+def duplicate(name: str) -> dict:
+	"""Make a copy: the same design, words, look, size and changes, as a new design (counts as one of the month's)."""
+	tenant = _tenant()
+	ent = _need_studio(tenant)
+	_need_design_room(tenant, ent)
+	doc = _mine(tenant, name)
+	new = frappe.copy_doc(doc)
+	new.update({"output": None, "output_sig": None, "library_item": None, "title": (doc.title or "Design")[:110] + " · " + _("copy")})
+	new.insert(ignore_permissions=True)
+	_draw(tenant, new)
+	return _out(new)

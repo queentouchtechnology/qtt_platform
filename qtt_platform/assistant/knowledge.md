@@ -1260,6 +1260,12 @@ open it from that service).
   connected page — untick any you don't want. Numbers come from each page's
   feed: pages connected before 23 Oct 2026 show **Connect again for numbers**
   — connect once more and allow it (Instagram can take up to 2 days).
+- **Create a post** (Social media): how to start — **Pick a template**
+  (with QTT Studio: Studio's templates, edited in the editor, then the post
+  opens to choose pages and approve; without Studio: the free Post designs),
+  **Use my photo** or **Just write words** (the post editor), **Tell AI what
+  you want** (with Studio: made in your brand, 1 AI credit; without: post
+  ideas).
 - **Post history** (Social media › Post history): every post on your pages —
   made in QTT or posted directly — newest first, as a **Feed** (like Facebook
   and Instagram) or a **Grid** (like an Instagram profile), with likes,
@@ -1607,10 +1613,28 @@ passwords, codes or keys.
   designs, 100 AI credits), Studio Growth ₹999 (100 designs, 400 credits,
   Design mode), Studio Pro ₹1,999 (400 designs, 1,200 credits). 14-day free
   trial. AI credits arrive each month with the plan.
-- **Making a post**: Studio home › What do you want to make? — type it ("a
-  Pongal wish", "a post about our meals", "we are hiring") › Make it: AI
-  picks a design and writes its words (1 AI credit; refunded if it fails).
-  Or Start from a design (no AI). It never invents prices, offers, dates or
+- **Studio home** (since 24 Oct 2026): **What do you need today?** — type
+  it or tap a quick choice (Festival wish, Offer, New product, We're hiring,
+  Thank you) › **Make it**. A festival in the next 3 weeks shows a card
+  (Make your wish post — no AI). Big buttons named by what you want: Posts
+  for social media, Make my photos look pro (Photo Lab), Short video from
+  photos (Shorts), Cards, flyers and menus (Print), Logo and brand, Letters
+  and documents, One-page website (Pages), Posters of my app or website
+  (Poster variations). Then **Your work** (See all: everything made, by
+  Posts, Photos, Videos, Print, Logos, Documents, Pages; ⋯ on a design: Open
+  and change, Post it, Make a copy, Download or share, Delete) and **Your
+  brand** (Business › Knowledge).
+- **Making a post**: What do you need today? › Make it: AI picks a design
+  and writes its words (1 AI credit; refunded if it fails). **Made for you**
+  shows it first with what Studio did, then **Use it** (Your design),
+  **Change it** (the editor) or **Show me another one** (another design; 1
+  AI credit when it was asked for in words, free when it started from a
+  template). **Choose a template** (Posts for social media): search, the size
+  (Post, Portrait, Story · Status; Flyer, visiting card, menu open Print),
+  rows by kind (festivals and offers first; See all). Tap one: it shows in
+  your logo, colours and contacts, Light / Dark / Your colour, ready words
+  for you, then **Use this template** (no AI) or **AI writes the words** (say
+  what it's about, 1 AI credit). It never invents prices, offers, dates or
   claims — only what's in Business › Knowledge and what you typed.
 - **From a poster you like** (Studio home): choose a poster (JPG, PNG or
   WEBP up to 8 MB) — AI looks only at its kind of layout and mood (an offer,
@@ -1656,9 +1680,12 @@ passwords, codes or keys.
   Post it, Your screen — change which part of each screenshot shows and Keep
   the screen clear, without using a design). AI background (In context, Floating chips, Open book): describe the
   scene — only the background is made, 10 AI credits.
-- **A design**: Square / Portrait / Story, Light / Dark / Your colour; Ask
-  AI to change it in plain words (1 credit); Quick edit of the words, Save;
-  Delete (asks first). Each saved design is in the Business Library. When
+- **A design** (Your design): Edit your design; **Use it** — Post it,
+  WhatsApp (shares the picture's link), Download, Print (a PDF of the design
+  to print), Another; tabs Words (quick edit, Save), Ask AI (quick choices,
+  1 credit), Size (Square / Portrait / Story, Every size at once), Colours
+  (Light / Dark / Your colour), Photo (add one of your photos); Delete (asks
+  first). Each saved design is in the Business Library. When
   words are longer than the design holds, it says so ("Some words don't fit
   this design") and the line that's too long shows how many letters fit —
   shorten it, or pick a taller size or a roomier design. Words are never
@@ -1672,16 +1699,28 @@ passwords, codes or keys.
   picture attached and its own words as the caption. Change the caption,
   choose the pages and the time there, then approve. Nothing is posted
   without your OK.
-- **Move and resize** (a design › Move and resize, in the phone app): the
-  design itself opens with every piece movable — tap a line of words, the
-  button, the badge, the logo, a photo or a decoration, drag it anywhere,
-  pull a corner to make it bigger or smaller, the round handle on top to turn
-  it. Below: Words (change that line; *word* shows in colour), Smaller,
-  Bigger, Hide / Show, Undo this piece, Done. The size button switches
-  Square / Portrait / Story (each size keeps its own arrangement); Start
-  again puts that size back (asks first). Save draws the picture exactly as
-  arranged and keeps it in the library. Changing the words later with Quick
-  edit or Ask AI keeps the moves (words typed on the design give way).
+- **Edit your design** (the editor; phone app and web app): tap anything
+  — a line of words, the button, the badge, the logo, a photo, a decoration
+  or something you added — to drag it, pull a corner to make it bigger or
+  smaller, the round handle to turn it. The toolbar changes with what you
+  tapped: **words** — Words, Font (your brand's first), Size, Colour, Bold,
+  Italic, Align, Effects (shadow, lift, glow, outline, box behind),
+  See-through; **photos** — Replace (your photos, Library pictures), Crop
+  (drag the edges; Undo crop), Filters (Warm, Cool, Black and white, Bright,
+  Moody, Vintage), Adjust (brightness, contrast, colour, blur, see-through),
+  Remove background (for one of your photos — tap Replace first on the
+  design's own sample photo), Flip, Frame (rounded, circle, arch, soft
+  shape); **badges, shapes, icons** — Colour (and text colour for a badge),
+  Flip; every piece — Layer (bring forward, send backward, all layers), Copy,
+  Delete. The bottom bar adds: Text (heading, subheading, a line), Photos,
+  Elements (badges: circle, burst, pill, tag, ribbon; shapes and lines;
+  icons — they come in your brand colour), Background (a colour, or the
+  design's own), Brand (add your logo; your colours and fonts for what you
+  tapped), Layers (drag to put in front or behind, hide, lock). Undo and
+  redo. The size button switches Square / Portrait / Story (each size keeps
+  its own changes). **Done** draws the picture exactly as edited and keeps
+  it in the library. Changing the words later with Quick edit or Ask AI keeps
+  the rest (words typed on the design give way).
 - **Landing pages** (Studio home › Pages): a one-page site for an offer, an
   event, a product launch or the business, at
   app.queentouchtech.in/p/<address>, in its logo, colours and fonts, fast

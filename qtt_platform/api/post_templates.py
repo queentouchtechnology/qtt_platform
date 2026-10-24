@@ -193,7 +193,14 @@ def draw(t: dict, fmt: str, parts: dict) -> bytes:
 	logo = parts["logo"]
 	return post.render(t["layout"], t["variant"], colors=parts["kit"]["colors"] or {"primary": base.DEFAULT_PRIMARY}, fonts=parts["fonts"],
 					   look=parts["look"], fmt=fmt, content=parts["content"], photos=parts["photos"], logo=logo if logo[1] else None,
-					   language=parts["language"], edits=parts.get("edits"), extra=parts.get("extra"))
+					   language=parts["language"], edits=parts.get("edits"), extra=parts.get("extra"), srcs=parts.get("srcs"))
+
+
+def draw_pdf(t: dict, fmt: str, parts: dict) -> bytes:
+	logo = parts["logo"]
+	return post.render_pdf(t["layout"], t["variant"], colors=parts["kit"]["colors"] or {"primary": base.DEFAULT_PRIMARY}, fonts=parts["fonts"],
+						   look=parts["look"], fmt=fmt, content=parts["content"], photos=parts["photos"], logo=logo if logo[1] else None,
+						   language=parts["language"], edits=parts.get("edits"), extra=parts.get("extra"), srcs=parts.get("srcs"))
 
 
 def editor_html(t: dict, fmt: str, parts: dict) -> str:
@@ -206,7 +213,55 @@ def editor_html(t: dict, fmt: str, parts: dict) -> str:
 	page, w, _h = post.page_for(t["layout"], t["variant"], colors=parts["kit"]["colors"] or {"primary": base.DEFAULT_PRIMARY},
 								fonts=parts["fonts"], look=parts["look"], fmt=fmt, content=content,
 								photo_names=[n for n, _ in parts["photos"]], language=parts["language"])
-	return arrange.editor_page(page, files, w, (parts.get("edits") or {}).get(fmt))
+	return arrange.editor_page(page, files, w, (parts.get("edits") or {}).get(fmt), parts.get("srcs"))
+
+
+def source_bytes(tenant: str, ref: str) -> tuple[bytes | None, str]:
+	"""A photo the editor's changes use, as (bytes, extension): photo:<Business photo>, cut:<its cut-out>, item:<Business
+	Library picture>, logo:main — only this business's."""
+	kind, _sep, name = str(ref).partition(":")
+	try:
+		if kind == "logo":
+			logo = knowledge._logo(tenant)
+			return (logo[1], (logo[0] or "logo.png").rsplit(".", 1)[-1].lower()) if logo and logo[1] else (None, "")
+		if kind in ("photo", "cut"):
+			from qtt_platform.api import business_photos as bp
+
+			doc = bp._mine(tenant, name)
+			url = doc.cutout if kind == "cut" and doc.cutout else doc.image
+			f = frappe.get_doc("File", {"file_url": url, "attached_to_doctype": bp.DT, "attached_to_name": doc.name})
+		elif kind == "item":
+			url = frappe.db.get_value("QTT Library Item", {"name": name, "tenant": tenant}, "file")
+			if not url:
+				return None, ""
+			f = frappe.get_doc("File", {"file_url": url})
+		else:
+			return None, ""
+		data = f.get_content()
+	except Exception:
+		frappe.clear_messages()
+		return None, ""
+	ext = (f.file_name or url or "").rsplit(".", 1)[-1].lower()
+	return data, ext if ext in ("jpg", "jpeg", "png", "webp") else "png"
+
+
+def with_edits(tenant: str, parts: dict, edits: dict | None) -> dict:
+	"""The editor's changes on the parts, with the photos they use beside the page (named by their contents, so a new
+	cut-out draws again)."""
+	from qtt_platform.design import arrange
+
+	parts["edits"] = edits or {}
+	srcs, files = {}, []
+	for ref in arrange.sources(parts["edits"]):
+		data, ext = source_bytes(tenant, ref)
+		if not data:
+			continue
+		name = arrange.src_name(ref, ext).rsplit(".", 1)[0] + "-" + hashlib.sha1(data).hexdigest()[:8] + "." + ext
+		srcs[ref] = name
+		files.append((name, data))
+	parts["srcs"] = srcs
+	parts["extra"] = list(parts.get("extra") or []) + files
+	return parts
 
 
 def template_row(key: str) -> dict:
