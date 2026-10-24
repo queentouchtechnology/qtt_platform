@@ -8065,5 +8065,14 @@
  "Your product stays real — only the place changes · {n} AI credits": "يبقى منتجك حقيقيًا — يتغير المكان فقط · {n} رصيد ذكاء",
  "Your work": "أعمالك",
  "e.g. a Deepavali offer post": "مثال: منشور عرض ديوالي",
- "{festival} is on {date}": "{festival} في {date}"
+ "{festival} is on {date}": "{festival} في {date}",
+ "Add the error monitor’s read-only token in Desk → QTT Ops Settings → Error monitoring to see errors here.": "أضف رمز القراءة فقط لمراقب الأخطاء في Desk → QTT Ops Settings → Error monitoring لرؤية الأخطاء هنا.",
+ "App: {n}": "التطبيق: {n}",
+ "Errors": "الأخطاء",
+ "No open errors.": "لا توجد أخطاء مفتوحة.",
+ "Open error monitor": "افتح مراقب الأخطاء",
+ "Open: {n}": "مفتوحة: {n}",
+ "Server: {n}": "الخادم: {n}",
+ "The error monitor didn’t answer — try again in a minute.": "لم يستجب مراقب الأخطاء — حاول بعد دقيقة.",
+ "{n}×": "{n}×"
 }

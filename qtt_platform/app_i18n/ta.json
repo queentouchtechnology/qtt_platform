@@ -8065,5 +8065,14 @@
  "Your product stays real — only the place changes · {n} AI credits": "உங்கள் பொருள் உண்மையாகவே இருக்கும் — இடம் மட்டும் மாறும் · {n} AI கிரெடிட்கள்",
  "Your work": "உங்கள் படைப்புகள்",
  "e.g. a Deepavali offer post": "எ.கா. தீபாவளி சலுகைப் பதிவு",
- "{festival} is on {date}": "{festival} {date} அன்று"
+ "{festival} is on {date}": "{festival} {date} அன்று",
+ "Add the error monitor’s read-only token in Desk → QTT Ops Settings → Error monitoring to see errors here.": "பிழைகளை இங்கே பார்க்க, Desk → QTT Ops Settings → Error monitoring-ல் பிழை கண்காணிப்பின் படிக்க-மட்டும் டோக்கனைச் சேர்க்கவும்.",
+ "App: {n}": "ஆப்: {n}",
+ "Errors": "பிழைகள்",
+ "No open errors.": "திறந்த பிழைகள் இல்லை.",
+ "Open error monitor": "பிழை கண்காணிப்பைத் திற",
+ "Open: {n}": "திறந்தவை: {n}",
+ "Server: {n}": "சர்வர்: {n}",
+ "The error monitor didn’t answer — try again in a minute.": "பிழை கண்காணிப்பு பதிலளிக்கவில்லை — ஒரு நிமிடத்தில் மீண்டும் முயலவும்.",
+ "{n}×": "{n}×"
 }

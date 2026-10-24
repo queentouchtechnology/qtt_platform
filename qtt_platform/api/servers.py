@@ -345,9 +345,18 @@ def _limits() -> dict:
 
 
 def _alert(text: str | None) -> None:
+	"""An ops message: the ops Telegram (QTT Ops Settings › Telegram bot), and Slack when a webhook is set."""
 	if not text:
 		return
-	url = frappe.get_cached_doc(SETTINGS).get_password("slack_webhook_url", raise_exception=False)
+	s = frappe.get_cached_doc(SETTINGS)
+	token, chat = s.get_password("telegram_bot_token", raise_exception=False), s.get("telegram_chat")
+	if token and chat:
+		try:
+			requests.post(f"https://api.telegram.org/bot{token}/sendMessage", data={"chat_id": chat, "text": f"QTT — {text}",
+																				   "disable_web_page_preview": "true"}, timeout=10)
+		except requests.RequestException:
+			frappe.log_error(title="qtt_platform: Telegram alert failed")
+	url = s.get_password("slack_webhook_url", raise_exception=False)
 	if not url:
 		return
 	try:

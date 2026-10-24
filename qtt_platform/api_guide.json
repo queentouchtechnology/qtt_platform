@@ -1388,7 +1388,7 @@
    "arguments": "name",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.run",
-   "screens": "admin/builds_view.dart › _BuildTile\nadmin/builds_view.dart › _LogSheet\nadmin/workspace_billing_view.dart › _ProductCard\nproducts/office_pulse/screens/payroll_view.dart › _RunDetailState",
+   "screens": "admin/builds_view.dart › _BuildTile\nadmin/builds_view.dart › _LogSheet\nadmin/workspace_billing_view.dart › _ProductCard\nmain.dart › (top level)\nproducts/office_pulse/screens/payroll_view.dart › _RunDetailState",
    "other_callers": "",
    "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:342",
    "status": "Not described"
@@ -5040,6 +5040,22 @@
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/entitlements.py:16",
    "status": "Not described"
+  },
+  {
+   "endpoint": "qtt_platform.api.errors.list_errors",
+   "product": "Platform",
+   "area": "api.errors",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "{errors: [...], summary, url, configured, error}: the open errors, the latest seen first.",
+   "details": "{errors: [...], summary, url, configured, error}: the open errors, the latest seen first.",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.errors",
+   "screens": "admin/errors_section.dart › (top level)\nadmin/errors_section.dart › _ErrorsSectionState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/errors.py:42",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.explore.activate",

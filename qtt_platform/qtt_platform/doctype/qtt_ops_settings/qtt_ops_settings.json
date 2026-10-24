@@ -37,7 +37,13 @@
   "telegram_bot_token",
   "telegram_chat",
   "column_break_alerts_keys",
-  "openai_admin_key"
+  "openai_admin_key",
+  "section_errors",
+  "errors_url",
+  "errors_org",
+  "column_break_errors",
+  "errors_token",
+  "errors_seen_until"
  ],
  "fields": [
   {
@@ -186,6 +192,41 @@
    "label": "OpenAI admin key",
    "length": 300,
    "description": "Read-only usage and costs (QTT Admin's AI spend). Not the AI key — that's QTT AI Provider › openai › API key."
+  },
+  {
+   "fieldname": "section_errors",
+   "fieldtype": "Section Break",
+   "label": "Error monitoring"
+  },
+  {
+   "fieldname": "errors_url",
+   "fieldtype": "Data",
+   "label": "Error monitor address",
+   "default": "https://errors.queentouchtech.in",
+   "description": "GlitchTip (Sentry-compatible) on QTT-AI-OS, /opt/qtt-errors."
+  },
+  {
+   "fieldname": "errors_org",
+   "fieldtype": "Data",
+   "label": "Organization",
+   "default": "queen-touch-technology"
+  },
+  {
+   "fieldname": "column_break_errors",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "errors_token",
+   "fieldtype": "Password",
+   "label": "Read-only token",
+   "length": 140,
+   "description": "GlitchTip API token (project, event and org read only). Copied server to server — never in chat or code."
+  },
+  {
+   "fieldname": "errors_seen_until",
+   "fieldtype": "Datetime",
+   "label": "Errors looked at until (UTC)",
+   "read_only": 1
   }
  ],
  "permissions": [
@@ -200,5 +241,5 @@
   }
  ],
  "links": [],
- "modified": "2026-10-19 21:00:00.000000"
+ "modified": "2026-10-24 11:00:00.000000"
 }

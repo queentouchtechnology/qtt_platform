@@ -8065,5 +8065,14 @@
  "Your product stays real — only the place changes · {n} AI credits": "आपका प्रोडक्ट असली रहता है — बस जगह बदलती है · {n} AI क्रेडिट",
  "Your work": "आपका काम",
  "e.g. a Deepavali offer post": "जैसे दिवाली ऑफ़र पोस्ट",
- "{festival} is on {date}": "{festival} {date} को है"
+ "{festival} is on {date}": "{festival} {date} को है",
+ "Add the error monitor’s read-only token in Desk → QTT Ops Settings → Error monitoring to see errors here.": "यहाँ एरर देखने के लिए Desk → QTT Ops Settings → Error monitoring में एरर मॉनिटर का रीड-ओनली टोकन जोड़ें।",
+ "App: {n}": "ऐप: {n}",
+ "Errors": "एरर",
+ "No open errors.": "कोई खुला एरर नहीं।",
+ "Open error monitor": "एरर मॉनिटर खोलें",
+ "Open: {n}": "खुले: {n}",
+ "Server: {n}": "सर्वर: {n}",
+ "The error monitor didn’t answer — try again in a minute.": "एरर मॉनिटर ने जवाब नहीं दिया — एक मिनट में फिर कोशिश करें।",
+ "{n}×": "{n}×"
 }
