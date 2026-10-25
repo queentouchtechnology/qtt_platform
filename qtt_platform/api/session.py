@@ -130,3 +130,11 @@ def get_active_tenant() -> dict | None:
 	if not tenant_doc:
 		return None
 	return {"tenant": tenant, "tenant_name": tenant_doc.tenant_name, "tenant_status": tenant_doc.status}
+
+
+@frappe.whitelist(methods=["GET"])
+def csrf_token() -> str:
+	"""This session's CSRF token. Once Desk has been opened in a browser, Frappe wants it with every change from that
+	session; the web app (another site, so it can't read Desk's page) asks here when Frappe says "Invalid Request" and
+	sends it from then on. CORS lets only the app's own sites read the answer."""
+	return frappe.sessions.get_csrf_token()

@@ -7762,6 +7762,22 @@
    "status": "Not used by the app"
   },
   {
+   "endpoint": "qtt_platform.api.session.csrf_token",
+   "product": "Platform",
+   "area": "api.session",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "This session's CSRF token. Once Desk has been opened in a browser, Frappe wants it with every change from that session; the web app (another site, so it can't read Desk's page) asks here when Frappe says \"Invalid Request\" and sends it from then on. CORS lets only the app's own sites read the answer.",
+   "details": "This session's CSRF token. Once Desk has been opened in a browser, Frappe wants it with every change from that\nsession; the web app (another site, so it can't read Desk's page) asks here when Frappe says \"Invalid Request\" and\nsends it from then on. CORS lets only the app's own sites read the answer.",
+   "arguments": "",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/session.py:136",
+   "status": "Not used by the app"
+  },
+  {
    "endpoint": "qtt_platform.api.session.get_active_tenant",
    "product": "Platform",
    "area": "api.session",
