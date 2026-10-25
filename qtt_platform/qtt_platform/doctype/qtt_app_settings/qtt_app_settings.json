@@ -65,6 +65,7 @@
   "firebase_android_api_key",
   "firebase_web_app_id",
   "firebase_web_api_key",
+  "firebase_measurement_id",
   "section_renderer",
   "render_url",
   "render_user",
@@ -338,7 +339,7 @@
   {
    "fieldname": "section_push",
    "fieldtype": "Section Break",
-   "label": "Push notifications (Firebase)",
+   "label": "Firebase: notifications and analytics",
    "collapsible": 1,
    "description": "From the Firebase project's settings (console.firebase.google.com › Project settings). These are public app values, not secrets — the server's private key stays in a file on the server (site_config qtt_fcm_service_account). Empty = no push; the app still gets everything live while it's open."
   },
@@ -387,6 +388,12 @@
    "fieldtype": "Data",
    "label": "Web API key",
    "description": "Your apps › Web › firebaseConfig.apiKey"
+  },
+  {
+   "fieldname": "firebase_measurement_id",
+   "fieldtype": "Data",
+   "label": "Analytics measurement ID",
+   "description": "Google Analytics 4 for the web app: Your apps › Web › firebaseConfig.measurementId (G-…). Phones use the Android app above. Measured only for people with Account › Share usage data on."
   },
   {
    "fieldname": "section_renderer",

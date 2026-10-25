@@ -29,6 +29,10 @@ everyone in every business — no plan needed.
   inside the app with Open. Account › Notifications sends a test to all your
   phones and browsers. Not arriving? Allow notifications for QTT OS in the
   phone's or browser's settings, then open the app again.
+- **Share usage data** (Account): when on, QTT counts which screens and
+  features are used — in QTT's own systems and in Google Analytics — to
+  improve the app. Never messages, records or who you are; never the
+  advertising ID or ads. Turn it off any time; nothing is counted then.
 - **No network (offline)**: the app still opens, as the last person signed
   in, in their last business. Every screen opened before shows its last copy
   saved on this device, with a bar on top "Offline — showing saved copy from

@@ -140,8 +140,8 @@ def content_version(payload: dict) -> str:
 
 
 def push_config(settings: dict) -> dict | None:
-	"""The Firebase values the app starts push with (public: they name the project, they don't unlock it).
-	None until the project and sender are set; a platform without its app ID is left out (no push there)."""
+	"""The Firebase values the app starts push and analytics with (public: they name the project, they don't unlock it).
+	None until the project and sender are set; a platform without its app ID is left out (nothing there)."""
 	def v(k):
 		return str(settings.get(k) or "").strip()
 
@@ -150,6 +150,9 @@ def push_config(settings: dict) -> dict | None:
 	out = {"project_id": v("firebase_project_id"), "sender_id": v("firebase_sender_id")}
 	if v("firebase_android_app_id") and v("firebase_android_api_key"):
 		out["android"] = {"app_id": v("firebase_android_app_id"), "api_key": v("firebase_android_api_key")}
-	if v("firebase_web_app_id") and v("firebase_web_api_key") and v("web_push_key"):
-		out["web"] = {"app_id": v("firebase_web_app_id"), "api_key": v("firebase_web_api_key"), "vapid_key": v("web_push_key")}
+	if v("firebase_web_app_id") and v("firebase_web_api_key"):
+		# the web app: analytics needs the app (and its measurement ID); notifications also the Web Push key
+		out["web"] = {"app_id": v("firebase_web_app_id"), "api_key": v("firebase_web_api_key"),
+					  **({"vapid_key": v("web_push_key")} if v("web_push_key") else {}),
+					  **({"measurement_id": v("firebase_measurement_id")} if v("firebase_measurement_id") else {})}
 	return out

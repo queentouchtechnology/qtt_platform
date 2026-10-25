@@ -16,6 +16,7 @@ FULL = {
 	"firebase_project_id": "qtt-os", "firebase_sender_id": "123",
 	"firebase_android_app_id": "1:123:android:a", "firebase_android_api_key": "AIza-android",
 	"firebase_web_app_id": "1:123:web:w", "firebase_web_api_key": "AIza-web", "web_push_key": "BPk",
+	"firebase_measurement_id": "G-ABC",
 }
 
 
@@ -28,10 +29,10 @@ class PushConfigTest(unittest.TestCase):
 		self.assertEqual(logic.push_config(FULL), {
 			"project_id": "qtt-os", "sender_id": "123",
 			"android": {"app_id": "1:123:android:a", "api_key": "AIza-android"},
-			"web": {"app_id": "1:123:web:w", "api_key": "AIza-web", "vapid_key": "BPk"},
+			"web": {"app_id": "1:123:web:w", "api_key": "AIza-web", "vapid_key": "BPk", "measurement_id": "G-ABC"},
 		})
 		no_web_key = {**FULL, "web_push_key": " "}
-		self.assertNotIn("web", logic.push_config(no_web_key))  # a browser can't subscribe without it
+		self.assertNotIn("vapid_key", logic.push_config(no_web_key)["web"])  # analytics still; notifications need the key
 		self.assertIn("android", logic.push_config(no_web_key))
 
 
