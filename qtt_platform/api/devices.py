@@ -101,3 +101,34 @@ def forget(tokens: list[str]) -> None:
 def prune_stale() -> None:
 	cutoff = frappe.utils.add_days(frappe.utils.now_datetime(), -STALE_DAYS)
 	frappe.db.delete(DEVICE, {"last_seen_at": ["<", cutoff]})
+
+
+@frappe.whitelist(methods=["POST"])
+def send_test() -> dict:
+	"""A test notification to the caller's own phones and browsers (Account › Notifications › Send me a test).
+	Tapping it opens Account. → {sent, devices, ready}: ready false = push isn't set up on the server yet."""
+	from qtt_platform import push
+
+	user = _require_login()
+	devices = len(tokens_for(user))
+	if not push.enabled():
+		return {"sent": 0, "devices": devices, "ready": False}
+	sent = push.notify(user, title=_("QTT OS notifications work"), body=_("Tap to open your account."), screen="account",
+					   data={"kind": "test"})
+	return {"sent": sent, "devices": devices, "ready": True}
+
+
+@frappe.whitelist(allow_guest=True, methods=["GET"])
+def push_worker_config():
+	"""For the web app's notification worker (website/static/firebase-messaging-sw.js, at the site's root): a script
+	setting `self.QTT_PUSH` to the Firebase web values from QTT App Settings (public), or null when not set."""
+	import json
+
+	from werkzeug.wrappers import Response
+
+	from qtt_platform import app_config_logic
+
+	c = app_config_logic.push_config(frappe.get_cached_doc("QTT App Settings").as_dict()) or {}
+	web = c.get("web")
+	cfg = {"apiKey": web["api_key"], "appId": web["app_id"], "projectId": c["project_id"], "messagingSenderId": c["sender_id"]} if web else None
+	return Response(f"self.QTT_PUSH = {json.dumps(cfg)};\n", mimetype="application/javascript", headers={"Cache-Control": "public, max-age=300"})

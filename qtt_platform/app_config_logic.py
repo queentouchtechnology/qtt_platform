@@ -137,3 +137,19 @@ def content_version(payload: dict) -> str:
 	"""Stable short hash of a config payload — the app skips re-applying an
 	unchanged config and uses it as its cache key."""
 	return hashlib.sha1(json.dumps(payload, sort_keys=True, default=str).encode()).hexdigest()[:16]
+
+
+def push_config(settings: dict) -> dict | None:
+	"""The Firebase values the app starts push with (public: they name the project, they don't unlock it).
+	None until the project and sender are set; a platform without its app ID is left out (no push there)."""
+	def v(k):
+		return str(settings.get(k) or "").strip()
+
+	if not (v("firebase_project_id") and v("firebase_sender_id")):
+		return None
+	out = {"project_id": v("firebase_project_id"), "sender_id": v("firebase_sender_id")}
+	if v("firebase_android_app_id") and v("firebase_android_api_key"):
+		out["android"] = {"app_id": v("firebase_android_app_id"), "api_key": v("firebase_android_api_key")}
+	if v("firebase_web_app_id") and v("firebase_web_api_key") and v("web_push_key"):
+		out["web"] = {"app_id": v("firebase_web_app_id"), "api_key": v("firebase_web_api_key"), "vapid_key": v("web_push_key")}
+	return out

@@ -8085,5 +8085,11 @@
  "{n} saved sales weren’t accepted": "சேமித்த {n} விற்பனைகள் ஏற்கப்படவில்லை",
  "Enter these bills again.": "இந்த பில்களை மீண்டும் உள்ளிடவும்.",
  "Can I bill without internet?": "இணையம் இல்லாமல் பில் போட முடியுமா?",
- "Open POS, tap items, take cash, UPI or card. The bill PDF is ready to share on WhatsApp. No network? Keep billing — sales are saved on the phone and sent when it's back.": "POS-ஐத் திறந்து, பொருட்களைத் தட்டி, ரொக்கம், UPI அல்லது கார்டு மூலம் பணம் பெறுங்கள். பில் PDF வாட்ஸ்அப்பில் பகிரத் தயார். இணையம் இல்லையா? பில் போடுவதைத் தொடருங்கள் — விற்பனைகள் போனில் சேமிக்கப்பட்டு இணைப்பு திரும்பியதும் அனுப்பப்படும்."
+ "Open POS, tap items, take cash, UPI or card. The bill PDF is ready to share on WhatsApp. No network? Keep billing — sales are saved on the phone and sent when it's back.": "POS-ஐத் திறந்து, பொருட்களைத் தட்டி, ரொக்கம், UPI அல்லது கார்டு மூலம் பணம் பெறுங்கள். பில் PDF வாட்ஸ்அப்பில் பகிரத் தயார். இணையம் இல்லையா? பில் போடுவதைத் தொடருங்கள் — விற்பனைகள் போனில் சேமிக்கப்பட்டு இணைப்பு திரும்பியதும் அனுப்பப்படும்.",
+ "None of your devices can get notifications yet. Allow notifications for QTT OS, then open the app again.": "உங்கள் எந்தச் சாதனத்திலும் இன்னும் அறிவிப்புகள் வர இயலாது. QTT OS-க்கு அறிவிப்புகளை அனுமதித்து, பிறகு செயலியை மீண்டும் திறக்கவும்.",
+ "Notifications": "அறிவிப்புகள்",
+ "Notifications aren’t switched on yet — QTT is finishing this.": "அறிவிப்புகள் இன்னும் இயக்கப்படவில்லை — QTT இதை முடித்து வருகிறது.",
+ "Send a test to your phones and browsers": "உங்கள் போன்களுக்கும் உலாவிகளுக்கும் ஒரு சோதனை அனுப்பவும்",
+ "Sent to {n} — it arrives in a few seconds. Tap it to come back here.": "{n}-க்கு அனுப்பப்பட்டது — சில நொடிகளில் வரும். இங்கு திரும்ப அதைத் தட்டவும்.",
+ "That is in a business you’re no longer in.": "அது நீங்கள் இப்போது இல்லாத ஒரு வணிகத்தில் உள்ளது."
 }

@@ -8085,5 +8085,11 @@
  "{n} saved sales weren’t accepted": "لم تُقبل {n} عمليات بيع محفوظة",
  "Enter these bills again.": "أدخل هذه الفواتير مرة أخرى.",
  "Can I bill without internet?": "هل يمكنني إصدار فاتورة بدون إنترنت؟",
- "Open POS, tap items, take cash, UPI or card. The bill PDF is ready to share on WhatsApp. No network? Keep billing — sales are saved on the phone and sent when it's back.": "افتح نقطة البيع، واضغط على الأصناف، واستلم نقدًا أو عبر UPI أو بالبطاقة. ملف PDF للفاتورة جاهز للمشاركة على واتساب. لا يوجد اتصال؟ تابع البيع — تُحفظ المبيعات على الهاتف وتُرسل عند عودة الاتصال."
+ "Open POS, tap items, take cash, UPI or card. The bill PDF is ready to share on WhatsApp. No network? Keep billing — sales are saved on the phone and sent when it's back.": "افتح نقطة البيع، واضغط على الأصناف، واستلم نقدًا أو عبر UPI أو بالبطاقة. ملف PDF للفاتورة جاهز للمشاركة على واتساب. لا يوجد اتصال؟ تابع البيع — تُحفظ المبيعات على الهاتف وتُرسل عند عودة الاتصال.",
+ "None of your devices can get notifications yet. Allow notifications for QTT OS, then open the app again.": "لا يمكن لأي من أجهزتك تلقي الإشعارات بعد. اسمح بالإشعارات لتطبيق QTT OS، ثم افتح التطبيق مرة أخرى.",
+ "Notifications": "الإشعارات",
+ "Notifications aren’t switched on yet — QTT is finishing this.": "الإشعارات غير مفعّلة بعد — تعمل QTT على إكمال ذلك.",
+ "Send a test to your phones and browsers": "أرسل إشعارًا تجريبيًا إلى هواتفك ومتصفحاتك",
+ "Sent to {n} — it arrives in a few seconds. Tap it to come back here.": "أُرسل إلى {n} — يصل خلال ثوانٍ. اضغط عليه للعودة إلى هنا.",
+ "That is in a business you’re no longer in.": "هذا في نشاط تجاري لم تعد جزءًا منه."
 }

@@ -21,6 +21,14 @@ everyone in every business — no plan needed.
   behind the filter button (e.g. Working / Left, Active / Archived, Unpaid /
   Paid, Sort by); whatever isn't the usual view shows as a chip under the
   search or the list's title — × removes it.
+- **Notifications** (phones and the web app): approvals waiting for you,
+  your request decided, check-out reminders, shift changes, coverage gaps,
+  Team messages and calls, calendar invitations, shared files, cards and form
+  answers. Tapping one opens the screen it's about — in its business (the app
+  switches business first if needed). While the app is open it shows them
+  inside the app with Open. Account › Notifications sends a test to all your
+  phones and browsers. Not arriving? Allow notifications for QTT OS in the
+  phone's or browser's settings, then open the app again.
 - **No network (offline)**: the app still opens, as the last person signed
   in, in their last business. Every screen opened before shows its last copy
   saved on this device, with a bar on top "Offline — showing saved copy from

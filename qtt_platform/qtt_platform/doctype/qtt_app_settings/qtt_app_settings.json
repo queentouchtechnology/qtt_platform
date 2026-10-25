@@ -56,6 +56,15 @@
   "column_break_assistant",
   "assistant_api_key",
   "assistant_daily_limit",
+  "section_push",
+  "firebase_project_id",
+  "firebase_sender_id",
+  "web_push_key",
+  "column_break_push",
+  "firebase_android_app_id",
+  "firebase_android_api_key",
+  "firebase_web_app_id",
+  "firebase_web_api_key",
   "section_renderer",
   "render_url",
   "render_user",
@@ -325,6 +334,59 @@
    "fieldtype": "Int",
    "label": "Questions per person per day",
    "default": "30"
+  },
+  {
+   "fieldname": "section_push",
+   "fieldtype": "Section Break",
+   "label": "Push notifications (Firebase)",
+   "collapsible": 1,
+   "description": "From the Firebase project's settings (console.firebase.google.com › Project settings). These are public app values, not secrets — the server's private key stays in a file on the server (site_config qtt_fcm_service_account). Empty = no push; the app still gets everything live while it's open."
+  },
+  {
+   "fieldname": "firebase_project_id",
+   "fieldtype": "Data",
+   "label": "Project ID",
+   "description": "e.g. qtt-os-12345"
+  },
+  {
+   "fieldname": "firebase_sender_id",
+   "fieldtype": "Data",
+   "label": "Sender ID",
+   "description": "Cloud Messaging › Sender ID (messagingSenderId)"
+  },
+  {
+   "fieldname": "web_push_key",
+   "fieldtype": "Small Text",
+   "label": "Web Push key",
+   "description": "Cloud Messaging › Web Push certificates › Key pair"
+  },
+  {
+   "fieldname": "column_break_push",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "firebase_android_app_id",
+   "fieldtype": "Data",
+   "label": "Android app ID",
+   "description": "Your apps › Android (in.queentouchtech.qtt) › App ID — 1:…:android:…"
+  },
+  {
+   "fieldname": "firebase_android_api_key",
+   "fieldtype": "Data",
+   "label": "Android API key",
+   "description": "google-services.json › api_key › current_key"
+  },
+  {
+   "fieldname": "firebase_web_app_id",
+   "fieldtype": "Data",
+   "label": "Web app ID",
+   "description": "Your apps › Web › App ID — 1:…:web:…"
+  },
+  {
+   "fieldname": "firebase_web_api_key",
+   "fieldtype": "Data",
+   "label": "Web API key",
+   "description": "Your apps › Web › firebaseConfig.apiKey"
   },
   {
    "fieldname": "section_renderer",

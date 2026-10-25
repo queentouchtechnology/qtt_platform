@@ -76,7 +76,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.approvals",
-   "screens": "products/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/office_pulse/screens/home_view.dart › PulseHomeView\nproducts/office_pulse/screens/pulse_shell.dart › PulseShell\nshell/home_shell.dart › _HomeShellState",
+   "screens": "core/push/push_service.dart › PushService\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/office_pulse/screens/home_view.dart › PulseHomeView\nproducts/office_pulse/screens/pulse_shell.dart › PulseShell\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/approvals.py:170",
    "status": "Not described"
@@ -3118,7 +3118,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.item",
    "screens": "admin/admin_home.dart › _AttentionTile\nadmin/marketing_content_view.dart › _ContentTile\nadmin/marketing_content_view.dart › _PendingCard\nadmin/marketing_content_view.dart › _PendingCardState\nadmin/marketing_overview.dart › _ApprovalCard\nadmin/marketing_overview.dart › _ApprovalCardState\nplatform/explore/explore_screen.dart › _ItemCard\nplatform/explore/explore_screen.dart › _ItemPage\nplatform/explore/explore_screen.dart › _PlanCard\nplatform/launch/launch_screens.dart › _AppAction\nproducts/office_pulse/screens/approvals_view.dart › _DatesLine\nproducts/orbitra/cart.dart › Cart\nproducts/orbitra/cart.dart › CartLine\nproducts/orbitra/screens/inventory_view.dart › _ItemEditorState\nproducts/orbitra/screens/pos_view.dart › _ItemCard\nproducts/orbitra/screens/purchases_view.dart › _BillEditorState\nproducts/orbitra/screens/sales_view.dart › _SellEditorState\nproducts/services/models.dart › SvcOffer\nproducts/services/screens/automation_pages.dart › _AutomationTile\nproducts/services/screens/automation_pages.dart › _ChoicesSheet\nproducts/services/screens/automation_pages.dart › _ChoicesSheetState\nproducts/services/screens/order_pages.dart › _OrderPageState\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_design.dart › _ListField\nproducts/studio/photo_lab.dart › LabResultPage\nproducts/studio/print_studio.dart › _ItemDialog\nproducts/studio/print_studio.dart › _ItemDialogState",
    "other_callers": "",
-   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/items.py:96",
+   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/items.py:99",
    "status": "Not described"
   },
   {
@@ -3150,7 +3150,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.saveItem",
    "screens": "products/orbitra/screens/inventory_view.dart › _ItemEditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/items.py:109",
+   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/items.py:112",
    "status": "OK"
   },
   {
@@ -3164,9 +3164,25 @@
    "arguments": "data",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.checkout",
-   "screens": "products/orbitra/screens/pos_view.dart › _CheckoutSheetState",
+   "screens": "products/orbitra/offline_sales.dart › OfflineSales\nproducts/orbitra/screens/pos_view.dart › _CheckoutSheetState",
    "other_callers": "",
-   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/pos.py:13",
+   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/pos.py:17",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_orbitra.api.pos.sync_offline",
+   "product": "Orbitra",
+   "area": "api.pos",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Sales rung up without network, oldest first: [{id, at, data}] (data as for checkout) → [{id, status: saved | duplicate | refused, name?, total?, message?}]. Each is saved at its time (the phone's clock corrected by device_now — its clock when sending) with the same rules as a sale made online. Sent again → reported as already in.",
+   "details": "Sales rung up without network, oldest first: [{id, at, data}] (data as for checkout) →\n[{id, status: saved | duplicate | refused, name?, total?, message?}]. Each is saved at its time\n(the phone's clock corrected by device_now — its clock when sending) with the same rules as a sale\nmade online. Sent again → reported as already in.",
+   "arguments": "sales, device_now",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.syncOfflineSales",
+   "screens": "products/orbitra/orbitra_root.dart › OrbitraState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/pos.py:24",
    "status": "OK"
   },
   {
@@ -3182,7 +3198,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.posToday",
    "screens": "products/orbitra/screens/more_view.dart › PosTodayView",
    "other_callers": "",
-   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/pos.py:42",
+   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/pos.py:91",
    "status": "OK"
   },
   {
@@ -4962,6 +4978,22 @@
    "status": "OK"
   },
   {
+   "endpoint": "qtt_platform.api.devices.push_worker_config",
+   "product": "Platform",
+   "area": "api.devices",
+   "http_methods": "GET",
+   "guest": 1,
+   "purpose": "For the web app's notification worker (website/static/firebase-messaging-sw.js, at the site's root): a script setting `self.QTT_PUSH` to the Firebase web values from QTT App Settings (public), or null when not set.",
+   "details": "For the web app's notification worker (website/static/firebase-messaging-sw.js, at the site's root): a script\nsetting `self.QTT_PUSH` to the Firebase web values from QTT App Settings (public), or null when not set.",
+   "arguments": "",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/devices.py:122",
+   "status": "Not used by the app"
+  },
+  {
    "endpoint": "qtt_platform.api.devices.register",
    "product": "Platform",
    "area": "api.devices",
@@ -4976,6 +5008,22 @@
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/devices.py:45",
    "status": "Not described"
+  },
+  {
+   "endpoint": "qtt_platform.api.devices.send_test",
+   "product": "Platform",
+   "area": "api.devices",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "A test notification to the caller's own phones and browsers (Account › Notifications › Send me a test). Tapping it opens Account. → {sent, devices, ready}: ready false = push isn't set up on the server yet.",
+   "details": "A test notification to the caller's own phones and browsers (Account › Notifications › Send me a test).\nTapping it opens Account. → {sent, devices, ready}: ready false = push isn't set up on the server yet.",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.sendTestPush",
+   "screens": "platform/account/account_screen.dart › AccountScreen",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/devices.py:107",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.devices.unregister",
@@ -6892,7 +6940,7 @@
    "arguments": "tenant",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.tenant",
-   "screens": "admin/admin_root.dart › RevenueTab\nadmin/admin_root.dart › TenantActivityPage\nadmin/admin_root.dart › TenantDetail\nadmin/admin_root.dart › _TenantsViewState\nadmin/business_admin.dart › AssignServicePage\nadmin/business_admin.dart › TenantServicesSection\nadmin/business_admin.dart › _AssignServicePageState\nadmin/business_admin.dart › _TenantServicesSectionState\nadmin/clients_models.dart › ClientDetail\nadmin/clients_models.dart › ClientSummary\nadmin/clients_models.dart › StaffRequest\nadmin/clients_view.dart › ClientConsole\nadmin/clients_view.dart › _ClientConsoleState\nadmin/clients_view.dart › _ClientsViewState\nadmin/clients_view.dart › _StaffRequestPageState\nadmin/revenue_view.dart › RevenueView\nadmin/saas_models.dart › RevenueRow\nadmin/workspace_billing_view.dart › TenantInvoicesPage\nadmin/workspace_billing_view.dart › WorkspaceBillingSection\nadmin/workspace_billing_view.dart › _ProductCard\nadmin/workspace_billing_view.dart › _TenantInvoicesPageState\nadmin/workspace_billing_view.dart › _WorkspaceBillingSectionState\nplatform/account/account_switcher.dart › AccountTitle\nplatform/data/platform_models.dart › AppContextData\nplatform/data/platform_models.dart › Workspace\nplatform/session/app_session.dart › AppSession\nplatform/team/team_chat_page.dart › _TeamChatPageState\nplatform/team/team_screen.dart › _TeamScreenState\nplatform/workspace/roles_access_tab.dart › RolesAccessTab\nplatform/workspace/workspace_picker_screen.dart › WorkspacePickerScreen\nplatform/workspace/workspace_settings_screen.dart › _InviteDialog\nplatform/workspace/workspace_settings_screen.dart › _InviteDialogState\nplatform/workspace/workspace_settings_screen.dart › _MemberSheet\nplatform/workspace/workspace_settings_screen.dart › _ProductRoleRow\nplatform/workspace/workspace_settings_screen.dart › _TeamTab\nproducts/onbox/models.dart › Membership\nproducts/onbox/models.dart › OnboxEvent\nproducts/onbox/onbox_provider.dart › OnboxProvider\nshell/home_shell.dart › _HomeShellState\nshell/workspace_switcher.dart › WorkspaceSwitcher",
+   "screens": "admin/admin_root.dart › RevenueTab\nadmin/admin_root.dart › TenantActivityPage\nadmin/admin_root.dart › TenantDetail\nadmin/admin_root.dart › _TenantsViewState\nadmin/business_admin.dart › AssignServicePage\nadmin/business_admin.dart › TenantServicesSection\nadmin/business_admin.dart › _AssignServicePageState\nadmin/business_admin.dart › _TenantServicesSectionState\nadmin/clients_models.dart › ClientDetail\nadmin/clients_models.dart › ClientSummary\nadmin/clients_models.dart › StaffRequest\nadmin/clients_view.dart › ClientConsole\nadmin/clients_view.dart › _ClientConsoleState\nadmin/clients_view.dart › _ClientsViewState\nadmin/clients_view.dart › _StaffRequestPageState\nadmin/revenue_view.dart › RevenueView\nadmin/saas_models.dart › RevenueRow\nadmin/workspace_billing_view.dart › TenantInvoicesPage\nadmin/workspace_billing_view.dart › WorkspaceBillingSection\nadmin/workspace_billing_view.dart › _ProductCard\nadmin/workspace_billing_view.dart › _TenantInvoicesPageState\nadmin/workspace_billing_view.dart › _WorkspaceBillingSectionState\nplatform/account/account_switcher.dart › AccountTitle\nplatform/data/platform_models.dart › AppContextData\nplatform/data/platform_models.dart › Workspace\nplatform/session/app_session.dart › AppSession\nplatform/team/team_chat_page.dart › _TeamChatPageState\nplatform/team/team_screen.dart › _TeamScreenState\nplatform/workspace/roles_access_tab.dart › RolesAccessTab\nplatform/workspace/workspace_picker_screen.dart › WorkspacePickerScreen\nplatform/workspace/workspace_settings_screen.dart › _InviteDialog\nplatform/workspace/workspace_settings_screen.dart › _InviteDialogState\nplatform/workspace/workspace_settings_screen.dart › _MemberSheet\nplatform/workspace/workspace_settings_screen.dart › _ProductRoleRow\nplatform/workspace/workspace_settings_screen.dart › _TeamTab\nproducts/onbox/models.dart › Membership\nproducts/onbox/models.dart › OnboxEvent\nproducts/onbox/onbox_provider.dart › OnboxProvider\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nshell/home_shell.dart › _HomeShellState\nshell/workspace_switcher.dart › WorkspaceSwitcher",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/platform_admin.py:95",
    "status": "Not described"
@@ -7756,7 +7804,7 @@
    "arguments": "tenant",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.switchWorkspace",
-   "screens": "platform/session/app_session.dart › AppSession\nplatform/workspace/workspace_picker_screen.dart › WorkspacePickerScreen\nshell/workspace_switcher.dart › WorkspaceSwitcher",
+   "screens": "platform/session/app_session.dart › AppSession\nplatform/workspace/workspace_picker_screen.dart › WorkspacePickerScreen\nshell/home_shell.dart › _HomeShellState\nshell/workspace_switcher.dart › WorkspaceSwitcher",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/session.py:74",
    "status": "OK"
@@ -13100,7 +13148,7 @@
    "arguments": "service",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.cancel",
-   "screens": "admin/admin_repository.dart › AdminRepository\napp/app.dart › _QttOsAppState\napp/app_gate.dart › _SplashState\ncore/analytics/analytics.dart › Analytics\ncore/config/remote_config.dart › RemoteConfigStore\ncore/push/push_service.dart › PushService\nplatform/auth/google_web_button_web.dart › _GoogleWebButtonState\nplatform/onboarding/signup_screen.dart › _SignupScreenState\nplatform/session/app_session.dart › AppSession\nplatform/team/team_call.dart › _TeamCallPageState\nplatform/team/team_chat_page.dart › _TeamChatPageState\nplatform/team/team_screen.dart › _TeamScreenState\nplatform/team/team_voice.dart › VoiceRecorder\nplatform/team/team_voice.dart › _VoiceNotePlayerState\nplatform/workplace/remote_page.dart › _SetupComputerPageState\nproducts/office_pulse/office_pulse_root.dart › PulseState\nproducts/office_pulse/screens/pattern_who.dart › _PatternWhoState\nproducts/onbox/chat_controller.dart › ChatController\nproducts/onbox/onbox_provider.dart › OnboxProvider\nproducts/onbox/screens/conversation_list_pane.dart › _ConversationListPaneState\nproducts/orbitra/orbitra_root.dart › OrbitraState\nproducts/services/screens/deploy_pages.dart › _DeploymentPageState\nproducts/services/screens/golive_pages.dart › _DeletingDialogState\nproducts/services/screens/plan_change_page.dart › _PlanChangePageState\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › ServicesState\nproducts/studio/shorts_studio.dart › _ShortPageState\nshared/erp/erp_screens.dart › ErpApi\nshared/erp/erp_screens.dart › _ErpDocPageState\nshared/search/global_search.dart › _GlobalSearchScreenState\nshared/widgets/list_kit.dart › _SearchFilterBarState\nshell/home_shell.dart › _HomeShellState",
+   "screens": "admin/admin_repository.dart › AdminRepository\napp/app.dart › _QttOsAppState\napp/app_gate.dart › _SplashState\ncore/analytics/analytics.dart › Analytics\ncore/config/remote_config.dart › RemoteConfigStore\ncore/offline/connection.dart › Connection\ncore/offline/saved_copies.dart › SavedCopies\ncore/push/push_service.dart › PushService\nplatform/auth/google_web_button_web.dart › _GoogleWebButtonState\nplatform/onboarding/signup_screen.dart › _SignupScreenState\nplatform/session/app_session.dart › AppSession\nplatform/team/team_call.dart › _TeamCallPageState\nplatform/team/team_chat_page.dart › _TeamChatPageState\nplatform/team/team_screen.dart › _TeamScreenState\nplatform/team/team_voice.dart › VoiceRecorder\nplatform/team/team_voice.dart › _VoiceNotePlayerState\nplatform/workplace/remote_page.dart › _SetupComputerPageState\nproducts/office_pulse/office_pulse_root.dart › PulseState\nproducts/office_pulse/screens/pattern_who.dart › _PatternWhoState\nproducts/onbox/chat_controller.dart › ChatController\nproducts/onbox/onbox_provider.dart › OnboxProvider\nproducts/onbox/screens/conversation_list_pane.dart › _ConversationListPaneState\nproducts/orbitra/orbitra_root.dart › OrbitraState\nproducts/services/screens/deploy_pages.dart › _DeploymentPageState\nproducts/services/screens/golive_pages.dart › _DeletingDialogState\nproducts/services/screens/plan_change_page.dart › _PlanChangePageState\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › ServicesState\nproducts/studio/shorts_studio.dart › _ShortPageState\nshared/erp/erp_screens.dart › ErpApi\nshared/erp/erp_screens.dart › _ErpDocPageState\nshared/search/global_search.dart › _GlobalSearchScreenState\nshared/widgets/list_kit.dart › _SearchFilterBarState\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/shop.py:373",
    "status": "Not described"

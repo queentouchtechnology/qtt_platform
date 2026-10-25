@@ -24,8 +24,12 @@ def enabled() -> bool:
 	return bool(_service_account())
 
 
-def notify(users: list[str] | str, *, title: str, body: str, data: dict | None = None, collapse_key: str | None = None) -> int:
-	"""Sends to each of the users' phones; returns how many got it. Never raises."""
+def notify(users: list[str] | str, *, title: str, body: str, data: dict | None = None, collapse_key: str | None = None,
+		   screen: str | None = None, tenant: str | None = None) -> int:
+	"""Sends to each of the users' phones; returns how many got it. Never raises.
+	screen: the app screen a tap opens (an assistant screen id, e.g. "pulse.approvals" — the app's links);
+	tenant: the business it belongs to (a tap in another business switches to it first)."""
+	data = {**(data or {}), **({"screen": screen} if screen else {}), **({"tenant": tenant} if tenant else {})}
 	from qtt_platform.api.devices import forget, tokens_for
 
 	account = _service_account()
@@ -38,7 +42,7 @@ def notify(users: list[str] | str, *, title: str, body: str, data: dict | None =
 		token = _access_token(account)
 		sent, dead = 0, []
 		for d in devices:
-			result = _send(account["project_id"], token, message(d.token, title=title, body=body, data=data or {}, collapse_key=collapse_key))
+			result = _send(account["project_id"], token, message(d.token, title=title, body=body, data=data, collapse_key=collapse_key, web_app=_web_app()))
 			sent += result == "ok"
 			if result == "dead":
 				dead.append(d.token)
@@ -50,8 +54,8 @@ def notify(users: list[str] | str, *, title: str, body: str, data: dict | None =
 		return 0
 
 
-def message(device_token: str, *, title: str, body: str, data: dict, collapse_key: str | None = None) -> dict:
-	"""FCM v1 message (data values must be strings). Pure."""
+def message(device_token: str, *, title: str, body: str, data: dict, collapse_key: str | None = None, web_app: str | None = None) -> dict:
+	"""FCM v1 message (data values must be strings). Pure. web_app: the web app's address (live or staging)."""
 	m = {
 		"token": device_token,
 		"notification": {"title": title[:120], "body": body[:240]},
@@ -62,6 +66,9 @@ def message(device_token: str, *, title: str, body: str, data: dict, collapse_ke
 	}
 	if collapse_key:
 		m["android"]["collapse_key"] = collapse_key
+	if data.get("screen") and web_app:
+		# browsers: a tap opens the web app at that screen (the app reads ?p= from its address)
+		m["webpush"]["fcm_options"] = {"link": f"{web_app.rstrip('/')}/#/?p={data['screen']}"}
 	return {"message": m}
 
 
@@ -77,6 +84,11 @@ def _send(project_id: str, access_token: str, payload: dict) -> str:
 	except ValueError:
 		status = None
 	return "dead" if r.status_code in (400, 404) and status in _DEAD else "error"
+
+
+def _web_app() -> str:
+	"""Where the web app is: site_config `qtt_web_app_url` (staging sets its own), else live."""
+	return frappe.conf.get("qtt_web_app_url") or "https://queentouchtech.in/app/"
 
 
 def _service_account() -> dict | None:
