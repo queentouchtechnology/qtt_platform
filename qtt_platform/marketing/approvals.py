@@ -36,8 +36,8 @@ def token_ok(expected: str | None, given: str | None) -> bool:
 
 
 def decision_links(base_url: str, name: str, token: str) -> dict:
-	"""One-tap Slack links (open in the browser; Frappe records the
-	decision and continues the n8n run)."""
+	"""Slack / email links: opening one shows the item and a confirm button (slack_decide); the button decides and
+	continues the n8n run (slack_confirm). Opening alone never decides — link previews and scanners open links too."""
 	base = f"{base_url.rstrip('/')}/api/method/qtt_platform.api.marketing_content.slack_decide?name={name}&token={token}"
 	return {"approve_url": base + "&decision=approve", "reject_url": base + "&decision=reject"}
 

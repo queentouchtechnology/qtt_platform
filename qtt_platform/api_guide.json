@@ -1198,7 +1198,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.activateStructure",
    "screens": "products/office_pulse/screens/payroll_view.dart › _TemplateEditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:189",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:210",
    "status": "Not described"
   },
   {
@@ -1214,7 +1214,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.assignStructure",
    "screens": "products/office_pulse/screens/payroll_view.dart › _TemplateEditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:211",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:244",
    "status": "OK"
   },
   {
@@ -1230,7 +1230,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.components",
    "screens": "core/theme/app_theme.dart › SmoothScrollBehavior\ncore/theme/palette.dart › Palette\nproducts/office_pulse/screens/payroll_view.dart › _PayItemsPageState\nproducts/office_pulse/screens/payroll_view.dart › _TemplateEditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:84",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:85",
    "status": "Not described"
   },
   {
@@ -1246,7 +1246,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.copyStructure",
    "screens": "products/office_pulse/screens/payroll_view.dart › _TemplateEditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:200",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:221",
    "status": "Not described"
   },
   {
@@ -1262,7 +1262,23 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.createRun",
    "screens": "products/office_pulse/screens/payroll_view.dart › _PayrollViewState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:285",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:318",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_office_pulse.api.payroll.current_templates",
+   "product": "Office Pulse",
+   "area": "api.payroll",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "Each person's salary template now (their latest one in use): {employee: {template, base, from}} — shown when choosing who gets a template, so it's clear who has one already.",
+   "details": "Each person's salary template now (their latest one in use): {employee: {template, base, from}} — shown when\nchoosing who gets a template, so it's clear who has one already.",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.currentTemplates",
+   "screens": "products/office_pulse/screens/payroll_view.dart › _TemplateEditorState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:232",
    "status": "OK"
   },
   {
@@ -1278,7 +1294,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.employeePay",
    "screens": "products/office_pulse/screens/payroll_view.dart › _EmployeeSalaryState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:242",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:275",
    "status": "Not described"
   },
   {
@@ -1294,7 +1310,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.extrasPreview",
    "screens": "products/office_pulse/screens/payroll_view.dart › _PayrollViewState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:406",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:439",
    "status": "OK"
   },
   {
@@ -1310,7 +1326,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.finaliseRun",
    "screens": "products/office_pulse/screens/payroll_view.dart › _RunDetailState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:415",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:448",
    "status": "OK"
   },
   {
@@ -1326,7 +1342,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.myPayslips\nqtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.payslipsPage",
    "screens": "products/office_pulse/screens/payslips_view.dart › _PayslipsViewState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:434",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:467",
    "status": "OK"
   },
   {
@@ -1342,7 +1358,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.paySettings",
    "screens": "products/office_pulse/screens/payroll_view.dart › _PaySettingsPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:384",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:417",
    "status": "Not described"
   },
   {
@@ -1358,7 +1374,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.payslip",
    "screens": "products/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/office_pulse/screens/payslips_view.dart › PayslipDetail\nproducts/office_pulse/screens/pulse_shell.dart › PulseShell",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:457",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:490",
    "status": "Not described"
   },
   {
@@ -1374,7 +1390,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.payslipPdf",
    "screens": "products/office_pulse/screens/payslips_view.dart › PayslipDetail",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:471",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:504",
    "status": "Not described"
   },
   {
@@ -1390,7 +1406,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.run",
    "screens": "admin/builds_view.dart › _BuildTile\nadmin/builds_view.dart › _LogSheet\nadmin/workspace_billing_view.dart › _ProductCard\nmain.dart › (top level)\nproducts/office_pulse/screens/payroll_view.dart › _RunDetailState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:342",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:375",
    "status": "Not described"
   },
   {
@@ -1406,7 +1422,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.runs\nqtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.runsPage",
    "screens": "admin/marketing_dashboard_models.dart › AutomationRun\nadmin/marketing_dashboard_models.dart › AutomationWeek\nadmin/marketing_overview.dart › _Automations\nadmin/marketing_reports_view.dart › DayReportBody\nproducts/office_pulse/screens/payroll_view.dart › _PayrollViewState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:260",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:293",
    "status": "OK"
   },
   {
@@ -1422,7 +1438,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.saveComponent",
    "screens": "products/office_pulse/screens/payroll_view.dart › _PayItemsPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:97",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:112",
    "status": "Not described"
   },
   {
@@ -1438,7 +1454,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.savePaySettings",
    "screens": "products/office_pulse/screens/payroll_view.dart › _PaySettingsPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:391",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:424",
    "status": "Not described"
   },
   {
@@ -1454,7 +1470,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.saveStructure",
    "screens": "products/office_pulse/screens/payroll_view.dart › _TemplateEditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:157",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:178",
    "status": "OK"
   },
   {
@@ -1470,7 +1486,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.structure",
    "screens": "products/office_pulse/screens/payroll_view.dart › _TemplateEditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:142",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:163",
    "status": "Not described"
   },
   {
@@ -1486,7 +1502,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.structures",
    "screens": "products/office_pulse/screens/payroll_view.dart › _EmployeeSalaryState\nproducts/office_pulse/screens/payroll_view.dart › _TemplatesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:129",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:150",
    "status": "Not described"
   },
   {
@@ -1502,7 +1518,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.employee",
    "screens": "products/office_pulse/models.dart › ApprovalItem\nproducts/office_pulse/models.dart › PulseBootstrap\nproducts/office_pulse/office_pulse_root.dart › PulseState\nproducts/office_pulse/screens/approvals_view.dart › _ApprovalsViewState\nproducts/office_pulse/screens/attendance_view.dart › AttendanceView\nproducts/office_pulse/screens/attendance_view.dart › _AttendanceViewState\nproducts/office_pulse/screens/expenses_view.dart › ClaimDetail\nproducts/office_pulse/screens/home_view.dart › PulseHomeView\nproducts/office_pulse/screens/payroll_view.dart › EmployeeSalary\nproducts/office_pulse/screens/payroll_view.dart › _EmployeeSalaryState\nproducts/office_pulse/screens/people_view.dart › _PersonDetailState\nproducts/office_pulse/screens/pulse_shell.dart › PulseShell\nproducts/office_pulse/screens/work_rules_view.dart › EmployeeShiftsPage\nproducts/office_pulse/screens/work_rules_view.dart › _EmployeeShiftsPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/people.py:67",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/people.py:68",
    "status": "Not described"
   },
   {
@@ -1534,7 +1550,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.giveAppAccess",
    "screens": "products/office_pulse/screens/people_view.dart › _PersonDetailState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/people.py:145",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/people.py:146",
    "status": "OK"
   },
   {
@@ -1550,7 +1566,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.markLeft",
    "screens": "products/office_pulse/screens/people_view.dart › _PersonDetailState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/people.py:130",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/people.py:131",
    "status": "Not described"
   },
   {
@@ -1566,7 +1582,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.saveEmployee",
    "screens": "products/office_pulse/screens/people_view.dart › _EmployeeFormState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/people.py:84",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/people.py:85",
    "status": "OK"
   },
   {
@@ -1582,7 +1598,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.setAppRole",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/people.py:180",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/people.py:181",
    "status": "Not described"
   },
   {
@@ -2318,7 +2334,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/onbox/onbox_repository.dart › OnboxRepository.assign",
    "screens": "products/onbox/chat_controller.dart › ChatController\nproducts/onbox/screens/conversation_actions.dart › (top level)",
    "other_callers": "",
-   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:125",
+   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:183",
    "status": "OK"
   },
   {
@@ -2334,7 +2350,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/onbox/onbox_repository.dart › OnboxRepository.getConversation",
    "screens": "products/onbox/chat_controller.dart › ChatController",
    "other_callers": "",
-   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:64",
+   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:65",
    "status": "Not described"
   },
   {
@@ -2350,7 +2366,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/onbox/onbox_repository.dart › OnboxRepository.getMessages",
    "screens": "products/onbox/chat_controller.dart › ChatController",
    "other_callers": "",
-   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:71",
+   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:72",
    "status": "Not described"
   },
   {
@@ -2366,7 +2382,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/onbox/onbox_repository.dart › OnboxRepository.listConversations",
    "screens": "products/onbox/onbox_provider.dart › OnboxProvider",
    "other_callers": "",
-   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:32",
+   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:33",
    "status": "Not described"
   },
   {
@@ -2382,7 +2398,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/onbox/onbox_repository.dart › OnboxRepository.markRead",
    "screens": "products/onbox/chat_controller.dart › ChatController",
    "other_callers": "",
-   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:166",
+   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:224",
    "status": "Not described"
   },
   {
@@ -2398,7 +2414,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/onbox/onbox_repository.dart › OnboxRepository.sendAttachments",
    "screens": "products/onbox/chat_controller.dart › ChatController",
    "other_callers": "",
-   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:99",
+   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:157",
    "status": "OK"
   },
   {
@@ -2414,8 +2430,24 @@
    "app_calls": "qtt-os/qtt_app/lib/products/onbox/onbox_repository.dart › OnboxRepository.sendMessage",
    "screens": "products/onbox/chat_controller.dart › ChatController",
    "other_callers": "",
-   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:85",
+   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:86",
    "status": "Not described"
+  },
+  {
+   "endpoint": "qtt_onbox.api.conversations.send_template",
+   "product": "Onbox",
+   "area": "api.conversations",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "An approved template into the conversation (the 24-hour reply window closed): its blanks filled with `values`.",
+   "details": "An approved template into the conversation (the 24-hour reply window closed): its blanks filled with `values`.",
+   "arguments": "conversation_id, name, language, values",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/onbox/onbox_repository.dart › OnboxRepository.sendTemplate",
+   "screens": "products/onbox/chat_controller.dart › ChatController\nproducts/onbox/screens/composer.dart › _ComposerState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:127",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_onbox.api.conversations.set_labels",
@@ -2430,7 +2462,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/onbox/onbox_repository.dart › OnboxRepository.setLabels",
    "screens": "products/onbox/chat_controller.dart › ChatController\nproducts/onbox/screens/conversation_actions.dart › ConversationActions",
    "other_callers": "",
-   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:173",
+   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:231",
    "status": "Not described"
   },
   {
@@ -2446,7 +2478,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/onbox/onbox_repository.dart › OnboxRepository.setPriority",
    "screens": "products/onbox/chat_controller.dart › ChatController\nproducts/onbox/screens/conversation_actions.dart › ConversationActions",
    "other_callers": "",
-   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:156",
+   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:214",
    "status": "Not described"
   },
   {
@@ -2462,7 +2494,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/onbox/onbox_repository.dart › OnboxRepository.setStatus",
    "screens": "products/onbox/chat_controller.dart › ChatController\nproducts/onbox/screens/chat_pane.dart › _ChatViewState\nproducts/onbox/screens/conversation_actions.dart › ConversationActions",
    "other_callers": "",
-   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:146",
+   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:204",
    "status": "Not described"
   },
   {
@@ -2478,8 +2510,24 @@
    "app_calls": "qtt-os/qtt_app/lib/products/onbox/onbox_repository.dart › OnboxRepository.typing",
    "screens": "platform/data/platform_repository.dart › PlatformRepository\nproducts/onbox/chat_controller.dart › ChatController",
    "other_callers": "",
-   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:185",
+   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:243",
    "status": "Not described"
+  },
+  {
+   "endpoint": "qtt_onbox.api.conversations.whatsapp_templates",
+   "product": "Onbox",
+   "area": "api.conversations",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "The business's approved WhatsApp templates a chat can send when the 24-hour reply window has closed: [{name, language, category, body, footer, fields}] (fields: how many blanks the body has). Empty when the business has no WhatsApp Business account connected, or QTT Business Suite isn't on this site.",
+   "details": "The business's approved WhatsApp templates a chat can send when the 24-hour reply window has closed:\n[{name, language, category, body, footer, fields}] (fields: how many blanks the body has). Empty when the business\nhas no WhatsApp Business account connected, or QTT Business Suite isn't on this site.",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/onbox/onbox_repository.dart › OnboxRepository.whatsappTemplates",
+   "screens": "products/onbox/chat_controller.dart › ChatController\nproducts/onbox/screens/composer.dart › _ComposerState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_onbox/qtt_onbox/api/conversations.py:100",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_onbox.api.devices.register_device",
@@ -3374,7 +3422,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.convertQuotation",
    "screens": "products/orbitra/screens/sales_view.dart › QuoteDetail",
    "other_callers": "",
-   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/sales.py:181",
+   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/sales.py:183",
    "status": "OK"
   },
   {
@@ -3406,7 +3454,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.createQuotation",
    "screens": "products/orbitra/screens/sales_view.dart › _SellEditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/sales.py:173",
+   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/sales.py:175",
    "status": "Not described"
   },
   {
@@ -3438,7 +3486,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.invoicePdf",
    "screens": "products/orbitra/screens/pos_view.dart › _SaleDone\nproducts/orbitra/screens/sales_view.dart › _SellEditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/sales.py:139",
+   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/sales.py:141",
    "status": "Not described"
   },
   {
@@ -3470,7 +3518,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.quotation",
    "screens": "products/orbitra/screens/sales_view.dart › QuoteDetail",
    "other_callers": "",
-   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/sales.py:163",
+   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/sales.py:165",
    "status": "Not described"
   },
   {
@@ -3486,7 +3534,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.quotations",
    "screens": "products/orbitra/screens/sales_view.dart › _SalesViewState",
    "other_callers": "",
-   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/sales.py:151",
+   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/sales.py:153",
    "status": "Not described"
   },
   {
@@ -3646,7 +3694,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.addStock",
    "screens": "products/orbitra/screens/inventory_view.dart › _ItemEditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/stock.py:93",
+   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/stock.py:130",
    "status": "OK"
   },
   {
@@ -3662,7 +3710,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.addStore",
    "screens": "products/orbitra/screens/inventory_view.dart › _StoresViewState",
    "other_callers": "",
-   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/stock.py:30",
+   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/stock.py:31",
    "status": "Not described"
   },
   {
@@ -3678,7 +3726,23 @@
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.countStock",
    "screens": "products/orbitra/screens/inventory_view.dart › _ItemEditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/stock.py:113",
+   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/stock.py:150",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_orbitra.api.stock.delete_store",
+   "product": "Orbitra",
+   "area": "api.stock",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Only an empty store that never had stock: ERPNext keeps the history of every store that had (rename it instead).",
+   "details": "Only an empty store that never had stock: ERPNext keeps the history of every store that had (rename it instead).",
+   "arguments": "store",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.deleteStore",
+   "screens": "products/orbitra/screens/inventory_view.dart › _StoresViewState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/stock.py:68",
    "status": "OK"
   },
   {
@@ -3694,7 +3758,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.moveStock",
    "screens": "products/orbitra/screens/inventory_view.dart › _ItemEditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/stock.py:102",
+   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/stock.py:139",
    "status": "Not described"
   },
   {
@@ -3710,8 +3774,24 @@
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.movements",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/stock.py:139",
+   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/stock.py:178",
    "status": "Not described"
+  },
+  {
+   "endpoint": "qtt_orbitra.api.stock.rename_store",
+   "product": "Orbitra",
+   "area": "api.stock",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "A store's new name; its stock and history move with it.",
+   "details": "A store's new name; its stock and history move with it.",
+   "arguments": "store, label",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.renameStore",
+   "screens": "products/orbitra/screens/inventory_view.dart › _StoresViewState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/stock.py:47",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_orbitra.api.stock.stock",
@@ -3726,7 +3806,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.stock",
    "screens": "products/orbitra/screens/inventory_view.dart › _InventoryViewState\nproducts/services/store/store_pages.dart › StoreProductsPage\nproducts/services/store/store_pages.dart › _StoreProductsPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/stock.py:46",
+   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/stock.py:83",
    "status": "Not described"
   },
   {
@@ -3740,9 +3820,9 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.stores",
-   "screens": "products/orbitra/screens/inventory_view.dart › _ItemEditorState\nproducts/orbitra/screens/inventory_view.dart › _StoresViewState\nproducts/orbitra/screens/orbitra_widgets.dart › _SearchListState",
+   "screens": "products/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/inventory_view.dart › _ItemEditorState\nproducts/orbitra/screens/inventory_view.dart › _StoresViewState\nproducts/orbitra/screens/orbitra_widgets.dart › _SearchListState",
    "other_callers": "",
-   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/stock.py:18",
+   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/stock.py:19",
    "status": "Not described"
   },
   {
@@ -6526,7 +6606,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/marketing_content.py:237",
+   "source": "qtt_platform/qtt_platform/api/marketing_content.py:264",
    "status": "Not used by the app"
   },
   {
@@ -6594,20 +6674,36 @@
    "status": "Not described"
   },
   {
-   "endpoint": "qtt_platform.api.marketing_content.slack_decide",
+   "endpoint": "qtt_platform.api.marketing_content.slack_confirm",
    "product": "Platform",
    "area": "api.marketing_content",
-   "http_methods": "GET",
+   "http_methods": "POST",
    "guest": 1,
-   "purpose": "Slack decide — marketing content (named only: no description in the code yet)",
-   "details": "",
+   "purpose": "The button on slack_decide's page: the decision (whoever decides first wins).",
+   "details": "The button on slack_decide's page: the decision (whoever decides first wins).",
    "arguments": "name, token, decision, via",
    "used_by": "—",
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/marketing_content.py:120",
-   "status": "Not described"
+   "source": "qtt_platform/qtt_platform/api/marketing_content.py:146",
+   "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_platform.api.marketing_content.slack_decide",
+   "product": "Platform",
+   "area": "api.marketing_content",
+   "http_methods": "GET",
+   "guest": 1,
+   "purpose": "Opening an Approve / Reject link: the item and one button to confirm — nothing is decided by opening it.",
+   "details": "Opening an Approve / Reject link: the item and one button to confirm — nothing is decided by opening it.",
+   "arguments": "name, token, decision, via",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/marketing_content.py:123",
+   "status": "Not used by the app"
   },
   {
    "endpoint": "qtt_platform.api.marketing_dashboard.automation_schedules",

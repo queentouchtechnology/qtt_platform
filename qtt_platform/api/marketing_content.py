@@ -114,10 +114,37 @@ def decide(name: str, approve, note: str | None = None) -> dict:
 
 
 # --------------------------------------------------------------------------
-# Slack links (one tap, no login: the random token is the permission)
+# Slack and email links (no login: the random token is the permission). Opening a link only shows what it's about
+# and a button — Slack's link previews and email scanners open links by themselves, and that used to decide (26 Oct:
+# today's cold emails were "rejected" and the LinkedIn post "approved" seconds after the links were posted). The
+# decision is the button's POST (slack_confirm).
 # --------------------------------------------------------------------------
 @frappe.whitelist(allow_guest=True, methods=["GET"])
 def slack_decide(name: str, token: str, decision: str, via: str | None = None):
+	"""Opening an Approve / Reject link: the item and one button to confirm — nothing is decided by opening it."""
+	doc_token = frappe.db.get_value(DOCTYPE, name, "token") if name else None
+	if not logic.token_ok(doc_token, token) or decision not in ("approve", "reject"):
+		return _page(_("Link not valid"), _("This approval link is not valid."), "red")
+	doc = frappe.db.get_value(DOCTYPE, name, ["title", "status", "summary"], as_dict=True) or {}
+	if doc.get("status") != "pending":
+		return _page(doc.get("title"), _("Already decided ({0}).").format(_(doc.get("status") or "")), "blue")
+	approve = decision == "approve"
+	from frappe.utils import escape_html
+
+	form = (f'<p>{escape_html(doc.get("summary") or "")}</p>'
+			f'<form method="post" action="/api/method/qtt_platform.api.marketing_content.slack_confirm">'
+			f'<input type="hidden" name="name" value="{escape_html(name)}">'
+			f'<input type="hidden" name="token" value="{escape_html(token)}">'
+			f'<input type="hidden" name="decision" value="{escape_html(decision)}">'
+			f'<input type="hidden" name="via" value="{escape_html(via or "")}">'
+			f'<button type="submit" class="btn btn-{"primary" if approve else "default"}">'
+			f'{escape_html(_("Yes, send it") if approve else _("Yes, reject it"))}</button></form>')
+	return _page(doc.get("title"), form, "green" if approve else "orange")
+
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+def slack_confirm(name: str, token: str, decision: str, via: str | None = None):
+	"""The button on slack_decide's page: the decision (whoever decides first wins)."""
 	doc_token = frappe.db.get_value(DOCTYPE, name, "token") if name else None
 	if not logic.token_ok(doc_token, token) or decision not in ("approve", "reject"):
 		return _page(_("Link not valid"), _("This approval link is not valid."), "red")
