@@ -13,7 +13,8 @@ everyone in every business — no plan needed.
   apps, and one search box for everything.
 - **Search**: finds customers, people, items and app screens. Understands
   typos, any word order, phone numbers, and everyday words ("salary" opens
-  Office Pulse, "bill" opens Orbitra). Remembers recent searches.
+  Office Pulse, "bill" opens Orbitra). Remembers recent searches (every list's
+  search box too) — × takes one off, Clear takes them all off.
 - **Lists** (customers, people, items, invoices, bills, leave, claims,
   payslips, payroll, approvals, money in and out, requests, payments): the
   first 20 show, and more load by themselves as you scroll — no "Show more"
@@ -715,7 +716,10 @@ approve their team's requests.
   the app" card / Invite all.
 - **Giving a shift, a salary template or a shift pattern to many people**:
   the result names who it worked for and who it didn't, each with the
-  reason; nobody is left half-done.
+  reason; nobody is left half-done. Giving a salary template starts with the
+  people: search, filter by department, choose everyone in one — each person
+  shows the template and salary they have now ("Now: Staff · ₹25,000 from …");
+  then the monthly salary and the date.
 - **Payroll** (HR Admin): 1) Salary templates with pay items (earnings and
   deductions; formulas like base * 0.4), 2) give a template to people with
   their monthly salary, 3) Run payroll for a month, check gross / deductions
@@ -728,7 +732,9 @@ approve their team's requests.
     HRA (so the three add up to the monthly salary). Fixed amount: the same
     for everyone (e.g. a 200 professional tax); formula: follows each
     person's salary. To add PF: a Deduction pay item (e.g. PF = BS * 0.12),
-    then add it to the template (a copy, if the template is in use).
+    then add it to the template (a copy, if the template is in use). A short
+    code that formulas use can't be changed (the form says where it's used)
+    — change those formulas first.
   - **Salary templates** (Payroll › Salary templates): one per kind of job,
     not per person — each person's monthly salary is entered when the
     template is given to them, and formulas work it out. "base" = that
@@ -984,7 +990,8 @@ including accounts and settings). Purchases, Accounts and Reports also need a
 plan that includes them. The owner can change what a Manager or Cashier may
 do (Business › Roles and access); someone whose role can't use an area is
 told "Your role in Orbitra can't do this" — the owner can switch it on there.
-- **POS**: tap items (search, code or barcode), choose a customer or walk-in,
+- **POS**: tap an item to put it on the bill; − and + on it change how many;
+  tap it again to take it off. Search, code or barcode; choose a customer or walk-in,
   take payment by cash, UPI or card or split two ways; change is calculated;
   any unpaid part stays on the customer; save the bill PDF.
 - **POS with no network**: finish the sale as usual — it's saved on this
@@ -1000,7 +1007,11 @@ told "Your role in Orbitra can't do this" — the owner can switch it on there.
   returns); turn a quote into an invoice.
 - **Inventory**: items and services with selling price, cost, GST rate,
   HSN/SAC, barcode, category, low-stock alert level; add stock, count stock,
-  move stock between stores; hide an item from POS and new bills.
+  move stock between stores; hide an item from POS and new bills. A new item
+  that tracks stock can be given its opening stock for each store right in
+  the form. Stores (More › Stores): add one; ⋯ to rename it or delete it — only
+  an empty store that never had stock can be deleted, and not the main store.
+  Choosing a customer on a bill shows their business name, phone and city.
 - **Purchases**: supplier bills bring stock in and track what you owe; pay a
   supplier; manage suppliers.
 - **Customers** (in Orbitra): the business's one customer list (search,
@@ -1034,9 +1045,16 @@ settings).
   snoozed, resolved) and channel; reply or add a private note; attach files
   (up to 16 MB); assign to a person or team; snooze; labels; priority;
   resolve / reopen; save the contact as a customer.
+- The Inbox home has one tile per kind of channel; two WhatsApp numbers are
+  one WhatsApp tile — inside, all their chats together and a chip for each
+  number.
 - WhatsApp rule: free-form replies only within 24 hours of the customer's last
-  message; after that you can only add private notes (or send an approved
-  template from QTT's automations).
+  message; after that the chat offers **Send a template**: choose one of the
+  business's approved WhatsApp templates, fill its blanks (the preview shows
+  what the customer gets) and send. Private notes always work. Templates are
+  made in QTT Business Suite › Your WhatsApp › Templates.
+- "Inbox setup ran into a problem": it tries again by itself each time the
+  Inbox is opened; a manager can also tap Retry setup.
 - Channel access (managers): choose which team members answer each channel.
 
 ## QTT Business Suite — QTT runs it for you
