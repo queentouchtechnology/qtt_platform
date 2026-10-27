@@ -18,7 +18,7 @@ confirm it.
 - Values: Innovation, Integrity, Excellence, Sustainability.
 
 ## Contact
-- Phone: **+91 95669 66764**
+- Phone and WhatsApp: **+91 95009 10005** (one number for calls, WhatsApp and the assistant)
 - Email: **info@queentouchtech.com** (also for international enquiries)
 - Office: 21B/4, Annai Thangam Complex, W.G.C Road (near BSNL Office),
   Thoothukudi – 628 002, Tamil Nadu, India
