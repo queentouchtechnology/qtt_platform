@@ -80,7 +80,15 @@ def ensure_house(tenant: str) -> list[str]:
 			plan = _house_plan(product)
 			if not plan:
 				continue
-			sub = subscription_service.create_subscription(tenant, product, plan)
+			# One product failing (e.g. its workspace set-up) never stops the products after it, and leaves no
+			# subscription behind without its pointer — the next run would add yet another one.
+			frappe.db.savepoint("house_product")
+			try:
+				sub = subscription_service.create_subscription(tenant, product, plan)
+			except Exception:
+				frappe.db.rollback(save_point="house_product")
+				frappe.log_error(title=f"qtt_platform.house: {product} for {tenant}")
+				continue
 			changed.append(f"{product}: added")
 		if sub.status != "active" or sub.trial_end or str(sub.current_period_end) != house_logic.HOUSE_PERIOD_END:
 			before = sub.status
