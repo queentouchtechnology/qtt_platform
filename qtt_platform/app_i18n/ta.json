@@ -8114,5 +8114,18 @@
  "The customer gets": "வாடிக்கையாளர் பெறுவது",
  "Used in {where} — it can’t change while they use it.": "{where} இல் பயன்படுகிறது — அவை பயன்படுத்தும் வரை இதை மாற்ற முடியாது.",
  "Which store does POS sell from?": "POS எந்தக் கடையிலிருந்து விற்கிறது?",
- "{n} numbers": "{n} எண்கள்"
+ "{n} numbers": "{n} எண்கள்",
+ "Alt text": "மாற்று உரை",
+ "File name": "கோப்புப் பெயர்",
+ "For Google": "Google-க்காக",
+ "Leave empty to use the article's title.": "கட்டுரையின் தலைப்பைப் பயன்படுத்த காலியாக விடுங்கள்.",
+ "Optional — it shows at the top of the article. With no picture, the article is published without one.": "விருப்பத்தேர்வு — இது கட்டுரையின் மேலே தெரியும். படம் இல்லையெனில், கட்டுரை படம் இல்லாமலே வெளியிடப்படும்.",
+ "Optional — shown under the picture.": "விருப்பத்தேர்வு — படத்தின் கீழே தெரியும்.",
+ "Paste it into an image AI, save the picture, then upload it here.": "இதை ஒரு பட AI-யில் ஒட்டி, படத்தைச் சேமித்து, பிறகு இங்கே பதிவேற்றுங்கள்.",
+ "Picture prompt": "படத்துக்கான அறிவுறுத்தல்",
+ "Picture title": "படத்தின் தலைப்பு",
+ "Prompt copied. Make the picture, then tap Upload picture.": "அறிவுறுத்தல் நகலெடுக்கப்பட்டது. படத்தை உருவாக்கி, பிறகு படத்தைப் பதிவேற்று என்பதைத் தட்டுங்கள்.",
+ "Upload picture": "படத்தைப் பதிவேற்று",
+ "What the picture shows — read by Google and screen readers.": "படத்தில் என்ன உள்ளது — Google-உம் திரை வாசிப்பான்களும் இதைப் படிக்கும்.",
+ "Words for Google, like hannah-praying-at-the-temple.": "Google-க்கான சொற்கள், எ.கா. hannah-praying-at-the-temple."
 }

@@ -8114,5 +8114,18 @@
  "The customer gets": "ما سيصل إلى العميل",
  "Used in {where} — it can’t change while they use it.": "مستخدم في {where} — لا يمكن تغييره ما دامت تستخدمه.",
  "Which store does POS sell from?": "من أي متجر تبيع نقطة البيع؟",
- "{n} numbers": "{n} أرقام"
+ "{n} numbers": "{n} أرقام",
+ "Alt text": "النص البديل",
+ "File name": "اسم الملف",
+ "For Google": "من أجل Google",
+ "Leave empty to use the article's title.": "اتركه فارغًا لاستخدام عنوان المقال.",
+ "Optional — it shows at the top of the article. With no picture, the article is published without one.": "اختياري — تظهر أعلى المقال. بدون صورة، يُنشر المقال بلا صورة.",
+ "Optional — shown under the picture.": "اختياري — يظهر أسفل الصورة.",
+ "Paste it into an image AI, save the picture, then upload it here.": "الصقه في أداة ذكاء اصطناعي للصور، واحفظ الصورة، ثم ارفعها هنا.",
+ "Picture prompt": "وصف الصورة المطلوب",
+ "Picture title": "عنوان الصورة",
+ "Prompt copied. Make the picture, then tap Upload picture.": "تم نسخ الوصف. أنشئ الصورة، ثم اضغط رفع الصورة.",
+ "Upload picture": "رفع الصورة",
+ "What the picture shows — read by Google and screen readers.": "ما تُظهره الصورة — يقرؤه Google وقارئات الشاشة.",
+ "Words for Google, like hannah-praying-at-the-temple.": "كلمات من أجل Google، مثل hannah-praying-at-the-temple."
 }

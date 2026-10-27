@@ -8114,5 +8114,18 @@
  "The customer gets": "ग्राहक को यह मिलेगा",
  "Used in {where} — it can’t change while they use it.": "{where} में इस्तेमाल हो रहा है — जब तक वे इसका उपयोग करते हैं, इसे बदला नहीं जा सकता।",
  "Which store does POS sell from?": "POS किस स्टोर से बेचता है?",
- "{n} numbers": "{n} नंबर"
+ "{n} numbers": "{n} नंबर",
+ "Alt text": "ऑल्ट टेक्स्ट",
+ "File name": "फ़ाइल का नाम",
+ "For Google": "Google के लिए",
+ "Leave empty to use the article's title.": "लेख का शीर्षक इस्तेमाल करने के लिए खाली छोड़ें।",
+ "Optional — it shows at the top of the article. With no picture, the article is published without one.": "वैकल्पिक — यह लेख के ऊपर दिखती है। तस्वीर न हो तो लेख बिना तस्वीर के प्रकाशित होता है।",
+ "Optional — shown under the picture.": "वैकल्पिक — तस्वीर के नीचे दिखता है।",
+ "Paste it into an image AI, save the picture, then upload it here.": "इसे किसी इमेज AI में पेस्ट करें, तस्वीर सेव करें, फिर यहाँ अपलोड करें।",
+ "Picture prompt": "तस्वीर का प्रॉम्प्ट",
+ "Picture title": "तस्वीर का शीर्षक",
+ "Prompt copied. Make the picture, then tap Upload picture.": "प्रॉम्प्ट कॉपी हो गया। तस्वीर बनाएँ, फिर तस्वीर अपलोड करें पर टैप करें।",
+ "Upload picture": "तस्वीर अपलोड करें",
+ "What the picture shows — read by Google and screen readers.": "तस्वीर में क्या दिखता है — Google और स्क्रीन रीडर इसे पढ़ते हैं।",
+ "Words for Google, like hannah-praying-at-the-temple.": "Google के लिए शब्द, जैसे hannah-praying-at-the-temple।"
 }
