@@ -1443,7 +1443,15 @@ open it from that service).
   the title, the short summary (shown on Google) and the article — a line
   starting "## " is a heading, "- " a bullet point, a blank line between
   paragraphs, **bold** for key words — add a picture, pick the website (if
-  more than one) and when. **Approve and publish** puts it on the website;
+  more than one) and when. **The picture is your own**: each new article
+  comes with a **Picture prompt** — tap **Copy**, paste it into an image AI
+  (such as ChatGPT), save the picture, then **Upload picture** from your phone
+  or computer (JPG, PNG or WebP, up to 10 MB). Then **For Google**: Alt text
+  (what the picture shows — filled with the title at first), Picture title
+  (empty = the article's title), Caption (shown under it) and File name
+  (words for Google, like hannah-praying-at-the-temple). **Remove picture**
+  takes it off the draft. No picture? The article is published without one —
+  QTT never makes the picture for you. **Approve and publish** puts it on the website;
   it counts toward the month ("1 of 2 articles published this month").
   "Take it off my website" removes a published one. Only for businesses
   with a website QTT built.
