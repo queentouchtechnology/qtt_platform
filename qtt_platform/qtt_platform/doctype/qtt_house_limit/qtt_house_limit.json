@@ -1,0 +1,47 @@
+{
+ "doctype": "DocType",
+ "name": "QTT House Limit",
+ "module": "QTT Platform",
+ "custom": 0,
+ "engine": "InnoDB",
+ "modified": "2026-10-27 22:00:00.000000",
+ "fields": [
+  {
+   "fieldname": "product",
+   "fieldtype": "Link",
+   "label": "Product",
+   "options": "QTT Product",
+   "in_list_view": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "limit_key",
+   "fieldtype": "Data",
+   "label": "Limit",
+   "in_list_view": 1,
+   "reqd": 1,
+   "description": "A plan feature key of the product (e.g. employees, stores), or for QTT Business Suite's Marketing assistant: marketing_posts, marketing_articles, marketing_newsletters, marketing_pages, marketing_series (a month / at a time)."
+  },
+  {
+   "fieldname": "limit_value",
+   "fieldtype": "Data",
+   "label": "Value",
+   "in_list_view": 1,
+   "description": "A number, 1 / 0 for on / off, or text. Empty = no limit."
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Small Text",
+   "label": "Why"
+  }
+ ],
+ "field_order": [
+  "product",
+  "limit_key",
+  "limit_value",
+  "note"
+ ],
+ "permissions": [],
+ "istable": 1,
+ "editable_grid": 1
+}

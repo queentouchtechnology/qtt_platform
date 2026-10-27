@@ -23,6 +23,7 @@
   "owner_user",
   "trial_ends_on",
   "is_house",
+  "house_limits",
   "section_break_billing",
   "razorpay_customer_id",
   "section_break_branding",
@@ -95,6 +96,14 @@
    "description": "Queen Touch Technology's own workspace: every QTT OS product, always on — no trials, no plan limits, no invoices. Switching it on opens every product for the owner. Only for QTT itself; every other business uses subscriptions."
   },
   {
+   "fieldname": "house_limits",
+   "fieldtype": "Table",
+   "label": "House limits",
+   "options": "QTT House Limit",
+   "depends_on": "is_house",
+   "description": "QTT's own workspaces get everything with no limits. A row here sets one limit (empty value = no limit)."
+  },
+  {
    "fieldname": "section_break_billing",
    "fieldtype": "Section Break",
    "label": "Billing"
@@ -163,5 +172,5 @@
   }
  ],
  "links": [],
- "modified": "2026-10-20 18:00:00"
+ "modified": "2026-10-27 22:00:00.000000"
 }

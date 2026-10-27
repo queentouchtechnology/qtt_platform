@@ -45,5 +45,26 @@ class BillableLinesTests(unittest.TestCase):
 		self.assertEqual(h.billable_lines(self.LINES, house=False), self.LINES)
 
 
+class HouseLimitsTests(unittest.TestCase):
+	"""Desk › QTT Tenant › House limits."""
+
+	ROWS = [{"product": "QTT_ORBITRA", "limit_key": "stores", "limit_value": "3"},
+			{"product": "QTT_ORBITRA", "limit_key": "users", "limit_value": ""},
+			{"product": "QTT_ORBITRA", "limit_key": "pos", "limit_value": "0"},
+			{"product": "QTT_STUDIO", "limit_key": "designs", "limit_value": "50"},
+			{"product": "QTT_SERVICES", "limit_key": "marketing_articles", "limit_value": "12"},
+			{"product": "QTT_SERVICES", "limit_key": "marketing_posts", "limit_value": ""}]
+
+	def test_a_row_sets_its_products_limit_only(self):
+		out = h.apply_limits({"stores": h.HOUSE_LIMIT, "users": 5, "pos": 1, "branding": "full"}, self.ROWS, "QTT_ORBITRA")
+		self.assertEqual(out, {"stores": 3, "users": h.HOUSE_LIMIT, "pos": 0, "branding": "full"})
+
+	def test_no_rows_keeps_everything(self):
+		self.assertEqual(h.apply_limits({"stores": h.HOUSE_LIMIT}, [], "QTT_ORBITRA"), {"stores": h.HOUSE_LIMIT})
+
+	def test_marketing_caps(self):
+		self.assertEqual(h.marketing_caps(self.ROWS), {"articles": 12})  # empty = no cap
+
+
 if __name__ == "__main__":
 	unittest.main()

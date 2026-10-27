@@ -52,3 +52,29 @@ def billable_lines(lines: list[dict], *, house: bool) -> list[dict]:
 	pays nothing for QTT's own services. A domain bought for it is a real
 	outside cost — the shop adds that line after this, so it still stays."""
 	return [] if house else lines
+
+
+def apply_limits(features: dict, rows: list[dict], product: str) -> dict:
+	"""Desk › QTT Tenant › House limits: the house's own limits for this product over its "everything" features.
+	rows: [{product, limit_key, limit_value}]; an empty value means no limit (counted features → HOUSE_LIMIT)."""
+	out = dict(features)
+	for row in rows or []:
+		key = str(row.get("limit_key") or "").strip()
+		if row.get("product") != product or not key:
+			continue
+		raw = str(row.get("limit_value") or "").strip()
+		number = _number(raw)
+		out[key] = HOUSE_LIMIT if raw == "" else (number if number is not None else raw)
+	return out
+
+
+def marketing_caps(rows: list[dict]) -> dict:
+	"""House limits for the Marketing assistant (product QTT_SERVICES, keys marketing_*) → {posts, articles, newsletters,
+	pages, series: number}; a key not set, or set empty, has no cap."""
+	out = {}
+	for row in rows or []:
+		key = str(row.get("limit_key") or "").strip()
+		number = _number(row.get("limit_value"))
+		if row.get("product") == "QTT_SERVICES" and key.startswith("marketing_") and number is not None:
+			out[key[len("marketing_"):]] = number
+	return out

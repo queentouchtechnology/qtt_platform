@@ -38,8 +38,14 @@ def house_tenants() -> list[str]:
 	return frappe.get_all("QTT Tenant", filters={"is_house": 1}, pluck="name")
 
 
-def entitlements(product: str) -> dict:
-	"""The house's features for a product: everything, unlimited."""
+def limits(tenant: str) -> list[dict]:
+	"""Desk › QTT Tenant › House limits (empty: everything, no limits)."""
+	return frappe.get_all("QTT House Limit", filters={"parent": tenant, "parenttype": "QTT Tenant"},
+						  fields=["product", "limit_key", "limit_value"]) if frappe.db.table_exists("QTT House Limit") else []
+
+
+def entitlements(product: str, tenant: str | None = None) -> dict:
+	"""The house's features for a product: everything, unlimited — except the limits set for this house in Desk."""
 	from qtt_platform.exceptions import FeatureNotConfigured
 	from qtt_platform.usage.registry import get_usage_resolver
 
@@ -53,7 +59,8 @@ def entitlements(product: str) -> dict:
 			counted.add(key)
 		except FeatureNotConfigured:
 			pass
-	return house_logic.house_features(rows, counted)
+	features = house_logic.house_features(rows, counted)
+	return house_logic.apply_limits(features, limits(tenant), product) if tenant else features
 
 
 def _house_plan(product: str) -> str | None:
