@@ -1470,6 +1470,16 @@ open it from that service).
   marked Bounced and skipped; a spam complaint unsubscribes that person. Every email has an
   unsubscribe link; someone who unsubscribes is never emailed again, even if
   they're on a list you upload later. Up to 5,000 people per newsletter.
+- **Send to** (in a newsletter): **Everyone** on the list, **Customers with a
+  tag** (pick one of your customers' tags — e.g. everyone tagged "Truth of
+  Bible app") or **People I choose** (search your list and tick people). Only
+  people still subscribed get it; everyone else is skipped.
+- **From my articles** (Email newsletters, with a website connected to QTT):
+  tick articles from your website and **Make the newsletter** — a draft with
+  each article's picture, a short summary and a "Read the article" link, in
+  the Card layout. Check it, pick who it goes to, approve. In any newsletter
+  or article, [words](https://…) makes a link and a line ![what it shows](https://…)
+  a picture.
 - **Newsletter layouts**: in a newsletter, **Layout** — Simple (a thin line in
   your colour, your logo), Banner (your logo and the subject on a band of
   your main colour), Card (the email on a white card over a soft tint of your
@@ -1491,7 +1501,10 @@ open it from that service).
   and stops at the package's limit). Write the next one now, Pause, Carry on,
   Change, Stop. Articles need Growth or Pro and a QTT-built website;
   newsletters need Pro. They share the package's series limit with post
-  series, and their days show on the Calendar.
+  series, and their days show on the Calendar. **Latest articles** (a third
+  kind): each week, 2 weeks or month, the articles published on your website
+  since the last one go out by email with their pictures and links; no new
+  articles means nothing is sent that time.
 
 ## QTT Business Suite — online store (Managed E-Commerce Websites)
 QTT creates, hosts, secures and manages a full online store (WooCommerce) for
