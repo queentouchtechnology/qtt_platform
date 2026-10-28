@@ -3596,7 +3596,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.settings",
-   "screens": "admin/marketing_view.dart › _MarketingViewState\napp/app.dart › AppServices\napp/app.dart › _QttOsAppState\ncore/analytics/analytics.dart › AnalyticsRouteObserver\nplatform/team/team_sheets.dart › TeamChannelInfoPage\nplatform/workplace/remote_page.dart › _RemoteBody\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/onbox/onbox_root.dart › _InboxRootState\nproducts/onbox/screens/conversation_list_pane.dart › OnboxMenuButton\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/more_view.dart › _OrbitraSettingsViewState\nproducts/services/screens/whatsapp_page.dart › YourWhatsappPage\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_design.dart › _GroupEditPageState\nproducts/services/store/store_more.dart › _TrackingCardState\nshared/search/global_search.dart › _GlobalSearchScreenState",
+   "screens": "admin/marketing_view.dart › _MarketingViewState\napp/app.dart › AppServices\napp/app.dart › _QttOsAppState\ncore/analytics/analytics.dart › AnalyticsRouteObserver\nplatform/team/team_sheets.dart › TeamChannelInfoPage\nplatform/workplace/remote_page.dart › _RemoteBody\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/onbox/onbox_root.dart › _InboxRootState\nproducts/onbox/screens/conversation_list_pane.dart › OnboxMenuButton\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/more_view.dart › _OrbitraSettingsViewState\nproducts/services/screens/whatsapp_page.dart › YourWhatsappPage\nproducts/services/screens/whatsapp_page.dart › _SetupSteps\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_design.dart › _GroupEditPageState\nproducts/services/store/store_more.dart › _TrackingCardState\nshared/search/global_search.dart › _GlobalSearchScreenState",
    "other_callers": "",
    "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/settings.py:14",
    "status": "Not described"
@@ -6158,7 +6158,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.answerKnowledgeQuestion",
    "screens": "platform/workspace/knowledge_lab.dart › _TeamQuestionsPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/knowledge.py:313",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:314",
    "status": "OK"
   },
   {
@@ -6174,7 +6174,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.knowYourBusinessAsk",
    "screens": "shared/assistant/assistant_screen.dart › _AssistantScreenState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/knowledge.py:228",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:229",
    "status": "OK"
   },
   {
@@ -6190,7 +6190,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.brandPreview",
    "screens": "platform/workspace/business_knowledge_tab.dart › _BusinessKnowledgeTabState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/knowledge.py:347",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:348",
    "status": "OK"
   },
   {
@@ -6206,7 +6206,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.businessKnowledge",
    "screens": "platform/workspace/business_knowledge_tab.dart › _BusinessKnowledgeTabState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/knowledge.py:106",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:107",
    "status": "OK"
   },
   {
@@ -6222,7 +6222,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.knowledgeQuestions",
    "screens": "platform/workspace/knowledge_lab.dart › _TeamQuestionsPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/knowledge.py:303",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:304",
    "status": "OK"
   },
   {
@@ -6238,7 +6238,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.saveBusinessKnowledge",
    "screens": "platform/workspace/business_knowledge_tab.dart › _BusinessKnowledgeTabState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/knowledge.py:115",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:116",
    "status": "OK"
   },
   {
@@ -6254,7 +6254,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.knowYourBusinessIntro",
    "screens": "shared/assistant/assistant_screen.dart › _AssistantScreenState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/knowledge.py:213",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:214",
    "status": "OK"
   },
   {
@@ -6270,7 +6270,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.knowledgeTry",
    "screens": "platform/workspace/knowledge_lab.dart › _KnowledgeLabPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/knowledge.py:269",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:270",
    "status": "OK"
   },
   {
@@ -7068,7 +7068,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.overview",
-   "screens": "admin/admin_root.dart › _Overview\nproducts/office_pulse/repository.dart › PulseRepository\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/services/repository.dart › ServicesRepository\nproducts/services/screens/article_pages.dart › ArticleEditorPage\nproducts/services/screens/article_pages.dart › _ArticleEditorPageState\nproducts/services/screens/marketing_history.dart › PostHistoryPage\nproducts/services/screens/marketing_history.dart › _PostHistoryPageState\nproducts/services/screens/marketing_pages.dart › PostEditorPage\nproducts/services/screens/marketing_pages.dart › _PostEditorPageState\nproducts/services/screens/newsletter_pages.dart › NewsletterEditorPage\nproducts/services/screens/newsletter_pages.dart › _NewsletterEditorPageState\nproducts/services/screens/series_pages.dart › SeriesEditorPage\nproducts/services/screens/series_pages.dart › SeriesPage\nproducts/services/screens/series_pages.dart › _SeriesEditorPageState\nproducts/services/screens/series_pages.dart › _SeriesPageState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/services_home.dart › _ActivityPageState\nproducts/services/screens/services_home.dart › _AssetPage\nproducts/services/screens/services_home.dart › _CatalogPage\nproducts/services/screens/services_home.dart › _PendingPage\nproducts/services/screens/services_home.dart › _ReviewCard\nproducts/services/screens/services_home.dart › _ServiceGrid\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/screens/services_home.dart › _ServicesListPage\nproducts/services/screens/services_home.dart › _Stats\nproducts/services/screens/services_home.dart › _WebsiteTop\nproducts/services/screens/sites_pages.dart › _SitesPage\nproducts/services/screens/whatsapp_page.dart › _Row\nproducts/services/services_root.dart › ServicesState\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_pages.dart › (top level)",
+   "screens": "admin/admin_root.dart › _Overview\nproducts/office_pulse/repository.dart › PulseRepository\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/services/repository.dart › ServicesRepository\nproducts/services/screens/article_pages.dart › ArticleEditorPage\nproducts/services/screens/article_pages.dart › _ArticleEditorPageState\nproducts/services/screens/marketing_history.dart › PostHistoryPage\nproducts/services/screens/marketing_history.dart › _PostHistoryPageState\nproducts/services/screens/marketing_pages.dart › PostEditorPage\nproducts/services/screens/marketing_pages.dart › _PostEditorPageState\nproducts/services/screens/newsletter_pages.dart › NewsletterEditorPage\nproducts/services/screens/newsletter_pages.dart › _NewsletterEditorPageState\nproducts/services/screens/series_pages.dart › SeriesEditorPage\nproducts/services/screens/series_pages.dart › SeriesPage\nproducts/services/screens/series_pages.dart › _SeriesEditorPageState\nproducts/services/screens/series_pages.dart › _SeriesPageState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/services_home.dart › _ActivityPageState\nproducts/services/screens/services_home.dart › _AssetPage\nproducts/services/screens/services_home.dart › _CatalogPage\nproducts/services/screens/services_home.dart › _PendingPage\nproducts/services/screens/services_home.dart › _ReviewCard\nproducts/services/screens/services_home.dart › _ServiceGrid\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/screens/services_home.dart › _ServicesListPage\nproducts/services/screens/services_home.dart › _Stats\nproducts/services/screens/services_home.dart › _WebsiteTop\nproducts/services/screens/sites_pages.dart › _SitesPage\nproducts/services/services_root.dart › ServicesState\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_pages.dart › (top level)",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/platform_admin.py:25",
    "status": "Not described"
@@ -11822,7 +11822,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.seriesAutopilot",
    "screens": "products/services/screens/series_pages.dart › _SeriesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:96",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:120",
    "status": "OK"
   },
   {
@@ -11838,7 +11838,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingCalendar",
    "screens": "products/services/screens/series_pages.dart › MarketingCalendarPage",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:154",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:178",
    "status": "OK"
   },
   {
@@ -11854,7 +11854,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.seriesDelete",
    "screens": "products/services/screens/series_pages.dart › _SeriesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:130",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:154",
    "status": "OK"
   },
   {
@@ -11870,7 +11870,23 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.seriesMakeNow",
    "screens": "products/services/screens/series_pages.dart › _SeriesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:140",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:164",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.marketing_series.next_picture",
+   "product": "Managed Services",
+   "area": "api.marketing_series",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "The series' next post as it will look — its design drawn in the brand with its words (nothing is made or posted). {url, template, template_title}; kept as a public file until the words or design change.",
+   "details": "The series' next post as it will look — its design drawn in the brand with its words (nothing is made or posted).\n{url, template, template_title}; kept as a public file until the words or design change.",
+   "arguments": "name",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.seriesNextPicture",
+   "screens": "products/services/screens/series_pages.dart › _NextPicture",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:73",
    "status": "OK"
   },
   {
@@ -11886,7 +11902,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.seriesSave",
    "screens": "products/services/screens/series_pages.dart › _SeriesEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:72",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:96",
    "status": "OK"
   },
   {
@@ -11918,7 +11934,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.seriesSet",
    "screens": "products/services/screens/series_pages.dart › _SeriesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:112",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:136",
    "status": "OK"
   },
   {
@@ -12078,7 +12094,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingCustomPoster",
    "screens": "products/services/screens/marketing_hub.dart › _MarketingIdeasPageState\nproducts/services/screens/suggestions_page.dart › _SuggestionsPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_suggest.py:122",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_suggest.py:125",
    "status": "OK"
   },
   {
@@ -12094,7 +12110,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingMakeSuggestion",
    "screens": "products/services/screens/marketing_hub.dart › _MarketingIdeasPageState\nproducts/services/screens/suggestions_page.dart › _SuggestionsPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_suggest.py:106",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_suggest.py:109",
    "status": "OK"
   },
   {
@@ -12110,7 +12126,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingSuggestions",
    "screens": "products/services/screens/marketing_hub.dart › _MarketingIdeasPageState\nproducts/services/screens/suggestions_page.dart › _SuggestionsPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_suggest.py:98",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_suggest.py:101",
    "status": "OK"
   },
   {
@@ -12156,7 +12172,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.automations",
-   "screens": "admin/marketing_dashboard_models.dart › DayReport\nadmin/marketing_reports_view.dart › DayReportBody\nplatform/data/platform_repository.dart › PlatformRepository\nplatform/launch/launch_models.dart › LaunchCounts\nplatform/launch/launch_screens.dart › _Counts\nplatform/workplace/files_more.dart › FilesAutomationsPage\nplatform/workplace/files_page.dart › _FilesPageState\nproducts/services/models.dart › SvcService\nproducts/services/screens/automation_pages.dart › (top level)\nproducts/services/screens/automation_pages.dart › _AutomationsPageState\nproducts/services/screens/services_home.dart › _ServiceGrid\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › _ServicesRootState\nshell/home_shell.dart › _HomeShellState",
+   "screens": "admin/marketing_dashboard_models.dart › DayReport\nadmin/marketing_reports_view.dart › DayReportBody\nplatform/data/platform_repository.dart › PlatformRepository\nplatform/launch/launch_models.dart › LaunchCounts\nplatform/launch/launch_screens.dart › _Counts\nplatform/workplace/files_more.dart › FilesAutomationsPage\nplatform/workplace/files_page.dart › _FilesPageState\nproducts/services/models.dart › SvcService\nproducts/services/screens/automation_pages.dart › (top level)\nproducts/services/screens/automation_pages.dart › _AutomationsPageState\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › _ServicesRootState\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/my_automations.py:98",
    "status": "OK"
@@ -12222,7 +12238,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.dismissReceptionistQuestion",
    "screens": "products/services/screens/receptionist_pages.dart › _EditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:547",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:569",
    "status": "OK"
   },
   {
@@ -12236,7 +12252,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.receptionist",
-   "screens": "products/services/models.dart › SvcService\nproducts/services/screens/receptionist_pages.dart › (top level)\nproducts/services/screens/receptionist_pages.dart › ReceptionistPage\nproducts/services/screens/receptionist_pages.dart › _EditorState\nproducts/services/screens/services_home.dart › _ServiceGrid\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/screens/whatsapp_page.dart › _Row\nproducts/services/services_root.dart › _ServicesRootState",
+   "screens": "products/services/models.dart › SvcService\nproducts/services/screens/receptionist_pages.dart › (top level)\nproducts/services/screens/receptionist_pages.dart › ReceptionistPage\nproducts/services/screens/receptionist_pages.dart › _EditorState\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › _ServicesRootState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:149",
    "status": "OK"
@@ -12254,7 +12270,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.removeReceptionistDocument",
    "screens": "products/services/screens/receptionist_pages.dart › _EditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:530",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:552",
    "status": "OK"
   },
   {
@@ -12269,6 +12285,22 @@
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.saveReceptionist",
    "screens": "products/services/screens/receptionist_pages.dart › _EditorState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:177",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.my_receptionist.switch_on",
+   "product": "Managed Services",
+   "area": "api.my_receptionist",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "The owner switches the receptionist on: it starts answering customers on the business's WhatsApp number (the one connected in its Inbox — found by itself). Pause and carry on are the \"Answering customers\" switch (save enabled).",
+   "details": "The owner switches the receptionist on: it starts answering customers on the business's WhatsApp number (the one\nconnected in its Inbox — found by itself). Pause and carry on are the \"Answering customers\" switch (save enabled).",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.receptionistSwitchOn",
+   "screens": "products/services/screens/receptionist_pages.dart › _EditorState\nproducts/services/screens/whatsapp_page.dart › _SetupSteps",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:156",
    "status": "OK"
@@ -12286,7 +12318,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.tryReceptionist",
    "screens": "products/services/screens/receptionist_pages.dart › _ReceptionistTryPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:184",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:206",
    "status": "OK"
   },
   {
@@ -12302,7 +12334,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.uploadReceptionistDocument",
    "screens": "products/services/screens/receptionist_pages.dart › _EditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:496",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:518",
    "status": "OK"
   },
   {
@@ -12318,7 +12350,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:258",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:280",
    "status": "Not used by the app"
   },
   {
@@ -12334,7 +12366,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:125",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:162",
    "status": "Not used by the app"
   },
   {
@@ -12350,7 +12382,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:113",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:150",
    "status": "Not used by the app"
   },
   {
@@ -12366,7 +12398,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:107",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:144",
    "status": "Not used by the app"
   },
   {
@@ -12382,7 +12414,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:137",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:174",
    "status": "Not used by the app"
   },
   {
@@ -12398,7 +12430,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:119",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:156",
    "status": "Not used by the app"
   },
   {
@@ -12414,7 +12446,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:101",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:138",
    "status": "Not used by the app"
   },
   {
@@ -12430,7 +12462,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:59",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:96",
    "status": "Not used by the app"
   },
   {
@@ -12446,7 +12478,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:185",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:222",
    "status": "Not used by the app"
   },
   {
@@ -12462,7 +12494,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:161",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:198",
    "status": "Not used by the app"
   },
   {
@@ -12478,7 +12510,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:191",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:228",
    "status": "Not used by the app"
   },
   {
@@ -12494,7 +12526,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:71",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:108",
    "status": "Not used by the app"
   },
   {
@@ -12510,7 +12542,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:173",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:210",
    "status": "Not used by the app"
   },
   {
@@ -12526,7 +12558,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:89",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:126",
    "status": "Not used by the app"
   },
   {
@@ -12542,7 +12574,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:131",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:168",
    "status": "Not used by the app"
   },
   {
@@ -12558,7 +12590,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:143",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:180",
    "status": "Not used by the app"
   },
   {
@@ -12574,7 +12606,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:167",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:204",
    "status": "Not used by the app"
   },
   {
@@ -12590,7 +12622,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:77",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:114",
    "status": "Not used by the app"
   },
   {
@@ -12606,7 +12638,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:83",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:120",
    "status": "Not used by the app"
   },
   {
@@ -12622,7 +12654,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:95",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:132",
    "status": "Not used by the app"
   },
   {
@@ -12638,7 +12670,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:53",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:90",
    "status": "Not used by the app"
   },
   {
@@ -12654,7 +12686,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:149",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:186",
    "status": "Not used by the app"
   },
   {
@@ -12670,8 +12702,24 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:179",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:216",
    "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_services.api.my_whatsapp.setup",
+   "product": "Managed Services",
+   "area": "api.my_whatsapp",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "WhatsApp & AI (QTT Business Suite): where the business is — its number, the AI receptionist and automations — and the one next step (receptionist_rules.whatsapp_step). For every member; changes are the owner's. Kept 5 minutes (refresh=1 checks again).",
+   "details": "WhatsApp & AI (QTT Business Suite): where the business is — its number, the AI receptionist and automations — and\nthe one next step (receptionist_rules.whatsapp_step). For every member; changes are the owner's. Kept 5 minutes\n(refresh=1 checks again).",
+   "arguments": "refresh",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.whatsappSetup",
+   "screens": "products/services/screens/services_home.dart › _WhatsappTile\nproducts/services/screens/whatsapp_page.dart › YourWhatsappPage",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:58",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_services.api.my_whatsapp.status",
@@ -12702,7 +12750,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:155",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:192",
    "status": "Not used by the app"
   },
   {
@@ -12718,7 +12766,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:47",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:84",
    "status": "Not used by the app"
   },
   {
@@ -12734,7 +12782,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:65",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_whatsapp.py:102",
    "status": "Not used by the app"
   },
   {
@@ -13196,7 +13244,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.overview",
-   "screens": "admin/admin_repository.dart › AdminRepository\nadmin/admin_root.dart › _Overview\nproducts/office_pulse/repository.dart › PulseRepository\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/services/screens/article_pages.dart › ArticleEditorPage\nproducts/services/screens/article_pages.dart › _ArticleEditorPageState\nproducts/services/screens/marketing_history.dart › PostHistoryPage\nproducts/services/screens/marketing_history.dart › _PostHistoryPageState\nproducts/services/screens/marketing_pages.dart › PostEditorPage\nproducts/services/screens/marketing_pages.dart › _PostEditorPageState\nproducts/services/screens/newsletter_pages.dart › NewsletterEditorPage\nproducts/services/screens/newsletter_pages.dart › _NewsletterEditorPageState\nproducts/services/screens/series_pages.dart › SeriesEditorPage\nproducts/services/screens/series_pages.dart › SeriesPage\nproducts/services/screens/series_pages.dart › _SeriesEditorPageState\nproducts/services/screens/series_pages.dart › _SeriesPageState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/services_home.dart › _ActivityPageState\nproducts/services/screens/services_home.dart › _AssetPage\nproducts/services/screens/services_home.dart › _CatalogPage\nproducts/services/screens/services_home.dart › _PendingPage\nproducts/services/screens/services_home.dart › _ReviewCard\nproducts/services/screens/services_home.dart › _ServiceGrid\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/screens/services_home.dart › _ServicesListPage\nproducts/services/screens/services_home.dart › _Stats\nproducts/services/screens/services_home.dart › _WebsiteTop\nproducts/services/screens/sites_pages.dart › _SitesPage\nproducts/services/screens/whatsapp_page.dart › _Row\nproducts/services/services_root.dart › ServicesState\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_pages.dart › (top level)",
+   "screens": "admin/admin_repository.dart › AdminRepository\nadmin/admin_root.dart › _Overview\nproducts/office_pulse/repository.dart › PulseRepository\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/services/screens/article_pages.dart › ArticleEditorPage\nproducts/services/screens/article_pages.dart › _ArticleEditorPageState\nproducts/services/screens/marketing_history.dart › PostHistoryPage\nproducts/services/screens/marketing_history.dart › _PostHistoryPageState\nproducts/services/screens/marketing_pages.dart › PostEditorPage\nproducts/services/screens/marketing_pages.dart › _PostEditorPageState\nproducts/services/screens/newsletter_pages.dart › NewsletterEditorPage\nproducts/services/screens/newsletter_pages.dart › _NewsletterEditorPageState\nproducts/services/screens/series_pages.dart › SeriesEditorPage\nproducts/services/screens/series_pages.dart › SeriesPage\nproducts/services/screens/series_pages.dart › _SeriesEditorPageState\nproducts/services/screens/series_pages.dart › _SeriesPageState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/services_home.dart › _ActivityPageState\nproducts/services/screens/services_home.dart › _AssetPage\nproducts/services/screens/services_home.dart › _CatalogPage\nproducts/services/screens/services_home.dart › _PendingPage\nproducts/services/screens/services_home.dart › _ReviewCard\nproducts/services/screens/services_home.dart › _ServiceGrid\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/screens/services_home.dart › _ServicesListPage\nproducts/services/screens/services_home.dart › _Stats\nproducts/services/screens/services_home.dart › _WebsiteTop\nproducts/services/screens/sites_pages.dart › _SitesPage\nproducts/services/services_root.dart › ServicesState\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_pages.dart › (top level)",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/portal.py:19",
    "status": "Not described"

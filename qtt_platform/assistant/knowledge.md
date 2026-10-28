@@ -1424,10 +1424,16 @@ open it from that service).
   every 2 days from your products and ideas until you stop it, each waiting
   for your OK. Each series shows its next post; if it says "Only N different
   posts so far", add your products, hours and more in Business › Knowledge.
+  **Design** (in a series): "We pick designs that suit each post" (one of your designs in turn) or **Choose designs**
+  — tick the designs it uses, in turn. Photos: your own in Business › Photos come first. Each series card shows
+  its **next post as a picture** with its design's name, "Every day · each post waits for your OK · 3 made so far",
+  Make it now, Change, and ⋯ for Pause / Stop.
   **Churches and ministries** (Business › Knowledge › Type of business: Church,
   temple & religious) also get **Bible verses** — a blessing verse in turn (from
   QTT's list of curated blessing verses), with its reference and a blessing in the caption — and
   **Salvation prayers** — a prayer of salvation in turn with its message. Language: English, Tamil, or
+  Festival wishes follow the faith set in Business › Knowledge › **Faith** (shown for Church, temple & religious):
+  a church gets Christmas, Good Friday and Easter (and New Year, Pongal, Independence Day…), never another faith's.
   Tamil and English (Tamil on the picture, both in the caption). **Post on its own**: Wait for my OK
   (each post waits), This week, 10 days (then each waits for the OK again) or Until I stop it.
   Make the next post now, Pause, Carry on, Change, Stop (asks first), Delete

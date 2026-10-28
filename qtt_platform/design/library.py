@@ -161,9 +161,19 @@ def sync_occasions() -> None:
 	frappe.db.commit()
 
 
-def upcoming(days: int = 21) -> list[dict]:
-	"""Occasions in the next `days` days (soonest first): [{key, label, date}]."""
+def upcoming(days: int = 21, tenant: str | None = None) -> list[dict]:
+	"""Occasions in the next `days` days (soonest first): [{key, label, date}] — for a business, only the festivals that
+	suit it (a church, temple or mosque: its own faith's and the ones for everyone)."""
 	from frappe.utils import add_days, today
 
-	return frappe.get_all(OCCASION, filters={"enabled": 1, "date": ["between", [today(), add_days(today(), days)]]},
+	rows = frappe.get_all(OCCASION, filters={"enabled": 1, "date": ["between", [today(), add_days(today(), days)]]},
 						  fields=["key", "label", "label_ta", "date"], order_by="date asc")
+	return [r for r in rows if suits(r.key, tenant)] if tenant else rows
+
+
+def suits(key: str, tenant: str) -> bool:
+	"""Is this festival one to offer this business? (design/content.py occasion_suits, from its Business › Knowledge)"""
+	from qtt_platform.design import content
+
+	k = frappe.db.get_value("QTT Business Knowledge", {"tenant": tenant}, ["business_type", "faith"], as_dict=True) or {}
+	return content.occasion_suits(key, business_type=k.get("business_type"), faith=k.get("faith"))

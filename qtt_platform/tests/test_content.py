@@ -75,5 +75,24 @@ class Filling(unittest.TestCase):
 		self.assertFalse(any("{" in t for t in topics))
 
 
+class Festivals(unittest.TestCase):
+	def test_a_church_gets_its_own_faiths_festivals_and_the_ones_for_everyone(self):
+		church = {"business_type": "religious", "faith": "Christian"}
+		self.assertFalse(content.occasion_suits("deepavali", **church))
+		self.assertFalse(content.occasion_suits("bakrid", **church))
+		self.assertTrue(content.occasion_suits("christmas", **church))
+		self.assertTrue(content.occasion_suits("easter", **church))
+		self.assertTrue(content.occasion_suits("new-year", **church))
+		self.assertTrue(content.occasion_suits("pongal", **church))
+		self.assertTrue(content.occasion_suits("deepavali", business_type="religious", faith="Hindu"))
+		self.assertFalse(content.occasion_suits("christmas", business_type="religious", faith=""))  # faith not set: none of them
+		self.assertTrue(content.occasion_suits("deepavali", business_type="food", faith=None))  # every other business: all
+
+	def test_good_friday_is_not_happy(self):
+		self.assertEqual(content.IDEAS["wish-good-friday"]["en"]["kicker"], "Remembering")
+		self.assertNotIn("நல்வாழ்த்துகள்", content.IDEAS["wish-good-friday"]["ta"]["headline"])
+		self.assertEqual(content.IDEAS["wish-easter"]["en"]["kicker"], "Wishing you a happy")
+
+
 if __name__ == "__main__":
 	unittest.main()

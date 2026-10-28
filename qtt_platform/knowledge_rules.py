@@ -75,6 +75,10 @@ def clean(data: dict | None) -> dict:
 		from qtt_platform.design import business_types
 
 		out["business_type"] = business_types.valid(d["business_type"])
+	if "faith" in d:  # a church, temple or mosque (design/content.py FAITHS); anything else → not set
+		from qtt_platform.design.content import FAITHS
+
+		out["faith"] = d["faith"] if d["faith"] in FAITHS else ""
 	for k in COLORS:
 		if k in d:
 			out[k] = hex_color(d[k])

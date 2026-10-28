@@ -251,7 +251,7 @@ def _festival(tenant: str) -> dict | None:
 	"""The next festival in 3 weeks with a wish ready for it: {key, label, date, idea, template} (a greeting design of this
 	business's kind) — Make starts it without AI."""
 	try:
-		soon = library.upcoming(21)
+		soon = library.upcoming(21, tenant)
 	except Exception:
 		return None
 	rows, _templates = _library(tenant)

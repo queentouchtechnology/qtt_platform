@@ -12,6 +12,7 @@ from frappe import _
 from qtt_platform import knowledge_rules as rules
 from qtt_platform.design import base as design_base
 from qtt_platform.design import business_types
+from qtt_platform.design.content import FAITHS
 from qtt_platform.audit import write_audit_event
 from qtt_platform.tenant.context import resolve_active_tenant
 from qtt_platform.tenant.guards import require_tenant_membership, require_tenant_role
@@ -36,7 +37,7 @@ def for_tenant(tenant: str) -> dict:
 	if not name:
 		return {}
 	doc = frappe.get_doc(DT, name)
-	out = {k: doc.get(k) for k in (*rules.TEXT, "tone", "business_type", *rules.COLORS, *rules.SWITCHES)}
+	out = {k: doc.get(k) for k in (*rules.TEXT, "tone", "business_type", "faith", *rules.COLORS, *rules.SWITCHES)}
 	for t in TABLES:
 		out[t] = [{k: r.get(k) for k in ("item", "kind", "price", "details", "question", "answer", "audience", "title", "body", "roles", "active")
 				   if r.get(k) is not None} for r in doc.get(t) or []]
@@ -99,7 +100,7 @@ def _out(tenant: str) -> dict:
 	return {"knowledge": k, "contacts": contacts(tenant), "brand": brand_kit(tenant), "health": rules.health(k),
 			"tones": list(rules.TONES), "audiences": list(rules.AUDIENCES),
 			"open_questions": frappe.db.count(QUESTION, {"tenant": tenant, "known": 0, "added": 0}),
-			"business_types": business_types.listing(), "fonts": list(design_base.FONTS)}
+			"business_types": business_types.listing(), "fonts": list(design_base.FONTS), "faiths": list(FAITHS)}
 
 
 @frappe.whitelist(methods=["GET"])

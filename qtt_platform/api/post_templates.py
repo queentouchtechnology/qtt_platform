@@ -96,7 +96,7 @@ def ideas(key: str) -> dict:
 	t = library.row_dict(frappe.get_doc(library.DT, key))
 	f, lang = _facts(tenant)
 	group = _group_of(tenant)
-	soon = {o.key: str(o.date) for o in library.upcoming(30)}
+	soon = {o.key: str(o.date) for o in library.upcoming(30, tenant)}
 	out = []
 	for ikey, idea in library_words.IDEAS.items():
 		if not library_words.suits(idea, post_types=t["post_types"], group=group or None):

@@ -155,7 +155,26 @@ OCCASIONS = {
 	"childrens-day": ("Children's Day", "குழந்தைகள் தினம்", "11-14"),
 	"karthigai-deepam": ("Karthigai Deepam", "கார்த்திகை தீபம்", None),
 	"christmas": ("Christmas", "கிறிஸ்துமஸ்", "12-25"),
+	"good-friday": ("Good Friday", "புனித வெள்ளி", None),
+	"easter": ("Easter", "ஈஸ்டர்", None),
 }
+# The faith a festival belongs to. A church, temple or mosque (Business › Knowledge › Type of business: Church, temple &
+# religious, with its faith) is offered only its own faith's festivals and the ones for everyone; other businesses get all.
+OCCASION_FAITH = {
+	"deepavali": "Hindu", "karthigai-deepam": "Hindu", "ganesh-chaturthi": "Hindu", "ayudha-puja": "Hindu", "onam": "Hindu",
+	"eid-ul-fitr": "Muslim", "bakrid": "Muslim",
+	"christmas": "Christian", "good-friday": "Christian", "easter": "Christian",
+}
+FAITHS = ("Christian", "Hindu", "Muslim", "Other")
+
+
+def occasion_suits(key: str, *, business_type: str | None, faith: str | None) -> bool:
+	"""Offer this festival to the business? Faith-bound festivals go to religious businesses of that faith only (one
+	whose faith isn't set gets none of them); every other business gets all, as before."""
+	own = OCCASION_FAITH.get(key)
+	if not own or business_type != "religious":
+		return True
+	return (faith or "") == own
 _WISH = {  # the wish under each greeting (en, ta)
 	"new-year": ("May the new year bring health, happiness and success to you and your family.", "புத்தாண்டு உங்களுக்கும் உங்கள் குடும்பத்துக்கும் ஆரோக்கியம், மகிழ்ச்சி, வெற்றி தரட்டும்."),
 	"pongal": ("May this harvest festival fill your home with sweetness and plenty.", "இந்த அறுவடைத் திருநாள் உங்கள் இல்லத்தை இனிமையாலும் செழிப்பாலும் நிறைக்கட்டும்."),
@@ -174,12 +193,18 @@ _WISH = {  # the wish under each greeting (en, ta)
 	"childrens-day": ("To every child — keep dreaming big.", "ஒவ்வொரு குழந்தைக்கும் — பெரிதாகக் கனவு காணுங்கள்."),
 	"karthigai-deepam": ("May the light of the lamps fill your life with peace.", "தீப ஒளி உங்கள் வாழ்வை அமைதியால் நிறைக்கட்டும்."),
 	"christmas": ("Wishing you peace, joy and love this Christmas.", "இந்தக் கிறிஸ்துமஸ் உங்களுக்கு அமைதி, மகிழ்ச்சி, அன்பு தரட்டும்."),
+	"good-friday": ("“Greater love hath no man than this, that a man lay down his life for his friends.” — John 15:13",
+					"“ஒருவன் தன் சிநேகிதருக்காகத் தன் ஜீவனைக் கொடுக்கிற அன்பிலும் அதிகமான அன்பு ஒருவரிடத்திலுமில்லை.” — யோவான் 15:13"),
+	"easter": ("He is risen! Wishing you the joy and hope of Easter.", "அவர் உயிர்த்தெழுந்தார்! ஈஸ்டர் திருநாளின் மகிழ்ச்சியும் நம்பிக்கையும் உங்களுக்கு உண்டாகட்டும்."),
 }
+# A day that isn't "happy": its own heading words (en kicker, ta headline).
+_SOLEMN = {"good-friday": ("Remembering", "புனித வெள்ளி")}
 for _k, (_en, _ta, _d) in OCCASIONS.items():
 	IDEAS[f"wish-{_k}"] = {
 		"post_type": "greeting", "groups": ["any"], "needs": [], "occasion": _k,
-		"en": {"kicker": "Wishing you a happy", "headline": _en, "subline": _WISH[_k][0], "tagline": "— {business}"},
-		"ta": {"kicker": "இனிய", "headline": f"{_ta} நல்வாழ்த்துகள்", "subline": _WISH[_k][1], "tagline": "— {business}"},
+		"en": {"kicker": _SOLEMN[_k][0] if _k in _SOLEMN else "Wishing you a happy", "headline": _en, "subline": _WISH[_k][0], "tagline": "— {business}"},
+		"ta": {"kicker": "" if _k in _SOLEMN else "இனிய", "headline": _SOLEMN[_k][1] if _k in _SOLEMN else f"{_ta} நல்வாழ்த்துகள்",
+			   "subline": _WISH[_k][1], "tagline": "— {business}"},
 	}
 
 
