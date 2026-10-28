@@ -1390,7 +1390,8 @@ open it from that service).
   wishes for festivals coming up. They are filled from Business › Knowledge;
   an idea that needs something you haven't added (opening hours, what makes
   you different…) says what to add. Nothing is invented — no prices, offers
-  or dates you didn't give. "Sample words" shows the design's example. Designs are drawn on
+  or dates you didn't give. "Sample words" shows the design's example. **Make a post with this design**: the picture as shown, with the words you picked as the caption, opens as a new post —
+  change the words, add photos, choose your pages, approve. Designs are drawn on
   QTT's server from the design base — never by an AI image service. Styles
   include QTT-style technology posts (benefits with a device, problem and
   solution), local posts (real estate listings with Tamil prices, worship and
