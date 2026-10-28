@@ -1065,6 +1065,11 @@ Websites (an online store; Starter, Growth or Pro), AI & WhatsApp Automation
 or store settings and removes a website; **Member** sees everything and raises
 requests. The business owner orders; others see status. Services ordered earlier
 that are no longer listed keep running as before.
+- **WhatsApp & AI** (one tile on the Home; it says the next step: Connect your number, Ready to switch on,
+  Answering customers, Receptionist paused, Number connected or Not set up). Its page has three steps —
+  1 Your WhatsApp number (Connect opens Inbox › Settings), 2 Your AI receptionist (Switch on, Check and try it,
+  Manage), 3 Automations (Choose) — then Open Inbox, Broadcasts, QR codes and links, Forms in the chat,
+  Customers and Settings. Without AI & WhatsApp Automation, steps 2 and 3 say See what it does (one service).
 - Home: status of each website / system (up or down, checked every few
   minutes), your services, previews to review, activity.
 - Ordering: pick a service; websites let you choose a design and colours for
@@ -1254,7 +1259,7 @@ Cloud API). Owner only. Open QTT Business Suite › Home › **Your WhatsApp**. 
 
 ## QTT Business Suite — Your receptionist (WhatsApp AI receptionist)
 Every AI & WhatsApp Automation plan includes a WhatsApp AI receptionist that answers the business's own
-customers. Open it from QTT Business Suite › Home › your AI & WhatsApp service › **Your receptionist**.
+customers. Open it from QTT Business Suite › Home › **WhatsApp & AI** › step 2, Your AI receptionist.
 - What it knows comes only from this page: what the business does, opening hours, holidays, address and
   map link, delivery, payment methods, bookings and orders, and "anything else it should know" (filled at
   first from what the owner wrote when ordering). Plus **Questions and answers**: tap Add, write what
@@ -1270,8 +1275,10 @@ customers. Open it from QTT Business Suite › Home › your AI & WhatsApp servi
 - **Try it**: write like a customer and see its answer — nothing is sent to anyone (it uses what is saved).
 - Only the owner changes it; others in QTT Business Suite can look. The set-up guide's step is done once it
   knows your opening hours and at least 3 answers.
-- It answers on the business's own WhatsApp number connected in the Inbox. QTT connects the number during setup
-  and switches the live answering on; until then Try it shows how it will answer.
+- It answers on the business's own WhatsApp number connected in the Inbox. Once the number is connected, the
+  owner taps **Switch on** (on WhatsApp & AI or on this page) and it starts answering at once — no QTT step;
+  until then Try it shows how it will answer. What it knows about the business is shared with Business ›
+  Knowledge: change it in either place.
 - Once live: "Answering customers on WhatsApp" shows how many replies it sent and how many chats it passed to
   your team. Turn it off to pause it (then new chats go straight to your team in the Inbox); turn it on again any time.
 - **Passed to your team**: messages it didn't answer itself (not sure, or your hand-over rules). Tap Add an
