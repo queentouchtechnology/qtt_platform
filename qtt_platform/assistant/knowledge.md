@@ -1417,6 +1417,12 @@ open it from that service).
   every 2 days from your products and ideas until you stop it, each waiting
   for your OK. Each series shows its next post; if it says "Only N different
   posts so far", add your products, hours and more in Business › Knowledge.
+  **Churches and ministries** (Business › Knowledge › Type of business: Church,
+  temple & religious) also get **Bible verses** — a blessing verse in turn (from
+  QTT's list of curated blessing verses), with its reference and a blessing in the caption — and
+  **Salvation prayers** — a prayer of salvation in turn with its message. Language: English, Tamil, or
+  Tamil and English (Tamil on the picture, both in the caption). **Post on its own**: Wait for my OK
+  (each post waits), This week, 10 days (then each waits for the OK again) or Until I stop it.
   Make the next post now, Pause, Carry on, Change, Stop (asks first), Delete
   a stopped one (its posts stay). Series running at once: Starter 1, Growth
   3, Pro 10.

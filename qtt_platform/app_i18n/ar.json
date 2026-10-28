@@ -8162,5 +8162,17 @@
  "Tap pictures to pick them": "اضغط على الصور لاختيارها",
  "Make a post with this design": "أنشئ منشورًا بهذا التصميم",
  "It opens as a new post: change the words, add photos, choose your pages, then approve.": "يُفتح كمنشور جديد: غيّر الكلمات، أضف الصور، اختر صفحاتك، ثم وافق.",
- "Designs, photos and Shorts you make in QTT Studio show here. For a ready design in your logo and colours, open Marketing assistant › Post designs, pick one and tap Make a post with this design.": "تظهر هنا التصاميم والصور ومقاطع Shorts التي تصنعها في QTT Studio. لتصميم جاهز بشعارك وألوانك، افتح Marketing assistant › Post designs واختر واحدًا."
+ "Designs, photos and Shorts you make in QTT Studio show here. For a ready design in your logo and colours, open Marketing assistant › Post designs, pick one and tap Make a post with this design.": "تظهر هنا التصاميم والصور ومقاطع Shorts التي تصنعها في QTT Studio. لتصميم جاهز بشعارك وألوانك، افتح Marketing assistant › Post designs واختر واحدًا.",
+ "Tamil and English: Tamil on the picture, both in the caption.": "التاميلية والإنجليزية: التاميلية على الصورة، والاثنتان في الوصف.",
+ "posts on its own until {date}": "تنشر تلقائيًا حتى {date}",
+ "Bible verses": "آيات الكتاب المقدس",
+ "Salvation prayers": "صلوات الخلاص",
+ "Tamil and English": "التاميلية والإنجليزية",
+ "Wait for my OK": "انتظر موافقتي",
+ "10 days": "10 أيام",
+ "A blessing verse in turn, drawn in one of your designs, with its reference and a blessing in the caption.": "آية بركة في كل مرة، بأحد تصاميمك، مع مرجعها وبركة في الوصف.",
+ "A prayer of salvation in turn, drawn in one of your designs, with its message in the caption.": "صلاة خلاص في كل مرة، بأحد تصاميمك، مع رسالتها في الوصف.",
+ "Posts go out on their own for 7 days from today, then each waits for your OK again.": "تُنشر المنشورات تلقائيًا لمدة 7 أيام من اليوم، ثم ينتظر كل منها موافقتك مجددًا.",
+ "Posts go out on their own for 10 days from today, then each waits for your OK again.": "تُنشر المنشورات تلقائيًا لمدة 10 أيام من اليوم، ثم ينتظر كل منها موافقتك مجددًا.",
+ "Each post goes out at its time without asking, until you change this.": "يُنشر كل منشور في وقته دون سؤال، حتى تغيّر هذا."
 }

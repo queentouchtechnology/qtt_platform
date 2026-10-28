@@ -8162,5 +8162,17 @@
  "Tap pictures to pick them": "படங்களைத் தேர்ந்தெடுக்க அவற்றைத் தட்டுங்கள்",
  "Make a post with this design": "இந்த வடிவமைப்பில் ஒரு இடுகை உருவாக்கு",
  "It opens as a new post: change the words, add photos, choose your pages, then approve.": "இது புதிய இடுகையாகத் திறக்கும்: சொற்களை மாற்றி, படங்களைச் சேர்த்து, பக்கங்களைத் தேர்ந்தெடுத்து, பிறகு ஒப்புதல் அளியுங்கள்.",
- "Designs, photos and Shorts you make in QTT Studio show here. For a ready design in your logo and colours, open Marketing assistant › Post designs, pick one and tap Make a post with this design.": "QTT Studio-வில் நீங்கள் உருவாக்கும் வடிவமைப்புகள், படங்கள், Shorts இங்கே தெரியும். உங்கள் லோகோ மற்றும் நிறங்களில் தயாரான வடிவமைப்புக்கு, Marketing assistant › Post designs-ஐத் திறந்து ஒன்றைத் தேர்ந்தெடுங்கள்."
+ "Designs, photos and Shorts you make in QTT Studio show here. For a ready design in your logo and colours, open Marketing assistant › Post designs, pick one and tap Make a post with this design.": "QTT Studio-வில் நீங்கள் உருவாக்கும் வடிவமைப்புகள், படங்கள், Shorts இங்கே தெரியும். உங்கள் லோகோ மற்றும் நிறங்களில் தயாரான வடிவமைப்புக்கு, Marketing assistant › Post designs-ஐத் திறந்து ஒன்றைத் தேர்ந்தெடுங்கள்.",
+ "Tamil and English: Tamil on the picture, both in the caption.": "தமிழும் ஆங்கிலமும்: படத்தில் தமிழ், விளக்கவுரையில் இரண்டும்.",
+ "posts on its own until {date}": "{date} வரை தானாக இடுகையிடும்",
+ "Bible verses": "வேத வசனங்கள்",
+ "Salvation prayers": "இரட்சிப்பின் ஜெபங்கள்",
+ "Tamil and English": "தமிழும் ஆங்கிலமும்",
+ "Wait for my OK": "என் ஒப்புதலுக்குக் காத்திரு",
+ "10 days": "10 நாட்கள்",
+ "A blessing verse in turn, drawn in one of your designs, with its reference and a blessing in the caption.": "ஒவ்வொரு முறையும் ஒரு ஆசீர்வாத வசனம், உங்கள் வடிவமைப்புகளில் ஒன்றில், விளக்கவுரையில் அதன் குறிப்பும் ஒரு ஆசீர்வாதமும்.",
+ "A prayer of salvation in turn, drawn in one of your designs, with its message in the caption.": "ஒவ்வொரு முறையும் ஒரு இரட்சிப்பின் ஜெபம், உங்கள் வடிவமைப்புகளில் ஒன்றில், விளக்கவுரையில் அதன் செய்தியுடன்.",
+ "Posts go out on their own for 7 days from today, then each waits for your OK again.": "இன்றிலிருந்து 7 நாட்கள் இடுகைகள் தானாகச் செல்லும், பிறகு ஒவ்வொன்றும் மீண்டும் உங்கள் ஒப்புதலுக்குக் காத்திருக்கும்.",
+ "Posts go out on their own for 10 days from today, then each waits for your OK again.": "இன்றிலிருந்து 10 நாட்கள் இடுகைகள் தானாகச் செல்லும், பிறகு ஒவ்வொன்றும் மீண்டும் உங்கள் ஒப்புதலுக்குக் காத்திருக்கும்.",
+ "Each post goes out at its time without asking, until you change this.": "நீங்கள் இதை மாற்றும் வரை ஒவ்வொரு இடுகையும் கேட்காமல் அதன் நேரத்தில் செல்லும்."
 }
