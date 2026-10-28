@@ -1,4 +1,4 @@
-"""/page-connected — where a business lands after connecting a Facebook / Instagram / … page for
+"""/page_connected — where a business lands after connecting a Facebook / Instagram / … page for
 the Marketing assistant (the posting service's project redirect URL). Says it worked (or not) and
 to go back to the app, which shows the page as soon as it's open again. Names no tool behind it. Its own QTT OS page
 (not the backend site's layout), with Back to QTT OS → the web app's Marketing assistant."""
