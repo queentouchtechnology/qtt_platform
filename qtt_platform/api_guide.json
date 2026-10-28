@@ -11438,7 +11438,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/google_business.py:75",
+   "source": "qtt-os/qtt_services/qtt_services/api/google_business.py:81",
    "status": "Not used by the app"
   },
   {
@@ -12750,7 +12750,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterAddCustomers",
    "screens": "products/services/screens/newsletter_pages.dart › _NewslettersPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:113",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:142",
    "status": "OK"
   },
   {
@@ -12766,7 +12766,23 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.approveNewsletter",
    "screens": "products/services/screens/newsletter_pages.dart › _NewsletterEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:305",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:340",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.newsletters.from_articles",
+   "product": "Managed Services",
+   "area": "api.newsletters",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "A newsletter draft from the articles picked (links: a list): each with its picture, summary and link.",
+   "details": "A newsletter draft from the articles picked (links: a list): each with its picture, summary and link.",
+   "arguments": "links, intro",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterFromArticles",
+   "screens": "products/services/screens/newsletter_audience.dart › _ArticlePickerPageState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:503",
    "status": "OK"
   },
   {
@@ -12782,7 +12798,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterIdeas",
    "screens": "products/services/screens/newsletter_pages.dart › _NewslettersPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:373",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:409",
    "status": "OK"
   },
   {
@@ -12798,7 +12814,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterImage",
    "screens": "products/services/screens/newsletter_pages.dart › _NewsletterEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:226",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:261",
    "status": "OK"
   },
   {
@@ -12814,7 +12830,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newslettersPage",
    "screens": "products/services/screens/newsletter_pages.dart › _NewslettersPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:187",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:216",
    "status": "OK"
   },
   {
@@ -12830,7 +12846,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:535",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:649",
    "status": "Not used by the app"
   },
   {
@@ -12846,7 +12862,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterOverview",
    "screens": "products/services/screens/newsletter_pages.dart › _NewslettersPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:82",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:111",
    "status": "OK"
   },
   {
@@ -12862,7 +12878,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterPreview",
    "screens": "products/services/screens/newsletter_pages.dart › _NewsletterEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:266",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:301",
    "status": "OK"
   },
   {
@@ -12878,7 +12894,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.removeNewsletter",
    "screens": "products/services/screens/newsletter_pages.dart › _NewsletterEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:361",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:397",
    "status": "OK"
   },
   {
@@ -12887,14 +12903,14 @@
    "area": "api.newsletters",
    "http_methods": "POST",
    "guest": 0,
-   "purpose": "Write or change a newsletter (drafts and ones that failed). body: simple text with headings and bullets. layout: simple | banner | card | digest — all in the business's own brand kit (kept as it was when not sent).",
-   "details": "Write or change a newsletter (drafts and ones that failed). body: simple text with headings and bullets.\nlayout: simple | banner | card | digest — all in the business's own brand kit (kept as it was when not sent).",
-   "arguments": "subject, body, preheader, image_url, scheduled_at, name, layout",
+   "purpose": "Write or change a newsletter (drafts and ones that failed). body: simple text with headings and bullets. layout: simple | banner | card | digest — all in the business's own brand kit (kept as it was when not sent). audience: everyone | tag (customers with audience_tag) | chosen (audience_emails, a list) — subscribed people only.",
+   "details": "Write or change a newsletter (drafts and ones that failed). body: simple text with headings and bullets.\nlayout: simple | banner | card | digest — all in the business's own brand kit (kept as it was when not sent).\naudience: everyone | tag (customers with audience_tag) | chosen (audience_emails, a list) — subscribed people only.",
+   "arguments": "subject, body, preheader, image_url, scheduled_at, name, layout, audience, audience_tag, audience_emails",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.saveNewsletter",
    "screens": "products/services/screens/newsletter_pages.dart › _NewsletterEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:203",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:232",
    "status": "OK"
   },
   {
@@ -12910,7 +12926,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterTest",
    "screens": "products/services/screens/newsletter_pages.dart › _NewsletterEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:292",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:327",
    "status": "OK"
   },
   {
@@ -12926,7 +12942,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:495",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:609",
    "status": "Not used by the app"
   },
   {
@@ -12942,7 +12958,23 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.setSubscriber",
    "screens": "products/services/screens/newsletter_pages.dart › _SubscribersPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:172",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:201",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.newsletters.site_articles",
+   "product": "Managed Services",
+   "area": "api.newsletters",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "The website's latest articles, to pick for a newsletter.",
+   "details": "The website's latest articles, to pick for a newsletter.",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterSiteArticles",
+   "screens": "products/services/screens/newsletter_audience.dart › _ArticlePickerPageState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:496",
    "status": "OK"
   },
   {
@@ -12956,9 +12988,9 @@
    "arguments": "start, page_length, q, status, source",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.subscribersPage",
-   "screens": "products/services/screens/newsletter_pages.dart › _SubscribersPageState",
+   "screens": "products/services/screens/newsletter_audience.dart › _ChoosePeoplePageState\nproducts/services/screens/newsletter_pages.dart › _SubscribersPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:95",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:124",
    "status": "OK"
   },
   {
@@ -12974,7 +13006,23 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterSyncWebsite",
    "screens": "products/services/screens/newsletter_pages.dart › _NewslettersPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:148",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:177",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.newsletters.tags",
+   "product": "Managed Services",
+   "area": "api.newsletters",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "The tags on the business's customers that have an email (send a newsletter to one tag).",
+   "details": "The tags on the business's customers that have an email (send a newsletter to one tag).",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterTags",
+   "screens": "products/services/screens/newsletter_pages.dart › _NewsletterEditorPageState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:532",
    "status": "OK"
   },
   {
@@ -12990,7 +13038,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:474",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:588",
    "status": "Not used by the app"
   },
   {
@@ -13006,7 +13054,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.newsletterUpload",
    "screens": "products/services/screens/newsletter_pages.dart › _NewslettersPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:126",
+   "source": "qtt-os/qtt_services/qtt_services/api/newsletters.py:155",
    "status": "OK"
   },
   {
