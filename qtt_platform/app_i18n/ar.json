@@ -8153,5 +8153,10 @@
  "Your newsletter is ready to check.": "نشرتك جاهزة للمراجعة.",
  "{n} people chosen": "تم اختيار {n} أشخاص",
  "Latest articles": "أحدث المقالات",
- "Your newest articles by email": "أحدث مقالاتك بالبريد"
+ "Your newest articles by email": "أحدث مقالاتك بالبريد",
+ "Channel removed.": "تمت إزالة القناة.",
+ "Channel renamed.": "تمت إعادة تسمية القناة.",
+ "Customer deleted.": "تم حذف العميل.",
+ "Renaming…": "جارٍ تغيير الاسم…",
+ "Archiving…": "جارٍ الأرشفة…"
 }

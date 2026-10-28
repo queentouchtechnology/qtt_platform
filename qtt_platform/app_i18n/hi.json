@@ -8153,5 +8153,10 @@
  "Your newsletter is ready to check.": "आपका न्यूज़लेटर जाँचने के लिए तैयार है।",
  "{n} people chosen": "{n} लोग चुने गए",
  "Latest articles": "नवीनतम लेख",
- "Your newest articles by email": "आपके नए लेख ईमेल से"
+ "Your newest articles by email": "आपके नए लेख ईमेल से",
+ "Channel removed.": "चैनल हटा दिया गया।",
+ "Channel renamed.": "चैनल का नाम बदल दिया गया।",
+ "Customer deleted.": "ग्राहक हटा दिया गया।",
+ "Renaming…": "नाम बदला जा रहा है…",
+ "Archiving…": "संग्रहित किया जा रहा है…"
 }
