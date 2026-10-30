@@ -1788,7 +1788,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.team",
-   "screens": "platform/data/platform_repository.dart › PlatformRepository\nplatform/launch/launch_models.dart › LaunchCounts\nplatform/launch/launch_screens.dart › _Counts\nplatform/team/team_hub.dart › _TeamSearchPageState\nplatform/team/team_screen.dart › (top level)\nplatform/workplace/work_page.dart › _WhiteboardDialog\nplatform/workplace/work_page.dart › _WhiteboardDialogState\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/office_pulse/screens/home_view.dart › PulseHomeView\nproducts/office_pulse/screens/home_view.dart › _TeamToday\nproducts/office_pulse/screens/pulse_shell.dart › PulseShell\nproducts/office_pulse/screens/team_view.dart › _TeamViewState\nproducts/onbox/models.dart › Conversation\nproducts/onbox/screens/chat_pane.dart › _ChatViewState\nproducts/onbox/screens/conversation_actions.dart › ConversationActions\nshared/setup/needs_welcome.dart › _Need\nshell/home_shell.dart › _HomeShellState",
+   "screens": "platform/data/platform_repository.dart › PlatformRepository\nplatform/launch/launch_models.dart › LaunchCounts\nplatform/launch/launch_screens.dart › _Counts\nplatform/team/team_hub.dart › _TeamSearchPageState\nplatform/team/team_screen.dart › (top level)\nplatform/workplace/work_page.dart › _WhiteboardDialog\nplatform/workplace/work_page.dart › _WhiteboardDialogState\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/office_pulse/screens/home_view.dart › PulseHomeView\nproducts/office_pulse/screens/home_view.dart › _TeamToday\nproducts/office_pulse/screens/pulse_shell.dart › PulseShell\nproducts/office_pulse/screens/team_view.dart › _TeamViewState\nproducts/onbox/models.dart › Conversation\nproducts/onbox/screens/chat_pane.dart › _ChatViewState\nproducts/onbox/screens/conversation_actions.dart › ConversationActions\nproducts/services/models.dart › SvcRetry\nproducts/services/screens/deploy_pages.dart › (top level)\nproducts/services/screens/deploy_pages.dart › _DeploymentPageState\nshared/setup/needs_welcome.dart › _Need\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/team.py:14",
    "status": "Not described"
@@ -10878,7 +10878,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 03-qttWf03DailyRpt0.json\nn8n: 09-qttWf09AskBiz00.json\nn8n: 10-qttWf10HrToday00.json\nn8n: QTT workflows",
-   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:114",
+   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:115",
    "status": "OK"
   },
   {
@@ -10894,8 +10894,24 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 02-qttWf02NewOrders.json\nn8n: 03-qttWf03DailyRpt0.json\nn8n: 04-qttWf04Reminders.json\nn8n: 05-qttWf05SiteRprt0.json\nn8n: 06-qttWf06Marketing.json\nn8n: 07-qttWf07Leads0000.json\nn8n: 08-qttWf08Reception.json\nn8n: 09-qttWf09AskBiz00.json\nn8n: 10-qttWf10HrToday00.json\nn8n: 11-qttWf11BuildSite.json\nn8n: 13-qttWf13BuyDomain.json\nn8n: 14-qttWf14StoreBld.json\nn8n: QTT workflows",
-   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:54",
+   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:55",
    "status": "Not described"
+  },
+  {
+   "endpoint": "qtt_services.api.automation.n8n_error",
+   "product": "Managed Services",
+   "area": "api.automation",
+   "http_methods": "POST",
+   "guest": 1,
+   "purpose": "A failed n8n run (the error workflow \"QTT · Errors → QTT Admin\" on each n8n server) → GlitchTip, one issue per workflow and node: QTT Admin › Servers › Errors shows it and the ops Telegram is told once (n8n_errors.py). Without error monitoring on this server: the Error Log.",
+   "details": "A failed n8n run (the error workflow \"QTT · Errors → QTT Admin\" on each n8n server) → GlitchTip, one issue per\nworkflow and node: QTT Admin › Servers › Errors shows it and the ops Telegram is told once (n8n_errors.py).\nWithout error monitoring on this server: the Error Log.",
+   "arguments": "server, workflow, node, message, execution",
+   "used_by": "n8n",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "n8n: 00-qttWf00Errors000.json",
+   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:207",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_services.api.automation.report",
@@ -10910,7 +10926,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 02-qttWf02NewOrders.json\nn8n: 03-qttWf03DailyRpt0.json\nn8n: 04-qttWf04Reminders.json\nn8n: 05-qttWf05SiteRprt0.json\nn8n: 06-qttWf06Marketing.json\nn8n: 07-qttWf07Leads0000.json\nn8n: 09-qttWf09AskBiz00.json\nn8n: 10-qttWf10HrToday00.json",
-   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:101",
+   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:102",
    "status": "Not described"
   },
   {
@@ -10926,7 +10942,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 05-qttWf05SiteRprt0.json\nn8n: QTT workflows",
-   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:186",
+   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:187",
    "status": "OK"
   },
   {
@@ -10942,7 +10958,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 04-qttWf04Reminders.json\nn8n: 09-qttWf09AskBiz00.json\nn8n: QTT workflows",
-   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:159",
+   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:160",
    "status": "OK"
   },
   {
