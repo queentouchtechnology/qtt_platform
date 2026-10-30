@@ -229,12 +229,12 @@ def _mail_guests(doc, emails: list[str], kind: str) -> None:
 		org = frappe.db.get_value("User", doc.organizer, "full_name") or doc.organizer
 		business = frappe.db.get_value("QTT Tenant", doc.tenant, "tenant_name") or "QTT OS"
 		head = {"invite": _("{0} invited you"), "update": _("{0} changed the time"), "cancel": _("{0} cancelled")}[kind].format(org)
-		body = (f"<p>{frappe.utils.escape_html(head)}: <b>{frappe.utils.escape_html(doc.title)}</b></p><p>{frappe.utils.escape_html(_when_text(doc))}"
-				f"{(' · ' + frappe.utils.escape_html(doc.location)) if doc.location else ''}</p>"
-				+ (f"<p><a href='{frappe.utils.escape_html(doc.meeting_url)}'>{frappe.utils.escape_html(doc.meeting_url)}</a></p>" if doc.meeting_url else "")
-				+ f"<p style='color:#6b7280'>{frappe.utils.escape_html(business)} · QTT OS</p>")
-		frappe.sendmail(recipients=emails, subject=f"{head}: {doc.title} — {_when_text(doc)}", message=body,
-						attachments=[{"fname": "invite.ics", "fcontent": _ics(doc, cancelled=kind == "cancel")}], reply_to=frappe.db.get_value("User", doc.organizer, "email"))
+		from qtt_platform import emails as mail
+
+		mail.send("QTT · Calendar invitation", emails,
+				  {"head": head, "kind": kind, "title": doc.title, "when": _when_text(doc), "location": doc.location, "meeting_url": doc.meeting_url,
+				   "organizer": org, "brand": business, "sent_for": business, "preheader": f"{doc.title} — {_when_text(doc)}"},
+				  attachments=[{"fname": "invite.ics", "fcontent": _ics(doc, cancelled=kind == "cancel")}], reply_to=frappe.db.get_value("User", doc.organizer, "email"))
 	except Exception:
 		frappe.log_error(title="Calendar: invitation email not sent")
 

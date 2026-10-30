@@ -1,0 +1,10 @@
+<!-- name: QTT · Verification code -->
+<!-- subject: {{ code }} is your {{ brand }} verification code -->
+{% extends "templates/emails/qtt_layout.html" %}
+{% block body %}
+<h1 style="{{ s.h1 }}">Your verification code</h1>
+<p style="{{ s.p }}">Enter this code to continue:</p>
+<div style="{{ s.code }}">{{ code_spaced }}</div>
+<p style="{{ s.muted }}">The code expires in {{ minutes }} minutes. Never share it with anyone — {{ brand }} will never ask you for it.</p>
+<p style="{{ s.muted }}">Didn't ask for a code? You can ignore this email; nothing changes on your account.</p>
+{% endblock %}

@@ -1,0 +1,8 @@
+<!-- name: QTT · Account deletion on hold -->
+<!-- subject: Your QTT OS account wasn't deleted -->
+{% extends "templates/emails/qtt_layout.html" %}
+{% block body %}
+<h1 style="{{ s.h1 }}">Your account wasn't deleted</h1>
+<p style="{{ s.p }}">Other people now work in {{ blocked|join(", ") }}, which you own, so we've kept your account for now.</p>
+<p style="{{ s.p }}">Remove them in Business › Team, then ask again from Account › <b>Delete my account</b>.</p>
+{% endblock %}

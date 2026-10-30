@@ -1,0 +1,14 @@
+<!-- name: QTT · Calendar invitation -->
+<!-- subject: {{ head }}: {{ title }} — {{ when }} -->
+{% extends "templates/emails/qtt_layout.html" %}
+{% block body %}
+<h1 style="{{ s.h1 }}">{% if kind == "cancel" %}Cancelled: {% endif %}{{ title }}</h1>
+<p style="{{ s.p }}">{{ head }}.</p>
+<table role="presentation" style="{{ s.table }}">
+  <tr><th style="{{ s.th }}">When</th><td style="{{ s.td }}">{{ when }}</td></tr>
+  {% if location %}<tr><th style="{{ s.th }}">Where</th><td style="{{ s.td }}">{{ location }}</td></tr>{% endif %}
+  <tr><th style="{{ s.th }}">Organiser</th><td style="{{ s.td }}">{{ organizer }}</td></tr>
+</table>
+{% if meeting_url and kind != "cancel" %}<p style="margin:0 0 18px;"><a href="{{ meeting_url }}" style="{{ s.button }}">Join the meeting</a></p>{% endif %}
+<p style="{{ s.muted }}">{% if kind == "cancel" %}The event has been removed; the attached file takes it off your calendar.{% else %}Open the attached invite to add it to your calendar.{% endif %} Reply to this email to answer {{ organizer }}.</p>
+{% endblock %}

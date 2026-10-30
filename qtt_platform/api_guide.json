@@ -3870,7 +3870,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.keepAccount",
    "screens": "platform/account/account_screen.dart › _DeleteAccountTileState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/account_deletion.py:95",
+   "source": "qtt_platform/qtt_platform/api/account_deletion.py:92",
    "status": "OK"
   },
   {
@@ -3902,7 +3902,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "Web page: delete_account.html",
-   "source": "qtt_platform/qtt_platform/api/account_deletion.py:106",
+   "source": "qtt_platform/qtt_platform/api/account_deletion.py:103",
    "status": "OK"
   },
   {
@@ -5326,7 +5326,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesLinkActivity",
    "screens": "platform/workplace/files_more.dart › LinkActivityPage",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/files_links.py:166",
+   "source": "qtt_platform/qtt_platform/api/files_links.py:165",
    "status": "OK"
   },
   {
@@ -5342,7 +5342,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesMakeLink",
    "screens": "platform/workplace/files_more.dart › _LinkEditorPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/files_links.py:100",
+   "source": "qtt_platform/qtt_platform/api/files_links.py:99",
    "status": "OK"
   },
   {
@@ -5390,7 +5390,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesRevokeLink",
    "screens": "platform/workplace/files_more.dart › FileSharePage",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/files_links.py:153",
+   "source": "qtt_platform/qtt_platform/api/files_links.py:152",
    "status": "OK"
   },
   {
@@ -5406,7 +5406,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesRotateLink",
    "screens": "platform/workplace/files_more.dart › FileSharePage",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/files_links.py:138",
+   "source": "qtt_platform/qtt_platform/api/files_links.py:137",
    "status": "OK"
   },
   {
@@ -5422,7 +5422,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.filesUpdateLink",
    "screens": "platform/workplace/files_more.dart › _LinkEditorPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/files_links.py:126",
+   "source": "qtt_platform/qtt_platform/api/files_links.py:125",
    "status": "OK"
   },
   {
@@ -6606,7 +6606,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/marketing_content.py:264",
+   "source": "qtt_platform/qtt_platform/api/marketing_content.py:247",
    "status": "Not used by the app"
   },
   {
@@ -9902,7 +9902,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.myWhatsAppNumber",
    "screens": "platform/account/whatsapp_number.dart › _WhatsAppNumberTileState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/verify.py:197",
+   "source": "qtt_platform/qtt_platform/api/verify.py:177",
    "status": "OK"
   },
   {
@@ -9918,7 +9918,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.saveMyWhatsAppNumber",
    "screens": "platform/account/whatsapp_number.dart › _NumberSheetState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/verify.py:204",
+   "source": "qtt_platform/qtt_platform/api/verify.py:184",
    "status": "OK"
   },
   {
@@ -13374,7 +13374,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.cancel",
    "screens": "admin/admin_repository.dart › AdminRepository\napp/app.dart › _QttOsAppState\napp/app_gate.dart › _SplashState\ncore/analytics/analytics.dart › Analytics\ncore/config/remote_config.dart › RemoteConfigStore\ncore/offline/connection.dart › Connection\ncore/offline/saved_copies.dart › SavedCopies\ncore/push/push_service.dart › PushService\nplatform/auth/google_web_button_web.dart › _GoogleWebButtonState\nplatform/onboarding/signup_screen.dart › _SignupScreenState\nplatform/session/app_session.dart › AppSession\nplatform/team/team_call.dart › _TeamCallPageState\nplatform/team/team_chat_page.dart › _TeamChatPageState\nplatform/team/team_screen.dart › _TeamScreenState\nplatform/team/team_voice.dart › VoiceRecorder\nplatform/team/team_voice.dart › _VoiceNotePlayerState\nplatform/workplace/remote_page.dart › _SetupComputerPageState\nproducts/office_pulse/office_pulse_root.dart › PulseState\nproducts/office_pulse/screens/pattern_who.dart › _PatternWhoState\nproducts/onbox/chat_controller.dart › ChatController\nproducts/onbox/onbox_provider.dart › OnboxProvider\nproducts/onbox/screens/conversation_list_pane.dart › _ConversationListPaneState\nproducts/orbitra/orbitra_root.dart › OrbitraState\nproducts/services/screens/deploy_pages.dart › _DeploymentPageState\nproducts/services/screens/golive_pages.dart › _DeletingDialogState\nproducts/services/screens/plan_change_page.dart › _PlanChangePageState\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › ServicesState\nproducts/studio/shorts_studio.dart › _ShortPageState\nshared/erp/erp_screens.dart › ErpApi\nshared/erp/erp_screens.dart › _ErpDocPageState\nshared/search/global_search.dart › _GlobalSearchScreenState\nshared/widgets/list_kit.dart › _SearchFilterBarState\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:373",
+   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:375",
    "status": "Not described"
   },
   {
@@ -13422,7 +13422,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.invoices\nqtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.invoicesPage",
    "screens": "admin/saas_models.dart › WorkspaceBilling\nadmin/workspace_billing_view.dart › _WorkspaceBillingSectionState\nplatform/workspace/billing_section.dart › _BillingSectionState\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/orbitra/screens/sales_view.dart › _SalesViewState\nproducts/services/screens/order_pages.dart › _PaymentsPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:346",
+   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:348",
    "status": "OK"
   },
   {
@@ -13438,7 +13438,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.keep",
    "screens": "platform/data/platform_repository.dart › PlatformRepository\nproducts/onbox/screens/channel_access_screen.dart › _InboxMembersCardState\nproducts/services/screens/services_home.dart › _ServicePage",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:396",
+   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:398",
    "status": "OK"
   },
   {
@@ -13486,7 +13486,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.payLink",
    "screens": "products/services/screens/order_pages.dart › (top level)",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:339",
+   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:341",
    "status": "Not described"
   },
   {

@@ -215,8 +215,14 @@ def _tell(doc, *, reminder: bool = False) -> None:
 		subject = (f"Reminder: {doc.title} — " if reminder else f"Approve? {doc.title} — ") + (f"goes out at {when}" if goes else f"decide by {when}")
 		if settings.get("notify_email", 1):
 			links = logic.decision_links(get_url(), doc.name, doc.token)
-			frappe.sendmail(recipients=[frappe.db.get_value("User", user, "email") or user], subject=subject,
-							message=_email_html(doc, label, when, goes, links), reference_doctype=DOCTYPE, reference_name=doc.name)
+			from qtt_platform import emails
+
+			emails.send("QTT · Approval needed", [frappe.db.get_value("User", user, "email") or user], {
+				"subject_line": subject, "label": label, "site": doc.site, "title": doc.title, "goes": goes, "when": when,
+				"action": "Send" if doc.kind in ("email_batch", "social") else "Publish", "preview_url": doc.preview_url,
+				"approve_url": f"{links['approve_url']}&via=email", "reject_url": f"{links['reject_url']}&via=email",
+				"body": logic.plain_text(doc.body or doc.summary or "")[:1800], "preheader": doc.title},
+				reference_doctype=DOCTYPE, reference_name=doc.name)
 		from qtt_platform import push
 
 		push.notify(user, title=f"{label} {'— reminder' if reminder else 'waiting for you'}",
@@ -232,29 +238,6 @@ def _local_time(value) -> str:
 		return ""
 	dt = get_datetime(value)
 	return dt.strftime("%-I:%M %p, %-d %b") if hasattr(dt, "strftime") else str(value)
-
-
-def _email_html(doc, label: str, when: str, goes: bool, links: dict) -> str:
-	from html import escape
-
-	body = logic.plain_text(doc.body or doc.summary or "")[:1800]
-	button = ("display:inline-block;padding:12px 22px;border-radius:8px;font-weight:600;text-decoration:none;"
-			  "font-family:Arial,sans-serif;margin:4px 8px 4px 0;")
-	preview = f'<p><a href="{escape(doc.preview_url)}">Open the preview</a></p>' if doc.preview_url else ""
-	rule = (f"If you do nothing, it <b>goes out at {when}</b>." if goes else f"If you do nothing, it is <b>skipped at {when}</b>.")
-	return f"""
-<div style="font-family:Arial,sans-serif;max-width:640px">
-  <p style="color:#666;margin:0">{escape(label)}{' · ' + escape(doc.site) if doc.site else ''}</p>
-  <h2 style="margin:4px 0 12px">{escape(doc.title)}</h2>
-  <p>{rule}</p>
-  <p>
-    <a href="{links['approve_url']}&via=email" style="{button}background:#2e7d32;color:#fff">✓ {'Send' if doc.kind in ('email_batch', 'social') else 'Publish'}</a>
-    <a href="{links['reject_url']}&via=email" style="{button}background:#fff;color:#c62828;border:1px solid #c62828">✕ Reject</a>
-  </p>
-  {preview}
-  <pre style="white-space:pre-wrap;font-family:Arial,sans-serif;background:#f6f7f9;padding:14px;border-radius:8px">{escape(body)}</pre>
-  <p style="color:#888;font-size:12px">Also in QTT OS → QTT Admin → Marketing. One tap decides — no login needed.</p>
-</div>"""
 
 
 # --------------------------------------------------------------------------

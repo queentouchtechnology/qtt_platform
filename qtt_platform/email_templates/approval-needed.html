@@ -1,0 +1,15 @@
+<!-- name: QTT · Approval needed -->
+<!-- subject: {{ subject_line }} -->
+{% extends "templates/emails/qtt_layout.html" %}
+{% block body %}
+<p style="{{ s.muted }}">{{ label }}{% if site %} · {{ site }}{% endif %}</p>
+<h1 style="{{ s.h1 }}">{{ title }}</h1>
+<p style="{{ s.p }}">If you do nothing, it <b>{% if goes %}goes out{% else %}is skipped{% endif %} at {{ when }}</b>.</p>
+<p style="margin:0 0 18px;">
+  <a href="{{ approve_url }}" style="{{ s.button }}">{{ action }}</a>&nbsp;&nbsp;
+  <a href="{{ reject_url }}" style="{{ s.button_outline }}">Reject</a>
+</p>
+{% if preview_url %}<p style="{{ s.p }}"><a href="{{ preview_url }}" style="color:#1A55F0;">Open the preview</a></p>{% endif %}
+{% if body %}<div style="{{ s.box }}white-space:pre-wrap;">{{ body }}</div>{% endif %}
+<p style="{{ s.muted }}">One tap decides — no sign-in needed. Also in QTT OS › QTT Admin › Marketing.</p>
+{% endblock %}

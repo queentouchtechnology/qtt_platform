@@ -1,0 +1,54 @@
+{#- Every QTT OS email: Desk › Email Template bodies extend this ({% extends "templates/emails/qtt_layout.html" %}
+    and fill {% block body %}). QTT OS colours (the launcher icon): navy, electric blue; table layout for every mail app.
+    Context: preheader (the line inboxes show), brand (header name), sent_for (footer), reason (why they got it).
+    Styles for the bodies: s.h1 s.p s.muted s.button s.button_outline s.box s.code s.table s.th s.td -#}
+{%- set s = {
+  "h1": "margin:0 0 12px;font-size:21px;line-height:1.35;font-weight:700;color:#0D1524;",
+  "p": "margin:0 0 14px;font-size:15px;line-height:1.6;color:#1F2937;",
+  "muted": "margin:0 0 12px;font-size:13px;line-height:1.55;color:#6B7280;",
+  "button": "display:inline-block;padding:12px 24px;border-radius:8px;background:#1A55F0;color:#FFFFFF;font-weight:600;font-size:15px;text-decoration:none;",
+  "button_outline": "display:inline-block;padding:11px 22px;border-radius:8px;border:1px solid #C62828;color:#C62828;font-weight:600;font-size:15px;text-decoration:none;",
+  "box": "margin:0 0 16px;padding:14px 16px;border-radius:10px;background:#F3F6FD;border:1px solid #E1E7F5;font-size:14px;line-height:1.6;color:#1F2937;",
+  "code": "margin:4px 0 18px;padding:14px 0;border-radius:10px;background:#EEF3FF;color:#1A55F0;font-size:30px;font-weight:700;letter-spacing:6px;text-align:center;",
+  "table": "width:100%;border-collapse:collapse;margin:0 0 16px;font-size:14px;",
+  "th": "text-align:left;vertical-align:top;padding:8px 12px 8px 0;color:#6B7280;font-weight:600;width:38%;border-bottom:1px solid #EEF0F4;",
+  "td": "vertical-align:top;padding:8px 0;color:#1F2937;border-bottom:1px solid #EEF0F4;",
+} -%}
+{%- set site = (site_url or login_url or "https://app.queentouchtech.in").rstrip("/") -%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>{{ subject or brand or "QTT OS" }}</title>
+</head>
+<body style="margin:0;padding:0;background:#F2F4F8;">
+{%- if preheader %}<div style="display:none;max-height:0;overflow:hidden;opacity:0;">{{ preheader }}</div>{% endif %}
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F2F4F8;">
+  <tr><td align="center" style="padding:28px 12px;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+      {%- if not frappe_header %}
+      <tr><td style="background:#0D1524;border-radius:14px 14px 0 0;padding:18px 28px;">
+        <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+          <td style="padding-right:12px;"><img src="{{ site }}/assets/qtt_platform/images/qtt-os-logo.png" width="36" height="36" alt="" style="display:block;border-radius:8px;"></td>
+          <td style="color:#FFFFFF;font-size:17px;font-weight:600;letter-spacing:.2px;">{{ brand or "QTT OS" }}</td>
+        </tr></table>
+      </td></tr>
+      <tr><td style="height:3px;background:#1A55F0;line-height:3px;font-size:0;">&nbsp;</td></tr>
+      {%- endif %}
+      <tr><td style="background:#FFFFFF;padding:30px 28px 22px;{% if frappe_header %}border-radius:14px 14px 0 0;{% endif %}border-left:1px solid #E5E8EF;border-right:1px solid #E5E8EF;">
+        {% block body %}{% endblock %}
+      </td></tr>
+      <tr><td style="background:#FFFFFF;padding:0 28px 26px;border-radius:0 0 14px 14px;border:1px solid #E5E8EF;border-top:0;">
+        <p style="margin:0;padding-top:16px;border-top:1px solid #EEF0F4;font-size:12px;line-height:1.6;color:#8A93A3;">
+          {% if reason %}{{ reason }}<br>{% endif %}
+          {% if sent_for %}Sent for {{ sent_for }} by QTT OS.{% else %}Queen Touch Technology · QTT OS{% endif %}
+          · <a href="https://queentouchtech.in" style="color:#8A93A3;">queentouchtech.in</a>
+        </p>
+      </td></tr>
+    </table>
+  </td></tr>
+</table>
+</body>
+</html>

@@ -84,10 +84,7 @@ def request() -> dict:
 		frappe.db.set_value(PDDR, _open_request(user).name, "status", "Pending Approval")
 	out = _out(user)
 	write_audit_event("account_deletion_requested", metadata={"user": user, "delete_on": out["delete_on"]})
-	_email(user, _("Your QTT OS account will be deleted on {0}").format(out["delete_on"]),
-		   _("You asked to delete your QTT OS account. It will be deleted on {0}{1}.<br><br>Changed your mind? Open QTT OS › Account › "
-			 "<b>Keep my account</b> before then.").format(
-			   out["delete_on"], _(" — and {0} will close with it").format(", ".join(out["closes"])) if out["closes"] else ""))
+	_email(user, "QTT · Account deletion scheduled", {"delete_on": out["delete_on"], "closes": out["closes"] or []})
 	return out
 
 
@@ -117,9 +114,11 @@ def request_web(email: str) -> dict:
 	return {"ok": True}
 
 
-def _email(user: str, subject: str, body: str) -> None:
+def _email(user: str, template: str, context: dict) -> None:
 	try:
-		frappe.sendmail(recipients=[user], subject=subject, message=body, now=False)
+		from qtt_platform import emails
+
+		emails.send(template, [user], context, now=False)
 	except Exception:
 		frappe.log_error(title="Account deletion: email failed", message=frappe.get_traceback())
 
@@ -148,9 +147,7 @@ def _delete(request_name: str, user: str) -> None:
 	if blocked:
 		# Someone joined their business during the wait: hold it and say why (to them and to QTT).
 		frappe.db.set_value(PDDR, request_name, "status", "On Hold")
-		_email(user, _("Your QTT OS account wasn't deleted"),
-			   _("Other people now work in {0}, which you own. Remove them in Business › Team, then ask again from Account › Delete my account.")
-			   .format(", ".join(blocked)))
+		_email(user, "QTT · Account deletion on hold", {"blocked": list(blocked)})
 		return
 	for tenant in rules.closes(owned):
 		_close_business(tenant, user)

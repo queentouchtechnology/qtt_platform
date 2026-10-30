@@ -94,9 +94,9 @@ def _welcome(user, business: str, new_user: bool, has_password: bool) -> bool:
 			# Frappe's own welcome email: a link to set their password (works alongside a temporary one).
 			user.send_welcome_mail_to_user()
 		else:
-			frappe.sendmail(recipients=[user.name], subject=_("{0} is ready on QTT OS").format(business),
-							message=_("Queen Touch Technology set up <b>{0}</b> for you on QTT OS — you're its owner. "
-									  "Open the QTT OS app and sign in as usual; it's in your list of businesses.").format(business))
+			from qtt_platform import emails
+
+			emails.send("QTT · Business ready", [user.name], {"business": business, "preheader": f"{business} is ready on QTT OS"})
 		return True
 	except Exception:
 		frappe.log_error(title="QTT Admin: welcome email failed", message=frappe.get_traceback())

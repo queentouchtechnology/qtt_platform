@@ -1,0 +1,10 @@
+<!-- name: QTT · Business ready -->
+<!-- subject: {{ business }} is ready on QTT OS -->
+{% extends "templates/emails/qtt_layout.html" %}
+{% block body %}
+<h1 style="{{ s.h1 }}">{{ business }} is ready</h1>
+<p style="{{ s.p }}">Queen Touch Technology has set up <b>{{ business }}</b> for you on QTT OS, and you are its owner.</p>
+<p style="{{ s.p }}">Open the QTT OS app and sign in as usual — you'll find it in your list of businesses.</p>
+<p style="margin:0 0 18px;"><a href="{{ site_url }}" style="{{ s.button }}">Open QTT OS</a></p>
+<p style="{{ s.muted }}">Questions? Reply to this email and our team will help.</p>
+{% endblock %}

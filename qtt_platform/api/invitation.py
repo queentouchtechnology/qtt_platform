@@ -344,20 +344,12 @@ def _send_invitation_email(invitation) -> None:
 	inviter = frappe.utils.get_fullname(invitation.invited_by) if invitation.invited_by else tenant_name
 	code = invitation_code.display(invitation.code) if invitation.code else invitation.token
 	link = join_url(invitation.code) if invitation.code else None
-	button = (f'<p><a href="{link}" style="display:inline-block;padding:12px 22px;background:#3858F8;color:#fff;'
-			  f'border-radius:10px;text-decoration:none;font-weight:600">Join {frappe.utils.escape_html(tenant_name)}</a></p>'
-			  if link else "")
-	frappe.sendmail(
-		recipients=[invitation.email],
-		subject=f"You've been invited to join {tenant_name}",
-		message=(
-			f"<p>{frappe.utils.escape_html(inviter)} invited you to join <b>{frappe.utils.escape_html(tenant_name)}</b> on QTT OS.</p>"
-			f"{button}"
-			f"<p>Or open the QTT OS app, tap <b>I have an invitation code</b> (or <b>Join with code</b> if you're signed in) and enter:</p>"
-			f'<p style="font-size:24px;font-weight:700;letter-spacing:3px">{code}</p>'
-			f"<p style=\"color:#6b7280\">The code works once and expires on {frappe.utils.format_datetime(invitation.expires_on, 'd MMM yyyy')}. "
-			f"Already use QTT with this email? Sign in first, then use Join with code.</p>"
-		),
+	from qtt_platform import emails
+
+	emails.send(
+		"QTT · Invitation", [invitation.email],
+		{"inviter": inviter, "business": tenant_name, "link": link, "code": code, "sent_for": tenant_name,
+		 "expires": frappe.utils.format_datetime(invitation.expires_on, "d MMM yyyy"), "preheader": f"Join {tenant_name} on QTT OS"},
 		reference_doctype="QTT Invitation",
 		reference_name=invitation.name,
 	)

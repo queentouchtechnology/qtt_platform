@@ -104,6 +104,13 @@ words for what's wrong, and is reminded on days 1, 3 and 7 (app + WhatsApp). Fro
 phone, the provider and the problems. Parked / for-sale addresses (e.g. atom.com, Sedo, Afternic) are flagged — the owner
 may not own the domain.
 
+## Emails (Desk › Email Template)
+Every email QTT OS sends is an Email Template named "QTT · …" (verification code, invitation, calendar invitation,
+approval needed, file request, business ready, account deletion, welcome, set your password, new order (team), alert
+(owner / team)), in one layout with the QTT OS logo and colours. Change the wording in Desk › Email Template — a
+changed template is kept on every update; delete one and the next migrate puts QTT's version back. New orders and
+alerts go to Managed Services Settings › QTT team email. n8n doesn't send these any more (workflows 01, 02 off).
+
 ## Builds (QTT Admin › Builds)
 The owner's build screen shows each try ("trying again by itself at 10:40, try 2 of 4") and, when tries run out,
 that QTT's team will finish it. n8n's build workflows 11, 12, 14, 15, 16 are off (30 Oct 2026) — Frappe runs them.

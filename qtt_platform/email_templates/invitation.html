@@ -1,0 +1,11 @@
+<!-- name: QTT · Invitation -->
+<!-- subject: {{ inviter }} invited you to join {{ business }} on QTT OS -->
+{% extends "templates/emails/qtt_layout.html" %}
+{% block body %}
+<h1 style="{{ s.h1 }}">You're invited to join {{ business }}</h1>
+<p style="{{ s.p }}">{{ inviter }} has invited you to work with <b>{{ business }}</b> on QTT OS.</p>
+{% if link %}<p style="margin:0 0 20px;"><a href="{{ link }}" style="{{ s.button }}">Accept the invitation</a></p>{% endif %}
+<p style="{{ s.p }}">Or open the QTT OS app, tap <b>I have an invitation code</b> (<b>Join with code</b> if you're already signed in) and enter:</p>
+<div style="{{ s.code }}">{{ code }}</div>
+<p style="{{ s.muted }}">The code works once and expires on {{ expires }}. Already use QTT OS with this email? Sign in first, then use Join with code.</p>
+{% endblock %}

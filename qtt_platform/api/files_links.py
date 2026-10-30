@@ -14,7 +14,6 @@ Every open, download and upload is in the activity log, with the IP.
 """
 
 import mimetypes
-from html import escape
 
 import frappe
 from frappe import _
@@ -184,9 +183,10 @@ def decide_guest(ctx, name: str, yes: bool) -> dict:
 	core.log(ctx.tenant, l.file_key, l.space, l.path, "approve" if yes else "decline", ctx.user, link=l.name, detail=g.email)
 	try:
 		business = frappe.db.get_value("QTT Tenant", ctx.tenant, "tenant_name") or "QTT OS"
-		frappe.sendmail(recipients=[g.email], subject=(_("You can open {0} now") if yes else _("Your request for {0}")).format(_title(l.file_key)),
-						message=(_("{0} approved your request. Open the link you were given again to see it.") if yes else
-								 _("{0} declined your request for this file.")).format(escape(business)), now=True)
+		from qtt_platform import emails
+
+		emails.send("QTT · File request answered", [g.email], {"approved": bool(yes), "business": business, "file_title": _title(l.file_key),
+															   "brand": business, "sent_for": business}, now=True)
 	except Exception:
 		frappe.log_error(title="Files: approval email not sent")
 	return {"ok": True}

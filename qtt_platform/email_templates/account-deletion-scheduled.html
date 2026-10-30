@@ -1,0 +1,9 @@
+<!-- name: QTT · Account deletion scheduled -->
+<!-- subject: Your QTT OS account will be deleted on {{ delete_on }} -->
+{% extends "templates/emails/qtt_layout.html" %}
+{% block body %}
+<h1 style="{{ s.h1 }}">Your account will be deleted on {{ delete_on }}</h1>
+<p style="{{ s.p }}">You asked us to delete your QTT OS account. It will be deleted on <b>{{ delete_on }}</b>{% if closes %}, and {{ closes|join(", ") }} will close with it{% endif %}.</p>
+<p style="{{ s.p }}">Changed your mind? Open QTT OS › Account › <b>Keep my account</b> before then.</p>
+<p style="{{ s.muted }}">Didn't ask for this? Keep your account from the app and change your password.</p>
+{% endblock %}

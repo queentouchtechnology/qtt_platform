@@ -149,12 +149,10 @@ def _brand() -> str:
 def _deliver(channel: str, target: str, code: str, name: str | None) -> None:
 	if channel == "email":
 		brand = _brand()
-		frappe.sendmail(
-			recipients=[target],
-			subject=f"{code} is your {brand} verification code",
-			message=_email_html(code, brand),
-			now=True,
-		)
+		from qtt_platform import emails
+
+		emails.send("QTT · Verification code", [target], {"code": code, "code_spaced": " ".join(code), "brand": brand,
+															 "minutes": logic.CODE_TTL // 60, "preheader": f"{code} is your code"}, now=True)
 		return
 	senders = frappe.get_hooks("qtt_whatsapp_sender") or []
 	if not senders:
@@ -171,24 +169,6 @@ def _deliver(channel: str, target: str, code: str, name: str | None) -> None:
 		display="Sign-up verification code sent (hidden).",
 	)
 
-
-def _email_html(code: str, brand: str) -> str:
-	spaced = " ".join(code)
-	return f"""
-<div style="font-family:Poppins,Segoe UI,Arial,sans-serif;background:#F7F8FA;padding:32px 12px">
-  <div style="max-width:440px;margin:0 auto;background:#FFFFFF;border:1px solid #E7E9EE;border-radius:14px;overflow:hidden">
-    <div style="background:#0B0D12;color:#FFFFFF;padding:18px 24px;font-weight:600;font-size:16px">{frappe.utils.escape_html(brand)}</div>
-    <div style="height:3px;background:#3B5CFF"></div>
-    <div style="padding:28px 24px;color:#0B0D12">
-      <div style="font-size:15px;margin-bottom:14px">Your verification code is</div>
-      <div style="font-size:32px;font-weight:700;letter-spacing:6px;color:#3B5CFF;background:#EEF1FF;border-radius:10px;padding:14px 0;text-align:center">{spaced}</div>
-      <div style="font-size:13px;color:#5B6372;margin-top:18px;line-height:1.6">
-        It expires in {logic.CODE_TTL // 60} minutes. Never share this code with anyone — {frappe.utils.escape_html(brand)} will never ask for it.
-        If you didn't ask for it, you can ignore this email.
-      </div>
-    </div>
-  </div>
-</div>"""
 
 # ---------------------------------------------------------------- the person's own WhatsApp number (after signup)
 

@@ -1,0 +1,10 @@
+<!-- name: QTT · Welcome -->
+<!-- subject: Welcome to QTT OS -->
+{% set frappe_header = 1 %}{# Frappe adds its own header bar to these two #}
+{% extends "templates/emails/qtt_layout.html" %}
+{% block body %}
+<h1 style="{{ s.h1 }}">Welcome to QTT OS, {{ first_name|e }}</h1>
+<p style="{{ s.p }}">An account has been created for you ({{ user|e }}). Set your password to get started.</p>
+<p style="margin:0 0 20px;"><a href="{{ link }}" style="{{ s.button }}">Set your password</a></p>
+<p style="{{ s.muted }}">The link works once. After that, sign in at <a href="{{ site_url or login_url }}" style="color:#1A55F0;">{{ site_url or login_url }}</a> or in the QTT OS app.</p>
+{% endblock %}

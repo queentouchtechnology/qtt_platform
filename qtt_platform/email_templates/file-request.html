@@ -1,0 +1,12 @@
+<!-- name: QTT · File request answered -->
+<!-- subject: {% if approved %}You can open {{ file_title }} now{% else %}Your request for {{ file_title }}{% endif %} -->
+{% extends "templates/emails/qtt_layout.html" %}
+{% block body %}
+{% if approved %}
+<h1 style="{{ s.h1 }}">Your request was approved</h1>
+<p style="{{ s.p }}">{{ business }} approved your request for <b>{{ file_title }}</b>. Open the link you were given again to see it.</p>
+{% else %}
+<h1 style="{{ s.h1 }}">Your request was declined</h1>
+<p style="{{ s.p }}">{{ business }} declined your request for <b>{{ file_title }}</b>. If you think this is a mistake, contact them directly.</p>
+{% endif %}
+{% endblock %}

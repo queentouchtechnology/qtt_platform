@@ -166,7 +166,7 @@ after_install = "qtt_platform.app_setup.seed_app_defaults"
 # QTT Studio registers first, so house workspaces get it in the same migrate.
 after_migrate = ["qtt_platform.app_setup.seed_app_defaults", "qtt_platform.studio.setup.register", "qtt_platform.house.ensure_all",
 	"qtt_platform.api_guide.sync", "qtt_platform.design.library.sync", "qtt_platform.design.library.sync_occasions",
-	"qtt_platform.api.security.ensure_setup", "qtt_platform.feature_access.sync"]
+	"qtt_platform.api.security.ensure_setup", "qtt_platform.feature_access.sync", "qtt_platform.emails.sync"]
 
 # Kept by a full cache clear (deploys, migrate, bench clear-cache): each person's chosen
 # business. Without it every request after a deploy fails with "Choose your business first".
