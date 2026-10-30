@@ -105,6 +105,9 @@ phone, the provider and the problems. Parked / for-sale addresses (e.g. atom.com
 may not own the domain.
 
 ## Builds (QTT Admin › Builds)
+The owner's build screen shows each try ("trying again by itself at 10:40, try 2 of 4") and, when tries run out,
+that QTT's team will finish it. n8n's build workflows 11, 12, 14, 15, 16 are off (30 Oct 2026) — Frappe runs them.
+Failed n8n runs of any workflow show in Servers › Errors (n8n · <workflow> — <node>), one alert per workflow and node.
 Website and online store builds, go-lives, deletions and domain purchases. Each product moves from n8n to Frappe with a
 switch in Desk › Managed Services Settings › Builds run by Frappe (Websites, Online stores, Buying domains; off = n8n as
 before — switching off is the rollback). When Frappe runs them: at most 2 at once (Builds at once), never two runs on the

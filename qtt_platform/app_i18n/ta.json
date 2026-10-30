@@ -8218,5 +8218,8 @@
  "{n} made so far": "இதுவரை {n} உருவாக்கப்பட்டன",
  "Christian": "கிறிஸ்தவம்",
  "Hindu": "இந்து",
- "Muslim": "இஸ்லாம்"
+ "Muslim": "இஸ்லாம்",
+ "Trying again (try {n} of {m})": "மீண்டும் முயற்சி ({m} இல் {n})",
+ "Couldn’t reach the server. Trying again by itself at {time} (try {n} of {m}).": "சர்வரை அடைய முடியவில்லை. {time} மணிக்கு தானாக மீண்டும் முயற்சிக்கும் ({m} இல் {n}).",
+ "Tried {n} times. QTT’s team has been told and will finish it.": "{n} முறை முயற்சித்தோம். QTT குழுவிற்குத் தெரிவிக்கப்பட்டது, அவர்கள் முடித்துத் தருவார்கள்."
 }

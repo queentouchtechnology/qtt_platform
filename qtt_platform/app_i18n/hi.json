@@ -8218,5 +8218,8 @@
  "{n} made so far": "अब तक {n} बनीं",
  "Christian": "ईसाई",
  "Hindu": "हिंदू",
- "Muslim": "मुस्लिम"
+ "Muslim": "मुस्लिम",
+ "Trying again (try {n} of {m})": "फिर से कोशिश ({m} में से {n})",
+ "Couldn’t reach the server. Trying again by itself at {time} (try {n} of {m}).": "सर्वर तक नहीं पहुँच सके। {time} पर अपने आप फिर कोशिश होगी ({m} में से {n})।",
+ "Tried {n} times. QTT’s team has been told and will finish it.": "{n} बार कोशिश की गई। QTT की टीम को बता दिया गया है, वे इसे पूरा करेंगे।"
 }

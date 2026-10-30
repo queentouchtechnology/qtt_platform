@@ -8218,5 +8218,8 @@
  "{n} made so far": "تم إنشاء {n} حتى الآن",
  "Christian": "مسيحي",
  "Hindu": "هندوسي",
- "Muslim": "مسلم"
+ "Muslim": "مسلم",
+ "Trying again (try {n} of {m})": "إعادة المحاولة (المحاولة {n} من {m})",
+ "Couldn’t reach the server. Trying again by itself at {time} (try {n} of {m}).": "تعذّر الوصول إلى الخادم. ستتم إعادة المحاولة تلقائيًا في {time} (المحاولة {n} من {m}).",
+ "Tried {n} times. QTT’s team has been told and will finish it.": "تمت المحاولة {n} مرات. تم إبلاغ فريق QTT وسيكمله."
 }

@@ -534,6 +534,10 @@ everyone in every business — no plan needed.
     QTT builds → pay to start → check the preview and approve → go live on
     your own domain; for a store then add products and set payments and
     delivery; optional — ask QTT for a change, add another service.
+    While it builds, the owner sees each step live. If the server can't be
+    reached it tries again by itself (after 10, 30 and 60 minutes) and the
+    screen says when ("try 2 of 4"); after the last try, or when a step fails,
+    QTT's team is told and finishes it — the owner needn't do anything.
 - **One app instead of separate companies** (say this to owners when it
   helps): QTT OS does the jobs businesses usually pay different companies for
   — Office Pulse instead of separate HR software and attendance machines'
