@@ -13,7 +13,8 @@ from qtt_platform import email_rules as r
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FOLDERS = [os.path.join(HERE, "email_templates"),
-		   os.path.join(HERE, "..", "..", "qtt-os", "qtt_services", "qtt_services", "email_templates")]
+		   os.path.join(HERE, "..", "..", "qtt-os", "qtt_services", "qtt_services", "email_templates"),
+		   os.path.join(HERE, "..", "..", "qtt-os", "qtt_orbitra", "qtt_orbitra", "email_templates")]
 LAYOUT = open(os.path.join(HERE, "templates", "emails", "qtt_layout.html"), encoding="utf-8").read()
 
 # Enough for every template: names, links, lists, flags.
@@ -25,7 +26,8 @@ CONTEXT = {
 	"preview_url": "https://p", "body": "Hello", "approved": True, "file_title": "Plan.pdf", "delete_on": "9 Nov 2026", "closes": ["Acme"],
 	"blocked": ["Acme"], "first_name": "Ann", "user": "ann@example.com", "site_url": "https://app.example.com", "login_url": "https://app.example.com",
 	"owner": "Ann <ann@example.com>", "service": "Website Development", "answers": [{"label": "Business name", "value": "Acme"}],
-	"checklist": ["Plan the work"], "admin_url": "https://app.example.com/app", "level": "critical", "recovery": False, "asset": "acme.in",
+	"checklist": ["Plan the work"], "first_name": "Ann", "modules": "procurement", "join_url": "https://app.example.com/join?code=X", "signer": "Gayathri",
+	"signer_role": "Business Operations", "admin_url": "https://app.example.com/app", "level": "critical", "recovery": False, "asset": "acme.in",
 	"asset_url": "https://acme.in", "details": "Down for 5 minutes", "for_team": True, "workspace": "Acme", "tenant": "t1", "at": "30 Oct 2026, 18:00",
 }
 
