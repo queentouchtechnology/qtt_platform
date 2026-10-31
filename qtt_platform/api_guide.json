@@ -6606,7 +6606,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/marketing_content.py:247",
+   "source": "qtt_platform/qtt_platform/api/marketing_content.py:256",
    "status": "Not used by the app"
   },
   {
@@ -6686,7 +6686,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/marketing_content.py:146",
+   "source": "qtt_platform/qtt_platform/api/marketing_content.py:141",
    "status": "Not used by the app"
   },
   {
@@ -6695,8 +6695,8 @@
    "area": "api.marketing_content",
    "http_methods": "GET",
    "guest": 1,
-   "purpose": "Opening an Approve / Reject link: the item and one button to confirm — nothing is decided by opening it.",
-   "details": "Opening an Approve / Reject link: the item and one button to confirm — nothing is decided by opening it.",
+   "purpose": "Opening an Approve / Reject link: the item to read and one button to confirm — nothing is decided by opening it.",
+   "details": "Opening an Approve / Reject link: the item to read and one button to confirm — nothing is decided by opening it.",
    "arguments": "name, token, decision, via",
    "used_by": "—",
    "app_calls": "",

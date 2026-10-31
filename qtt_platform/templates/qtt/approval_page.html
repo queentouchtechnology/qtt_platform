@@ -1,0 +1,68 @@
+{#- The page an approval link opens (Slack, email): QTT OS's look, the item to read, one clear decision, and a way into
+    the app. marketing_content.slack_decide / slack_confirm. Context: title, label, site, text, preview_url, message,
+    tone (green/orange/blue/red), form (approve/reject and its hidden fields) or none, app_link, web_link. -#}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>{{ title or "QTT OS" }} · QTT OS</title>
+<style>
+  :root { --navy:#0D1524; --blue:#1A55F0; --ink:#1F2937; --muted:#6B7280; --line:#E5E8EF; --bg:#F2F4F8; --card:#FFFFFF; }
+  @media (prefers-color-scheme: dark) { :root { --ink:#E7EAF0; --muted:#9AA3B2; --line:#263043; --bg:#070B12; --card:#101826; } }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 "Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
+  header { background:var(--navy); color:#fff; padding:14px 16px; display:flex; align-items:center; gap:10px; border-bottom:3px solid var(--blue); }
+  header img { width:32px; height:32px; border-radius:8px; }
+  header b { font-size:17px; font-weight:600; }
+  main { max-width:640px; margin:0 auto; padding:20px 16px 40px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:22px 20px; }
+  .label { color:var(--muted); font-size:13px; font-weight:600; letter-spacing:.3px; text-transform:uppercase; margin:0 0 6px; }
+  h1 { font-size:21px; line-height:1.35; margin:0 0 14px; }
+  .msg { padding:12px 14px; border-radius:10px; margin:0 0 16px; font-weight:600; }
+  .green { background:#E8F5EE; color:#1B6B3F; } .orange { background:#FFF4E5; color:#8A4B00; }
+  .blue { background:#EAF1FF; color:#1A55F0; } .red { background:#FDECEC; color:#B42318; }
+  @media (prefers-color-scheme: dark) { .green{background:#12301F;color:#7BD9A4} .orange{background:#33240C;color:#F5B65A} .blue{background:#13234A;color:#8DB2FF} .red{background:#3A1414;color:#F59A9A} }
+  .text { white-space:pre-wrap; word-wrap:break-word; background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin:0 0 18px; font-size:15px; max-height:60vh; overflow:auto; }
+  .row { display:flex; flex-wrap:wrap; gap:10px; margin:0 0 6px; }
+  .btn { display:inline-block; border-radius:10px; padding:12px 20px; font-weight:600; font-size:15px; text-decoration:none; border:1px solid transparent; cursor:pointer; font-family:inherit; }
+  .primary { background:var(--blue); color:#fff; } .danger { background:transparent; color:#C62828; border-color:#C62828; }
+  .ghost { background:transparent; color:var(--blue); border-color:var(--line); }
+  form { margin:0; } a.link { color:var(--blue); }
+  .open { margin-top:18px; padding-top:16px; border-top:1px solid var(--line); }
+  .small { color:var(--muted); font-size:13px; margin:8px 0 0; }
+</style>
+</head>
+<body>
+<header><img src="/assets/qtt_platform/images/qtt-os-logo.png" alt=""><b>QTT OS</b></header>
+<main>
+  <div class="card">
+    {% if label %}<p class="label">{{ label }}{% if site %} · {{ site }}{% endif %}</p>{% endif %}
+    <h1>{{ title or "QTT OS" }}</h1>
+    {% if message %}<div class="msg {{ tone or 'blue' }}">{{ message }}</div>{% endif %}
+    {% if text %}<div class="text">{{ text }}</div>{% endif %}
+    {% if preview_url %}<p><a class="link" href="{{ preview_url }}" target="_blank" rel="noopener">Open the preview</a></p>{% endif %}
+    {% if form %}
+    <div class="row">
+      <form method="post" action="/api/method/qtt_platform.api.marketing_content.slack_confirm">
+        {% for k, v in form.fields.items() %}<input type="hidden" name="{{ k }}" value="{{ v }}">{% endfor %}
+        <button class="btn {{ 'primary' if form.approve else 'danger' }}" type="submit">{{ form.button }}</button>
+      </form>
+      <a class="btn ghost" href="{{ form.other_url }}">{{ form.other_label }}</a>
+    </div>
+    <p class="small">Nothing happens until you tap the button.</p>
+    {% endif %}
+    {% if app_link %}
+    <div class="open">
+      <div class="row">
+        <a class="btn ghost" href="{{ app_link }}">Open in the QTT OS app</a>
+        <a class="btn ghost" href="{{ web_link }}">Open in the web app</a>
+      </div>
+      <p class="small">Signed in as QTT staff, you'll see it in QTT Admin › Marketing.</p>
+    </div>
+    {% endif %}
+  </div>
+</main>
+</body>
+</html>

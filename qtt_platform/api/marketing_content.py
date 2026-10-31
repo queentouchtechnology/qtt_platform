@@ -121,25 +121,20 @@ def decide(name: str, approve, note: str | None = None) -> dict:
 # --------------------------------------------------------------------------
 @frappe.whitelist(allow_guest=True, methods=["GET"])
 def slack_decide(name: str, token: str, decision: str, via: str | None = None):
-	"""Opening an Approve / Reject link: the item and one button to confirm — nothing is decided by opening it."""
+	"""Opening an Approve / Reject link: the item to read and one button to confirm — nothing is decided by opening it."""
 	doc_token = frappe.db.get_value(DOCTYPE, name, "token") if name else None
 	if not logic.token_ok(doc_token, token) or decision not in ("approve", "reject"):
-		return _page(_("Link not valid"), _("This approval link is not valid."), "red")
-	doc = frappe.db.get_value(DOCTYPE, name, ["title", "status", "summary"], as_dict=True) or {}
-	if doc.get("status") != "pending":
-		return _page(doc.get("title"), _("Already decided ({0}).").format(_(doc.get("status") or "")), "blue")
+		return _page(None, _("This approval link is not valid."), "red")
+	if frappe.db.get_value(DOCTYPE, name, "status") != "pending":
+		return _page(name, _("Already decided ({0}).").format(_(frappe.db.get_value(DOCTYPE, name, "status") or "")), "blue")
 	approve = decision == "approve"
-	from frappe.utils import escape_html
-
-	form = (f'<p>{escape_html(doc.get("summary") or "")}</p>'
-			f'<form method="post" action="/api/method/qtt_platform.api.marketing_content.slack_confirm">'
-			f'<input type="hidden" name="name" value="{escape_html(name)}">'
-			f'<input type="hidden" name="token" value="{escape_html(token)}">'
-			f'<input type="hidden" name="decision" value="{escape_html(decision)}">'
-			f'<input type="hidden" name="via" value="{escape_html(via or "")}">'
-			f'<button type="submit" class="btn btn-{"primary" if approve else "default"}">'
-			f'{escape_html(_("Yes, send it") if approve else _("Yes, reject it"))}</button></form>')
-	return _page(doc.get("title"), form, "green" if approve else "orange")
+	other = "reject" if approve else "approve"
+	return _page(name, None, None, form={
+		"approve": approve, "fields": {"name": name, "token": token, "decision": decision, "via": via or ""},
+		"button": _("Yes, approve it") if approve else _("Yes, reject it"),
+		"other_url": f"/api/method/qtt_platform.api.marketing_content.slack_decide?name={name}&token={token}&decision={other}"
+					 + (f"&via={via}" if via else ""),
+		"other_label": _("Reject instead") if approve else _("Approve instead")})
 
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])
@@ -147,19 +142,33 @@ def slack_confirm(name: str, token: str, decision: str, via: str | None = None):
 	"""The button on slack_decide's page: the decision (whoever decides first wins)."""
 	doc_token = frappe.db.get_value(DOCTYPE, name, "token") if name else None
 	if not logic.token_ok(doc_token, token) or decision not in ("approve", "reject"):
-		return _page(_("Link not valid"), _("This approval link is not valid."), "red")
-	title = frappe.db.get_value(DOCTYPE, name, "title")
+		return _page(None, _("This approval link is not valid."), "red")
 	try:
 		_decide(name, decision == "approve", via="email" if via == "email" else "slack", note=None, user=None)
 	except logic.ApprovalError as exc:
-		return _page(title, _(str(exc)), "orange")
+		return _page(name, _(str(exc)), "orange")
 	if decision == "approve":
-		return _page(title, _("Approved. The automation continues now."), "green")
-	return _page(title, _("Rejected. Nothing will be published."), "blue")
+		return _page(name, _("Approved. The automation continues now."), "green")
+	return _page(name, _("Rejected. Nothing will be published."), "blue")
 
 
-def _page(title, message, color):
-	frappe.respond_as_web_page(title, message, indicator_color=color, http_status_code=200)
+def _page(name: str | None, message: str | None, tone: str | None, form: dict | None = None):
+	"""QTT OS's own page (templates/qtt/approval_page.html), not Frappe's plain one: the item, the decision, and links
+	into the app (qttos://approval — the Android app; the web app at /app/ with the same item)."""
+	from werkzeug.wrappers import Response
+
+	doc = frappe.db.get_value(DOCTYPE, name, ["title", "kind", "site", "summary", "body", "preview_url"], as_dict=True) if name else None
+	doc = doc or frappe._dict()
+	ctx = {"title": doc.title or _("Approval"), "label": _(KIND_LABELS.get(doc.kind, "Content")) if doc else "", "site": doc.site,
+		   # the post as it will go out; the summary only when there's no text
+		   "text": (logic.plain_text(doc.body)[:6000] if doc.body else (doc.summary or ""))[:6000], "preview_url": doc.preview_url,
+		   "message": message, "tone": tone, "form": form,
+		   "app_link": f"qttos://approval?name={name}" if name else None,
+		   "web_link": f"https://queentouchtech.in/app/#/?s=admin:marketing&approval={name}" if name else None}
+	from qtt_platform.email_rules import escape
+
+	html = frappe.get_template("templates/qtt/approval_page.html").render(escape(ctx))  # Frappe's Jinja doesn't escape
+	return Response(html, status=200, content_type="text/html; charset=utf-8")
 
 
 # --------------------------------------------------------------------------
