@@ -10,6 +10,6 @@
 <body>
 <div id="map"></div>
 <script src="/assets/qtt_platform/js/app_map_view.js"></script>
-<script>QttAppMap.render(document.getElementById("map"), {{ data | tojson }});</script>
+<script>QttAppMap.render(document.getElementById("map"), {{ data_json | safe }});</script>
 </body>
 </html>

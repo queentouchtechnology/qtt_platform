@@ -43,7 +43,7 @@
 .qam-panel h2{margin:0 0 4px;font-size:17px}.qam-panel .k{color:var(--muted);font-size:12px;margin-top:12px;text-transform:uppercase;letter-spacing:.3px}
 .qam-panel .v{white-space:pre-wrap;word-break:break-word;font-size:13.5px}
 .qam-panel .crumb{color:var(--muted);font-size:12px}.qam-panel .pill{display:inline-block;border-radius:999px;padding:2px 9px;font-size:12px;color:#fff;margin-top:6px}
-.qam-results{position:absolute;z-index:5;left:16px;top:8px;max-width:520px;max-height:60vh;overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.qam-results{position:fixed;z-index:60;max-height:60vh;overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.18)}
 .qam-results div{padding:8px 12px;cursor:pointer;border-bottom:1px solid var(--line);font-size:13px}.qam-results div:hover{background:var(--bg)}
 .qam-results small{color:var(--muted)}
 @media (max-width:760px){.qam-panel{position:absolute;right:0;top:0;bottom:0;width:92%;box-shadow:-10px 0 30px rgba(0,0,0,.2);display:none}.qam-panel.open{display:block}}
@@ -146,9 +146,16 @@
       box = document.createElement("div"); box.className = "qam-results";
       box.innerHTML = found.length ? found.map((n, i) => `<div data-i="${i}"><b>${esc(n.label)}</b><br><small>${esc(crumbs(n))}</small></div>`).join("") : `<div><small>Nothing matches.</small></div>`;
       box.onclick = (e) => { const r = e.target.closest("[data-i]"); if (r) { reveal(found[+r.dataset.i]); box.remove(); box = null; } };
-      el.querySelector(".qam-body").appendChild(box);
+      // right under the search box, as wide as it (never over the map's corner)
+      const r = search.getBoundingClientRect();
+      box.style.left = r.left + "px"; box.style.top = (r.bottom + 6) + "px"; box.style.width = Math.max(r.width, 280) + "px";
+      el.querySelector(".qam").appendChild(box); // inside the map: its colours (light and dark)
     };
-    el.querySelector(".qam-top").onclick = (e) => {
+    const closeBox = () => { if (box) { box.remove(); box = null; } };
+    search.onkeydown = (e) => { if (e.key === "Escape") closeBox(); };
+    document.addEventListener("mousedown", (e) => { if (box && !box.contains(e.target) && e.target !== search) closeBox(); });
+    window.addEventListener("resize", closeBox);
+        el.querySelector(".qam-top").onclick = (e) => {
       const a = e.target.dataset && e.target.dataset.a;
       if (a === "in") zoom = Math.min(1.6, zoom + 0.15);
       if (a === "out") zoom = Math.max(0.4, zoom - 0.15);
