@@ -24,6 +24,31 @@ TENANT_FIELD = "qtt_tenant"
 SEP = " · "
 PAGE = 20
 
+# ERPNext checks its own Desk roles in a few places our people never hold (they are checked by the engine instead:
+# business scope, area and plan — before any of this runs): its "make the next document" mappers (create permission on
+# the new kind) and a few validations that read through permission-checked queries (Production Plan's sales orders).
+# Only those steps run as the system; saving stays the person's own (owner, modified by). 31 Oct 2026: quote → order,
+# order → receipt, receipt → bill and a production plan all failed for every Orbitra user.
+ELEVATE_SAVE = {"Production Plan"}
+
+
+def _as_system(fn, *args, **kwargs):
+	user = frappe.session.user
+	if user in ("Administrator", "Guest"):
+		return fn(*args, **kwargs)
+	# frappe.set_user also wipes the request's session (sid, data) and form: keep them and put them back exactly,
+	# or the person's own sign-in would be changed when the request ends.
+	session, form = dict(frappe.local.session), frappe.local.form_dict
+	frappe.set_user("Administrator")
+	try:
+		return fn(*args, **kwargs)
+	finally:
+		frappe.local.session.update(session)
+		frappe.local.form_dict = form
+		frappe.local.role_permissions = {}
+		frappe.local.user_perms = None
+		frappe.local.cache = {}
+
 
 @dataclass
 class Scope:
@@ -293,7 +318,13 @@ def save_doc(product: str, key: str, s: Scope, data: dict, name: str | None = No
 		s.prepare(doc)
 	doc.flags.ignore_permissions = True
 	try:
-		doc.save() if name else doc.insert()
+		if k["doctype"] in ELEVATE_SAVE and frappe.session.user != "Administrator":
+			person = frappe.session.user
+			_as_system(doc.save if name else doc.insert)
+			# still theirs: made / changed by the person, not the system
+			frappe.db.set_value(k["doctype"], doc.name, {"modified_by": person, **({} if name else {"owner": person})}, update_modified=False)
+		else:
+			doc.save() if name else doc.insert()
 	except frappe.ValidationError:
 		raise
 	except Exception as e:  # ERPNext's own checks: say it plainly, keep the details for QTT
@@ -384,13 +415,15 @@ def make_next(product: str, key: str, s: Scope, name: str, index: int) -> dict:
 	if n["mapper"].startswith("prefill:"):  # a new form, already pointing at this document (the person fills the rest)
 		return {"kind": target["key"], "name": None, "prefill": {n["mapper"][len("prefill:"):]: name}}
 	fn = frappe.get_attr(n["mapper"])
-	out = fn(name) if not n["mapper"].startswith("qtt_platform.erp_docs.") else fn(name, s)
+	# ERPNext's mappers check Desk create permission (see ELEVATE_SAVE); the engine checked access above
+	out = _as_system(fn, name) if not n["mapper"].startswith("qtt_platform.erp_docs.") else fn(name, s)
 	if isinstance(out, str):  # some mappers save and return a name
 		new_name = out
 	else:
 		doc = frappe.get_doc(out) if isinstance(out, dict) else out
 		if doc.meta.has_field("company") and not doc.get("company"):
 			doc.company = s.company
+		_defaults(doc, s)  # what the source didn't carry (a quote has no "needed by" date for its order)
 		if s.prepare:
 			s.prepare(doc)
 		doc.flags.ignore_permissions = True
