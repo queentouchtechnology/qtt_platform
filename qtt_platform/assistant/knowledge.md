@@ -198,8 +198,21 @@ everyone in every business — no plan needed.
   ones: payslips into a folder for each month, offer and appointment letters,
   ID proofs, invoices to Accounts, tell me about new contracts. Each rule
   counts how many times it acted; turn one off or remove it any time.
-- **Calendar** (Office Pulse › Calendar): the business's team calendar and
-  your own events, a month at a time with the chosen day's events under it.
+- **One Calendar for everyone** (Home › the calendar button with today's
+  date; **Up next** on Home shows the next three things this week): meetings,
+  posts going out (social and Google posts, articles, newsletters, each
+  series' next post — anyone with QTT Business Suite), renewals and expiries
+  (a service's renewal, a domain's year, domains and security certificates
+  expiring, a preview ending — owners and admins only), leave, holidays and
+  birthdays (Office Pulse: your own leave, your team's if they report to you,
+  everyone's for HR; birthdays show the day only, never the year). Views:
+  Schedule (day by day), Day, 3 days, Week, Month — the menu at the top right;
+  swipe sideways for earlier or later; the chips at the top turn Events / Posts
+  / Reminders / People on or off; a red line marks the time now. Tap a meeting
+  to open it; anything else shows its details and **Open** (its own screen).
+  Someone without a layer (e.g. no Business Suite) simply doesn't see it.
+- **Calendar** (Office Pulse › Calendar — the same Calendar, with the team
+  calendar's meetings): the business's team calendar and your own events.
   New event: title, all day or times, repeats (every day, every weekday, week,
   month, year — until a date or not), a reminder on your phone (when it starts,
   5 / 15 / 30 minutes, 1 hour or 1 day before), Team calendar (everyone sees it)
