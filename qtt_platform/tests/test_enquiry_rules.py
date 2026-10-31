@@ -30,6 +30,13 @@ class Spam(unittest.TestCase):
 		self.assertEqual(r.spam_reason("Bob", '<a href="http://x">cheap</a>'), "markup")
 		self.assertEqual(r.spam_reason("http://seo.biz", "hello"), "link_in_name")
 		self.assertEqual(r.spam_reason("hello", "hello"), "same_text")
+		self.assertEqual(r.spam_reason("Bot", "TPtefCTolpbmOBzQNCaxJ"), "random_letters")  # seen on queentouchtech.com, 28 Oct 2026
+		self.assertEqual(r.spam_reason("xKqPzWmLrTvBnYc", "hi there"), "random_letters")
+
+	def test_real_words_with_capitals_pass(self):
+		for name, msg in (("Ravi McDonald", "WhatsApp"), ("Amr Kholif", "Seeking an Experienced Team for an AI Platform"),
+						  ("Sri", "OpenAIIntegration"), ("Priya", "Supercalifragilistic")):
+			self.assertIsNone(r.spam_reason(name, msg), (name, msg))
 
 
 if __name__ == "__main__":

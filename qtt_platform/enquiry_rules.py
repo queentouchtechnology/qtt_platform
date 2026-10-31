@@ -6,7 +6,7 @@ Layers, cheapest first — a person filling the form passes all of them without 
   2. a signed form ticket: the page asks for one when the form shows (`ticket`), it must come back with the
      answer, be ours (HMAC with the site's secret), at least MIN_SECONDS old (nobody types an enquiry in 3 seconds)
      and at most MAX_SECONDS old, and works once — so a bot can't post straight to the door or replay one answer
-  3. the words: too many links, link markup, or the same text in every field is spam
+  3. the words: too many links, link markup, the same text in every field, or a bot's random letters is spam
   4. limits: per address (rate limit on the door), per email / phone a day (a repeat adds to the first lead
      instead of a new one), and a daily cap for the whole door (a flood stops at the cap; the team is told)
 """
@@ -56,4 +56,16 @@ def spam_reason(name: str, message: str, company: str = "") -> str | None:
 		return "link_in_name"
 	if message and name and message.strip().lower() == name.strip().lower():
 		return "same_text"
+	if any(_random_letters(x) for x in (name, company, message)):
+		return "random_letters"
 	return None
+
+
+def _random_letters(text: str | None) -> bool:
+	"""A bot's filler like "TPtefCTolpbmOBzQNCaxJ": one long run of letters, upper and lower case jumbled. A real name,
+	word or brand (McDonald, WhatsApp, iPhone) changes case only once or twice."""
+	t = str(text or "").strip()
+	if len(t) < 12 or not t.isalpha():
+		return False
+	flips = sum(1 for a, b in zip(t, t[1:]) if a.isupper() != b.isupper())
+	return flips >= 6
