@@ -9,6 +9,8 @@ so they learn nothing.
 
   ticket   GET: a signed form ticket (the page asks when the form shows)
   submit   name, email and/or phone, message, site, page, interest, ticket → {ok}
+  record   (Python) the lead, the bell and the owner's Telegram — also for forms that come through n8n
+           (qtt_services.api.automation.website_enquiry)
 """
 
 import re
@@ -94,22 +96,30 @@ def submit(name: str = "", email: str = "", phone: str = "", message: str = "", 
 		frappe.log_error(title="Website enquiries: daily cap reached", message=f"{rules.DAILY_CAP} today — later ones dropped")
 		return _drop("cap")
 	frappe.cache.set_value(day, int(frappe.cache.get_value(day) or 0) + 1, expires_in_sec=2 * 86400)
-	# the same person again today: added to their first lead, not a new one
+	record(name=name, email=email, phone=phone, message=message, site=from_site, page=page, interest=interest, company=company)
+	return {"ok": True}
+
+
+def record(*, name: str, email: str, phone: str, message: str = "", site: str, page: str = "", interest: str = "", company: str = "",
+		   extra: str = "") -> str:
+	"""A checked enquiry → its CRM Lead (the same person again today: a note on their first lead), the bell for QTT's
+	managers and the owner's Telegram at once. Also used by forms that come through n8n (qtt_services automation key).
+	→ the lead's name."""
 	since = frappe.utils.add_days(frappe.utils.now_datetime(), -1)
 	again = frappe.db.get_value("CRM Lead", {"source": SOURCE, "creation": [">", since], **({"email": email} if email else {"mobile_no": phone})}, "name")
 	if again:
 		frappe.get_doc("CRM Lead", again).add_comment("Comment", frappe.utils.escape_html(
-			f"Another message from {from_site}" + (f" — {_clean(interest, _MAX['interest'])}" if interest else "") + "\n\n"
+			f"Another message from {site}" + (f" — {_clean(interest, _MAX['interest'])}" if interest else "") + "\n\n"
 			+ str(message or "")[:_MAX["message"]].strip()).replace("\n", "<br>"))
-		return {"ok": True}
+		return again
 	first, _sp, last = name.partition(" ")
 	lead = frappe.get_doc({
 		"doctype": "CRM Lead", "first_name": first, "last_name": last, "email": email or None, "mobile_no": phone or None,
-		"organization": _clean(company, _MAX["company"]) or None, "website": from_site, "source": _source(), "status": "New",
+		"organization": _clean(company, _MAX["company"]) or None, "website": site, "source": _source(), "status": "New",
 	}).insert(ignore_permissions=True)
 	note = "\n".join(x for x in (
-		f"Website enquiry from {from_site}" + (f" — {_clean(page, _MAX['page'])}" if page else ""),
-		f"About: {_clean(interest, _MAX['interest'])}" if interest else "",
+		f"Website enquiry from {site}" + (f" — {_clean(page, _MAX['page'])}" if page else ""),
+		f"About: {_clean(interest, _MAX['interest'])}" if interest else "", extra,
 		"", str(message or "")[:_MAX["message"]].strip()) if x is not None)
 	lead.add_comment("Comment", frappe.utils.escape_html(note).replace("\n", "<br>"))
 	try:  # the bell in Desk / CRM for QTT's managers
@@ -118,8 +128,30 @@ def submit(name: str = "", email: str = "", phone: str = "", message: str = "", 
 		users = [u for u in frappe.get_all("Has Role", filters={"role": "System Manager", "parenttype": "User"}, pluck="parent", distinct=True)
 				 if u not in ("Administrator", "Guest") and frappe.db.get_value("User", u, "enabled")]
 		enqueue_create_notification(users, {"type": "Alert", "document_type": "CRM Lead", "document_name": lead.name,
-											 "subject": f"New enquiry from {from_site}: {frappe.utils.escape_html(name)}",
+											 "subject": f"New enquiry from {site}: {frappe.utils.escape_html(name)}",
 											 "email_content": frappe.utils.escape_html(_clean(message, 300))})
 	except Exception:
 		frappe.log_error(title="Website enquiry: team not told")
-	return {"ok": True}
+	_telegram(lead.name, name=name, company=company, site=site, page=page, interest=interest, email=email, phone=phone, extra=extra)
+	return lead.name
+
+
+def _telegram(lead: str, **e) -> None:
+	"""The owner's private Telegram (site_config qtt_owner_telegram_chat, the ops bot) — never the public channel:
+	an enquiry waited a week in Slack once (24 Oct 2026)."""
+	chat = frappe.conf.get("qtt_owner_telegram_chat")
+	token = frappe.get_cached_doc("QTT Ops Settings").get_password("telegram_bot_token", raise_exception=False)
+	if not chat or not token:
+		return
+	text = "\n".join(x for x in (
+		f"New enquiry — {e.get('site')}" + (f" {e.get('page')}" if e.get("page") and e.get("page") not in e.get("site", "") else ""),
+		f"{e.get('name')}" + (f" · {e.get('company')}" if e.get("company") else ""),
+		f"About: {e.get('interest')}" if e.get("interest") else "", e.get("extra") or "",
+		" · ".join(x for x in (e.get("phone"), e.get("email")) if x),
+		f"CRM: {frappe.utils.get_url(f'/crm/leads/{lead}')}") if x)
+	try:
+		import requests
+
+		requests.post(f"https://api.telegram.org/bot{token}/sendMessage", data={"chat_id": chat, "text": text, "disable_web_page_preview": "true"}, timeout=15)
+	except Exception:
+		frappe.log_error(title="Website enquiry: Telegram not sent")

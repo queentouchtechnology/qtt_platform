@@ -5150,7 +5150,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/enquiry.py:70",
+   "source": "qtt_platform/qtt_platform/api/enquiry.py:72",
    "status": "Not used by the app"
   },
   {
@@ -5166,7 +5166,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/enquiry.py:57",
+   "source": "qtt_platform/qtt_platform/api/enquiry.py:59",
    "status": "Not used by the app"
   },
   {
@@ -10894,7 +10894,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 03-qttWf03DailyRpt0.json\nn8n: 09-qttWf09AskBiz00.json\nn8n: 10-qttWf10HrToday00.json\nn8n: QTT workflows",
-   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:119",
+   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:120",
    "status": "OK"
   },
   {
@@ -10910,7 +10910,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 02-qttWf02NewOrders.json\nn8n: 03-qttWf03DailyRpt0.json\nn8n: 04-qttWf04Reminders.json\nn8n: 05-qttWf05SiteRprt0.json\nn8n: 06-qttWf06Marketing.json\nn8n: 07-qttWf07Leads0000.json\nn8n: 08-qttWf08Reception.json\nn8n: 09-qttWf09AskBiz00.json\nn8n: 10-qttWf10HrToday00.json\nn8n: 11-qttWf11BuildSite.json\nn8n: 13-qttWf13BuyDomain.json\nn8n: 14-qttWf14StoreBld.json\nn8n: QTT workflows",
-   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:55",
+   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:56",
    "status": "Not described"
   },
   {
@@ -10926,7 +10926,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 00-qttWf00Errors000.json",
-   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:211",
+   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:212",
    "status": "OK"
   },
   {
@@ -10942,7 +10942,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 02-qttWf02NewOrders.json\nn8n: 03-qttWf03DailyRpt0.json\nn8n: 04-qttWf04Reminders.json\nn8n: 05-qttWf05SiteRprt0.json\nn8n: 06-qttWf06Marketing.json\nn8n: 07-qttWf07Leads0000.json\nn8n: 09-qttWf09AskBiz00.json\nn8n: 10-qttWf10HrToday00.json",
-   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:106",
+   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:107",
    "status": "Not described"
   },
   {
@@ -10958,7 +10958,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 05-qttWf05SiteRprt0.json\nn8n: QTT workflows",
-   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:191",
+   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:192",
    "status": "OK"
   },
   {
@@ -10974,8 +10974,24 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 04-qttWf04Reminders.json\nn8n: 09-qttWf09AskBiz00.json\nn8n: QTT workflows",
-   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:164",
+   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:165",
    "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.automation.website_enquiry",
+   "product": "Managed Services",
+   "area": "api.automation",
+   "http_methods": "POST",
+   "guest": 1,
+   "purpose": "A website form that posts to n8n (qtterp.in, queentouchtech.com) → a CRM Lead, the bell and the owner's Telegram (qtt_platform.api.enquiry.record). Those forms went only to a sheet and Slack; one waited a week (24 Oct 2026).",
+   "details": "A website form that posts to n8n (qtterp.in, queentouchtech.com) → a CRM Lead, the bell and the owner's Telegram\n(qtt_platform.api.enquiry.record). Those forms went only to a sheet and Slack; one waited a week (24 Oct 2026).",
+   "arguments": "name, email, phone, message, site, page, interest, company, extra",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:239",
+   "status": "Not used by the app"
   },
   {
    "endpoint": "qtt_services.api.builds_admin.approve_domain",
