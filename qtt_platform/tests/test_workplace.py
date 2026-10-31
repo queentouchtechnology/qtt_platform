@@ -73,6 +73,7 @@ class TestFiles(unittest.TestCase):
 	def test_kinds_and_new_docs(self):
 		self.assertEqual(rules.kind_of_file("Budget.XLSX"), "cell")
 		self.assertEqual(rules.kind_of_file("photo.jpg"), "image")
+		self.assertEqual(rules.kind_of_file("QTT App Map.qttmap"), "appmap")  # the share page draws it
 		self.assertEqual(rules.kind_of_file("x", True), "folder")
 		self.assertTrue(rules.editable("Plan.docx"))
 		self.assertFalse(rules.editable("photo.png"))

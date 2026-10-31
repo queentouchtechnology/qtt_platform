@@ -29,7 +29,7 @@ from qtt_platform import workplace_rules as rules
 LINK, GUEST = "QTT Share Link", "QTT Share Link Guest"
 TICKET_TTL = 2 * 3600
 MAX_UPLOAD = 100 * 1024 * 1024
-INLINE = ("image", "video", "audio")
+INLINE = ("image", "video", "audio", "appmap")
 
 
 def _title(key: str) -> str:

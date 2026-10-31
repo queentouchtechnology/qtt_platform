@@ -221,6 +221,8 @@ def kind_of_file(name: str, is_dir: bool = False) -> str:
 	if is_dir:
 		return "folder"
 	e = ext(name)
+	if e == "qttmap":
+		return "appmap"  # QTT's App Map (app_map.py): the share page draws it
 	if e in IMAGE:
 		return "image"
 	if e in OFFICE_TYPES:

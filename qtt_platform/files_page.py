@@ -92,7 +92,7 @@ function codeStep(r, err) {
       if (!v.success) return codeStep(r, v.error && v.error.message); S.token = v.data.token; open_(); } catch (e) { codeStep(r, e.message); }
   }, err);
 }
-const ICONS = {folder: "📁", image: "🖼", video: "🎬", audio: "🎵", word: "📄", cell: "📊", slide: "📽", pdf: "📕", archive: "🗜", file: "📄"};
+const ICONS = {appmap: "🗺", folder: "📁", image: "🖼", video: "🎬", audio: "🎵", word: "📄", cell: "📊", slide: "📽", pdf: "📕", archive: "🗜", file: "📄"};
 function head() {
   const i = S.info;
   return `<h1>${esc(i.title)}</h1><p class="muted small">${i.is_dir ? "Folder" : esc(i.size_text || "")}${i.expires_at ? " · until " + esc(i.expires_at) : ""}</p>` +
@@ -122,9 +122,22 @@ async function fileView(path, name, type, office) {
     try { const v = await call("files_links.view", {ticket: S.ticket, path}); if (v.state) return ended(v.state); body = `<div class="view"><iframe src="${esc(v.url)}" allowfullscreen></iframe></div>`; }
     catch (e) { body = `<p class="err">${esc(e.message)}</p>`; }
   } else if (type === "image") body = `<div class="view"><img src="${API}files_links.get?${q}" alt="${esc(name)}"></div>`;
+  else if (type === "appmap") return mapView(q);
   else if (type === "video" || type === "audio") body = `<div class="view"><video controls ${i.can_download ? "" : 'controlslist="nodownload" oncontextmenu="return false"'} src="${API}files_links.get?${q}"></video></div>`;
   else body = `<p class="muted">${i.can_download ? "This kind of file can't be shown here — download it." : "This kind of file can't be shown here."}</p>`;
   $(head() + `<p><b>${esc(name)}</b></p>` + body + `<div>${back}${dl}</div>`);
+}
+// QTT's App Map (qtt_platform/app_map.py): drawn full screen by the map viewer — its data, never HTML from the file.
+async function mapView(q) {
+  $(head() + `<p class="muted">Opening the map…</p>`);
+  try {
+    const r = await fetch(`${API}files_links.get?${q}`, {credentials: "same-origin"});
+    if (!r.ok) throw new Error(await r.text());
+    const data = await r.json();
+    await new Promise((ok, no) => { const s = document.createElement("script"); s.src = "/assets/qtt_platform/js/app_map_view.js"; s.onload = ok; s.onerror = no; document.head.appendChild(s); });
+    const full = document.createElement("div"); full.style.cssText = "position:fixed;inset:0;z-index:50;overflow:auto";
+    document.body.appendChild(full); window.QttAppMap.render(full, data);
+  } catch (e) { $(head() + `<p class="err">The map couldn't be opened.</p>`); }
 }
 function dropBox() {
   $(head() + `<p class="muted">Upload files for ${esc(S.info.business || "them")} — you can't see what's already there.</p>

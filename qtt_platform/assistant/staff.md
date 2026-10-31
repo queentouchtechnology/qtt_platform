@@ -104,6 +104,14 @@ words for what's wrong, and is reminded on days 1, 3 and 7 (app + WhatsApp). Fro
 phone, the provider and the problems. Parked / for-sale addresses (e.g. atom.com, Sedo, Afternic) are flagged — the owner
 may not own the domain.
 
+## App Map (for developers)
+QTT Admin › App Map (or /app_map): the whole system as one tree — every product, its screens, endpoints (what each does,
+who calls it, where it is in the code, which nothing uses or isn't described), data tables, background jobs and folders
+(what each is for; private, generated, reserved, unused). It's rebuilt on every commit (qtt-os/tool/app_map.py) and put
+into QTT's Files › Developers › QTT App Map on every deploy. To show a new developer: Office Pulse › Files › Developers ›
+QTT App Map › Share — a link with an expiry (and a password, preview only if you like); the link always shows the latest
+map. A new folder needs one line in qtt-os/tool/app_map_folders.json or it shows under Needs a look.
+
 ## Emails (Desk › Email Template)
 Every email QTT OS sends is an Email Template named "QTT · …" (verification code, invitation, calendar invitation,
 approval needed, file request, business ready, account deletion, welcome, set your password, new order (team), alert

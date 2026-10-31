@@ -11,3 +11,8 @@ if [ -f ../qtt-os/tool/api_guide.py ] && git diff --cached --name-only | grep -q
   (cd ../qtt-os && python tool/api_guide.py) || { echo "Backend guide: add the docstrings listed above."; exit 1; }
   git add qtt_platform/api_guide.json
 fi
+# The App Map (developers' tree of the whole system, app_map.json): follows the guide, screens and folders.
+if [ -f ../qtt-os/tool/app_map.py ] && git diff --cached --name-only | grep -q -E '\.py$|\.json$|^qtt_platform/www/'; then
+  (cd ../qtt-os && python tool/app_map.py) || { echo "App Map failed — see above."; exit 1; }
+  git add qtt_platform/app_map.json
+fi
