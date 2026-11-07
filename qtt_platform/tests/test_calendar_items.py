@@ -60,3 +60,24 @@ class Birthdays(unittest.TestCase):
 
 if __name__ == "__main__":
 	unittest.main()
+
+
+class TestAppLayers(unittest.TestCase):
+	def test_app_layer_added_after_built_ins(self):
+		layers = r.merge_layers([{"exams": {"label": "Exams", "color": "#2B5CE6", "icon": "quiz"}}])
+		self.assertEqual(list(layers)[-1], "exams")
+		self.assertEqual(layers["exams"]["label"], "Exams")
+
+	def test_cannot_replace_a_built_in_or_add_a_bad_key(self):
+		layers = r.merge_layers([{"events": {"label": "Mine"}, "Bad Key": {"label": "x"}, "nolabel": {"color": "#000"}}])
+		self.assertEqual(layers["events"]["label"], "Events")
+		self.assertNotIn("Bad Key", layers)
+		self.assertNotIn("nolabel", layers)
+
+	def test_item_on_an_app_layer_is_kept_only_when_the_layer_exists(self):
+		item = {"layer": "exams", "title": "Maths test", "start": "2026-11-10 10:00:00"}
+		self.assertIsNone(r.clean(item))
+		layers = r.merge_layers([{"exams": {"label": "Exams", "color": "#2B5CE6", "icon": "quiz"}}])
+		c = r.clean(item, layers)
+		self.assertEqual((c["layer"], c["color"], c["icon"]), ("exams", "#2B5CE6", "quiz"))
+		self.assertEqual(r.layer_summary([c], {"exams"}, layers)[-1]["count"], 1)

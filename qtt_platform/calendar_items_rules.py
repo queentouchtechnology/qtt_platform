@@ -10,6 +10,9 @@ decides there what this person may see — the platform never names a product. O
            holidays, birthdays)
   screen   the app screen that opens it (an assistant screen id); event = a team calendar event (opens the event)
   tone     info · success · warning · danger — the status's colour
+
+An app may add layers of its own (hook `qtt_calendar_layers`: a function → {key: {label, color, icon}}); they come
+after the built-in ones and can never replace one (merge_layers).
 """
 
 from datetime import date, datetime, timedelta
@@ -34,12 +37,27 @@ def _iso(v) -> str | None:
 	return str(v).replace("T", " ")[:19]
 
 
-def clean(item: dict) -> dict | None:
+def merge_layers(extra: list[dict] | None) -> dict:
+	"""The built-in layers plus each app's own: a key must be a short lower-case word, never a built-in one, with a label."""
+	out = dict(LAYERS)
+	for group in extra or ():
+		for key, v in (group or {}).items():
+			if not isinstance(v, dict) or key in out or not str(key).replace("_", "").isalpha() or not str(key).islower():
+				continue
+			label = str(v.get("label") or "").strip()
+			if not label:
+				continue
+			out[key] = {"label": label[:40], "color": str(v.get("color") or "#64748B")[:20], "icon": str(v.get("icon") or "event")[:40]}
+	return out
+
+
+def clean(item: dict, layers: dict | None = None) -> dict | None:
 	"""One source's item checked and filled in; None when it can't be shown (no title, start or known layer)."""
+	layers = layers or LAYERS
 	if not isinstance(item, dict):
 		return None
 	layer, start, title = item.get("layer"), _iso(item.get("start")), str(item.get("title") or "").strip()
-	if layer not in LAYERS or not start or not title:
+	if layer not in layers or not start or not title:
 		return None
 	all_day = bool(item.get("all_day")) or len(start) == 10
 	end = _iso(item.get("end"))
@@ -47,8 +65,8 @@ def clean(item: dict) -> dict | None:
 		"key": str(item.get("key") or f"{layer}:{title}:{start}"), "layer": layer, "title": title[:140],
 		"start": start if not all_day else start[:10], "end": (end[:10] if all_day else end) if end else None, "all_day": all_day,
 		"subtitle": str(item.get("subtitle") or "")[:200] or None, "status": str(item.get("status") or "")[:40] or None,
-		"tone": item.get("tone") if item.get("tone") in TONES else None, "icon": str(item.get("icon") or LAYERS[layer]["icon"])[:40],
-		"color": item.get("color") or LAYERS[layer]["color"], "screen": item.get("screen") or None, "event": item.get("event") or None,
+		"tone": item.get("tone") if item.get("tone") in TONES else None, "icon": str(item.get("icon") or layers[layer]["icon"])[:40],
+		"color": item.get("color") or layers[layer]["color"], "screen": item.get("screen") or None, "event": item.get("event") or None,
 	}
 	for k in ("location", "meeting_url", "response", "organizer"):
 		if item.get(k):
@@ -61,10 +79,10 @@ def sort_key(item: dict):
 	return (item["start"][:10], 0 if item["all_day"] else 1, item["start"], item["title"].lower())
 
 
-def layer_summary(items: list[dict], available: set[str] | None = None) -> list[dict]:
+def layer_summary(items: list[dict], available: set[str] | None = None, layers: dict | None = None) -> list[dict]:
 	"""The layer chips: each layer this person has (its sources answered), with how many items it has now."""
 	have = set(available or ()) | {i["layer"] for i in items}
-	return [{"key": k, **v, "count": sum(1 for i in items if i["layer"] == k)} for k, v in LAYERS.items() if k in have]
+	return [{"key": k, **v, "count": sum(1 for i in items if i["layer"] == k)} for k, v in (layers or LAYERS).items() if k in have]
 
 
 def window(frm: datetime | None, to: datetime | None) -> tuple[datetime, datetime]:

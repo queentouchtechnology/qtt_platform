@@ -34,6 +34,7 @@ def items(start: str, end: str) -> dict:
 	who = frappe._dict(tenant=tenant, user=user, role=m.tenant_role, admin=m.tenant_role in GOVERNANCE,
 					   has=lambda product: has_product_access(tenant, product, user))
 	pulse = who.has(PULSE)
+	layers = rules.merge_layers(_app_layers())
 	out, available = [], set()
 	for path in ["qtt_platform.api.calendar.team_events", *frappe.get_hooks("qtt_calendar_sources")]:
 		try:
@@ -47,11 +48,22 @@ def items(start: str, end: str) -> dict:
 			available |= set(got.get("layers") or [])
 			got = got.get("items") or []
 		for it in got:
-			c = rules.clean(it)
+			c = rules.clean(it, layers)
 			if c:
 				out.append(c)
 	out.sort(key=rules.sort_key)
-	return {"items": out, "layers": rules.layer_summary(out, available), "can_add_event": pulse}
+	return {"items": out, "layers": rules.layer_summary(out, available, layers), "can_add_event": pulse}
+
+
+def _app_layers() -> list[dict]:
+	"""Each app's own calendar layers (hook qtt_calendar_layers); one that fails is left out."""
+	out = []
+	for path in frappe.get_hooks("qtt_calendar_layers"):
+		try:
+			out.append(frappe.get_attr(path)())
+		except Exception:
+			frappe.log_error(title=f"Calendar layers failed: {path}")
+	return out
 
 
 def team_events(who, frm, to):
