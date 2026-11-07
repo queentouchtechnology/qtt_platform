@@ -81,3 +81,14 @@ class TestAppLayers(unittest.TestCase):
 		c = r.clean(item, layers)
 		self.assertEqual((c["layer"], c["color"], c["icon"]), ("exams", "#2B5CE6", "quiz"))
 		self.assertEqual(r.layer_summary([c], {"exams"}, layers)[-1]["count"], 1)
+
+
+class TestAssigned(unittest.TestCase):
+	def test_assigned_is_a_built_in_layer(self):
+		self.assertEqual(r.LAYERS["assigned"]["label"], "Assigned to you")
+		c = r.clean({"layer": "assigned", "title": "Check paper 3", "start": "2026-11-10"})
+		self.assertTrue(c["all_day"])
+
+	def test_plain_description(self):
+		self.assertEqual(r.plain("<p>Check   <b>paper</b> 3</p>"), "Check paper 3")
+		self.assertEqual(len(r.plain("x" * 300, 50)), 50)

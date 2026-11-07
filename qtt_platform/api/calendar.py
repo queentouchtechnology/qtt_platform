@@ -36,7 +36,7 @@ def items(start: str, end: str) -> dict:
 	pulse = who.has(PULSE)
 	layers = rules.merge_layers(_app_layers())
 	out, available = [], set()
-	for path in ["qtt_platform.api.calendar.team_events", *frappe.get_hooks("qtt_calendar_sources")]:
+	for path in ["qtt_platform.api.calendar.team_events", "qtt_platform.api.calendar.assigned", *frappe.get_hooks("qtt_calendar_sources")]:
 		try:
 			got = frappe.get_attr(path)(who, frm, to)
 		except Exception:
@@ -64,6 +64,37 @@ def _app_layers() -> list[dict]:
 		except Exception:
 			frappe.log_error(title=f"Calendar layers failed: {path}")
 	return out
+
+
+def assigned(who, frm, to):
+	"""Open assignments (Frappe's "Assigned To", stored as ToDo) for this person, on their due date — the ToDo's own date,
+	else the assigned project Task's expected end. An assignment on a record of another business is left out."""
+	from frappe.utils import getdate, today
+
+	d0, d1, now = frm.date(), to.date(), getdate(today())
+	out = []
+	for t in frappe.get_all("ToDo", filters={"allocated_to": who.user, "status": "Open"},
+							fields=["name", "date", "description", "reference_type", "reference_name", "assigned_by_full_name", "priority"],
+							limit=500):
+		due, title = t.date, None
+		if t.reference_type and t.reference_name and frappe.db.exists(t.reference_type, t.reference_name):
+			meta = frappe.get_meta(t.reference_type)
+			if meta.has_field("tenant") and frappe.db.get_value(t.reference_type, t.reference_name, "tenant") not in (None, who.tenant):
+				continue
+			if not due and t.reference_type == "Task":
+				due = frappe.db.get_value("Task", t.reference_name, "exp_end_date")
+			title_field = meta.get_title_field()
+			title = frappe.db.get_value(t.reference_type, t.reference_name, title_field) if title_field else None
+		if not due or not (d0 <= getdate(due) <= d1):
+			continue
+		label = title or rules.plain(t.description, 90) or _("Assignment")
+		overdue = getdate(due) < now
+		out.append({"key": f"todo:{t.name}", "layer": "assigned", "title": str(label), "start": getdate(due), "all_day": True,
+					"subtitle": (_("From {0}").format(t.assigned_by_full_name) if t.assigned_by_full_name else None),
+					"status": _("Overdue") if overdue else (_("High priority") if t.priority == "High" else None),
+					"tone": "danger" if overdue else ("warning" if t.priority == "High" else None),
+					"icon": "assignment_ind", "screen": t.reference_type or None})
+	return {"layers": ["assigned"], "items": out}
 
 
 def team_events(who, frm, to):

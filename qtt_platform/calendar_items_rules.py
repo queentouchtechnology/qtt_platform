@@ -7,7 +7,7 @@ decides there what this person may see — the platform never names a product. O
   {key, layer, title, start, end?, all_day?, subtitle?, status?, tone?, icon?, color?, screen?, event?}
 
   layer    events (meetings) · posts (social, articles, newsletters) · reminders (renewals, expiries) · people (leave,
-           holidays, birthdays)
+           holidays, birthdays) · assigned (open assignments for this person, on their due date)
   screen   the app screen that opens it (an assistant screen id); event = a team calendar event (opens the event)
   tone     info · success · warning · danger — the status's colour
 
@@ -22,6 +22,7 @@ LAYERS = {
 	"posts": {"label": "Posts", "color": "#7C3AED", "icon": "campaign"},
 	"reminders": {"label": "Reminders", "color": "#F59E0B", "icon": "alarm"},
 	"people": {"label": "People", "color": "#16A34A", "icon": "people"},
+	"assigned": {"label": "Assigned to you", "color": "#0D9488", "icon": "assignment_ind"},
 }
 TONES = ("info", "success", "warning", "danger")
 MAX_DAYS = 100
@@ -108,3 +109,11 @@ def birthdays(people: list[tuple[str, date]], frm: date, to: date) -> list[tuple
 			if frm <= d <= to:
 				out.append((name, d))
 	return out
+
+
+def plain(html: str | None, n: int = 120) -> str:
+	"""An assignment's description as one short plain line (HTML tags and extra spaces out)."""
+	import re
+
+	t = " ".join(re.sub(r"<[^>]+>", " ", str(html or "")).split())
+	return t if len(t) <= n else t[: n - 1].rstrip() + "…"
