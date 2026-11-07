@@ -43,7 +43,10 @@
   "errors_org",
   "column_break_errors",
   "errors_token",
-  "errors_seen_until"
+  "errors_seen_until",
+  "section_site_watch",
+  "watched_sites",
+  "site_watch_state"
  ],
  "fields": [
   {
@@ -227,6 +230,25 @@
    "fieldtype": "Datetime",
    "label": "Errors looked at until (UTC)",
    "read_only": 1
+  },
+  {
+   "fieldname": "section_site_watch",
+   "fieldtype": "Section Break",
+   "label": "Website watch",
+   "description": "Checked every 5 minutes. Down after 2 failed checks in a row: the ops Telegram hears once when a site goes down and once when it is back, and QTT Admin shows it under Needs attention."
+  },
+  {
+   "fieldname": "watched_sites",
+   "fieldtype": "Small Text",
+   "label": "Websites to watch",
+   "description": "One per line: Label | https://address (only an HTTP 200 counts as up). Lines starting with # are ignored."
+  },
+  {
+   "fieldname": "site_watch_state",
+   "fieldtype": "Long Text",
+   "label": "Last check (automatic)",
+   "read_only": 1,
+   "hidden": 1
   }
  ],
  "permissions": [

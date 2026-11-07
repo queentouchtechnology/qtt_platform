@@ -177,7 +177,7 @@ def home() -> dict:
 			"servers_ok": frappe.db.count("QTT Server", {"enabled": 1, "status": "ok"}) if _exists("QTT Server") else 0,
 			"servers_total": frappe.db.count("QTT Server", {"enabled": 1}) if _exists("QTT Server") else 0,
 		},
-		"attention": logic.attention_items(servers=servers, trials=rev.get("trials_ending") or [], past_due=rev.get("past_due") or [],
+		"attention": logic.attention_items(servers=servers + _watched_sites_down(), trials=rev.get("trials_ending") or [], past_due=rev.get("past_due") or [],
 										   approvals=approvals, setup_errors=setup_errors, domains=domains,
 										   snapshots=snapshots, client_sites=client_sites, client_requests=client_requests, automation=automation,
 										   whatsapp=_whatsapp_attention(), website_cache=_cache_attention(), domain_wait=_domain_wait_attention(), builds=_build_attention(),
@@ -186,3 +186,14 @@ def home() -> dict:
 										   today_str=today()),
 		"subscriptions_by_product": overview.get("subscriptions_by_product") or {},
 	}
+
+
+def _watched_sites_down() -> list[dict]:
+	"""Websites in QTT Ops Settings › Website watch that are down (servers.check_sites) — listed like a down server."""
+	try:
+		from qtt_platform.api.servers import watched_sites_down
+
+		return watched_sites_down()
+	except Exception:
+		frappe.log_error(title="admin_home: website watch")
+		return []

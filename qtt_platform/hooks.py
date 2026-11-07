@@ -330,7 +330,7 @@ scheduler_events = {
 		# Marketing approvals: reminders before the deadline, QTT's decision at it.
 		# Team: reminders on saved messages.
 		"*/10 * * * *": ["qtt_platform.api.errors.sync"],  # QTT Admin › Servers › Errors: new errors → ops Telegram
-		"*/5 * * * *": ["qtt_platform.api.team_calendar.remind", "qtt_platform.api.servers.check_offline", "qtt_platform.api.marketing_content.tick",
+		"*/5 * * * *": ["qtt_platform.api.team_calendar.remind", "qtt_platform.api.servers.check_offline", "qtt_platform.api.servers.check_sites", "qtt_platform.api.marketing_content.tick",
 						"qtt_platform.api.team_extras.remind_due"],
 		# QTT Admin → Servers / Domains: Contabo servers + snapshots, Hostinger domains.
 		"20 */6 * * *": ["qtt_platform.api.servers.sync_providers"],

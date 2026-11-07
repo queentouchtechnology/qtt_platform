@@ -17,6 +17,7 @@ import requests
 from frappe import _
 from frappe.utils import get_datetime, get_url, now_datetime
 
+from qtt_platform import site_watch_rules as site_watch
 from qtt_platform.audit import write_audit_event
 from qtt_platform.ops import providers
 from qtt_platform.ops import server_health as health
@@ -299,6 +300,39 @@ def check_offline() -> None:
 		_alert(health.alert_for_change(s.status, "offline", s.title, ev["problems"]))
 
 
+def check_sites() -> None:
+	"""Every 5 minutes: the websites in QTT Ops Settings › Website watch (site_watch_rules) — alert on down / back up."""
+	s = frappe.get_cached_doc(SETTINGS)
+	sites = site_watch.parse_sites(s.get("watched_sites"))
+	if not sites:
+		return
+	try:
+		states = json.loads(s.get("site_watch_state") or "{}")
+	except ValueError:
+		states = {}
+	new_states = {}
+	for site in sites:
+		code, error = None, None
+		try:
+			code = requests.get(site["url"], timeout=20, headers={"User-Agent": "QTT site watch"}).status_code
+		except requests.RequestException as e:
+			error = type(e).__name__.replace("Error", " error").replace("Timeout", "timed out").strip()
+		ok, problem = site_watch.describe(code, error)
+		new_states[site["url"]], alert = site_watch.step(states.get(site["url"]), ok=ok, problem=problem, label=site["label"])
+		_alert(alert)
+	frappe.db.set_single_value(SETTINGS, "site_watch_state", json.dumps(new_states), update_modified=False)
+
+
+def watched_sites_down() -> list[dict]:
+	"""Down websites for QTT Admin's Needs attention (shaped like servers)."""
+	s = frappe.get_cached_doc(SETTINGS)
+	try:
+		states = json.loads(s.get("site_watch_state") or "{}")
+	except ValueError:
+		states = {}
+	return site_watch.down_sites(site_watch.parse_sites(s.get("watched_sites")), states)
+
+
 def purge_reports() -> None:
 	frappe.db.sql(f"DELETE FROM `tab{REPORT}` WHERE reported_at < %s", now_datetime() - timedelta(days=KEEP_DAYS))
 
@@ -307,6 +341,16 @@ def seed_servers() -> None:
 	"""after_migrate (insert-only)."""
 	if frappe.db.table_exists(SERVER):
 		_seed_known()
+	_seed_watched_sites()
+
+
+def _seed_watched_sites() -> None:
+	"""The first websites to watch, set once when the field is empty (edit them in Desk afterwards)."""
+	if not frappe.get_meta(SETTINGS).has_field("watched_sites"):
+		return
+	if not frappe.db.get_single_value(SETTINGS, "watched_sites"):
+		frappe.db.set_single_value(SETTINGS, "watched_sites", "QuizMaster server | https://app.quizmasterplus.in/api/method/ping",
+								   update_modified=False)
 
 
 # --------------------------------------------------------------------------
