@@ -57,6 +57,12 @@ class EvaluateTest(unittest.TestCase):
 		down = h.evaluate(h.clean_report(raw(containers=[{"name": "chatwoot", "state": "exited"}])), last_report_at=NOW, now=NOW)
 		self.assertEqual(down["status"], "critical")
 		self.assertIn("chatwoot", down["problems"][0]["text"])
+		job = lambda **c: h.evaluate(h.clean_report(raw(containers=[{"name": "gifted_spence", **c}])), last_report_at=NOW, now=NOW)
+		self.assertEqual(job(state="created", status="Created")["status"], "ok")  # a `docker run --rm` job caught mid-run
+		self.assertEqual(job(state="removing", status="Removal In Progress")["status"], "ok")
+		self.assertEqual(job(state="exited", status="Exited (0) Less than a second ago")["status"], "ok")
+		self.assertEqual(job(state="exited", status="Exited (0) 3 minutes ago")["status"], "critical")  # stayed stopped
+		self.assertEqual(job(state="dead", status="Dead")["status"], "critical")
 		load = h.evaluate(h.clean_report(raw(load=[9, 9, 9])), last_report_at=NOW, now=NOW)
 		self.assertEqual(load["status"], "warning")
 		swap = h.evaluate(h.clean_report(raw(swap={"used_pct": 92.5})), last_report_at=NOW, now=NOW)

@@ -135,6 +135,16 @@ def clean_hermes(raw) -> dict | None:
 	return out
 
 
+def _container_ok(c: dict) -> bool:
+	"""Running, or a short-lived job container caught mid-run (12 Nov 2026: the screenshot job's `docker run --rm`
+	container, seen 'created' / just 'exited' / being removed, raised a critical every 5 minutes). One that stays
+	stopped still shows up in the next report, 5 minutes later."""
+	state = c.get("state") or ""
+	if state in ("running", "", "created", "removing"):
+		return True
+	return state == "exited" and "second" in (c.get("status") or "").lower()
+
+
 def evaluate(report: dict | None, *, last_report_at: datetime | None, now: datetime, limits: dict | None = None) -> dict:
 	"""{status, problems: [{level, text}], notices: [...]} for one server."""
 	lim = {**DEFAULTS, **{k: v for k, v in (limits or {}).items() if v}}
@@ -158,7 +168,7 @@ def evaluate(report: dict | None, *, last_report_at: datetime | None, now: datet
 	cores = report.get("cpu_count") or 1
 	if (report.get("load5") or 0) > cores * lim["load_warn_per_core"]:
 		problems.append({"level": "warning", "text": f"High load ({report['load5']:.1f} on {cores} cores)."})
-	down = [c["name"] for c in report.get("containers") or [] if c.get("state") not in ("running", "")]
+	down = [c["name"] for c in report.get("containers") or [] if not _container_ok(c)]
 	if down:
 		problems.append({"level": "critical", "text": f"Containers not running: {', '.join(down[:6])}."})
 	if report.get("failed_services"):
