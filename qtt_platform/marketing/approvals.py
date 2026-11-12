@@ -15,11 +15,18 @@ from datetime import datetime
 KINDS = ("article", "linkedin", "email_batch", "social", "other")
 DECIDABLE = ("pending",)
 
-# "If nobody decides in time" — QTT Marketing Settings, one per kind. Articles (and anything
-# unknown) are only published on an explicit yes; the rest go out unless rejected.
+# "Your OK before it goes live" — QTT Marketing Settings, one per kind (12 Nov 2026):
+#   ASK_SEND  wait for the OK; if nobody answers in time, it goes out
+#   ASK_SKIP  wait for the OK; if nobody answers in time, it is skipped
+#   NO_OK     don't ask: it goes live by itself at the next check (within 5 minutes)
+# Articles (and anything unknown) wait for an explicit yes by default; the rest go out unless rejected.
+ASK_SEND = "Ask me · send if I don't answer"
+ASK_SKIP = "Ask me · skip if I don't answer"
+NO_OK = "Go live without my OK"
 POLICY_FIELDS = {"email_batch": "email_batch_on_timeout", "linkedin": "linkedin_on_timeout",
 				 "social": "social_on_timeout", "article": "article_on_timeout"}
-POLICY_DEFAULTS = {"email_batch": "Send it", "linkedin": "Send it", "social": "Send it", "article": "Skip it", "other": "Skip it"}
+POLICY_DEFAULTS = {"email_batch": ASK_SEND, "linkedin": ASK_SEND, "social": ASK_SEND, "article": ASK_SKIP, "other": ASK_SKIP}
+OLD_VALUES = {"Send it": ASK_SEND, "Skip it": ASK_SKIP}  # before 12 Nov 2026 (patch v0_18.marketing_ok_policy)
 WAIT_SPARE_HOURS = 1  # n8n waits this much longer than QTT, so QTT's decision always arrives first
 
 
@@ -66,11 +73,22 @@ def status_after_run(current: str, run_status: str | None) -> str:
 	return current
 
 
-def timeout_action(kind: str, settings: dict | None) -> str:
-	"""'approve' or 'reject': what happens when nobody decides in time (QTT Marketing Settings)."""
+def policy(kind: str, settings: dict | None) -> str:
+	"""ASK_SEND, ASK_SKIP or NO_OK for this kind (QTT Marketing Settings; old 'Send it' / 'Skip it' still read)."""
 	field = POLICY_FIELDS.get(kind)
-	value = ((settings or {}).get(field) if field else None) or POLICY_DEFAULTS.get(kind, "Skip it")
-	return "approve" if str(value).lower().startswith("send") else "reject"
+	value = str(((settings or {}).get(field) if field else None) or POLICY_DEFAULTS.get(kind, ASK_SKIP)).strip()
+	value = OLD_VALUES.get(value, value)
+	return value if value in (ASK_SEND, ASK_SKIP, NO_OK) else ASK_SKIP  # unknown: never goes out by itself
+
+
+def needs_ok(kind: str, settings: dict | None) -> bool:
+	"""False when the owner chose 'Go live without my OK' for this kind."""
+	return policy(kind, settings) != NO_OK
+
+
+def timeout_action(kind: str, settings: dict | None) -> str:
+	"""'approve' or 'reject': what happens when nobody decides in time (always 'approve' without an OK)."""
+	return "reject" if policy(kind, settings) == ASK_SKIP else "approve"
 
 
 def reminder_due(*, status: str, now: datetime, created: datetime, expires_at: datetime | None,

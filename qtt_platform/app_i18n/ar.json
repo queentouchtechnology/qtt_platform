@@ -8250,5 +8250,7 @@
  "It keeps building — follow it under Your services. We’ll tell you when the preview is ready.": "يستمر البناء — تابعه في خدماتك. سنخبرك عندما تكون المعاينة جاهزة.",
  "Approved! Your website is going live now.": "تمت الموافقة! موقعك يُطلق الآن.",
  "Connected! Your website is going live now.": "تم الربط! موقعك يُطلق الآن.",
- "App Map": "خريطة التطبيق"
+ "App Map": "خريطة التطبيق",
+ "goes live without your OK": "يُنشر دون موافقتك",
+ "without an OK": "دون موافقة"
 }

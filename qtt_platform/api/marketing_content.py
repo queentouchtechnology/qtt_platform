@@ -13,7 +13,8 @@ The person who decides (QTT Marketing Settings → Who decides) is told at once 
 with one-tap Approve / Reject, and a push on the phone when push is set up — and reminded
 before the time runs out. When nobody decides, QTT decides (tick, every 5 minutes) as the
 settings say for that kind: send it, or skip it. n8n waits an hour longer and, if it ever
-times out itself, gives the same answer (align_workflows).
+times out itself, gives the same answer (align_workflows). A kind set to "Go live without my
+OK" asks nobody: create_approval saves it already due and the next tick sends it on (via "auto").
 """
 
 import json
@@ -31,7 +32,7 @@ from qtt_platform.tenant.guards import require_platform_owner
 
 DOCTYPE = "QTT Marketing Content"
 SETTINGS = "QTT Marketing Settings"
-LIST_FIELDS = ["name", "kind", "status", "title", "site", "summary", "preview_url", "live_url", "expires_at", "timeout_action",
+LIST_FIELDS = ["name", "kind", "status", "title", "site", "summary", "preview_url", "live_url", "expires_at", "timeout_action", "no_ok",
 			   "decided_by", "decided_at", "decided_via", "decision_note", "published_at", "workflow_name", "execution_id", "creation"]
 
 
@@ -40,21 +41,32 @@ LIST_FIELDS = ["name", "kind", "status", "title", "site", "summary", "preview_ur
 # --------------------------------------------------------------------------
 @frappe.whitelist(methods=["POST"])
 def create_approval(**kwargs) -> dict:
+	"""Called by an n8n marketing workflow before it waits: saves the article / LinkedIn post / email batch / social posts
+	(kind, title, site, summary, body, preview_url, live_url, workflow ids, resume_url, expires_in_hours) for a decision.
+	QTT Marketing Settings › Your OK before it goes live decides per kind: ask the approver (email + push) and send or skip
+	when nobody answers, or go live without an OK (nobody asked; sent on within 5 minutes). Returns the item's name and
+	its Approve / Reject links."""
 	require_platform_owner()
 	try:
 		clean = logic.clean_new(kwargs)
 	except logic.ApprovalError as exc:
 		frappe.throw(_(str(exc)))
 	hours = clean.pop("expires_in_hours")
-	clean["timeout_action"] = logic.timeout_action(clean["kind"], _settings_dict())  # QTT's policy, not the workflow's
+	settings = _settings_dict()
+	clean["timeout_action"] = logic.timeout_action(clean["kind"], settings)  # QTT's policy, not the workflow's
+	# "Go live without my OK": nobody is asked; due in a minute (the run must reach its Wait step first, or n8n answers
+	# 404 and the item would be marked expired), so a tick 1–6 minutes later sends it on. Kept as a row for history.
+	no_ok = not logic.needs_ok(clean["kind"], settings)
 	doc = frappe.get_doc({
 		"doctype": DOCTYPE,
 		**clean,
 		"status": "pending",
-		"expires_at": add_to_date(now_datetime(), hours=hours),
+		"no_ok": 1 if no_ok else 0,
+		"expires_at": add_to_date(now_datetime(), minutes=1) if no_ok else add_to_date(now_datetime(), hours=hours),
 		"token": logic.new_token(),
 	}).insert(ignore_permissions=True)
-	_tell(doc)
+	if not no_ok:
+		_tell(doc)
 	links = logic.decision_links(get_url(), doc.name, doc.token)
 	return {"name": doc.name, **links, "app": "QTT OS → QTT Admin → Marketing → Approvals"}
 
@@ -179,11 +191,12 @@ def tick() -> None:
 	now = now_datetime()
 	minutes = int(frappe.db.get_single_value(SETTINGS, "reminder_minutes") or 0)
 	for row in frappe.get_all(DOCTYPE, filters={"status": "pending"},
-							  fields=["name", "creation", "expires_at", "reminded_at", "timeout_action"]):
+							  fields=["name", "creation", "expires_at", "reminded_at", "timeout_action", "no_ok"]):
 		expires = get_datetime(row.expires_at) if row.expires_at else None
 		try:
 			if logic.timed_out(status="pending", now=now, expires_at=expires):
-				_decide(row.name, row.timeout_action == "approve", via="timeout", note=None, user=None, timeout=True)
+				_decide(row.name, row.timeout_action == "approve", via="auto" if row.no_ok else "timeout", note=None, user=None,
+						timeout=True)
 			elif logic.reminder_due(status="pending", now=now, created=get_datetime(row.creation), expires_at=expires,
 									reminded_at=row.reminded_at, minutes=minutes):
 				_tell(frappe.get_doc(DOCTYPE, row.name), reminder=True)

@@ -18,7 +18,20 @@ class PolicyTest(unittest.TestCase):
 		self.assertEqual(a.timeout_action("linkedin", None), "approve")
 		self.assertEqual(a.timeout_action("article", {}), "reject")  # articles need a yes
 		self.assertEqual(a.timeout_action("other", {}), "reject")
-		self.assertEqual(a.timeout_action("email_batch", {"email_batch_on_timeout": "Skip it"}), "reject")
+		self.assertEqual(a.timeout_action("email_batch", {"email_batch_on_timeout": "Skip it"}), "reject")  # old value
+		self.assertEqual(a.timeout_action("email_batch", {"email_batch_on_timeout": a.ASK_SKIP}), "reject")
+		self.assertEqual(a.timeout_action("article", {"article_on_timeout": a.ASK_SEND}), "approve")
+		self.assertEqual(a.timeout_action("linkedin", {"linkedin_on_timeout": "nonsense"}), "reject")  # unknown never goes out
+
+	def test_go_live_without_ok(self):
+		self.assertTrue(a.needs_ok("email_batch", {}))  # default: ask
+		self.assertTrue(a.needs_ok("article", {}))
+		self.assertTrue(a.needs_ok("social", {"social_on_timeout": "Send it"}))
+		s = {"social_on_timeout": a.NO_OK}
+		self.assertFalse(a.needs_ok("social", s))
+		self.assertEqual(a.timeout_action("social", s), "approve")  # goes out at the next check
+		self.assertTrue(a.needs_ok("linkedin", s))  # one kind's choice doesn't touch another
+		self.assertTrue(a.needs_ok("other", s))
 
 	def test_reminder_once_before_the_deadline(self):
 		from datetime import timedelta as td

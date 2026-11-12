@@ -6622,7 +6622,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/marketing_content.py:256",
+   "source": "qtt_platform/qtt_platform/api/marketing_content.py:269",
    "status": "Not used by the app"
   },
   {
@@ -6631,15 +6631,15 @@
    "area": "api.marketing_content",
    "http_methods": "POST",
    "guest": 0,
-   "purpose": "Create approval — marketing content (named only: no description in the code yet)",
-   "details": "",
+   "purpose": "Called by an n8n marketing workflow before it waits: saves the article / LinkedIn post / email batch / social posts (kind, title, site, summary, body, preview_url, live_url, workflow ids, resume_url, expires_in_hours) for a decision. QTT Marketing Settings › Your OK before it goes live decides per kind: ask the approver (email + push) and send or skip when nobody answers, or go live without an OK (nobody asked; sent on within 5 minutes). Returns the item's name and its Approve / Reject links.",
+   "details": "Called by an n8n marketing workflow before it waits: saves the article / LinkedIn post / email batch / social posts\n(kind, title, site, summary, body, preview_url, live_url, workflow ids, resume_url, expires_in_hours) for a decision.\nQTT Marketing Settings › Your OK before it goes live decides per kind: ask the approver (email + push) and send or skip\nwhen nobody answers, or go live without an OK (nobody asked; sent on within 5 minutes). Returns the item's name and\nits Approve / Reject links.",
    "arguments": "",
    "used_by": "—",
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/marketing_content.py:42",
-   "status": "Not described"
+   "source": "qtt_platform/qtt_platform/api/marketing_content.py:43",
+   "status": "Not used by the app"
   },
   {
    "endpoint": "qtt_platform.api.marketing_content.decide",
@@ -6654,7 +6654,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.decideContent",
    "screens": "admin/marketing_content_view.dart › (top level)",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/marketing_content.py:106",
+   "source": "qtt_platform/qtt_platform/api/marketing_content.py:118",
    "status": "Not described"
   },
   {
@@ -6670,7 +6670,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.contentItem",
    "screens": "admin/marketing_content_view.dart › _ContentDetailScreenState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/marketing_content.py:96",
+   "source": "qtt_platform/qtt_platform/api/marketing_content.py:108",
    "status": "Not described"
   },
   {
@@ -6686,7 +6686,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.marketingContent",
    "screens": "admin/marketing_content_view.dart › _MarketingApprovalsViewState\nadmin/marketing_content_view.dart › _MarketingContentListViewState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/marketing_content.py:66",
+   "source": "qtt_platform/qtt_platform/api/marketing_content.py:78",
    "status": "Not described"
   },
   {
@@ -6702,7 +6702,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/marketing_content.py:141",
+   "source": "qtt_platform/qtt_platform/api/marketing_content.py:153",
    "status": "Not used by the app"
   },
   {
@@ -6718,7 +6718,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/marketing_content.py:123",
+   "source": "qtt_platform/qtt_platform/api/marketing_content.py:135",
    "status": "Not used by the app"
   },
   {

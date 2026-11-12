@@ -104,21 +104,21 @@
   {
    "fieldname": "section_timeout",
    "fieldtype": "Section Break",
-   "label": "If nobody decides in time",
-   "description": "QTT decides when the time runs out (n8n waits an hour longer and gives the same answer if QTT can't reach it)."
+   "label": "Your OK before it goes live",
+   "description": "For each kind: wait for your OK and send it if you don't answer in time, wait for your OK and skip it if you don't answer, or go live without asking (within 5 minutes, nothing is sent to you). QTT decides at the deadline; n8n waits an hour longer and gives the same answer if QTT can't reach it."
   },
   {
    "fieldname": "email_batch_on_timeout",
    "fieldtype": "Select",
-   "options": "Send it\nSkip it",
-   "default": "Send it",
+   "options": "Ask me · send if I don't answer\nAsk me · skip if I don't answer\nGo live without my OK",
+   "default": "Ask me · send if I don't answer",
    "label": "Cold email batches"
   },
   {
    "fieldname": "linkedin_on_timeout",
    "fieldtype": "Select",
-   "options": "Send it\nSkip it",
-   "default": "Send it",
+   "options": "Ask me · send if I don't answer\nAsk me · skip if I don't answer\nGo live without my OK",
+   "default": "Ask me · send if I don't answer",
    "label": "LinkedIn posts"
   },
   {
@@ -128,15 +128,15 @@
   {
    "fieldname": "social_on_timeout",
    "fieldtype": "Select",
-   "options": "Send it\nSkip it",
-   "default": "Send it",
+   "options": "Ask me · send if I don't answer\nAsk me · skip if I don't answer\nGo live without my OK",
+   "default": "Ask me · send if I don't answer",
    "label": "Social posts"
   },
   {
    "fieldname": "article_on_timeout",
    "fieldtype": "Select",
-   "options": "Send it\nSkip it",
-   "default": "Skip it",
+   "options": "Ask me · send if I don't answer\nAsk me · skip if I don't answer\nGo live without my OK",
+   "default": "Ask me · skip if I don't answer",
    "label": "Articles"
   }
  ],
@@ -152,5 +152,5 @@
   }
  ],
  "links": [],
- "modified": "2026-10-14 10:00:00.000000"
+ "modified": "2026-11-12 12:00:00.000000"
 }
