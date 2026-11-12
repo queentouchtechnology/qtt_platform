@@ -7742,7 +7742,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/servers.py:48",
+   "source": "qtt_platform/qtt_platform/api/servers.py:49",
    "status": "Not described"
   },
   {
@@ -7758,7 +7758,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.serverInstallCommand",
    "screens": "admin/servers_view.dart › _ServerDetailScreenState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/servers.py:144",
+   "source": "qtt_platform/qtt_platform/api/servers.py:147",
    "status": "OK"
   },
   {
@@ -7774,7 +7774,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.domains",
    "screens": "admin/servers_models.dart › DomainsData\nadmin/servers_view.dart › _DomainsSectionState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/servers.py:172",
+   "source": "qtt_platform/qtt_platform/api/servers.py:175",
    "status": "Not described"
   },
   {
@@ -7790,7 +7790,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.servers",
    "screens": "admin/servers_models.dart › (top level)\nadmin/servers_view.dart › _ServersViewState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/servers.py:82",
+   "source": "qtt_platform/qtt_platform/api/servers.py:83",
    "status": "Not described"
   },
   {
@@ -7806,7 +7806,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.refreshProviders",
    "screens": "admin/servers_view.dart › _DomainsSectionState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/servers.py:199",
+   "source": "qtt_platform/qtt_platform/api/servers.py:202",
    "status": "OK"
   },
   {
@@ -7822,7 +7822,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.saveServer",
    "screens": "admin/servers_view.dart › _DomainsSectionState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/servers.py:128",
+   "source": "qtt_platform/qtt_platform/api/servers.py:131",
    "status": "OK"
   },
   {
@@ -7838,7 +7838,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.serverDetail",
    "screens": "admin/servers_view.dart › _ServerDetailScreenState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/servers.py:104",
+   "source": "qtt_platform/qtt_platform/api/servers.py:106",
    "status": "Not described"
   },
   {
@@ -7854,7 +7854,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.setDomainWatch",
    "screens": "admin/servers_view.dart › _DomainsSectionState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/servers.py:189",
+   "source": "qtt_platform/qtt_platform/api/servers.py:192",
    "status": "OK"
   },
   {

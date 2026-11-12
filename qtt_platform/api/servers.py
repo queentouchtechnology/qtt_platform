@@ -19,6 +19,7 @@ from frappe.utils import get_datetime, get_url, now_datetime
 
 from qtt_platform import site_watch_rules as site_watch
 from qtt_platform.audit import write_audit_event
+from qtt_platform.ops import cert_watch
 from qtt_platform.ops import providers
 from qtt_platform.ops import server_health as health
 from qtt_platform.tenant.guards import require_platform_owner
@@ -86,7 +87,8 @@ def list_servers() -> dict:
 	for s in frappe.get_all(SERVER, fields=["name", "title", "ip_address", "provider_id", "purpose", "enabled", "status", "last_report_at", "last_report",
 											*_PROVIDER_FIELDS], order_by="title asc"):
 		latest = _latest(s.last_report)
-		ev = health.evaluate(latest, last_report_at=get_datetime(s.last_report_at) if s.last_report_at else None, now=now_datetime(), limits=_limits())
+		ev = health.evaluate(latest, last_report_at=get_datetime(s.last_report_at) if s.last_report_at else None, now=now_datetime(), limits=_limits(),
+							 forecast=_disk_forecast(s.name, latest))
 		out.append({
 			"key": s.name, "title": s.title, "ip": s.ip_address, "provider_id": s.provider_id, "purpose": s.purpose,
 			"enabled": bool(s.enabled), "status": ev["status"] if s.enabled else "disabled",
@@ -114,7 +116,8 @@ def server_detail(key: str, days: int = 7) -> dict:
 	)
 	history = [{"t": str(r.reported_at), "disk": r.disk_used_pct, "mem": r.mem_used_pct, "load": r.load5, "cores": r.cpu_count} for r in rows]
 	latest = _latest(server.last_report)
-	ev = health.evaluate(latest, last_report_at=get_datetime(server.last_report_at) if server.last_report_at else None, now=now_datetime(), limits=_limits())
+	ev = health.evaluate(latest, last_report_at=get_datetime(server.last_report_at) if server.last_report_at else None, now=now_datetime(), limits=_limits(),
+						 forecast=_disk_forecast(server.name, latest))
 	return {
 		"key": server.name, "title": server.title, "ip": server.ip_address, "provider_id": server.provider_id, "purpose": server.purpose,
 		"enabled": bool(server.enabled), "status": ev["status"], "problems": ev["problems"], "notices": ev["notices"] + _provider_notices(server),
@@ -333,6 +336,64 @@ def watched_sites_down() -> list[dict]:
 	return site_watch.down_sites(site_watch.parse_sites(s.get("watched_sites")), states)
 
 
+def check_certs() -> None:
+	"""Every 6 hours: the certificates in QTT Ops Settings › Certificates to watch (ops/cert_watch) — Telegram as one
+	gets close to expiring without renewing, or can't be read twice in a row."""
+	s = frappe.get_cached_doc(SETTINGS)
+	hosts = cert_watch.parse_hosts(s.get("cert_watch_hosts"))
+	if not hosts:
+		return
+	try:
+		states = json.loads(s.get("cert_watch_state") or "{}")
+	except ValueError:
+		states = {}
+	warn = int(s.get("cert_warn_days") or 14)
+	new_states = {}
+	for host in hosts:
+		days, error = _cert_days(host)
+		new_states[host], alert = cert_watch.step(states.get(host), host=host, days=days, error=error, warn_days=warn)
+		new_states[host]["checked"] = str(now_datetime())
+		_alert(alert)
+	frappe.db.set_single_value(SETTINGS, "cert_watch_state", json.dumps(new_states), update_modified=False)
+
+
+def cert_problems() -> list[dict]:
+	"""Certificates close to expiring or unreadable, for QTT Admin's Needs attention (shaped like servers)."""
+	s = frappe.get_cached_doc(SETTINGS)
+	try:
+		states = json.loads(s.get("cert_watch_state") or "{}")
+	except ValueError:
+		states = {}
+	return cert_watch.problems(cert_watch.parse_hosts(s.get("cert_watch_hosts")), states, int(s.get("cert_warn_days") or 14))
+
+
+def _cert_days(host: str) -> tuple[int | None, str | None]:
+	"""(whole days the certificate has left, None) or (None, why it can't be read) — a full check, as a browser does."""
+	import socket
+	import ssl
+
+	try:
+		with socket.create_connection((host, 443), timeout=15) as sock, ssl.create_default_context().wrap_socket(sock, server_hostname=host) as tls:
+			not_after = datetime.utcfromtimestamp(ssl.cert_time_to_seconds(tls.getpeercert()["notAfter"]))
+	except ssl.SSLCertVerificationError as e:
+		return None, (e.verify_message or "not trusted")[:160]
+	except (OSError, ssl.SSLError, KeyError, ValueError) as e:
+		return None, (type(e).__name__.replace("Error", " error").replace("Timeout", "timed out").strip() or "no answer")[:160]
+	return (not_after - datetime.utcnow()).days, None
+
+
+def _disk_forecast(server_key: str, latest: dict | None) -> dict | None:
+	"""Disk growth over the last 7 days (hourly averages of the stored reports) → health.disk_forecast."""
+	if not latest or not latest.get("disk_total_gb"):
+		return None
+	rows = frappe.db.sql(
+		f"""SELECT MIN(reported_at), AVG(disk_used_gb) FROM `tab{REPORT}`
+			WHERE server = %s AND reported_at >= %s AND disk_used_gb IS NOT NULL
+			GROUP BY DATE_FORMAT(reported_at, '%%Y-%%m-%%d %%H')""",
+		(server_key, now_datetime() - timedelta(days=7)))
+	return health.disk_forecast([(get_datetime(t), float(u)) for t, u in rows if t is not None and u is not None], latest["disk_total_gb"])
+
+
 def purge_reports() -> None:
 	frappe.db.sql(f"DELETE FROM `tab{REPORT}` WHERE reported_at < %s", now_datetime() - timedelta(days=KEEP_DAYS))
 
@@ -342,6 +403,7 @@ def seed_servers() -> None:
 	if frappe.db.table_exists(SERVER):
 		_seed_known()
 	_seed_watched_sites()
+	_seed_cert_hosts()
 
 
 def _seed_watched_sites() -> None:
@@ -353,6 +415,41 @@ def _seed_watched_sites() -> None:
 								   update_modified=False)
 
 
+# Live HTTPS hosts on 12 Nov 2026 (each answered with a valid certificate that day). Set once when the field is empty.
+CERT_HOSTS = """app.queentouchtech.in
+queentouchtech.in
+queentouchtech.com
+staging.queentouchtech.in
+staging-api.queentouchtech.in
+errors.queentouchtech.in
+n8n.queentouchtech.in
+watz.queentouchtech.in
+share.queentouchtech.in
+s3.queentouchtech.in
+media.queentouchtech.in
+storage.queentouchtech.in
+docs.queentouchtech.in
+pdf.queentouchtech.in
+tools.queentouchtech.in
+social.queentouchtech.in
+dashbeam.queentouchtech.in
+vector.queentouchtech.in
+career.queentouchtech.in
+meet.queentouchtech.in
+office.queentouchtech.in
+learn.truthofbible.org
+truthofbible.org
+community.truthofbible.org
+s3.truthofbible.org
+app.quizmasterplus.in
+sathishkumar.pro"""
+
+
+def _seed_cert_hosts() -> None:
+	if frappe.get_meta(SETTINGS).has_field("cert_watch_hosts") and not frappe.db.get_single_value(SETTINGS, "cert_watch_hosts"):
+		frappe.db.set_single_value(SETTINGS, "cert_watch_hosts", CERT_HOSTS, update_modified=False)
+
+
 # --------------------------------------------------------------------------
 def _seed_known() -> None:
 	for key, title, ip, provider, purpose in KNOWN:
@@ -362,7 +459,8 @@ def _seed_known() -> None:
 
 
 def _apply_status(server, clean: dict, *, report_name: str, reported_at) -> None:
-	ev = health.evaluate(clean, last_report_at=get_datetime(reported_at), now=now_datetime(), limits=_limits())
+	ev = health.evaluate(clean, last_report_at=get_datetime(reported_at), now=now_datetime(), limits=_limits(),
+						 forecast=_disk_forecast(server.name, clean))
 	previous = None if server.status == "new" else server.status
 	frappe.db.set_value(SERVER, server.name, {
 		"status": ev["status"],

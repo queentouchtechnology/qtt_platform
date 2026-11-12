@@ -20,7 +20,41 @@ DEFAULTS = {
 	"mem_warn": 90.0,
 	"load_warn_per_core": 2.0,
 	"offline_after_minutes": 15,
+	"disk_full_warn_days": 14,
 }
+
+DISK_FULL_PCT = 95.0  # "full" for the forecast: databases and Docker start failing around here
+DISK_CLEANUP_GB = 2.0  # a drop this big between two hours = a cleanup; the forecast starts after it
+DISK_MIN_GROWTH_GB = 0.1  # per day; slower than this is not worth a warning
+
+
+def disk_forecast(points: list[tuple[datetime, float]], total_gb: float | None) -> dict | None:
+	"""{days, per_day_gb} until the disk is DISK_FULL_PCT full, from hourly (time, used GB) points of the last days.
+
+	12 Nov 2026: the n8n server's backups grew ~2 GB a day and the Frappe server's logs filled up; both were found at
+	92-93% with days to spare. Only growth after the last cleanup counts; needs a day of points; None = no worry."""
+	if not total_gb or len(points) < 2:
+		return None
+	points = sorted(points)
+	start = 0
+	for i in range(1, len(points)):
+		if points[i][1] < points[i - 1][1] - DISK_CLEANUP_GB:
+			start = i
+	points = points[start:]
+	if len(points) < 12 or (points[-1][0] - points[0][0]) < timedelta(hours=24):
+		return None
+	t0 = points[0][0]
+	xs = [(t - t0).total_seconds() / 86400 for t, _ in points]
+	ys = [u for _, u in points]
+	mx, my = sum(xs) / len(xs), sum(ys) / len(ys)
+	var = sum((x - mx) ** 2 for x in xs)
+	if not var:
+		return None
+	per_day = sum((x - mx) * (y - my) for x, y in zip(xs, ys)) / var
+	if per_day < DISK_MIN_GROWTH_GB:
+		return None
+	room = total_gb * DISK_FULL_PCT / 100 - ys[-1]
+	return {"days": max(0.0, room / per_day), "per_day_gb": per_day}
 
 #: Ports that should never be reachable from the internet (databases, admin
 #: panels, raw app servers). Matches the 2026-10-10 VPS report.
@@ -145,8 +179,9 @@ def _container_ok(c: dict) -> bool:
 	return state == "exited" and "second" in (c.get("status") or "").lower()
 
 
-def evaluate(report: dict | None, *, last_report_at: datetime | None, now: datetime, limits: dict | None = None) -> dict:
-	"""{status, problems: [{level, text}], notices: [...]} for one server."""
+def evaluate(report: dict | None, *, last_report_at: datetime | None, now: datetime, limits: dict | None = None,
+			 forecast: dict | None = None) -> dict:
+	"""{status, problems: [{level, text}], notices: [...]} for one server. `forecast` = disk_forecast(...)."""
 	lim = {**DEFAULTS, **{k: v for k, v in (limits or {}).items() if v}}
 	if not report or not last_report_at:
 		return {"status": "offline", "problems": [{"level": "critical", "text": "No report received yet."}], "notices": []}
@@ -160,7 +195,12 @@ def evaluate(report: dict | None, *, last_report_at: datetime | None, now: datet
 		problems.append({"level": "critical", "text": f"Disk {disk:.0f}% full."})
 	elif disk >= lim["disk_warn"]:
 		problems.append({"level": "warning", "text": f"Disk {disk:.0f}% full."})
-	mem = report.get("mem_used_pct") or 0
+	if forecast and forecast["days"] <= lim["disk_full_warn_days"]:
+		days = int(forecast["days"])
+		when = "within a day" if days < 1 else f"in about {days} day{'s' if days != 1 else ''}"
+		problems.append({"level": "critical" if forecast["days"] <= min(7, lim["disk_full_warn_days"]) else "warning",
+						 "text": f"Disk full {when} (growing {forecast['per_day_gb']:.1f} GB a day)."})
+	mem =report.get("mem_used_pct") or 0
 	if mem >= lim["mem_warn"]:
 		problems.append({"level": "warning", "text": f"Memory {mem:.0f}% used."})
 	if (report.get("swap_used_pct") or 0) >= 80:

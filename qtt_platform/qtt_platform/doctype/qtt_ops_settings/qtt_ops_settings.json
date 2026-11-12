@@ -17,6 +17,7 @@
   "column_break_limits",
   "disk_warn",
   "disk_critical",
+  "disk_full_warn_days",
   "mem_warn",
   "load_warn_per_core",
   "section_providers",
@@ -46,7 +47,11 @@
   "errors_seen_until",
   "section_site_watch",
   "watched_sites",
-  "site_watch_state"
+  "site_watch_state",
+  "section_cert_watch",
+  "cert_watch_hosts",
+  "cert_warn_days",
+  "cert_watch_state"
  ],
  "fields": [
   {
@@ -78,6 +83,13 @@
    "fieldtype": "Float",
    "label": "Disk critical at %",
    "default": "95"
+  },
+  {
+   "fieldname": "disk_full_warn_days",
+   "fieldtype": "Int",
+   "label": "Warn when the disk will be full within (days)",
+   "default": "14",
+   "description": "From the last 7 days' growth. Within 7 days it is critical."
   },
   {
    "fieldname": "mem_warn",
@@ -249,6 +261,30 @@
    "label": "Last check (automatic)",
    "read_only": 1,
    "hidden": 1
+  },
+  {
+   "fieldname": "section_cert_watch",
+   "fieldtype": "Section Break",
+   "label": "Certificate watch"
+  },
+  {
+   "fieldname": "cert_watch_hosts",
+   "fieldtype": "Small Text",
+   "label": "Certificates to watch",
+   "description": "One host per line (e.g. n8n.queentouchtech.in). Checked every 6 hours; Telegram when one gets close to expiring without renewing, or can't be read. Remove a host when it's retired."
+  },
+  {
+   "fieldname": "cert_warn_days",
+   "fieldtype": "Int",
+   "label": "Warn when a certificate has fewer days left than",
+   "default": "14"
+  },
+  {
+   "fieldname": "cert_watch_state",
+   "fieldtype": "Long Text",
+   "label": "Last check (automatic)",
+   "read_only": 1,
+   "hidden": 1
   }
  ],
  "permissions": [
@@ -263,5 +299,5 @@
   }
  ],
  "links": [],
- "modified": "2026-10-24 11:00:00.000000"
+ "modified": "2026-11-12 23:30:00.000000"
 }

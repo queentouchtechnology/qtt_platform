@@ -333,7 +333,7 @@ scheduler_events = {
 		"*/5 * * * *": ["qtt_platform.api.team_calendar.remind", "qtt_platform.api.servers.check_offline", "qtt_platform.api.servers.check_sites", "qtt_platform.api.marketing_content.tick",
 						"qtt_platform.api.team_extras.remind_due"],
 		# QTT Admin → Servers / Domains: Contabo servers + snapshots, Hostinger domains.
-		"20 */6 * * *": ["qtt_platform.api.servers.sync_providers"],
+		"20 */6 * * *": ["qtt_platform.api.servers.sync_providers", "qtt_platform.api.servers.check_certs"],
 		# Office Pulse My work: "your day" at 9 AM for people with cards due today or overdue.
 		"0 9 * * *": ["qtt_platform.api.planning.morning"],
 	},
