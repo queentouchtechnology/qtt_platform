@@ -1339,7 +1339,10 @@ open it from that service).
   brings it (owner: tap to see plans). Articles and newsletters on autopilot,
   and **Better posts** (how complete Business › Knowledge is, under 80%).
 - **Social media** has its own dashboard with one tab bar at the bottom:
-  **Today · Calendar · ＋ Make a post · Results · More**. **Today**: each page
+  **Today · Calendar · ＋ Make a post · Results · More**. **Today**: for a new
+  owner, **Get started** first — Connect your pages → Tell us about your business
+  (Business knowledge 60% or more) → Make your first post, with progress; each
+  ticks itself; gone once all three are done (or **Not now**, on that phone); each page
   as a chip (green working, red needs you to sign in again), posts left this
   month, **Autopilot on/off** (tap for Series and Autopilot); **Needs you** — the next post waiting for your OK with **Approve**
   right there (tap it to check first; **See all**), **Comments and reviews**;
