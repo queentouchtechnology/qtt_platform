@@ -12108,7 +12108,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingHub",
-   "screens": "products/services/screens/marketing_hub.dart › _MarketingHubPageState\nproducts/services/screens/marketing_hub.dart › _MarketingIdeasPageState\nproducts/services/screens/social_home.dart › _TodayTab",
+   "screens": "products/services/screens/content_home.dart › _Overview\nproducts/services/screens/marketing_hub.dart › _MarketingHubPageState\nproducts/services/screens/marketing_hub.dart › _MarketingIdeasPageState\nproducts/services/screens/social_home.dart › _TodayTab",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/marketing_social.py:164",
    "status": "OK"
