@@ -8252,5 +8252,19 @@
  "Connected! Your website is going live now.": "இணைக்கப்பட்டது! உங்கள் இணையதளம் இப்போது நேரலைக்கு வருகிறது.",
  "App Map": "ஆப் வரைபடம்",
  "goes live without your OK": "உங்கள் ஒப்புதல் இல்லாமல் வெளியாகும்",
- "without an OK": "ஒப்புதல் இல்லாமல்"
+ "without an OK": "ஒப்புதல் இல்லாமல்",
+ "Add tokens, keys and other dates in Desk → QTT Expiry Item. Reminders go to the ops Telegram.": "டோக்கன்கள், கீகள் மற்றும் பிற தேதிகளை Desk → QTT Expiry Item இல் சேர்க்கவும். நினைவூட்டல்கள் ops Telegram க்கு செல்லும்.",
+ "Certificate": "சான்றிதழ்",
+ "Certificate can’t be read: {why}": "சான்றிதழைப் படிக்க முடியவில்லை: {why}",
+ "Every Monday 09:00 to the ops Telegram. Last one: {when}.": "ஒவ்வொரு திங்கள் 09:00 க்கு ops Telegram க்கு. கடைசியாக: {when}.",
+ "Expiring": "காலாவதியாகிறவை",
+ "Nothing in the expiry register yet.": "காலாவதி பதிவேட்டில் இன்னும் எதுவும் இல்லை.",
+ "The Monday report is off (Desk → QTT Ops Settings).": "திங்கள் அறிக்கை நிறுத்தப்பட்டுள்ளது (Desk → QTT Ops Settings).",
+ "Weekly report": "வாராந்திர அறிக்கை",
+ "Weekly report sent to Telegram.": "வாராந்திர அறிக்கை Telegram க்கு அனுப்பப்பட்டது.",
+ "{n} certificates watched, all fine (nearest renewal in {days} days).": "{n} சான்றிதழ்கள் கண்காணிக்கப்படுகின்றன, அனைத்தும் சரி (அடுத்த புதுப்பிப்பு {days} நாட்களில்).",
+ "{n} certificates watched.": "{n} சான்றிதழ்கள் கண்காணிக்கப்படுகின்றன.",
+ "Access token": "அணுகல் டோக்கன்",
+ "Subscription": "சந்தா",
+ "Payment card": "பணம் செலுத்தும் அட்டை"
 }

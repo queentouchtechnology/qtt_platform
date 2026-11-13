@@ -51,7 +51,11 @@
   "section_cert_watch",
   "cert_watch_hosts",
   "cert_warn_days",
-  "cert_watch_state"
+  "cert_watch_state",
+  "section_ops_report",
+  "weekly_report",
+  "last_report_at",
+  "last_report_text"
  ],
  "fields": [
   {
@@ -285,6 +289,30 @@
    "label": "Last check (automatic)",
    "read_only": 1,
    "hidden": 1
+  },
+  {
+   "fieldname": "section_ops_report",
+   "fieldtype": "Section Break",
+   "label": "Weekly ops report"
+  },
+  {
+   "fieldname": "weekly_report",
+   "fieldtype": "Check",
+   "label": "Send the Monday ops report",
+   "default": "1",
+   "description": "Mondays 09:00 to the ops Telegram: servers, disks, certificates, expiries, n8n failures, background jobs. Also in QTT Admin › Servers."
+  },
+  {
+   "fieldname": "last_report_at",
+   "fieldtype": "Datetime",
+   "label": "Last report",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_report_text",
+   "fieldtype": "Long Text",
+   "label": "Last report text",
+   "read_only": 1
   }
  ],
  "permissions": [
@@ -299,5 +327,5 @@
   }
  ],
  "links": [],
- "modified": "2026-11-12 23:30:00.000000"
+ "modified": "2026-11-13 10:00:00.000000"
 }

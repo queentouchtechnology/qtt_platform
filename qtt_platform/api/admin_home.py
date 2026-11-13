@@ -177,7 +177,7 @@ def home() -> dict:
 			"servers_ok": frappe.db.count("QTT Server", {"enabled": 1, "status": "ok"}) if _exists("QTT Server") else 0,
 			"servers_total": frappe.db.count("QTT Server", {"enabled": 1}) if _exists("QTT Server") else 0,
 		},
-		"attention": logic.attention_items(servers=servers + _watched_sites_down() + _cert_problems(), trials=rev.get("trials_ending") or [], past_due=rev.get("past_due") or [],
+		"attention": logic.attention_items(servers=servers + _watched_sites_down() + _cert_problems() + _expiry_problems(), trials=rev.get("trials_ending") or [], past_due=rev.get("past_due") or [],
 										   approvals=approvals, setup_errors=setup_errors, domains=domains,
 										   snapshots=snapshots, client_sites=client_sites, client_requests=client_requests, automation=automation,
 										   whatsapp=_whatsapp_attention(), website_cache=_cache_attention(), domain_wait=_domain_wait_attention(), builds=_build_attention(),
@@ -186,6 +186,17 @@ def home() -> dict:
 										   today_str=today()),
 		"subscriptions_by_product": overview.get("subscriptions_by_product") or {},
 	}
+
+
+def _expiry_problems() -> list[dict]:
+	"""Expiry register items within 14 days (servers.check_expiries) — listed like a server with a problem."""
+	try:
+		from qtt_platform.api.servers import expiry_problems
+
+		return expiry_problems()
+	except Exception:
+		frappe.log_error(title="admin_home: expiry register")
+		return []
 
 
 def _cert_problems() -> list[dict]:

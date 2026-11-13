@@ -8252,5 +8252,19 @@
  "Connected! Your website is going live now.": "تم الربط! موقعك يُطلق الآن.",
  "App Map": "خريطة التطبيق",
  "goes live without your OK": "يُنشر دون موافقتك",
- "without an OK": "دون موافقة"
+ "without an OK": "دون موافقة",
+ "Add tokens, keys and other dates in Desk → QTT Expiry Item. Reminders go to the ops Telegram.": "أضف الرموز والمفاتيح والتواريخ الأخرى في Desk → QTT Expiry Item. تُرسل التذكيرات إلى Telegram الخاص بالعمليات.",
+ "Certificate": "شهادة",
+ "Certificate can’t be read: {why}": "تعذّرت قراءة الشهادة: {why}",
+ "Every Monday 09:00 to the ops Telegram. Last one: {when}.": "كل يوم اثنين الساعة 09:00 إلى Telegram الخاص بالعمليات. آخر مرة: {when}.",
+ "Expiring": "تنتهي قريبًا",
+ "Nothing in the expiry register yet.": "لا شيء في سجل الانتهاء بعد.",
+ "The Monday report is off (Desk → QTT Ops Settings).": "تقرير يوم الاثنين متوقف (Desk → QTT Ops Settings).",
+ "Weekly report": "التقرير الأسبوعي",
+ "Weekly report sent to Telegram.": "تم إرسال التقرير الأسبوعي إلى Telegram.",
+ "{n} certificates watched, all fine (nearest renewal in {days} days).": "{n} شهادة تحت المراقبة، كلها سليمة (أقرب تجديد بعد {days} يومًا).",
+ "{n} certificates watched.": "{n} شهادة تحت المراقبة.",
+ "Access token": "رمز الوصول",
+ "Subscription": "اشتراك",
+ "Payment card": "بطاقة الدفع"
 }

@@ -10,12 +10,20 @@ last Contabo snapshot is missing or old; failed payments; trials ending; set-up 
 requests nobody answered; marketing items waiting for approval; DeepSeek balance low or n8n failures; and QTT's
 WhatsApp number — quality dropped, a template rejected / paused / disabled by Meta, a template approved (shown for a
 day), or Meta changed a template's category. The WhatsApp items come from an hourly check (minute 40).
+Also (13 Nov 2026): a disk that will be full within 14 days at its 7-day growth (red within 7); a watched HTTPS
+certificate close to expiring without renewing, or unreadable twice in a row; an expiry-register item within 14 days.
 
 ## Manage (the tiles)
 - **Workspaces** — every business on QTT OS: open one to see its products, plans and people.
 - **Plans** — each product's plans: price, trial, limits, subscribers; create or edit. Changes apply to new
   subscriptions at once.
 - **Servers** — QTT's servers with their reports (CPU, memory, disk, services, Hermes), domains and snapshots.
+  **Expiring** lists the expiry register (Desk › QTT Expiry Item: tokens, API keys, domains at other registrars,
+  subscriptions — title, kind, date, used by, how to renew; a domain with *Domain to look up* updates its date from the
+  public registry daily) plus certificates near expiry or broken (Desk › QTT Ops Settings › Certificate watch, one
+  host per line, checked every 6 hours). Reminders go to the ops Telegram at 30/14/7/3/1 days, on the day and when
+  expired. **Weekly report** shows the Monday 09:00 ops report (servers, disks, certificates, expiries, n8n failures,
+  background jobs) also sent to the ops Telegram; **Send now** makes one at once. Off: QTT Ops Settings › Weekly ops report.
 - **Receptionists** — every client's WhatsApp AI receptionist with its set-up checklist (Inbox connected, WhatsApp
   number connected, owner's answers, live) and counts; **Put it live** connects it.
 - **Services and pricing** — each managed service's name, wording, base prices and whether it's offered; each plan's

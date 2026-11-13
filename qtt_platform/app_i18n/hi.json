@@ -8252,5 +8252,19 @@
  "Connected! Your website is going live now.": "जुड़ गया! आपकी वेबसाइट अभी लाइव हो रही है।",
  "App Map": "ऐप मैप",
  "goes live without your OK": "आपकी मंज़ूरी के बिना लाइव होगा",
- "without an OK": "मंज़ूरी के बिना"
+ "without an OK": "मंज़ूरी के बिना",
+ "Add tokens, keys and other dates in Desk → QTT Expiry Item. Reminders go to the ops Telegram.": "टोकन, कुंजियाँ और अन्य तारीखें Desk → QTT Expiry Item में जोड़ें। रिमाइंडर ops Telegram पर जाते हैं।",
+ "Certificate": "सर्टिफ़िकेट",
+ "Certificate can’t be read: {why}": "सर्टिफ़िकेट पढ़ा नहीं जा सका: {why}",
+ "Every Monday 09:00 to the ops Telegram. Last one: {when}.": "हर सोमवार 09:00 बजे ops Telegram पर। पिछली बार: {when}।",
+ "Expiring": "समाप्त होने वाले",
+ "Nothing in the expiry register yet.": "समाप्ति रजिस्टर में अभी कुछ नहीं है।",
+ "The Monday report is off (Desk → QTT Ops Settings).": "सोमवार की रिपोर्ट बंद है (Desk → QTT Ops Settings)।",
+ "Weekly report": "साप्ताहिक रिपोर्ट",
+ "Weekly report sent to Telegram.": "साप्ताहिक रिपोर्ट Telegram पर भेज दी गई।",
+ "{n} certificates watched, all fine (nearest renewal in {days} days).": "{n} सर्टिफ़िकेट पर नज़र, सब ठीक (अगला नवीनीकरण {days} दिनों में)।",
+ "{n} certificates watched.": "{n} सर्टिफ़िकेट पर नज़र।",
+ "Access token": "एक्सेस टोकन",
+ "Subscription": "सदस्यता",
+ "Payment card": "भुगतान कार्ड"
 }

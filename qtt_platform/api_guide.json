@@ -7742,7 +7742,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/servers.py:49",
+   "source": "qtt_platform/qtt_platform/api/servers.py:50",
    "status": "Not described"
   },
   {
@@ -7758,7 +7758,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.serverInstallCommand",
    "screens": "admin/servers_view.dart › _ServerDetailScreenState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/servers.py:147",
+   "source": "qtt_platform/qtt_platform/api/servers.py:148",
    "status": "OK"
   },
   {
@@ -7774,7 +7774,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.domains",
    "screens": "admin/servers_models.dart › DomainsData\nadmin/servers_view.dart › _DomainsSectionState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/servers.py:175",
+   "source": "qtt_platform/qtt_platform/api/servers.py:176",
    "status": "Not described"
   },
   {
@@ -7788,10 +7788,26 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.servers",
-   "screens": "admin/servers_models.dart › (top level)\nadmin/servers_view.dart › _ServersViewState",
+   "screens": "admin/ops_watch_section.dart › (top level)\nadmin/servers_models.dart › (top level)\nadmin/servers_view.dart › _ServersViewState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/servers.py:83",
+   "source": "qtt_platform/qtt_platform/api/servers.py:84",
    "status": "Not described"
+  },
+  {
+   "endpoint": "qtt_platform.api.servers.ops_watch",
+   "product": "Platform",
+   "area": "api.servers",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "QTT Admin › Servers › Expiring and Weekly report: the expiry register (Desk › QTT Expiry Item), the watched certificates (QTT Ops Settings › Certificate watch) and the last Monday ops report.",
+   "details": "QTT Admin › Servers › Expiring and Weekly report: the expiry register (Desk › QTT Expiry Item), the watched\ncertificates (QTT Ops Settings › Certificate watch) and the last Monday ops report.",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.opsWatch",
+   "screens": "admin/ops_watch_section.dart › _OpsWatchSectionState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/servers.py:405",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.servers.refresh_providers",
@@ -7806,7 +7822,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.refreshProviders",
    "screens": "admin/servers_view.dart › _DomainsSectionState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/servers.py:202",
+   "source": "qtt_platform/qtt_platform/api/servers.py:203",
    "status": "OK"
   },
   {
@@ -7822,7 +7838,23 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.saveServer",
    "screens": "admin/servers_view.dart › _DomainsSectionState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/servers.py:131",
+   "source": "qtt_platform/qtt_platform/api/servers.py:132",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.servers.send_ops_report",
+   "product": "Platform",
+   "area": "api.servers",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Make the weekly ops report now and send it to the ops Telegram (the app's Send now).",
+   "details": "Make the weekly ops report now and send it to the ops Telegram (the app's Send now).",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.sendOpsReport",
+   "screens": "admin/ops_watch_section.dart › _OpsWatchSectionState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/servers.py:426",
    "status": "OK"
   },
   {
@@ -7838,7 +7870,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.serverDetail",
    "screens": "admin/servers_view.dart › _ServerDetailScreenState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/servers.py:106",
+   "source": "qtt_platform/qtt_platform/api/servers.py:107",
    "status": "Not described"
   },
   {
@@ -7854,7 +7886,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.setDomainWatch",
    "screens": "admin/servers_view.dart › _DomainsSectionState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/servers.py:192",
+   "source": "qtt_platform/qtt_platform/api/servers.py:193",
    "status": "OK"
   },
   {

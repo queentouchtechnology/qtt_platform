@@ -15,11 +15,12 @@ from datetime import datetime, timedelta
 import frappe
 import requests
 from frappe import _
-from frappe.utils import get_datetime, get_url, now_datetime
+from frappe.utils import get_datetime, get_url, getdate, now_datetime, today
 
 from qtt_platform import site_watch_rules as site_watch
 from qtt_platform.audit import write_audit_event
 from qtt_platform.ops import cert_watch
+from qtt_platform.ops import expiry_watch
 from qtt_platform.ops import providers
 from qtt_platform.ops import server_health as health
 from qtt_platform.tenant.guards import require_platform_owner
@@ -394,6 +395,172 @@ def _disk_forecast(server_key: str, latest: dict | None) -> dict | None:
 	return health.disk_forecast([(get_datetime(t), float(u)) for t, u in rows if t is not None and u is not None], latest["disk_total_gb"])
 
 
+# --------------------------------------------------------------------------
+# Expiry register + Monday ops report (ops/expiry_watch)
+# --------------------------------------------------------------------------
+EXPIRY = "QTT Expiry Item"
+
+
+@frappe.whitelist(methods=["GET"])
+def ops_watch() -> dict:
+	"""QTT Admin › Servers › Expiring and Weekly report: the expiry register (Desk › QTT Expiry Item), the watched
+	certificates (QTT Ops Settings › Certificate watch) and the last Monday ops report."""
+	require_platform_owner()
+	day = getdate(today())
+	items = []
+	for i in frappe.get_all(EXPIRY, fields=["name", "title", "kind", "expires_on", "watch", "used_by", "renew_how"], order_by="expires_on asc"):
+		d = expiry_watch.days_left(getdate(i.expires_on), day)
+		items.append({"id": i.name, "title": i.title, "kind": i.kind, "expires_on": str(i.expires_on), "days_left": d,
+					  "level": expiry_watch.level(d) if i.watch else "ok", "watch": bool(i.watch), "used_by": i.used_by, "renew_how": i.renew_how})
+	s = frappe.get_cached_doc(SETTINGS)
+	certs = []
+	for c in _cert_rows(s):
+		certs.append({"host": c["host"], "days_left": c["days"], "error": c["error"], "level": c["level"], "checked": c["checked"]})
+	certs.sort(key=lambda c: (c["level"] == "ok", c["days_left"] if c["days_left"] is not None else -1))
+	return {"expiries": items, "certs": certs,
+			"report": {"at": str(s.last_report_at) if s.get("last_report_at") else None, "text": s.get("last_report_text") or None,
+					   "on": bool(s.get("weekly_report"))}}
+
+
+@frappe.whitelist(methods=["POST"])
+def send_ops_report() -> dict:
+	"""Make the weekly ops report now and send it to the ops Telegram (the app's Send now)."""
+	require_platform_owner()
+	weekly_report(force=True)
+	frappe.clear_document_cache(SETTINGS, SETTINGS)
+	write_audit_event("ops_report_sent", target_doctype=SETTINGS, target_name=SETTINGS)
+	return ops_watch()
+
+
+def check_expiries() -> None:
+	"""Daily 09:15: refresh looked-up domain dates, then one Telegram per reminder step (30/14/7/3/1/0/expired)."""
+	day = getdate(today())
+	for i in frappe.get_all(EXPIRY, filters={"watch": 1}, fields=["name", "title", "kind", "expires_on", "used_by", "renew_how",
+																	"domain_lookup", "last_step"]):
+		values = {"last_checked": now_datetime()}
+		expires_on = getdate(i.expires_on)
+		last_step = i.last_step
+		if i.domain_lookup:
+			found, error = _registry_expiry(i.domain_lookup)
+			values["lookup_error"] = error
+			if found and found != expires_on:
+				expires_on = values["expires_on"] = found
+				last_step = None  # renewed: start over
+		days = expiry_watch.days_left(expires_on, day)
+		new_step, send = expiry_watch.step(last_step, days)
+		values["last_step"] = new_step
+		frappe.db.set_value(EXPIRY, i.name, values, update_modified=False)
+		if send:
+			_alert(expiry_watch.reminder(title=i.title, kind=i.kind, days=days, used_by=i.used_by, renew_how=i.renew_how))
+	frappe.db.commit()
+
+
+def expiry_problems() -> list[dict]:
+	"""Register items within 14 days, for QTT Admin's Needs attention (shaped like servers)."""
+	rows = frappe.get_all(EXPIRY, filters={"watch": 1}, fields=["title", "kind", "expires_on", "watch"])
+	return expiry_watch.problems([{**r, "expires_on": getdate(r.expires_on)} for r in rows], getdate(today()))
+
+
+def weekly_report(force: bool = False) -> None:
+	"""Mondays 09:00 (QTT Ops Settings › Send the Monday ops report): everything slow-moving in one message."""
+	if not force and not frappe.db.get_single_value(SETTINGS, "weekly_report"):
+		return
+	text = expiry_watch.digest(**_report_facts())
+	frappe.db.set_single_value(SETTINGS, {"last_report_at": now_datetime(), "last_report_text": text}, update_modified=False)
+	frappe.db.commit()
+	_alert(text, prefix=False)
+
+
+def _cert_rows(s) -> list[dict]:
+	"""Watched certificates with their last check: {host, days, error (after two failed reads), level, checked}."""
+	try:
+		states = json.loads(s.get("cert_watch_state") or "{}")
+	except ValueError:
+		states = {}
+	warn = int(s.get("cert_warn_days") or 14)
+	out = []
+	for host in cert_watch.parse_hosts(s.get("cert_watch_hosts")):
+		st = states.get(host) or {}
+		fails = int(st.get("fails") or 0)
+		out.append({"host": host, "days": st.get("days"), "error": st.get("error") if fails >= 2 else None,
+					"level": cert_watch.level(st.get("days"), st.get("error"), fails, warn), "checked": st.get("checked")})
+	return out
+
+
+def _report_facts() -> dict:
+	day = getdate(today())
+	limits = _limits()
+	servers = []
+	for s in frappe.get_all(SERVER, filters={"enabled": 1}, fields=["name", "title", "last_report_at", "last_report"], order_by="title asc"):
+		latest = _latest(s.last_report)
+		fc = _disk_forecast(s.name, latest)
+		ev = health.evaluate(latest, last_report_at=get_datetime(s.last_report_at) if s.last_report_at else None, now=now_datetime(),
+							 limits=limits, forecast=fc)
+		servers.append({"title": s.title, "status": ev["status"], "problems": " ".join(p["text"] for p in ev["problems"]) or None,
+						"disk_pct": (latest or {}).get("disk_used_pct"), "forecast_days": fc["days"] if fc else None})
+	certs = [{"host": c["host"], "days": c["days"], "error": c["error"]} for c in _cert_rows(frappe.get_cached_doc(SETTINGS))]
+	expiries = [{"title": r.title, "kind": r.kind, "days": expiry_watch.days_left(getdate(r.expires_on), day)}
+				for r in frappe.get_all(EXPIRY, filters={"watch": 1}, fields=["title", "kind", "expires_on"])]
+	domains = [{"domain": d.name, "days": expiry_watch.days_left(getdate(d.expires_on), day)}
+			   for d in frappe.get_all(DOMAIN, filters={"watch": 1, "expires_on": ["is", "set"]}, fields=["name", "expires_on"])]
+	return {"today": day, "servers": servers, "certs": certs, "expiries": expiries, "domains": domains,
+			"n8n": _n8n_failures(), "jobs_age_minutes": _jobs_age_minutes()}
+
+
+def _n8n_failures() -> dict:
+	"""Failed runs per workflow in the last 7 days (the n8n key lives in QTT Marketing Settings)."""
+	try:
+		from qtt_platform.marketing.n8n import N8nClient
+
+		m = frappe.get_single("QTT Marketing Settings")
+		key = m.get_password("n8n_api_key", raise_exception=False) if m.get("n8n_url") else None
+		if not key:
+			return {"error": "n8n isn't connected (QTT Marketing Settings)"}
+		client = N8nClient(m.n8n_url, key)
+		since = datetime.utcnow() - timedelta(days=7)
+		names = {w["id"]: w["name"] for w in client.workflows()}
+		counts: dict = {}
+		for e in client.executions(status="error", limit=250):
+			started = (e.get("startedAt") or "")[:19]
+			if started and datetime.fromisoformat(started) >= since:
+				counts[e.get("workflowId")] = counts.get(e.get("workflowId"), 0) + 1
+		return {"failing": sorted(((names.get(w, w or "?"), n) for w, n in counts.items()), key=lambda x: -x[1])}
+	except Exception as e:
+		return {"error": f"{type(e).__name__}: {str(e)[:100]}"}
+
+
+def _jobs_age_minutes() -> int | None:
+	"""Minutes since the newest Scheduled Job Log row (stored in the site's time, like now_datetime)."""
+	newest = frappe.db.sql("SELECT MAX(creation) FROM `tabScheduled Job Log`")[0][0]
+	return max(0, int((now_datetime() - get_datetime(newest)).total_seconds() // 60)) if newest else None
+
+
+_RDAP_BASES: dict = {}
+
+
+def _registry_expiry(domain: str):
+	"""(expiry date, None) or (None, why) from the domain's public registry (RDAP, via IANA's list of registries)."""
+	domain = (domain or "").strip().lower().rstrip(".")
+	tld = domain.rsplit(".", 1)[-1]
+	try:
+		if not _RDAP_BASES:
+			for tlds, urls in requests.get("https://data.iana.org/rdap/dns.json", timeout=20).json().get("services", []):
+				for t in tlds:
+					_RDAP_BASES[t] = urls[0]
+		base = _RDAP_BASES.get(tld)
+		if not base:
+			return None, f"no public registry lookup for .{tld}"
+		r = requests.get(f"{base.rstrip('/')}/domain/{domain}", timeout=20, headers={"Accept": "application/rdap+json"})
+		if r.status_code != 200:
+			return None, f"registry answered {r.status_code}"
+		for e in r.json().get("events", []):
+			if e.get("eventAction") == "expiration":
+				return getdate(e["eventDate"][:10]), None
+		return None, "registry gave no expiry date"
+	except (requests.RequestException, ValueError, KeyError) as e:
+		return None, type(e).__name__[:140]
+
+
 def purge_reports() -> None:
 	frappe.db.sql(f"DELETE FROM `tab{REPORT}` WHERE reported_at < %s", now_datetime() - timedelta(days=KEEP_DAYS))
 
@@ -486,7 +653,7 @@ def _limits() -> dict:
 	return {k: s.get(k) or v for k, v in health.DEFAULTS.items()}
 
 
-def _alert(text: str | None) -> None:
+def _alert(text: str | None, prefix: bool = True) -> None:
 	"""An ops message: the ops Telegram (QTT Ops Settings › Telegram bot), and Slack when a webhook is set."""
 	if not text:
 		return
@@ -494,7 +661,7 @@ def _alert(text: str | None) -> None:
 	token, chat = s.get_password("telegram_bot_token", raise_exception=False), s.get("telegram_chat")
 	if token and chat:
 		try:
-			requests.post(f"https://api.telegram.org/bot{token}/sendMessage", data={"chat_id": chat, "text": f"QTT — {text}",
+			requests.post(f"https://api.telegram.org/bot{token}/sendMessage", data={"chat_id": chat, "text": f"QTT — {text}" if prefix else text,
 																				   "disable_web_page_preview": "true"}, timeout=10)
 		except requests.RequestException:
 			frappe.log_error(title="qtt_platform: Telegram alert failed")

@@ -336,6 +336,8 @@ scheduler_events = {
 		"20 */6 * * *": ["qtt_platform.api.servers.sync_providers", "qtt_platform.api.servers.check_certs"],
 		# Office Pulse My work: "your day" at 9 AM for people with cards due today or overdue.
 		"0 9 * * *": ["qtt_platform.api.planning.morning"],
+		"15 9 * * *": ["qtt_platform.api.servers.check_expiries"],  # expiry register reminders
+		"0 9 * * 1": ["qtt_platform.api.servers.weekly_report"],  # Monday ops report
 	},
 	"hourly": [
 		"qtt_platform.billing.service.reconcile_subscriptions",

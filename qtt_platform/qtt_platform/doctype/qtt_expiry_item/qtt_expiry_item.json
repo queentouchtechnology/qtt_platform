@@ -1,0 +1,126 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Expiry Item",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 1,
+ "sort_field": "expires_on",
+ "sort_order": "ASC",
+ "engine": "InnoDB",
+ "autoname": "hash",
+ "title_field": "title",
+ "search_fields": "kind,expires_on",
+ "description": "Expiry register: tokens, keys, domains, subscriptions — anything that stops working on a date. Reminders go to the ops Telegram; QTT Admin › Servers lists them.",
+ "field_order": [
+  "title",
+  "kind",
+  "expires_on",
+  "watch",
+  "column_break_main",
+  "used_by",
+  "renew_how",
+  "domain_lookup",
+  "section_auto",
+  "last_step",
+  "last_checked",
+  "lookup_error"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "What",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "e.g. GitHub token for n8n (QTT-AI-OS read-only)"
+  },
+  {
+   "fieldname": "kind",
+   "fieldtype": "Select",
+   "label": "Kind",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "options": "Access token\nAPI key\nDomain\nCertificate\nSubscription\nPayment card\nOther",
+   "default": "Access token"
+  },
+  {
+   "fieldname": "expires_on",
+   "fieldtype": "Date",
+   "label": "Expires on",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "watch",
+   "fieldtype": "Check",
+   "label": "Remind me",
+   "default": "1",
+   "in_list_view": 1,
+   "description": "Telegram at 30, 14, 7, 3 and 1 days, on the day and once expired. Untick for something being let go."
+  },
+  {
+   "fieldname": "column_break_main",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "used_by",
+   "fieldtype": "Small Text",
+   "label": "Used by",
+   "description": "What stops working when it expires, e.g. n8n › QTT Daily Report."
+  },
+  {
+   "fieldname": "renew_how",
+   "fieldtype": "Small Text",
+   "label": "How to renew",
+   "description": "Where to go and what to change afterwards. Never put the secret itself here."
+  },
+  {
+   "fieldname": "domain_lookup",
+   "fieldtype": "Data",
+   "label": "Domain to look up",
+   "description": "For a domain: its name (e.g. queentouchtech.in). The date then updates by itself from the public registry every day, so a renewal ends the reminders."
+  },
+  {
+   "fieldname": "section_auto",
+   "fieldtype": "Section Break",
+   "label": "Automatic",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "last_step",
+   "fieldtype": "Int",
+   "label": "Last reminder step (days)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_checked",
+   "fieldtype": "Datetime",
+   "label": "Last checked",
+   "read_only": 1
+  },
+  {
+   "fieldname": "lookup_error",
+   "fieldtype": "Small Text",
+   "label": "Last lookup problem",
+   "read_only": 1
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "modified": "2026-11-13 10:00:00.000000",
+ "owner": "Administrator",
+ "modified_by": "Administrator",
+ "creation": "2026-11-13 10:00:00.000000"
+}
