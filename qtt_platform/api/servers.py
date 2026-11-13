@@ -439,7 +439,7 @@ def check_expiries() -> None:
 																	"domain_lookup", "last_step"]):
 		values = {"last_checked": now_datetime()}
 		expires_on = getdate(i.expires_on)
-		last_step = i.last_step
+		last_step = int(i.last_step) if str(i.last_step or "").lstrip("-").isdigit() else None  # Data field: "" = none yet
 		if i.domain_lookup:
 			found, error = _registry_expiry(i.domain_lookup)
 			values["lookup_error"] = error
@@ -448,7 +448,7 @@ def check_expiries() -> None:
 				last_step = None  # renewed: start over
 		days = expiry_watch.days_left(expires_on, day)
 		new_step, send = expiry_watch.step(last_step, days)
-		values["last_step"] = new_step
+		values["last_step"] = "" if new_step is None else str(new_step)
 		frappe.db.set_value(EXPIRY, i.name, values, update_modified=False)
 		if send:
 			_alert(expiry_watch.reminder(title=i.title, kind=i.kind, days=days, used_by=i.used_by, renew_how=i.renew_how))
