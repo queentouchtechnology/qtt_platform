@@ -6556,7 +6556,7 @@
    "arguments": "refresh",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.marketingOverview",
-   "screens": "admin/marketing_view.dart › _MarketingViewState\nproducts/services/screens/design_library.dart › _DesignPreviewPageState\nproducts/services/screens/marketing_hub.dart › _MarketingHubPageState\nproducts/services/screens/marketing_pages.dart › _MarketingPageState\nproducts/services/services_root.dart › _ServicesRootState",
+   "screens": "admin/marketing_view.dart › _MarketingViewState\nproducts/services/screens/design_library.dart › _DesignPreviewPageState\nproducts/services/screens/marketing_hub.dart › _MarketingHubPageState\nproducts/services/screens/marketing_pages.dart › (top level)\nproducts/services/screens/marketing_pages.dart › _MarketingPageState\nproducts/services/screens/social_home.dart › _SocialHomeState\nproducts/services/services_root.dart › _ServicesRootState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/marketing.py:65",
    "status": "OK"
@@ -6972,7 +6972,7 @@
    "arguments": "q, collection, show",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.notes",
-   "screens": "admin/business_admin.dart › _TenantServicesSectionState\nadmin/clients_models.dart › StaffService\nadmin/clients_view.dart › _ClientConsoleState\nadmin/marketing_dashboard_models.dart › DayReport\nadmin/marketing_dashboard_models.dart › ScheduleItem\nadmin/marketing_dashboard_models.dart › ScheduleSlot\nadmin/marketing_dashboard_models.dart › TargetProgress\nadmin/marketing_reports_view.dart › DayReportBody\nadmin/marketing_schedule_view.dart › _SlotEditScreenState\nplatform/team/team_sheets.dart › _TaskSheetState\nplatform/workplace/boards_page.dart › BoardCardTile\nplatform/workplace/forms_page.dart › _FormsPageState\nplatform/workplace/notes_page.dart › (top level)\nplatform/workplace/notes_page.dart › _NotesPageState\nproducts/office_pulse/screens/home_view.dart › PulseHomeView\nproducts/services/screens/marketing_history.dart › _Media\nproducts/services/screens/marketing_pages.dart › _MarketingPageState\nproducts/services/screens/marketing_pages.dart › _PostTile\nproducts/services/store/store_pages.dart › _StoreOrderPageState\nshell/home_shell.dart › _HomeShellState",
+   "screens": "admin/business_admin.dart › _TenantServicesSectionState\nadmin/clients_models.dart › StaffService\nadmin/clients_view.dart › _ClientConsoleState\nadmin/marketing_dashboard_models.dart › DayReport\nadmin/marketing_dashboard_models.dart › ScheduleItem\nadmin/marketing_dashboard_models.dart › ScheduleSlot\nadmin/marketing_dashboard_models.dart › TargetProgress\nadmin/marketing_reports_view.dart › DayReportBody\nadmin/marketing_schedule_view.dart › _SlotEditScreenState\nplatform/team/team_sheets.dart › _TaskSheetState\nplatform/workplace/boards_page.dart › BoardCardTile\nplatform/workplace/forms_page.dart › _FormsPageState\nplatform/workplace/notes_page.dart › (top level)\nplatform/workplace/notes_page.dart › _NotesPageState\nproducts/office_pulse/screens/home_view.dart › PulseHomeView\nproducts/services/screens/marketing_history.dart › _Media\nproducts/services/screens/marketing_pages.dart › (top level)\nproducts/services/screens/marketing_pages.dart › _PostTile\nproducts/services/screens/social_home.dart › _WaitingPost\nproducts/services/store/store_pages.dart › _StoreOrderPageState\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/notes.py:70",
    "status": "OK"
@@ -7100,7 +7100,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.overview",
-   "screens": "admin/admin_root.dart › _Overview\nplatform/data/platform_models.dart › ExploreCatalog\nplatform/data/platform_repository.dart › PlatformRepository\nproducts/office_pulse/repository.dart › PulseRepository\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/services/repository.dart › ServicesRepository\nproducts/services/screens/article_pages.dart › ArticleEditorPage\nproducts/services/screens/article_pages.dart › _ArticleEditorPageState\nproducts/services/screens/marketing_history.dart › PostHistoryPage\nproducts/services/screens/marketing_history.dart › _PostHistoryPageState\nproducts/services/screens/marketing_pages.dart › PostEditorPage\nproducts/services/screens/marketing_pages.dart › _PostEditorPageState\nproducts/services/screens/newsletter_pages.dart › NewsletterEditorPage\nproducts/services/screens/newsletter_pages.dart › _NewsletterEditorPageState\nproducts/services/screens/series_pages.dart › SeriesEditorPage\nproducts/services/screens/series_pages.dart › SeriesPage\nproducts/services/screens/series_pages.dart › _SeriesEditorPageState\nproducts/services/screens/series_pages.dart › _SeriesPageState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/services_home.dart › _ActivityPageState\nproducts/services/screens/services_home.dart › _AssetPage\nproducts/services/screens/services_home.dart › _CatalogPage\nproducts/services/screens/services_home.dart › _PendingPage\nproducts/services/screens/services_home.dart › _ReviewCard\nproducts/services/screens/services_home.dart › _ServiceGrid\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/screens/services_home.dart › _ServicesListPage\nproducts/services/screens/services_home.dart › _Stats\nproducts/services/screens/services_home.dart › _WebsiteTop\nproducts/services/screens/sites_pages.dart › _SitesPage\nproducts/services/services_root.dart › ServicesState\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_pages.dart › (top level)\nshell/home_overview.dart › HomeOverviewLoader\nshell/home_overview.dart › TodaySoFarCard\nshell/launcher_screen.dart › LauncherScreen",
+   "screens": "admin/admin_root.dart › _Overview\nplatform/data/platform_models.dart › ExploreCatalog\nplatform/data/platform_repository.dart › PlatformRepository\nproducts/office_pulse/repository.dart › PulseRepository\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/services/repository.dart › ServicesRepository\nproducts/services/screens/article_pages.dart › ArticleEditorPage\nproducts/services/screens/article_pages.dart › _ArticleEditorPageState\nproducts/services/screens/marketing_history.dart › PostHistoryPage\nproducts/services/screens/marketing_history.dart › _PostHistoryPageState\nproducts/services/screens/marketing_pages.dart › PostEditorPage\nproducts/services/screens/marketing_pages.dart › _PostEditorPageState\nproducts/services/screens/newsletter_pages.dart › NewsletterEditorPage\nproducts/services/screens/newsletter_pages.dart › _NewsletterEditorPageState\nproducts/services/screens/series_pages.dart › SeriesEditorPage\nproducts/services/screens/series_pages.dart › SeriesPage\nproducts/services/screens/series_pages.dart › _SeriesEditorPageState\nproducts/services/screens/series_pages.dart › _SeriesPageState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/services_home.dart › _ActivityPageState\nproducts/services/screens/services_home.dart › _AssetPage\nproducts/services/screens/services_home.dart › _CatalogPage\nproducts/services/screens/services_home.dart › _PendingPage\nproducts/services/screens/services_home.dart › _ReviewCard\nproducts/services/screens/services_home.dart › _ServiceGrid\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/screens/services_home.dart › _ServicesListPage\nproducts/services/screens/services_home.dart › _Stats\nproducts/services/screens/services_home.dart › _WebsiteTop\nproducts/services/screens/sites_pages.dart › _SitesPage\nproducts/services/screens/social_home.dart › _MoreTab\nproducts/services/screens/social_home.dart › _SocialHomeState\nproducts/services/screens/social_home.dart › _TodayTab\nproducts/services/screens/social_home.dart › _ToolsGrid\nproducts/services/services_root.dart › ServicesState\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_pages.dart › (top level)\nshell/home_overview.dart › HomeOverviewLoader\nshell/home_overview.dart › TodaySoFarCard\nshell/launcher_screen.dart › LauncherScreen",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/platform_admin.py:25",
    "status": "Not described"
@@ -8236,7 +8236,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioHome",
-   "screens": "products/services/screens/marketing_pages.dart › _MarketingPageState\nproducts/studio/studio_root.dart › _StudioHomeState",
+   "screens": "products/services/screens/marketing_pages.dart › (top level)\nproducts/studio/studio_root.dart › _StudioHomeState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/studio.py:226",
    "status": "OK"
@@ -8268,7 +8268,7 @@
    "arguments": "request, template",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioMake",
-   "screens": "products/services/screens/marketing_pages.dart › _MarketingPageState\nproducts/studio/studio_pages.dart › _TemplateSheetState\nproducts/studio/studio_root.dart › _StudioHomeState",
+   "screens": "products/services/screens/marketing_pages.dart › (top level)\nproducts/studio/studio_pages.dart › _TemplateSheetState\nproducts/studio/studio_root.dart › _StudioHomeState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/studio.py:266",
    "status": "OK"
@@ -8316,7 +8316,7 @@
    "arguments": "name, format",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioToPost",
-   "screens": "products/services/screens/marketing_pages.dart › _MarketingPageState\nproducts/studio/design_editor.dart › _DesignEditorPageState\nproducts/studio/studio_pages.dart › _StudioWorkPageState",
+   "screens": "products/services/screens/marketing_pages.dart › (top level)\nproducts/studio/design_editor.dart › _DesignEditorPageState\nproducts/studio/studio_pages.dart › _StudioWorkPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/studio.py:523",
    "status": "OK"
@@ -11564,7 +11564,7 @@
    "arguments": "name",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingApprove",
-   "screens": "products/services/screens/marketing_pages.dart › _PostEditorPageState",
+   "screens": "products/services/screens/marketing_pages.dart › _PostEditorPageState\nproducts/services/screens/social_home.dart › _TodayTab",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:278",
    "status": "OK"
@@ -11692,7 +11692,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingDraftIdeas",
-   "screens": "products/services/screens/marketing_hub.dart › _MarketingIdeasPageState\nproducts/services/screens/marketing_pages.dart › _MarketingPageState",
+   "screens": "products/services/screens/marketing_hub.dart › _MarketingIdeasPageState\nproducts/services/screens/marketing_pages.dart › (top level)",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:350",
    "status": "OK"
@@ -11708,7 +11708,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingOverview",
-   "screens": "admin/marketing_view.dart › _MarketingViewState\nproducts/services/screens/design_library.dart › _DesignPreviewPageState\nproducts/services/screens/marketing_hub.dart › _MarketingHubPageState\nproducts/services/screens/marketing_pages.dart › _MarketingPageState\nproducts/services/services_root.dart › _ServicesRootState",
+   "screens": "admin/marketing_view.dart › _MarketingViewState\nproducts/services/screens/design_library.dart › _DesignPreviewPageState\nproducts/services/screens/marketing_hub.dart › _MarketingHubPageState\nproducts/services/screens/marketing_pages.dart › (top level)\nproducts/services/screens/marketing_pages.dart › _MarketingPageState\nproducts/services/screens/social_home.dart › _SocialHomeState\nproducts/services/services_root.dart › _ServicesRootState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:144",
    "status": "Not described"
@@ -11724,7 +11724,7 @@
    "arguments": "name",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingPost",
-   "screens": "products/services/screens/marketing_history.dart › _PostHistoryPageState\nproducts/services/screens/marketing_hub.dart › _MarketingHubPageState\nproducts/services/screens/marketing_pages.dart › _MarketingPageState",
+   "screens": "products/services/screens/marketing_history.dart › _PostHistoryPageState\nproducts/services/screens/marketing_hub.dart › _MarketingHubPageState\nproducts/services/screens/marketing_pages.dart › (top level)\nproducts/services/screens/social_home.dart › _TodayTab",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:235",
    "status": "Not described"
@@ -12108,7 +12108,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingHub",
-   "screens": "products/services/screens/marketing_hub.dart › _MarketingHubPageState\nproducts/services/screens/marketing_hub.dart › _MarketingIdeasPageState",
+   "screens": "products/services/screens/marketing_hub.dart › _MarketingHubPageState\nproducts/services/screens/marketing_hub.dart › _MarketingIdeasPageState\nproducts/services/screens/social_home.dart › _TodayTab",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/marketing_social.py:164",
    "status": "OK"
@@ -12156,7 +12156,7 @@
    "arguments": "refresh",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingResults",
-   "screens": "products/services/screens/marketing_hub.dart › _MarketingCustomersPageState\nproducts/services/screens/marketing_pages.dart › _ResultsCard",
+   "screens": "products/services/screens/marketing_hub.dart › _MarketingCustomersPageState\nproducts/services/screens/marketing_pages.dart › SocialResultsCard\nproducts/services/screens/social_home.dart › _ReachCard",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/marketing_social.py:62",
    "status": "OK"
@@ -13340,7 +13340,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.overview",
-   "screens": "admin/admin_repository.dart › AdminRepository\nadmin/admin_root.dart › _Overview\nplatform/data/platform_models.dart › ExploreCatalog\nplatform/data/platform_repository.dart › PlatformRepository\nproducts/office_pulse/repository.dart › PulseRepository\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/services/screens/article_pages.dart › ArticleEditorPage\nproducts/services/screens/article_pages.dart › _ArticleEditorPageState\nproducts/services/screens/marketing_history.dart › PostHistoryPage\nproducts/services/screens/marketing_history.dart › _PostHistoryPageState\nproducts/services/screens/marketing_pages.dart › PostEditorPage\nproducts/services/screens/marketing_pages.dart › _PostEditorPageState\nproducts/services/screens/newsletter_pages.dart › NewsletterEditorPage\nproducts/services/screens/newsletter_pages.dart › _NewsletterEditorPageState\nproducts/services/screens/series_pages.dart › SeriesEditorPage\nproducts/services/screens/series_pages.dart › SeriesPage\nproducts/services/screens/series_pages.dart › _SeriesEditorPageState\nproducts/services/screens/series_pages.dart › _SeriesPageState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/services_home.dart › _ActivityPageState\nproducts/services/screens/services_home.dart › _AssetPage\nproducts/services/screens/services_home.dart › _CatalogPage\nproducts/services/screens/services_home.dart › _PendingPage\nproducts/services/screens/services_home.dart › _ReviewCard\nproducts/services/screens/services_home.dart › _ServiceGrid\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/screens/services_home.dart › _ServicesListPage\nproducts/services/screens/services_home.dart › _Stats\nproducts/services/screens/services_home.dart › _WebsiteTop\nproducts/services/screens/sites_pages.dart › _SitesPage\nproducts/services/services_root.dart › ServicesState\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_pages.dart › (top level)\nshell/home_overview.dart › HomeOverviewLoader\nshell/home_overview.dart › TodaySoFarCard\nshell/launcher_screen.dart › LauncherScreen",
+   "screens": "admin/admin_repository.dart › AdminRepository\nadmin/admin_root.dart › _Overview\nplatform/data/platform_models.dart › ExploreCatalog\nplatform/data/platform_repository.dart › PlatformRepository\nproducts/office_pulse/repository.dart › PulseRepository\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/services/screens/article_pages.dart › ArticleEditorPage\nproducts/services/screens/article_pages.dart › _ArticleEditorPageState\nproducts/services/screens/marketing_history.dart › PostHistoryPage\nproducts/services/screens/marketing_history.dart › _PostHistoryPageState\nproducts/services/screens/marketing_pages.dart › PostEditorPage\nproducts/services/screens/marketing_pages.dart › _PostEditorPageState\nproducts/services/screens/newsletter_pages.dart › NewsletterEditorPage\nproducts/services/screens/newsletter_pages.dart › _NewsletterEditorPageState\nproducts/services/screens/series_pages.dart › SeriesEditorPage\nproducts/services/screens/series_pages.dart › SeriesPage\nproducts/services/screens/series_pages.dart › _SeriesEditorPageState\nproducts/services/screens/series_pages.dart › _SeriesPageState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/services_home.dart › _ActivityPageState\nproducts/services/screens/services_home.dart › _AssetPage\nproducts/services/screens/services_home.dart › _CatalogPage\nproducts/services/screens/services_home.dart › _PendingPage\nproducts/services/screens/services_home.dart › _ReviewCard\nproducts/services/screens/services_home.dart › _ServiceGrid\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/screens/services_home.dart › _ServicesListPage\nproducts/services/screens/services_home.dart › _Stats\nproducts/services/screens/services_home.dart › _WebsiteTop\nproducts/services/screens/sites_pages.dart › _SitesPage\nproducts/services/screens/social_home.dart › _MoreTab\nproducts/services/screens/social_home.dart › _SocialHomeState\nproducts/services/screens/social_home.dart › _TodayTab\nproducts/services/screens/social_home.dart › _ToolsGrid\nproducts/services/services_root.dart › ServicesState\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_pages.dart › (top level)\nshell/home_overview.dart › HomeOverviewLoader\nshell/home_overview.dart › TodaySoFarCard\nshell/launcher_screen.dart › LauncherScreen",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/portal.py:19",
    "status": "Not described"
