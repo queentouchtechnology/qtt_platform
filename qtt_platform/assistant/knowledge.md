@@ -1354,7 +1354,14 @@ open it from that service).
   Series and Autopilot) · Posts and people (All posts, Post history, Comments
   and reviews) · Pages and brand (Your pages, Business knowledge) · Plan and
   settings (owners: Plan and posts left). Articles and newsletters are not here
-  — they have their own place in the Marketing assistant.
+  — they have their own dashboard (Home › Articles & newsletters).
+- **Articles & newsletters** (Home › the Articles & newsletters tile): their own
+  dashboard, apart from social media, with tabs **Overview · Articles ·
+  Newsletter · Series**. Overview: what needs your OK (articles and
+  newsletters), articles this month (used of the package's) and the next one
+  (**Open**), subscribers and the next newsletter (**Check**), **Write an
+  article**. A package without them shows a locked card saying which plan
+  (Articles: Growth and Pro; Newsletter: Pro) — owners tap it for the plans.
 - **Posts and pages** (Social media › More › All posts or Your pages): each
   page with its own numbers (tap a page to connect it again or disconnect it;
   **Add page**); **Your posts** with tabs Waiting for your OK, Scheduled,
