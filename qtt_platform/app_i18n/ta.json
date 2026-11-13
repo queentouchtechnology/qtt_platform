@@ -8314,5 +8314,8 @@
  "Waiting for your OK, scheduled and posted": "உங்கள் ஒப்புதலுக்காக, திட்டமிடப்பட்டவை மற்றும் வெளியானவை",
  "What you sell, your tone and colours": "நீங்கள் விற்பவை, உங்கள் தொனி மற்றும் நிறங்கள்",
  "Your tools": "உங்கள் கருவிகள்",
- "{n} posts left this month": "இந்த மாதம் {n} பதிவுகள் மீதம்"
+ "{n} posts left this month": "இந்த மாதம் {n} பதிவுகள் மீதம்",
+ "It shows as posted in a few minutes: {pages}.": "சில நிமிடங்களில் வெளியானதாகக் காட்டும்: {pages}.",
+ "Sent to your pages": "உங்கள் பக்கங்களுக்கு அனுப்பப்பட்டது",
+ "Step {n} of 3: {step}": "படி {n} / 3: {step}"
 }

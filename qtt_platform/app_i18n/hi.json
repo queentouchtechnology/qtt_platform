@@ -8314,5 +8314,8 @@
  "Waiting for your OK, scheduled and posted": "आपकी मंज़ूरी के लिए, तय और पोस्ट हुई",
  "What you sell, your tone and colours": "आप क्या बेचते हैं, आपका अंदाज़ और रंग",
  "Your tools": "आपके टूल",
- "{n} posts left this month": "इस महीने {n} पोस्ट बची हैं"
+ "{n} posts left this month": "इस महीने {n} पोस्ट बची हैं",
+ "It shows as posted in a few minutes: {pages}.": "कुछ मिनट में पोस्ट हुई दिखेगी: {pages}।",
+ "Sent to your pages": "आपके पेज पर भेजी गई",
+ "Step {n} of 3: {step}": "चरण {n} / 3: {step}"
 }

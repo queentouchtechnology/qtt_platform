@@ -1363,6 +1363,11 @@ open it from that service).
   you don't want. Numbers come from each page's feed: pages connected before
   23 Oct 2026 show **Connect again for numbers** — connect once more and allow
   it (Instagram can take up to 2 days).
+- **A post's steps**: the post page shows **Write → Check → Scheduled** at the
+  top (Posted once it's out). Write: the words and photos — **How it looks**
+  shows right under them from the first word. Check: the pages, how it goes on
+  each page, when, then **Approve and post** / **Approve and schedule**. After
+  approving, the last step says where and when it goes; **Done** goes back.
 - **Create a post** (Social media): how to start — **Pick a template**
   (with QTT Studio: Studio's templates, edited in the editor, then the post
   opens to choose pages and approve; without Studio: the free Post designs),

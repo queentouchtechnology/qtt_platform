@@ -8314,5 +8314,8 @@
  "Waiting for your OK, scheduled and posted": "بانتظار موافقتك، مجدولة ومنشورة",
  "What you sell, your tone and colours": "ما تبيعه وأسلوبك وألوانك",
  "Your tools": "أدواتك",
- "{n} posts left this month": "تبقى {n} منشورات هذا الشهر"
+ "{n} posts left this month": "تبقى {n} منشورات هذا الشهر",
+ "It shows as posted in a few minutes: {pages}.": "سيظهر كمنشور خلال دقائق: {pages}.",
+ "Sent to your pages": "أُرسل إلى صفحاتك",
+ "Step {n} of 3: {step}": "الخطوة {n} من 3: {step}"
 }
