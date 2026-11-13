@@ -210,6 +210,17 @@ everyone in every business — no plan needed.
   Phone tabs: **Apps · Team · Calendar · Business · Account** (a member sees
   their everyday app instead of Business); **Customers** is under **Account ›
   More** on phones; ☰ (top left on Home, or swipe from the left) opens the menu.
+  The menu (on a computer it's the sidebar, always there): you and your role in
+  the business, the sections (Apps, Team, Calendar, Business, Account — QTT
+  staff also QTT Admin), **Your apps** — the same tiles as Home, each with its
+  colour and a red number for what's waiting, then any app without its own
+  tile (e.g. QTT Business Suite's own page) — and Know your business, Ask QTT,
+  Help and support, Sign out.
+- **QTT Business Suite** home: what needs you and the services running, Start
+  here (set-up steps), **Your services** as compact tiles — Website Builder,
+  Online Store, WhatsApp & AI, **Social media** (its own dashboard) and
+  **Articles & newsletters** (their own dashboard) — your websites and systems,
+  requests and what QTT did.
 - **One Calendar for everyone** (on phones the **Calendar** tab at the bottom;
   on a computer Home › the calendar button with today's date; **Up next** on
   Home shows the next three things this week): meetings,
