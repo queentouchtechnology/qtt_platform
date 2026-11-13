@@ -198,8 +198,21 @@ everyone in every business — no plan needed.
   ones: payslips into a folder for each month, offer and appointment letters,
   ID proofs, invoices to Accounts, tell me about new contracts. Each rule
   counts how many times it acted; turn one off or remove it any time.
-- **One Calendar for everyone** (Home › the calendar button with today's
-  date; **Up next** on Home shows the next three things this week): meetings,
+- **Home** (the main dashboard): the greeting and what needs you, **Today so
+  far** (a few live numbers — sales today with the change against yesterday at
+  this time, staff in, posts going out today; each shows only for people whose
+  role can see it), the **For you** cards, and **Your apps**: one tile for each
+  thing the business uses — HR & staff, ERP, Website, Store, WhatsApp, Social
+  media, Articles & newsletters, Studio — each with a short status (9 of 11 in,
+  ₹18.4K today, Live, 2 to approve…) and a red number for what's waiting. A tile
+  opens straight to that place. Articles & newsletters shows when the Marketing
+  package includes articles (owners see it as "Comes with Growth" otherwise).
+  Phone tabs: **Apps · Team · Calendar · Business · Account** (a member sees
+  their everyday app instead of Business); **Customers** is under **Account ›
+  More** on phones; ☰ (top left on Home, or swipe from the left) opens the menu.
+- **One Calendar for everyone** (on phones the **Calendar** tab at the bottom;
+  on a computer Home › the calendar button with today's date; **Up next** on
+  Home shows the next three things this week): meetings,
   posts going out (social and Google posts, articles, newsletters, each
   series' next post — anyone with QTT Business Suite), renewals and expiries
   (a service's renewal, a domain's year, domains and security certificates

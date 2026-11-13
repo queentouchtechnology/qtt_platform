@@ -5,6 +5,8 @@ active business (rules and card shape in qtt_platform.home_cards).
   actions()        ranked cards — business cards for owners/admins, plus each
                    app's own cards (hook `qtt_home_cards`: (user, tenant) -> list), and
                    each unfinished set-up guide's next step (api/setup.home_cards)
+  overview()       the main dashboard's app tiles and today's numbers (hooks `qtt_home_tiles`,
+                   `qtt_home_numbers`; rules in qtt_platform.home_tiles)
   dismiss(key)     hide a card for this person for a week
 
 One app failing never breaks the home: its cards are just left out.
@@ -65,6 +67,49 @@ def actions() -> list[dict]:
 			frappe.log_error(title=f"qtt home cards: {getattr(source, '__module__', source)}", message=frappe.get_traceback())
 	dismissed = {c["key"] for c in cards if isinstance(c, dict) and frappe.cache.get_value(_dismiss_key(user, str(c.get("key"))))}
 	return home_cards.rank(cards, dismissed)
+
+
+def _studio_tiles(user: str, tenant: str) -> list[dict]:
+	"""QTT Studio lives in the platform: its tile when the business has it."""
+	from qtt_platform.product.guards import require_product_access
+
+	try:
+		require_product_access(tenant, "QTT_STUDIO", user=user)
+	except frappe.PermissionError:
+		return []
+	return [{"key": "studio", "label": "Studio", "icon": "palette", "order": 80, "status": "Make a design",
+			 "open": {"kind": "product", "target": "QTT_STUDIO"}}]
+
+
+def _collect(hook: str, user: str, tenant: str, extra: list | None = None) -> list:
+	out = []
+	for source in (extra or []) + [frappe.get_attr(path) for path in frappe.get_hooks(hook) or []]:
+		try:
+			out.extend(source(user, tenant) or [])
+		except Exception:
+			frappe.log_error(title=f"qtt {hook}: {getattr(source, '__module__', source)}", message=frappe.get_traceback())
+	return out
+
+
+@frappe.whitelist(methods=["GET"])
+def overview() -> dict:
+	"""The main dashboard's live parts for the signed-in person in their business.
+
+	Returns {"tiles": [...], "numbers": [...]}:
+	  tiles    "Your apps" — one per thing the business uses (HR & staff, ERP, Website, Store, WhatsApp, Social media,
+	           Articles & newsletters, Studio), each with a short status, a badge (things waiting) and what opens it
+	           ({kind: product|screen|section|url, target}). Apps add theirs with the hook `qtt_home_tiles`.
+	  numbers  "Today so far" — up to four numbers (sales, staff in, orders, posts…) from the hook `qtt_home_numbers`.
+	Nothing the person can't open is listed; one app failing just leaves its tiles out.
+	"""
+	from qtt_platform import home_tiles
+
+	user = frappe.session.user
+	tenant = resolve_active_tenant(user)
+	if not tenant:
+		return {"tiles": [], "numbers": []}
+	return {"tiles": home_tiles.tiles(_collect("qtt_home_tiles", user, tenant, [_studio_tiles])),
+			"numbers": home_tiles.numbers(_collect("qtt_home_numbers", user, tenant))}
 
 
 @frappe.whitelist(methods=["POST"])
