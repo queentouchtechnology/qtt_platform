@@ -108,7 +108,7 @@
    "arguments": "month, employee",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.calendar",
-   "screens": "platform/calendar/calendar_home.dart › (top level)\nplatform/data/platform_repository.dart › PlatformRepository\nplatform/workplace/calendar_page.dart › _CalendarPageState\nproducts/office_pulse/screens/attendance_view.dart › _AttendanceViewState\nproducts/office_pulse/screens/home_view.dart › PulseHomeView\nproducts/services/repository.dart › ServicesRepository\nproducts/services/screens/series_pages.dart › (top level)\nproducts/services/screens/series_pages.dart › MarketingCalendarPage\nproducts/services/services_root.dart › _ServicesRootState\nshell/home_shell.dart › _HomeShellState",
+   "screens": "platform/calendar/calendar_home.dart › (top level)\nplatform/data/platform_repository.dart › PlatformRepository\nplatform/workplace/calendar_page.dart › _CalendarPageState\nproducts/office_pulse/screens/attendance_view.dart › _AttendanceViewState\nproducts/office_pulse/screens/home_view.dart › PulseHomeView\nproducts/services/repository.dart › ServicesRepository\nproducts/services/screens/series_pages.dart › (top level)\nproducts/services/screens/social_calendar.dart › (top level)\nproducts/services/screens/social_calendar.dart › _PostCalendarState\nproducts/services/services_root.dart › _ServicesRootState\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/attendance.py:61",
    "status": "OK"
@@ -11932,7 +11932,7 @@
    "arguments": "days",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingCalendar",
-   "screens": "products/services/screens/series_pages.dart › MarketingCalendarPage",
+   "screens": "products/services/screens/social_calendar.dart › _PostCalendarState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:178",
    "status": "OK"
