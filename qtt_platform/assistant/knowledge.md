@@ -219,10 +219,14 @@ everyone in every business — no plan needed.
   expiring, a preview ending — owners and admins only), leave, holidays and
   birthdays (Office Pulse: your own leave, your team's if they report to you,
   everyone's for HR; birthdays show the day only, never the year). Views:
-  Schedule (day by day), Day, 3 days, Week, Month — the menu at the top right;
-  swipe sideways for earlier or later; the chips at the top turn Events / Posts
-  / Reminders / People on or off; a red line marks the time now. Tap a meeting
-  to open it; anything else shows its details and **Open** (its own screen).
+  Schedule (day by day), Day, 3 days, Week, Month — the switch under the title
+  (the last one is remembered); Schedule shows this week on top with each day's
+  layers as coloured dots — tap a day to start the list there; swipe sideways
+  for earlier or later; the chips turn Events / Posts / Reminders / People on
+  or off; a red line marks the time now. Each thing carries a small tag for the
+  app it comes from (HR, Social, Articles, Website, Store, Team, Tasks). Tap a
+  meeting to open it; anything else shows its details and **Open** (its own
+  screen).
   Someone without a layer (e.g. no Business Suite) simply doesn't see it.
 - **Calendar** (Office Pulse › Calendar — the same Calendar, with the team
   calendar's meetings): the business's team calendar and your own events.

@@ -89,7 +89,7 @@ def assigned(who, frm, to):
 			continue
 		label = title or rules.plain(t.description, 90) or _("Assignment")
 		overdue = getdate(due) < now
-		out.append({"key": f"todo:{t.name}", "layer": "assigned", "title": str(label), "start": getdate(due), "all_day": True,
+		out.append({"key": f"todo:{t.name}", "layer": "assigned", "app": "Tasks", "title": str(label), "start": getdate(due), "all_day": True,
 					"subtitle": (_("From {0}").format(t.assigned_by_full_name) if t.assigned_by_full_name else None),
 					"status": _("Overdue") if overdue else (_("High priority") if t.priority == "High" else None),
 					"tone": "danger" if overdue else ("warning" if t.priority == "High" else None),
@@ -105,7 +105,7 @@ def team_events(who, frm, to):
 
 	got = team_calendar.events(str(frm), str(to))
 	return {"layers": ["events"], "items": [{
-		"key": f"event:{e['name']}:{e['start']}", "layer": "events", "title": e["title"], "start": e["start"], "end": e["end"],
+		"key": f"event:{e['name']}:{e['start']}", "layer": "events", "app": "Team", "title": e["title"], "start": e["start"], "end": e["end"],
 		"all_day": e["all_day"], "color": e["color"], "event": e["name"], "location": e.get("location"), "meeting_url": e.get("meeting_url"),
 		"organizer": None if e.get("mine") else e.get("organizer"), "response": e.get("response"),
 		"status": "Answer" if e.get("response") == "needs" else None, "tone": "warning" if e.get("response") == "needs" else None,

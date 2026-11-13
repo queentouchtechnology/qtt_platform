@@ -17,6 +17,12 @@ class Clean(unittest.TestCase):
 		t = r.clean({"layer": "posts", "title": "Post", "start": datetime(2026, 11, 3, 7, 0), "tone": "danger", "screen": "services.marketing"})
 		self.assertEqual((t["start"], t["all_day"], t["tone"], t["screen"]), ("2026-11-03 07:00:00", False, "danger", "services.marketing"))
 
+	def test_app_tag_passed_on_and_kept_short(self):
+		c = r.clean({"layer": "people", "title": "Leave", "start": date(2026, 11, 3), "app": "HR"})
+		self.assertEqual(c["app"], "HR")
+		self.assertIsNone(r.clean({"layer": "people", "title": "Leave", "start": date(2026, 11, 3)})["app"])
+		self.assertEqual(len(r.clean({"layer": "people", "title": "x", "start": date(2026, 11, 3), "app": "y" * 50})["app"]), 20)
+
 	def test_refuses_what_cant_show(self):
 		for bad in ({"layer": "nope", "title": "x", "start": "2026-11-03"}, {"layer": "posts", "title": " ", "start": "2026-11-03"},
 					{"layer": "posts", "title": "x"}, "not a dict"):

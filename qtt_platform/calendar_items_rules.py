@@ -68,6 +68,8 @@ def clean(item: dict, layers: dict | None = None) -> dict | None:
 		"subtitle": str(item.get("subtitle") or "")[:200] or None, "status": str(item.get("status") or "")[:40] or None,
 		"tone": item.get("tone") if item.get("tone") in TONES else None, "icon": str(item.get("icon") or layers[layer]["icon"])[:40],
 		"color": item.get("color") or layers[layer]["color"], "screen": item.get("screen") or None, "event": item.get("event") or None,
+		# which app it comes from, shown as a small tag (HR, Social, Website…)
+		"app": str(item.get("app") or "")[:20] or None,
 	}
 	for k in ("location", "meeting_url", "response", "organizer"):
 		if item.get(k):
