@@ -1341,7 +1341,7 @@ open it from that service).
 - **Social media** has its own dashboard with one tab bar at the bottom:
   **Today · Calendar · ＋ Make a post · Results · More**. **Today**: each page
   as a chip (green working, red needs you to sign in again), posts left this
-  month; **Needs you** — the next post waiting for your OK with **Approve**
+  month, **Autopilot on/off** (tap for Series and Autopilot); **Needs you** — the next post waiting for your OK with **Approve**
   right there (tap it to check first; **See all**), **Comments and reviews**;
   **Coming up** — the next posts (**All planned**); **Your tools** — Post
   history, Festivals & ideas, Designs, Series & Autopilot, Google reviews, Your
@@ -1404,7 +1404,8 @@ open it from that service).
   **Open post** — comments on Instagram, Facebook, LinkedIn and the rest are
   read and answered in that app (QTT shows how many, not the words). If Google
   isn't showing reviews yet, it says QTT is switching it on.
-- **Ideas & festivals**: festivals coming up (**Make the post**); **Use one
+- **Ideas & festivals**: festivals coming up — a row each with its date, how
+  many days away, and **Make the post**; **Use one
   idea everywhere** (owner) — write it once, tick Post / Article / Newsletter
   (as the package allows); each is written and waits for your OK; ready ideas
   and your products (**Make post**), **Get post ideas**, **Something special?**
