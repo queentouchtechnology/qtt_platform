@@ -8317,5 +8317,9 @@
  "{n} posts left this month": "تبقى {n} منشورات هذا الشهر",
  "It shows as posted in a few minutes: {pages}.": "سيظهر كمنشور خلال دقائق: {pages}.",
  "Sent to your pages": "أُرسل إلى صفحاتك",
- "Step {n} of 3: {step}": "الخطوة {n} من 3: {step}"
+ "Step {n} of 3: {step}": "الخطوة {n} من 3: {step}",
+ "Articles and newsletters": "المقالات والنشرات",
+ "not posted": "لم يُنشر",
+ "people saw them": "شخصًا شاهدها",
+ "{n} planned": "{n} مخطط"
 }

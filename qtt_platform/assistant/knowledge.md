@@ -1374,7 +1374,8 @@ open it from that service).
   **Use my photo** or **Just write words** (the post editor), **Tell AI what
   you want** (with Studio: made in your brand, 1 AI credit; without: post
   ideas).
-- **Post history** (Social media › Post history): every post on your pages —
+- **Post history** (Social media › Post history): at the top, how many posts,
+  how many people saw them and how many weren't posted (red); every post on your pages —
   made in QTT or posted directly — newest first, as a **Feed** (like Facebook
   and Instagram) or a **Grid** (like an Instagram profile), with likes,
   comments, shares and people reached; filter by page; each month's posts and
@@ -1502,9 +1503,12 @@ open it from that service).
 - **Posts a month**: a package sends a number of posts a month — Starter 12,
   Growth 30, Pro 60 (approved by you or sent by a series); the Marketing
   assistant shows how many are left. More come on the 1st.
-- **Calendar** (Marketing assistant › Calendar): the next 30 days — posts
-  scheduled with their time, posts waiting for your OK, and the days each
-  series will post.
+- **Calendar** (Marketing assistant › Calendar, and Social media › Calendar): the
+  next 60 days as a **List** (day by day), a **Week** (Monday first, a row a day,
+  ‹ › for earlier or later weeks) or a **Month** (a dot a post — blue scheduled,
+  amber waiting for your OK, grey from a series; tap a day for its posts); the
+  last view is remembered. Social media's calendar shows social posts only;
+  the Marketing assistant's also shows article and newsletter series.
 - **After posting**: Posted, Partly posted or Not posted, with how it went on
   each page and a link to the post. A post not posted can be changed and
   approved again. A scheduled post can be called off; a draft can be deleted.
