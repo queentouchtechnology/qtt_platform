@@ -1338,16 +1338,31 @@ open it from that service).
   and **Ideas & festivals**. A door the package doesn't have says which package
   brings it (owner: tap to see plans). Articles and newsletters on autopilot,
   and **Better posts** (how complete Business › Knowledge is, under 80%).
-- **Social media**: people who saw your posts in the last 30 days (and the
-  change from the 30 before), likes, comments, shares and Google calls, with
-  4 weekly bars; each page with its own numbers (tap a page to connect it again
-  or disconnect it; **Add page**); your best post this month with **Open
-  post**. **What customers say**; big buttons Create a post, Get post ideas,
-  Ready designs, On autopilot; posts left this month; **Your posts** with tabs
-  Waiting for your OK, Scheduled, Posted, All. A new post goes to every
-  connected page — untick any you don't want. Numbers come from each page's
-  feed: pages connected before 23 Oct 2026 show **Connect again for numbers**
-  — connect once more and allow it (Instagram can take up to 2 days).
+- **Social media** has its own dashboard with one tab bar at the bottom:
+  **Today · Calendar · ＋ Make a post · Results · More**. **Today**: each page
+  as a chip (green working, red needs you to sign in again), posts left this
+  month; **Needs you** — the next post waiting for your OK with **Approve**
+  right there (tap it to check first; **See all**), **Comments and reviews**;
+  **Coming up** — the next posts (**All planned**); **Your tools** — Post
+  history, Festivals & ideas, Designs, Series & Autopilot, Google reviews, Your
+  pages, Your brand, Better posts (how complete Business knowledge is); people
+  reached this week with weekly bars (tap for Results). **Calendar**: the next
+  30 days. **＋ Make a post**: how to start (below). **Results**: people who saw
+  your posts in the last 30 days (and the change from the 30 before), likes,
+  comments, shares and Google calls, 4 weekly bars, each page's numbers, your
+  best post. **More**, in four groups: Make (Ideas & festivals, Post designs,
+  Series and Autopilot) · Posts and people (All posts, Post history, Comments
+  and reviews) · Pages and brand (Your pages, Business knowledge) · Plan and
+  settings (owners: Plan and posts left). Articles and newsletters are not here
+  — they have their own place in the Marketing assistant.
+- **Posts and pages** (Social media › More › All posts or Your pages): each
+  page with its own numbers (tap a page to connect it again or disconnect it;
+  **Add page**); **Your posts** with tabs Waiting for your OK, Scheduled,
+  Posted, All. Before a page is connected, Social media opens here with step 1:
+  connect where you post. A new post goes to every connected page — untick any
+  you don't want. Numbers come from each page's feed: pages connected before
+  23 Oct 2026 show **Connect again for numbers** — connect once more and allow
+  it (Instagram can take up to 2 days).
 - **Create a post** (Social media): how to start — **Pick a template**
   (with QTT Studio: Studio's templates, edited in the editor, then the post
   opens to choose pages and approve; without Studio: the free Post designs),
