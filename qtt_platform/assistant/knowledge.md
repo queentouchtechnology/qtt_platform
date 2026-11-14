@@ -210,6 +210,11 @@ everyone in every business — no plan needed.
   Phone tabs: **Apps · Team · Calendar · Business · Account** (a member sees
   their everyday app instead of Business); **Customers** is under **Account ›
   More** on phones; ☰ (top left on Home, or swipe from the left) opens the menu.
+  Signing in always opens this one main screen (Apps) — for everyone, QTT staff
+  too; staff's own dashboard is the **QTT Admin** tab (phone tabs for staff:
+  Apps · QTT Admin · Team · Calendar · Account; Marketing, Revenue and the rest
+  open from QTT Admin). On the web a refresh keeps your place; a new sign-in
+  starts on the main screen.
   The menu (on a computer it's the sidebar, always there): you and your role in
   the business, the sections (Apps, Team, Calendar, Business, Account — QTT
   staff also QTT Admin), **Your apps** — the same tiles as Home, each with its
@@ -527,9 +532,10 @@ everyone in every business — no plan needed.
   (Business › Team) — the app says so.
 
 ## Getting started (everyone)
-- **Welcome**: the first time someone opens QTT OS they see what it does for
-  them — each of their apps with what their role can do there, Ask QTT, Home
-  cards and search, and (owners) what else QTT offers. Again any time:
+- **Welcome**: what QTT OS does for you — each of your apps with what your
+  role can do there, Ask QTT, Home cards and search, and (owners) what else QTT
+  offers. It no longer pops up after sign-in (the main screen opens straight
+  away; new owners get Get started on Home); open it any time from
   Account › Help › Show the welcome again.
 - **Set-up guide** (HR, Office Pulse › Manage › Setup › Start here, and a "Set
   up Office Pulse: N of M done" card on Home until it's done): the steps in
