@@ -148,7 +148,15 @@ def ensure_included(tenant: str) -> list[str]:
 
 	products = set(frappe.get_all("QTT Product", filters={"status": "active", "name": ["!=", ONE_PLAN_PRODUCT]}, pluck="name"))
 	have = set(frappe.get_all(SUB, filters={"tenant": tenant, "status": ["in", list(OPEN_SUBSCRIPTION_STATUSES)]}, pluck="product"))
-	return ensure_house(tenant) if products - have else []
+	changed = ensure_house(tenant) if products - have else []
+	# …and each app's own workspace (ERP, HR): one that's missing is set up now (hook `qtt_ensure_workspace`: (tenant) -> bool)
+	for path in frappe.get_hooks("qtt_ensure_workspace") or []:
+		try:
+			if frappe.get_attr(path)(tenant):
+				changed.append(f"{path.split('.')[0]}: workspace started")
+		except Exception:
+			frappe.log_error(title=f"qtt_platform.house: {path} for {tenant}")
+	return changed
 
 
 def ensure_all() -> None:
