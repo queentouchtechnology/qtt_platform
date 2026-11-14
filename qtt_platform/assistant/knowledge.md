@@ -208,8 +208,9 @@ everyone in every business — no plan needed.
   opens straight to that place. Articles & newsletters shows when the Marketing
   package includes articles (owners see it as "Comes with Growth" otherwise).
   Phone tabs: **Apps · Team · Calendar · Business · Account** (a member sees
-  their everyday app instead of Business); **Customers** is under **Account ›
-  More** on phones; ☰ (top left on Home, or swipe from the left) opens the menu.
+  their everyday app instead of Business); the **Account** tab is your account
+  (appearance, language, help, sign out); on phones **Customers** is in the ☰
+  menu (top left on Home, or swipe from the left).
   Signing in always opens this one main screen (Apps) — for everyone, QTT staff
   too; staff's own dashboard is the **QTT Admin** tab (phone tabs for staff:
   Apps · QTT Admin · Team · Calendar · Account; Marketing, Revenue and the rest
