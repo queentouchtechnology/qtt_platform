@@ -108,6 +108,8 @@ required_apps = []
 #     re-derives `tenant` from the referenced membership on every save, a
 #     stronger, self-healing guarantee.
 doc_events = {
+    # Free use (PROJ-0024): past the free designs, a new one asks to subscribe.
+    "QTT Design": {"before_insert": "qtt_platform.api.free_use.guard_new_design"},
     # The public price list (api/public_pricing.py) shows a saved price at once.
     "QTT Plan": {"on_update": "qtt_platform.api.public_pricing.clear", "on_trash": "qtt_platform.api.public_pricing.clear"},
     "QTT Product": {"on_update": "qtt_platform.api.public_pricing.clear"},
@@ -164,7 +166,7 @@ doc_events = {
 after_install = "qtt_platform.app_setup.seed_app_defaults"
 # api_guide.sync: Desk › QTT API Endpoint, the backend guide generated from the code (api_guide.json).
 # QTT Studio registers first, so house workspaces get it in the same migrate.
-after_migrate = ["qtt_platform.app_setup.seed_app_defaults", "qtt_platform.studio.setup.register", "qtt_platform.house.ensure_all",
+after_migrate = ["qtt_platform.app_setup.seed_app_defaults", "qtt_platform.studio.setup.register", "qtt_platform.one_plan.register", "qtt_platform.house.ensure_all",
 	"qtt_platform.api_guide.sync", "qtt_platform.design.library.sync", "qtt_platform.design.library.sync_occasions",
 	"qtt_platform.api.security.ensure_setup", "qtt_platform.feature_access.sync", "qtt_platform.emails.sync", "qtt_platform.app_map.publish"]
 

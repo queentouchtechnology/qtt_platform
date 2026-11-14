@@ -65,13 +65,13 @@ def on_invoice_update(doc, method=None) -> None:
 
 def renew_daily() -> None:
 	"""Scheduler (daily): the next invoice before the paid time runs out; suspended when long unpaid."""
-	from qtt_platform.house import is_house
+	from qtt_platform.house import ONE_PLAN_PRODUCT, included
 
 	now = getdate(today())
 	for s in frappe.get_all(SUB, filters={"billing_mode": "invoice", "status": ["in", ["trialing", "active", "past_due", "suspended"]]},
 							fields=["name", "tenant", "product", "plan", "status", "paid_until", "cancel_at_period_end"]):
-		if is_house(s.tenant):
-			continue
+		if included(s.tenant) and s.product != ONE_PLAN_PRODUCT:
+			continue  # everything included (PROJ-0024): only the one plan is billed
 		try:
 			has_open = bool(open_invoice(s.name))
 			step = rules.next_step(status=s.status, price=float(_plan(s.plan).base_price or 0),

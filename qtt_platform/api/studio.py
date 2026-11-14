@@ -75,9 +75,9 @@ def _need_design_room(tenant: str, ent: dict) -> None:
 
 def _credits(tenant: str) -> float | None:
 	from qtt_platform.ai.services.credit_service import get_balance
-	from qtt_platform.house import is_house
+	from qtt_platform.house import included
 
-	return None if is_house(tenant) else float(get_balance(tenant, rules.PRODUCT) or 0)
+	return None if included(tenant) else float(get_balance(tenant, rules.PRODUCT) or 0)  # included: AI at no charge
 
 
 def paid(tenant: str, feature: str, run, *, provider: str = "assistant", model: str = "assistant", provider_cost: float = 0):
@@ -87,11 +87,11 @@ def paid(tenant: str, feature: str, run, *, provider: str = "assistant", model: 
 
 	from qtt_platform.ai.core.response import AiUsage
 	from qtt_platform.ai.services import credit_service, usage_service
-	from qtt_platform.house import is_house
+	from qtt_platform.house import included
 
 	cost = rules.CREDITS[feature]
 	ref = f"studio:{feature}:{uuid.uuid4()}"
-	paying = not is_house(tenant)
+	paying = not included(tenant)  # QTT's own, and every business since PROJ-0024: no credits taken
 	if paying and not credit_service.deduct_credits(tenant, rules.PRODUCT, cost, reference=ref).get("ok"):
 		frappe.throw(_("You're out of AI credits — more come with next month's plan, or buy more in Business › Plans and billing."))
 	start = time.monotonic()

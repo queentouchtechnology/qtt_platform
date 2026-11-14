@@ -79,6 +79,7 @@
   "section_flags",
   "feature_flags",
   "section_free_use",
+  "all_apps_included",
   "free_use_enabled",
   "free_limit_hr",
   "free_limit_erp",
@@ -488,6 +489,13 @@
    "description": "Every business can use all 8 apps free until one of these limits is reached; then one plan for everything. 0 = no limit for that app. QTT's own workspaces are never limited."
   },
   {
+   "fieldname": "all_apps_included",
+   "fieldtype": "Check",
+   "label": "Every business gets all 8 apps",
+   "default": "1",
+   "description": "On: every business has every app and service at no charge (no plan to start anything); the free limits below are the only gate, then the one plan. Off: the old per-app plans."
+  },
+  {
    "fieldname": "free_use_enabled",
    "fieldtype": "Check",
    "label": "Free until the limit",
@@ -589,5 +597,5 @@
   }
  ],
  "links": [],
- "modified": "2026-11-14 12:00:00.000000"
+ "modified": "2026-11-14 13:00:00.000000"
 }

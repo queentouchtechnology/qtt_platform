@@ -1632,7 +1632,7 @@ to remember or share.
   products, marketing integrations and priority support. Payment gateway fees
   and paid add-ons are not included. A full shop can't add another product
   ("Your plan allows 50 products…") — move to a bigger plan through Requests.
-- Ordering: Explore QTT OS (or QTT Business Suite › Explore) ›
+- Starting one (no charge — see "Free while you try"): its Start free tile on Home, or Explore QTT OS (or QTT Business Suite › Explore) ›
   E-Commerce Websites. First **choose your store's design** before anything
   is built: what you'll sell (fashion, grocery, electronics, jewellery,
   beauty, furniture and home, sweets and bakery, or a general store), then one
@@ -1750,24 +1750,26 @@ minutes"; it was called Managed Services before).
   last screen shows each part's steps (setup → design and content → connect
   → go live) and Go to my workspace.
 
-## Plans and trials — Explore QTT OS
-Each app has its own plans (there are no bundles). **Explore QTT OS** (Home ›
-the Explore QTT OS card, or Business › Plans and billing › Explore QTT OS)
-shows all of QTT OS in one place: the apps (Orbitra, Office Pulse, QTT Studio) and
-the QTT Business Suite services (Website Development, Managed E-Commerce Websites, AI &
-WhatsApp Automation, Marketing assistant), each with what it does and its
-plans. The Inbox isn't in the list — it comes with AI & WhatsApp
-Automation and the website services; Team (the business's own chat) is free for everyone. Owners and admins can look; only the **owner** starts things:
-- An app: **Start free trial** (when its plans have one — once per app; the
-  first invoice comes 3 days before the trial ends, Pay now keeps it on) or
-  **Choose <plan>** (a paid plan starts as soon as its first invoice is paid —
-  Pay now opens at once; the invoice is also in Business › Plans and billing).
-  The app then appears on Home.
-- A service: Choose <plan> opens its order page with that plan ticked.
-- An app with no plans listed yet says "Ask QTT for the price".
-Live plan names, prices and limits are given to you separately — use only
-those. To change the plan of an app the business already has, the owner
-contacts Queen Touch Technology.
+## Free while you try, then one plan (since 14 Nov 2026)
+Every business can use **all 8 apps** — HR & staff, ERP, Website, Store,
+WhatsApp, Social media, Articles & newsletters and Studio — without choosing
+a plan or paying to start anything. Apps are there on Home from the start;
+a service not started yet shows **Start free** on its tile (its set-up page,
+no charge). WhatsApp, AI and the rest are included too.
+- **Free amounts** (each app has one simple limit, set by QTT): HR 10 staff,
+  ERP 50 bills, Website 1 website, Store 20 orders, WhatsApp 100 chats,
+  Social media 10 posts, Articles 3 articles, Studio 10 designs. Live numbers
+  are given to you separately — use those if they differ.
+- Home shows "All 8 apps are free while you try" — tap it (or Business ›
+  One plan for all 8 apps) to see what's used and what's left for each app.
+- **When an app's free amount is used up**, making something new there (adding
+  staff, a bill, a website, approving a post or article, a design) shows
+  "You've used the free …" with **See the plan**. Everything already made keeps
+  working; customers' store orders and WhatsApp chats are never stopped.
+- **One plan for all 8 apps, no limits**: ₹1,999 a month or ₹19,990 a year (two
+  months free). Only the **owner** subscribes (One plan › Subscribe → pay the
+  invoice); every limit lifts as soon as it's paid.
+There are no separate per-app plans or trials any more.
 
 ## Help
 - In the app: Account › Help and support (WhatsApp or email QTT).

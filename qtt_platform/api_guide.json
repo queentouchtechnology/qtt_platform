@@ -6074,12 +6074,28 @@
    "purpose": "What the app shows about free use for the signed-in person's business.",
    "details": "What the app shows about free use for the signed-in person's business.\n\nReturns {limited, gate, reached: [app keys], apps: [{key, label, unit, used, limit, left, reached}],\nplan: {monthly, yearly}, subscribed}. `limit`/`left` are null when that app has no limit (or the business is on\nthe plan, or free use is switched off in Desk).",
    "arguments": "",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.freeUseStatus",
+   "screens": "platform/free_use/free_use_screens.dart › FreeUseCard\nplatform/free_use/free_use_screens.dart › _OnePlanPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/free_use.py:81",
-   "status": "Not used by the app"
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.free_use.subscribe",
+   "product": "Platform",
+   "area": "api.free_use",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "The owner subscribes to the one plan for all 8 apps (`period`: monthly | yearly). It starts once the first invoice is paid — paying lifts every free limit. Asking again while unpaid gives the same invoice. Returns {status: awaiting_payment | active, invoice, pay_url}.",
+   "details": "The owner subscribes to the one plan for all 8 apps (`period`: monthly | yearly). It starts once the first\ninvoice is paid — paying lifts every free limit. Asking again while unpaid gives the same invoice.\nReturns {status: awaiting_payment | active, invoice, pay_url}.",
+   "arguments": "period",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.subscribeOnePlan",
+   "screens": "platform/free_use/free_use_screens.dart › _OnePlanPageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/free_use.py:102",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.home.actions",
@@ -13486,7 +13502,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.cancel",
    "screens": "admin/admin_repository.dart › AdminRepository\napp/app.dart › _QttOsAppState\napp/app_gate.dart › _SplashState\ncore/analytics/analytics.dart › Analytics\ncore/config/remote_config.dart › RemoteConfigStore\ncore/offline/connection.dart › Connection\ncore/offline/saved_copies.dart › SavedCopies\ncore/push/push_service.dart › PushService\nplatform/auth/google_web_button_web.dart › _GoogleWebButtonState\nplatform/calendar/calendar_home.dart › _TimeGridState\nplatform/onboarding/signup_screen.dart › _SignupScreenState\nplatform/session/app_session.dart › AppSession\nplatform/team/team_call.dart › _TeamCallPageState\nplatform/team/team_chat_page.dart › _TeamChatPageState\nplatform/team/team_screen.dart › _TeamScreenState\nplatform/team/team_voice.dart › VoiceRecorder\nplatform/team/team_voice.dart › _VoiceNotePlayerState\nplatform/workplace/remote_page.dart › _SetupComputerPageState\nproducts/office_pulse/office_pulse_root.dart › PulseState\nproducts/office_pulse/screens/pattern_who.dart › _PatternWhoState\nproducts/onbox/chat_controller.dart › ChatController\nproducts/onbox/onbox_provider.dart › OnboxProvider\nproducts/onbox/screens/conversation_list_pane.dart › _ConversationListPaneState\nproducts/orbitra/orbitra_root.dart › OrbitraState\nproducts/services/screens/deploy_pages.dart › _DeploymentPageState\nproducts/services/screens/golive_pages.dart › _DeletingDialogState\nproducts/services/screens/plan_change_page.dart › _PlanChangePageState\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › ServicesState\nproducts/studio/shorts_studio.dart › _ShortPageState\nshared/erp/erp_screens.dart › ErpApi\nshared/erp/erp_screens.dart › _ErpDocPageState\nshared/search/global_search.dart › _GlobalSearchScreenState\nshared/widgets/list_kit.dart › _SearchFilterBarState\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:376",
+   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:377",
    "status": "Not described"
   },
   {
@@ -13534,7 +13550,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.invoices\nqtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.invoicesPage",
    "screens": "admin/saas_models.dart › WorkspaceBilling\nadmin/workspace_billing_view.dart › _WorkspaceBillingSectionState\nplatform/workspace/billing_section.dart › _BillingSectionState\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/orbitra/screens/sales_view.dart › _SalesViewState\nproducts/services/screens/order_pages.dart › _PaymentsPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:349",
+   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:350",
    "status": "OK"
   },
   {
@@ -13550,7 +13566,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.keep",
    "screens": "platform/data/platform_repository.dart › PlatformRepository\nproducts/onbox/screens/channel_access_screen.dart › _InboxMembersCardState\nproducts/services/screens/services_home.dart › _ServicePage",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:399",
+   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:400",
    "status": "OK"
   },
   {
@@ -13598,7 +13614,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.payLink",
    "screens": "products/services/screens/order_pages.dart › (top level)",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:342",
+   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:343",
    "status": "Not described"
   },
   {

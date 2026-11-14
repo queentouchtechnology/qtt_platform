@@ -15,7 +15,7 @@ from frappe.utils import getdate, today
 from qtt_platform import explore_rules as rules
 from qtt_platform import invoice_billing, invoice_billing_rules as billing_rules
 from qtt_platform.audit import write_audit_event
-from qtt_platform.house import is_house
+from qtt_platform.house import included as is_house  # everything included: QTT's own, and every business since PROJ-0024
 from qtt_platform.subscription import service as subscription_service
 from qtt_platform.subscription.service import OPEN_SUBSCRIPTION_STATUSES
 from qtt_platform.tenant.context import resolve_active_tenant
@@ -26,7 +26,7 @@ SERVICES = "QTT_SERVICES"  # Managed Services: the home of the services, not an 
 APP_ORDER = ("QTT_ORBITRA", "QTT_OFFICE_PULSE", "QTT_STUDIO")
 # Not offered here: the team inbox (Onbox) comes with AI & WhatsApp Automation and the website services
 # (qtt_services/inbox.py); a business that already has it keeps it.
-NOT_OFFERED = ("QTT_ONBOX",)
+NOT_OFFERED = ("QTT_ONBOX", "QTT_OS")  # QTT_OS: the one plan for all 8 apps (PROJ-0024) — billing, not an app
 _ACTIVATE_ROLES = ["Tenant Owner"]  # starting an app is a billing decision (api/subscription.py)
 
 

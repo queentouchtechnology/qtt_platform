@@ -445,9 +445,9 @@ def _wallet(tenant: str) -> str | None:
 
 
 def ai_info(tenant: str) -> dict:
-	from qtt_platform.house import is_house
+	from qtt_platform.house import included
 
-	if is_house(tenant):
+	if included(tenant):  # QTT's own, and every business since PROJ-0024: AI at no charge
 		return {"available": True, "credits": None, "costs": rules.CREDITS}
 	try:
 		credits = float(frappe.db.sql("select coalesce(sum(balance), 0) from `tabQTT Tenant Product Wallet` where tenant = %s", tenant)[0][0])
@@ -460,10 +460,10 @@ def _paid(tenant: str, feature: str, run):
 	"""One AI job on AI credits: taken first, given back if it fails or says nothing; usage recorded."""
 	from qtt_platform.ai.core.response import AiUsage
 	from qtt_platform.ai.services import credit_service, usage_service
-	from qtt_platform.house import is_house
+	from qtt_platform.house import included
 
 	cost = rules.CREDITS[feature]
-	paying = not is_house(tenant)
+	paying = not included(tenant)
 	product = _wallet(tenant) if paying else "QTT_STUDIO"
 	ref = f"team:{feature}:{uuid.uuid4()}"
 	if paying and (not product or not credit_service.deduct_credits(tenant, product, cost, reference=ref).get("ok")):

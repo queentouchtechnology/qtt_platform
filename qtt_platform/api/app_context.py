@@ -39,6 +39,16 @@ def get_app_context() -> dict:
 		(m for m in memberships if m["tenant"] == active and m["tenant_status"] in _OPERABLE_TENANT_STATUSES),
 		None,
 	)
+	if active_membership:
+		# Every business gets all apps (PROJ-0024): any it doesn't have yet opens now, always on — no plan, no invoice.
+		from qtt_platform.house import ensure_included
+
+		try:
+			if ensure_included(active_membership["tenant"]):
+				memberships = _memberships(user)
+				active_membership = next((m for m in memberships if m["tenant"] == active), active_membership)
+		except Exception:
+			frappe.log_error(title=f"qtt_platform: ensure_included {active_membership['tenant']}")
 
 	return {
 		"user": {
@@ -138,6 +148,9 @@ def _products(membership: dict) -> list[dict]:
 
 def _workspace_products(tenant: str) -> list[dict]:
 	pointers = frappe.get_all("QTT Tenant Product Subscription Pointer", filters={"tenant": tenant}, pluck="product")
+	if not pointers:
+		return []
+	pointers = [p for p in pointers if p != "QTT_OS"]  # the one plan (PROJ-0024) is billing, not an app
 	if not pointers:
 		return []
 	catalog = frappe.get_all("QTT Product", filters={"name": ["in", pointers], "status": "active"},

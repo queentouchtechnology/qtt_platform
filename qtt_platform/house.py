@@ -32,6 +32,29 @@ def is_house(tenant: str | None) -> bool:
 	return cache[tenant]
 
 
+#: The one plan for all 8 apps (PROJ-0024 task 4) — the only subscription that is still billed.
+ONE_PLAN_PRODUCT = "QTT_OS"
+
+
+def all_included() -> bool:
+	"""Desk › QTT App Settings › "Every business gets all 8 apps" (on since 14 Nov 2026): every business has every
+	app and service at no charge — free until a free-use limit, then the one plan (PROJ-0024)."""
+	cache = getattr(frappe.local, "qtt_all_included", None)
+	if cache is None:
+		try:
+			v = frappe.db.get_single_value("QTT App Settings", "all_apps_included")
+		except Exception:
+			v = None
+		cache = frappe.local.qtt_all_included = bool(1 if v is None else v)
+	return cache
+
+
+def included(tenant: str | None) -> bool:
+	"""Everything included at no charge: QTT's own workspaces, and — with all_included() — every business (the free-use
+	limits and the one plan are the only gate; qtt_platform.api.free_use)."""
+	return bool(tenant) and (is_house(tenant) or all_included())
+
+
 def house_tenants() -> list[str]:
 	if not frappe.db.has_column("QTT Tenant", "is_house"):
 		return []
@@ -78,10 +101,10 @@ def ensure_house(tenant: str) -> list[str]:
 
 	changed = []
 	t = frappe.db.get_value("QTT Tenant", tenant, ["status", "trial_ends_on"], as_dict=True)
-	if t and (t.status != "active" or t.trial_ends_on):
+	if t and (t.status != "active" or t.trial_ends_on) and t.status in ("active", "trial"):
 		frappe.db.set_value("QTT Tenant", tenant, {"status": "active", "trial_ends_on": None})
 		changed.append("workspace active")
-	for product in frappe.get_all("QTT Product", filters={"status": "active"}, pluck="name"):
+	for product in frappe.get_all("QTT Product", filters={"status": "active", "name": ["!=", ONE_PLAN_PRODUCT]}, pluck="name"):
 		sub = subscription_service.get_current_subscription(tenant, product)
 		if not sub or sub.status not in OPEN_SUBSCRIPTION_STATUSES:
 			plan = _house_plan(product)
@@ -109,9 +132,28 @@ def ensure_house(tenant: str) -> list[str]:
 	return changed
 
 
+def included_tenants() -> list[str]:
+	"""Every business that gets all apps: the house, and with all_included() every active business."""
+	if not all_included():
+		return house_tenants()
+	return frappe.get_all("QTT Tenant", filters={"status": ["in", ["active", "trial"]]}, pluck="name")
+
+
+def ensure_included(tenant: str) -> list[str]:
+	"""Opens any app the business doesn't have yet (always on, no invoice) — on opening the app. Cheap when nothing
+	is missing."""
+	if not included(tenant):
+		return []
+	from qtt_platform.subscription.service import OPEN_SUBSCRIPTION_STATUSES
+
+	products = set(frappe.get_all("QTT Product", filters={"status": "active", "name": ["!=", ONE_PLAN_PRODUCT]}, pluck="name"))
+	have = set(frappe.get_all(SUB, filters={"tenant": tenant, "status": ["in", list(OPEN_SUBSCRIPTION_STATUSES)]}, pluck="product"))
+	return ensure_house(tenant) if products - have else []
+
+
 def ensure_all() -> None:
-	"""after_migrate: new products join every house workspace."""
-	for tenant in house_tenants():
+	"""after_migrate: new products join every business that gets everything (the house; all, since PROJ-0024)."""
+	for tenant in included_tenants():
 		try:
 			ensure_house(tenant)
 		except Exception:
@@ -122,7 +164,7 @@ def keep_open(doc, method=None) -> None:
 	"""doc_events: QTT Product Subscription validate — a house subscription is always on,
 	whichever path writes it (signup, QTT Admin, plan change, trial / Razorpay jobs).
 	Cancelling stays possible: that's a deliberate choice by QTT staff."""
-	if doc.status == "cancelled" or not is_house(doc.tenant):
+	if doc.status == "cancelled" or doc.product == ONE_PLAN_PRODUCT or not included(doc.tenant):
 		return
 	doc.status = "active"
 	doc.trial_start = doc.trial_end = None

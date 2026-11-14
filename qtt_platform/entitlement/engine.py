@@ -30,8 +30,9 @@ def get_entitlements(tenant: str, product: str) -> dict:
 	"""
 	from qtt_platform import house
 
-	if house.is_house(tenant):
-		return house.entitlements(product, tenant)  # QTT's own workspaces: everything, limits only as set in Desk
+	if house.included(tenant):
+		# QTT's own workspaces, and every business since PROJ-0024: everything — the free-use limits are the gate
+		return house.entitlements(product, tenant)
 
 	subscription = get_current_subscription(tenant, product)
 	if not subscription or subscription.status not in OPEN_SUBSCRIPTION_STATUSES:
