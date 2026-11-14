@@ -77,7 +77,22 @@
   "column_break_analytics",
   "analytics_retention_days",
   "section_flags",
-  "feature_flags"
+  "feature_flags",
+  "section_free_use",
+  "free_use_enabled",
+  "free_limit_hr",
+  "free_limit_erp",
+  "column_break_free_1",
+  "free_limit_website",
+  "free_limit_store",
+  "free_limit_whatsapp",
+  "column_break_free_2",
+  "free_limit_social",
+  "free_limit_articles",
+  "free_limit_studio",
+  "column_break_free_3",
+  "one_plan_monthly",
+  "one_plan_yearly"
  ],
  "fields": [
   {
@@ -464,6 +479,102 @@
    "fieldtype": "Table",
    "label": "Feature Flags",
    "options": "QTT App Feature Flag"
+  },
+  {
+   "fieldname": "section_free_use",
+   "fieldtype": "Section Break",
+   "label": "Free use and the one plan",
+   "collapsible": 0,
+   "description": "Every business can use all 8 apps free until one of these limits is reached; then one plan for everything. 0 = no limit for that app. QTT's own workspaces are never limited."
+  },
+  {
+   "fieldname": "free_use_enabled",
+   "fieldtype": "Check",
+   "label": "Free until the limit",
+   "default": "1",
+   "description": "Off: nobody is stopped (no gate)."
+  },
+  {
+   "fieldname": "free_limit_hr",
+   "fieldtype": "Int",
+   "label": "HR & staff — staff",
+   "default": "10",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "free_limit_erp",
+   "fieldtype": "Int",
+   "label": "ERP — bills",
+   "default": "50",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "column_break_free_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "free_limit_website",
+   "fieldtype": "Int",
+   "label": "Website — websites",
+   "default": "1",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "free_limit_store",
+   "fieldtype": "Int",
+   "label": "Store — orders",
+   "default": "20",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "free_limit_whatsapp",
+   "fieldtype": "Int",
+   "label": "WhatsApp — chats",
+   "default": "100",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "column_break_free_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "free_limit_social",
+   "fieldtype": "Int",
+   "label": "Social media — posts",
+   "default": "10",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "free_limit_articles",
+   "fieldtype": "Int",
+   "label": "Articles & newsletters — articles",
+   "default": "3",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "free_limit_studio",
+   "fieldtype": "Int",
+   "label": "Studio — designs",
+   "default": "10",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "column_break_free_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "one_plan_monthly",
+   "fieldtype": "Currency",
+   "label": "One plan — per month (₹)",
+   "default": "1999",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "one_plan_yearly",
+   "fieldtype": "Currency",
+   "label": "One plan — per year (₹)",
+   "default": "19990",
+   "non_negative": 1
   }
  ],
  "permissions": [
@@ -478,5 +589,5 @@
   }
  ],
  "links": [],
- "modified": "2026-10-19 17:00:00.000000"
+ "modified": "2026-11-14 12:00:00.000000"
 }

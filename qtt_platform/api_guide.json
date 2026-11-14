@@ -6066,6 +6066,22 @@
    "status": "Not used by the app"
   },
   {
+   "endpoint": "qtt_platform.api.free_use.status",
+   "product": "Platform",
+   "area": "api.free_use",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "What the app shows about free use for the signed-in person's business.",
+   "details": "What the app shows about free use for the signed-in person's business.\n\nReturns {limited, gate, reached: [app keys], apps: [{key, label, unit, used, limit, left, reached}],\nplan: {monthly, yearly}, subscribed}. `limit`/`left` are null when that app has no limit (or the business is on\nthe plan, or free use is switched off in Desk).",
+   "arguments": "",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/free_use.py:81",
+   "status": "Not used by the app"
+  },
+  {
    "endpoint": "qtt_platform.api.home.actions",
    "product": "Platform",
    "area": "api.home",
