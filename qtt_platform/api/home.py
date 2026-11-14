@@ -83,6 +83,18 @@ def _studio_tiles(user: str, tenant: str) -> list[dict]:
 			 "open": {"kind": "product", "target": "QTT_STUDIO"}}]
 
 
+def _studio_today(user: str, tenant: str) -> list[dict]:
+	"""Studio's card in Today in each app: designs made this week and the library."""
+	from frappe.utils import add_days, nowdate
+
+	if not _studio_tiles(user, tenant):
+		return []
+	week = frappe.db.count("QTT Design", {"tenant": tenant, "creation": [">=", add_days(nowdate(), -6)]})
+	total = frappe.db.count("QTT Design", {"tenant": tenant})
+	return [{"key": "studio", "label": "Studio", "when": "this week", "order": 80, "open": {"kind": "product", "target": "QTT_STUDIO"},
+			 "values": [{"value": week, "label": "designs"}, {"value": total, "label": "in library"}]}]
+
+
 def _collect(hook: str, user: str, tenant: str, extra: list | None = None) -> list:
 	out = []
 	for source in (extra or []) + [frappe.get_attr(path) for path in frappe.get_hooks(hook) or []]:
@@ -97,7 +109,8 @@ def _collect(hook: str, user: str, tenant: str, extra: list | None = None) -> li
 def overview() -> dict:
 	"""The main dashboard's live parts for the signed-in person in their business.
 
-	Returns {"tiles": [...], "numbers": [...]} (tiles in this person's own order; `hidden` on the ones they left off Home):
+	Returns {"tiles": [...], "numbers": [...], "today": [...]} — today: one card per app (hook `qtt_home_today`) with up
+	to three numbers, in the person's own app order (tiles in this person's own order; `hidden` on the ones they left off Home):
 	  tiles    "Your apps" — one per thing the business uses (HR & staff, ERP, Website, Store, WhatsApp, Social media,
 	           Articles & newsletters, Studio), each with a short status, a badge (things waiting) and what opens it
 	           ({kind: product|screen|section|url, target}). Apps add theirs with the hook `qtt_home_tiles`.
@@ -108,9 +121,13 @@ def overview() -> dict:
 	tenant = resolve_active_tenant(user)
 	if not tenant:
 		return {"tiles": [], "numbers": []}
-	tiles = home_tiles.tiles(_collect("qtt_home_tiles", user, tenant, [_studio_tiles]))
-	return {"tiles": home_tiles.arrange(tiles, _layout(user, tenant)),
-			"numbers": home_tiles.numbers(_collect("qtt_home_numbers", user, tenant))}
+	tiles = home_tiles.arrange(home_tiles.tiles(_collect("qtt_home_tiles", user, tenant, [_studio_tiles])), _layout(user, tenant))
+	# Today in each app: in the person's own order of apps (Arrange), hidden apps left out
+	rank = {t["key"]: i for i, t in enumerate(tiles)}
+	hidden = {t["key"] for t in tiles if t.get("hidden")}
+	cards = [c for c in home_tiles.today(_collect("qtt_home_today", user, tenant, [_studio_today])) if c["key"] not in hidden]
+	cards.sort(key=lambda c: rank.get(c["key"], len(rank)))
+	return {"tiles": tiles, "numbers": home_tiles.numbers(_collect("qtt_home_numbers", user, tenant)), "today": cards}
 
 
 def _layout_key(tenant: str) -> str:

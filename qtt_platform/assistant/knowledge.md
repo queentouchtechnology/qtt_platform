@@ -201,9 +201,14 @@ everyone in every business — no plan needed.
 - **Home** (the main dashboard): one top row — ☰ menu, "Good morning" over
   your business's name, Search, Ask QTT, the bell (everything that needs you;
   a red dot while something waits) and your photo (your accounts and
-  businesses). Then **Today so far** (a few live numbers — sales today with the
-  change against yesterday at this time, staff in, posts going out today; each
-  shows only for people whose role can see it), **Needs you · N** (the top 4
+  businesses). Then **Today in each app** — swipe through one card per app
+  (HR & staff: in, on leave, not in yet; ERP: sales today with the change
+  against yesterday, bills, still to collect; Website: live, enquiries this
+  week; Store: orders, takings and customers this month; WhatsApp: new chats,
+  leads, people; Social media: posts today, to approve, this month; Articles
+  & newsletters: articles, newsletters sent, subscribers; Studio: designs this
+  week, in the library) — each only for people whose role can see it; tap a
+  card to open that app. Then **Needs you · N** (the top 4
   across every app, each with its app; **See all** lists everything by how
   urgent — Urgent, Waiting for you, When you have time — with a filter per app,
   a quick button on each row, and swipe a row away to hide it for a week), and
@@ -213,8 +218,8 @@ everyone in every business — no plan needed.
   thing the business uses — HR & staff, ERP, Website, Store, WhatsApp, Social
   media, Articles & newsletters, Studio — each with a short status (9 of 11 in,
   ₹18.4K today, Live, 2 to approve…) and a red number for what's waiting. A tile
-  opens straight to that place. Articles & newsletters shows when the Marketing
-  package includes articles (owners see it as "Comes with Growth" otherwise).
+  opens straight to that place. Something the business hasn't started yet
+  shows **Start free** (its set-up page, no charge) — owners see all 8.
   Phone tabs: **Apps · Team · Calendar · Business · Account** (a member sees
   their everyday app instead of Business); the **Account** tab is your account
   (appearance, language, help, sign out); on phones **Customers** is in the ☰
@@ -1118,6 +1123,13 @@ settings).
 - Channel access (managers): choose which team members answer each channel.
 
 ## QTT Business Suite — QTT runs it for you
+**Since 14 Nov 2026 every service is free to start and includes everything**
+(see "Free while you try, then one plan"): the Starter / Growth / Pro choice
+below only picks the size you start with — there is nothing to pay, every
+feature (articles, newsletters, all automations) is on, and the monthly prices
+and "Comes with Growth / Pro" notes further down no longer apply. Only a
+domain you buy is charged. When a free amount runs out, the one plan for all 8
+apps covers everything.
 QTT offers four services, each set up, hosted and looked after by QTT:
 Website Development (a landing page, 3 pages or 5 pages), Managed E-Commerce
 Websites (an online store; Starter, Growth or Pro), AI & WhatsApp Automation
@@ -1774,6 +1786,11 @@ There are no separate per-app plans or trials any more.
 ## Help
 - In the app: Account › Help and support (WhatsApp or email QTT).
 - Questions in search ending with "?" open this assistant.
+- **Search** (the magnifier on Home): before you type — Suggested for you,
+  Recently viewed (each tagged Customer, Person, Item…), Recent searches, Go to
+  shortcuts and "Can't find it? Ask QTT"; as you type — suggestions, filters
+  with counts, results grouped with the match in bold, and Ask QTT about your
+  words.
 
 ## What the assistant never discusses
 Only QTT OS customer software and services above. Never: Queen Touch

@@ -6,6 +6,8 @@ The main dashboard's two server-built parts (pure rules — tested in tests/test
            A business suite can add several (Website, Store, WhatsApp, Social media, Articles).
   numbers  "Today so far": a few live numbers — hook `qtt_home_numbers` (user, tenant) ->
            [{key, value, label, trend?, order?}].
+  today    "Today in each app": one swipeable card per app — hook `qtt_home_today` (user, tenant) ->
+           [{key, label, when, values: [{value, label}] (1–3), note?, note_args?, open: {kind, target}, order?}].
   arrange  each person's own order and hidden apps over the tiles ("Arrange your apps", saved per person and
            business; no layout saved = the standard order).
 
@@ -40,6 +42,30 @@ def tiles(items: list) -> list[dict]:
 					"badge": _int(t.get("badge")), "tone": t.get("tone") if t.get("tone") in ("info", "warning", "danger", "success") else "info",
 					"order": _int(t.get("order")) or 50})
 	out.sort(key=lambda t: (t["order"], t["label"].lower()))
+	return out
+
+
+MAX_TODAY_VALUES = 3
+WHENS = ("today", "this week", "this month")
+
+
+def today(items: list) -> list[dict]:
+	"""Valid cards only, one per key, 1–3 numbers each (empty ones dropped), by order then label."""
+	seen, out = set(), []
+	for c in items or []:
+		if not isinstance(c, dict):
+			continue
+		key, label = str(c.get("key") or "").strip(), str(c.get("label") or "").strip()
+		o = c.get("open") if isinstance(c.get("open"), dict) else {}
+		values = [{"value": str(v["value"])[:16], "label": str(v.get("label") or "")[:24]}
+				  for v in (c.get("values") or []) if isinstance(v, dict) and v.get("value") not in (None, "")][:MAX_TODAY_VALUES]
+		if not key or not label or key in seen or not values or o.get("kind") not in OPEN_KINDS or not o.get("target"):
+			continue
+		seen.add(key)
+		out.append({"key": key, "label": label, "when": c.get("when") if c.get("when") in WHENS else "today", "values": values,
+					"note": str(c.get("note") or "")[:60] or None, "note_args": c.get("note_args") if isinstance(c.get("note_args"), dict) else {},
+					"open": {"kind": o["kind"], "target": str(o["target"])}, "order": _int(c.get("order")) or 50})
+	out.sort(key=lambda c: (c["order"], c["label"].lower()))
 	return out
 
 

@@ -37,6 +37,26 @@ class TilesTest(unittest.TestCase):
 		self.assertEqual(len(t["status"]), 40)
 
 
+class TodayTest(unittest.TestCase):
+	def card(self, key, order=None, values=(("1", "x"),), **kw):
+		c = {"key": key, "label": key.upper(), "values": [{"value": v, "label": l} for v, l in values], "open": {"kind": "screen", "target": "a"}, **kw}
+		if order is not None:
+			c["order"] = order
+		return c
+
+	def test_sorted_cleaned_and_capped(self):
+		out = h.today([self.card("b", 20), self.card("a", 10, values=(("1", "a"), ("2", "b"), ("3", "c"), ("4", "d"))), "junk",
+					   self.card("c", values=((None, "x"), ("", "y"))), self.card("a", 5)])
+		self.assertEqual([c["key"] for c in out], ["a", "b"])  # c has no numbers; the second "a" is a repeat
+		self.assertEqual(len(out[0]["values"]), 3)
+		self.assertEqual(out[0]["when"], "today")
+
+	def test_when_and_note(self):
+		c = h.today([self.card("a", when="this month", note="Next {day}", note_args={"day": "Wed"})])[0]
+		self.assertEqual((c["when"], c["note"], c["note_args"]), ("this month", "Next {day}", {"day": "Wed"}))
+		self.assertEqual(h.today([self.card("a", when="forever")])[0]["when"], "today")
+
+
 class ArrangeTest(unittest.TestCase):
 	def test_no_layout_keeps_standard_order(self):
 		out = h.arrange(h.tiles([tile("a", order=10), tile("b", order=20)]), None)
