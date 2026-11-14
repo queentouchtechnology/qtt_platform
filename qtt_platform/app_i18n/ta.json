@@ -8341,5 +8341,16 @@
  "Tell us about your business": "உங்கள் வணிகத்தைப் பற்றி சொல்லுங்கள்",
  "What you sell, prices and your tone — posts sound like you": "நீங்கள் விற்பவை, விலைகள், உங்கள் தொனி — பதிவுகள் உங்களைப் போலவே இருக்கும்",
  "Written for you; nothing goes out without your OK": "உங்களுக்காக எழுதப்படும்; உங்கள் ஒப்புதல் இன்றி எதுவும் வெளியாகாது",
- "{n} of {m} done": "{m} இல் {n} முடிந்தது"
+ "{n} of {m} done": "{m} இல் {n} முடிந்தது",
+ "Arrange": "வரிசைப்படுத்து",
+ "Your apps · {n}": "உங்கள் செயலிகள் · {n}",
+ "When you have time": "நேரம் கிடைக்கும்போது",
+ "Arrange your apps": "உங்கள் செயலிகளை வரிசைப்படுத்துங்கள்",
+ "Drag to change the order on Home": "முகப்பில் வரிசையை மாற்ற இழுக்கவும்",
+ "Apps you switch off stay in the ☰ menu.": "நீங்கள் அணைக்கும் செயலிகள் ☰ மெனுவில் இருக்கும்.",
+ "Still in the ☰ menu": "☰ மெனுவில் இன்னும் உள்ளது",
+ "Couldn’t save — try again.": "சேமிக்க முடியவில்லை — மீண்டும் முயலவும்.",
+ "Across all your apps": "உங்கள் எல்லா செயலிகளிலும்",
+ "Nothing needs you right now.": "இப்போது உங்கள் கவனம் தேவைப்படுவது எதுவும் இல்லை.",
+ "Drag": "இழு"
 }

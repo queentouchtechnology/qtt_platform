@@ -37,6 +37,23 @@ class TilesTest(unittest.TestCase):
 		self.assertEqual(len(t["status"]), 40)
 
 
+class ArrangeTest(unittest.TestCase):
+	def test_no_layout_keeps_standard_order(self):
+		out = h.arrange(h.tiles([tile("a", order=10), tile("b", order=20)]), None)
+		self.assertEqual([(t["key"], t["hidden"]) for t in out], [("a", False), ("b", False)])
+
+	def test_own_order_first_then_new_apps(self):
+		base = h.tiles([tile("a", order=10), tile("b", order=20), tile("c", order=30), tile("new", order=5)])
+		out = h.arrange(base, {"order": ["c", "a", "gone"], "hidden": ["b"]})
+		self.assertEqual([t["key"] for t in out], ["c", "a", "new", "b"])
+		self.assertEqual([t["key"] for t in out if t["hidden"]], ["b"])
+
+	def test_clean_layout(self):
+		lay = h.clean_layout(["a", "a", " b ", "", None, 3], "not a list")
+		self.assertEqual(lay, {"order": ["a", "b", "3"], "hidden": []})
+		self.assertEqual(len(h.clean_layout([f"k{i}" for i in range(99)], [])["order"]), h.MAX_LAYOUT_KEYS)
+
+
 class NumbersTest(unittest.TestCase):
 	def test_at_most_four_with_values(self):
 		items = [{"key": f"k{i}", "value": i, "label": "n", "order": 10 - i} for i in range(6)] + [{"key": "e", "value": None, "label": "n"}]

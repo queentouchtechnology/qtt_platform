@@ -7,6 +7,8 @@ active business (rules and card shape in qtt_platform.home_cards).
                    each unfinished set-up guide's next step (api/setup.home_cards)
   overview()       the main dashboard's app tiles and today's numbers (hooks `qtt_home_tiles`,
                    `qtt_home_numbers`; rules in qtt_platform.home_tiles)
+  save_layout(order, hidden)  "Arrange your apps": this person's order and hidden tiles in this business
+                   (both empty = back to the standard order)
   dismiss(key)     hide a card for this person for a week
 
 One app failing never breaks the home: its cards are just left out.
@@ -15,7 +17,7 @@ One app failing never breaks the home: its cards are just left out.
 import frappe
 from frappe.utils import date_diff, getdate, today
 
-from qtt_platform import home_cards
+from qtt_platform import home_cards, home_tiles
 from qtt_platform.tenant.context import resolve_active_tenant
 
 DISMISS_DAYS = 7
@@ -95,21 +97,50 @@ def _collect(hook: str, user: str, tenant: str, extra: list | None = None) -> li
 def overview() -> dict:
 	"""The main dashboard's live parts for the signed-in person in their business.
 
-	Returns {"tiles": [...], "numbers": [...]}:
+	Returns {"tiles": [...], "numbers": [...]} (tiles in this person's own order; `hidden` on the ones they left off Home):
 	  tiles    "Your apps" — one per thing the business uses (HR & staff, ERP, Website, Store, WhatsApp, Social media,
 	           Articles & newsletters, Studio), each with a short status, a badge (things waiting) and what opens it
 	           ({kind: product|screen|section|url, target}). Apps add theirs with the hook `qtt_home_tiles`.
 	  numbers  "Today so far" — up to four numbers (sales, staff in, orders, posts…) from the hook `qtt_home_numbers`.
 	Nothing the person can't open is listed; one app failing just leaves its tiles out.
 	"""
-	from qtt_platform import home_tiles
-
 	user = frappe.session.user
 	tenant = resolve_active_tenant(user)
 	if not tenant:
 		return {"tiles": [], "numbers": []}
-	return {"tiles": home_tiles.tiles(_collect("qtt_home_tiles", user, tenant, [_studio_tiles])),
+	tiles = home_tiles.tiles(_collect("qtt_home_tiles", user, tenant, [_studio_tiles]))
+	return {"tiles": home_tiles.arrange(tiles, _layout(user, tenant)),
 			"numbers": home_tiles.numbers(_collect("qtt_home_numbers", user, tenant))}
+
+
+def _layout_key(tenant: str) -> str:
+	return f"qtt_home_layout:{tenant}"
+
+
+def _layout(user: str, tenant: str) -> dict | None:
+	raw = frappe.defaults.get_user_default(_layout_key(tenant), user=user)
+	try:
+		return frappe.parse_json(raw) if raw else None
+	except Exception:
+		return None
+
+
+@frappe.whitelist(methods=["POST"])
+def save_layout(order=None, hidden=None) -> dict:
+	"""Save "Arrange your apps" for the signed-in person in their business: `order` (tile keys, top first) and
+	`hidden` (tile keys left off Home — still in the menu). Both empty: back to the standard order.
+	Returns {"ok": true}."""
+	user = frappe.session.user
+	tenant = resolve_active_tenant(user)
+	if not tenant:
+		frappe.throw("Choose a business first.")
+	layout = home_tiles.clean_layout(frappe.parse_json(order) if isinstance(order, str) else order,
+									 frappe.parse_json(hidden) if isinstance(hidden, str) else hidden)
+	if not layout["order"] and not layout["hidden"]:
+		frappe.defaults.clear_user_default(_layout_key(tenant), user=user)
+	else:
+		frappe.defaults.set_user_default(_layout_key(tenant), frappe.as_json(layout, indent=None), user=user)
+	return {"ok": True}
 
 
 @frappe.whitelist(methods=["POST"])

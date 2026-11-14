@@ -6,6 +6,8 @@ The main dashboard's two server-built parts (pure rules — tested in tests/test
            A business suite can add several (Website, Store, WhatsApp, Social media, Articles).
   numbers  "Today so far": a few live numbers — hook `qtt_home_numbers` (user, tenant) ->
            [{key, value, label, trend?, order?}].
+  arrange  each person's own order and hidden apps over the tiles ("Arrange your apps", saved per person and
+           business; no layout saved = the standard order).
 
 An app returns [] when the person can't use it (never raises for "no access"), so a tile is never a dead end.
 """
@@ -39,6 +41,34 @@ def tiles(items: list) -> list[dict]:
 					"order": _int(t.get("order")) or 50})
 	out.sort(key=lambda t: (t["order"], t["label"].lower()))
 	return out
+
+
+MAX_LAYOUT_KEYS = 40
+
+
+def clean_layout(order, hidden) -> dict:
+	"""A saved layout: tile keys only (strings, no repeats, at most MAX_LAYOUT_KEYS each)."""
+	def keys(v):
+		out = []
+		for k in v if isinstance(v, (list, tuple)) else []:
+			k = str(k or "").strip()[:40]
+			if k and k not in out:
+				out.append(k)
+		return out[:MAX_LAYOUT_KEYS]
+
+	return {"order": keys(order), "hidden": keys(hidden)}
+
+
+def arrange(tiles_: list[dict], layout: dict | None) -> list[dict]:
+	"""The person's order first (keys they placed), then any tile they haven't placed yet (a new app) in the
+	standard order; every tile says whether they hid it (Home leaves hidden ones out, Arrange lists them)."""
+	layout = layout if isinstance(layout, dict) else {}
+	order = [k for k in layout.get("order") or [] if isinstance(k, str)]
+	hidden = {k for k in layout.get("hidden") or [] if isinstance(k, str)}
+	rank = {k: i for i, k in enumerate(order)}
+	placed = sorted((t for t in tiles_ if t["key"] in rank), key=lambda t: rank[t["key"]])
+	rest = [t for t in tiles_ if t["key"] not in rank]
+	return [{**t, "hidden": t["key"] in hidden} for t in placed + rest]
 
 
 def numbers(items: list) -> list[dict]:

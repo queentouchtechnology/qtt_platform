@@ -198,10 +198,18 @@ everyone in every business — no plan needed.
   ones: payslips into a folder for each month, offer and appointment letters,
   ID proofs, invoices to Accounts, tell me about new contracts. Each rule
   counts how many times it acted; turn one off or remove it any time.
-- **Home** (the main dashboard): the greeting and what needs you, **Today so
-  far** (a few live numbers — sales today with the change against yesterday at
-  this time, staff in, posts going out today; each shows only for people whose
-  role can see it), the **For you** cards, and **Your apps**: one tile for each
+- **Home** (the main dashboard): one top row — ☰ menu, "Good morning" over
+  your business's name, Search, Ask QTT, the bell (everything that needs you;
+  a red dot while something waits) and your photo (your accounts and
+  businesses). Then **Today so far** (a few live numbers — sales today with the
+  change against yesterday at this time, staff in, posts going out today; each
+  shows only for people whose role can see it), **Needs you · N** (the top 4
+  across every app, each with its app; **See all** lists everything by how
+  urgent — Urgent, Waiting for you, When you have time — with a filter per app,
+  a quick button on each row, and swipe a row away to hide it for a week), and
+  **Your apps · N** with **Arrange** (drag to change the order, switch an app
+  off to leave it off Home — it stays in the ☰ menu; saved for you on every
+  device; Reset goes back to the standard order): one tile for each
   thing the business uses — HR & staff, ERP, Website, Store, WhatsApp, Social
   media, Articles & newsletters, Studio — each with a short status (9 of 11 in,
   ₹18.4K today, Live, 2 to approve…) and a red number for what's waiting. A tile

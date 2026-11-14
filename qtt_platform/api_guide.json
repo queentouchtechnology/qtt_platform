@@ -4012,7 +4012,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.home",
-   "screens": "admin/admin_home.dart › _AdminHomeBodyState\ncore/assistant/screen_context.dart › CurrentScreen\nplatform/data/platform_models.dart › ExploreCatalog\nplatform/data/platform_repository.dart › PlatformRepository\nplatform/explore/explore_screen.dart › _ItemPage\nplatform/launch/launch_models.dart › (top level)\nplatform/launch/launch_screens.dart › HelpMeChoosePage\nplatform/launch/launch_screens.dart › LaunchHero\nplatform/launch/launch_screens.dart › LaunchPage\nplatform/launch/launch_screens.dart › LaunchSection\nplatform/launch/launch_screens.dart › ProductPage\nplatform/launch/launch_screens.dart › _HelpMeChooseState\nplatform/launch/launch_screens.dart › _ProductCard\nplatform/team/team_screen.dart › _TeamScreenState\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/onbox/onbox_root.dart › _InboxRootState\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/orbitra_shell.dart › _OrbitraHomeState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/whatsapp_page.dart › YourWhatsappPage\nproducts/services/services_root.dart › _ServicesRootState\nproducts/studio/studio_root.dart › StudioRoot\nproducts/studio/studio_root.dart › _StudioHomeState\nshared/setup/needs_welcome.dart › _Need\nshared/widgets/action_cards.dart › (top level)\nshell/home_overview.dart › HomeOverviewLoader\nshell/home_overview.dart › TodaySoFarCard\nshell/home_shell.dart › _HomeShellState",
+   "screens": "admin/admin_home.dart › _AdminHomeBodyState\ncore/assistant/screen_context.dart › CurrentScreen\nplatform/data/platform_models.dart › ExploreCatalog\nplatform/data/platform_repository.dart › PlatformRepository\nplatform/explore/explore_screen.dart › _ItemPage\nplatform/launch/launch_models.dart › (top level)\nplatform/launch/launch_screens.dart › HelpMeChoosePage\nplatform/launch/launch_screens.dart › LaunchHero\nplatform/launch/launch_screens.dart › LaunchPage\nplatform/launch/launch_screens.dart › LaunchSection\nplatform/launch/launch_screens.dart › ProductPage\nplatform/launch/launch_screens.dart › _HelpMeChooseState\nplatform/launch/launch_screens.dart › _ProductCard\nplatform/team/team_screen.dart › _TeamScreenState\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/onbox/onbox_root.dart › _InboxRootState\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/orbitra_shell.dart › _OrbitraHomeState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/whatsapp_page.dart › YourWhatsappPage\nproducts/services/services_root.dart › _ServicesRootState\nproducts/studio/studio_root.dart › StudioRoot\nproducts/studio/studio_root.dart › _StudioHomeState\nshared/setup/needs_welcome.dart › _Need\nshared/widgets/action_cards.dart › (top level)\nshell/arrange_apps.dart › (top level)\nshell/home_overview.dart › HomeOverviewLoader\nshell/home_overview.dart › TodaySoFarCard\nshell/home_shell.dart › _HomeShellState\nshell/needs_you.dart › (top level)",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/admin_home.py:143",
    "status": "Not described"
@@ -6076,9 +6076,9 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.homeActions",
-   "screens": "shared/search/global_search.dart › _GlobalSearchScreenState\nshell/launcher_screen.dart › _HomeActionsState",
+   "screens": "shared/search/global_search.dart › _GlobalSearchScreenState\nshell/needs_you.dart › (top level)",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/home.py:53",
+   "source": "qtt_platform/qtt_platform/api/home.py:55",
    "status": "Not described"
   },
   {
@@ -6092,9 +6092,9 @@
    "arguments": "key",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.dismissHomeAction",
-   "screens": "shell/launcher_screen.dart › _HomeActionsState",
+   "screens": "shell/needs_you.dart › _NeedsYouPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/home.py:116",
+   "source": "qtt_platform/qtt_platform/api/home.py:147",
    "status": "Not described"
   },
   {
@@ -6104,13 +6104,29 @@
    "http_methods": "GET",
    "guest": 0,
    "purpose": "The main dashboard's live parts for the signed-in person in their business.",
-   "details": "The main dashboard's live parts for the signed-in person in their business.\n\nReturns {\"tiles\": [...], \"numbers\": [...]}:\n  tiles    \"Your apps\" — one per thing the business uses (HR & staff, ERP, Website, Store, WhatsApp, Social media,\n           Articles & newsletters, Studio), each with a short status, a badge (things waiting) and what opens it\n           ({kind: product|screen|section|url, target}). Apps add theirs with the hook `qtt_home_tiles`.\n  numbers  \"Today so far\" — up to four numbers (sales, staff in, orders, posts…) from the hook `qtt_home_numbers`.\nNothing the person can't open is listed; one app failing just leaves its tiles out.",
+   "details": "The main dashboard's live parts for the signed-in person in their business.\n\nReturns {\"tiles\": [...], \"numbers\": [...]} (tiles in this person's own order; `hidden` on the ones they left off Home):\n  tiles    \"Your apps\" — one per thing the business uses (HR & staff, ERP, Website, Store, WhatsApp, Social media,\n           Articles & newsletters, Studio), each with a short status, a badge (things waiting) and what opens it\n           ({kind: product|screen|section|url, target}). Apps add theirs with the hook `qtt_home_tiles`.\n  numbers  \"Today so far\" — up to four numbers (sales, staff in, orders, posts…) from the hook `qtt_home_numbers`.\nNothing the person can't open is listed; one app failing just leaves its tiles out.",
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.homeOverview",
-   "screens": "shell/home_overview.dart › HomeOverviewLoader",
+   "screens": "shell/arrange_apps.dart › _ArrangeAppsPageState\nshell/home_overview.dart › HomeOverviewLoader",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/home.py:95",
+   "source": "qtt_platform/qtt_platform/api/home.py:97",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.home.save_layout",
+   "product": "Platform",
+   "area": "api.home",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Save \"Arrange your apps\" for the signed-in person in their business: `order` (tile keys, top first) and `hidden` (tile keys left off Home — still in the menu). Both empty: back to the standard order. Returns {\"ok\": true}.",
+   "details": "Save \"Arrange your apps\" for the signed-in person in their business: `order` (tile keys, top first) and\n`hidden` (tile keys left off Home — still in the menu). Both empty: back to the standard order.\nReturns {\"ok\": true}.",
+   "arguments": "order, hidden",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.saveHomeLayout",
+   "screens": "shell/arrange_apps.dart › _ArrangeAppsPageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/home.py:129",
    "status": "OK"
   },
   {
