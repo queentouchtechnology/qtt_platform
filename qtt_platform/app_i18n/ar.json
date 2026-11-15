@@ -8533,5 +8533,11 @@
  "{count} stopping": "{count} يتوقف",
  "{count} waiting to pay": "{count} بانتظار الدفع",
  "{n} offer messages": "{n} رسالة عروض",
- "{n} top-ups · {amount}": "{n} زيادات · {amount}"
+ "{n} top-ups · {amount}": "{n} زيادات · {amount}",
+ "A change to your website, store or WhatsApp": "تغيير في موقعك أو متجرك أو واتساب",
+ "Ask the QTT team": "اسأل فريق QTT",
+ "No store yet": "لا يوجد متجر بعد",
+ "No website yet": "لا يوجد موقع بعد",
+ "Start free — QTT builds it, and it’s online in minutes.": "ابدأ مجانًا — تبنيه QTT ويصبح متاحًا خلال دقائق.",
+ "Your stores": "متاجرك"
 }

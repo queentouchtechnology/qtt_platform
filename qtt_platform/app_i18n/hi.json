@@ -8533,5 +8533,11 @@
  "{count} stopping": "{count} रुक रहे हैं",
  "{count} waiting to pay": "{count} भुगतान बाकी",
  "{n} offer messages": "{n} ऑफ़र संदेश",
- "{n} top-ups · {amount}": "{n} टॉप-अप · {amount}"
+ "{n} top-ups · {amount}": "{n} टॉप-अप · {amount}",
+ "A change to your website, store or WhatsApp": "आपकी वेबसाइट, स्टोर या WhatsApp में बदलाव",
+ "Ask the QTT team": "QTT टीम से पूछें",
+ "No store yet": "अभी कोई स्टोर नहीं",
+ "No website yet": "अभी कोई वेबसाइट नहीं",
+ "Start free — QTT builds it, and it’s online in minutes.": "मुफ़्त शुरू करें — QTT बनाता है, और यह कुछ ही मिनटों में ऑनलाइन हो जाता है।",
+ "Your stores": "आपके स्टोर"
 }

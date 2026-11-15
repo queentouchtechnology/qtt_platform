@@ -235,11 +235,13 @@ everyone in every business — no plan needed.
   colour and a red number for what's waiting, then any app without its own
   tile (e.g. QTT Business Suite's own page) — and Know your business, Ask QTT,
   Help and support, Sign out.
-- **QTT Business Suite** home: what needs you and the services running, Start
-  here (set-up steps), **Your services** as compact tiles — Website Builder,
-  Online Store, WhatsApp & AI, **Social media** (its own dashboard) and
-  **Articles & newsletters** (their own dashboard) — your websites and systems,
-  requests and what QTT did.
+- **QTT Business Suite** has no home screen of its own any more (since 15 Nov
+  2026): its services are Home's tiles — Website, Store, WhatsApp, Social media,
+  Articles & newsletters — each opening its own screen, and Back comes straight
+  back to Home. Website or Store with several (or none) shows **Your websites**
+  / **Your stores** with each one's health. Set-up steps show in Needs you. The
+  ☰ menu has **Inbox** (customers' chats) and **Ask the QTT team** (requests:
+  a change to your website, store or WhatsApp — New request).
 - **One Calendar for everyone** (on phones the **Calendar** tab at the bottom;
   on a computer Home › the calendar button with today's date; **Up next** on
   Home shows the next three things this week): meetings,
