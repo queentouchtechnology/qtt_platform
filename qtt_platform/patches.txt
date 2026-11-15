@@ -18,3 +18,4 @@ qtt_platform.patches.v0_16.drop_nextcloud
 qtt_platform.patches.v0_17.customer_kind
 qtt_platform.patches.v0_18.marketing_ok_policy
 qtt_platform.patches.v0_19.free_use_defaults
+qtt_platform.patches.v0_19.plan_fair_use_defaults

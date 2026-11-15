@@ -90,10 +90,32 @@
   "column_break_free_2",
   "free_limit_social",
   "free_limit_articles",
+  "free_limit_newsletters",
   "free_limit_studio",
   "column_break_free_3",
   "one_plan_monthly",
-  "one_plan_yearly"
+  "one_plan_yearly",
+  "section_fair_use",
+  "plan_limit_offer_messages",
+  "plan_limit_ai",
+  "plan_limit_social",
+  "column_break_fair_1",
+  "plan_limit_articles",
+  "plan_limit_newsletters",
+  "column_break_fair_2",
+  "plan_limit_hr",
+  "plan_limit_website",
+  "plan_limit_stores",
+  "section_topups",
+  "topup_messages_amount",
+  "topup_messages_price",
+  "topup_ai_amount",
+  "topup_ai_price",
+  "column_break_topups",
+  "topup_staff_amount",
+  "topup_staff_price",
+  "topup_site_amount",
+  "topup_site_price"
  ],
  "fields": [
   {
@@ -560,6 +582,13 @@
    "non_negative": 1
   },
   {
+   "fieldname": "free_limit_newsletters",
+   "fieldtype": "Int",
+   "label": "Newsletters — newsletters",
+   "default": "2",
+   "non_negative": 1
+  },
+  {
    "fieldname": "free_limit_studio",
    "fieldtype": "Int",
    "label": "Studio — designs",
@@ -583,6 +612,145 @@
    "label": "One plan — per year (₹)",
    "default": "19990",
    "non_negative": 1
+  },
+  {
+   "fieldname": "section_fair_use",
+   "fieldtype": "Section Break",
+   "label": "The plan's fair use",
+   "collapsible": 0,
+   "description": "What the one plan includes. Monthly amounts reset on each business's plan date; staff, websites and stores count what exists at a time. 0 = unlimited. Bills, store orders, customers, designs and WhatsApp replies to customers are always unlimited on the plan."
+  },
+  {
+   "fieldname": "plan_limit_offer_messages",
+   "fieldtype": "Int",
+   "label": "WhatsApp offer messages — a month",
+   "default": "1000",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "plan_limit_ai",
+   "fieldtype": "Int",
+   "label": "AI actions — a month",
+   "default": "500",
+   "non_negative": 1,
+   "description": "Posts, articles, designs and the assistant. The WhatsApp receptionist's replies to customers don't count."
+  },
+  {
+   "fieldname": "plan_limit_social",
+   "fieldtype": "Int",
+   "label": "Social posts — a month",
+   "default": "60",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "column_break_fair_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "plan_limit_articles",
+   "fieldtype": "Int",
+   "label": "Articles — a month",
+   "default": "8",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "plan_limit_newsletters",
+   "fieldtype": "Int",
+   "label": "Newsletters — a month",
+   "default": "4",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "column_break_fair_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "plan_limit_hr",
+   "fieldtype": "Int",
+   "label": "Staff — at a time",
+   "default": "25",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "plan_limit_website",
+   "fieldtype": "Int",
+   "label": "Websites — at a time",
+   "default": "1",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "plan_limit_stores",
+   "fieldtype": "Int",
+   "label": "Stores — at a time",
+   "default": "1",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "section_topups",
+   "fieldtype": "Section Break",
+   "label": "Top-ups",
+   "collapsible": 0,
+   "description": "Packs a business on the plan can buy when it needs more. Each is added at once, for the rest of that plan month."
+  },
+  {
+   "fieldname": "topup_messages_amount",
+   "fieldtype": "Int",
+   "label": "Offer messages pack — how many",
+   "default": "2000",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "topup_messages_price",
+   "fieldtype": "Currency",
+   "label": "Offer messages pack — price (₹)",
+   "default": "499",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "topup_ai_amount",
+   "fieldtype": "Int",
+   "label": "AI actions pack — how many",
+   "default": "1000",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "topup_ai_price",
+   "fieldtype": "Currency",
+   "label": "AI actions pack — price (₹)",
+   "default": "299",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "column_break_topups",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "topup_staff_amount",
+   "fieldtype": "Int",
+   "label": "Staff pack — how many",
+   "default": "25",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "topup_staff_price",
+   "fieldtype": "Currency",
+   "label": "Staff pack — price (₹)",
+   "default": "499",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "topup_site_amount",
+   "fieldtype": "Int",
+   "label": "Website or store pack — how many",
+   "default": "1",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "topup_site_price",
+   "fieldtype": "Currency",
+   "label": "Website or store pack — price (₹)",
+   "default": "999",
+   "non_negative": 1
   }
  ],
  "permissions": [
@@ -597,5 +765,5 @@
   }
  ],
  "links": [],
- "modified": "2026-11-14 13:00:00.000000"
+ "modified": "2026-11-15 12:00:00.000000"
 }

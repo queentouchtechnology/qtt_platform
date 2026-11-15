@@ -464,6 +464,10 @@ def _paid(tenant: str, feature: str, run):
 
 	cost = rules.CREDITS[feature]
 	paying = not included(tenant)
+	if not paying:
+		from qtt_platform.api.free_use import check_plan
+
+		check_plan(tenant, "ai")  # the one plan's AI actions this month (top up past them)
 	product = _wallet(tenant) if paying else "QTT_STUDIO"
 	ref = f"team:{feature}:{uuid.uuid4()}"
 	if paying and (not product or not credit_service.deduct_credits(tenant, product, cost, reference=ref).get("ok")):

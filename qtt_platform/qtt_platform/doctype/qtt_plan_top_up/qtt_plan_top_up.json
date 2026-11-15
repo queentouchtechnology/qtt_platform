@@ -1,0 +1,114 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Plan Top Up",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "autoname": "format:TOPUP-{YYYY}-{#####}",
+ "naming_rule": "Expression",
+ "track_changes": 1,
+ "engine": "InnoDB",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "title_field": "pack_name",
+ "description": "A top-up pack bought on the one plan for all 8 apps (PROJ-0024): adds to one fair-use amount (offer messages, AI actions, staff, websites/stores) for the rest of that plan month. Starts when its invoice is paid.",
+ "field_order": [
+  "tenant",
+  "pack",
+  "pack_name",
+  "adds",
+  "amount",
+  "price",
+  "column_break_1",
+  "status",
+  "period_start",
+  "period_end",
+  "invoice"
+ ],
+ "fields": [
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "label": "Business",
+   "options": "QTT Tenant",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "pack",
+   "fieldtype": "Data",
+   "label": "Pack",
+   "reqd": 1
+  },
+  {
+   "fieldname": "pack_name",
+   "fieldtype": "Data",
+   "label": "What",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "adds",
+   "fieldtype": "Data",
+   "label": "Adds to",
+   "description": "offer_messages, ai, hr, website"
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Int",
+   "label": "How many",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "price",
+   "fieldtype": "Currency",
+   "label": "Price (₹)",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "awaiting_payment\nactive\ncancelled",
+   "default": "awaiting_payment",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "period_start",
+   "fieldtype": "Date",
+   "label": "From"
+  },
+  {
+   "fieldname": "period_end",
+   "fieldtype": "Date",
+   "label": "Until"
+  },
+  {
+   "fieldname": "invoice",
+   "fieldtype": "Link",
+   "label": "Invoice",
+   "options": "QTT Invoice"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "modified": "2026-11-15 12:00:00.000000",
+ "owner": "Administrator",
+ "modified_by": "Administrator",
+ "creation": "2026-11-15 12:00:00.000000"
+}

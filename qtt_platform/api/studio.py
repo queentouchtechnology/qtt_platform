@@ -92,6 +92,10 @@ def paid(tenant: str, feature: str, run, *, provider: str = "assistant", model: 
 	cost = rules.CREDITS[feature]
 	ref = f"studio:{feature}:{uuid.uuid4()}"
 	paying = not included(tenant)  # QTT's own, and every business since PROJ-0024: no credits taken
+	if not paying:
+		from qtt_platform.api.free_use import check_plan
+
+		check_plan(tenant, "ai")  # the one plan's AI actions this month (top up past them)
 	if paying and not credit_service.deduct_credits(tenant, rules.PRODUCT, cost, reference=ref).get("ok"):
 		frappe.throw(_("You're out of AI credits — more come with next month's plan, or buy more in Business › Plans and billing."))
 	start = time.monotonic()

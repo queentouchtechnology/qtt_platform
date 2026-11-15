@@ -63,6 +63,14 @@ def on_invoice_update(doc, method=None) -> None:
 		sub.save(ignore_permissions=True)
 
 
+def _switch_at_renewal(sub_name: str) -> None:
+	"""A plan switch scheduled for this renewal (QTT OS monthly ↔ yearly, api/free_use.switch_period): the next invoice is
+	for the new plan."""
+	sched, when, paid = frappe.db.get_value(SUB, sub_name, ["scheduled_plan", "scheduled_plan_effective_date", "paid_until"])
+	if sched and (not when or not paid or getdate(when) <= getdate(paid)):
+		frappe.db.set_value(SUB, sub_name, {"plan": sched, "scheduled_plan": None, "scheduled_plan_effective_date": None})
+
+
 def renew_daily() -> None:
 	"""Scheduler (daily): the next invoice before the paid time runs out; suspended when long unpaid."""
 	from qtt_platform.house import ONE_PLAN_PRODUCT, included
@@ -78,6 +86,7 @@ def renew_daily() -> None:
 								   paid_until=getdate(s.paid_until) if s.paid_until else None, has_open_invoice=has_open,
 								   cancelling=bool(s.cancel_at_period_end), today=now)
 			if step == "invoice":
+				_switch_at_renewal(s.name)  # monthly ↔ yearly chosen for the next renewal (the one plan)
 				invoice_period(s.name, s.paid_until)
 			elif step == "suspend":
 				frappe.db.set_value(SUB, s.name, "status", "suspended")

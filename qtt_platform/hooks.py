@@ -115,7 +115,9 @@ doc_events = {
     "QTT Product": {"on_update": "qtt_platform.api.public_pricing.clear"},
     "Managed Service Type": {"on_update": "qtt_platform.api.public_pricing.clear"},
     # A paid invoice extends the apps it covers that QTT Admin bills by invoice (invoice_billing.py).
-    "QTT Invoice": {"on_update": "qtt_platform.invoice_billing.on_invoice_update"},
+    "QTT Invoice": {"on_update": ["qtt_platform.invoice_billing.on_invoice_update",
+                                  # the one plan (PROJ-0024): a paid top-up starts; the app refreshes the moment it's paid
+                                  "qtt_platform.api.free_use.on_invoice_paid"]},
     "QTT Product Subscription": {
         "before_save": "qtt_platform.permissions.handlers.guard_tenant_change_before_save",
         # Queen Touch Technology's own workspace: its apps are always on (qtt_platform/house.py).
@@ -411,3 +413,6 @@ website_redirects = [
 	{"source": r"/sl/([a-z0-9]{6,20})", "target": r"/api/method/qtt_platform.api.files_links.page?id=\1"},
 	{"source": r"/f/([A-Za-z0-9_-]{12,40})", "target": r"/api/method/qtt_platform.api.forms.page?k=\1"},
 ]
+
+# Needs you on Home: the one plan's fair use nearly or fully used this month → Top up (PROJ-0024)
+qtt_home_cards = ["qtt_platform.api.free_use.home_cards"]

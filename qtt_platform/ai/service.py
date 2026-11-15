@@ -42,11 +42,20 @@ def generate_and_track(
 	Raises frappe.ValidationError (insufficient credits, credits never
 	touched) or re-raises AiProviderException (credits refunded first).
 	"""
-	reference = str(uuid.uuid4())
+	from qtt_platform.house import included
 
-	reservation = credit_service.deduct_credits(tenant, product, credit_cost, reference=reference)
-	if not reservation.get("ok"):
-		frappe.throw("Insufficient AI credits.", frappe.ValidationError)
+	reference = str(uuid.uuid4())
+	# Everything included (QTT's own, and every business since PROJ-0024): no credits — the one plan's AI actions this
+	# month are the only gate (the WhatsApp receptionist's replies to customers never count).
+	paying = not included(tenant)
+	if not paying and not feature.startswith("receptionist"):
+		from qtt_platform.api.free_use import check_plan
+
+		check_plan(tenant, "ai")
+	if paying:
+		reservation = credit_service.deduct_credits(tenant, product, credit_cost, reference=reference)
+		if not reservation.get("ok"):
+			frappe.throw("Insufficient AI credits.", frappe.ValidationError)
 
 	gateway = AiGateway(build_registry())
 	start = time.monotonic()
@@ -54,7 +63,8 @@ def generate_and_track(
 	try:
 		response = gateway.generate(request)
 	except AiProviderException:
-		credit_service.refund_credits(tenant, product, credit_cost, reference=reference)
+		if paying:
+			credit_service.refund_credits(tenant, product, credit_cost, reference=reference)
 		usage_service.record_usage(
 			tenant=tenant,
 			product=product,
@@ -79,7 +89,7 @@ def generate_and_track(
 		provider=response.provider,
 		model=response.model,
 		usage=response.usage,
-		credits_used=credit_cost,
+		credits_used=credit_cost if paying else 0,
 		provider_cost=provider_cost,
 		status="success",
 		duration_ms=response.duration_ms,

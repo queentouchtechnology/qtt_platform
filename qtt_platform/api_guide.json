@@ -6071,15 +6071,31 @@
    "area": "api.free_use",
    "http_methods": "GET",
    "guest": 0,
-   "purpose": "What the app shows about free use for the signed-in person's business.",
-   "details": "What the app shows about free use for the signed-in person's business.\n\nReturns {limited, gate, reached: [app keys], apps: [{key, label, unit, used, limit, left, reached}],\nplan: {monthly, yearly}, subscribed}. `limit`/`left` are null when that app has no limit (or the business is on\nthe plan, or free use is switched off in Desk).",
+   "purpose": "What the app shows about free use and the plan for the signed-in person's business.",
+   "details": "What the app shows about free use and the plan for the signed-in person's business.\n\nReturns {limited, gate, reached, apps: [{key, label, unit, period (at_a_time | in_total), used, limit, left, reached}],\nplan: {monthly, yearly}, subscribed, packs: {pack: {name, adds, amount, price}},\non_plan: {period, renews_on, stopping, switching_to, month: {start, end}, items: [{key, label, unit, period (month |\nat_a_time), used, limit, topup, left, near, reached}], invoices: [...]} | null,\nawaiting: {invoice, amount, pay_url, period} | null}. `limit`/`left` are null when unlimited.",
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.freeUseStatus",
    "screens": "platform/free_use/free_use_screens.dart › FreeUseCard\nplatform/free_use/free_use_screens.dart › _OnePlanPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/free_use.py:81",
+   "source": "qtt_platform/qtt_platform/api/free_use.py:193",
    "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.free_use.stop_plan",
+   "product": "Platform",
+   "area": "api.free_use",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "stop=1: the plan stops at the end of what's paid (no more invoices; everything keeps working until then, then the free amounts again — nothing deleted). stop=0: keep it going. Returns {stopping, until}.",
+   "details": "stop=1: the plan stops at the end of what's paid (no more invoices; everything keeps working until then, then the\nfree amounts again — nothing deleted). stop=0: keep it going. Returns {stopping, until}.",
+   "arguments": "stop",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/free_use.py:343",
+   "status": "Not used by the app"
   },
   {
    "endpoint": "qtt_platform.api.free_use.subscribe",
@@ -6087,15 +6103,47 @@
    "area": "api.free_use",
    "http_methods": "POST",
    "guest": 0,
-   "purpose": "The owner subscribes to the one plan for all 8 apps (`period`: monthly | yearly). It starts once the first invoice is paid — paying lifts every free limit. Asking again while unpaid gives the same invoice. Returns {status: awaiting_payment | active, invoice, pay_url}.",
-   "details": "The owner subscribes to the one plan for all 8 apps (`period`: monthly | yearly). It starts once the first\ninvoice is paid — paying lifts every free limit. Asking again while unpaid gives the same invoice.\nReturns {status: awaiting_payment | active, invoice, pay_url}.",
+   "purpose": "The owner subscribes to the one plan for all 8 apps (`period`: monthly | yearly). It starts once the first invoice is paid. Asking again while unpaid gives the same invoice (or replaces it when the period changed). Returns {status: awaiting_payment | active, invoice, pay_url}.",
+   "details": "The owner subscribes to the one plan for all 8 apps (`period`: monthly | yearly). It starts once the first\ninvoice is paid. Asking again while unpaid gives the same invoice (or replaces it when the period changed).\nReturns {status: awaiting_payment | active, invoice, pay_url}.",
    "arguments": "period",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.subscribeOnePlan",
    "screens": "platform/free_use/free_use_screens.dart › _OnePlanPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/free_use.py:102",
+   "source": "qtt_platform/qtt_platform/api/free_use.py:251",
    "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.free_use.switch_period",
+   "product": "Platform",
+   "area": "api.free_use",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Monthly ↔ yearly from the next renewal (the next invoice is for the new period). The same period again: the switch is taken back. Returns {switching_to | null, from}.",
+   "details": "Monthly ↔ yearly from the next renewal (the next invoice is for the new period). The same period again: the\nswitch is taken back. Returns {switching_to | null, from}.",
+   "arguments": "period",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/free_use.py:325",
+   "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_platform.api.free_use.topup",
+   "product": "Platform",
+   "area": "api.free_use",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "The owner buys a top-up pack (messages | ai | staff | site) on the plan: an invoice; once paid it's added to that fair-use amount for the rest of this plan month. Returns {invoice, pay_url, adds, amount, until}.",
+   "details": "The owner buys a top-up pack (messages | ai | staff | site) on the plan: an invoice; once paid it's added to that\nfair-use amount for the rest of this plan month. Returns {invoice, pay_url, adds, amount, until}.",
+   "arguments": "pack",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/free_use.py:292",
+   "status": "Not used by the app"
   },
   {
    "endpoint": "qtt_platform.api.home.actions",
@@ -8078,7 +8126,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioAllSizes",
    "screens": "products/studio/design_editor.dart › _DesignEditorPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:503",
+   "source": "qtt_platform/qtt_platform/api/studio.py:507",
    "status": "OK"
   },
   {
@@ -8094,7 +8142,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioAnother",
    "screens": "products/studio/design_editor.dart › _DesignEditorPageState\nproducts/studio/studio_pages.dart › _StudioResultPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:577",
+   "source": "qtt_platform/qtt_platform/api/studio.py:581",
    "status": "OK"
   },
   {
@@ -8110,7 +8158,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioAsk",
    "screens": "products/studio/design_editor.dart › _DesignEditorPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:430",
+   "source": "qtt_platform/qtt_platform/api/studio.py:434",
    "status": "OK"
   },
   {
@@ -8126,7 +8174,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioDeleteDesign",
    "screens": "products/studio/design_editor.dart › _DesignEditorPageState\nproducts/studio/studio_pages.dart › _StudioWorkPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:544",
+   "source": "qtt_platform/qtt_platform/api/studio.py:548",
    "status": "OK"
   },
   {
@@ -8142,7 +8190,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioDesign",
    "screens": "products/studio/poster_variations.dart › _PosterConceptsPageState\nproducts/studio/studio_pages.dart › _StudioWorkPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:390",
+   "source": "qtt_platform/qtt_platform/api/studio.py:394",
    "status": "OK"
   },
   {
@@ -8158,7 +8206,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioDesignPdf",
    "screens": "products/studio/design_editor.dart › _DesignEditorPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:672",
+   "source": "qtt_platform/qtt_platform/api/studio.py:676",
    "status": "OK"
   },
   {
@@ -8174,7 +8222,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioDesigns",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:381",
+   "source": "qtt_platform/qtt_platform/api/studio.py:385",
    "status": "OK"
   },
   {
@@ -8190,7 +8238,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioDuplicate",
    "screens": "products/studio/studio_pages.dart › _StudioWorkPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:693",
+   "source": "qtt_platform/qtt_platform/api/studio.py:697",
    "status": "OK"
   },
   {
@@ -8206,7 +8254,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioEditor",
    "screens": "products/studio/design_canvas.dart › _DesignCanvasPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:459",
+   "source": "qtt_platform/qtt_platform/api/studio.py:463",
    "status": "OK"
   },
   {
@@ -8222,7 +8270,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioEditorAssets",
    "screens": "products/studio/design_canvas.dart › _DesignCanvasPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:601",
+   "source": "qtt_platform/qtt_platform/api/studio.py:605",
    "status": "OK"
   },
   {
@@ -8238,7 +8286,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioEditorCutout",
    "screens": "products/studio/design_canvas.dart › _DesignCanvasPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:640",
+   "source": "qtt_platform/qtt_platform/api/studio.py:644",
    "status": "OK"
   },
   {
@@ -8254,7 +8302,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioEditorSrc",
    "screens": "products/studio/design_canvas.dart › _DesignCanvasPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:627",
+   "source": "qtt_platform/qtt_platform/api/studio.py:631",
    "status": "OK"
   },
   {
@@ -8270,7 +8318,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioFromPoster",
    "screens": "products/studio/studio_root.dart › _StudioHomeState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:313",
+   "source": "qtt_platform/qtt_platform/api/studio.py:317",
    "status": "OK"
   },
   {
@@ -8286,7 +8334,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioHome",
    "screens": "products/services/screens/marketing_pages.dart › (top level)\nproducts/studio/studio_root.dart › _StudioHomeState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:226",
+   "source": "qtt_platform/qtt_platform/api/studio.py:230",
    "status": "OK"
   },
   {
@@ -8302,7 +8350,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioLibrary",
    "screens": "products/services/screens/marketing_pages.dart › _LibraryPickerState\nproducts/studio/studio_pages.dart › _StudioWorkPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:557",
+   "source": "qtt_platform/qtt_platform/api/studio.py:561",
    "status": "OK"
   },
   {
@@ -8318,7 +8366,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioMake",
    "screens": "products/services/screens/marketing_pages.dart › (top level)\nproducts/studio/studio_pages.dart › _TemplateSheetState\nproducts/studio/studio_root.dart › _StudioHomeState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:266",
+   "source": "qtt_platform/qtt_platform/api/studio.py:270",
    "status": "OK"
   },
   {
@@ -8334,7 +8382,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioNewDesign",
    "screens": "products/studio/studio_pages.dart › _TemplateSheetState\nproducts/studio/studio_root.dart › _StudioHomeState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:358",
+   "source": "qtt_platform/qtt_platform/api/studio.py:362",
    "status": "OK"
   },
   {
@@ -8350,7 +8398,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioSaveMoves",
    "screens": "products/studio/design_canvas.dart › _DesignCanvasPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:476",
+   "source": "qtt_platform/qtt_platform/api/studio.py:480",
    "status": "OK"
   },
   {
@@ -8366,7 +8414,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioToPost",
    "screens": "products/services/screens/marketing_pages.dart › (top level)\nproducts/studio/design_editor.dart › _DesignEditorPageState\nproducts/studio/studio_pages.dart › _StudioWorkPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:523",
+   "source": "qtt_platform/qtt_platform/api/studio.py:527",
    "status": "OK"
   },
   {
@@ -8382,7 +8430,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.studioUpdateDesign",
    "screens": "products/studio/design_editor.dart › _DesignEditorPageState\nproducts/studio/studio_pages.dart › _TemplateSheetState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/studio.py:396",
+   "source": "qtt_platform/qtt_platform/api/studio.py:400",
    "status": "OK"
   },
   {
@@ -9774,7 +9822,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamCatchUp",
    "screens": "platform/team/team_sheets.dart › _TaskSheetState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team_extras.py:502",
+   "source": "qtt_platform/qtt_platform/api/team_extras.py:506",
    "status": "OK"
   },
   {
@@ -9902,7 +9950,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.teamTaskSuggest",
    "screens": "platform/team/team_sheets.dart › _TaskSheetState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/team_extras.py:524",
+   "source": "qtt_platform/qtt_platform/api/team_extras.py:528",
    "status": "OK"
   },
   {
