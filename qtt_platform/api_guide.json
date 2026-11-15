@@ -3180,7 +3180,7 @@
    "arguments": "q, category, store, include_disabled, start, page_length, sort",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.items\nqtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.itemsPage",
-   "screens": "admin/app_control_view.dart › _ToggleList\nadmin/marketing_content_models.dart › ContentList\nadmin/marketing_content_view.dart › _MarketingApprovalsViewState\nadmin/marketing_content_view.dart › _MarketingContentListViewState\nadmin/marketing_dashboard_models.dart › WeekInfo\nadmin/marketing_reports_view.dart › _WeekCard\nplatform/calendar/calendar_home.dart › _MonthView\nplatform/calendar/calendar_home.dart › _ScheduleView\nplatform/calendar/calendar_home.dart › _TimeGrid\nplatform/calendar/calendar_home.dart › _TimeGridState\nplatform/calendar/calendar_home.dart › _WeekStrip\nplatform/data/platform_models.dart › ExploreCatalog\nplatform/data/platform_repository.dart › PlatformRepository\nproducts/orbitra/screens/inventory_view.dart › _InventoryViewState\nproducts/orbitra/screens/orbitra_widgets.dart › _SearchListState\nproducts/orbitra/screens/pos_view.dart › _PosViewState\nproducts/services/screens/marketing_hub.dart › _Week\nproducts/services/store/store_blog.dart › _MediaPickerState\nproducts/services/store/store_blog.dart › _StoreBlogPageState\nproducts/services/store/store_models.dart › SitePage\nproducts/services/store/store_models.dart › StoreOrder\nproducts/services/store/store_pages.dart › _StoreOrderPageState\nproducts/services/store/store_pictures.dart › _StorePicturesPageState",
+   "screens": "admin/app_control_view.dart › _ToggleList\nadmin/marketing_content_models.dart › ContentList\nadmin/marketing_content_view.dart › _MarketingApprovalsViewState\nadmin/marketing_content_view.dart › _MarketingContentListViewState\nadmin/marketing_dashboard_models.dart › WeekInfo\nadmin/marketing_reports_view.dart › _WeekCard\nplatform/calendar/calendar_home.dart › _MonthView\nplatform/calendar/calendar_home.dart › _ScheduleView\nplatform/calendar/calendar_home.dart › _TimeGrid\nplatform/calendar/calendar_home.dart › _TimeGridState\nplatform/calendar/calendar_home.dart › _WeekStrip\nplatform/data/platform_models.dart › ExploreCatalog\nplatform/data/platform_models.dart › OnPlan\nplatform/data/platform_repository.dart › PlatformRepository\nplatform/free_use/free_use_screens.dart › _OnPlanView\nproducts/orbitra/screens/inventory_view.dart › _InventoryViewState\nproducts/orbitra/screens/orbitra_widgets.dart › _SearchListState\nproducts/orbitra/screens/pos_view.dart › _PosViewState\nproducts/services/screens/marketing_hub.dart › _Week\nproducts/services/store/store_blog.dart › _MediaPickerState\nproducts/services/store/store_blog.dart › _StoreBlogPageState\nproducts/services/store/store_models.dart › SitePage\nproducts/services/store/store_models.dart › StoreOrder\nproducts/services/store/store_pages.dart › _StoreOrderPageState\nproducts/services/store/store_pictures.dart › _StorePicturesPageState",
    "other_callers": "",
    "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/items.py:69",
    "status": "OK"
@@ -3468,7 +3468,7 @@
    "arguments": "name",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.invoice",
-   "screens": "platform/workspace/billing_section.dart › InvoiceTile\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/sales_view.dart › _InvoiceDetailState",
+   "screens": "platform/data/platform_models.dart › AwaitingPayment\nplatform/data/platform_models.dart › PlanInvoice\nplatform/free_use/free_use_screens.dart › _OnPlanView\nplatform/free_use/free_use_screens.dart › _WaitingView\nplatform/workspace/billing_section.dart › InvoiceTile\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/sales_view.dart › _InvoiceDetailState",
    "other_callers": "",
    "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/sales.py:73",
    "status": "Not described"
@@ -3500,7 +3500,7 @@
    "arguments": "show, q, customer, start, page_length, sort",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.invoices\nqtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.invoicesPage",
-   "screens": "admin/saas_models.dart › WorkspaceBilling\nadmin/workspace_billing_view.dart › _WorkspaceBillingSectionState\nplatform/workspace/billing_section.dart › _BillingSectionState\nproducts/orbitra/screens/sales_view.dart › _SalesViewState\nproducts/services/repository.dart › ServicesRepository\nproducts/services/screens/order_pages.dart › _PaymentsPageState",
+   "screens": "admin/saas_models.dart › WorkspaceBilling\nadmin/workspace_billing_view.dart › _WorkspaceBillingSectionState\nplatform/data/platform_models.dart › OnPlan\nplatform/free_use/free_use_screens.dart › _OnPlanView\nplatform/workspace/billing_section.dart › _BillingSectionState\nproducts/orbitra/screens/sales_view.dart › _SalesViewState\nproducts/services/repository.dart › ServicesRepository\nproducts/services/screens/order_pages.dart › _PaymentsPageState",
    "other_callers": "",
    "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/sales.py:37",
    "status": "OK"
@@ -6072,11 +6072,11 @@
    "http_methods": "GET",
    "guest": 0,
    "purpose": "What the app shows about free use and the plan for the signed-in person's business.",
-   "details": "What the app shows about free use and the plan for the signed-in person's business.\n\nReturns {limited, gate, reached, apps: [{key, label, unit, period (at_a_time | in_total), used, limit, left, reached}],\nplan: {monthly, yearly}, subscribed, packs: {pack: {name, adds, amount, price}},\non_plan: {period, renews_on, stopping, switching_to, month: {start, end}, items: [{key, label, unit, period (month |\nat_a_time), used, limit, topup, left, near, reached}], invoices: [...]} | null,\nawaiting: {invoice, amount, pay_url, period} | null}. `limit`/`left` are null when unlimited.",
+   "details": "What the app shows about free use and the plan for the signed-in person's business.\n\nReturns {limited, gate, reached, apps: [{key, label, unit, period (at_a_time | in_total), used, limit, left, reached}],\nplan: {monthly, yearly}, subscribed, packs: {pack: {name, adds, amount, price}}, plan_amounts: {item: amount (0 = unlimited)},\non_plan: {period, renews_on, stopping, switching_to, month: {start, end}, items: [{key, label, unit, period (month |\nat_a_time), used, limit, topup, left, near, reached}], invoices: [...]} | null,\nawaiting: {invoice, amount, pay_url, period} | null}. `limit`/`left` are null when unlimited.",
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.freeUseStatus",
-   "screens": "platform/free_use/free_use_screens.dart › FreeUseCard\nplatform/free_use/free_use_screens.dart › _OnePlanPageState",
+   "screens": "platform/free_use/free_use_screens.dart › (top level)\nplatform/free_use/free_use_screens.dart › _OnePlanPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/free_use.py:193",
    "status": "OK"
@@ -6090,12 +6090,12 @@
    "purpose": "stop=1: the plan stops at the end of what's paid (no more invoices; everything keeps working until then, then the free amounts again — nothing deleted). stop=0: keep it going. Returns {stopping, until}.",
    "details": "stop=1: the plan stops at the end of what's paid (no more invoices; everything keeps working until then, then the\nfree amounts again — nothing deleted). stop=0: keep it going. Returns {stopping, until}.",
    "arguments": "stop",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.stopPlan",
+   "screens": "platform/free_use/free_use_screens.dart › _OnPlanView",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/free_use.py:343",
-   "status": "Not used by the app"
+   "source": "qtt_platform/qtt_platform/api/free_use.py:344",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.free_use.subscribe",
@@ -6108,9 +6108,9 @@
    "arguments": "period",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.subscribeOnePlan",
-   "screens": "platform/free_use/free_use_screens.dart › _OnePlanPageState",
+   "screens": "platform/free_use/free_use_screens.dart › _PlanChoosePageState\nplatform/free_use/free_use_screens.dart › _WaitingView",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/free_use.py:251",
+   "source": "qtt_platform/qtt_platform/api/free_use.py:252",
    "status": "OK"
   },
   {
@@ -6122,12 +6122,12 @@
    "purpose": "Monthly ↔ yearly from the next renewal (the next invoice is for the new period). The same period again: the switch is taken back. Returns {switching_to | null, from}.",
    "details": "Monthly ↔ yearly from the next renewal (the next invoice is for the new period). The same period again: the\nswitch is taken back. Returns {switching_to | null, from}.",
    "arguments": "period",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.switchPlanPeriod",
+   "screens": "platform/free_use/free_use_screens.dart › _OnPlanView",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/free_use.py:325",
-   "status": "Not used by the app"
+   "source": "qtt_platform/qtt_platform/api/free_use.py:326",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.free_use.topup",
@@ -6138,12 +6138,12 @@
    "purpose": "The owner buys a top-up pack (messages | ai | staff | site) on the plan: an invoice; once paid it's added to that fair-use amount for the rest of this plan month. Returns {invoice, pay_url, adds, amount, until}.",
    "details": "The owner buys a top-up pack (messages | ai | staff | site) on the plan: an invoice; once paid it's added to that\nfair-use amount for the rest of this plan month. Returns {invoice, pay_url, adds, amount, until}.",
    "arguments": "pack",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.buyTopUp",
+   "screens": "platform/free_use/free_use_screens.dart › _TopUpSheetState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/free_use.py:292",
-   "status": "Not used by the app"
+   "source": "qtt_platform/qtt_platform/api/free_use.py:293",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.home.actions",
@@ -13548,7 +13548,7 @@
    "arguments": "service",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.cancel",
-   "screens": "admin/admin_repository.dart › AdminRepository\napp/app.dart › _QttOsAppState\napp/app_gate.dart › _SplashState\ncore/analytics/analytics.dart › Analytics\ncore/config/remote_config.dart › RemoteConfigStore\ncore/offline/connection.dart › Connection\ncore/offline/saved_copies.dart › SavedCopies\ncore/push/push_service.dart › PushService\nplatform/auth/google_web_button_web.dart › _GoogleWebButtonState\nplatform/calendar/calendar_home.dart › _TimeGridState\nplatform/onboarding/signup_screen.dart › _SignupScreenState\nplatform/session/app_session.dart › AppSession\nplatform/team/team_call.dart › _TeamCallPageState\nplatform/team/team_chat_page.dart › _TeamChatPageState\nplatform/team/team_screen.dart › _TeamScreenState\nplatform/team/team_voice.dart › VoiceRecorder\nplatform/team/team_voice.dart › _VoiceNotePlayerState\nplatform/workplace/remote_page.dart › _SetupComputerPageState\nproducts/office_pulse/office_pulse_root.dart › PulseState\nproducts/office_pulse/screens/pattern_who.dart › _PatternWhoState\nproducts/onbox/chat_controller.dart › ChatController\nproducts/onbox/onbox_provider.dart › OnboxProvider\nproducts/onbox/screens/conversation_list_pane.dart › _ConversationListPaneState\nproducts/orbitra/orbitra_root.dart › OrbitraState\nproducts/services/screens/deploy_pages.dart › _DeploymentPageState\nproducts/services/screens/golive_pages.dart › _DeletingDialogState\nproducts/services/screens/plan_change_page.dart › _PlanChangePageState\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › ServicesState\nproducts/studio/shorts_studio.dart › _ShortPageState\nshared/erp/erp_screens.dart › ErpApi\nshared/erp/erp_screens.dart › _ErpDocPageState\nshared/search/global_search.dart › _GlobalSearchScreenState\nshared/widgets/list_kit.dart › _SearchFilterBarState\nshell/home_shell.dart › _HomeShellState",
+   "screens": "admin/admin_repository.dart › AdminRepository\napp/app.dart › _QttOsAppState\napp/app_gate.dart › _SplashState\ncore/analytics/analytics.dart › Analytics\ncore/config/remote_config.dart › RemoteConfigStore\ncore/offline/connection.dart › Connection\ncore/offline/saved_copies.dart › SavedCopies\ncore/push/push_service.dart › PushService\nplatform/auth/google_web_button_web.dart › _GoogleWebButtonState\nplatform/calendar/calendar_home.dart › _TimeGridState\nplatform/free_use/free_use_screens.dart › _OnePlanPageState\nplatform/onboarding/signup_screen.dart › _SignupScreenState\nplatform/session/app_session.dart › AppSession\nplatform/team/team_call.dart › _TeamCallPageState\nplatform/team/team_chat_page.dart › _TeamChatPageState\nplatform/team/team_screen.dart › _TeamScreenState\nplatform/team/team_voice.dart › VoiceRecorder\nplatform/team/team_voice.dart › _VoiceNotePlayerState\nplatform/workplace/remote_page.dart › _SetupComputerPageState\nproducts/office_pulse/office_pulse_root.dart › PulseState\nproducts/office_pulse/screens/pattern_who.dart › _PatternWhoState\nproducts/onbox/chat_controller.dart › ChatController\nproducts/onbox/onbox_provider.dart › OnboxProvider\nproducts/onbox/screens/conversation_list_pane.dart › _ConversationListPaneState\nproducts/orbitra/orbitra_root.dart › OrbitraState\nproducts/services/screens/deploy_pages.dart › _DeploymentPageState\nproducts/services/screens/golive_pages.dart › _DeletingDialogState\nproducts/services/screens/plan_change_page.dart › _PlanChangePageState\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › ServicesState\nproducts/studio/shorts_studio.dart › _ShortPageState\nshared/erp/erp_screens.dart › ErpApi\nshared/erp/erp_screens.dart › _ErpDocPageState\nshared/search/global_search.dart › _GlobalSearchScreenState\nshared/widgets/list_kit.dart › _SearchFilterBarState\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/shop.py:377",
    "status": "Not described"
@@ -13596,7 +13596,7 @@
    "arguments": "start, page_length, status",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.invoices\nqtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.invoicesPage",
-   "screens": "admin/saas_models.dart › WorkspaceBilling\nadmin/workspace_billing_view.dart › _WorkspaceBillingSectionState\nplatform/workspace/billing_section.dart › _BillingSectionState\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/orbitra/screens/sales_view.dart › _SalesViewState\nproducts/services/screens/order_pages.dart › _PaymentsPageState",
+   "screens": "admin/saas_models.dart › WorkspaceBilling\nadmin/workspace_billing_view.dart › _WorkspaceBillingSectionState\nplatform/data/platform_models.dart › OnPlan\nplatform/free_use/free_use_screens.dart › _OnPlanView\nplatform/workspace/billing_section.dart › _BillingSectionState\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/orbitra/screens/sales_view.dart › _SalesViewState\nproducts/services/screens/order_pages.dart › _PaymentsPageState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/shop.py:350",
    "status": "OK"

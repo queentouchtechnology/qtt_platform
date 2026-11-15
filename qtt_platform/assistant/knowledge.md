@@ -1765,22 +1765,42 @@ minutes"; it was called Managed Services before).
 ## Free while you try, then one plan (since 14 Nov 2026)
 Every business can use **all 8 apps** — HR & staff, ERP, Website, Store,
 WhatsApp, Social media, Articles & newsletters and Studio — without choosing
-a plan or paying to start anything. Apps are there on Home from the start;
-a service not started yet shows **Start free** on its tile (its set-up page,
-no charge). WhatsApp, AI and the rest are included too.
-- **Free amounts** (each app has one simple limit, set by QTT): HR 10 staff,
-  ERP 50 bills, Website 1 website, Store 20 orders, WhatsApp 100 chats,
-  Social media 10 posts, Articles 3 articles, Studio 10 designs. Live numbers
-  are given to you separately — use those if they differ.
+a plan or paying to start anything. A service not started yet shows **Start
+free** on its tile. Live numbers are given to you separately — use those if
+they differ from the ones below (QTT sets them).
+- **Free amounts — for trying, they never reset.** "At a time" counts what
+  exists now (removing one frees a place); "in total" counts everything ever
+  made. HR 10 staff (at a time) · ERP 50 bills (in total) · Website 1 website
+  (at a time) · Store 20 orders (in total; customers are never stopped) ·
+  WhatsApp 100 customers (in total) · Social media 10 posts (in total) ·
+  Articles 3 (in total) · Newsletters 2 (in total) · Studio 10 designs (in
+  total).
 - Home shows "All 8 apps are free while you try" — tap it (or Business ›
-  One plan for all 8 apps) to see what's used and what's left for each app.
-- **When an app's free amount is used up**, making something new there (adding
-  staff, a bill, a website, approving a post or article, a design) shows
-  "You've used the free …" with **See the plan**. Everything already made keeps
-  working; customers' store orders and WhatsApp chats are never stopped.
-- **One plan for all 8 apps, no limits**: ₹1,999 a month or ₹19,990 a year (two
-  months free). Only the **owner** subscribes (One plan › Subscribe → pay the
-  invoice); every limit lifts as soon as it's paid.
+  Plans › One plan for all 8 apps) to see what's used and left of each app.
+- **When a free amount is used up**, making something new there shows "You've
+  used the free …" with **See the plan**. Everything already made keeps working.
+- **One plan for all 8 apps**: ₹1,999 a month or ₹19,990 a year (two months
+  free). Only the **owner** subscribes: See the plan › pick yearly or monthly ›
+  Pay (UPI, card or net banking; a GST invoice by email). Until it's paid the
+  plan page shows the invoice with Pay now (and "Pay monthly / yearly instead").
+  It switches on the moment it's paid.
+- **What the plan includes — fair use.** Unlimited: WhatsApp replies to
+  customers, bills, store orders, customers, designs. **Each month** (resets on
+  the plan's date): 1,000 WhatsApp offer messages (broadcasts), 500 AI actions
+  (posts, articles, designs, the assistant — the WhatsApp receptionist's replies
+  never count), 60 social posts, 8 articles, 4 newsletters. **At a time**: up to
+  25 staff, 1 website, 1 store.
+- **Top up** (on the plan, owner): One plan › This month › Top up — 2,000 offer
+  messages ₹499 · 1,000 AI actions ₹299 · 25 more staff ₹499 · another website
+  or store ₹999. Added straight away once paid, for the rest of that plan month
+  (unused top-ups don't carry over). At 80% of a monthly amount Needs you shows
+  a heads-up with Top up; past it, making more shows the Top up sheet.
+- **Managing the plan** (owner): switch monthly ↔ yearly — from the next
+  renewal; **Stop the plan** — it keeps working until the end of what's paid,
+  then the free amounts again (nothing is deleted). The renewal invoice comes 3
+  days before, on WhatsApp and email; nothing is charged by itself. An unpaid
+  renewal: after a few days the business goes back to the free amounts until
+  it's paid.
 There are no separate per-app plans or trials any more.
 
 ## Help

@@ -194,7 +194,7 @@ def status() -> dict:
 	"""What the app shows about free use and the plan for the signed-in person's business.
 
 	Returns {limited, gate, reached, apps: [{key, label, unit, period (at_a_time | in_total), used, limit, left, reached}],
-	plan: {monthly, yearly}, subscribed, packs: {pack: {name, adds, amount, price}},
+	plan: {monthly, yearly}, subscribed, packs: {pack: {name, adds, amount, price}}, plan_amounts: {item: amount (0 = unlimited)},
 	on_plan: {period, renews_on, stopping, switching_to, month: {start, end}, items: [{key, label, unit, period (month |
 	at_a_time), used, limit, topup, left, near, reached}], invoices: [...]} | null,
 	awaiting: {invoice, amount, pay_url, period} | null}. `limit`/`left` are null when unlimited."""
@@ -206,7 +206,8 @@ def status() -> dict:
 	st = _state(tenant)
 	out = rules.status(usage(tenant), st["limits"], enabled=st["enabled"], subscribed=st["subscribed"])
 	result = {**out, "plan": rules.plan_prices(st["settings"]), "subscribed": st["subscribed"],
-			  "packs": rules.topups_from(st["settings"]), "on_plan": None, "awaiting": None}
+			  "packs": rules.topups_from(st["settings"]), "plan_amounts": rules.plan_limits_from(st["settings"]),
+			  "on_plan": None, "awaiting": None}
 	if is_house(tenant):
 		return result
 	sub = _plan_sub(tenant)
