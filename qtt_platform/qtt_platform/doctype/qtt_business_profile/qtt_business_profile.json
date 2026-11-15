@@ -49,7 +49,8 @@
   "column_break_bank",
   "bank_account_number",
   "bank_ifsc",
-  "upi_id"
+  "upi_id",
+  "bank_accounts"
  ],
  "fields": [
   {
@@ -254,6 +255,13 @@
    "fieldname": "upi_id",
    "fieldtype": "Data",
    "label": "UPI ID"
+  },
+  {
+   "fieldname": "bank_accounts",
+   "fieldtype": "Table",
+   "label": "Bank accounts",
+   "options": "QTT Business Bank Account",
+   "description": "Every bank account of the business; the default one is also kept in the fields above (printed on invoices)."
   }
  ],
  "permissions": [
@@ -270,5 +278,5 @@
  "links": [],
  "autoname": "field:tenant",
  "naming_rule": "By fieldname",
- "modified": "2026-10-19 19:00:00.000000"
+ "modified": "2026-11-15 18:00:00.000000"
 }

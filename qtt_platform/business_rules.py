@@ -187,3 +187,34 @@ def clean_tags(v) -> str | None:
 
 def tag_list(v) -> list[str]:
 	return [t.strip() for t in (v or "").split(",") if t.strip()]
+
+
+MAX_BANK_ACCOUNTS = 10
+_BANK_TEXT = {"account_name": 140, "bank": 140, "branch": 140}
+
+
+def clean_bank_accounts(rows) -> list[dict]:
+	"""The business's bank accounts (Business › Profile): each cleaned (account number, IFSC and UPI checked), empty rows
+	dropped, at most MAX_BANK_ACCOUNTS, and exactly one default — the first marked one, else the first. ProfileError on
+	bad input."""
+	out = []
+	for r in rows if isinstance(rows, list) else []:
+		if not isinstance(r, dict):
+			continue
+		row = {k: (_text(r.get(k)) or None) for k in _BANK_TEXT}
+		for k, limit in _BANK_TEXT.items():
+			if row[k] and len(row[k]) > limit:
+				raise ProfileError(f"{k.replace('_', ' ').capitalize()} is too long.")
+		row["account_number"] = clean_account_number(r.get("account_number"))
+		row["ifsc"] = clean_ifsc(r.get("ifsc"))
+		row["upi_id"] = clean_upi(r.get("upi_id"))
+		if not any(row.values()):
+			continue  # an empty row: left out
+		row["is_default"] = 1 if r.get("is_default") in (1, True, "1", "true") else 0
+		out.append(row)
+	if len(out) > MAX_BANK_ACCOUNTS:
+		raise ProfileError(f"Up to {MAX_BANK_ACCOUNTS} bank accounts.")
+	first = next((i for i, r in enumerate(out) if r["is_default"]), 0)
+	for i, r in enumerate(out):
+		r["is_default"] = 1 if i == first else 0
+	return out

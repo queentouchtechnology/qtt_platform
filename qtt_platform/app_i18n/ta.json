@@ -8539,5 +8539,16 @@
  "No store yet": "இன்னும் கடை இல்லை",
  "No website yet": "இன்னும் இணையதளம் இல்லை",
  "Start free — QTT builds it, and it’s online in minutes.": "இலவசமாகத் தொடங்குங்கள் — QTT உருவாக்கும், சில நிமிடங்களில் நேரலைக்கு வரும்.",
- "Your stores": "உங்கள் கடைகள்"
+ "Your stores": "உங்கள் கடைகள்",
+ "Add bank account": "வங்கிக் கணக்கைச் சேர்",
+ "Add one so customers can pay you from your invoices.": "வாடிக்கையாளர்கள் உங்கள் விலைப்பட்டியலில் இருந்தே பணம் செலுத்த ஒன்றைச் சேர்க்கவும்.",
+ "Add the bank and account number, or a UPI ID.": "வங்கியும் கணக்கு எண்ணும், அல்லது UPI ID சேர்க்கவும்.",
+ "Bank account": "வங்கிக் கணக்கு",
+ "Bank accounts": "வங்கிக் கணக்குகள்",
+ "Make default": "இயல்பாக்கு",
+ "No bank account yet": "இன்னும் வங்கிக் கணக்கு இல்லை",
+ "Only the owner and admins see these. The default one is printed on invoices so customers can pay you.": "உரிமையாளரும் நிர்வாகிகளும் மட்டுமே இவற்றைப் பார்ப்பர். வாடிக்கையாளர்கள் பணம் செலுத்த இயல்புக் கணக்கு விலைப்பட்டியலில் அச்சிடப்படும்.",
+ "Remove this bank account?": "இந்த வங்கிக் கணக்கை நீக்கவா?",
+ "Saved with the business profile.": "வணிக சுயவிவரத்துடன் சேமிக்கப்படும்.",
+ "{bank} ending {last} won’t be printed on invoices any more.": "{last} இல் முடியும் {bank} இனி விலைப்பட்டியலில் அச்சிடப்படாது."
 }

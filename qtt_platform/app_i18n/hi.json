@@ -8539,5 +8539,16 @@
  "No store yet": "अभी कोई स्टोर नहीं",
  "No website yet": "अभी कोई वेबसाइट नहीं",
  "Start free — QTT builds it, and it’s online in minutes.": "मुफ़्त शुरू करें — QTT बनाता है, और यह कुछ ही मिनटों में ऑनलाइन हो जाता है।",
- "Your stores": "आपके स्टोर"
+ "Your stores": "आपके स्टोर",
+ "Add bank account": "बैंक खाता जोड़ें",
+ "Add one so customers can pay you from your invoices.": "एक जोड़ें ताकि ग्राहक आपके इनवॉइस से ही भुगतान कर सकें।",
+ "Add the bank and account number, or a UPI ID.": "बैंक और खाता संख्या, या UPI ID जोड़ें।",
+ "Bank account": "बैंक खाता",
+ "Bank accounts": "बैंक खाते",
+ "Make default": "डिफ़ॉल्ट बनाएं",
+ "No bank account yet": "अभी कोई बैंक खाता नहीं",
+ "Only the owner and admins see these. The default one is printed on invoices so customers can pay you.": "इन्हें केवल मालिक और एडमिन देखते हैं। डिफ़ॉल्ट खाता इनवॉइस पर छपता है ताकि ग्राहक आपको भुगतान कर सकें।",
+ "Remove this bank account?": "यह बैंक खाता हटाएं?",
+ "Saved with the business profile.": "बिज़नेस प्रोफ़ाइल के साथ सेव होगा।",
+ "{bank} ending {last} won’t be printed on invoices any more.": "{last} पर ख़त्म होने वाला {bank} अब इनवॉइस पर नहीं छपेगा।"
 }

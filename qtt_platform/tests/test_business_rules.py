@@ -146,3 +146,30 @@ class CleanProfileTest(_StubFrappe):
 
 if __name__ == "__main__":
 	unittest.main()
+
+
+class BankAccountsTest(unittest.TestCase):
+	def test_cleaned_one_default_empty_dropped(self):
+		rows = r.clean_bank_accounts([
+			{"account_name": " QTT ", "bank": "SBI", "account_number": "1234 5678 90", "ifsc": "sbin0001234"},
+			{"account_name": "", "bank": "", "account_number": ""},
+			{"account_name": "Current", "bank": "HDFC", "account_number": "987654321", "is_default": True},
+			{"bank": "ICICI", "account_number": "11112222", "is_default": 1},
+		])
+		self.assertEqual(len(rows), 3)
+		self.assertEqual(rows[0]["account_name"], "QTT")
+		self.assertEqual(rows[0]["account_number"], "1234567890")
+		self.assertEqual([x["is_default"] for x in rows], [0, 1, 0])  # the first marked one is the default
+
+	def test_first_is_default_when_none_marked(self):
+		rows = r.clean_bank_accounts([{"bank": "SBI", "account_number": "12345678"}, {"bank": "HDFC", "account_number": "87654321"}])
+		self.assertEqual([x["is_default"] for x in rows], [1, 0])
+		self.assertEqual(r.clean_bank_accounts([]), [])
+		self.assertEqual(r.clean_bank_accounts("junk"), [])
+
+	def test_bad_input_and_too_many(self):
+		with self.assertRaises(r.ProfileError):
+			r.clean_bank_accounts([{"account_number": "12"}])
+		with self.assertRaises(r.ProfileError):
+			r.clean_bank_accounts([{"bank": "B", "account_number": "12345678"}] * 11)
+

@@ -8539,5 +8539,16 @@
  "No store yet": "لا يوجد متجر بعد",
  "No website yet": "لا يوجد موقع بعد",
  "Start free — QTT builds it, and it’s online in minutes.": "ابدأ مجانًا — تبنيه QTT ويصبح متاحًا خلال دقائق.",
- "Your stores": "متاجرك"
+ "Your stores": "متاجرك",
+ "Add bank account": "إضافة حساب بنكي",
+ "Add one so customers can pay you from your invoices.": "أضف حسابًا ليتمكن العملاء من الدفع لك من فواتيرك.",
+ "Add the bank and account number, or a UPI ID.": "أضف البنك ورقم الحساب، أو معرّف UPI.",
+ "Bank account": "حساب بنكي",
+ "Bank accounts": "الحسابات البنكية",
+ "Make default": "اجعله الافتراضي",
+ "No bank account yet": "لا يوجد حساب بنكي بعد",
+ "Only the owner and admins see these. The default one is printed on invoices so customers can pay you.": "لا يراها إلا المالك والمشرفون. يُطبع الحساب الافتراضي على الفواتير ليتمكن العملاء من الدفع لك.",
+ "Remove this bank account?": "إزالة هذا الحساب البنكي؟",
+ "Saved with the business profile.": "يُحفظ مع ملف النشاط التجاري.",
+ "{bank} ending {last} won’t be printed on invoices any more.": "لن يُطبع {bank} المنتهي بـ {last} على الفواتير بعد الآن."
 }

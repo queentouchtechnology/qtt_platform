@@ -2,7 +2,8 @@
 Business profile of the active workspace: name, legal name and logo (on
 QTT Tenant) plus address, tax IDs, contact, brand and bank (QTT Business
 Profile). Every member can read it; the owner and admins edit it. Bank
-details are returned only to the owner and admins.
+details are returned only to the owner and admins: several bank accounts (bank_accounts), one of them the default —
+also kept in the single bank fields, which invoices, quotes and payslips print.
 """
 
 import json
@@ -72,6 +73,8 @@ def profile_for(tenant: str, *, with_bank: bool) -> dict:
 	t = frappe.db.get_value("QTT Tenant", tenant, ["tenant_name", "legal_name", "logo", "country", "currency"], as_dict=True)
 	p = frappe.db.get_value(DT, tenant, list(FIELDS), as_dict=True) or {}
 	out = {f: p.get(f) for f in FIELDS if with_bank or f not in BANK}
+	if with_bank:
+		out["bank_accounts"] = _bank_accounts(tenant, p)
 	out.update({
 		"tenant": tenant,
 		"tenant_name": t.tenant_name,
@@ -81,6 +84,23 @@ def profile_for(tenant: str, *, with_bank: bool) -> dict:
 		"gst_state": rules.gst_state(out.get("gstin")),
 	})
 	return out
+
+
+BANK_ROW = ("account_name", "bank", "branch", "account_number", "ifsc", "upi_id", "is_default")
+#: a bank account row → the profile's single fields (the default account: printed on invoices, quotes and payslips)
+_MIRROR = {"account_name": "bank_account_name", "bank": "bank_name", "branch": "bank_branch",
+		   "account_number": "bank_account_number", "ifsc": "bank_ifsc", "upi_id": "upi_id"}
+
+
+def _bank_accounts(tenant: str, p: dict) -> list[dict]:
+	"""Every bank account; one is the default. A profile from before 15 Nov 2026 has only the single fields: that one."""
+	rows = frappe.get_all("QTT Business Bank Account", filters={"parent": tenant, "parenttype": DT, "parentfield": "bank_accounts"},
+						  fields=list(BANK_ROW), order_by="idx asc") if frappe.db.table_exists("QTT Business Bank Account") else []
+	if rows:
+		return [dict(r, is_default=1 if r.is_default else 0) for r in rows]
+	if any(p.get(f) for f in BANK):
+		return [{**{k: p.get(v) for k, v in _MIRROR.items()}, "is_default": 1}]
+	return []
 
 
 @frappe.whitelist(methods=["GET"])
@@ -105,8 +125,14 @@ def save_profile(data) -> dict:
 	legal = rules._text(data.get("legal_name"))[:140] or None
 	try:
 		values = clean_profile(data, frappe.db.get_value("QTT Tenant", tenant, "country"))
+		# Several bank accounts (an app from 15 Nov 2026): the list, and the default one in the printed fields
+		accounts = rules.clean_bank_accounts(data.get("bank_accounts")) if "bank_accounts" in data else None
 	except rules.ProfileError as e:
 		frappe.throw(_(str(e)))
+	if accounts is not None:
+		default = next((a for a in accounts if a["is_default"]), None) or {}
+		for k, field in _MIRROR.items():
+			values[field] = default.get(k)
 	if values["country"] and not frappe.db.exists("Country", values["country"]):
 		frappe.throw(_("Choose a country from the list."))
 
@@ -118,6 +144,8 @@ def save_profile(data) -> dict:
 	doc = frappe.get_doc(DT, tenant) if frappe.db.exists(DT, tenant) else frappe.new_doc(DT)
 	doc.tenant = tenant
 	doc.update(values)
+	if accounts is not None:
+		doc.set("bank_accounts", accounts)
 	doc.save(ignore_permissions=True) if not doc.is_new() else doc.insert(ignore_permissions=True)
 	write_audit_event("business_profile_updated", tenant=tenant, target_doctype=DT, target_name=tenant,
 					  metadata={"fields": sorted(k for k, v in values.items() if v)})
