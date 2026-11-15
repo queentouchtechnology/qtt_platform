@@ -6066,6 +6066,22 @@
    "status": "Not used by the app"
   },
   {
+   "endpoint": "qtt_platform.api.free_use.admin_plans",
+   "product": "Platform",
+   "area": "api.free_use",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "QTT Admin › Revenue › One plan (QTT staff only): every business on the plan or waiting to pay — its period, status, renewal, this plan month's top-ups and what it cost QTT (AI provider spend) and its offer messages sent. Returns {summary: {on_plan, awaiting, stopping, topups_month}, rows: [{tenant, name, period, status, renews_on, stopping, topups, topups_amount, ai_cost, offer_messages}]}.",
+   "details": "QTT Admin › Revenue › One plan (QTT staff only): every business on the plan or waiting to pay — its period, status,\nrenewal, this plan month's top-ups and what it cost QTT (AI provider spend) and its offer messages sent.\nReturns {summary: {on_plan, awaiting, stopping, topups_month}, rows: [{tenant, name, period, status, renews_on,\nstopping, topups, topups_amount, ai_cost, offer_messages}]}.",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.onePlanBusinesses",
+   "screens": "admin/revenue_view.dart › _OnePlanSection",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/free_use.py:396",
+   "status": "OK"
+  },
+  {
    "endpoint": "qtt_platform.api.free_use.status",
    "product": "Platform",
    "area": "api.free_use",
@@ -7422,7 +7438,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/public_pricing.py:48",
+   "source": "qtt_platform/qtt_platform/api/public_pricing.py:67",
    "status": "Not used by the app"
   },
   {

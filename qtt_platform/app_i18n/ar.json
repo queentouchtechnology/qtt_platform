@@ -8524,5 +8524,14 @@
  "{used} of {limit} {unit} · in total": "{used} من {limit} {unit} · إجمالًا",
  "{used} of {limit} {what} used this month": "استُخدم {used} من {limit} {what} هذا الشهر",
  "{used} of {limit} · used up": "{used} من {limit} · نفدت",
- "Getting your invoice ready…": "جارٍ تجهيز فاتورتك…"
+ "Getting your invoice ready…": "جارٍ تجهيز فاتورتك…",
+ "AI cost {amount}": "تكلفة الذكاء الاصطناعي {amount}",
+ "No business on the plan yet.": "لا يوجد نشاط على الخطة بعد.",
+ "Top-ups this month · {amount}": "زيادات هذا الشهر · {amount}",
+ "stops {date}": "يتوقف {date}",
+ "{count} on the plan": "{count} على الخطة",
+ "{count} stopping": "{count} يتوقف",
+ "{count} waiting to pay": "{count} بانتظار الدفع",
+ "{n} offer messages": "{n} رسالة عروض",
+ "{n} top-ups · {amount}": "{n} زيادات · {amount}"
 }

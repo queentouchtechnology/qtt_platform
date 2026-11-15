@@ -14,7 +14,7 @@ TTL = 300
 
 def build() -> dict:
 	"""{apps: [{key, name, about, highlights, plans}], services: [{key, name, about, highlights, price_from, setup_from,
-	plans, addons}]} from the live plans."""
+	plans, addons}], one_plan: {…}} from the live plans and Desk's free use and one plan."""
 	from qtt_platform.api import explore
 
 	fields = ["product_key", "display_name", "description"] + (["highlights"] if frappe.get_meta("QTT Product").has_field("highlights") else [])
@@ -36,7 +36,26 @@ def build() -> dict:
 							 "price_from": s.get("price_from"), "setup_from": s.get("setup_from"),
 							 "plans": [{k: p.get(k) for k in ("code", "name", "price", "setup", "period", "features")} for p in s.get("plans") or []],
 							 "addons": [{k: a.get(k) for k in ("key", "name", "price", "setup")} for a in s.get("addons") or []]})
-	return {"apps": apps, "services": services}
+	return {"apps": apps, "services": services, "one_plan": _one_plan()}
+
+
+def _one_plan() -> dict:
+	"""Free to start, then one plan for all 8 apps (PROJ-0024) — every number from Desk › QTT App Settings: {monthly,
+	yearly, free: [{label, unit, period, limit}], included: [{label, unit, period, limit}], packs: [{name, price}]}."""
+	from qtt_platform import free_use as rules
+
+	try:
+		s = frappe.get_cached_doc("QTT App Settings").as_dict()
+	except Exception:
+		s = {}
+	free = rules.limits_from(s)
+	plan = rules.plan_limits_from(s)
+	return {**rules.plan_prices(s),
+			"free": [{"label": label, "unit": unit, "period": rules.FREE_PERIOD.get(k, "in_total"), "limit": free.get(k) or None}
+					 for k, label, unit in rules.APPS],
+			"included": [{"label": label, "unit": unit, "period": period, "limit": plan.get(k) or None}
+						 for k, label, unit, period in rules.PLAN_ITEMS],
+			"packs": [{"name": p["name"], "price": p["price"]} for p in rules.topups_from(s).values()]}
 
 
 def clear(*_args, **_kwargs) -> None:

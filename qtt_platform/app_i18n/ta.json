@@ -8524,5 +8524,14 @@
  "{used} of {limit} {unit} · in total": "{limit} {unit} இல் {used} · மொத்தம்",
  "{used} of {limit} {what} used this month": "இந்த மாதம் {limit} {what} இல் {used} பயன்படுத்தப்பட்டன",
  "{used} of {limit} · used up": "{limit} இல் {used} · தீர்ந்தது",
- "Getting your invoice ready…": "உங்கள் விலைப்பட்டியல் தயாராகிறது…"
+ "Getting your invoice ready…": "உங்கள் விலைப்பட்டியல் தயாராகிறது…",
+ "AI cost {amount}": "AI செலவு {amount}",
+ "No business on the plan yet.": "இன்னும் எந்த வணிகமும் திட்டத்தில் இல்லை.",
+ "Top-ups this month · {amount}": "இந்த மாத கூடுதல்கள் · {amount}",
+ "stops {date}": "{date} அன்று நிற்கும்",
+ "{count} on the plan": "திட்டத்தில் {count}",
+ "{count} stopping": "{count} நிறுத்துகின்றன",
+ "{count} waiting to pay": "{count} செலுத்தக் காத்திருக்கின்றன",
+ "{n} offer messages": "{n} சலுகைச் செய்திகள்",
+ "{n} top-ups · {amount}": "{n} கூடுதல்கள் · {amount}"
 }

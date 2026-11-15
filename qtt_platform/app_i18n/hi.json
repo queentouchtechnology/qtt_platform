@@ -8524,5 +8524,14 @@
  "{used} of {limit} {unit} · in total": "{limit} {unit} में से {used} · कुल",
  "{used} of {limit} {what} used this month": "इस महीने {limit} {what} में से {used} इस्तेमाल हुए",
  "{used} of {limit} · used up": "{limit} में से {used} · खत्म",
- "Getting your invoice ready…": "आपका इनवॉइस तैयार हो रहा है…"
+ "Getting your invoice ready…": "आपका इनवॉइस तैयार हो रहा है…",
+ "AI cost {amount}": "AI लागत {amount}",
+ "No business on the plan yet.": "अभी कोई व्यवसाय प्लान पर नहीं है।",
+ "Top-ups this month · {amount}": "इस महीने के टॉप-अप · {amount}",
+ "stops {date}": "{date} को रुकेगा",
+ "{count} on the plan": "प्लान पर {count}",
+ "{count} stopping": "{count} रुक रहे हैं",
+ "{count} waiting to pay": "{count} भुगतान बाकी",
+ "{n} offer messages": "{n} ऑफ़र संदेश",
+ "{n} top-ups · {amount}": "{n} टॉप-अप · {amount}"
 }

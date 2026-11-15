@@ -390,3 +390,40 @@ def home_cards(user: str, tenant: str) -> list[dict]:
 					"body": "Top up to keep going — it's added straight away.", "args": {"what": i["label"].lower(), "used": i["used"],
 					"limit": i["limit"]}, "action": {"label": "Top up", "kind": "screen", "target": "business.one_plan"}})
 	return out
+
+
+@frappe.whitelist(methods=["GET"])
+def admin_plans() -> dict:
+	"""QTT Admin › Revenue › One plan (QTT staff only): every business on the plan or waiting to pay — its period, status,
+	renewal, this plan month's top-ups and what it cost QTT (AI provider spend) and its offer messages sent.
+	Returns {summary: {on_plan, awaiting, stopping, topups_month}, rows: [{tenant, name, period, status, renews_on,
+	stopping, topups, topups_amount, ai_cost, offer_messages}]}."""
+	from qtt_platform.tenant.guards import require_platform_owner
+
+	require_platform_owner()
+	subs = frappe.get_all(SUB, filters={"product": ONE_PLAN_PRODUCT, "status": ["!=", "cancelled"]},
+						  fields=["name", "tenant", "plan", "status", "creation", "current_period_start", "paid_until", "cancel_at_period_end"],
+						  order_by="creation desc")
+	rows, seen = [], set()
+	month_topups = 0.0
+	for s in subs:
+		if s.tenant in seen or is_house(s.tenant):
+			continue
+		seen.add(s.tenant)
+		start, _end = _month(s)
+		tops = frappe.get_all(TOPUP, filters={"tenant": s.tenant, "status": "active", "period_start": start}, fields=["price"]) \
+			if frappe.db.table_exists(TOPUP) else []
+		amount = sum(float(t.price or 0) for t in tops)
+		month_topups += amount
+		ai_cost = frappe.db.sql("""SELECT COALESCE(SUM(provider_cost), 0) FROM `tabQTT AI Usage Record` WHERE tenant=%s AND creation >= %s""",
+								(s.tenant, start))[0][0] if frappe.db.table_exists("QTT AI Usage Record") else 0
+		used = plan_usage(s.tenant, start)
+		paid = s.status in _OPEN
+		rows.append({"tenant": s.tenant, "name": frappe.db.get_value("QTT Tenant", s.tenant, "tenant_name") or s.tenant,
+					 "period": _period_of(s.plan), "status": "on_plan" if paid else ("overdue" if s.paid_until else "awaiting"),
+					 "renews_on": str(s.paid_until) if s.paid_until else None, "stopping": bool(s.cancel_at_period_end),
+					 "topups": len(tops), "topups_amount": amount, "ai_cost": round(float(ai_cost or 0), 2),
+					 "offer_messages": int(used.get("offer_messages") or 0)})
+	return {"summary": {"on_plan": sum(1 for r in rows if r["status"] == "on_plan"), "awaiting": sum(1 for r in rows if r["status"] != "on_plan"),
+						"stopping": sum(1 for r in rows if r["stopping"]), "topups_month": month_topups},
+			"rows": rows}
