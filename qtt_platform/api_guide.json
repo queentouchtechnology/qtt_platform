@@ -4780,7 +4780,7 @@
    "arguments": "q, status, tag, start, page_length, sort, customer_type, kind",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.customers",
-   "screens": "platform/customers/customers_screen.dart › _CustomersScreenState\nplatform/workplace/contacts_page.dart › _ContactsPageState\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/orbitra/screens/customers_view.dart › _OrbitraCustomersViewState\nproducts/orbitra/screens/orbitra_widgets.dart › _SearchListState\nproducts/services/repository.dart › ServicesRepository\nproducts/services/screens/marketing_hub.dart › _Door\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_models.dart › StoreSummary\nshared/widgets/list_kit.dart › SearchFilterBar\nshell/home_shell.dart › _HomeShellState",
+   "screens": "platform/customers/customers_screen.dart › _CustomersScreenState\nplatform/workplace/contacts_page.dart › _ContactsPageState\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/orbitra/screens/customers_view.dart › _OrbitraCustomersViewState\nproducts/orbitra/screens/orbitra_widgets.dart › _SearchListState\nproducts/services/repository.dart › ServicesRepository\nproducts/services/screens/marketing_hub.dart › _Door\nproducts/services/screens/social_replies.dart › (top level)\nproducts/services/screens/social_replies.dart › _RepliesPageState\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_models.dart › StoreSummary\nshared/widgets/list_kit.dart › SearchFilterBar\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/customers.py:88",
    "status": "OK"
@@ -12140,7 +12140,7 @@
    "arguments": "caption, how",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.quickRewrite",
-   "screens": "products/services/screens/quick_post.dart › _WordsSheetState",
+   "screens": "products/services/screens/quick_post.dart › _WordsSheetState\nproducts/services/screens/social_replies.dart › _ReplyOnePageState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:157",
    "status": "OK"
@@ -12364,7 +12364,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingCustomers",
-   "screens": "products/services/screens/marketing_hub.dart › _MarketingCustomersPageState",
+   "screens": "products/services/screens/marketing_hub.dart › _MarketingCustomersPageState\nproducts/services/screens/social_replies.dart › _RepliesPageState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/marketing_social.py:99",
    "status": "OK"
@@ -12460,7 +12460,7 @@
    "arguments": "account, review, comment",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingReplyReview",
-   "screens": "products/services/screens/marketing_hub.dart › _MarketingCustomersPageState",
+   "screens": "products/services/screens/marketing_hub.dart › _MarketingCustomersPageState\nproducts/services/screens/social_replies.dart › _ReplyOnePageState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/marketing_social.py:124",
    "status": "OK"
@@ -12492,7 +12492,7 @@
    "arguments": "name, stars, text",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingSuggestReply",
-   "screens": "products/services/screens/marketing_hub.dart › _MarketingCustomersPageState",
+   "screens": "products/services/screens/marketing_hub.dart › _MarketingCustomersPageState\nproducts/services/screens/social_replies.dart › _ReplyOnePageState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/marketing_social.py:137",
    "status": "OK"
@@ -13676,7 +13676,7 @@
    "arguments": "name, message",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.reply",
-   "screens": "platform/workplace/mail_page.dart › MessagePage\nproducts/onbox/screens/composer.dart › _ComposerState\nproducts/services/screens/requests_pages.dart › _RequestPageState\nshared/whatsapp/whatsapp_views.dart › _Preview",
+   "screens": "platform/workplace/mail_page.dart › MessagePage\nproducts/onbox/screens/composer.dart › _ComposerState\nproducts/services/screens/requests_pages.dart › _RequestPageState\nproducts/services/screens/social_replies.dart › _RepliesPageState\nshared/whatsapp/whatsapp_views.dart › _Preview",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/portal.py:121",
    "status": "Not described"
