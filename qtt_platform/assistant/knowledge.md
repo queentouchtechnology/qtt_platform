@@ -1448,6 +1448,16 @@ open it from that service).
   all** approves every one that's ready and says which need a change. With
   nothing waiting, Today shows a green **Nothing needs your OK** with the next
   post's time.
+- **Alerts** (Social media › Today › the **Alerts** chip with the bell; a red
+  number = new since you last looked): **Your post is live** (which pages),
+  **Could not post on …**, **N posts need your OK** (opens Needs your OK) — the
+  last 14 days, Today and Earlier; **Mark all read**.
+- **Could not post** (from Alerts, or a red post in Post history): which pages
+  missed the post and why; the other pages are fine. When the platform signed
+  you out (it happens every few months): **Sign in to … again**, then **Post it
+  now on …** — it goes straight away and still counts as one post. Otherwise
+  **Post it now** tries again. **Skip … for this post** leaves those pages out
+  (a post that went nowhere is removed, after asking).
 - **Other ways to start** (Make a post › Other ways): how to start — **Pick a template**
   (with QTT Studio: Studio's templates, edited in the editor, then the post
   opens to choose pages and approve; without Studio: the free Post designs),
