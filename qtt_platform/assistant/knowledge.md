@@ -1418,7 +1418,37 @@ open it from that service).
   shows right under them from the first word. Check: the pages, how it goes on
   each page, when, then **Approve and post** / **Approve and schedule**. After
   approving, the last step says where and when it goes; **Done** goes back.
-- **Create a post** (Social media): how to start — **Pick a template**
+- **＋ Make a post** (Social media, since 16 Nov 2026) — one line, about 20
+  seconds, 4 taps: **1 Write** — type what the post is about (e.g. "Deepavali
+  gift boxes from ₹499 — order on WhatsApp"), or tap an idea (a festival coming
+  up, a product not posted lately); **Add your photo** (optional: from the
+  phone or your library — only cropped and brightened, never made up);
+  **Make it**. **Making your post** (about 20 seconds; **Tell me when ready**
+  lets you leave — a message says when it's ready, with **Check**). **2 Check
+  and approve**: the picture in your logo and colours — **‹ ›** switch between
+  3 designs, **Design 1 of 3 · change** for the shape (Square, Tall, Story);
+  **Words · Edit** (type, or a quick change: Shorter, Friendlier, Add the price,
+  In Tamil, Write again, Add tags — the words in the picture stay the same);
+  **Post on · Change** (every connected page is ticked; Post, Story or Reel on
+  Instagram and Facebook); **When · Change** (today or the next days, the best
+  time 6:30 PM, a good one 11:00 AM, or your own; India time); **Edit post ·
+  every option** opens the full editor (Google offers and events with dates).
+  The green **Approve and schedule**. **3 Scheduled**: All set — when and where
+  it goes, **Change time**, **Done**, **Make another post**. Only an approved
+  post counts in the free posts or the plan; past them, Make it shows the plan.
+  **Other ways: a design, your photo, just words** under the box opens the
+  older choices (below).
+- **Needs your OK** (Social media › Today › Needs you › See all): every post
+  waiting for you — Autopilot's and your own — with its picture (tap to see it
+  big), pages and time. **Skip** asks why (Not selling this now, Don't like
+  the picture, Wrong price or details, Just not this week): it isn't posted or
+  counted, and Autopilot's next posts avoid it. **Change** opens Check and
+  approve. **Approve** shows "Approved · goes out at 6:30 PM" with **Undo** for
+  8 seconds (later, call it off from the calendar until it goes out). **Approve
+  all** approves every one that's ready and says which need a change. With
+  nothing waiting, Today shows a green **Nothing needs your OK** with the next
+  post's time.
+- **Other ways to start** (Make a post › Other ways): how to start — **Pick a template**
   (with QTT Studio: Studio's templates, edited in the editor, then the post
   opens to choose pages and approve; without Studio: the free Post designs),
   **Use my photo** or **Just write words** (the post editor), **Tell AI what
