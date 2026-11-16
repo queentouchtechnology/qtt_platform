@@ -8677,5 +8677,22 @@
  "{pages}: posted": "{pages}: पोस्ट हुई",
  "{pages}: waiting": "{pages}: बाकी",
  "Done — {pages} skipped for this post.": "हो गया — इस पोस्ट के लिए {pages} छोड़ा गया।",
- "Skipped.": "छोड़ दिया।"
+ "Skipped.": "छोड़ दिया।",
+ "Answer opens the comment in Instagram or Facebook — they don’t let other apps reply. Google reviews are answered right here.": "जवाब दें, टिप्पणी को Instagram या Facebook में खोलता है — वे दूसरी ऐप को जवाब नहीं देने देते। Google रिव्यू का जवाब यहीं दें।",
+ "Couldn’t write a reply just now. Try again.": "अभी जवाब नहीं लिख पाए। फिर कोशिश करें।",
+ "Every review has a reply": "हर रिव्यू का जवाब दिया गया है",
+ "For an unhappy review we suggest saying sorry and giving your WhatsApp number — never arguing.": "नाराज़ रिव्यू पर माफ़ी माँगें और अपना WhatsApp नंबर दें — कभी बहस न करें।",
+ "Google reviews and profile": "Google रिव्यू और प्रोफ़ाइल",
+ "Google reviews · answer here": "Google रिव्यू · यहीं जवाब दें",
+ "No new comments on your posts.": "आपकी पोस्ट पर कोई नई टिप्पणी नहीं।",
+ "No replies yet": "अभी कोई जवाब नहीं",
+ "Profile and all": "प्रोफ़ाइल और सब",
+ "Reply to a review": "रिव्यू का जवाब",
+ "Send reply": "जवाब भेजें",
+ "Shows under the review on Google Maps for everyone.": "Google Maps पर रिव्यू के नीचे सबको दिखेगा।",
+ "Tap to reply — we write one for you to check": "जवाब देने के लिए टैप करें — हम एक लिख देंगे, आप जाँच लें",
+ "To answer · {n}": "जवाब देना है · {n}",
+ "Unhappy customer — answer soon": "नाराज़ ग्राहक — जल्दी जवाब दें",
+ "We wrote this from your tone. Change anything.": "हमने इसे आपके अंदाज़ में लिखा है। कुछ भी बदलें।",
+ "Writing a reply…": "जवाब लिख रहे हैं…"
 }

@@ -8677,5 +8677,22 @@
  "{pages}: posted": "{pages}: نُشر",
  "{pages}: waiting": "{pages}: بانتظار",
  "Done — {pages} skipped for this post.": "تم — تخطّي {pages} لهذا المنشور.",
- "Skipped.": "تم التخطي."
+ "Skipped.": "تم التخطي.",
+ "Answer opens the comment in Instagram or Facebook — they don’t let other apps reply. Google reviews are answered right here.": "«أجب» يفتح التعليق في إنستغرام أو فيسبوك — فهما لا يسمحان لتطبيقات أخرى بالرد. يُرد على مراجعات Google هنا مباشرة.",
+ "Couldn’t write a reply just now. Try again.": "تعذّرت كتابة رد الآن. حاول مرة أخرى.",
+ "Every review has a reply": "كل المراجعات لها رد",
+ "For an unhappy review we suggest saying sorry and giving your WhatsApp number — never arguing.": "للمراجعة غير الراضية ننصح بالاعتذار وإعطاء رقم واتساب — دون جدال أبدًا.",
+ "Google reviews and profile": "مراجعات Google والملف",
+ "Google reviews · answer here": "مراجعات Google · أجب هنا",
+ "No new comments on your posts.": "لا تعليقات جديدة على منشوراتك.",
+ "No replies yet": "لا ردود بعد",
+ "Profile and all": "الملف والكل",
+ "Reply to a review": "الرد على مراجعة",
+ "Send reply": "أرسل الرد",
+ "Shows under the review on Google Maps for everyone.": "يظهر تحت المراجعة على خرائط Google للجميع.",
+ "Tap to reply — we write one for you to check": "اضغط للرد — نكتب لك ردًا لتراجعه",
+ "To answer · {n}": "للرد · {n}",
+ "Unhappy customer — answer soon": "عميل غير راضٍ — أجب قريبًا",
+ "We wrote this from your tone. Change anything.": "كتبناه بأسلوبك. غيّر ما تشاء.",
+ "Writing a reply…": "جارٍ كتابة رد…"
 }

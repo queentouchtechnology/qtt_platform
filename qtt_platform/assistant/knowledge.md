@@ -1458,6 +1458,16 @@ open it from that service).
   now on …** — it goes straight away and still counts as one post. Otherwise
   **Post it now** tries again. **Skip … for this post** leaves those pages out
   (a post that went nowhere is removed, after asking).
+- **Comments and reviews** (Social media › Today, or More): tabs **To answer ·
+  N** and **Answered**. **Google reviews · answer here**: unhappy ones (3 stars
+  or fewer) come first, outlined — answer soon; tap one for **Reply to a
+  review**: a reply already written in your tone (change anything), **Shorter**,
+  **In Tamil**, **Write again**; for an unhappy review, say sorry and give your
+  WhatsApp number — never argue; **Send reply** (it shows under the review on
+  Google Maps for everyone) or **Later**. **Comments on your posts**: each post
+  with comments — **Answer** opens it in Instagram or Facebook (they don't let
+  other apps reply). **Profile and all** opens Google reviews and profile
+  (rating, calls, directions, website visits, views, every review).
 - **Other ways to start** (Make a post › Other ways): how to start — **Pick a template**
   (with QTT Studio: Studio's templates, edited in the editor, then the post
   opens to choose pages and approve; without Studio: the free Post designs),

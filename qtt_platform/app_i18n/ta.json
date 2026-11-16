@@ -8677,5 +8677,22 @@
  "{pages}: posted": "{pages}: பதிவிடப்பட்டது",
  "{pages}: waiting": "{pages}: காத்திருக்கிறது",
  "Done — {pages} skipped for this post.": "முடிந்தது — இந்தப் பதிவுக்கு {pages} தவிர்க்கப்பட்டது.",
- "Skipped.": "தவிர்க்கப்பட்டது."
+ "Skipped.": "தவிர்க்கப்பட்டது.",
+ "Answer opens the comment in Instagram or Facebook — they don’t let other apps reply. Google reviews are answered right here.": "பதில் தர Instagram அல்லது Facebook-இல் கருத்து திறக்கும் — அவை மற்ற ஆப்களை பதில் தர விடுவதில்லை. Google மதிப்புரைகளுக்கு இங்கேயே பதில் தரலாம்.",
+ "Couldn’t write a reply just now. Try again.": "இப்போது பதில் எழுத முடியவில்லை. மீண்டும் முயலவும்.",
+ "Every review has a reply": "எல்லா மதிப்புரைகளுக்கும் பதில் உள்ளது",
+ "For an unhappy review we suggest saying sorry and giving your WhatsApp number — never arguing.": "அதிருப்தியான மதிப்புரைக்கு, மன்னிப்பு கேட்டு உங்கள் WhatsApp எண்ணைத் தரும்படி பரிந்துரைக்கிறோம் — வாதிட வேண்டாம்.",
+ "Google reviews and profile": "Google மதிப்புரைகளும் சுயவிவரமும்",
+ "Google reviews · answer here": "Google மதிப்புரைகள் · இங்கே பதில் தாருங்கள்",
+ "No new comments on your posts.": "உங்கள் பதிவுகளில் புதிய கருத்துகள் இல்லை.",
+ "No replies yet": "இன்னும் பதில்கள் இல்லை",
+ "Profile and all": "சுயவிவரமும் அனைத்தும்",
+ "Reply to a review": "ஒரு மதிப்புரைக்குப் பதில்",
+ "Send reply": "பதிலை அனுப்பு",
+ "Shows under the review on Google Maps for everyone.": "Google Maps-இல் மதிப்புரையின் கீழ் எல்லோருக்கும் தெரியும்.",
+ "Tap to reply — we write one for you to check": "பதில் தர தட்டுங்கள் — நீங்கள் சரிபார்க்க ஒன்றை எழுதித் தருவோம்",
+ "To answer · {n}": "பதில் தர · {n}",
+ "Unhappy customer — answer soon": "அதிருப்தியான வாடிக்கையாளர் — விரைவில் பதில் தாருங்கள்",
+ "We wrote this from your tone. Change anything.": "உங்கள் தொனியில் இதை எழுதினோம். எதையும் மாற்றலாம்.",
+ "Writing a reply…": "பதில் எழுதுகிறது…"
 }
