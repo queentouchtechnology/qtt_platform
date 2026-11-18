@@ -12030,7 +12030,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingAlerts",
    "screens": "products/services/screens/social_alerts.dart › _SocialAlertsPageState\nproducts/services/screens/social_home.dart › _AlertsChip",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:261",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:264",
    "status": "OK"
   },
   {
@@ -12046,7 +12046,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingAlertsSeen",
    "screens": "products/services/screens/social_alerts.dart › _SocialAlertsPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:284",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:287",
    "status": "OK"
   },
   {
@@ -12062,7 +12062,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.quickApproveAll",
    "screens": "products/services/screens/needs_ok.dart › _NeedsOkPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:205",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:208",
    "status": "OK"
   },
   {
@@ -12078,7 +12078,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingFailed",
    "screens": "products/services/screens/social_alerts.dart › _PostFailedPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:292",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:295",
    "status": "OK"
   },
   {
@@ -12094,7 +12094,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.quickMakePost",
    "screens": "products/services/screens/quick_post.dart › _MakePostPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:116",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:119",
    "status": "OK"
   },
   {
@@ -12110,7 +12110,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.quickRedraw",
    "screens": "products/services/screens/quick_post.dart › _CheckPostPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:146",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:149",
    "status": "OK"
   },
   {
@@ -12126,7 +12126,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingRetryFailed",
    "screens": "products/services/screens/social_alerts.dart › _PostFailedPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:312",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:315",
    "status": "OK"
   },
   {
@@ -12142,7 +12142,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.quickRewrite",
    "screens": "products/services/screens/quick_post.dart › _WordsSheetState\nproducts/services/screens/social_replies.dart › _ReplyOnePageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:157",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:160",
    "status": "OK"
   },
   {
@@ -12158,7 +12158,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.quickSkip",
    "screens": "products/services/screens/needs_ok.dart › _NeedsOkPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:222",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:225",
    "status": "OK"
   },
   {
@@ -12174,7 +12174,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingSkipFailed",
    "screens": "products/services/screens/social_alerts.dart › _PostFailedPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:331",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:334",
    "status": "OK"
   },
   {
@@ -12190,7 +12190,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.quickTimes",
    "screens": "products/services/screens/quick_post.dart › _CheckPostPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:184",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:187",
    "status": "OK"
   },
   {
@@ -12206,7 +12206,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.quickUndo",
    "screens": "products/services/screens/needs_ok.dart › (top level)\nproducts/services/screens/quick_post.dart › _ScheduledPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:237",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:240",
    "status": "OK"
   },
   {
@@ -12222,7 +12222,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.quickWaiting",
    "screens": "products/services/screens/needs_ok.dart › _NeedsOkPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:191",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:194",
    "status": "OK"
   },
   {
