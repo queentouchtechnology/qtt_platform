@@ -1458,10 +1458,12 @@ open it from that service).
   now on …** — it goes straight away and still counts as one post. Otherwise
   **Post it now** tries again. **Skip … for this post** leaves those pages out
   (a post that went nowhere is removed, after asking).
-- **Comments and reviews** (Social media › Today, or More). On Today its row shows
-  the counts: Google reviews to answer (a badge; amber when one is unhappy — "N
-  unhappy — answer soon") and comments on your recent posts, or "Nothing to answer
-  right now"; the counts refresh when you come back. Inside: tabs **To answer ·
+- **Comments and reviews** (Social media › Today, or More). On Today it is one line
+  with a dot: "N reviews to answer · N comments on your posts" (amber dot and "N
+  unhappy — answer soon" when a review has 3 stars or fewer), or "Nothing to answer
+  right now"; the counts refresh when you come back. The top of Today shows each
+  connected page as a round link (tap opens the page itself; a red dot means sign in
+  again — that one opens Your pages), ＋ to connect another, and the Alerts bell. Inside: tabs **To answer ·
   N** and **Answered**. **Google reviews · answer here**: unhappy ones (3 stars
   or fewer) come first, outlined — answer soon; tap one for **Reply to a
   review**: a reply already written in your tone (change anything), **Shorter**,
