@@ -11804,7 +11804,7 @@
    "arguments": "account",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingDisconnect",
-   "screens": "products/services/screens/marketing_pages.dart › _MarketingPageState\nproducts/services/screens/social_pages.dart › _YourPagesPageState",
+   "screens": "products/services/screens/marketing_pages.dart › _MarketingPageState\nproducts/services/screens/social_home.dart › _ChannelCard\nproducts/services/screens/social_pages.dart › _YourPagesPageState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:201",
    "status": "Not described"
