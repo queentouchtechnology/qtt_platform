@@ -96,7 +96,7 @@ def _shared_config(settings: dict, language: str) -> dict:
 		"default_theme_mode": settings.get("default_theme_mode") or "dark",
 		"ui": {
 			"text_size": logic.pick(settings.get("default_text_size"), logic.TEXT_SIZES, "standard"),
-			"density": logic.pick(settings.get("default_density"), logic.DENSITIES, "standard"),
+			"density": logic.pick(settings.get("default_density"), logic.DENSITIES, "compact"),
 		},
 		"language": language,
 		"rtl": logic.is_rtl(language),

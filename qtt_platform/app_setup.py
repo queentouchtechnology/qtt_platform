@@ -73,7 +73,7 @@ def _seed_settings() -> None:
 		"default_language": "en" if frappe.db.exists("Language", "en") else None,
 		"announcement_level": "info",
 		"default_text_size": "standard",
-		"default_density": "standard",
+		"default_density": "compact",
 		"analytics_flush_seconds": 30,
 		"analytics_retention_days": 180,
 	}
