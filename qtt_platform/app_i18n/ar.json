@@ -8835,5 +8835,7 @@
  "Social media · nothing goes out without you": "وسائل التواصل · لا شيء يُنشر دونك",
  "Google reviews · a reply in your tone is ready": "مراجعات Google · رد بأسلوبك جاهز",
  "1 article or newsletter to check": "مقال أو نشرة واحدة للمراجعة",
- "{n} articles and newsletters to check": "{n} مقالات ونشرات للمراجعة"
+ "{n} articles and newsletters to check": "{n} مقالات ونشرات للمراجعة",
+ "{page} is connected": "تم ربط {page}",
+ "{page} wasn't connected — tap Connect to try again": "لم يتم ربط {page} — اضغط ربط للمحاولة مرة أخرى"
 }

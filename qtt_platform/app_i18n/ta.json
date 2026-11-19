@@ -8835,5 +8835,7 @@
  "Social media · nothing goes out without you": "சமூக ஊடகம் · உங்கள் ஒப்புதல் இல்லாமல் எதுவும் வெளியாகாது",
  "Google reviews · a reply in your tone is ready": "Google மதிப்புரைகள் · உங்கள் பாணியில் பதில் தயார்",
  "1 article or newsletter to check": "சரிபார்க்க 1 கட்டுரை அல்லது செய்திமடல்",
- "{n} articles and newsletters to check": "சரிபார்க்க {n} கட்டுரைகள் மற்றும் செய்திமடல்கள்"
+ "{n} articles and newsletters to check": "சரிபார்க்க {n} கட்டுரைகள் மற்றும் செய்திமடல்கள்",
+ "{page} is connected": "{page} இணைக்கப்பட்டது",
+ "{page} wasn't connected — tap Connect to try again": "{page} இணைக்கப்படவில்லை — மீண்டும் முயல இணை என்பதைத் தட்டவும்"
 }

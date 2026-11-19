@@ -48,5 +48,17 @@
     <p class="note">On your phone? Just switch back to the QTT OS app — this tab can be closed.</p>
   </div>
 </main>
+<script>
+  // Android: straight back to the QTT OS app, worked or not (without the app: the web app). The card stays if not.
+  (function () {
+    if (!/Android/i.test(navigator.userAgent)) return;
+    var web = {{ app_url | tojson }};
+    var app = "intent://connected?provider=" + encodeURIComponent({{ provider | tojson }}) + "&ok={{ '0' if failed else '1' }}" +
+              "#Intent;scheme=qttos;package=in.queentouchtech.qtt;S.browser_fallback_url=" + encodeURIComponent(web) + ";end";
+    var btn = document.querySelector(".btn");
+    if (btn) { btn.href = app; btn.textContent = "Open QTT OS"; }
+    location.href = app;
+  })();
+</script>
 </body>
 </html>

@@ -26,12 +26,14 @@ def get_context(context):
 	# An OAuth refusal comes back as ?error=… (the person tapped Cancel, or didn't allow posting).
 	context.failed = bool(args.get("error") or args.get("error_description") or str(args.get("success") or "").lower() == "false"
 						  or str(args.get("isSuccess") or "").lower() == "false")
-	context.platform = PLATFORMS.get(str(args.get("provider") or "").lower())
+	context.provider = str(args.get("provider") or "").lower()
+	context.platform = PLATFORMS.get(context.provider)
 	context.reason = REASONS.get(str(args.get("error") or ""))
 	try:  # Google Business: locations that didn't fit the package's pages
 		context.more = max(0, int(args.get("more") or 0))
 	except (TypeError, ValueError):
 		context.more = 0
-	# Back to the QTT OS web app, on the Marketing assistant (phones: they switch back to the app themselves).
+	# Back to the QTT OS web app, on the Marketing assistant. On Android the page itself goes straight back to the
+	# QTT OS app (qttos://connected?provider=…&ok=1|0 — Social media says how it went), worked or not.
 	context.app_url = "https://queentouchtech.in/app/#/?s=p:QTT_SERVICES&p=services.marketing"
 	return context

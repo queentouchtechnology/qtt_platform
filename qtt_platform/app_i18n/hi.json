@@ -8835,5 +8835,7 @@
  "Social media · nothing goes out without you": "सोशल मीडिया · आपके बिना कुछ नहीं जाता",
  "Google reviews · a reply in your tone is ready": "Google समीक्षाएँ · आपके अंदाज़ में जवाब तैयार है",
  "1 article or newsletter to check": "जाँचने के लिए 1 लेख या न्यूज़लेटर",
- "{n} articles and newsletters to check": "जाँचने के लिए {n} लेख और न्यूज़लेटर"
+ "{n} articles and newsletters to check": "जाँचने के लिए {n} लेख और न्यूज़लेटर",
+ "{page} is connected": "{page} जुड़ गया",
+ "{page} wasn't connected — tap Connect to try again": "{page} नहीं जुड़ा — फिर कोशिश करने के लिए कनेक्ट दबाएँ"
 }
