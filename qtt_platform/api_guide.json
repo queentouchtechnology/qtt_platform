@@ -12434,6 +12434,22 @@
    "status": "OK"
   },
   {
+   "endpoint": "qtt_services.api.marketing_social.customer_counts",
+   "product": "Managed Services",
+   "area": "api.marketing_social",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "The home's Comments and reviews row: {reviews: to answer, unhappy: of them 3 stars or fewer, comments: on the recent posts}. Kept for 30 minutes (opening Comments and reviews refreshes it; answering a review clears it).",
+   "details": "The home's Comments and reviews row: {reviews: to answer, unhappy: of them 3 stars or fewer, comments: on the\nrecent posts}. Kept for 30 minutes (opening Comments and reviews refreshes it; answering a review clears it).",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingCustomerCounts",
+   "screens": "products/services/screens/social_home.dart › _RepliesRowState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_social.py:130",
+   "status": "OK"
+  },
+  {
    "endpoint": "qtt_services.api.marketing_social.customers",
    "product": "Managed Services",
    "area": "api.marketing_social",
@@ -12462,7 +12478,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingGooglePostDelete",
    "screens": "products/services/screens/marketing_history.dart › _PostHistoryPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_social.py:336",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_social.py:355",
    "status": "OK"
   },
   {
@@ -12478,7 +12494,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingGooglePostEdit",
    "screens": "products/services/screens/marketing_history.dart › _GoogleEditSheetState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_social.py:322",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_social.py:341",
    "status": "OK"
   },
   {
@@ -12494,7 +12510,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingHistory",
    "screens": "products/services/screens/marketing_history.dart › _PostHistoryPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_social.py:309",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_social.py:328",
    "status": "OK"
   },
   {
@@ -12510,7 +12526,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingHub",
    "screens": "products/services/screens/content_home.dart › _Overview\nproducts/services/screens/marketing_hub.dart › _MarketingHubPageState\nproducts/services/screens/marketing_hub.dart › _MarketingIdeasPageState\nproducts/services/screens/social_home.dart › _TodayTab",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_social.py:164",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_social.py:183",
    "status": "OK"
   },
   {
@@ -12526,7 +12542,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingIdeaEverywhere",
    "screens": "products/services/screens/marketing_hub.dart › _MarketingIdeasPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_social.py:225",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_social.py:244",
    "status": "OK"
   },
   {
@@ -12542,7 +12558,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingReplyReview",
    "screens": "products/services/screens/marketing_hub.dart › _MarketingCustomersPageState\nproducts/services/screens/social_replies.dart › _ReplyOnePageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_social.py:124",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_social.py:142",
    "status": "OK"
   },
   {
@@ -12574,7 +12590,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingSuggestReply",
    "screens": "products/services/screens/marketing_hub.dart › _MarketingCustomersPageState\nproducts/services/screens/social_replies.dart › _ReplyOnePageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_social.py:137",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_social.py:156",
    "status": "OK"
   },
   {
