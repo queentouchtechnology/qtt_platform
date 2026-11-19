@@ -8837,5 +8837,18 @@
  "1 article or newsletter to check": "சரிபார்க்க 1 கட்டுரை அல்லது செய்திமடல்",
  "{n} articles and newsletters to check": "சரிபார்க்க {n} கட்டுரைகள் மற்றும் செய்திமடல்கள்",
  "{page} is connected": "{page} இணைக்கப்பட்டது",
- "{page} wasn't connected — tap Connect to try again": "{page} இணைக்கப்படவில்லை — மீண்டும் முயல இணை என்பதைத் தட்டவும்"
+ "{page} wasn't connected — tap Connect to try again": "{page} இணைக்கப்படவில்லை — மீண்டும் முயல இணை என்பதைத் தட்டவும்",
+ "1 page needs signing in again": "1 பக்கத்தில் மீண்டும் உள்நுழைய வேண்டும்",
+ "{n} pages need signing in again": "{n} பக்கங்களில் மீண்டும் உள்நுழைய வேண்டும்",
+ "Connect a page to start posting.": "பதிவிடத் தொடங்க ஒரு பக்கத்தை இணைக்கவும்.",
+ "Connect, connect again or stop posting": "இணை, மீண்டும் இணை அல்லது பதிவிடுவதை நிறுத்து",
+ "How do I connect another page?": "இன்னொரு பக்கத்தை எப்படி இணைப்பது?",
+ "How do I stop posting to a page?": "ஒரு பக்கத்தில் பதிவிடுவதை எப்படி நிறுத்துவது?",
+ "No pages yet": "இன்னும் பக்கங்கள் இல்லை",
+ "Stop posting": "பதிவிடுவதை நிறுத்து",
+ "Why does a page say sign in again?": "ஒரு பக்கம் ஏன் மீண்டும் உள்நுழையச் சொல்கிறது?",
+ "Your posts go to these pages — you pick which for each post.": "உங்கள் பதிவுகள் இந்தப் பக்கங்களுக்குச் செல்லும் — ஒவ்வொரு பதிவுக்கும் எவை என்று நீங்கள் தேர்வு செய்யலாம்.",
+ "Latest posts": "சமீபத்திய பதிவுகள்",
+ "See all its posts": "அதன் எல்லாப் பதிவுகளையும் பார்",
+ "No posts here yet": "இங்கே இன்னும் பதிவுகள் இல்லை"
 }

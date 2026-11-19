@@ -8837,5 +8837,18 @@
  "1 article or newsletter to check": "مقال أو نشرة واحدة للمراجعة",
  "{n} articles and newsletters to check": "{n} مقالات ونشرات للمراجعة",
  "{page} is connected": "تم ربط {page}",
- "{page} wasn't connected — tap Connect to try again": "لم يتم ربط {page} — اضغط ربط للمحاولة مرة أخرى"
+ "{page} wasn't connected — tap Connect to try again": "لم يتم ربط {page} — اضغط ربط للمحاولة مرة أخرى",
+ "1 page needs signing in again": "صفحة واحدة تحتاج تسجيل الدخول مجددًا",
+ "{n} pages need signing in again": "{n} صفحات تحتاج تسجيل الدخول مجددًا",
+ "Connect a page to start posting.": "اربط صفحة لتبدأ النشر.",
+ "Connect, connect again or stop posting": "اربط أو أعد الربط أو أوقف النشر",
+ "How do I connect another page?": "كيف أربط صفحة أخرى؟",
+ "How do I stop posting to a page?": "كيف أوقف النشر على صفحة؟",
+ "No pages yet": "لا صفحات بعد",
+ "Stop posting": "أوقف النشر",
+ "Why does a page say sign in again?": "لماذا تطلب صفحة تسجيل الدخول مجددًا؟",
+ "Your posts go to these pages — you pick which for each post.": "تُنشر منشوراتك على هذه الصفحات — تختار أيها لكل منشور.",
+ "Latest posts": "أحدث المنشورات",
+ "See all its posts": "اعرض كل منشوراتها",
+ "No posts here yet": "لا منشورات هنا بعد"
 }

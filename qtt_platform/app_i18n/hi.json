@@ -8837,5 +8837,18 @@
  "1 article or newsletter to check": "जाँचने के लिए 1 लेख या न्यूज़लेटर",
  "{n} articles and newsletters to check": "जाँचने के लिए {n} लेख और न्यूज़लेटर",
  "{page} is connected": "{page} जुड़ गया",
- "{page} wasn't connected — tap Connect to try again": "{page} नहीं जुड़ा — फिर कोशिश करने के लिए कनेक्ट दबाएँ"
+ "{page} wasn't connected — tap Connect to try again": "{page} नहीं जुड़ा — फिर कोशिश करने के लिए कनेक्ट दबाएँ",
+ "1 page needs signing in again": "1 पेज में फिर से साइन इन करना है",
+ "{n} pages need signing in again": "{n} पेज में फिर से साइन इन करना है",
+ "Connect a page to start posting.": "पोस्ट करना शुरू करने के लिए एक पेज जोड़ें।",
+ "Connect, connect again or stop posting": "जोड़ें, फिर से जोड़ें या पोस्ट करना बंद करें",
+ "How do I connect another page?": "दूसरा पेज कैसे जोड़ूँ?",
+ "How do I stop posting to a page?": "किसी पेज पर पोस्ट करना कैसे बंद करूँ?",
+ "No pages yet": "अभी कोई पेज नहीं",
+ "Stop posting": "पोस्ट करना बंद करें",
+ "Why does a page say sign in again?": "पेज फिर से साइन इन करने को क्यों कहता है?",
+ "Your posts go to these pages — you pick which for each post.": "आपकी पोस्ट इन पेजों पर जाती हैं — हर पोस्ट के लिए आप चुनते हैं।",
+ "Latest posts": "हाल की पोस्ट",
+ "See all its posts": "इसकी सभी पोस्ट देखें",
+ "No posts here yet": "यहाँ अभी कोई पोस्ट नहीं"
 }
