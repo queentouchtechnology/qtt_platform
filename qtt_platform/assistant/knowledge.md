@@ -1468,6 +1468,34 @@ open it from that service).
   with comments — **Answer** opens it in Instagram or Facebook (they don't let
   other apps reply). **Profile and all** opens Google reviews and profile
   (rating, calls, directions, website visits, views, every review).
+- **Set up social media** (Social media › Get started › Connect or Add):
+  **Step 1 of 2 · Where do you post?** — Instagram, Facebook, Google Business,
+  LinkedIn (More places for the rest): **Connect** first shows what QTT will do
+  (post only what you approve, read likes, comments and reach) and never do
+  (see your password or private messages, post on your personal profile), then
+  **Open …** signs in there; come back and it shows Connected. **Later** stops
+  here. **Step 2 of 2 · About your business** — your logo and colours
+  (Change: Business knowledge), what you sell (tap ✕ to take one off, Add),
+  where you are (from the business profile), how posts should sound (Friendly,
+  Formal, Fun, Premium), post language (English, Tamil, Hindi — more than one
+  is fine). **Make my first post** saves it to Business knowledge and opens
+  Make a post.
+- **Autopilot** (Social media › the Autopilot chip, or More › Plan and settings
+  › Autopilot): one switch, **How often?** (about 2 a week, 3–4 a week, every
+  day), **What should posts be about?** (both, your products, or offers,
+  festivals and tips), **Ask me before posting** (on: each post waits in Needs
+  your OK; off: they go out on their own), **Next on Autopilot** (the next
+  dates), **Save**. "Your own series" opens Post series and Autopilot.
+- **Marketing settings** (Social media › More › Plan and settings): your pages
+  (connected, and any that need you to sign in again), your brand, Autopilot;
+  Posts — **Language**, **Usual time** (best time 6:30 PM, or your own: Make a
+  post starts on it), **Ask me before posting**; Alerts; posts left this month.
+- **Calendar** (Social media › Calendar): **List** has **Coming up · Posted ·
+  Couldn't post** (the last 30 days); tap a post to check, change or fix it.
+  **Week**: an empty day ahead has **+ Add a post**. **Results** also shows
+  the change against the 30 days before and **What works for you** — the best
+  time to post, the page most people saw, and how many reacted (only when there
+  are enough posts to say).
 - **Other ways to start** (Make a post › Other ways): how to start — **Pick a template**
   (with QTT Studio: Studio's templates, edited in the editor, then the post
   opens to choose pages and approve; without Studio: the free Post designs),

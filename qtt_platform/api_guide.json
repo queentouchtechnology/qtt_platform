@@ -3596,7 +3596,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.settings",
-   "screens": "admin/marketing_view.dart › _MarketingViewState\napp/app.dart › AppServices\napp/app.dart › _QttOsAppState\ncore/analytics/analytics.dart › AnalyticsRouteObserver\nplatform/team/team_sheets.dart › TeamChannelInfoPage\nplatform/workplace/remote_page.dart › _RemoteBody\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/onbox/onbox_root.dart › _InboxRootState\nproducts/onbox/screens/conversation_list_pane.dart › OnboxMenuButton\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/more_view.dart › _OrbitraSettingsViewState\nproducts/services/screens/whatsapp_page.dart › YourWhatsappPage\nproducts/services/screens/whatsapp_page.dart › _SetupSteps\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_design.dart › _GroupEditPageState\nproducts/services/store/store_more.dart › _TrackingCardState\nshared/search/global_search.dart › _GlobalSearchScreenState",
+   "screens": "admin/marketing_view.dart › _MarketingViewState\napp/app.dart › AppServices\napp/app.dart › _QttOsAppState\ncore/analytics/analytics.dart › AnalyticsRouteObserver\nplatform/team/team_sheets.dart › TeamChannelInfoPage\nplatform/workplace/remote_page.dart › _RemoteBody\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/onbox/onbox_root.dart › _InboxRootState\nproducts/onbox/screens/conversation_list_pane.dart › OnboxMenuButton\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/more_view.dart › _OrbitraSettingsViewState\nproducts/services/repository.dart › ServicesRepository\nproducts/services/screens/social_settings.dart › (top level)\nproducts/services/screens/whatsapp_page.dart › YourWhatsappPage\nproducts/services/screens/whatsapp_page.dart › _SetupSteps\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_design.dart › _GroupEditPageState\nproducts/services/store/store_more.dart › _TrackingCardState\nshared/search/global_search.dart › _GlobalSearchScreenState",
    "other_callers": "",
    "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/settings.py:14",
    "status": "Not described"
@@ -4012,7 +4012,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.home",
-   "screens": "admin/admin_home.dart › _AdminHomeBodyState\ncore/assistant/screen_context.dart › CurrentScreen\nplatform/data/platform_models.dart › ExploreCatalog\nplatform/data/platform_repository.dart › PlatformRepository\nplatform/explore/explore_screen.dart › _ItemPage\nplatform/launch/launch_models.dart › (top level)\nplatform/launch/launch_screens.dart › HelpMeChoosePage\nplatform/launch/launch_screens.dart › LaunchHero\nplatform/launch/launch_screens.dart › LaunchPage\nplatform/launch/launch_screens.dart › LaunchSection\nplatform/launch/launch_screens.dart › ProductPage\nplatform/launch/launch_screens.dart › _HelpMeChooseState\nplatform/launch/launch_screens.dart › _ProductCard\nplatform/team/team_screen.dart › _TeamScreenState\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/onbox/onbox_root.dart › _InboxRootState\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/orbitra_shell.dart › _OrbitraHomeState\nproducts/services/screens/quick_post.dart › CheckPostPage\nproducts/services/screens/quick_post.dart › MakePostPage\nproducts/services/screens/quick_post.dart › ScheduledPage\nproducts/services/screens/quick_post.dart › _CheckPostPageState\nproducts/services/screens/quick_post.dart › _MakePostPageState\nproducts/services/screens/quick_post.dart › _ScheduledPageState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/whatsapp_page.dart › YourWhatsappPage\nproducts/services/services_root.dart › _ServicesRootState\nproducts/studio/studio_root.dart › StudioRoot\nproducts/studio/studio_root.dart › _StudioHomeState\nshared/setup/needs_welcome.dart › _Need\nshared/widgets/action_cards.dart › (top level)\nshell/arrange_apps.dart › (top level)\nshell/home_overview.dart › AppTilesSkeleton\nshell/home_overview.dart › HomeOverviewLoader\nshell/home_shell.dart › _HomeShellState\nshell/home_shell.dart › _ShellMenu\nshell/needs_you.dart › (top level)",
+   "screens": "admin/admin_home.dart › _AdminHomeBodyState\ncore/assistant/screen_context.dart › CurrentScreen\nplatform/data/platform_models.dart › ExploreCatalog\nplatform/data/platform_repository.dart › PlatformRepository\nplatform/explore/explore_screen.dart › _ItemPage\nplatform/launch/launch_models.dart › (top level)\nplatform/launch/launch_screens.dart › HelpMeChoosePage\nplatform/launch/launch_screens.dart › LaunchHero\nplatform/launch/launch_screens.dart › LaunchPage\nplatform/launch/launch_screens.dart › LaunchSection\nplatform/launch/launch_screens.dart › ProductPage\nplatform/launch/launch_screens.dart › _HelpMeChooseState\nplatform/launch/launch_screens.dart › _ProductCard\nplatform/team/team_screen.dart › _TeamScreenState\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/onbox/onbox_root.dart › _InboxRootState\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/orbitra_shell.dart › _OrbitraHomeState\nproducts/services/screens/quick_post.dart › CheckPostPage\nproducts/services/screens/quick_post.dart › MakePostPage\nproducts/services/screens/quick_post.dart › ScheduledPage\nproducts/services/screens/quick_post.dart › _CheckPostPageState\nproducts/services/screens/quick_post.dart › _MakePostPageState\nproducts/services/screens/quick_post.dart › _ScheduledPageState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/social_setup.dart › SocialSetupPage\nproducts/services/screens/social_setup.dart › _AboutStep\nproducts/services/screens/social_setup.dart › _AboutStepState\nproducts/services/screens/social_setup.dart › _SocialSetupPageState\nproducts/services/screens/whatsapp_page.dart › YourWhatsappPage\nproducts/services/services_root.dart › _ServicesRootState\nproducts/studio/studio_root.dart › StudioRoot\nproducts/studio/studio_root.dart › _StudioHomeState\nshared/setup/needs_welcome.dart › _Need\nshared/widgets/action_cards.dart › (top level)\nshell/arrange_apps.dart › (top level)\nshell/home_overview.dart › AppTilesSkeleton\nshell/home_overview.dart › HomeOverviewLoader\nshell/home_shell.dart › _HomeShellState\nshell/home_shell.dart › _ShellMenu\nshell/needs_you.dart › (top level)",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/admin_home.py:143",
    "status": "Not described"
@@ -6348,7 +6348,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.businessKnowledge",
-   "screens": "platform/workspace/business_knowledge_tab.dart › _BusinessKnowledgeTabState",
+   "screens": "platform/workspace/business_knowledge_tab.dart › _BusinessKnowledgeTabState\nproducts/services/screens/social_settings.dart › _MarketingSettingsPageState\nproducts/services/screens/social_setup.dart › _AboutStepState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/knowledge.py:107",
    "status": "OK"
@@ -6380,7 +6380,7 @@
    "arguments": "data",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.saveBusinessKnowledge",
-   "screens": "platform/workspace/business_knowledge_tab.dart › _BusinessKnowledgeTabState",
+   "screens": "platform/workspace/business_knowledge_tab.dart › _BusinessKnowledgeTabState\nproducts/services/screens/social_settings.dart › _MarketingSettingsPageState\nproducts/services/screens/social_setup.dart › _AboutStepState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/knowledge.py:116",
    "status": "OK"
@@ -6652,7 +6652,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.marketingSettings",
-   "screens": "admin/marketing_view.dart › _MarketingSettingsScreenState",
+   "screens": "admin/marketing_view.dart › _MarketingSettingsScreenState\nproducts/services/screens/social_settings.dart › _MarketingSettingsPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/marketing.py:23",
    "status": "Not described"
@@ -6668,7 +6668,7 @@
    "arguments": "refresh",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.marketingOverview",
-   "screens": "admin/marketing_view.dart › _MarketingViewState\nproducts/services/screens/design_library.dart › _DesignPreviewPageState\nproducts/services/screens/marketing_hub.dart › _MarketingHubPageState\nproducts/services/screens/marketing_pages.dart › (top level)\nproducts/services/screens/marketing_pages.dart › _MarketingPageState\nproducts/services/screens/social_home.dart › _SocialHomeState\nproducts/services/services_root.dart › _ServicesRootState",
+   "screens": "admin/marketing_view.dart › _MarketingViewState\nproducts/services/screens/design_library.dart › _DesignPreviewPageState\nproducts/services/screens/marketing_hub.dart › _MarketingHubPageState\nproducts/services/screens/marketing_pages.dart › (top level)\nproducts/services/screens/marketing_pages.dart › _MarketingPageState\nproducts/services/screens/social_calendar.dart › _PostCalendarState\nproducts/services/screens/social_home.dart › _SocialHomeState\nproducts/services/screens/social_setup.dart › _SocialSetupPageState\nproducts/services/services_root.dart › _ServicesRootState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/marketing.py:65",
    "status": "OK"
@@ -6684,7 +6684,7 @@
    "arguments": "n8n_url, api_key, enabled",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.saveMarketingSettings",
-   "screens": "admin/marketing_view.dart › _MarketingSettingsScreenState",
+   "screens": "admin/marketing_view.dart › _MarketingSettingsScreenState\nproducts/services/screens/social_settings.dart › _MarketingSettingsPageState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/marketing.py:34",
    "status": "OK"
@@ -7212,7 +7212,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.overview",
-   "screens": "admin/admin_root.dart › _Overview\nplatform/data/platform_models.dart › ExploreCatalog\nplatform/data/platform_repository.dart › PlatformRepository\nproducts/office_pulse/repository.dart › PulseRepository\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/services/repository.dart › ServicesRepository\nproducts/services/screens/article_pages.dart › ArticleEditorPage\nproducts/services/screens/article_pages.dart › _ArticleEditorPageState\nproducts/services/screens/marketing_history.dart › PostHistoryPage\nproducts/services/screens/marketing_history.dart › _PostHistoryPageState\nproducts/services/screens/marketing_pages.dart › PostEditorPage\nproducts/services/screens/marketing_pages.dart › _PostEditorPageState\nproducts/services/screens/needs_ok.dart › NeedsOkPage\nproducts/services/screens/needs_ok.dart › _NeedsOkPageState\nproducts/services/screens/newsletter_pages.dart › NewsletterEditorPage\nproducts/services/screens/newsletter_pages.dart › _NewsletterEditorPageState\nproducts/services/screens/quick_post.dart › CheckPostPage\nproducts/services/screens/quick_post.dart › MakePostPage\nproducts/services/screens/quick_post.dart › ScheduledPage\nproducts/services/screens/quick_post.dart › _CheckPostPageState\nproducts/services/screens/quick_post.dart › _MakePostPageState\nproducts/services/screens/quick_post.dart › _ScheduledPageState\nproducts/services/screens/series_pages.dart › SeriesEditorPage\nproducts/services/screens/series_pages.dart › SeriesPage\nproducts/services/screens/series_pages.dart › _SeriesEditorPageState\nproducts/services/screens/series_pages.dart › _SeriesPageState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/services_home.dart › _ActivityPageState\nproducts/services/screens/services_home.dart › _AssetPage\nproducts/services/screens/services_home.dart › _CatalogPage\nproducts/services/screens/services_home.dart › _PendingPage\nproducts/services/screens/services_home.dart › _ReviewCard\nproducts/services/screens/services_home.dart › _ServiceGrid\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/screens/services_home.dart › _ServicesListPage\nproducts/services/screens/services_home.dart › _Stats\nproducts/services/screens/services_home.dart › _WebsiteTop\nproducts/services/screens/sites_pages.dart › _SitesPage\nproducts/services/screens/social_alerts.dart › SocialAlertsPage\nproducts/services/screens/social_alerts.dart › _SocialAlertsPageState\nproducts/services/screens/social_home.dart › _AlertsChip\nproducts/services/screens/social_home.dart › _AutopilotChip\nproducts/services/screens/social_home.dart › _FirstSteps\nproducts/services/screens/social_home.dart › _FirstStepsState\nproducts/services/screens/social_home.dart › _MoreTab\nproducts/services/screens/social_home.dart › _SocialHomeState\nproducts/services/screens/social_home.dart › _TodayTab\nproducts/services/screens/social_home.dart › _ToolsGrid\nproducts/services/services_root.dart › ServicesState\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/services_root.dart › _SitesList\nproducts/services/store/store_pages.dart › (top level)\nshell/home_overview.dart › AppTilesSkeleton\nshell/home_overview.dart › HomeOverviewLoader\nshell/home_shell.dart › _MenuApps\nshell/launcher_screen.dart › BusinessAppTiles\nshell/launcher_screen.dart › LauncherScreen",
+   "screens": "admin/admin_root.dart › _Overview\nplatform/data/platform_models.dart › ExploreCatalog\nplatform/data/platform_repository.dart › PlatformRepository\nproducts/office_pulse/repository.dart › PulseRepository\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/services/repository.dart › ServicesRepository\nproducts/services/screens/article_pages.dart › ArticleEditorPage\nproducts/services/screens/article_pages.dart › _ArticleEditorPageState\nproducts/services/screens/marketing_history.dart › PostHistoryPage\nproducts/services/screens/marketing_history.dart › _PostHistoryPageState\nproducts/services/screens/marketing_pages.dart › PostEditorPage\nproducts/services/screens/marketing_pages.dart › _PostEditorPageState\nproducts/services/screens/needs_ok.dart › NeedsOkPage\nproducts/services/screens/needs_ok.dart › _NeedsOkPageState\nproducts/services/screens/newsletter_pages.dart › NewsletterEditorPage\nproducts/services/screens/newsletter_pages.dart › _NewsletterEditorPageState\nproducts/services/screens/quick_post.dart › CheckPostPage\nproducts/services/screens/quick_post.dart › MakePostPage\nproducts/services/screens/quick_post.dart › ScheduledPage\nproducts/services/screens/quick_post.dart › _CheckPostPageState\nproducts/services/screens/quick_post.dart › _MakePostPageState\nproducts/services/screens/quick_post.dart › _ScheduledPageState\nproducts/services/screens/series_pages.dart › SeriesEditorPage\nproducts/services/screens/series_pages.dart › SeriesPage\nproducts/services/screens/series_pages.dart › _SeriesEditorPageState\nproducts/services/screens/series_pages.dart › _SeriesPageState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/services_home.dart › _ActivityPageState\nproducts/services/screens/services_home.dart › _AssetPage\nproducts/services/screens/services_home.dart › _CatalogPage\nproducts/services/screens/services_home.dart › _PendingPage\nproducts/services/screens/services_home.dart › _ReviewCard\nproducts/services/screens/services_home.dart › _ServiceGrid\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/screens/services_home.dart › _ServicesListPage\nproducts/services/screens/services_home.dart › _Stats\nproducts/services/screens/services_home.dart › _WebsiteTop\nproducts/services/screens/sites_pages.dart › _SitesPage\nproducts/services/screens/social_alerts.dart › SocialAlertsPage\nproducts/services/screens/social_alerts.dart › _SocialAlertsPageState\nproducts/services/screens/social_home.dart › _AlertsChip\nproducts/services/screens/social_home.dart › _AutopilotChip\nproducts/services/screens/social_home.dart › _FirstSteps\nproducts/services/screens/social_home.dart › _FirstStepsState\nproducts/services/screens/social_home.dart › _MoreTab\nproducts/services/screens/social_home.dart › _SocialHomeState\nproducts/services/screens/social_home.dart › _TodayTab\nproducts/services/screens/social_home.dart › _ToolsGrid\nproducts/services/screens/social_settings.dart › AutopilotPage\nproducts/services/screens/social_settings.dart › MarketingSettingsPage\nproducts/services/screens/social_settings.dart › _AutopilotPageState\nproducts/services/screens/social_settings.dart › _MarketingSettingsPageState\nproducts/services/screens/social_setup.dart › SocialSetupPage\nproducts/services/screens/social_setup.dart › _AboutStep\nproducts/services/screens/social_setup.dart › _AboutStepState\nproducts/services/screens/social_setup.dart › _PagesStep\nproducts/services/screens/social_setup.dart › _SocialSetupPageState\nproducts/services/services_root.dart › ServicesState\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/services_root.dart › _SitesList\nproducts/services/store/store_pages.dart › (top level)\nshell/home_overview.dart › AppTilesSkeleton\nshell/home_overview.dart › HomeOverviewLoader\nshell/home_shell.dart › _MenuApps\nshell/launcher_screen.dart › BusinessAppTiles\nshell/launcher_screen.dart › LauncherScreen",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/platform_admin.py:25",
    "status": "Not described"
@@ -11772,7 +11772,7 @@
    "arguments": "platform, reconnect",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingConnect",
-   "screens": "products/services/screens/marketing_pages.dart › _MarketingPageState\nproducts/services/screens/social_alerts.dart › _PostFailedPageState",
+   "screens": "products/services/screens/social_alerts.dart › _PostFailedPageState\nproducts/services/screens/social_setup.dart › (top level)",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:179",
    "status": "OK"
@@ -11820,7 +11820,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingOverview",
-   "screens": "admin/marketing_view.dart › _MarketingViewState\nproducts/services/screens/design_library.dart › _DesignPreviewPageState\nproducts/services/screens/marketing_hub.dart › _MarketingHubPageState\nproducts/services/screens/marketing_pages.dart › (top level)\nproducts/services/screens/marketing_pages.dart › _MarketingPageState\nproducts/services/screens/social_home.dart › _SocialHomeState\nproducts/services/services_root.dart › _ServicesRootState",
+   "screens": "admin/marketing_view.dart › _MarketingViewState\nproducts/services/screens/design_library.dart › _DesignPreviewPageState\nproducts/services/screens/marketing_hub.dart › _MarketingHubPageState\nproducts/services/screens/marketing_pages.dart › (top level)\nproducts/services/screens/marketing_pages.dart › _MarketingPageState\nproducts/services/screens/social_calendar.dart › _PostCalendarState\nproducts/services/screens/social_home.dart › _SocialHomeState\nproducts/services/screens/social_setup.dart › _SocialSetupPageState\nproducts/services/services_root.dart › _ServicesRootState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:144",
    "status": "Not described"
@@ -11836,7 +11836,7 @@
    "arguments": "name",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingPost",
-   "screens": "products/services/screens/marketing_history.dart › _PostHistoryPageState\nproducts/services/screens/marketing_hub.dart › _MarketingHubPageState\nproducts/services/screens/marketing_pages.dart › (top level)\nproducts/services/screens/quick_post.dart › _CheckPostPageState\nproducts/services/screens/social_home.dart › _TodayTab",
+   "screens": "products/services/screens/marketing_history.dart › _PostHistoryPageState\nproducts/services/screens/marketing_hub.dart › _MarketingHubPageState\nproducts/services/screens/marketing_pages.dart › (top level)\nproducts/services/screens/quick_post.dart › _CheckPostPageState\nproducts/services/screens/social_calendar.dart › _PostCalendarState\nproducts/services/screens/social_home.dart › _TodayTab",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:235",
    "status": "Not described"
@@ -12030,7 +12030,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingAlerts",
    "screens": "products/services/screens/social_alerts.dart › _SocialAlertsPageState\nproducts/services/screens/social_home.dart › _AlertsChip",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:264",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:265",
    "status": "OK"
   },
   {
@@ -12046,7 +12046,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingAlertsSeen",
    "screens": "products/services/screens/social_alerts.dart › _SocialAlertsPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:287",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:288",
    "status": "OK"
   },
   {
@@ -12062,7 +12062,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.quickApproveAll",
    "screens": "products/services/screens/needs_ok.dart › _NeedsOkPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:208",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:209",
    "status": "OK"
   },
   {
@@ -12078,7 +12078,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingFailed",
    "screens": "products/services/screens/social_alerts.dart › _PostFailedPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:295",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:296",
    "status": "OK"
   },
   {
@@ -12094,7 +12094,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.quickMakePost",
    "screens": "products/services/screens/quick_post.dart › _MakePostPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:119",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:120",
    "status": "OK"
   },
   {
@@ -12110,7 +12110,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.quickRedraw",
    "screens": "products/services/screens/quick_post.dart › _CheckPostPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:149",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:150",
    "status": "OK"
   },
   {
@@ -12126,7 +12126,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingRetryFailed",
    "screens": "products/services/screens/social_alerts.dart › _PostFailedPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:315",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:316",
    "status": "OK"
   },
   {
@@ -12142,7 +12142,39 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.quickRewrite",
    "screens": "products/services/screens/quick_post.dart › _WordsSheetState\nproducts/services/screens/social_replies.dart › _ReplyOnePageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:160",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:161",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.marketing_quick.save_settings",
+   "product": "Managed Services",
+   "area": "api.marketing_quick",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "The usual time for a new post (Make a post starts on it): best, or a time.",
+   "details": "The usual time for a new post (Make a post starts on it): best, or a time.",
+   "arguments": "post_time",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.saveMarketingSettings",
+   "screens": "admin/marketing_view.dart › _MarketingSettingsScreenState\nproducts/services/screens/social_settings.dart › _MarketingSettingsPageState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:372",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.marketing_quick.settings",
+   "product": "Managed Services",
+   "area": "api.marketing_quick",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "{post_time: best | HH:MM, is_owner}.",
+   "details": "{post_time: best | HH:MM, is_owner}.",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingSettings",
+   "screens": "admin/marketing_view.dart › _MarketingSettingsScreenState\nproducts/services/screens/social_settings.dart › _MarketingSettingsPageState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:365",
    "status": "OK"
   },
   {
@@ -12158,7 +12190,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.quickSkip",
    "screens": "products/services/screens/needs_ok.dart › _NeedsOkPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:225",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:226",
    "status": "OK"
   },
   {
@@ -12174,7 +12206,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingSkipFailed",
    "screens": "products/services/screens/social_alerts.dart › _PostFailedPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:334",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:335",
    "status": "OK"
   },
   {
@@ -12190,7 +12222,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.quickTimes",
    "screens": "products/services/screens/quick_post.dart › _CheckPostPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:187",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:188",
    "status": "OK"
   },
   {
@@ -12206,7 +12238,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.quickUndo",
    "screens": "products/services/screens/needs_ok.dart › (top level)\nproducts/services/screens/quick_post.dart › _ScheduledPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:240",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:241",
    "status": "OK"
   },
   {
@@ -12222,7 +12254,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.quickWaiting",
    "screens": "products/services/screens/needs_ok.dart › _NeedsOkPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:194",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_quick.py:195",
    "status": "OK"
   },
   {
@@ -12238,7 +12270,23 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.seriesAutopilot",
    "screens": "products/services/screens/series_pages.dart › _SeriesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:120",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:121",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.marketing_series.autopilot_settings",
+   "product": "Managed Services",
+   "area": "api.marketing_series",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "{on, often (2|3|7 a week), about (mixed|products|ideas), ask, next: [dates], preview} — Autopilot as one screen.",
+   "details": "{on, often (2|3|7 a week), about (mixed|products|ideas), ask, next: [dates], preview} — Autopilot as one screen.",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.autopilotSettings",
+   "screens": "products/services/screens/social_settings.dart › _AutopilotPageState\nproducts/services/screens/social_settings.dart › _MarketingSettingsPageState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:219",
    "status": "OK"
   },
   {
@@ -12247,14 +12295,14 @@
    "area": "api.marketing_series",
    "http_methods": "GET",
    "guest": 0,
-   "purpose": "The next `days` days (up to 60): posts scheduled or waiting for the OK (with their time), and the days each active series will post. {days: [{date, posts: [...], series: [...]}]} — only days with something.",
-   "details": "The next `days` days (up to 60): posts scheduled or waiting for the OK (with their time), and the days each\nactive series will post. {days: [{date, posts: [...], series: [...]}]} — only days with something.",
+   "purpose": "The next `days` days (up to 60): posts scheduled or waiting for the OK (with their time), and the days each active series will post. {days: [{date, posts: [...], series: [...]}], past: [{name, idea, status, at}]} — only days with something; past = the last 30 days' posts that went out or couldn't.",
+   "details": "The next `days` days (up to 60): posts scheduled or waiting for the OK (with their time), and the days each\nactive series will post. {days: [{date, posts: [...], series: [...]}], past: [{name, idea, status, at}]} — only days\nwith something; past = the last 30 days' posts that went out or couldn't.",
    "arguments": "days",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingCalendar",
    "screens": "products/services/screens/social_calendar.dart › _PostCalendarState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:178",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:179",
    "status": "OK"
   },
   {
@@ -12270,7 +12318,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.seriesDelete",
    "screens": "products/services/screens/series_pages.dart › _SeriesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:154",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:155",
    "status": "OK"
   },
   {
@@ -12286,7 +12334,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.seriesMakeNow",
    "screens": "products/services/screens/series_pages.dart › _SeriesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:164",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:165",
    "status": "OK"
   },
   {
@@ -12302,7 +12350,23 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.seriesNextPicture",
    "screens": "products/services/screens/series_pages.dart › _NextPicture",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:73",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:74",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.marketing_series.save_autopilot",
+   "product": "Managed Services",
+   "area": "api.marketing_series",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Switch Autopilot on or off and set how often, what about, and whether each post waits for the OK.",
+   "details": "Switch Autopilot on or off and set how often, what about, and whether each post waits for the OK.",
+   "arguments": "on, often, about, ask",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.saveAutopilot",
+   "screens": "products/services/screens/social_settings.dart › _AutopilotPageState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:232",
    "status": "OK"
   },
   {
@@ -12318,7 +12382,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.seriesSave",
    "screens": "products/services/screens/series_pages.dart › _SeriesEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:96",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:97",
    "status": "OK"
   },
   {
@@ -12334,7 +12398,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.seriesList",
    "screens": "products/services/screens/series_pages.dart › _SeriesPageState\nproducts/services/screens/social_home.dart › _AutopilotChip",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:62",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:63",
    "status": "OK"
   },
   {
@@ -12350,7 +12414,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.seriesSet",
    "screens": "products/services/screens/series_pages.dart › _SeriesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:136",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing_series.py:137",
    "status": "OK"
   },
   {
@@ -13660,7 +13724,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.overview",
-   "screens": "admin/admin_repository.dart › AdminRepository\nadmin/admin_root.dart › _Overview\nplatform/data/platform_models.dart › ExploreCatalog\nplatform/data/platform_repository.dart › PlatformRepository\nproducts/office_pulse/repository.dart › PulseRepository\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/services/screens/article_pages.dart › ArticleEditorPage\nproducts/services/screens/article_pages.dart › _ArticleEditorPageState\nproducts/services/screens/marketing_history.dart › PostHistoryPage\nproducts/services/screens/marketing_history.dart › _PostHistoryPageState\nproducts/services/screens/marketing_pages.dart › PostEditorPage\nproducts/services/screens/marketing_pages.dart › _PostEditorPageState\nproducts/services/screens/needs_ok.dart › NeedsOkPage\nproducts/services/screens/needs_ok.dart › _NeedsOkPageState\nproducts/services/screens/newsletter_pages.dart › NewsletterEditorPage\nproducts/services/screens/newsletter_pages.dart › _NewsletterEditorPageState\nproducts/services/screens/quick_post.dart › CheckPostPage\nproducts/services/screens/quick_post.dart › MakePostPage\nproducts/services/screens/quick_post.dart › ScheduledPage\nproducts/services/screens/quick_post.dart › _CheckPostPageState\nproducts/services/screens/quick_post.dart › _MakePostPageState\nproducts/services/screens/quick_post.dart › _ScheduledPageState\nproducts/services/screens/series_pages.dart › SeriesEditorPage\nproducts/services/screens/series_pages.dart › SeriesPage\nproducts/services/screens/series_pages.dart › _SeriesEditorPageState\nproducts/services/screens/series_pages.dart › _SeriesPageState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/services_home.dart › _ActivityPageState\nproducts/services/screens/services_home.dart › _AssetPage\nproducts/services/screens/services_home.dart › _CatalogPage\nproducts/services/screens/services_home.dart › _PendingPage\nproducts/services/screens/services_home.dart › _ReviewCard\nproducts/services/screens/services_home.dart › _ServiceGrid\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/screens/services_home.dart › _ServicesListPage\nproducts/services/screens/services_home.dart › _Stats\nproducts/services/screens/services_home.dart › _WebsiteTop\nproducts/services/screens/sites_pages.dart › _SitesPage\nproducts/services/screens/social_alerts.dart › SocialAlertsPage\nproducts/services/screens/social_alerts.dart › _SocialAlertsPageState\nproducts/services/screens/social_home.dart › _AlertsChip\nproducts/services/screens/social_home.dart › _AutopilotChip\nproducts/services/screens/social_home.dart › _FirstSteps\nproducts/services/screens/social_home.dart › _FirstStepsState\nproducts/services/screens/social_home.dart › _MoreTab\nproducts/services/screens/social_home.dart › _SocialHomeState\nproducts/services/screens/social_home.dart › _TodayTab\nproducts/services/screens/social_home.dart › _ToolsGrid\nproducts/services/services_root.dart › ServicesState\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/services_root.dart › _SitesList\nproducts/services/store/store_pages.dart › (top level)\nshell/home_overview.dart › AppTilesSkeleton\nshell/home_overview.dart › HomeOverviewLoader\nshell/home_shell.dart › _MenuApps\nshell/launcher_screen.dart › BusinessAppTiles\nshell/launcher_screen.dart › LauncherScreen",
+   "screens": "admin/admin_repository.dart › AdminRepository\nadmin/admin_root.dart › _Overview\nplatform/data/platform_models.dart › ExploreCatalog\nplatform/data/platform_repository.dart › PlatformRepository\nproducts/office_pulse/repository.dart › PulseRepository\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/services/screens/article_pages.dart › ArticleEditorPage\nproducts/services/screens/article_pages.dart › _ArticleEditorPageState\nproducts/services/screens/marketing_history.dart › PostHistoryPage\nproducts/services/screens/marketing_history.dart › _PostHistoryPageState\nproducts/services/screens/marketing_pages.dart › PostEditorPage\nproducts/services/screens/marketing_pages.dart › _PostEditorPageState\nproducts/services/screens/needs_ok.dart › NeedsOkPage\nproducts/services/screens/needs_ok.dart › _NeedsOkPageState\nproducts/services/screens/newsletter_pages.dart › NewsletterEditorPage\nproducts/services/screens/newsletter_pages.dart › _NewsletterEditorPageState\nproducts/services/screens/quick_post.dart › CheckPostPage\nproducts/services/screens/quick_post.dart › MakePostPage\nproducts/services/screens/quick_post.dart › ScheduledPage\nproducts/services/screens/quick_post.dart › _CheckPostPageState\nproducts/services/screens/quick_post.dart › _MakePostPageState\nproducts/services/screens/quick_post.dart › _ScheduledPageState\nproducts/services/screens/series_pages.dart › SeriesEditorPage\nproducts/services/screens/series_pages.dart › SeriesPage\nproducts/services/screens/series_pages.dart › _SeriesEditorPageState\nproducts/services/screens/series_pages.dart › _SeriesPageState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/services_home.dart › _ActivityPageState\nproducts/services/screens/services_home.dart › _AssetPage\nproducts/services/screens/services_home.dart › _CatalogPage\nproducts/services/screens/services_home.dart › _PendingPage\nproducts/services/screens/services_home.dart › _ReviewCard\nproducts/services/screens/services_home.dart › _ServiceGrid\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/screens/services_home.dart › _ServicesListPage\nproducts/services/screens/services_home.dart › _Stats\nproducts/services/screens/services_home.dart › _WebsiteTop\nproducts/services/screens/sites_pages.dart › _SitesPage\nproducts/services/screens/social_alerts.dart › SocialAlertsPage\nproducts/services/screens/social_alerts.dart › _SocialAlertsPageState\nproducts/services/screens/social_home.dart › _AlertsChip\nproducts/services/screens/social_home.dart › _AutopilotChip\nproducts/services/screens/social_home.dart › _FirstSteps\nproducts/services/screens/social_home.dart › _FirstStepsState\nproducts/services/screens/social_home.dart › _MoreTab\nproducts/services/screens/social_home.dart › _SocialHomeState\nproducts/services/screens/social_home.dart › _TodayTab\nproducts/services/screens/social_home.dart › _ToolsGrid\nproducts/services/screens/social_settings.dart › AutopilotPage\nproducts/services/screens/social_settings.dart › MarketingSettingsPage\nproducts/services/screens/social_settings.dart › _AutopilotPageState\nproducts/services/screens/social_settings.dart › _MarketingSettingsPageState\nproducts/services/screens/social_setup.dart › SocialSetupPage\nproducts/services/screens/social_setup.dart › _AboutStep\nproducts/services/screens/social_setup.dart › _AboutStepState\nproducts/services/screens/social_setup.dart › _PagesStep\nproducts/services/screens/social_setup.dart › _SocialSetupPageState\nproducts/services/services_root.dart › ServicesState\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/services_root.dart › _SitesList\nproducts/services/store/store_pages.dart › (top level)\nshell/home_overview.dart › AppTilesSkeleton\nshell/home_overview.dart › HomeOverviewLoader\nshell/home_shell.dart › _MenuApps\nshell/launcher_screen.dart › BusinessAppTiles\nshell/launcher_screen.dart › LauncherScreen",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/portal.py:19",
    "status": "Not described"
