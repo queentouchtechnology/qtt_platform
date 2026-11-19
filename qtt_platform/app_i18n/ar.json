@@ -8825,5 +8825,15 @@
  "{n} comments on your posts": "{n} تعليقات على منشوراتك",
  "Nothing to answer right now": "لا شيء للرد عليه الآن",
  "1 unhappy — answer soon": "واحدة غير راضية — رُدّ قريبًا",
- "{n} unhappy — answer soon": "{n} غير راضية — رُدّ قريبًا"
+ "{n} unhappy — answer soon": "{n} غير راضية — رُدّ قريبًا",
+ "People reached": "الأشخاص الذين وصلت إليهم",
+ "1 post couldn't go out": "منشور واحد لم يُنشر",
+ "{n} posts couldn't go out": "{n} منشورات لم تُنشر",
+ "Social media · try again or skip a page": "وسائل التواصل · أعد المحاولة أو تخطَّ صفحة",
+ "1 post waits for your OK": "منشور واحد ينتظر موافقتك",
+ "{n} posts wait for your OK": "{n} منشورات تنتظر موافقتك",
+ "Social media · nothing goes out without you": "وسائل التواصل · لا شيء يُنشر دونك",
+ "Google reviews · a reply in your tone is ready": "مراجعات Google · رد بأسلوبك جاهز",
+ "1 article or newsletter to check": "مقال أو نشرة واحدة للمراجعة",
+ "{n} articles and newsletters to check": "{n} مقالات ونشرات للمراجعة"
 }

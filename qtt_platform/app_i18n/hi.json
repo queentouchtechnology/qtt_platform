@@ -8825,5 +8825,15 @@
  "{n} comments on your posts": "आपकी पोस्ट पर {n} टिप्पणियाँ",
  "Nothing to answer right now": "अभी जवाब देने को कुछ नहीं",
  "1 unhappy — answer soon": "1 नाखुश — जल्दी जवाब दें",
- "{n} unhappy — answer soon": "{n} नाखुश — जल्दी जवाब दें"
+ "{n} unhappy — answer soon": "{n} नाखुश — जल्दी जवाब दें",
+ "People reached": "पहुँचे लोग",
+ "1 post couldn't go out": "1 पोस्ट नहीं जा सकी",
+ "{n} posts couldn't go out": "{n} पोस्ट नहीं जा सकीं",
+ "Social media · try again or skip a page": "सोशल मीडिया · फिर कोशिश करें या एक पेज छोड़ें",
+ "1 post waits for your OK": "1 पोस्ट आपकी मंज़ूरी का इंतज़ार कर रही है",
+ "{n} posts wait for your OK": "{n} पोस्ट आपकी मंज़ूरी का इंतज़ार कर रही हैं",
+ "Social media · nothing goes out without you": "सोशल मीडिया · आपके बिना कुछ नहीं जाता",
+ "Google reviews · a reply in your tone is ready": "Google समीक्षाएँ · आपके अंदाज़ में जवाब तैयार है",
+ "1 article or newsletter to check": "जाँचने के लिए 1 लेख या न्यूज़लेटर",
+ "{n} articles and newsletters to check": "जाँचने के लिए {n} लेख और न्यूज़लेटर"
 }

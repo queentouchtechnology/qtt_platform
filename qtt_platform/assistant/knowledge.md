@@ -1461,9 +1461,15 @@ open it from that service).
 - **Comments and reviews** (Social media › Today, or More). On Today it is one line
   with a dot: "N reviews to answer · N comments on your posts" (amber dot and "N
   unhappy — answer soon" when a review has 3 stars or fewer), or "Nothing to answer
-  right now"; the counts refresh when you come back. The top of Today shows each
-  connected page as a round link (tap opens the page itself; a red dot means sign in
-  again — that one opens Your pages), ＋ to connect another, and the Alerts bell. Inside: tabs **To answer ·
+  right now"; the counts refresh when you come back. Social media › Today is a
+  dashboard: a blue card with this week's people reached (and the change), Waiting ·
+  Planned · Pages, Autopilot on/off, and each connected page as a round button (tap →
+  its name and status, Open the page, Connect again, Your pages); ＋ lists every channel
+  Post for me can post to. The Alerts bell is in the title bar beside Ask QTT. Needs
+  you is one card (each waiting post with Approve, then comments and reviews); See all
+  opens the main Needs you page, where posts to approve, posts that couldn't go out,
+  reviews to answer and article/newsletter drafts also show. Coming up is a row of
+  cards you swipe, ending in ＋ Make a post. Inside: tabs **To answer ·
   N** and **Answered**. **Google reviews · answer here**: unhappy ones (3 stars
   or fewer) come first, outlined — answer soon; tap one for **Reply to a
   review**: a reply already written in your tone (change anything), **Shorter**,

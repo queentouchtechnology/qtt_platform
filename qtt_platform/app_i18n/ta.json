@@ -8825,5 +8825,15 @@
  "{n} comments on your posts": "உங்கள் பதிவுகளில் {n} கருத்துகள்",
  "Nothing to answer right now": "இப்போது பதில் சொல்ல எதுவும் இல்லை",
  "1 unhappy — answer soon": "1 அதிருப்தி — விரைவில் பதில் சொல்லுங்கள்",
- "{n} unhappy — answer soon": "{n} அதிருப்தி — விரைவில் பதில் சொல்லுங்கள்"
+ "{n} unhappy — answer soon": "{n} அதிருப்தி — விரைவில் பதில் சொல்லுங்கள்",
+ "People reached": "சென்றடைந்தவர்கள்",
+ "1 post couldn't go out": "1 பதிவு வெளியாகவில்லை",
+ "{n} posts couldn't go out": "{n} பதிவுகள் வெளியாகவில்லை",
+ "Social media · try again or skip a page": "சமூக ஊடகம் · மீண்டும் முயலவும் அல்லது ஒரு பக்கத்தைத் தவிர்க்கவும்",
+ "1 post waits for your OK": "1 பதிவு உங்கள் ஒப்புதலுக்குக் காத்திருக்கிறது",
+ "{n} posts wait for your OK": "{n} பதிவுகள் உங்கள் ஒப்புதலுக்குக் காத்திருக்கின்றன",
+ "Social media · nothing goes out without you": "சமூக ஊடகம் · உங்கள் ஒப்புதல் இல்லாமல் எதுவும் வெளியாகாது",
+ "Google reviews · a reply in your tone is ready": "Google மதிப்புரைகள் · உங்கள் பாணியில் பதில் தயார்",
+ "1 article or newsletter to check": "சரிபார்க்க 1 கட்டுரை அல்லது செய்திமடல்",
+ "{n} articles and newsletters to check": "சரிபார்க்க {n} கட்டுரைகள் மற்றும் செய்திமடல்கள்"
 }
