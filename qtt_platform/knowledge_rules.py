@@ -186,11 +186,36 @@ HEALTH = (  # (what, weight, how to tell it's there)
 
 
 def health(k: dict) -> dict:
-	"""{score 0–100, missing: [what to add next, most useful first]}."""
+	"""{score 0–100, missing: [what to add next, most useful first], done: [what's there]}."""
 	total = sum(w for _, w, _ in HEALTH)
 	got = sum(w for _, w, ok in HEALTH if ok(k))
 	missing = [name for name, _, ok in sorted(HEALTH, key=lambda x: -x[1]) if not ok(k)]
-	return {"score": round(got * 100 / total), "missing": missing}
+	return {"score": round(got * 100 / total), "missing": missing, "done": [name for name, _, ok in HEALTH if ok(k)]}
+
+
+def logo_colors(counts: list[tuple[int, tuple[int, int, int]]]) -> dict:
+	"""A logo's colours ([(pixels, (r, g, b))], e.g. from Pillow's getcolors after quantizing) → the brand's main, second and
+	light colours: main = the most used colour that isn't near white, black or grey; second = the next one that looks
+	different enough; light = a very light tint of main. {} when the logo is only greys."""
+	import colorsys
+
+	def hexc(rgb):
+		return "#{:02x}{:02x}{:02x}".format(*rgb)
+
+	def hls(rgb):
+		return colorsys.rgb_to_hls(*(c / 255 for c in rgb))
+
+	colourful = [(n, rgb) for n, rgb in sorted(counts, reverse=True) if hls(rgb)[2] > 0.25 and 0.12 < hls(rgb)[1] < 0.92]
+	if not colourful:
+		return {}
+	main = colourful[0][1]
+	second = next((rgb for _, rgb in colourful[1:] if abs(hls(rgb)[0] - hls(main)[0]) > 0.08 or abs(hls(rgb)[1] - hls(main)[1]) > 0.25), None)
+	h, _l, sat = hls(main)
+	light = tuple(round(c * 255) for c in colorsys.hls_to_rgb(h, 0.96, min(sat, 0.6)))
+	out = {"color_primary": hexc(main), "color_light": hexc(light)}
+	if second:
+		out["color_secondary"] = hexc(second)
+	return out
 
 
 def from_receptionist(profile: dict, faqs: list[dict]) -> dict:

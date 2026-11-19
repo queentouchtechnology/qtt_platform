@@ -378,3 +378,27 @@ def brand_preview() -> dict:
 		have = frappe.get_doc({"doctype": "File", "file_name": fname, "content": data, "is_private": 0, "attached_to_doctype": DT,
 							   "attached_to_name": name}).insert(ignore_permissions=True).file_url
 	return {"url": get_url(have), "width": w, "height": h}
+
+
+@frappe.whitelist(methods=["POST"])
+def colours_from_logo() -> dict:
+	"""Your brand › Take from logo: the main, second and light colours suggested from the logo in Business › Profile
+	(nothing is saved — the owner sees them and saves). {color_primary, color_secondary?, color_light}."""
+	import io
+
+	from PIL import Image
+
+	tenant = _tenant()
+	require_tenant_role(tenant, GOVERNANCE)
+	name, data = _logo(tenant)
+	if not data or (name or "").endswith(".svg"):
+		frappe.throw(_("Add your logo (PNG or JPG) in Business › Profile first."))
+	img = Image.open(io.BytesIO(data)).convert("RGBA")
+	img.thumbnail((160, 160))
+	flat = Image.new("RGB", img.size, (255, 255, 255))
+	flat.paste(img, mask=img.split()[3])  # see-through parts count as white (they're skipped)
+	small = flat.quantize(colors=8).convert("RGB")
+	out = rules.logo_colors(small.getcolors(160 * 160) or [])
+	if not out:
+		frappe.throw(_("Your logo is only black, white or grey — pick your colours yourself."))
+	return out

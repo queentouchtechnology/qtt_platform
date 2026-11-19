@@ -6338,6 +6338,22 @@
    "status": "OK"
   },
   {
+   "endpoint": "qtt_platform.api.knowledge.colours_from_logo",
+   "product": "Platform",
+   "area": "api.knowledge",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Your brand › Take from logo: the main, second and light colours suggested from the logo in Business › Profile (nothing is saved — the owner sees them and saves). {color_primary, color_secondary?, color_light}.",
+   "details": "Your brand › Take from logo: the main, second and light colours suggested from the logo in Business › Profile\n(nothing is saved — the owner sees them and saves). {color_primary, color_secondary?, color_light}.",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.coloursFromLogo",
+   "screens": "products/services/screens/social_brand.dart › _BrandKitPageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/knowledge.py:384",
+   "status": "OK"
+  },
+  {
    "endpoint": "qtt_platform.api.knowledge.get",
    "product": "Platform",
    "area": "api.knowledge",
@@ -6348,7 +6364,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.businessKnowledge",
-   "screens": "platform/workspace/business_knowledge_tab.dart › _BusinessKnowledgeTabState\nproducts/services/screens/social_settings.dart › _MarketingSettingsPageState\nproducts/services/screens/social_setup.dart › _AboutStepState",
+   "screens": "platform/workspace/business_knowledge_tab.dart › _BusinessKnowledgeTabState\nproducts/services/screens/social_brand.dart › BetterPostsPage\nproducts/services/screens/social_brand.dart › _BrandKitPageState\nproducts/services/screens/social_settings.dart › _MarketingSettingsPageState\nproducts/services/screens/social_setup.dart › _AboutStepState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/knowledge.py:107",
    "status": "OK"
@@ -6380,7 +6396,7 @@
    "arguments": "data",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.saveBusinessKnowledge",
-   "screens": "platform/workspace/business_knowledge_tab.dart › _BusinessKnowledgeTabState\nproducts/services/screens/social_settings.dart › _MarketingSettingsPageState\nproducts/services/screens/social_setup.dart › _AboutStepState",
+   "screens": "platform/workspace/business_knowledge_tab.dart › _BusinessKnowledgeTabState\nproducts/services/screens/social_brand.dart › _BrandKitPageState\nproducts/services/screens/social_settings.dart › _MarketingSettingsPageState\nproducts/services/screens/social_setup.dart › _AboutStepState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/knowledge.py:116",
    "status": "OK"

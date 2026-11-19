@@ -150,3 +150,18 @@ class TestLab(unittest.TestCase):
 
 if __name__ == "__main__":
 	unittest.main()
+
+
+class LogoColours(unittest.TestCase):
+	def test_main_second_light_skip_greys(self):
+		counts = [(5000, (255, 255, 255)), (1200, (138, 21, 56)), (900, (242, 179, 61)), (300, (20, 20, 20)), (200, (140, 25, 60))]
+		out = r.logo_colors(counts)
+		self.assertEqual(out["color_primary"], "#8a1538")
+		self.assertEqual(out["color_secondary"], "#f2b33d")
+		self.assertTrue(out["color_light"].startswith("#f"))
+
+	def test_only_greys_says_nothing(self):
+		self.assertEqual(r.logo_colors([(10, (255, 255, 255)), (5, (0, 0, 0)), (3, (128, 128, 128))]), {})
+
+	def test_health_lists_done(self):
+		self.assertIn("brand", r.health({"color_primary": "#112233"})["done"])

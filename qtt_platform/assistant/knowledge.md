@@ -1496,6 +1496,24 @@ open it from that service).
   the change against the 30 days before and **What works for you** — the best
   time to post, the page most people saw, and how many reacted (only when there
   are enough posts to say).
+- **Your brand** (Social media › Your tools or Marketing settings): the logo
+  (on the corner of each post; Change: Business › Profile), **Colours** — Main,
+  Second, Light (tap one to pick, or a colour code), **Take from logo** suggests
+  them from your logo; **Letters** — Bold, Classic, Clean or Friendly; **On
+  every post** — your WhatsApp or phone, area, website (Edit: Business ›
+  Profile). **Save**: every new post and design uses them.
+- **Better posts** (Social media › Your tools): how complete your business
+  knowledge is (%), **Add these next** (most useful first, each says where it
+  helps) and **Done**; Open Business knowledge to add them.
+- **One post** (Post history › Grid › tap a square): the picture, Live since,
+  people who saw it, likes and comments across its pages, each page with
+  **Open**, **See N comments →** (opens the page that has them), ⋯ options,
+  **Post again**.
+- **New post series**: What is the series?, **Make posts from** (my products,
+  ready ideas, both), **How often** and **How many**, **Ask me before each
+  post**, and the next post's picture when changing one; **More options** for
+  designs, the time, the pages and how long it posts on its own. **Start the
+  series**.
 - **Other ways to start** (Make a post › Other ways): how to start — **Pick a template**
   (with QTT Studio: Studio's templates, edited in the editor, then the post
   opens to choose pages and approve; without Studio: the free Post designs),
