@@ -8818,5 +8818,12 @@
  "Every design in your colours": "ஒவ்வொரு வடிவமைப்பும் உங்கள் நிறங்களில்",
  "Makes posts sound like you": "பதிவுகளை உங்களைப் போல ஒலிக்கச் செய்யும்",
  "people saw it": "பேர் பார்த்தனர்",
- "comments": "கருத்துகள்"
+ "comments": "கருத்துகள்",
+ "1 review to answer": "பதில் சொல்ல 1 மதிப்புரை",
+ "{n} reviews to answer": "பதில் சொல்ல {n} மதிப்புரைகள்",
+ "1 comment on your posts": "உங்கள் பதிவுகளில் 1 கருத்து",
+ "{n} comments on your posts": "உங்கள் பதிவுகளில் {n} கருத்துகள்",
+ "Nothing to answer right now": "இப்போது பதில் சொல்ல எதுவும் இல்லை",
+ "1 unhappy — answer soon": "1 அதிருப்தி — விரைவில் பதில் சொல்லுங்கள்",
+ "{n} unhappy — answer soon": "{n} அதிருப்தி — விரைவில் பதில் சொல்லுங்கள்"
 }

@@ -8818,5 +8818,12 @@
  "Every design in your colours": "كل تصميم بألوانك",
  "Makes posts sound like you": "يجعل المنشورات تشبهك",
  "people saw it": "شخصًا رأوه",
- "comments": "تعليقات"
+ "comments": "تعليقات",
+ "1 review to answer": "مراجعة واحدة للرد عليها",
+ "{n} reviews to answer": "{n} مراجعات للرد عليها",
+ "1 comment on your posts": "تعليق واحد على منشوراتك",
+ "{n} comments on your posts": "{n} تعليقات على منشوراتك",
+ "Nothing to answer right now": "لا شيء للرد عليه الآن",
+ "1 unhappy — answer soon": "واحدة غير راضية — رُدّ قريبًا",
+ "{n} unhappy — answer soon": "{n} غير راضية — رُدّ قريبًا"
 }

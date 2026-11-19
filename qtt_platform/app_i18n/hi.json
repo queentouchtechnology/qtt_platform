@@ -8818,5 +8818,12 @@
  "Every design in your colours": "हर डिज़ाइन आपके रंगों में",
  "Makes posts sound like you": "पोस्ट को आपके जैसा बनाता है",
  "people saw it": "लोगों ने देखा",
- "comments": "टिप्पणियाँ"
+ "comments": "टिप्पणियाँ",
+ "1 review to answer": "जवाब के लिए 1 समीक्षा",
+ "{n} reviews to answer": "जवाब के लिए {n} समीक्षाएँ",
+ "1 comment on your posts": "आपकी पोस्ट पर 1 टिप्पणी",
+ "{n} comments on your posts": "आपकी पोस्ट पर {n} टिप्पणियाँ",
+ "Nothing to answer right now": "अभी जवाब देने को कुछ नहीं",
+ "1 unhappy — answer soon": "1 नाखुश — जल्दी जवाब दें",
+ "{n} unhappy — answer soon": "{n} नाखुश — जल्दी जवाब दें"
 }
