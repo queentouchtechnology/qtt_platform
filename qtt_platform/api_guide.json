@@ -4018,6 +4018,38 @@
    "status": "Not described"
   },
   {
+   "endpoint": "qtt_platform.api.admin_people.people",
+   "product": "Platform",
+   "area": "api.admin_people",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "QTT Admin › People: everyone in every business (most recently seen first), with counts for the filters. `show`: all | active (used the app in the last 30 days) | quiet (not in 30 days) | never (never opened it).",
+   "details": "QTT Admin › People: everyone in every business (most recently seen first), with counts for the filters.\n`show`: all | active (used the app in the last 30 days) | quiet (not in 30 days) | never (never opened it).",
+   "arguments": "q, show, start",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.people",
+   "screens": "admin/people_view.dart › _PeopleViewState\nplatform/team/team_call.dart › _ControlSheet\nplatform/team/team_call.dart › _ControlSheetState\nplatform/team/team_chat_page.dart › _TeamChatPageState\nplatform/team/team_hub.dart › _TeamSearchPageState\nplatform/team/team_screen.dart › _NewSheet\nplatform/team/team_sheets.dart › NewChannelPage\nplatform/team/team_sheets.dart › PickPeople\nplatform/team/team_sheets.dart › TeamChannelInfoPage\nplatform/team/team_sheets.dart › _NewChannelPageState\nplatform/team/team_sheets.dart › _PickPeopleState\nplatform/team/team_sheets.dart › _TaskSheetState\nplatform/workplace/files_more.dart › _RuleSheet\nplatform/workplace/files_more.dart › _RuleSheetState\nplatform/workplace/remote_page.dart › _ComputerFormState\nplatform/workplace/remote_page.dart › _SetupComputerPageState\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/office_pulse/repository.dart › PulseRepository\nproducts/office_pulse/screens/devices_view.dart › _PinRow\nproducts/office_pulse/screens/home_view.dart › PulseHomeView\nproducts/office_pulse/screens/pattern_who.dart › PatternWho\nproducts/office_pulse/screens/pattern_who.dart › _PatternWhoState\nproducts/office_pulse/screens/people_view.dart › _PeopleViewState\nproducts/office_pulse/screens/pulse_shell.dart › PulseShell\nshared/widgets/paged_list.dart › (top level)\nshell/home_shell.dart › _HomeShellState\nshell/needs_you.dart › _NeedsYouPageState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/admin_people.py:87",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.admin_people.person",
+   "product": "Platform",
+   "area": "api.admin_people",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "QTT Admin › People › one person: businesses and roles, sign-in, each app's use and their last 30 days day by day, and their latest 50 actions (screens opened, sign-ins…).",
+   "details": "QTT Admin › People › one person: businesses and roles, sign-in, each app's use and their last 30 days day by\nday, and their latest 50 actions (screens opened, sign-ins…).",
+   "arguments": "user",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.person",
+   "screens": "admin/people_view.dart › PersonScreen\nadmin/people_view.dart › _PersonRow\nplatform/team/team_call.dart › (top level)\nplatform/team/team_call.dart › _Tile\nplatform/team/team_chat_page.dart › _MessageTileState\nplatform/team/team_hub.dart › TeamSearchPage\nplatform/team/team_hub.dart › _HubRow\nplatform/team/team_hub.dart › _TeamActivityPageState\nplatform/team/team_hub.dart › _TeamSearchPageState\nplatform/team/team_kit.dart › PresenceAvatar\nplatform/workplace/boards_page.dart › _BoardPageState\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/office_pulse/screens/people_view.dart › _PeopleViewState\nproducts/office_pulse/screens/people_view.dart › _PersonDetailState\nshell/home_shell.dart › _HomeShellState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/admin_people.py:125",
+   "status": "OK"
+  },
+  {
    "endpoint": "qtt_platform.api.ai.generate",
    "product": "Platform",
    "area": "api.ai",
