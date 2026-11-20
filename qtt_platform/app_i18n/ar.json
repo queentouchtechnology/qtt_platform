@@ -8964,5 +8964,8 @@
  "Usual {p50} · slow ones {p95} · {n} times": "عادةً {p50} · البطيئة {p95} · {n} مرة",
  "{n}% faster": "أسرع بـ {n}%",
  "{n}% slower": "أبطأ بـ {n}%",
- "“Before” = {from} to {to} (UTC)": "“قبل” = من {from} إلى {to} (UTC)"
+ "“Before” = {from} to {to} (UTC)": "“قبل” = من {from} إلى {to} (UTC)",
+ "Updated {n} min ago": "حُدّث قبل {n} دقيقة",
+ "Updated {n} h ago": "حُدّث قبل {n} ساعة",
+ "Updated {n} days ago": "حُدّث قبل {n} يوم"
 }

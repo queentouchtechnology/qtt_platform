@@ -8964,5 +8964,8 @@
  "Usual {p50} · slow ones {p95} · {n} times": "வழக்கமாக {p50} · மெதுவானவை {p95} · {n} முறை",
  "{n}% faster": "{n}% வேகமாக",
  "{n}% slower": "{n}% மெதுவாக",
- "“Before” = {from} to {to} (UTC)": "“முன்பு” = {from} முதல் {to} வரை (UTC)"
+ "“Before” = {from} to {to} (UTC)": "“முன்பு” = {from} முதல் {to} வரை (UTC)",
+ "Updated {n} min ago": "{n} நிமிடம் முன் புதுப்பிக்கப்பட்டது",
+ "Updated {n} h ago": "{n} மணி முன் புதுப்பிக்கப்பட்டது",
+ "Updated {n} days ago": "{n} நாள் முன் புதுப்பிக்கப்பட்டது"
 }

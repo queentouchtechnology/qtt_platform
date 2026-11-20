@@ -8964,5 +8964,8 @@
  "Usual {p50} · slow ones {p95} · {n} times": "आमतौर पर {p50} · धीमे {p95} · {n} बार",
  "{n}% faster": "{n}% तेज़",
  "{n}% slower": "{n}% धीमा",
- "“Before” = {from} to {to} (UTC)": "“पहले” = {from} से {to} (UTC)"
+ "“Before” = {from} to {to} (UTC)": "“पहले” = {from} से {to} (UTC)",
+ "Updated {n} min ago": "{n} मिनट पहले अपडेट",
+ "Updated {n} h ago": "{n} घंटे पहले अपडेट",
+ "Updated {n} days ago": "{n} दिन पहले अपडेट"
 }

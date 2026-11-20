@@ -1708,7 +1708,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.bootstrap",
-   "screens": "products/office_pulse/office_pulse_root.dart › PulseState\nproducts/onbox/onbox_provider.dart › OnboxProvider\nproducts/onbox/onbox_repository.dart › OnboxRepository\nproducts/onbox/screens/conversation_actions.dart › ConversationActions\nproducts/onbox/screens/conversation_list_pane.dart › OnboxMenuButton\nproducts/onbox/screens/onbox_hub.dart › _InboxHubState\nproducts/onbox/screens/onbox_shell.dart › _InboxShellState\nproducts/onbox/screens/setup_view.dart › SetupView\nproducts/orbitra/orbitra_root.dart › OrbitraState\nproducts/orbitra/repository.dart › OrbitraRepository",
+   "screens": "core/offline/freshness.dart › (top level)\nproducts/office_pulse/office_pulse_root.dart › PulseState\nproducts/onbox/onbox_provider.dart › OnboxProvider\nproducts/onbox/onbox_repository.dart › OnboxRepository\nproducts/onbox/screens/conversation_actions.dart › ConversationActions\nproducts/onbox/screens/conversation_list_pane.dart › OnboxMenuButton\nproducts/onbox/screens/onbox_hub.dart › _InboxHubState\nproducts/onbox/screens/onbox_shell.dart › _InboxShellState\nproducts/onbox/screens/setup_view.dart › SetupView\nproducts/orbitra/orbitra_root.dart › OrbitraState\nproducts/orbitra/repository.dart › OrbitraRepository",
    "other_callers": "",
    "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/session.py:14",
    "status": "Not described"
@@ -2684,7 +2684,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/onbox/onbox_repository.dart › OnboxRepository.bootstrap",
-   "screens": "products/office_pulse/office_pulse_root.dart › PulseState\nproducts/office_pulse/repository.dart › PulseRepository\nproducts/onbox/onbox_provider.dart › OnboxProvider\nproducts/onbox/screens/conversation_actions.dart › ConversationActions\nproducts/onbox/screens/conversation_list_pane.dart › OnboxMenuButton\nproducts/onbox/screens/onbox_hub.dart › _InboxHubState\nproducts/onbox/screens/onbox_shell.dart › _InboxShellState\nproducts/onbox/screens/setup_view.dart › SetupView\nproducts/orbitra/orbitra_root.dart › OrbitraState\nproducts/orbitra/repository.dart › OrbitraRepository",
+   "screens": "core/offline/freshness.dart › (top level)\nproducts/office_pulse/office_pulse_root.dart › PulseState\nproducts/office_pulse/repository.dart › PulseRepository\nproducts/onbox/onbox_provider.dart › OnboxProvider\nproducts/onbox/screens/conversation_actions.dart › ConversationActions\nproducts/onbox/screens/conversation_list_pane.dart › OnboxMenuButton\nproducts/onbox/screens/onbox_hub.dart › _InboxHubState\nproducts/onbox/screens/onbox_shell.dart › _InboxShellState\nproducts/onbox/screens/setup_view.dart › SetupView\nproducts/orbitra/orbitra_root.dart › OrbitraState\nproducts/orbitra/repository.dart › OrbitraRepository",
    "other_callers": "",
    "source": "qtt-os/qtt_onbox/qtt_onbox/api/session.py:18",
    "status": "Not described"
@@ -3580,7 +3580,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.bootstrap",
-   "screens": "products/office_pulse/office_pulse_root.dart › PulseState\nproducts/office_pulse/repository.dart › PulseRepository\nproducts/onbox/onbox_provider.dart › OnboxProvider\nproducts/onbox/onbox_repository.dart › OnboxRepository\nproducts/onbox/screens/conversation_actions.dart › ConversationActions\nproducts/onbox/screens/conversation_list_pane.dart › OnboxMenuButton\nproducts/onbox/screens/onbox_hub.dart › _InboxHubState\nproducts/onbox/screens/onbox_shell.dart › _InboxShellState\nproducts/onbox/screens/setup_view.dart › SetupView\nproducts/orbitra/orbitra_root.dart › OrbitraState",
+   "screens": "core/offline/freshness.dart › (top level)\nproducts/office_pulse/office_pulse_root.dart › PulseState\nproducts/office_pulse/repository.dart › PulseRepository\nproducts/onbox/onbox_provider.dart › OnboxProvider\nproducts/onbox/onbox_repository.dart › OnboxRepository\nproducts/onbox/screens/conversation_actions.dart › ConversationActions\nproducts/onbox/screens/conversation_list_pane.dart › OnboxMenuButton\nproducts/onbox/screens/onbox_hub.dart › _InboxHubState\nproducts/onbox/screens/onbox_shell.dart › _InboxShellState\nproducts/onbox/screens/setup_view.dart › SetupView\nproducts/orbitra/orbitra_root.dart › OrbitraState",
    "other_callers": "",
    "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/session.py:11",
    "status": "Not described"

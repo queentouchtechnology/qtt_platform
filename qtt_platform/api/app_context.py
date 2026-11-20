@@ -50,19 +50,31 @@ def get_app_context() -> dict:
 		except Exception:
 			frappe.log_error(title=f"qtt_platform: ensure_included {active_membership['tenant']}")
 
+	products = _products(active_membership) if active_membership else []
+	can = _abilities(active_membership)
+	is_owner = PLATFORM_OWNER_ROLE in frappe.get_roles(user)
 	return {
+		# What this person may see here, as one short value: the app wipes its saved copies when it changes (role,
+		# app access, abilities) — never business data, only who-may-see-what.
+		"access": access_fingerprint(
+			tenant=active_membership["tenant"] if active_membership else None,
+			tenant_role=active_membership["tenant_role"] if active_membership else None,
+			products=products,
+			can=can,
+			platform_owner=is_owner,
+		),
 		"user": {
 			"id": user,
 			"full_name": profile.get("full_name") or user,
 			"image": _photo(user),  # a full URL (their photo, else their employee photo)
-			"is_platform_owner": PLATFORM_OWNER_ROLE in frappe.get_roles(user),
+			"is_platform_owner": is_owner,
 		},
 		"workspaces": memberships,
 		"active_workspace": active_membership["tenant"] if active_membership else None,
-		"products": _products(active_membership) if active_membership else [],
+		"products": products,
 		"can_manage_workspace": bool(active_membership and active_membership["tenant_role"] in _GOVERNANCE_ROLES),
 		# What this person may see in the business (qtt_platform.abilities): the app shows only these.
-		"can": _abilities(active_membership),
+		"can": can,
 		# Owner/Admin: every product the workspace subscribes to, so Team and
 		# Plans can hand out access even before anyone has it.
 		"workspace_products": _workspace_products(active_membership["tenant"])
@@ -70,6 +82,22 @@ def get_app_context() -> dict:
 		else [],
 		"realtime": {"context_event": CONTEXT_CHANGED_EVENT},
 	}
+
+
+def access_fingerprint(*, tenant, tenant_role, products, can, platform_owner) -> str:
+	"""A short value that changes whenever what this person may see changes (business, role, each app's role,
+	abilities, platform owner) — not with subscriptions or dates."""
+	import hashlib
+	import json
+
+	shape = {
+		"t": tenant,
+		"r": tenant_role,
+		"p": sorted([str(p.get("product")), str(p.get("role"))] for p in products or []),
+		"c": can or {},
+		"o": bool(platform_owner),
+	}
+	return hashlib.sha1(json.dumps(shape, sort_keys=True, default=str).encode()).hexdigest()[:16]
 
 
 def _memberships(user: str) -> list[dict]:
