@@ -181,7 +181,7 @@ after_migrate = ["qtt_platform.app_setup.seed_app_defaults", "qtt_platform.studi
 
 # Kept by a full cache clear (deploys, migrate, bench clear-cache): each person's chosen
 # business. Without it every request after a deploy fails with "Choose your business first".
-persistent_cache_keys = ["qtt_active_tenant"]
+persistent_cache_keys = ["qtt_active_tenant", "qtt_perf|"]  # Speed: the noted times survive a full cache clear until rolled up
 permission_query_conditions = {}
 has_permission = {}
 
