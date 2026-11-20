@@ -1,0 +1,31 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Perf Hour",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "quick_entry": 0,
+ "track_changes": 0,
+ "sort_field": "hour",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "description": "How long one call (or one app screen) took in one hour: counts and a time histogram (QTT Admin › Servers › Speed). Kept 90 days.",
+ "field_order": ["hour", "source", "call", "calls", "errors", "copies", "p50", "p95", "hist"],
+ "fields": [
+  {"fieldname": "hour", "fieldtype": "Datetime", "label": "Hour (UTC)", "reqd": 1, "in_list_view": 1, "in_standard_filter": 1, "search_index": 1},
+  {"fieldname": "source", "fieldtype": "Select", "label": "From", "options": "app\nother\nscreen", "reqd": 1, "in_list_view": 1, "in_standard_filter": 1},
+  {"fieldname": "call", "fieldtype": "Data", "label": "Call or screen", "length": 140, "reqd": 1, "in_list_view": 1, "in_standard_filter": 1},
+  {"fieldname": "calls", "fieldtype": "Int", "label": "Calls", "in_list_view": 1},
+  {"fieldname": "errors", "fieldtype": "Int", "label": "Server errors"},
+  {"fieldname": "copies", "fieldtype": "Int", "label": "Shown from a saved copy"},
+  {"fieldname": "p50", "fieldtype": "Int", "label": "p50 (ms)", "in_list_view": 1},
+  {"fieldname": "p95", "fieldtype": "Int", "label": "p95 (ms)", "in_list_view": 1},
+  {"fieldname": "hist", "fieldtype": "Long Text", "label": "Histogram (JSON)"}
+ ],
+ "permissions": [
+  {"role": "System Manager", "read": 1, "write": 0, "create": 0, "delete": 1, "report": 1, "export": 1}
+ ],
+ "links": [],
+ "autoname": "hash"
+}

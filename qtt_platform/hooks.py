@@ -335,8 +335,13 @@ tenant_dynamic_parent_links = {}
 # more than sufficient — none of them govern anything sub-daily (a
 # trial/billing-cycle boundary is date-granular already).
 # --------------------------------------------------------------------------
+# QTT Admin › Servers › Speed: every API call's time (which call, how long, status — never the data), qtt_platform.api.perf.
+before_request = ["qtt_platform.api.perf.start"]
+after_request = ["qtt_platform.api.perf.record"]
+
 scheduler_events = {
 	"cron": {
+		"7 * * * *": ["qtt_platform.api.perf.roll_up"],  # Speed: each finished hour → QTT Perf Hour rows
 		# QTT Admin → Servers: servers that stop reporting become offline.
 		# Marketing approvals: reminders before the deadline, QTT's decision at it.
 		# Team: reminders on saved messages.
@@ -375,6 +380,7 @@ scheduler_events = {
 		# Keeps yesterday's marketing report as it was (QTT Admin → Marketing).
 		"qtt_platform.api.marketing_dashboard.snapshot_yesterday",
 		"qtt_platform.api.servers.purge_reports",
+		"qtt_platform.api.perf.purge",  # Speed: hours older than 90 days
 		"qtt_platform.api.usage_dashboard.purge_snapshots",
 		# Push devices not seen for 120 days (QTT Push Device).
 		"qtt_platform.api.devices.prune_stale",
