@@ -108,6 +108,12 @@ required_apps = []
 #     re-derives `tenant` from the referenced membership on every save, a
 #     stronger, self-healing guarantee.
 doc_events = {
+    # Content Hub › Leads (api/leads.py): a Frappe CRM record made without a business gets its lead's, else QTT's own.
+    "CRM Lead": {"before_insert": "qtt_platform.api.leads.default_tenant"},
+    "CRM Deal": {"before_insert": "qtt_platform.api.leads.default_tenant"},
+    "CRM Task": {"before_insert": "qtt_platform.api.leads.default_tenant"},
+    "FCRM Note": {"before_insert": "qtt_platform.api.leads.default_tenant"},
+    "CRM Call Log": {"before_insert": "qtt_platform.api.leads.default_tenant"},
     # Free use (PROJ-0024): past the free designs, a new one asks to subscribe.
     "QTT Design": {"before_insert": "qtt_platform.api.free_use.guard_new_design"},
     # The public price list (api/public_pricing.py) shows a saved price at once.
@@ -170,7 +176,8 @@ after_install = "qtt_platform.app_setup.seed_app_defaults"
 # QTT Studio registers first, so house workspaces get it in the same migrate.
 after_migrate = ["qtt_platform.app_setup.seed_app_defaults", "qtt_platform.studio.setup.register", "qtt_platform.one_plan.register", "qtt_platform.house.ensure_all",
 	"qtt_platform.api_guide.sync", "qtt_platform.design.library.sync", "qtt_platform.design.library.sync_occasions",
-	"qtt_platform.api.security.ensure_setup", "qtt_platform.feature_access.sync", "qtt_platform.emails.sync", "qtt_platform.app_map.publish"]
+	"qtt_platform.api.security.ensure_setup", "qtt_platform.feature_access.sync", "qtt_platform.emails.sync", "qtt_platform.app_map.publish",
+	"qtt_platform.api.leads.setup"]
 
 # Kept by a full cache clear (deploys, migrate, bench clear-cache): each person's chosen
 # business. Without it every request after a deploy fails with "Choose your business first".

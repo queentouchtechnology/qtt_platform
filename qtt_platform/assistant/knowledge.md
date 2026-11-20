@@ -1397,14 +1397,34 @@ open it from that service).
   Series and Autopilot) · Posts and people (All posts, Post history, Comments
   and reviews) · Pages and brand (Your pages, Business knowledge) · Plan and
   settings (owners: Plan and posts left). Articles and newsletters are not here
-  — they have their own dashboard (Home › Articles & newsletters).
-- **Articles & newsletters** (Home › the Articles & newsletters tile): their own
-  dashboard, apart from social media, with tabs **Overview · Articles ·
-  Newsletter · Series**. Overview: what needs your OK (articles and
-  newsletters), articles this month (used of the package's) and the next one
-  (**Open**), subscribers and the next newsletter (**Check**), **Write an
-  article**. A package without them shows a locked card saying which plan
-  (Articles: Growth and Pro; Newsletter: Pro) — owners tap it for the plans.
+  — they have their own place (Home › Articles & newsletters › Content Hub).
+- **Content Hub** (Home › the Articles & newsletters tile): articles,
+  newsletters and leads in one place, with three tabs at the top —
+  **Articles · Newsletters · Leads** — and **Settings** (top right).
+  Articles: **Needs you** (drafts — tap **Check**), **On your website** (Live,
+  Scheduled), and **New article**: say what it should be about in one line (or
+  pick an idea), **Write it**, then check it, add your picture, pick the day and
+  **Approve**. Newsletters: how many people get it (**See or add people**),
+  **Needs you**, **Sent**, and **New newsletter**: **My latest articles** or
+  **An offer or news** (one line), **Make it**, check it, **Send me a test
+  first**, **Approve**. A package without them shows a locked card saying which
+  plan (Articles: Growth and Pro; Newsletters: Pro) — owners tap it for the
+  plans. Settings: **Write on its own** (article and newsletter series), **Who
+  gets the newsletter**, **Business knowledge**, **Customers**.
+- **Leads** (Content Hub › Leads): **To do** (a next step due today or
+  overdue, and new leads to say hello to), **All**, **Won**. **Add a lead**:
+  name, phone or WhatsApp (or email), what they want, value, where it came
+  from — the same phone or email opens the lead already there. One lead: its
+  stage (New → Talking → Quote sent → Won), **Call** and **WhatsApp**, the
+  **Next step** (**Done**), **What happened** (write a call, a visit or what
+  they said; writing one moves a New lead to Talking). **Send the quote**:
+  what, how many, price each, GST (0, 5, 12, 18 or 28%) → WhatsApp opens with
+  the quote as a short message, and a reminder to ask about it comes in two
+  days. **Remind me later**: in 2 hours, tomorrow morning, next week or a day
+  you pick — it shows on To do that day. **Won or lost**: Won adds them to
+  Customers; Lost asks why (price too high, went elsewhere, stopped replying,
+  other). Everyone who works with customers can use Leads. It runs on the CRM
+  (leads, deals, tasks and notes), so QTT staff see the same in the CRM.
 - **Posts and pages** (Social media › More › All posts or Your pages): each
   page with its own numbers (tap a page to connect it again or disconnect it;
   **Add page**); **Your posts** with tabs Waiting for your OK, Scheduled,
