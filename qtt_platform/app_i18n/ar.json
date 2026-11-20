@@ -8935,5 +8935,12 @@
  "Phone Call": "مكالمة هاتفية",
  "Website Form": "نموذج الموقع",
  "Reference": "إحالة",
- "Lead Engine": "محرك العملاء المحتملين"
+ "Lead Engine": "محرك العملاء المحتملين",
+ "Answered at once, then on days 1, 3 and 7 — stops when they reply": "رد فوري، ثم في الأيام 1 و3 و7 — يتوقف عندما يردون",
+ "Answered on WhatsApp — we follow up until they reply.": "تم الرد عبر واتساب — سنتابع حتى يردوا.",
+ "Comes with AI & WhatsApp Automation": "متوفر مع أتمتة الذكاء الاصطناعي وواتساب",
+ "Follow up new leads on WhatsApp": "تابع العملاء المحتملين الجدد عبر واتساب",
+ "It goes on WhatsApp with a short message and the quote as a PDF in your business's look. We remind you to ask about it in two days.": "يُرسل عبر واتساب مع رسالة قصيرة وعرض السعر بصيغة PDF بهوية نشاطك التجاري. سنذكّرك بالسؤال عنه بعد يومين.",
+ "Open the PDF": "افتح ملف PDF",
+ "Reply to them — they answered on WhatsApp": "رد عليهم — أجابوا عبر واتساب"
 }

@@ -106,6 +106,14 @@ class QuoteTest(unittest.TestCase):
 		self.assertIn("• GST 5% — ₹50", m)
 		self.assertIn("Total: ₹1,050", m)
 		self.assertTrue(m.endswith("Thank you — Sri Sweets"))
+		self.assertNotIn("PDF", m)
+		m2 = r.quote_message("Karthik", "Sri Sweets", q, pdf_url="https://x.in/files/Quote-ab.pdf")
+		self.assertIn("The quote (PDF): https://x.in/files/Quote-ab.pdf", m2)
+
+	def test_phone_key(self):
+		self.assertEqual(r.phone_key("+91 98400 12345"), "9840012345")
+		self.assertEqual(r.phone_key("098400-12345"), "9840012345")
+		self.assertEqual(r.phone_key("12345"), "")
 
 
 if __name__ == "__main__":

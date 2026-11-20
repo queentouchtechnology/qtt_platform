@@ -1419,11 +1419,18 @@ open it from that service).
   **Next step** (**Done**), **What happened** (write a call, a visit or what
   they said; writing one moves a New lead to Talking). **Send the quote**:
   what, how many, price each, GST (0, 5, 12, 18 or 28%) → WhatsApp opens with
-  the quote as a short message, and a reminder to ask about it comes in two
-  days. **Remind me later**: in 2 hours, tomorrow morning, next week or a day
+  the quote as a short message and a link to the quote as a PDF in the
+  business's own look (logo, colour, address, GSTIN, bank and UPI from the
+  Business profile); **Open the PDF** on the lead shows it again. A reminder
+  to ask about it comes in two days. **Remind me later**: in 2 hours, tomorrow morning, next week or a day
   you pick — it shows on To do that day. **Won or lost**: Won adds them to
   Customers; Lost asks why (price too high, went elsewhere, stopped replying,
-  other). Everyone who works with customers can use Leads. It runs on the CRM
+  other). Website enquiries come in as leads by themselves. **Follow up new
+  leads on WhatsApp** (Content Hub › Settings — the Lead follow-up automation,
+  with AI & WhatsApp Automation): a new lead with a phone number (added here or
+  from the website) is answered at once, then followed up on days 1, 3 and 7;
+  when they reply, the lead moves to Talking with what they said and a next
+  step to reply to them. Everyone who works with customers can use Leads. It runs on the CRM
   (leads, deals, tasks and notes), so QTT staff see the same in the CRM.
 - **Posts and pages** (Social media › More › All posts or Your pages): each
   page with its own numbers (tap a page to connect it again or disconnect it;

@@ -8935,5 +8935,12 @@
  "Phone Call": "தொலைபேசி அழைப்பு",
  "Website Form": "இணையதளப் படிவம்",
  "Reference": "பரிந்துரை",
- "Lead Engine": "லீட் எஞ்சின்"
+ "Lead Engine": "லீட் எஞ்சின்",
+ "Answered at once, then on days 1, 3 and 7 — stops when they reply": "உடனே பதில், பிறகு 1, 3, 7-ஆம் நாட்களில் — அவர்கள் பதிலளித்ததும் நிற்கும்",
+ "Answered on WhatsApp — we follow up until they reply.": "WhatsApp-இல் பதில் அனுப்பப்பட்டது — அவர்கள் பதிலளிக்கும் வரை பின்தொடர்வோம்.",
+ "Comes with AI & WhatsApp Automation": "AI & WhatsApp தானியக்கத்துடன் வரும்",
+ "Follow up new leads on WhatsApp": "புதிய லீடுகளை WhatsApp-இல் பின்தொடரவும்",
+ "It goes on WhatsApp with a short message and the quote as a PDF in your business's look. We remind you to ask about it in two days.": "இது ஒரு சிறு செய்தியுடனும் உங்கள் வணிகத் தோற்றத்தில் PDF விலைப்புள்ளியுடனும் WhatsApp-இல் செல்லும். இரண்டு நாட்களில் இதைப் பற்றிக் கேட்க நினைவூட்டுவோம்.",
+ "Open the PDF": "PDF-ஐத் திறக்கவும்",
+ "Reply to them — they answered on WhatsApp": "அவர்களுக்குப் பதிலளிக்கவும் — WhatsApp-இல் பதில் வந்தது"
 }

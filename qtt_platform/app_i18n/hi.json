@@ -8935,5 +8935,12 @@
  "Phone Call": "फ़ोन कॉल",
  "Website Form": "वेबसाइट फ़ॉर्म",
  "Reference": "रेफ़रल",
- "Lead Engine": "लीड इंजन"
+ "Lead Engine": "लीड इंजन",
+ "Answered at once, then on days 1, 3 and 7 — stops when they reply": "तुरंत जवाब, फिर दिन 1, 3 और 7 पर — जवाब आते ही रुक जाता है",
+ "Answered on WhatsApp — we follow up until they reply.": "WhatsApp पर जवाब भेज दिया — जवाब आने तक हम फ़ॉलो-अप करेंगे।",
+ "Comes with AI & WhatsApp Automation": "AI और WhatsApp ऑटोमेशन के साथ आता है",
+ "Follow up new leads on WhatsApp": "नई लीड का WhatsApp पर फ़ॉलो-अप करें",
+ "It goes on WhatsApp with a short message and the quote as a PDF in your business's look. We remind you to ask about it in two days.": "यह एक छोटे संदेश और आपके बिज़नेस के रूप में PDF कोटेशन के साथ WhatsApp पर जाता है। दो दिन में हम आपको इसके बारे में पूछने की याद दिलाएँगे।",
+ "Open the PDF": "PDF खोलें",
+ "Reply to them — they answered on WhatsApp": "उन्हें जवाब दें — उन्होंने WhatsApp पर जवाब दिया"
 }

@@ -108,6 +108,12 @@ def _text(v, limit: int) -> str:
 	return re.sub(r"\s+", " ", str(v or "")).strip()[:limit]
 
 
+def phone_key(value) -> str:
+	"""The last 10 digits — the same number whether written +91 98…, 098… or 98…."""
+	digits = re.sub(r"[^0-9]", "", str(value or ""))
+	return digits[-10:] if len(digits) >= 10 else ""
+
+
 def clean_phone(v) -> str | None:
 	digits = re.sub(r"[^\d+]", "", str(v or ""))
 	if not digits:
@@ -198,8 +204,8 @@ def money(v: float, currency: str = "INR") -> str:
 	return f"{sign}{symbol}{whole}" + (f".{frac}" if frac != "00" else "")
 
 
-def quote_message(customer: str, business: str, quote: dict, currency: str = "INR") -> str:
-	"""The short WhatsApp message that carries the quote."""
+def quote_message(customer: str, business: str, quote: dict, currency: str = "INR", pdf_url: str | None = None) -> str:
+	"""The short WhatsApp message that carries the quote (and its PDF's link)."""
 	lines = [f"Hello {customer}, here is our quote:", ""]
 	for r in quote["rows"]:
 		qty = int(r["qty"]) if float(r["qty"]).is_integer() else r["qty"]
@@ -207,5 +213,8 @@ def quote_message(customer: str, business: str, quote: dict, currency: str = "IN
 	if quote["tax"]:
 		gst = int(quote["gst"]) if float(quote["gst"]).is_integer() else quote["gst"]
 		lines.append(f"• GST {gst}% — {money(quote['tax'], currency)}")
-	lines += ["", f"Total: {money(quote['total'], currency)}", "", f"Thank you — {business}"]
+	lines += ["", f"Total: {money(quote['total'], currency)}"]
+	if pdf_url:
+		lines += ["", f"The quote (PDF): {pdf_url}"]
+	lines += ["", f"Thank you — {business}"]
 	return "\n".join(lines)

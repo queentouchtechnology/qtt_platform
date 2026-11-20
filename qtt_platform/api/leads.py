@@ -223,7 +223,7 @@ def _lead_out(tenant: str, doc) -> dict:
 	quote = None
 	if dt == DEAL and doc.get("products"):
 		quote = {"rows": [{"name": p.product_name, "qty": p.qty, "rate": p.rate, "amount": p.amount} for p in doc.products],
-				 "total": doc.get("deal_value") or doc.get("net_total") or 0}
+				 "total": doc.get("deal_value") or doc.get("net_total") or 0, "pdf_url": _latest_pdf(doc.name)}
 	value = doc.get("deal_value") if dt == DEAL else doc.get("annual_revenue")
 	return {
 		"id": _id(dt, doc.name), "name": _display(doc), "need": doc.get("qtt_need"), "stage": st, "status": doc.status,
@@ -248,17 +248,89 @@ def add(data) -> dict:
 		v = rules.clean_lead(data)
 	except rules.LeadError as e:
 		_err(e)
-	for field in ("mobile_no", "email"):
-		if v.get(field):
-			same = frappe.db.get_value(LEAD, {TENANT: tenant, field: v[field], "converted": 0}, "name")
-			if same:
-				return {"id": _id(LEAD, same), "existing": True}
+	same = _open_by_contact(tenant, v.get("mobile_no"), v.get("email"))
+	if same:
+		return {"id": _id(*same), "existing": True}
 	doc = frappe.get_doc({"doctype": LEAD, TENANT: tenant, "status": "New", "lead_owner": frappe.session.user,
 						  **{k: val for k, val in v.items() if val is not None}})
 	doc.insert(ignore_permissions=True)
 	if (data.get("note") or "").strip():
 		_note(tenant, LEAD, doc.name, data["note"].strip())
-	return {"id": _id(LEAD, doc.name), "existing": False}
+	following = _start_follow_up(tenant, doc, source="Content Hub")
+	return {"id": _id(LEAD, doc.name), "existing": False, "following": following}
+
+
+def _start_follow_up(tenant: str, doc, *, source: str, message: str | None = None) -> bool:
+	"""Lead follow-up (AI & WhatsApp automation), when the business has it on: answered at once on WhatsApp, then days 1,
+	3 and 7 until they reply. Noted on the lead."""
+	if not doc.get("mobile_no"):
+		return False
+	try:
+		from qtt_services.api.automations import follow_up
+	except ImportError:
+		return False
+	try:
+		sent = follow_up(tenant, name=_display(doc), phone=doc.mobile_no, email=doc.get("email"), about=doc.get("qtt_need"), message=message,
+						 source=source)
+	except Exception:
+		frappe.log_error(title="Leads: follow-up not started")
+		return False
+	if sent:
+		_note(tenant, LEAD, doc.name, "Answered on WhatsApp — follow-ups on days 1, 3 and 7 until they reply.", "WhatsApp")
+	return sent
+
+
+def from_enquiry(tenant: str, data: dict) -> str | None:
+	"""A website enquiry (store hooks) is a lead in the Content Hub too — the same phone or email adds a note to the open
+	one instead. Lead follow-up itself starts in qtt_services (on_enquiry)."""
+	name = " ".join(str(data.get("name") or "").split())[:140]
+	try:
+		phone = rules.clean_phone(data.get("phone"))
+	except rules.LeadError:
+		phone = None
+	try:
+		email = rules.clean_email(data.get("email"))
+	except rules.LeadError:
+		email = None
+	if not (phone or email):
+		return None
+	text = " ".join(x for x in (str(data.get("choice") or "").strip(), str(data.get("message") or "").strip()) if x)[:2000]
+	same = _open_by_contact(tenant, phone, email)
+	if same:
+		if text:
+			_note(tenant, same[0], same[1], text, "Website")
+		return same[1]
+	first, _sep, last = (name or phone or email).partition(" ")
+	doc = frappe.get_doc({"doctype": LEAD, TENANT: tenant, "status": "New", "first_name": first, "last_name": last or None, "mobile_no": phone,
+						  "email": email, "source": "Website Form", "qtt_need": str(data.get("choice") or "").strip()[:140] or None})
+	doc.insert(ignore_permissions=True)
+	if text:
+		_note(tenant, LEAD, doc.name, text, "Website")
+	return doc.name
+
+
+def _open_by_contact(tenant: str, phone: str | None, email: str | None) -> tuple[str, str] | None:
+	"""The open lead or deal with this phone (last 10 digits) or email."""
+	key = rules.phone_key(phone)
+	for dt, extra in ((LEAD, {"converted": 0}), (DEAL, {"status": ["not in", ["Won", "Lost"]]})):
+		for r in frappe.get_all(dt, filters={TENANT: tenant, **extra}, fields=["name", "mobile_no", "email"], order_by="modified desc", limit=0):
+			if (key and rules.phone_key(r.mobile_no) == key) or (email and (r.email or "").lower() == email):
+				return dt, r.name
+	return None
+
+
+def on_reply(tenant: str, phone: str, message: str | None) -> None:
+	"""Lead follow-up: the customer replied on WhatsApp — the lead moves to Talking with what they said, and its next step
+	is to reply to them."""
+	same = _open_by_contact(tenant, phone, None)
+	if not same:
+		return
+	dt, name = same
+	_note(tenant, dt, name, (message or "").strip()[:2000] or "Replied", "WhatsApp")
+	if dt == LEAD and frappe.db.get_value(LEAD, name, "status") == "New":
+		frappe.db.set_value(LEAD, name, "status", "Contacted")
+	_close_tasks(tenant, dt, name, "Canceled")
+	_task(tenant, dt, name, "Reply to them — they answered on WhatsApp", now_datetime())
 
 
 @frappe.whitelist(methods=["POST"])
@@ -344,13 +416,114 @@ def quote(id: str, lines, gst=0) -> dict:
 		_close_tasks(tenant, DEAL, deal.name, "Done")
 	currency = _currency(tenant)
 	business = frappe.db.get_value("QTT Tenant", tenant, "tenant_name") or ""
-	message = rules.quote_message(_display(deal).split(" ")[0] or _display(deal), business, q, currency)
+	pdf_url = None
+	try:
+		pdf_url = _quote_pdf(tenant, deal, q, currency)
+	except Exception:
+		frappe.log_error(title="Leads: quote PDF failed")  # the message still goes, without the link
+	message = rules.quote_message(_display(deal).split(" ")[0] or _display(deal), business, q, currency, pdf_url=pdf_url)
 	_note(tenant, DEAL, deal.name, f"Quote · {rules.money(q['total'], currency)}", "Quote")
 	follow_up = now_datetime().replace(hour=10, minute=0, second=0, microsecond=0) + timedelta(days=2)
 	_task(tenant, DEAL, deal.name, "Ask if the quote is OK", follow_up)
 	out = _lead_out(tenant, frappe.get_doc(DEAL, deal.name))
 	out["message"] = message
+	out["pdf_url"] = pdf_url
 	return out
+
+
+_QUOTE_HTML = """
+<div style="font-family: Helvetica, Arial, sans-serif; color: #1E293B; font-size: 12px; padding: 8px 4px">
+  <table style="width: 100%; border-collapse: collapse"><tr>
+    <td style="vertical-align: top">
+      {% if b.logo %}<img src="{{ logo }}" style="max-height: 56px; max-width: 180px; margin-bottom: 6px"><br>{% endif %}
+      <div style="font-size: 18px; font-weight: bold; color: {{ b.color }}">{{ b.name }}</div>
+      {% if b.tagline %}<div style="color: #64748B">{{ b.tagline }}</div>{% endif %}
+      {% for line in b.address %}<div style="color: #64748B">{{ line }}</div>{% endfor %}
+      {% if b.gstin %}<div style="color: #64748B">GSTIN {{ b.gstin }}</div>{% endif %}
+      <div style="color: #64748B">{{ [b.phone, b.email, b.website] | select | join(" · ") }}</div>
+    </td>
+    <td style="vertical-align: top; text-align: right">
+      <div style="font-size: 22px; font-weight: bold; color: {{ b.color }}">QUOTATION</div>
+      <div style="color: #64748B">{{ number }}</div>
+      <div style="color: #64748B">{{ date }}</div>
+      <div style="color: #64748B">Valid for 15 days</div>
+    </td>
+  </tr></table>
+  <div style="margin: 18px 0 10px; padding: 10px 12px; background: #F5F8FF; border-radius: 6px">
+    <div style="color: #64748B; font-size: 11px">FOR</div>
+    <div style="font-size: 14px; font-weight: bold">{{ customer }}</div>
+    {% if phone %}<div style="color: #64748B">{{ phone }}</div>{% endif %}
+  </div>
+  <table style="width: 100%; border-collapse: collapse">
+    <tr style="background: {{ b.color }}; color: #FFFFFF">
+      <th style="text-align: left; padding: 8px">#</th><th style="text-align: left; padding: 8px">Item</th>
+      <th style="text-align: right; padding: 8px">Qty</th><th style="text-align: right; padding: 8px">Price</th>
+      <th style="text-align: right; padding: 8px">Amount</th>
+    </tr>
+    {% for r in q.rows %}
+    <tr style="border-bottom: 1px solid #E5E7EB">
+      <td style="padding: 8px">{{ loop.index }}</td><td style="padding: 8px">{{ r.name }}</td>
+      <td style="padding: 8px; text-align: right">{{ r.qty_text }}</td><td style="padding: 8px; text-align: right">{{ r.rate_text }}</td>
+      <td style="padding: 8px; text-align: right">{{ r.amount_text }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  <table style="width: 46%; margin-left: 54%; margin-top: 10px; border-collapse: collapse">
+    <tr><td style="padding: 5px 8px; color: #64748B">Subtotal</td><td style="padding: 5px 8px; text-align: right">{{ net }}</td></tr>
+    {% if q.tax %}<tr><td style="padding: 5px 8px; color: #64748B">GST {{ gst }}%</td><td style="padding: 5px 8px; text-align: right">{{ tax }}</td></tr>{% endif %}
+    <tr><td style="padding: 8px; font-weight: bold; border-top: 2px solid {{ b.color }}">Total</td>
+        <td style="padding: 8px; text-align: right; font-weight: bold; font-size: 15px; border-top: 2px solid {{ b.color }}">{{ total }}</td></tr>
+  </table>
+  {% if b.bank.number or b.bank.upi %}
+  <div style="margin-top: 22px; color: #64748B">
+    <div style="font-weight: bold; color: #1E293B">Payment</div>
+    {% if b.bank.number %}<div>{{ b.bank.account_name or b.name }} · {{ b.bank.bank }} · A/c {{ b.bank.number }}{% if b.bank.ifsc %} · IFSC {{ b.bank.ifsc }}{% endif %}</div>{% endif %}
+    {% if b.bank.upi %}<div>UPI {{ b.bank.upi }}</div>{% endif %}
+  </div>
+  {% endif %}
+  <div style="margin-top: 28px; color: #64748B">Thank you — {{ b.name }}{% if b.footer %}<br>{{ b.footer }}{% endif %}</div>
+</div>
+"""
+
+
+def _quote_pdf(tenant: str, deal, q: dict, currency: str) -> str:
+	"""The quote as a PDF in the business's own look (Business profile: logo, colour, address, GSTIN, bank), saved on the
+	deal as a public file with an unguessable name (the customer opens it from WhatsApp). The deal's older quote PDFs go."""
+	from frappe.utils import get_url
+	from frappe.utils.pdf import get_pdf
+
+	from qtt_platform.print_brand import brand
+
+	b = brand(tenant=tenant)
+
+	def qty(v):
+		return str(int(v)) if float(v).is_integer() else str(v)
+
+	rows = [{**r, "qty_text": qty(r["qty"]), "rate_text": rules.money(r["rate"], currency), "amount_text": rules.money(r["amount"], currency)}
+			for r in q["rows"]]
+	logo = b.logo if not b.logo or b.logo.startswith("http") else get_url(b.logo)
+	html = frappe.render_template(_QUOTE_HTML, {
+		"b": b, "logo": logo, "q": {**q, "rows": rows}, "number": deal.name.replace("CRM-DEAL-", "Q-"),
+		"date": frappe.utils.formatdate(frappe.utils.today(), "d MMM yyyy"), "customer": _display(deal), "phone": deal.mobile_no,
+		"net": rules.money(q["net"], currency), "tax": rules.money(q["tax"], currency), "total": rules.money(q["total"], currency),
+		"gst": qty(q["gst"]),
+	})
+	pdf = get_pdf(html, {"page-size": "A4", "margin-top": "12mm", "margin-bottom": "12mm", "margin-left": "12mm", "margin-right": "12mm"})
+	for old in frappe.get_all("File", filters={"attached_to_doctype": DEAL, "attached_to_name": deal.name, "file_name": ["like", "Quote-%"]},
+							  pluck="name"):
+		frappe.delete_doc("File", old, ignore_permissions=True, force=True)
+	f = frappe.get_doc({"doctype": "File", "file_name": f"Quote-{frappe.generate_hash(length=12)}.pdf", "content": pdf, "is_private": 0,
+						"attached_to_doctype": DEAL, "attached_to_name": deal.name})
+	f.insert(ignore_permissions=True)
+	return get_url(f.file_url)
+
+
+def _latest_pdf(deal: str) -> str | None:
+	from frappe.utils import get_url
+
+	url = frappe.db.get_value("File", {"attached_to_doctype": DEAL, "attached_to_name": deal, "file_name": ["like", "Quote-%"]}, "file_url",
+							  order_by="creation desc")
+	return get_url(url) if url else None
 
 
 @frappe.whitelist(methods=["POST"])
