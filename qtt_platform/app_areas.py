@@ -44,3 +44,77 @@ def area(screen: str | None, product: str | None = None) -> str:
 def product_for(area_key: str, product: str | None) -> str | None:
 	"""The event's product: the one it came with, else its area's."""
 	return product or _PRODUCT_OF.get(area_key)
+
+
+# Server calls → the app they serve (QTT Admin › Apps: each app's speed). Longest prefix wins; the rest is QTT OS.
+CALLS: list[tuple[str, str]] = [
+	("qtt_office_pulse.", "hr"),
+	("hrms.", "hr"),
+	("qtt_orbitra.", "erp"),
+	("erpnext.", "erp"),
+	("qtt_services.api.shop", "store"),
+	("qtt_services.api.store", "store"),
+	("qtt_services.api.sites", "website"),
+	("qtt_services.api.site_", "website"),
+	("qtt_services.api.designs", "website"),
+	("qtt_services.api.golive", "website"),
+	("qtt_services.api.my_whatsapp", "whatsapp"),
+	("qtt_services.api.my_receptionist", "whatsapp"),
+	("qtt_services.api.my_automations", "whatsapp"),
+	("qtt_services.api.automations", "whatsapp"),
+	("qtt_services.api.receptionist", "whatsapp"),
+	("qtt_services.api.wa_", "whatsapp"),
+	("qtt_services.api.messaging", "whatsapp"),
+	("qtt_platform.api.leads", "content"),
+	("qtt_services.api.newsletters", "content"),
+	("qtt_services.api.content_series", "content"),
+	("qtt_services.api.marketing.articles", "content"),
+	("qtt_services.api.marketing.write_article", "content"),
+	("qtt_services.api.marketing.article", "content"),
+	("qtt_services.api.marketing", "social"),
+	("qtt_services.api.google_business", "social"),
+	("qtt_platform.api.studio", "studio"),
+	("qtt_platform.api.post_templates", "studio"),
+	("qtt_onbox.", "inbox"),
+	("qtt_inbox.", "inbox"),
+	("qtt_services.", "suite"),
+	("qtt_platform.api.team", "team"),
+	("qtt_platform.api.workplace", "team"),
+	("qtt_platform.api.files", "team"),
+	("qtt_platform.api.calendar", "team"),
+	("qtt_platform.api.boards", "team"),
+	("qtt_platform.api.notes", "team"),
+	("qtt_platform.api.mail", "team"),
+	("qtt_platform.api.whiteboard", "team"),
+	("raven.", "team"),
+	("qtt_platform.api.platform_admin", "admin"),
+	("qtt_platform.api.saas_admin", "admin"),
+	("qtt_platform.api.admin_", "admin"),
+	("qtt_platform.api.servers", "admin"),
+	("qtt_platform.api.perf", "admin"),
+	("qtt_platform.api.errors", "admin"),
+	("qtt_platform.api.usage_dashboard", "admin"),
+	("qtt_platform.api.studio_admin", "admin"),
+	("qtt_platform.api.marketing_content", "admin"),
+	("qtt_platform.api.marketing_dashboard", "admin"),
+]
+_CALLS = sorted(CALLS, key=lambda x: -len(x[0]))
+
+# Each app's free amounts and plan fair use (qtt_platform.free_use keys).
+FREE_KEYS = {"hr": ["hr"], "erp": ["erp"], "website": ["website"], "store": ["store"], "whatsapp": ["whatsapp"], "social": ["social"],
+			 "content": ["articles", "newsletters"], "studio": ["studio"]}
+PLAN_KEYS = {"hr": ["hr"], "website": ["website"], "store": ["stores"], "whatsapp": ["offer_messages"], "social": ["social"],
+			 "content": ["articles", "newsletters"]}
+
+
+def area_of_call(name: str | None) -> str:
+	"""The app a server call serves (perf_rules names: `x.y.z` or `resource:Doctype`)."""
+	n = name or ""
+	if n.startswith("resource:"):
+		return "os"
+	if n.startswith("qtt_platform.api.studio_admin"):
+		return "admin"
+	for prefix, key in _CALLS:
+		if n.startswith(prefix):
+			return key
+	return "os"

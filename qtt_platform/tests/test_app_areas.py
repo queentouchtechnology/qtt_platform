@@ -28,6 +28,21 @@ class TestAppAreas(unittest.TestCase):
 		self.assertEqual(a.product_for("hr", "X"), "X")
 		self.assertIsNone(a.product_for("os", None))
 
+	def test_calls(self):
+		self.assertEqual(a.area_of_call("qtt_office_pulse.api.session.bootstrap"), "hr")
+		self.assertEqual(a.area_of_call("qtt_services.api.marketing.write_article"), "content")
+		self.assertEqual(a.area_of_call("qtt_services.api.marketing.posts"), "social")
+		self.assertEqual(a.area_of_call("qtt_services.api.store_hooks.ingest"), "store")
+		self.assertEqual(a.area_of_call("qtt_services.api.my_whatsapp.setup"), "whatsapp")
+		self.assertEqual(a.area_of_call("qtt_platform.api.leads.overview"), "content")
+		self.assertEqual(a.area_of_call("qtt_platform.api.studio_admin.list"), "admin")
+		self.assertEqual(a.area_of_call("qtt_platform.api.studio.home"), "studio")
+		self.assertEqual(a.area_of_call("qtt_services.api.portal.x"), "suite")
+		self.assertEqual(a.area_of_call("qtt_platform.api.home.overview"), "os")
+		self.assertEqual(a.area_of_call("resource:CRM Lead"), "os")
+		for key in list(a.FREE_KEYS) + list(a.PLAN_KEYS):
+			self.assertIn(key, a.LABELS)
+
 	def test_every_area_has_a_label(self):
 		for key, _l, _p, _s in a.AREAS:
 			self.assertIn(key, a.LABELS)

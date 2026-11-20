@@ -3922,6 +3922,38 @@
    "status": "OK"
   },
   {
+   "endpoint": "qtt_platform.api.admin_apps.app",
+   "product": "Platform",
+   "area": "api.admin_apps",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "QTT Admin › Apps › one app: its use by each business, people per day (30 days), most used screens, slowest calls (7 days), free amounts and plan fair use, and its feature flags.",
+   "details": "QTT Admin › Apps › one app: its use by each business, people per day (30 days), most used screens, slowest calls\n(7 days), free amounts and plan fair use, and its feature flags.",
+   "arguments": "key",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.app",
+   "screens": "admin/apps_view.dart › AppDetailScreen\nadmin/apps_view.dart › AppsView\ncore/state/free_limit_signal.dart › FreeLimitSignal\nplatform/calendar/calendar_home.dart › ItemCard\nplatform/launch/launch_models.dart › LaunchProduct\nplatform/launch/launch_screens.dart › ProductPage\nplatform/launch/launch_screens.dart › _HelpMeChooseState\nproducts/office_pulse/screens/leave_view.dart › _AppTile\nshell/home_shell.dart › _HomeShellState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/admin_apps.py:85",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.admin_apps.apps",
+   "product": "Platform",
+   "area": "api.admin_apps",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "QTT Admin › Apps: every app with people active in 7 / 30 days, businesses using it, actions in 30 days and its speed over the last day (p50 / p95 of its server calls).",
+   "details": "QTT Admin › Apps: every app with people active in 7 / 30 days, businesses using it, actions in 30 days and its\nspeed over the last day (p50 / p95 of its server calls).",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.apps",
+   "screens": "admin/admin_home.dart › AdminHome\nadmin/admin_home.dart › _AdminHomeBody\nadmin/admin_home.dart › _AdminHomeBodyState\nadmin/apps_view.dart › AppsView\ncore/firebase/firebase_start.dart › FirebaseStart\nplatform/data/platform_models.dart › FreeUseStatus\nplatform/explore/explore_screen.dart › ExploreScreen\nplatform/free_use/free_use_screens.dart › _FreeView\nshared/setup/welcome_screen.dart › _WelcomeScreenState\nshell/home_shell.dart › _HomeShellState\nshell/home_shell.dart › _MenuApps\nshell/home_shell.dart › _ShellMenu\nshell/launcher_screen.dart › LauncherScreen\nshell/launcher_screen.dart › YourAppsGrid",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/admin_apps.py:75",
+   "status": "OK"
+  },
+  {
    "endpoint": "qtt_platform.api.admin_business.assign_app",
    "product": "Platform",
    "area": "api.admin_business",
@@ -7340,7 +7372,7 @@
    "arguments": "days",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.speed",
-   "screens": "admin/admin_home.dart › _AttentionTile\nadmin/speed_section.dart › _SpeedSectionState",
+   "screens": "admin/admin_home.dart › _AttentionTile\nadmin/apps_view.dart › _SpeedPill\nadmin/speed_section.dart › _SpeedSectionState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/perf.py:160",
    "status": "OK"
