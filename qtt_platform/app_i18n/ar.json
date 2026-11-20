@@ -9039,5 +9039,19 @@
  "Top-up packs": "باقات الإضافة",
  "Every business can use all 8 apps free until one of these amounts. 0 = no limit.": "يمكن لكل نشاط استخدام التطبيقات الثمانية مجانًا حتى إحدى هذه الكميات. 0 = بلا حد.",
  "What the one plan includes each month (or at a time). 0 = unlimited.": "ما تتضمنه الخطة الواحدة كل شهر (أو في وقت واحد). 0 = غير محدود.",
- "Extra amounts a business on the plan can buy for the rest of its month.": "كميات إضافية يمكن للنشاط المشترك شراؤها لبقية شهره."
+ "Extra amounts a business on the plan can buy for the rest of its month.": "كميات إضافية يمكن للنشاط المشترك شراؤها لبقية شهره.",
+ "Money": "المال",
+ "No app used this month.": "لم يُستخدم أي تطبيق هذا الشهر.",
+ "Save as CSV": "حفظ بصيغة CSV",
+ "Save as PDF": "حفظ بصيغة PDF",
+ "businesses active": "أعمال نشطة",
+ "collected": "المُحصَّل",
+ "people active": "أشخاص نشطون",
+ "{p} people · {b} businesses": "{p} أشخاص · {b} أعمال",
+ "In all": "الإجمالي",
+ "Used QTT OS": "استخدم QTT OS",
+ "Joined": "انضموا",
+ "Collected": "المُحصَّل",
+ "Invoiced": "المفوتر",
+ "Waiting to be paid": "بانتظار الدفع"
 }

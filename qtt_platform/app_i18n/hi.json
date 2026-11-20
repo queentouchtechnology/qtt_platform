@@ -9039,5 +9039,19 @@
  "Top-up packs": "टॉप-अप पैक",
  "Every business can use all 8 apps free until one of these amounts. 0 = no limit.": "हर व्यवसाय इनमें से किसी एक मात्रा तक सभी 8 ऐप मुफ़्त उपयोग कर सकता है। 0 = कोई सीमा नहीं।",
  "What the one plan includes each month (or at a time). 0 = unlimited.": "एक प्लान हर महीने (या एक समय में) क्या देता है। 0 = असीमित।",
- "Extra amounts a business on the plan can buy for the rest of its month.": "प्लान पर व्यवसाय अपने बाकी महीने के लिए जो अतिरिक्त मात्रा खरीद सकता है।"
+ "Extra amounts a business on the plan can buy for the rest of its month.": "प्लान पर व्यवसाय अपने बाकी महीने के लिए जो अतिरिक्त मात्रा खरीद सकता है।",
+ "Money": "पैसा",
+ "No app used this month.": "इस महीने कोई ऐप उपयोग नहीं हुआ।",
+ "Save as CSV": "CSV के रूप में सहेजें",
+ "Save as PDF": "PDF के रूप में सहेजें",
+ "businesses active": "सक्रिय व्यवसाय",
+ "collected": "प्राप्त",
+ "people active": "सक्रिय लोग",
+ "{p} people · {b} businesses": "{p} लोग · {b} व्यवसाय",
+ "In all": "कुल",
+ "Used QTT OS": "QTT OS उपयोग किया",
+ "Joined": "जुड़े",
+ "Collected": "प्राप्त",
+ "Invoiced": "इनवॉइस किया",
+ "Waiting to be paid": "भुगतान बाकी"
 }

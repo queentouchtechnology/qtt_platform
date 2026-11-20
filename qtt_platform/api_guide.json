@@ -4178,6 +4178,38 @@
    "status": "OK"
   },
   {
+   "endpoint": "qtt_platform.api.admin_reports.download",
+   "product": "Platform",
+   "area": "api.admin_reports",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "The month's report as a file: kind \"pdf\" (one page per section) or \"csv\" (section, measure, value).",
+   "details": "The month's report as a file: kind \"pdf\" (one page per section) or \"csv\" (section, measure, value).",
+   "arguments": "month, kind",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/admin_reports.py:114",
+   "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_platform.api.admin_reports.monthly",
+   "product": "Platform",
+   "area": "api.admin_reports",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "QTT Admin › Reports: one month (YYYY-MM, default this one) — businesses (total, new, lost, active), people (members, joined, active, actions), each app's people / businesses / actions, money (collected, invoiced, open) and speed (app calls and screens, p50 / p95).",
+   "details": "QTT Admin › Reports: one month (YYYY-MM, default this one) — businesses (total, new, lost, active), people (members,\njoined, active, actions), each app's people / businesses / actions, money (collected, invoiced, open) and speed\n(app calls and screens, p50 / p95).",
+   "arguments": "month",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.report",
+   "screens": "admin/marketing_reports_view.dart › DayReportBody\nadmin/reports_view.dart › _ReportsViewState\nshared/erp/erp_screens.dart › ErpApi\nshared/erp/erp_screens.dart › ErpHub\nshared/erp/erp_screens.dart › _ErpReportPageState\nshared/widgets/states.dart › _AsyncViewState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/admin_reports.py:80",
+   "status": "OK"
+  },
+  {
    "endpoint": "qtt_platform.api.admin_settings.get",
    "product": "Platform",
    "area": "api.admin_settings",

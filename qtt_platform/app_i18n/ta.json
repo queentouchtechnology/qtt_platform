@@ -9039,5 +9039,19 @@
  "Top-up packs": "கூடுதல் தொகுப்புகள்",
  "Every business can use all 8 apps free until one of these amounts. 0 = no limit.": "ஒவ்வொரு வணிகமும் இந்த அளவுகளில் ஒன்றை அடையும் வரை 8 ஆப்களையும் இலவசமாகப் பயன்படுத்தலாம். 0 = வரம்பு இல்லை.",
  "What the one plan includes each month (or at a time). 0 = unlimited.": "ஒரே திட்டம் ஒவ்வொரு மாதமும் (அல்லது ஒரே நேரத்தில்) தருவது. 0 = வரம்பற்றது.",
- "Extra amounts a business on the plan can buy for the rest of its month.": "திட்டத்தில் உள்ள வணிகம் மீதமுள்ள மாதத்துக்கு வாங்கக்கூடிய கூடுதல் அளவுகள்."
+ "Extra amounts a business on the plan can buy for the rest of its month.": "திட்டத்தில் உள்ள வணிகம் மீதமுள்ள மாதத்துக்கு வாங்கக்கூடிய கூடுதல் அளவுகள்.",
+ "Money": "பணம்",
+ "No app used this month.": "இந்த மாதம் எந்த ஆப்பும் பயன்படுத்தவில்லை.",
+ "Save as CSV": "CSV ஆகச் சேமி",
+ "Save as PDF": "PDF ஆகச் சேமி",
+ "businesses active": "செயலில் உள்ள வணிகங்கள்",
+ "collected": "வசூலானது",
+ "people active": "செயலில் உள்ள மக்கள்",
+ "{p} people · {b} businesses": "{p} பேர் · {b} வணிகங்கள்",
+ "In all": "மொத்தம்",
+ "Used QTT OS": "QTT OS பயன்படுத்தியது",
+ "Joined": "சேர்ந்தவர்கள்",
+ "Collected": "வசூலானது",
+ "Invoiced": "விலைப்பட்டியலிட்டது",
+ "Waiting to be paid": "செலுத்தக் காத்திருக்கிறது"
 }
