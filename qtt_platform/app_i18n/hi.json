@@ -9027,5 +9027,17 @@
  "paid this month": "इस महीने भुगतान",
  "waiting to be paid": "भुगतान बाकी",
  "{n} days late": "{n} दिन देर",
- "{owner} gets an email with the amount, the due date and where to pay in the app.": "{owner} को राशि, देय तिथि और ऐप में कहाँ भुगतान करें के साथ ईमेल मिलेगा।"
+ "{owner} gets an email with the amount, the due date and where to pay in the app.": "{owner} को राशि, देय तिथि और ऐप में कहाँ भुगतान करें के साथ ईमेल मिलेगा।",
+ "Business Suite services and their prices": "Business Suite सेवाएँ और उनकी कीमतें",
+ "Every app's plans, prices, trials and limits": "हर ऐप के प्लान, कीमतें, ट्रायल और सीमाएँ",
+ "Maintenance, announcement, versions, languages, feature flags": "रखरखाव, घोषणा, संस्करण, भाषाएँ, फ़ीचर फ़्लैग",
+ "More controls": "और नियंत्रण",
+ "Saved — every app has it now.": "सहेजा गया — अब हर ऐप में है।",
+ "Nothing changed.": "कुछ नहीं बदला।",
+ "Free use": "मुफ़्त उपयोग",
+ "The plan's fair use": "प्लान का उचित उपयोग",
+ "Top-up packs": "टॉप-अप पैक",
+ "Every business can use all 8 apps free until one of these amounts. 0 = no limit.": "हर व्यवसाय इनमें से किसी एक मात्रा तक सभी 8 ऐप मुफ़्त उपयोग कर सकता है। 0 = कोई सीमा नहीं।",
+ "What the one plan includes each month (or at a time). 0 = unlimited.": "एक प्लान हर महीने (या एक समय में) क्या देता है। 0 = असीमित।",
+ "Extra amounts a business on the plan can buy for the rest of its month.": "प्लान पर व्यवसाय अपने बाकी महीने के लिए जो अतिरिक्त मात्रा खरीद सकता है।"
 }

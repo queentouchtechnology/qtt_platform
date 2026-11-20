@@ -9027,5 +9027,17 @@
  "paid this month": "مدفوع هذا الشهر",
  "waiting to be paid": "بانتظار الدفع",
  "{n} days late": "متأخرة {n} يوم",
- "{owner} gets an email with the amount, the due date and where to pay in the app.": "يتلقى {owner} بريدًا بالمبلغ وتاريخ الاستحقاق ومكان الدفع في التطبيق."
+ "{owner} gets an email with the amount, the due date and where to pay in the app.": "يتلقى {owner} بريدًا بالمبلغ وتاريخ الاستحقاق ومكان الدفع في التطبيق.",
+ "Business Suite services and their prices": "خدمات Business Suite وأسعارها",
+ "Every app's plans, prices, trials and limits": "خطط كل تطبيق وأسعارها وفتراتها التجريبية وحدودها",
+ "Maintenance, announcement, versions, languages, feature flags": "الصيانة والإعلان والإصدارات واللغات ومفاتيح الميزات",
+ "More controls": "مزيد من التحكم",
+ "Saved — every app has it now.": "حُفظ — صار في كل التطبيقات الآن.",
+ "Nothing changed.": "لم يتغير شيء.",
+ "Free use": "الاستخدام المجاني",
+ "The plan's fair use": "الاستخدام العادل للخطة",
+ "Top-up packs": "باقات الإضافة",
+ "Every business can use all 8 apps free until one of these amounts. 0 = no limit.": "يمكن لكل نشاط استخدام التطبيقات الثمانية مجانًا حتى إحدى هذه الكميات. 0 = بلا حد.",
+ "What the one plan includes each month (or at a time). 0 = unlimited.": "ما تتضمنه الخطة الواحدة كل شهر (أو في وقت واحد). 0 = غير محدود.",
+ "Extra amounts a business on the plan can buy for the rest of its month.": "كميات إضافية يمكن للنشاط المشترك شراؤها لبقية شهره."
 }

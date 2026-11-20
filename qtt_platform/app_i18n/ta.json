@@ -9027,5 +9027,17 @@
  "paid this month": "இந்த மாதம் செலுத்தியது",
  "waiting to be paid": "செலுத்தக் காத்திருக்கிறது",
  "{n} days late": "{n} நாள் தாமதம்",
- "{owner} gets an email with the amount, the due date and where to pay in the app.": "{owner} க்குத் தொகை, கடைசி தேதி மற்றும் ஆப்பில் எங்கே செலுத்துவது என்ற மின்னஞ்சல் வரும்."
+ "{owner} gets an email with the amount, the due date and where to pay in the app.": "{owner} க்குத் தொகை, கடைசி தேதி மற்றும் ஆப்பில் எங்கே செலுத்துவது என்ற மின்னஞ்சல் வரும்.",
+ "Business Suite services and their prices": "Business Suite சேவைகளும் அவற்றின் விலைகளும்",
+ "Every app's plans, prices, trials and limits": "ஒவ்வொரு ஆப்பின் திட்டங்கள், விலைகள், சோதனைகள், வரம்புகள்",
+ "Maintenance, announcement, versions, languages, feature flags": "பராமரிப்பு, அறிவிப்பு, பதிப்புகள், மொழிகள், அம்சக் கொடிகள்",
+ "More controls": "மேலும் கட்டுப்பாடுகள்",
+ "Saved — every app has it now.": "சேமிக்கப்பட்டது — எல்லா ஆப்களிலும் இப்போது உள்ளது.",
+ "Nothing changed.": "எதுவும் மாறவில்லை.",
+ "Free use": "இலவசப் பயன்பாடு",
+ "The plan's fair use": "திட்டத்தின் நியாயமான பயன்பாடு",
+ "Top-up packs": "கூடுதல் தொகுப்புகள்",
+ "Every business can use all 8 apps free until one of these amounts. 0 = no limit.": "ஒவ்வொரு வணிகமும் இந்த அளவுகளில் ஒன்றை அடையும் வரை 8 ஆப்களையும் இலவசமாகப் பயன்படுத்தலாம். 0 = வரம்பு இல்லை.",
+ "What the one plan includes each month (or at a time). 0 = unlimited.": "ஒரே திட்டம் ஒவ்வொரு மாதமும் (அல்லது ஒரே நேரத்தில்) தருவது. 0 = வரம்பற்றது.",
+ "Extra amounts a business on the plan can buy for the rest of its month.": "திட்டத்தில் உள்ள வணிகம் மீதமுள்ள மாதத்துக்கு வாங்கக்கூடிய கூடுதல் அளவுகள்."
 }

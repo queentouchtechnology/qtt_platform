@@ -3596,7 +3596,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.settings",
-   "screens": "admin/marketing_view.dart › _MarketingViewState\napp/app.dart › AppServices\napp/app.dart › _QttOsAppState\ncore/analytics/analytics.dart › AnalyticsRouteObserver\nplatform/team/team_sheets.dart › TeamChannelInfoPage\nplatform/workplace/remote_page.dart › _RemoteBody\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/onbox/onbox_root.dart › _InboxRootState\nproducts/onbox/screens/conversation_list_pane.dart › OnboxMenuButton\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/more_view.dart › _OrbitraSettingsViewState\nproducts/services/repository.dart › ServicesRepository\nproducts/services/screens/social_settings.dart › (top level)\nproducts/services/screens/whatsapp_page.dart › YourWhatsappPage\nproducts/services/screens/whatsapp_page.dart › _SetupSteps\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_design.dart › _GroupEditPageState\nproducts/services/store/store_more.dart › _TrackingCardState\nshared/search/global_search.dart › _GlobalSearchScreenState\nshared/widgets/states.dart › _AsyncViewState",
+   "screens": "admin/marketing_view.dart › _MarketingViewState\nadmin/settings_view.dart › SettingsView\napp/app.dart › AppServices\napp/app.dart › _QttOsAppState\ncore/analytics/analytics.dart › AnalyticsRouteObserver\nplatform/team/team_sheets.dart › TeamChannelInfoPage\nplatform/workplace/remote_page.dart › _RemoteBody\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/onbox/onbox_root.dart › _InboxRootState\nproducts/onbox/screens/conversation_list_pane.dart › OnboxMenuButton\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/more_view.dart › _OrbitraSettingsViewState\nproducts/services/repository.dart › ServicesRepository\nproducts/services/screens/social_settings.dart › (top level)\nproducts/services/screens/whatsapp_page.dart › YourWhatsappPage\nproducts/services/screens/whatsapp_page.dart › _SetupSteps\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_design.dart › _GroupEditPageState\nproducts/services/store/store_more.dart › _TrackingCardState\nshared/search/global_search.dart › _GlobalSearchScreenState\nshared/widgets/states.dart › _AsyncViewState",
    "other_callers": "",
    "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/settings.py:14",
    "status": "Not described"
@@ -3628,7 +3628,7 @@
    "arguments": "data",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.saveSettings",
-   "screens": "products/orbitra/screens/more_view.dart › _OrbitraSettingsViewState",
+   "screens": "admin/settings_view.dart › _SettingsFormState\nproducts/orbitra/screens/more_view.dart › _OrbitraSettingsViewState",
    "other_callers": "",
    "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/settings.py:34",
    "status": "Not described"
@@ -4175,6 +4175,38 @@
    "screens": "admin/people_view.dart › PersonScreen\nadmin/people_view.dart › _PersonRow\nplatform/team/team_call.dart › (top level)\nplatform/team/team_call.dart › _Tile\nplatform/team/team_chat_page.dart › _MessageTileState\nplatform/team/team_hub.dart › TeamSearchPage\nplatform/team/team_hub.dart › _HubRow\nplatform/team/team_hub.dart › _TeamActivityPageState\nplatform/team/team_hub.dart › _TeamSearchPageState\nplatform/team/team_kit.dart › PresenceAvatar\nplatform/workplace/boards_page.dart › _BoardPageState\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/office_pulse/screens/people_view.dart › _PeopleViewState\nproducts/office_pulse/screens/people_view.dart › _PersonDetailState\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/admin_people.py:125",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.admin_settings.get",
+   "product": "Platform",
+   "area": "api.admin_settings",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "QTT Admin › Settings: free use, the one plan's prices, the plan's fair use and the top-up packs — each field with its Desk label, its type (switch / number / money) and its value.",
+   "details": "QTT Admin › Settings: free use, the one plan's prices, the plan's fair use and the top-up packs — each field with\nits Desk label, its type (switch / number / money) and its value.",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.settings",
+   "screens": "admin/marketing_view.dart › _MarketingViewState\nadmin/settings_view.dart › SettingsView\napp/app.dart › AppServices\napp/app.dart › _QttOsAppState\ncore/analytics/analytics.dart › AnalyticsRouteObserver\nplatform/team/team_sheets.dart › TeamChannelInfoPage\nplatform/workplace/remote_page.dart › _RemoteBody\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/onbox/onbox_root.dart › _InboxRootState\nproducts/onbox/screens/conversation_list_pane.dart › OnboxMenuButton\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/orbitra/screens/more_view.dart › _OrbitraSettingsViewState\nproducts/services/repository.dart › ServicesRepository\nproducts/services/screens/social_settings.dart › (top level)\nproducts/services/screens/whatsapp_page.dart › YourWhatsappPage\nproducts/services/screens/whatsapp_page.dart › _SetupSteps\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_design.dart › _GroupEditPageState\nproducts/services/store/store_more.dart › _TrackingCardState\nshared/search/global_search.dart › _GlobalSearchScreenState\nshared/widgets/states.dart › _AsyncViewState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/admin_settings.py:44",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.admin_settings.save",
+   "product": "Platform",
+   "area": "api.admin_settings",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Save Settings: `values` {field: value} — only the fields Settings shows. The change reaches every app at once (app config refresh) and is written to the audit log.",
+   "details": "Save Settings: `values` {field: value} — only the fields Settings shows. The change reaches every app at once\n(app config refresh) and is written to the audit log.",
+   "arguments": "values",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.saveSettings",
+   "screens": "admin/settings_view.dart › _SettingsFormState\nproducts/orbitra/screens/more_view.dart › _OrbitraSettingsViewState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/admin_settings.py:78",
    "status": "OK"
   },
   {
