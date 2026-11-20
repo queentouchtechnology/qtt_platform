@@ -19,6 +19,7 @@
   "user",
   "tenant",
   "product",
+  "area",
   "column_break_client",
   "platform",
   "app_version",
@@ -40,21 +41,24 @@
    "fieldname": "occurred_at",
    "fieldtype": "Datetime",
    "label": "Occurred At",
-   "in_list_view": 1
+   "in_list_view": 1,
+   "search_index": 1
   },
   {
    "fieldname": "user",
    "fieldtype": "Link",
    "label": "User",
    "options": "User",
-   "in_standard_filter": 1
+   "in_standard_filter": 1,
+   "search_index": 1
   },
   {
    "fieldname": "tenant",
    "fieldtype": "Link",
    "label": "Tenant",
    "options": "QTT Tenant",
-   "in_standard_filter": 1
+   "in_standard_filter": 1,
+   "search_index": 1
   },
   {
    "fieldname": "product",
@@ -62,6 +66,15 @@
    "label": "Product",
    "options": "QTT Product",
    "in_standard_filter": 1
+  },
+  {
+   "fieldname": "area",
+   "fieldtype": "Data",
+   "label": "App area",
+   "length": 20,
+   "in_standard_filter": 1,
+   "search_index": 1,
+   "description": "Which app it belongs to (qtt_platform.app_areas): hr, erp, store, website, whatsapp, content, social, studio, inbox, suite, team, admin, os."
   },
   {
    "fieldname": "column_break_client",

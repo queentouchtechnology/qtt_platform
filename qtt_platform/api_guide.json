@@ -4062,7 +4062,7 @@
    "app_calls": "qtt-os/qtt_app/lib/core/analytics/analytics.dart › Analytics.flush",
    "screens": "app/app.dart › _QttOsAppState\nplatform/account/account_screen.dart › (top level)",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/analytics.py:28",
+   "source": "qtt_platform/qtt_platform/api/analytics.py:29",
    "status": "Not described"
   },
   {

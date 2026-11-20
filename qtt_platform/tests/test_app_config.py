@@ -132,6 +132,7 @@ class SanitizeEventTest(unittest.TestCase):
 		)
 		self.assertEqual(e["event"], "inbox.message_sent")
 		self.assertEqual(e["product"], "QTT_ONBOX")
+		self.assertEqual(e["area"], "inbox")  # no app screen named: its product says which app
 		self.assertEqual(json.loads(e["properties"]), {"private": True, "len": 12})
 
 	def test_rejects_bad_names_and_strips_unsafe_props(self):

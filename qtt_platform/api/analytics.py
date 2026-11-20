@@ -15,6 +15,7 @@ import re
 import frappe
 from frappe import _
 
+from qtt_platform import app_areas
 from qtt_platform.tenant.context import resolve_active_tenant
 
 MAX_EVENTS_PER_CALL = 50
@@ -46,12 +47,12 @@ def ingest(events, platform: str | None = None, app_version: str | None = None, 
 	now = frappe.utils.now_datetime()
 	fields = [
 		"name", "creation", "modified", "owner", "modified_by",
-		"event", "occurred_at", "user", "tenant", "product", "platform", "app_version", "session_id", "screen", "properties",
+		"event", "occurred_at", "user", "tenant", "product", "area", "platform", "app_version", "session_id", "screen", "properties",
 	]
 	values = [
 		(
 			frappe.generate_hash(length=12), now, now, user, user,
-			e["event"], e["occurred_at"] or now, user, tenant, e["product"], platform,
+			e["event"], e["occurred_at"] or now, user, tenant, app_areas.product_for(e["area"], e["product"]), e["area"], platform,
 			(app_version or "")[:32] or None, (session_id or "")[:64] or None, e["screen"], e["properties"],
 		)
 		for e in clean
@@ -79,11 +80,14 @@ def sanitize_event(raw) -> dict | None:
 		# lists / dicts dropped on purpose
 	product = raw.get("product")
 	screen = raw.get("screen")
+	product = product if isinstance(product, str) and product.isupper() and len(product) <= 40 else None
+	screen = screen[:80] if isinstance(screen, str) else None
 	return {
+		"area": app_areas.area(screen, product),  # which app it belongs to (QTT Admin › People, each app, Reports)
 		"event": name,
 		"occurred_at": _parse_ts(raw.get("ts")),
-		"product": product if isinstance(product, str) and product.isupper() and len(product) <= 40 else None,
-		"screen": screen[:80] if isinstance(screen, str) else None,
+		"product": product,
+		"screen": screen,
 		"properties": json.dumps(clean_props) if clean_props else None,
 	}
 
@@ -108,3 +112,18 @@ def purge_old_events() -> None:
 	cutoff = frappe.utils.add_days(frappe.utils.now_datetime(), -int(days))
 	frappe.db.delete("QTT App Event", {"occurred_at": ["<", cutoff]})
 	frappe.db.commit()
+
+
+def backfill_areas(batch: int = 2000) -> int:
+	"""Once (deploy): events saved before areas were noted get theirs (and their product when it was missing)."""
+	done = 0
+	while True:
+		rows = frappe.get_all("QTT App Event", filters={"area": ["is", "not set"]}, fields=["name", "screen", "product"], limit=batch)
+		if not rows:
+			break
+		for r in rows:
+			k = app_areas.area(r.screen, r.product)
+			frappe.db.set_value("QTT App Event", r.name, {"area": k, "product": app_areas.product_for(k, r.product)}, update_modified=False)
+		frappe.db.commit()
+		done += len(rows)
+	return done
