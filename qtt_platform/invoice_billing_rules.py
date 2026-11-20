@@ -47,3 +47,27 @@ def next_step(*, status: str, price: float, paid_until: date | None, has_open_in
 def line(product: str, plan: str, start: date, months: int, price: float) -> dict:
 	end = add_months(start, months) - timedelta(days=1)
 	return {"description": f"{product} — {plan}, {start:%d %b %Y} to {end:%d %b %Y}", "amount": float(price)}
+
+
+# QTT Admin › Invoices -----------------------------------------------------------------------------------------------
+SHOWN = ("open", "overdue", "paid", "void", "draft")
+
+
+def shown_status(status: str | None, due: date | None, today: date) -> str:
+	"""What QTT Admin shows: an open invoice past its due date is overdue."""
+	if status == "open" and due and due < today:
+		return "overdue"
+	return status or "draft"
+
+
+def days_late(due: date | None, today: date) -> int:
+	return max(0, (today - due).days) if due else 0
+
+
+def can(action: str, status: str) -> bool:
+	"""Which hand actions an invoice allows: paid / remind only while it's due; void never once it's paid."""
+	if action in ("mark_paid", "remind"):
+		return status in ("open", "overdue")
+	if action == "void":
+		return status in ("open", "overdue", "draft")
+	return False

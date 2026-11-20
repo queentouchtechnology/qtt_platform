@@ -1,0 +1,11 @@
+<!-- name: QTT · Payment reminder -->
+<!-- subject: {% if overdue %}Overdue: {% endif %}{{ invoice }} for {{ business }} — {{ amount }} -->
+{% extends "templates/emails/qtt_layout.html" %}
+{% block body %}
+<p style="{{ s.muted }}">{{ business }} · {{ invoice }}</p>
+<h1 style="{{ s.h1 }}">{% if overdue %}Your payment is {{ days_late }} day{% if days_late != 1 %}s{% endif %} late{% else %}A payment is due{% endif %}</h1>
+<p style="{{ s.p }}"><b>{{ amount }}</b>{% if due %} — due {{ due }}{% endif %}.</p>
+{% if lines %}<div style="{{ s.box }}">{% for l in lines %}<div>{{ l }}</div>{% endfor %}</div>{% endif %}
+<p style="margin:0 0 18px;"><a href="{{ site_url }}/app/" style="{{ s.button }}">Pay in QTT OS</a></p>
+<p style="{{ s.muted }}">In the app: Business › Plans and billing. Already paid? Reply to this email and we'll sort it out.</p>
+{% endblock %}

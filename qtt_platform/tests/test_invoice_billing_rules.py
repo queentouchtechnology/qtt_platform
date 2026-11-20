@@ -41,3 +41,29 @@ class Rules(unittest.TestCase):
 
 if __name__ == "__main__":
 	unittest.main()
+
+
+class TestAdminInvoiceRules(unittest.TestCase):
+	def test_shown_status(self):
+		from datetime import date
+
+		from qtt_platform import invoice_billing_rules as r
+
+		today = date(2026, 11, 20)
+		self.assertEqual(r.shown_status("open", date(2026, 11, 19), today), "overdue")
+		self.assertEqual(r.shown_status("open", date(2026, 11, 20), today), "open")
+		self.assertEqual(r.shown_status("paid", date(2026, 1, 1), today), "paid")
+		self.assertEqual(r.shown_status(None, None, today), "draft")
+		self.assertEqual(r.days_late(date(2026, 11, 10), today), 10)
+		self.assertEqual(r.days_late(None, today), 0)
+
+	def test_actions(self):
+		from qtt_platform import invoice_billing_rules as r
+
+		self.assertTrue(r.can("mark_paid", "overdue"))
+		self.assertFalse(r.can("mark_paid", "paid"))
+		self.assertTrue(r.can("remind", "open"))
+		self.assertFalse(r.can("void", "paid"))
+		self.assertTrue(r.can("void", "draft"))
+		self.assertFalse(r.can("delete", "open"))
+
