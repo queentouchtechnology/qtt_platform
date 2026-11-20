@@ -8850,5 +8850,9 @@
  "Your posts go to these pages — you pick which for each post.": "आपकी पोस्ट इन पेजों पर जाती हैं — हर पोस्ट के लिए आप चुनते हैं।",
  "Latest posts": "हाल की पोस्ट",
  "See all its posts": "इसकी सभी पोस्ट देखें",
- "No posts here yet": "यहाँ अभी कोई पोस्ट नहीं"
+ "No posts here yet": "यहाँ अभी कोई पोस्ट नहीं",
+ "This is a QTT staff account": "यह QTT स्टाफ़ खाता है",
+ "It has no business of its own, so no apps. Run QTT from QTT Admin, or switch to your business account.": "इसका अपना कोई व्यवसाय नहीं है, इसलिए कोई ऐप नहीं। QTT Admin से QTT चलाएँ, या अपने व्यवसाय खाते पर जाएँ।",
+ "Open QTT Admin": "QTT Admin खोलें",
+ "Switch account": "खाता बदलें"
 }

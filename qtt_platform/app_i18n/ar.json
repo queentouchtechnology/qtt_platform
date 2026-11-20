@@ -8850,5 +8850,9 @@
  "Your posts go to these pages — you pick which for each post.": "تُنشر منشوراتك على هذه الصفحات — تختار أيها لكل منشور.",
  "Latest posts": "أحدث المنشورات",
  "See all its posts": "اعرض كل منشوراتها",
- "No posts here yet": "لا منشورات هنا بعد"
+ "No posts here yet": "لا منشورات هنا بعد",
+ "This is a QTT staff account": "هذا حساب موظف في QTT",
+ "It has no business of its own, so no apps. Run QTT from QTT Admin, or switch to your business account.": "ليس لهذا الحساب نشاط تجاري خاص به، لذا لا تطبيقات. أدِر QTT من إدارة QTT، أو انتقل إلى حساب نشاطك التجاري.",
+ "Open QTT Admin": "افتح إدارة QTT",
+ "Switch account": "بدّل الحساب"
 }

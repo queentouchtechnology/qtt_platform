@@ -8850,5 +8850,9 @@
  "Your posts go to these pages — you pick which for each post.": "உங்கள் பதிவுகள் இந்தப் பக்கங்களுக்குச் செல்லும் — ஒவ்வொரு பதிவுக்கும் எவை என்று நீங்கள் தேர்வு செய்யலாம்.",
  "Latest posts": "சமீபத்திய பதிவுகள்",
  "See all its posts": "அதன் எல்லாப் பதிவுகளையும் பார்",
- "No posts here yet": "இங்கே இன்னும் பதிவுகள் இல்லை"
+ "No posts here yet": "இங்கே இன்னும் பதிவுகள் இல்லை",
+ "This is a QTT staff account": "இது QTT ஊழியர் கணக்கு",
+ "It has no business of its own, so no apps. Run QTT from QTT Admin, or switch to your business account.": "இதற்கு சொந்த வணிகம் இல்லை, அதனால் ஆப்கள் இல்லை. QTT நிர்வாகத்திலிருந்து QTT-ஐ இயக்கவும், அல்லது உங்கள் வணிகக் கணக்கிற்கு மாறவும்.",
+ "Open QTT Admin": "QTT நிர்வாகத்தைத் திற",
+ "Switch account": "கணக்கை மாற்று"
 }
