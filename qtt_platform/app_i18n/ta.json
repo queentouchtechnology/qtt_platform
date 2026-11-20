@@ -8854,5 +8854,8 @@
  "This is a QTT staff account": "இது QTT ஊழியர் கணக்கு",
  "It has no business of its own, so no apps. Run QTT from QTT Admin, or switch to your business account.": "இதற்கு சொந்த வணிகம் இல்லை, அதனால் ஆப்கள் இல்லை. QTT நிர்வாகத்திலிருந்து QTT-ஐ இயக்கவும், அல்லது உங்கள் வணிகக் கணக்கிற்கு மாறவும்.",
  "Open QTT Admin": "QTT நிர்வாகத்தைத் திற",
- "Switch account": "கணக்கை மாற்று"
+ "Switch account": "கணக்கை மாற்று",
+ "AI receptionist": "AI வரவேற்பாளர்",
+ "Automations on": "இயங்கும் தானியங்கிகள்",
+ "No number connected yet": "இன்னும் எண் இணைக்கப்படவில்லை"
 }

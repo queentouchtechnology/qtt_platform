@@ -8854,5 +8854,8 @@
  "This is a QTT staff account": "هذا حساب موظف في QTT",
  "It has no business of its own, so no apps. Run QTT from QTT Admin, or switch to your business account.": "ليس لهذا الحساب نشاط تجاري خاص به، لذا لا تطبيقات. أدِر QTT من إدارة QTT، أو انتقل إلى حساب نشاطك التجاري.",
  "Open QTT Admin": "افتح إدارة QTT",
- "Switch account": "بدّل الحساب"
+ "Switch account": "بدّل الحساب",
+ "AI receptionist": "موظف الاستقبال الذكي",
+ "Automations on": "الأتمتة المفعّلة",
+ "No number connected yet": "لم يتم ربط أي رقم بعد"
 }

@@ -8854,5 +8854,8 @@
  "This is a QTT staff account": "यह QTT स्टाफ़ खाता है",
  "It has no business of its own, so no apps. Run QTT from QTT Admin, or switch to your business account.": "इसका अपना कोई व्यवसाय नहीं है, इसलिए कोई ऐप नहीं। QTT Admin से QTT चलाएँ, या अपने व्यवसाय खाते पर जाएँ।",
  "Open QTT Admin": "QTT Admin खोलें",
- "Switch account": "खाता बदलें"
+ "Switch account": "खाता बदलें",
+ "AI receptionist": "AI रिसेप्शनिस्ट",
+ "Automations on": "चालू ऑटोमेशन",
+ "No number connected yet": "अभी कोई नंबर नहीं जुड़ा"
 }
