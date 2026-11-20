@@ -6174,7 +6174,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.homeActions",
    "screens": "shared/search/global_search.dart › _GlobalSearchScreenState\nshell/needs_you.dart › (top level)",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/home.py:55",
+   "source": "qtt_platform/qtt_platform/api/home.py:56",
    "status": "Not described"
   },
   {
@@ -6190,7 +6190,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.dismissHomeAction",
    "screens": "shell/needs_you.dart › _NeedsYouPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/home.py:164",
+   "source": "qtt_platform/qtt_platform/api/home.py:173",
    "status": "Not described"
   },
   {
@@ -6206,7 +6206,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.homeOverview",
    "screens": "shell/arrange_apps.dart › _ArrangeAppsPageState\nshell/home_overview.dart › HomeOverviewLoader",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/home.py:109",
+   "source": "qtt_platform/qtt_platform/api/home.py:114",
    "status": "OK"
   },
   {
@@ -6222,7 +6222,7 @@
    "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.saveHomeLayout",
    "screens": "shell/arrange_apps.dart › _ArrangeAppsPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/home.py:146",
+   "source": "qtt_platform/qtt_platform/api/home.py:155",
    "status": "OK"
   },
   {

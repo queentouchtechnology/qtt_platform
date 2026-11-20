@@ -11,13 +11,14 @@ active business (rules and card shape in qtt_platform.home_cards).
                    (both empty = back to the standard order)
   dismiss(key)     hide a card for this person for a week
 
-One app failing never breaks the home: its cards are just left out.
+One app failing never breaks the home: its cards are just left out. Both answers are kept 30 seconds per person and
+business, and worked out fresh after any save in the business (qtt_platform.home_cache — Speed phase 3).
 """
 
 import frappe
 from frappe.utils import date_diff, getdate, today
 
-from qtt_platform import home_cards, home_tiles
+from qtt_platform import home_cache, home_cards, home_tiles
 from qtt_platform.tenant.context import resolve_active_tenant
 
 DISMISS_DAYS = 7
@@ -57,6 +58,10 @@ def actions() -> list[dict]:
 	tenant = resolve_active_tenant(user)
 	if not tenant:
 		return []
+	return home_cache.cached("actions", user, tenant, lambda: _actions(user, tenant))
+
+
+def _actions(user: str, tenant: str) -> list[dict]:
 	cards = []
 	from qtt_platform.api.setup import home_cards as setup_cards
 
@@ -121,6 +126,10 @@ def overview() -> dict:
 	tenant = resolve_active_tenant(user)
 	if not tenant:
 		return {"tiles": [], "numbers": []}
+	return home_cache.cached("overview", user, tenant, lambda: _overview(user, tenant))
+
+
+def _overview(user: str, tenant: str) -> dict:
 	tiles = home_tiles.arrange(home_tiles.tiles(_collect("qtt_home_tiles", user, tenant, [_studio_tiles])), _layout(user, tenant))
 	# Today in each app: in the person's own order of apps (Arrange), hidden apps left out
 	rank = {t["key"]: i for i, t in enumerate(tiles)}

@@ -20,7 +20,13 @@ CONTEXT_CHANGED_EVENT = "qtt:context_changed"
 
 
 def notify_users(users, *, tenant: str | None = None, reason: str | None = None) -> None:
+	from qtt_platform import home_cache
+
 	for user in sorted({u for u in users if u and u not in ("Guest", "Administrator")}):
+		try:  # their cached Home (home_cache) is never used again
+			home_cache.raise_access(user)
+		except Exception:
+			pass
 		frappe.publish_realtime(
 			CONTEXT_CHANGED_EVENT,
 			{"tenant": tenant, "reason": reason},

@@ -337,7 +337,7 @@ tenant_dynamic_parent_links = {}
 # --------------------------------------------------------------------------
 # QTT Admin › Servers › Speed: every API call's time (which call, how long, status — never the data), qtt_platform.api.perf.
 before_request = ["qtt_platform.api.perf.start"]
-after_request = ["qtt_platform.api.perf.record"]
+after_request = ["qtt_platform.api.perf.record", "qtt_platform.home_cache.bump_after_save"]  # + Home cache: a save → fresh Home
 
 scheduler_events = {
 	"cron": {
