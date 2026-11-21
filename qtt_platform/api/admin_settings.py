@@ -98,3 +98,74 @@ def save(values) -> dict:
 		doc.save(ignore_permissions=True)
 		write_audit_event("settings.changed", target_doctype=DOC, target_name=DOC, before_state=before, after_state=after)
 	return {"changed": sorted(after), **get()}
+
+
+# House limits (QTT's own businesses — QTT, Truth of Bible) -----------------------------------------------------------
+@frappe.whitelist(methods=["GET"])
+def house() -> dict:
+	"""QTT Admin › Settings › House limits: QTT's own businesses (every app, no plan, never invoiced) and the limits set
+	for each — app, what is limited (a plan feature key), the amount and a note. Empty: everything, no limits. Also each
+	app's keys to choose from."""
+	require_platform_owner()
+	from qtt_platform.house import house_tenants
+
+	houses = []
+	for t in house_tenants():
+		name = frappe.db.get_value("QTT Tenant", t, "tenant_name") or t
+		rows = frappe.get_all("QTT House Limit", filters={"parent": t, "parenttype": "QTT Tenant"}, fields=["product", "limit_key", "limit_value", "note"],
+							  order_by="idx")
+		houses.append({"tenant": t, "name": name, "limits": rows})
+	products = frappe.get_all("QTT Product", filters={"status": "active"}, fields=["name", "display_name"], order_by="display_name")
+	keys: dict[str, set] = {}
+	for r in frappe.db.sql("""SELECT p.product, f.feature_key FROM `tabQTT Plan Feature` f JOIN `tabQTT Plan` p ON p.name = f.parent
+							  WHERE f.parenttype = 'QTT Plan' AND IFNULL(f.feature_key, '') != ''""", as_dict=True):
+		keys.setdefault(r.product, set()).add(r.feature_key)
+	return {
+		"houses": houses,
+		"products": [{"product": p.name, "name": p.display_name or p.name, "keys": sorted(keys.get(p.name, ()))} for p in products],
+	}
+
+
+def clean_limits(rows, products: dict[str, set]) -> list[dict]:
+	"""Pure: house limit rows as saved — a known app, one of its keys, a whole number ≥ 0 or "unlimited"; one per app+key."""
+	out, seen = [], set()
+	for r in rows or []:
+		product, key = str(r.get("product") or ""), str(r.get("limit_key") or "").strip()
+		if product not in products or key not in products[product]:
+			raise ValueError(f"{product} · {key}")
+		value = str(r.get("limit_value") if r.get("limit_value") is not None else "").strip().lower()
+		if value not in ("unlimited", "-1") and not value.isdigit():
+			raise ValueError(f"{key}: {value}")
+		if (product, key) in seen:
+			continue
+		seen.add((product, key))
+		out.append({"product": product, "limit_key": key, "limit_value": value, "note": " ".join(str(r.get("note") or "").split())[:200] or None})
+	return out
+
+
+@frappe.whitelist(methods=["POST"])
+def save_house(tenant: str, limits) -> dict:
+	"""Save one house business's limits (`limits`: [{product, limit_key, limit_value, note}] — the whole list; empty =
+	no limits). In the audit log (before → after)."""
+	require_platform_owner()
+	from qtt_platform.house import is_house
+
+	if not is_house(tenant):
+		frappe.throw(_("Only QTT's own businesses have house limits."))
+	if isinstance(limits, str):
+		limits = json.loads(limits or "[]")
+	h = house()
+	products = {p["product"]: set(p["keys"]) for p in h["products"]}
+	try:
+		rows = clean_limits(limits, products)
+	except ValueError as e:
+		frappe.throw(_("Not a limit this app has, or not a whole number: {0}").format(e))
+	doc = frappe.get_doc("QTT Tenant", tenant)
+	before = [{"product": r.product, "limit_key": r.limit_key, "limit_value": r.limit_value} for r in doc.house_limits]
+	doc.set("house_limits", [])
+	for r in rows:
+		doc.append("house_limits", r)
+	doc.save(ignore_permissions=True)
+	write_audit_event("house.limits_changed", tenant=tenant, target_doctype="QTT Tenant", target_name=tenant, before_state={"limits": before},
+					  after_state={"limits": [{k: r[k] for k in ("product", "limit_key", "limit_value")} for r in rows]})
+	return house()

@@ -2124,7 +2124,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.sites",
-   "screens": "products/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/office_pulse/screens/coverage_view.dart › _CoverageRuleEditorState\nproducts/office_pulse/screens/pulse_shell.dart › PulseShell\nproducts/office_pulse/screens/requests_view.dart › _RequestFormState\nproducts/office_pulse/screens/work_rules_view.dart › _EmployeeShiftsPageState\nproducts/office_pulse/screens/work_rules_view.dart › _PatternEditorState\nproducts/office_pulse/screens/work_rules_view.dart › _SitePicker\nproducts/office_pulse/screens/work_rules_view.dart › _SitesPageState\nproducts/services/models.dart › SvcRecommendations\nproducts/services/repository.dart › ServicesRepository\nproducts/services/screens/sites_pages.dart › (top level)\nproducts/services/screens/sites_pages.dart › _SitesPage\nproducts/services/services_root.dart › _ServicesRootState",
+   "screens": "core/config/app_status.dart › AppStatusGate\nproducts/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/office_pulse/screens/coverage_view.dart › _CoverageRuleEditorState\nproducts/office_pulse/screens/pulse_shell.dart › PulseShell\nproducts/office_pulse/screens/requests_view.dart › _RequestFormState\nproducts/office_pulse/screens/work_rules_view.dart › _EmployeeShiftsPageState\nproducts/office_pulse/screens/work_rules_view.dart › _PatternEditorState\nproducts/office_pulse/screens/work_rules_view.dart › _SitePicker\nproducts/office_pulse/screens/work_rules_view.dart › _SitesPageState\nproducts/services/models.dart › SvcRecommendations\nproducts/services/repository.dart › ServicesRepository\nproducts/services/screens/sites_pages.dart › (top level)\nproducts/services/screens/sites_pages.dart › _SitesPage\nproducts/services/services_root.dart › _ServicesRootState",
    "other_callers": "",
    "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/work.py:331",
    "status": "Not described"
@@ -3934,7 +3934,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.app",
    "screens": "admin/apps_view.dart › AppDetailScreen\nadmin/apps_view.dart › _AppCard\ncore/state/free_limit_signal.dart › FreeLimitSignal\nplatform/calendar/calendar_home.dart › ItemCard\nplatform/launch/launch_models.dart › LaunchProduct\nplatform/launch/launch_screens.dart › ProductPage\nplatform/launch/launch_screens.dart › _HelpMeChooseState\nproducts/office_pulse/screens/leave_view.dart › _AppTile\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/admin_apps.py:88",
+   "source": "qtt_platform/qtt_platform/api/admin_apps.py:91",
    "status": "OK"
   },
   {
@@ -3948,9 +3948,25 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.apps",
-   "screens": "admin/admin_home.dart › AdminHome\nadmin/admin_home.dart › _AdminHomeBody\nadmin/admin_home.dart › _AdminHomeBodyState\nadmin/apps_view.dart › AppsView\ncore/firebase/firebase_start.dart › FirebaseStart\nplatform/data/platform_models.dart › FreeUseStatus\nplatform/explore/explore_screen.dart › ExploreScreen\nplatform/free_use/free_use_screens.dart › _FreeView\nshared/setup/welcome_screen.dart › _WelcomeScreenState\nshell/home_shell.dart › _HomeShellState\nshell/home_shell.dart › _MenuApps\nshell/home_shell.dart › _ShellMenu\nshell/launcher_screen.dart › LauncherScreen\nshell/launcher_screen.dart › YourAppsGrid",
+   "screens": "admin/admin_home.dart › AdminHome\nadmin/admin_home.dart › _AdminHomeBody\nadmin/admin_home.dart › _AdminHomeBodyState\nadmin/apps_view.dart › AppsView\ncore/config/app_status.dart › AppStatusGate\ncore/config/remote_config.dart › RemoteConfig\ncore/firebase/firebase_start.dart › FirebaseStart\nplatform/data/platform_models.dart › FreeUseStatus\nplatform/explore/explore_screen.dart › ExploreScreen\nplatform/free_use/free_use_screens.dart › _FreeView\nshared/setup/welcome_screen.dart › _WelcomeScreenState\nshell/home_shell.dart › _HomeShellState\nshell/home_shell.dart › _MenuApps\nshell/home_shell.dart › _ShellMenu\nshell/launcher_screen.dart › LauncherScreen\nshell/launcher_screen.dart › YourAppsGrid",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/admin_apps.py:78",
+   "source": "qtt_platform/qtt_platform/api/admin_apps.py:81",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.admin_apps.set_status",
+   "product": "Platform",
+   "area": "api.admin_apps",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "QTT Admin › Apps › an app › Status: `state` on | maintenance | off for everyone, with a `message` people see in maintenance. Reaches every running app at once (qtt:config_changed); QTT staff can still open it. In the audit log.",
+   "details": "QTT Admin › Apps › an app › Status: `state` on | maintenance | off for everyone, with a `message` people see in\nmaintenance. Reaches every running app at once (qtt:config_changed); QTT staff can still open it. In the audit log.",
+   "arguments": "key, state, message",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.setAppStatusForEveryone",
+   "screens": "admin/apps_view.dart › _StatusCardState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/admin_apps.py:167",
    "status": "OK"
   },
   {
@@ -4226,6 +4242,22 @@
    "status": "OK"
   },
   {
+   "endpoint": "qtt_platform.api.admin_settings.house",
+   "product": "Platform",
+   "area": "api.admin_settings",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "QTT Admin › Settings › House limits: QTT's own businesses (every app, no plan, never invoiced) and the limits set for each — app, what is limited (a plan feature key), the amount and a note. Empty: everything, no limits. Also each app's keys to choose from.",
+   "details": "QTT Admin › Settings › House limits: QTT's own businesses (every app, no plan, never invoiced) and the limits set\nfor each — app, what is limited (a plan feature key), the amount and a note. Empty: everything, no limits. Also each\napp's keys to choose from.",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.houseLimits",
+   "screens": "admin/house_limits_view.dart › HouseLimitsScreen",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/admin_settings.py:105",
+   "status": "OK"
+  },
+  {
    "endpoint": "qtt_platform.api.admin_settings.save",
    "product": "Platform",
    "area": "api.admin_settings",
@@ -4239,6 +4271,22 @@
    "screens": "admin/settings_view.dart › _SettingsFormState\nproducts/orbitra/screens/more_view.dart › _OrbitraSettingsViewState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/admin_settings.py:78",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_platform.api.admin_settings.save_house",
+   "product": "Platform",
+   "area": "api.admin_settings",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Save one house business's limits (`limits`: [{product, limit_key, limit_value, note}] — the whole list; empty = no limits). In the audit log (before → after).",
+   "details": "Save one house business's limits (`limits`: [{product, limit_key, limit_value, note}] — the whole list; empty =\nno limits). In the audit log (before → after).",
+   "arguments": "tenant, limits",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.saveHouseLimits",
+   "screens": "admin/house_limits_view.dart › _HouseFormState",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/admin_settings.py:147",
    "status": "OK"
   },
   {
@@ -4318,7 +4366,7 @@
    "app_calls": "qtt-os/qtt_app/lib/core/i18n/money.dart › CurrencyStore.refresh",
    "screens": "core/i18n/money.dart › CurrencyStore",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/app_config.py:54",
+   "source": "qtt_platform/qtt_platform/api/app_config.py:56",
    "status": "OK"
   },
   {
@@ -13212,7 +13260,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.receptionist",
-   "screens": "products/services/models.dart › SvcService\nproducts/services/screens/receptionist_pages.dart › (top level)\nproducts/services/screens/receptionist_pages.dart › ReceptionistPage\nproducts/services/screens/receptionist_pages.dart › _EditorState\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › _ServicesRootState",
+   "screens": "core/config/app_status.dart › AppStatusGate\nproducts/services/models.dart › SvcService\nproducts/services/screens/receptionist_pages.dart › (top level)\nproducts/services/screens/receptionist_pages.dart › ReceptionistPage\nproducts/services/screens/receptionist_pages.dart › _EditorState\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › _ServicesRootState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/my_receptionist.py:149",
    "status": "OK"
@@ -14172,7 +14220,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.catalog",
-   "screens": "admin/clients_models.dart › ClientDetail\nadmin/clients_view.dart › _ClientConsoleState\nadmin/plans_view.dart › PlanEditScreen\nadmin/plans_view.dart › _PlanEditScreenState\nplatform/data/platform_models.dart › AssistantTip\nplatform/data/platform_repository.dart › PlatformRepository\nplatform/explore/explore_screen.dart › ExploreScreen\nplatform/explore/explore_screen.dart › _ItemCard\nproducts/onbox/onbox_repository.dart › OnboxRepository\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/services_home.dart › _CatalogPage\nproducts/services/services_root.dart › _ServicesRootState",
+   "screens": "admin/clients_models.dart › ClientDetail\nadmin/clients_view.dart › _ClientConsoleState\nadmin/plans_view.dart › PlanEditScreen\nadmin/plans_view.dart › _PlanEditScreenState\ncore/config/app_status.dart › AppStatusGate\nplatform/data/platform_models.dart › AssistantTip\nplatform/data/platform_repository.dart › PlatformRepository\nplatform/explore/explore_screen.dart › ExploreScreen\nplatform/explore/explore_screen.dart › _ItemCard\nproducts/onbox/onbox_repository.dart › OnboxRepository\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/services_home.dart › _CatalogPage\nproducts/services/services_root.dart › _ServicesRootState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/portal.py:47",
    "status": "OK"

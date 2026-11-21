@@ -12,11 +12,14 @@ and flags are changed in Settings).
 Areas: qtt_platform.app_areas (events by screen, calls by module).
 """
 
+import json
+
 import frappe
 from frappe import _
 from frappe.utils import add_days, now_datetime
 
-from qtt_platform import app_areas, free_use, perf_rules
+from qtt_platform import app_areas, app_config_logic, free_use, perf_rules
+from qtt_platform.audit import write_audit_event
 from qtt_platform.tenant.guards import require_platform_owner
 
 EVENTS = "QTT App Event"
@@ -144,4 +147,44 @@ def app(key: str) -> dict:
 		"plan": [{"key": k, "name": plan_names[k][0], "unit": plan_names[k][1], "limit": plan.get(k), "period": plan_names[k][2]}
 				 for k in app_areas.PLAN_KEYS.get(key, []) if k in plan_names],
 		"flags": flags,
+		# On / maintenance / off for everyone (set_status) — only the 8 apps on Home can be switched.
+		"switch": _status_key(key),
+		"status": _statuses().get(_status_key(key) or "", {"state": "on", "message": ""}),
 	}
+
+
+def _status_key(area: str) -> str | None:
+	"""Apps area → its Home app key (Content Hub is "articles" on Home); None for parts that can't be switched."""
+	k = "articles" if area == "content" else area
+	return k if k in app_config_logic.SWITCHABLE_APPS else None
+
+
+def _statuses() -> dict:
+	return app_config_logic.app_status(frappe.db.get_single_value("QTT App Settings", "app_status"))
+
+
+@frappe.whitelist(methods=["POST"])
+def set_status(key: str, state: str, message: str | None = None) -> dict:
+	"""QTT Admin › Apps › an app › Status: `state` on | maintenance | off for everyone, with a `message` people see in
+	maintenance. Reaches every running app at once (qtt:config_changed); QTT staff can still open it. In the audit log."""
+	require_platform_owner()
+	app = _status_key(key)
+	if not app:
+		frappe.throw(_("This part can't be switched on its own."))
+	if state not in app_config_logic.APP_STATES:
+		frappe.throw(_("On, maintenance or off."))
+	msg = " ".join(str(message or "").split())[:300]
+	if state == "maintenance" and len(msg) < 5:
+		frappe.throw(_("Say what people will see (for example: back at 6 pm)."))
+	doc = frappe.get_doc("QTT App Settings")
+	current = app_config_logic.app_status(doc.get("app_status"))
+	before = current.get(app, {"state": "on"})
+	if state == "on":
+		current.pop(app, None)
+	else:
+		current[app] = {"state": state, "message": msg}
+	doc.app_status = json.dumps(current)
+	doc.save(ignore_permissions=True)  # on_update → qtt:config_changed: every app reloads its settings
+	write_audit_event("app.status_changed", target_doctype="QTT App Settings", target_name=app, before_state=before,
+					  after_state=current.get(app, {"state": "on"}))
+	return {"key": app, "status": current.get(app, {"state": "on", "message": ""})}

@@ -115,7 +115,9 @@
   "topup_staff_amount",
   "topup_staff_price",
   "topup_site_amount",
-  "topup_site_price"
+  "topup_site_price",
+  "section_app_status",
+  "app_status"
  ],
  "fields": [
   {
@@ -751,6 +753,18 @@
    "label": "Website or store pack — price (₹)",
    "default": "999",
    "non_negative": 1
+  },
+  {
+   "fieldname": "section_app_status",
+   "fieldtype": "Section Break",
+   "label": "Each app: on, maintenance or off",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "app_status",
+   "fieldtype": "Long Text",
+   "label": "App status (JSON)",
+   "description": "Set in QTT Admin › Apps › an app › Status: {\"hr\": {\"state\": \"maintenance\", \"message\": \"…\"}}. Keys: hr, erp, website, store, whatsapp, social, articles, studio. States: on, maintenance, off."
   }
  ],
  "permissions": [

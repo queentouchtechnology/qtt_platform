@@ -126,6 +126,13 @@ class SanitizeEventTest(unittest.TestCase):
 				del sys.modules[name]
 		sys.modules.update(self._modules)
 
+	def test_app_status(self):
+		logic = __import__("qtt_platform.app_config_logic", fromlist=["x"])
+		self.assertEqual(logic.app_status('{"hr": {"state": "maintenance", "message": "  Back at   6 pm "}, "store": {"state": "on"}, "bad": {"state": "off"}, "erp": {"state": "nope"}, "studio": {"state": "off"}}'),
+						 {"hr": {"state": "maintenance", "message": "Back at 6 pm"}, "studio": {"state": "off", "message": ""}})
+		self.assertEqual(logic.app_status("not json"), {})
+		self.assertEqual(logic.app_status(None), {})
+
 	def test_valid_event(self):
 		e = self.analytics.sanitize_event(
 			{"name": "inbox.message_sent", "screen": "chat", "product": "QTT_ONBOX", "props": {"private": True, "len": 12}}

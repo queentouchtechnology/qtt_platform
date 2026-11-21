@@ -156,3 +156,27 @@ def push_config(settings: dict) -> dict | None:
 					  **({"vapid_key": v("web_push_key")} if v("web_push_key") else {}),
 					  **({"measurement_id": v("firebase_measurement_id")} if v("firebase_measurement_id") else {})}
 	return out
+
+
+# Each app on, in maintenance or off (QTT Admin › Apps › Status) -------------------------------------------------------
+SWITCHABLE_APPS = ("hr", "erp", "website", "store", "whatsapp", "social", "articles", "studio")
+APP_STATES = ("on", "maintenance", "off")
+
+
+def app_status(raw) -> dict:
+	"""QTT App Settings › app_status (JSON) → {app: {state, message}} for the apps not simply on. Junk is dropped."""
+	import json
+
+	if isinstance(raw, str):
+		try:
+			raw = json.loads(raw or "{}")
+		except ValueError:
+			return {}
+	out = {}
+	for key, v in (raw or {}).items() if isinstance(raw, dict) else ():
+		if key not in SWITCHABLE_APPS or not isinstance(v, dict):
+			continue
+		state = v.get("state")
+		if state in ("maintenance", "off"):
+			out[key] = {"state": state, "message": " ".join(str(v.get("message") or "").split())[:300]}
+	return out

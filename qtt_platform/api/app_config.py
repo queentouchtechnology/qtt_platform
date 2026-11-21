@@ -45,6 +45,8 @@ def get_app_config(lang: str | None = None, platform: str | None = None, app_ver
 		**shared,
 		"features": logic.resolve_flags(settings.get("feature_flags") or [], platform, app_version),
 		"update": logic.update_policy(settings, app_version, platform),
+		# Each app on / in maintenance / off (QTT Admin › Apps › Status): only those not simply on.
+		"apps": logic.app_status(settings.get("app_status")),
 	}
 	config["version"] = logic.content_version(config)
 	return config
