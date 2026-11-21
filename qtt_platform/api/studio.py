@@ -85,8 +85,7 @@ def paid(tenant: str, feature: str, run, *, provider: str = "assistant", model: 
 	doesn't pay); the usage is recorded either way. `run()` returns the result, or something empty when it failed."""
 	import time
 
-	from qtt_platform.ai.core.response import AiUsage
-	from qtt_platform.ai.services import credit_service, usage_service
+	from qtt_platform.ai.services import credit_service
 	from qtt_platform.house import included
 
 	cost = rules.CREDITS[feature]
@@ -98,22 +97,25 @@ def paid(tenant: str, feature: str, run, *, provider: str = "assistant", model: 
 		check_plan(tenant, "ai")  # the one plan's AI actions this month (top up past them)
 	if paying and not credit_service.deduct_credits(tenant, rules.PRODUCT, cost, reference=ref).get("ok"):
 		frappe.throw(_("You're out of AI credits — more come with next month's plan, or buy more in Business › Plans and billing."))
+	from qtt_platform import ai_actions
+
 	start = time.monotonic()
 	result = None
+	ai_actions.start_job()
 	try:
 		result = run()
 	except Exception:
 		frappe.log_error(title=f"QTT Studio: AI {feature} failed")
+	acc = ai_actions.end_job()
 	status = "success" if result else "error"
 	if status != "success" and paying:
 		credit_service.refund_credits(tenant, rules.PRODUCT, cost, reference=ref)
-	try:
-		usage_service.record_usage(tenant=tenant, product=rules.PRODUCT, user=frappe.session.user, feature=f"studio_{feature}",
-								   provider=provider, model=model, usage=AiUsage(0, 0, 0), credits_used=cost if status == "success" and paying else 0,
-								   provider_cost=provider_cost if status == "success" else 0, status=status,
-								   duration_ms=int((time.monotonic() - start) * 1000))
-	except Exception:
-		frappe.log_error(title="QTT Studio: usage not recorded")
+	# One record for the job: its action code, the real tokens (words) or the picture's price (images), the credits.
+	words = provider == "assistant" and feature not in ("read_image", "ai_logo", "ai_background") and not feature.startswith("ai_")
+	ai_actions.record(action="studio.words" if words else "studio.image", tenant=tenant, provider=acc["provider"] or provider,
+					  model=acc["model"] or model, input_tokens=acc["input"], output_tokens=acc["output"], status=status,
+					  duration_ms=int((time.monotonic() - start) * 1000), credits_used=cost if status == "success" and paying else 0,
+					  provider_cost=None if words else provider_cost)
 	if status != "success":
 		frappe.throw(_("Studio couldn't do that just now — no credits were used. Please try again in a minute."))
 	return result
@@ -125,7 +127,7 @@ def _ai(tenant: str, feature: str, messages: list[dict], *, max_tokens: int = 90
 
 	def run():
 		for json_mode in (True, False):
-			text = complete_json(messages, max_tokens=max_tokens, json_mode=json_mode, temperature=0.4, timeout=45)
+			text = complete_json(messages, max_tokens=max_tokens, json_mode=json_mode, temperature=0.4, timeout=45, action="studio.words", tenant=tenant, record=False)
 			if (text or "").strip():
 				return text
 		return None

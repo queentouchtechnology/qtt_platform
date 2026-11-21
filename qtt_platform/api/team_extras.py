@@ -458,8 +458,7 @@ def ai_info(tenant: str) -> dict:
 
 def _paid(tenant: str, feature: str, run):
 	"""One AI job on AI credits: taken first, given back if it fails or says nothing; usage recorded."""
-	from qtt_platform.ai.core.response import AiUsage
-	from qtt_platform.ai.services import credit_service, usage_service
+	from qtt_platform.ai.services import credit_service
 	from qtt_platform.house import included
 
 	cost = rules.CREDITS[feature]
@@ -472,21 +471,22 @@ def _paid(tenant: str, feature: str, run):
 	ref = f"team:{feature}:{uuid.uuid4()}"
 	if paying and (not product or not credit_service.deduct_credits(tenant, product, cost, reference=ref).get("ok")):
 		frappe.throw(_("You're out of AI credits — more come with your apps' plans, or buy more in Business › Plans and billing."))
+	from qtt_platform import ai_actions
+
 	start = time.monotonic()
 	result = None
+	ai_actions.start_job()
 	try:
 		result = run()
 	except Exception:
 		frappe.log_error(title=f"Team chat: AI {feature} failed")
+	acc = ai_actions.end_job()
 	ok = bool(result)
 	if not ok and paying:
 		credit_service.refund_credits(tenant, product, cost, reference=ref)
-	try:
-		usage_service.record_usage(tenant=tenant, product=product or "QTT_STUDIO", user=frappe.session.user, feature=f"team_{feature}",
-								   provider="assistant", model="assistant", usage=AiUsage(0, 0, 0), credits_used=cost if ok and paying else 0,
-								   provider_cost=0, status="success" if ok else "error", duration_ms=int((time.monotonic() - start) * 1000))
-	except Exception:
-		frappe.log_error(title="Team chat: AI usage not recorded")
+	ai_actions.record(action="team.ai", tenant=tenant, provider=acc["provider"] or "deepseek", model=acc["model"] or "assistant",
+					  input_tokens=acc["input"], output_tokens=acc["output"], status="success" if ok else "error",
+					  duration_ms=int((time.monotonic() - start) * 1000), credits_used=cost if ok and paying else 0)
 	if not ok:
 		frappe.throw(_("That didn't work just now — no credits were used. Please try again in a minute."))
 	return result
@@ -496,7 +496,7 @@ def _complete(messages: list[dict], max_tokens: int = 700) -> str | None:
 	from qtt_platform.api.assistant import complete_json
 
 	for json_mode in (True, False):
-		text = complete_json(messages, max_tokens=max_tokens, json_mode=json_mode, temperature=0.2, timeout=45)
+		text = complete_json(messages, max_tokens=max_tokens, json_mode=json_mode, temperature=0.2, timeout=45, action="team.ai", record=False)
 		if (text or "").strip():
 			return text
 	return None

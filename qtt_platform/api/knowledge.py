@@ -145,7 +145,7 @@ def _model(msgs: list[dict], *, max_tokens: int = 500, title: str = "Know your b
 
 	for json_mode in (True, False):
 		try:
-			text = complete_json(msgs, max_tokens=max_tokens, json_mode=json_mode, temperature=0.3, timeout=30)
+			text = complete_json(msgs, max_tokens=max_tokens, json_mode=json_mode, temperature=0.3, timeout=30, action="knowledge.answer")
 		except Exception:
 			frappe.log_error(title=f"{title}: no answer")
 			text = ""

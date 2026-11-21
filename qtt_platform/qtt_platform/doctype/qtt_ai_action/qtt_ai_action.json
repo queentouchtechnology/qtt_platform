@@ -1,0 +1,31 @@
+{
+ "doctype": "DocType",
+ "name": "QTT AI Action",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "autoname": "field:code",
+ "naming_rule": "By fieldname",
+ "track_changes": 1,
+ "sort_field": "code",
+ "sort_order": "ASC",
+ "engine": "InnoDB",
+ "description": "One thing QTT OS asks an AI to do (write an article, reply to a customer…). Every AI call is recorded under its action code in QTT AI Usage Record — QTT Admin › AI. The list is kept by qtt_platform.ai_actions (new codes are added on deploy; your edits here are kept).",
+ "field_order": ["code", "label", "area", "product", "column_break_main", "counts_for_plan", "model", "section_about", "description"],
+ "fields": [
+  {"fieldname": "code", "fieldtype": "Data", "label": "Action code", "reqd": 1, "unique": 1, "in_list_view": 1, "description": "e.g. content.article.write — the code each AI call is recorded under."},
+  {"fieldname": "label", "fieldtype": "Data", "label": "What it does", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "area", "fieldtype": "Data", "label": "App area", "in_list_view": 1, "in_standard_filter": 1, "description": "hr, erp, website, store, whatsapp, social, content, studio, team, os (qtt_platform.app_areas)."},
+  {"fieldname": "product", "fieldtype": "Link", "label": "Product", "options": "QTT Product", "reqd": 1},
+  {"fieldname": "column_break_main", "fieldtype": "Column Break"},
+  {"fieldname": "counts_for_plan", "fieldtype": "Check", "label": "Counts as an AI action on the plan", "default": "1", "in_list_view": 1, "description": "Off for AI the business doesn't ask for itself (replies to its customers, daily reports) — unlimited on the plan."},
+  {"fieldname": "model", "fieldtype": "Data", "label": "Model (optional)", "description": "Leave empty to use the QTT Assistant model (QTT App Settings). A model ID here is used for this action only."},
+  {"fieldname": "section_about", "fieldtype": "Section Break", "label": "About"},
+  {"fieldname": "description", "fieldtype": "Small Text", "label": "Where it happens"}
+ ],
+ "permissions": [
+  {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1, "report": 1, "export": 1}
+ ],
+ "links": []
+}

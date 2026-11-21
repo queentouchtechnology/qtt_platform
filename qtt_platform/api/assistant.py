@@ -112,22 +112,55 @@ def api_key() -> str | None:
 
 
 def complete_json(messages: list[dict], *, max_tokens: int = 700, json_mode: bool = True, temperature: float = 0.2,
-				  timeout: float = 45) -> str:
+				  timeout: float = 45, action: str | None = None, tenant: str | None = None, record: bool = True) -> str:
 	"""One JSON reply from the assistant model (QTT App Settings › QTT Assistant). Raises on any failure.
 	Also used by QTT's WhatsApp receptionist (qtt_services.api.receptionist), which retries with
 	json_mode=False when DeepSeek's JSON mode comes back blank, and gives each try a shorter timeout so a
-	customer always gets a reply in time."""
+	customer always gets a reply in time.
+
+	Every call is recorded (qtt_platform.ai_actions.record): `action` — its code (QTT AI Action, e.g.
+	content.article.write), `tenant` — the business when it isn't the signed-in person's (automations, the
+	receptionist). The model is the action's own when set (QTT AI Action › Model), else the assistant model.
+	`record=False`: the caller writes its own record (Studio, Team chat — they add credits) from
+	frappe.local.qtt_ai_last (tokens, model, provider, time)."""
+	import time
+
+	from qtt_platform import ai_actions
+
 	s = _settings()
 	key = api_key()
 	if not key:
 		raise RuntimeError("QTT Assistant has no API key.")
 	base = (s.get("assistant_base_url") or "https://api.deepseek.com").rstrip("/")
-	body = {"model": s.get("assistant_model") or "deepseek-chat", "messages": messages, "temperature": temperature, "max_tokens": max_tokens}
+	model = ai_actions.model_for(action, s.get("assistant_model") or "deepseek-chat")
+	provider = "deepseek" if "deepseek" in base else base.split("//")[-1].split("/")[0]
+	body = {"model": model, "messages": messages, "temperature": temperature, "max_tokens": max_tokens}
 	if json_mode:
 		body["response_format"] = {"type": "json_object"}
-	r = requests.post(f"{base}/chat/completions", timeout=timeout, headers={"Authorization": f"Bearer {key}"}, json=body)
-	r.raise_for_status()
-	return r.json()["choices"][0]["message"]["content"]
+	started = time.monotonic()
+	usage = {"input": 0, "output": 0}
+	status = "error"
+	try:
+		r = requests.post(f"{base}/chat/completions", timeout=timeout, headers={"Authorization": f"Bearer {key}"}, json=body)
+		r.raise_for_status()
+		data = r.json()
+		u = data.get("usage") or {}
+		usage = {"input": int(u.get("prompt_tokens") or 0), "output": int(u.get("completion_tokens") or 0)}
+		text = data["choices"][0]["message"]["content"]
+		status = "success"
+		return text
+	finally:
+		took = int((time.monotonic() - started) * 1000)
+		frappe.local.qtt_ai_last = {"provider": provider, "model": model, "input_tokens": usage["input"], "output_tokens": usage["output"],
+									"duration_ms": took, "status": status}
+		acc = getattr(frappe.local, "qtt_ai_acc", None)
+		if acc is not None:  # inside Studio / Team chat's paid job: their one record gets these tokens
+			acc["input"] += usage["input"]
+			acc["output"] += usage["output"]
+			acc["model"], acc["provider"] = model, provider
+		if record:
+			ai_actions.record(action=action, tenant=tenant, provider=provider, model=model, input_tokens=usage["input"],
+							  output_tokens=usage["output"], status=status, duration_ms=took)
 
 
 def catalogue() -> tuple[str, str]:
@@ -225,7 +258,7 @@ def ask(question: str, screen: str | None = None, history=None) -> dict:
 	reply = None
 	for _attempt in range(2):  # an empty answer gets one more try
 		try:
-			text = complete_json(messages)
+			text = complete_json(messages, action="assistant.ask")
 		except Exception:
 			frappe.log_error(title="QTT Assistant: model call failed", message=frappe.get_traceback())
 			return fail("UNAVAILABLE", "The assistant is busy right now. Please try again in a minute.")

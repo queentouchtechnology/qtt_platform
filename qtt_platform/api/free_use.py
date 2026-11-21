@@ -71,12 +71,19 @@ def usage(tenant: str) -> dict:
 
 
 def _ai_used(tenant: str, since) -> dict:
-	"""AI actions this plan month — everything the business asks AI for; the WhatsApp receptionist's replies to customers
-	don't count (replies are unlimited)."""
+	"""AI actions this plan month — everything the business asks AI for (succeeded); the AI that answers its customers or
+	writes its daily report doesn't count (unlimited)."""
 	if not frappe.db.table_exists("QTT AI Usage Record"):
 		return {}
-	n = frappe.db.count("QTT AI Usage Record", {"tenant": tenant, "creation": [">=", since], "status": ["!=", "failed"],
-												"feature": ["not like", "receptionist%"]})
+	# Every AI call is recorded under its action code (qtt_platform.ai_actions); the ones QTT marks as not counting
+	# (QTT AI Action › Counts as an AI action on the plan — replies to customers, daily reports) are left out.
+	free = frappe.get_all("QTT AI Action", filters={"counts_for_plan": 0}, pluck="name") if frappe.db.table_exists("QTT AI Action") else []
+	n = frappe.db.sql(
+		"""SELECT COUNT(*) FROM `tabQTT AI Usage Record`
+		   WHERE tenant = %(t)s AND creation >= %(s)s AND status = 'success' AND feature NOT LIKE 'receptionist%%'
+		     AND (action IS NULL OR action NOT IN %(free)s)""",
+		{"t": tenant, "s": since, "free": tuple(free) or ("",)},
+	)[0][0]
 	return {"ai": n}
 
 

@@ -18,7 +18,16 @@
   "enabled",
   "is_fallback",
   "base_url",
-  "api_key"
+  "api_key",
+  "section_account",
+  "label",
+  "used_for",
+  "key_where",
+  "account_login",
+  "column_break_account",
+  "dashboard_url",
+  "topup_url",
+  "topup_steps"
  ],
  "fields": [
   {
@@ -57,6 +66,55 @@
    "label": "API Key",
    "description": "Server-side only. Read via frappe.utils.password.get_decrypted_password() from provider code — never exposed through any whitelisted method's return value.",
    "length": 300
+  },
+  {
+   "fieldname": "section_account",
+   "fieldtype": "Section Break",
+   "label": "The account (QTT Admin › AI)"
+  },
+  {
+   "fieldname": "label",
+   "fieldtype": "Data",
+   "label": "Name shown",
+   "description": "e.g. DeepSeek"
+  },
+  {
+   "fieldname": "used_for",
+   "fieldtype": "Small Text",
+   "label": "What it's used for"
+  },
+  {
+   "fieldname": "key_where",
+   "fieldtype": "Data",
+   "label": "Where its key is set"
+  },
+  {
+   "fieldname": "account_login",
+   "fieldtype": "Data",
+   "label": "Account login (who signs in)",
+   "description": "The email the provider account belongs to — never a password."
+  },
+  {
+   "fieldname": "column_break_account",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "dashboard_url",
+   "fieldtype": "Data",
+   "label": "Usage / billing page",
+   "options": "URL"
+  },
+  {
+   "fieldname": "topup_url",
+   "fieldtype": "Data",
+   "label": "Top-up page",
+   "options": "URL"
+  },
+  {
+   "fieldname": "topup_steps",
+   "fieldtype": "Small Text",
+   "label": "How to top up",
+   "description": "One step per line."
   }
  ],
  "permissions": [

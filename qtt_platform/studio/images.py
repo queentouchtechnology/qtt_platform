@@ -47,9 +47,23 @@ def need_ready(task: str = TASK) -> tuple[str, str, str, str]:
 VISION_TASK = "studio_vision"
 
 
+def _note(provider: str, model: str, response=None) -> None:
+	"""Inside Studio's paid job: its one usage record gets this call's provider, model and tokens (ai_actions)."""
+	acc = getattr(frappe.local, "qtt_ai_acc", None)
+	if acc is None:
+		return
+	acc["provider"], acc["model"] = provider, model
+	try:
+		u = (response.json() or {}).get("usage") or {} if response is not None else {}
+		acc["input"] += int(u.get("prompt_tokens") or u.get("input_tokens") or 0)
+		acc["output"] += int(u.get("completion_tokens") or u.get("output_tokens") or 0)
+	except Exception:
+		pass
+
+
 def vision_json(messages: list[dict], setup: tuple[str, str, str, str]) -> str | None:
 	"""A vision model's JSON answer about a picture (the messages carry it as a data: image), or None when it failed."""
-	_provider, model, base, key = setup
+	provider, model, base, key = setup
 	try:
 		r = requests.post(f"{base}/chat/completions", headers={"Authorization": f"Bearer {key}"}, timeout=90,
 						  json={"model": model, "messages": messages, "temperature": 0.3, "max_tokens": 900, "response_format": {"type": "json_object"}})
@@ -59,6 +73,7 @@ def vision_json(messages: list[dict], setup: tuple[str, str, str, str]) -> str |
 	if r.status_code != 200:
 		frappe.log_error(title="QTT Studio: vision failed", message=f"{r.status_code} {r.text[:500]}")
 		return None
+	_note(provider, model, r)
 	try:
 		return r.json()["choices"][0]["message"]["content"]
 	except (KeyError, IndexError, ValueError):
@@ -68,7 +83,7 @@ def vision_json(messages: list[dict], setup: tuple[str, str, str, str]) -> str |
 def logo_marks(prompt: str, colours: list[str], setup: tuple[str, str, str, str], count: int = 2) -> list[str]:
 	"""AI logo symbols (SVG text) in the brand's colours — the symbol only; the name is set beside it in a real font.
 	[] when it failed (logged, never shown to the client)."""
-	_provider, model, base, key = setup
+	provider, model, base, key = setup
 
 	def rgb(h):
 		h = h.lstrip("#")
@@ -84,6 +99,7 @@ def logo_marks(prompt: str, colours: list[str], setup: tuple[str, str, str, str]
 	if r.status_code != 200:
 		frappe.log_error(title="QTT Studio: AI logo failed", message=f"{r.status_code} {r.text[:500]}")
 		return []
+	_note(provider, model, r)
 	out = []
 	for item in (r.json().get("data") or [])[:4]:
 		try:
@@ -97,7 +113,7 @@ def logo_marks(prompt: str, colours: list[str], setup: tuple[str, str, str, str]
 
 def scene(prompt: str, size: str, setup: tuple[str, str, str, str]) -> bytes | None:
 	"""One picture (PNG/JPEG bytes) for the prompt, or None when it failed (logged, never shown to the client)."""
-	_provider, model, base, key = setup
+	provider, model, base, key = setup
 	try:
 		r = requests.post(f"{base}/images/generations", headers={"Authorization": f"Bearer {key}"},
 						  json={"model": model, "prompt": prompt, "size": size, "quality": "medium", "n": 1}, timeout=TIMEOUT)
@@ -107,6 +123,7 @@ def scene(prompt: str, size: str, setup: tuple[str, str, str, str]) -> bytes | N
 	if r.status_code != 200:
 		frappe.log_error(title="QTT Studio: AI picture failed", message=f"{r.status_code} {r.text[:500]}")
 		return None
+	_note(provider, model, r)
 	try:
 		item = r.json()["data"][0]
 		if item.get("b64_json"):
