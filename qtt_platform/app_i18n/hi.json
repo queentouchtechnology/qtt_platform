@@ -9085,5 +9085,20 @@
  "Switched off for everyone.": "सबके लिए बंद किया गया।",
  "On for everyone again.": "फिर से सबके लिए चालू।",
  "{app} is off for everyone else.": "{app} बाकी सबके लिए बंद है।",
- "{app} is in maintenance for everyone else.": "{app} बाकी सबके लिए रखरखाव में है।"
+ "{app} is in maintenance for everyone else.": "{app} बाकी सबके लिए रखरखाव में है।",
+ "For businesses on the plan: added straight away, for the rest of that month. No plan change.": "प्लान वाले व्यवसायों के लिए: तुरंत जुड़ता है, उस महीने के बाकी समय के लिए। प्लान नहीं बदलता।",
+ "Need more? Top up": "और चाहिए? टॉप-अप करें",
+ "Unlimited: bills, store orders, customers, designs and WhatsApp replies to customers. Monthly amounts reset on your plan's date each month.": "असीमित: बिल, स्टोर ऑर्डर, ग्राहक, डिज़ाइन और ग्राहकों को WhatsApp जवाब। मासिक मात्रा हर महीने आपके प्लान की तारीख़ पर फिर से शुरू होती है।",
+ "What the plan includes": "प्लान में क्या शामिल है",
+ "{n} {unit} a month": "हर महीने {n} {unit}",
+ "{n} {unit} at a time": "एक समय में {n} {unit}",
+ "message": "संदेश",
+ "action": "कार्य",
+ "post": "पोस्ट",
+ "article": "लेख",
+ "newsletter": "न्यूज़लेटर",
+ "website": "वेबसाइट",
+ "store": "स्टोर",
+ "Your apps are being set up — this takes about a minute.": "आपके ऐप सेट हो रहे हैं — लगभग एक मिनट लगेगा।",
+ "Pull down to check again.": "फिर से देखने के लिए नीचे खींचें।"
 }

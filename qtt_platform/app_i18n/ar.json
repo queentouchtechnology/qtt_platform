@@ -9085,5 +9085,20 @@
  "Switched off for everyone.": "أُوقف للجميع.",
  "On for everyone again.": "يعمل للجميع مجددًا.",
  "{app} is off for everyone else.": "{app} متوقف للآخرين.",
- "{app} is in maintenance for everyone else.": "{app} في الصيانة للآخرين."
+ "{app} is in maintenance for everyone else.": "{app} في الصيانة للآخرين.",
+ "For businesses on the plan: added straight away, for the rest of that month. No plan change.": "للأعمال المشتركة: يُضاف فورًا لبقية ذلك الشهر. دون تغيير الخطة.",
+ "Need more? Top up": "تحتاج المزيد؟ أضف رصيدًا",
+ "Unlimited: bills, store orders, customers, designs and WhatsApp replies to customers. Monthly amounts reset on your plan's date each month.": "غير محدود: الفواتير وطلبات المتجر والعملاء والتصاميم وردود واتساب للعملاء. تتجدد الكميات الشهرية في تاريخ خطتك كل شهر.",
+ "What the plan includes": "ما تتضمنه الخطة",
+ "{n} {unit} a month": "{n} {unit} شهريًا",
+ "{n} {unit} at a time": "{n} {unit} في وقت واحد",
+ "message": "رسالة",
+ "action": "إجراء",
+ "post": "منشور",
+ "article": "مقال",
+ "newsletter": "نشرة",
+ "website": "موقع",
+ "store": "متجر",
+ "Your apps are being set up — this takes about a minute.": "يجري إعداد تطبيقاتك — يستغرق ذلك نحو دقيقة.",
+ "Pull down to check again.": "اسحب للأسفل للتحقق مجددًا."
 }

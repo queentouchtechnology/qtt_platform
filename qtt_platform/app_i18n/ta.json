@@ -9085,5 +9085,20 @@
  "Switched off for everyone.": "அனைவருக்கும் நிறுத்தப்பட்டது.",
  "On for everyone again.": "மீண்டும் அனைவருக்கும் இயக்கத்தில்.",
  "{app} is off for everyone else.": "மற்ற அனைவருக்கும் {app} நிறுத்தப்பட்டுள்ளது.",
- "{app} is in maintenance for everyone else.": "மற்ற அனைவருக்கும் {app} பராமரிப்பில் உள்ளது."
+ "{app} is in maintenance for everyone else.": "மற்ற அனைவருக்கும் {app} பராமரிப்பில் உள்ளது.",
+ "For businesses on the plan: added straight away, for the rest of that month. No plan change.": "திட்டத்தில் உள்ள வணிகங்களுக்கு: உடனே சேர்க்கப்படும், அந்த மாதம் முழுவதும். திட்ட மாற்றம் இல்லை.",
+ "Need more? Top up": "மேலும் வேண்டுமா? கூடுதலாகச் சேர்",
+ "Unlimited: bills, store orders, customers, designs and WhatsApp replies to customers. Monthly amounts reset on your plan's date each month.": "வரம்பற்றவை: பில்கள், கடை ஆர்டர்கள், வாடிக்கையாளர்கள், டிசைன்கள், வாடிக்கையாளர்களுக்கான WhatsApp பதில்கள். மாதாந்திர அளவுகள் ஒவ்வொரு மாதமும் உங்கள் திட்டத் தேதியில் புதுப்பிக்கப்படும்.",
+ "What the plan includes": "திட்டத்தில் என்ன உள்ளது",
+ "{n} {unit} a month": "மாதத்துக்கு {n} {unit}",
+ "{n} {unit} at a time": "ஒரே நேரத்தில் {n} {unit}",
+ "message": "செய்தி",
+ "action": "செயல்",
+ "post": "இடுகை",
+ "article": "கட்டுரை",
+ "newsletter": "செய்திமடல்",
+ "website": "இணையதளம்",
+ "store": "கடை",
+ "Your apps are being set up — this takes about a minute.": "உங்கள் ஆப்கள் அமைக்கப்படுகின்றன — சுமார் ஒரு நிமிடம் ஆகும்.",
+ "Pull down to check again.": "மீண்டும் பார்க்க கீழே இழுக்கவும்."
 }

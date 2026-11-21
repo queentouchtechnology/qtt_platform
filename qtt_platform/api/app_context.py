@@ -45,6 +45,9 @@ def get_app_context() -> dict:
 
 		try:
 			if ensure_included(active_membership["tenant"]):
+				# Saved now: this is a GET, and Frappe rolls back a GET's changes — before 21 Nov 2026 a new business's
+				# apps were added and dropped on every load, so HR and ERP were never set up and Home stayed empty.
+				frappe.db.commit()
 				memberships = _memberships(user)
 				active_membership = next((m for m in memberships if m["tenant"] == active), active_membership)
 		except Exception:
