@@ -9053,5 +9053,10 @@
  "Joined": "சேர்ந்தவர்கள்",
  "Collected": "வசூலானது",
  "Invoiced": "விலைப்பட்டியலிட்டது",
- "Waiting to be paid": "செலுத்தக் காத்திருக்கிறது"
+ "Waiting to be paid": "செலுத்தக் காத்திருக்கிறது",
+ "Busiest: {app}": "அதிகப் பயன்பாடு: {app}",
+ "Chart: actions a day, last 14 days. Badge: the slow ones (p95) of its server calls over the last day.": "வரைபடம்: கடந்த 14 நாட்களில் நாளொன்றுக்கான செயல்கள். குறி: கடந்த நாளில் அதன் சர்வர் அழைப்புகளில் மெதுவானவை (p95).",
+ "Slowest: {app} {ms}": "மெதுவானது: {app} {ms}",
+ "apps in use": "பயன்பாட்டில் உள்ள ஆப்கள்",
+ "apps nobody used": "யாரும் பயன்படுத்தாத ஆப்கள்"
 }

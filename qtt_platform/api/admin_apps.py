@@ -55,7 +55,7 @@ def _speed(days: int) -> dict[str, dict]:
 
 def _summary(rows: list[dict]) -> dict[str, dict]:
 	week = str(add_days(now_datetime(), -7).date())
-	out = {k: {"people_7": set(), "people_30": set(), "businesses": set(), "actions": 0} for k in _SHOWN}
+	out = {k: {"people_7": set(), "people_30": set(), "businesses": set(), "actions": 0, "days": {}} for k in _SHOWN}
 	for r in rows:
 		k = _key(r)
 		if k not in out:
@@ -67,14 +67,17 @@ def _summary(rows: list[dict]) -> dict[str, dict]:
 		if r.tenant:
 			o["businesses"].add(r.tenant)
 		o["actions"] += r.n
-	return {k: {"people_7": len(v["people_7"]), "people_30": len(v["people_30"]), "businesses": len(v["businesses"]), "actions": v["actions"]}
+		o["days"][str(r.d)] = o["days"].get(str(r.d), 0) + r.n
+	last14 = [str(add_days(now_datetime(), -i).date()) for i in range(13, -1, -1)]
+	return {k: {"people_7": len(v["people_7"]), "people_30": len(v["people_30"]), "businesses": len(v["businesses"]), "actions": v["actions"],
+				"trend": [v["days"].get(d, 0) for d in last14]}  # actions a day, the last 14 days (the card's little chart)
 			for k, v in out.items()}
 
 
 @frappe.whitelist(methods=["GET"])
 def apps() -> dict:
-	"""QTT Admin › Apps: every app with people active in 7 / 30 days, businesses using it, actions in 30 days and its
-	speed over the last day (p50 / p95 of its server calls)."""
+	"""QTT Admin › Apps: every app with people active in 7 / 30 days, businesses using it, actions in 30 days, its actions
+	a day over the last 14 days (`trend`) and its speed over the last day (p50 / p95 of its server calls)."""
 	require_platform_owner()
 	usage = _summary(_event_rows(add_days(now_datetime(), -30)))
 	speed = _speed(1)

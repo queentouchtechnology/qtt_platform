@@ -9053,5 +9053,10 @@
  "Joined": "जुड़े",
  "Collected": "प्राप्त",
  "Invoiced": "इनवॉइस किया",
- "Waiting to be paid": "भुगतान बाकी"
+ "Waiting to be paid": "भुगतान बाकी",
+ "Busiest: {app}": "सबसे व्यस्त: {app}",
+ "Chart: actions a day, last 14 days. Badge: the slow ones (p95) of its server calls over the last day.": "चार्ट: पिछले 14 दिनों में प्रति दिन गतिविधियाँ। बैज: पिछले दिन इसकी सर्वर कॉल में धीमी वाली (p95)।",
+ "Slowest: {app} {ms}": "सबसे धीमा: {app} {ms}",
+ "apps in use": "उपयोग में ऐप",
+ "apps nobody used": "ऐप जिन्हें किसी ने नहीं चलाया"
 }

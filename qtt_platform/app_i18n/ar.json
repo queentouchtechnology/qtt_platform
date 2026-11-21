@@ -9053,5 +9053,10 @@
  "Joined": "انضموا",
  "Collected": "المُحصَّل",
  "Invoiced": "المفوتر",
- "Waiting to be paid": "بانتظار الدفع"
+ "Waiting to be paid": "بانتظار الدفع",
+ "Busiest: {app}": "الأكثر استخدامًا: {app}",
+ "Chart: actions a day, last 14 days. Badge: the slow ones (p95) of its server calls over the last day.": "الرسم: الإجراءات يوميًا في آخر 14 يومًا. الشارة: الأبطأ (p95) من طلبات الخادم خلال اليوم الماضي.",
+ "Slowest: {app} {ms}": "الأبطأ: {app} {ms}",
+ "apps in use": "تطبيقات مستخدمة",
+ "apps nobody used": "تطبيقات لم يستخدمها أحد"
 }
