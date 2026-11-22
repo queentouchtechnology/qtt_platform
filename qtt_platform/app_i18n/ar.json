@@ -9224,5 +9224,8 @@
  "The whole system as one tree": "النظام كله كشجرة واحدة",
  "Every area as tabs, the classic way": "كل قسم في علامات تبويب، بالطريقة الكلاسيكية",
  "Builds": "عمليات البناء",
- "No paying businesses yet": "لا توجد أنشطة تدفع بعد"
+ "No paying businesses yet": "لا توجد أنشطة تدفع بعد",
+ "The one plan — all 8 apps": "الخطة الواحدة — كل التطبيقات الثمانية",
+ "Old plans — not sold any more ({n})": "خطط قديمة — لم تعد تُباع ({n})",
+ "Before 14 Nov each app had its own plans. Only QTT's own workspaces still use some of them, free.": "قبل 14 نوفمبر كان لكل تطبيق خططه. لا تستخدم بعضها الآن إلا مساحات QTT الخاصة، مجانًا."
 }
