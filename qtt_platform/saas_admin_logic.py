@@ -122,6 +122,13 @@ def monthly_value(price, period: str, items=()) -> float:
 	return round(base + addons, 2)
 
 
+def counts_as_revenue(sub: dict) -> bool:
+	"""Revenue is only what a business is really billed for: not one of QTT's own (house) workspaces, and billed
+	(razorpay or invoice). Free use, house workspaces and subscriptions never billed are not revenue (22 Nov 2026:
+	₹39,985 'monthly revenue' was 15 house / never-billed app subscriptions at old list prices; ₹0 had been paid)."""
+	return not sub.get("is_house") and (sub.get("billing_mode") or "") in ("razorpay", "invoice")
+
+
 def revenue_summary(subscriptions: list[dict]) -> dict:
 	"""subscriptions: current rows {product, status, base_price,
 	billing_period, items}. MRR counts paying ones (active, past_due);

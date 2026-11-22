@@ -130,3 +130,15 @@ class AttentionTest(unittest.TestCase):
 
 	def test_nothing_to_do(self):
 		self.assertEqual(logic.attention_items(today_str="2026-10-10"), [])
+
+
+class RevenueCountsOnlyBilled(unittest.TestCase):
+	def test_house_and_unbilled_are_not_revenue(self):
+		from qtt_platform import saas_admin_logic as L
+
+		self.assertFalse(L.counts_as_revenue({"is_house": 1, "billing_mode": "invoice"}))
+		self.assertFalse(L.counts_as_revenue({"is_house": 0, "billing_mode": None}))
+		self.assertFalse(L.counts_as_revenue({"is_house": 0, "billing_mode": ""}))
+		self.assertTrue(L.counts_as_revenue({"is_house": 0, "billing_mode": "invoice"}))
+		self.assertTrue(L.counts_as_revenue({"is_house": 0, "billing_mode": "razorpay"}))
+

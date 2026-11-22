@@ -348,8 +348,8 @@ def remove_override(tenant: str, name: str) -> dict:
 def revenue() -> dict:
 	require_platform_owner()
 	subs = frappe.db.sql(
-		"""SELECT s.name, s.tenant, s.product, s.status, s.trial_end, s.current_period_end,
-		          pl.base_price, pl.billing_period, pl.plan_code, t.tenant_name
+		"""SELECT s.name, s.tenant, s.product, s.status, s.trial_end, s.current_period_end, s.billing_mode,
+		          pl.base_price, pl.billing_period, pl.plan_code, t.tenant_name, t.is_house
 		   FROM `tabQTT Tenant Product Subscription Pointer` p
 		   JOIN `tabQTT Product Subscription` s ON s.name = p.current_subscription
 		   LEFT JOIN `tabQTT Plan` pl ON pl.name = s.plan
@@ -364,6 +364,8 @@ def revenue() -> dict:
 	by_sub: dict[str, list] = {}
 	for i in items:
 		by_sub.setdefault(i.parent, []).append({"quantity": i.quantity, "unit_price": i.unit_price})
+	# Only what businesses are billed for: house workspaces and never-billed subscriptions aren't revenue (or "at risk").
+	subs = [s for s in subs if logic.counts_as_revenue(s)]
 	summary = logic.revenue_summary([{**s, "items": by_sub.get(s.name, [])} for s in subs])
 
 	soon = add_days(today(), 7)
