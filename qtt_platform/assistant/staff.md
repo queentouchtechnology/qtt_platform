@@ -95,6 +95,14 @@ certificate close to expiring without renewing, or unreadable twice in a row; an
     rates (Desk › Managed Services Settings › WhatsApp costs — check Meta's rate card for India and update them),
     next to what it pays for AI & WhatsApp Automation, and the margin; smallest margin first. "QTT" = messages QTT
     sent for itself.
+- **Code sites** (QTT Admin › Clients › a business › Websites and systems › a website's ⋮): **Make it a code site** — a
+  website that is code, not WordPress (queentouchtech.in, qtterp.in, quizmasterplus.in, truthofbible.org…). Set the
+  **Repository** (owner/name on GitHub), **Branch**, **Articles folder** (content/articles) and **Article address**
+  with {slug} (empty: the site + /articles/{slug}/). The business's Content Hub articles are then committed there
+  (<slug>.json + <slug>.jpg, the Truth of Bible article format) and the push deploys the site; scheduled ones are
+  committed by n8n (articles_due, every 15 minutes). The GitHub token: Desk › Managed Services Settings › GitHub token
+  (fine-grained, Contents read and write on those repositories), or one per site in the dialog. **Check the code
+  connection** says whether QTT can write there. The site itself must render content/articles/*.json.
 - **Marketing** — QTT's own marketing: content waiting for approval (approve / reject), articles, LinkedIn posts and
   their numbers.
 - **Revenue** — monthly revenue, collected, past-due payments and trials ending.

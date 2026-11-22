@@ -1404,7 +1404,20 @@ open it from that service).
   Articles: **Needs you** (drafts — tap **Check**), **On your website** (Live,
   Scheduled), and **New article**: say what it should be about in one line (or
   pick an idea), **Write it**, then check it, add your picture, pick the day and
-  **Approve**. Newsletters: how many people get it (**See or add people**),
+  **Approve**. Under **On Google**: the **Web address** (the end of the
+  article's address — made from the title when empty), the **Search
+  description** (what Google shows under the title, up to 160 characters — the
+  short summary when empty) and **Questions** (optional, shown under the
+  article: one per paragraph, the question on the first line, the answer
+  below); the word count shows under the text. A draft you don't want: **Turn
+  it down** (say why if you like — later drafts avoid it); it stays as
+  **Turned down**, and **Bring it back** makes it a draft again. Approving
+  shows **Going on your website** for a moment, then **Published** with **See
+  it on your website** — or **Not published** with why (fix it and approve
+  again). It works the same for every website: one QTT built (WordPress) or a
+  website that is code (QTT adds the article to the site's code and the site
+  rebuilds itself — it shows within a few minutes; a scheduled one goes out
+  within 15 minutes of its time). Newsletters: how many people get it (**See or add people**),
   **Needs you**, **Sent**, and **New newsletter**: **My latest articles** or
   **An offer or news** (one line), **Make it**, check it, **Send me a test
   first**, **Approve**. A package without them shows a locked card saying which
