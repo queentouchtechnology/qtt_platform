@@ -9190,5 +9190,6 @@
  "Your website's code": "شيفرة موقعك",
  "{slug} on GitHub · {n} websites connected. Owners connect theirs from the website › Connect with GitHub.": "{slug} على GitHub · {n} مواقع مرتبطة. يربط المالكون مواقعهم من الموقع › اربط مع GitHub.",
  "Connected — QTT is finishing it": "مرتبط — يُكمله QTT",
- "Set up by QTT": "أعدّه QTT"
+ "Set up by QTT": "أعدّه QTT",
+ "Sign in to GitHub as queentouchtechnology first. GitHub opens with QTT OS filled in (it may write only to the code of repositories an owner picks). Tap Create GitHub App there; it comes back here by itself.": "سجّل الدخول إلى GitHub أولًا باسم queentouchtechnology. يُفتح GitHub وفيه QTT OS معبأ (يكتب فقط في شيفرة المستودعات التي يختارها المالك). اضغط Create GitHub App هناك؛ يعود إلى هنا تلقائيًا."
 }

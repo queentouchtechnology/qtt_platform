@@ -9190,5 +9190,6 @@
  "Your website's code": "உங்கள் இணையதளக் குறியீடு",
  "{slug} on GitHub · {n} websites connected. Owners connect theirs from the website › Connect with GitHub.": "GitHub-இல் {slug} · {n} இணையதளங்கள் இணைக்கப்பட்டுள்ளன. உரிமையாளர்கள் இணையதளம் › GitHub உடன் இணை மூலம் இணைப்பார்கள்.",
  "Connected — QTT is finishing it": "இணைக்கப்பட்டது — QTT முடிக்கிறது",
- "Set up by QTT": "QTT அமைத்தது"
+ "Set up by QTT": "QTT அமைத்தது",
+ "Sign in to GitHub as queentouchtechnology first. GitHub opens with QTT OS filled in (it may write only to the code of repositories an owner picks). Tap Create GitHub App there; it comes back here by itself.": "முதலில் GitHub-இல் queentouchtechnology ஆக உள்நுழையுங்கள். QTT OS நிரப்பப்பட்டு GitHub திறக்கும் (உரிமையாளர் தேர்ந்த களஞ்சியங்களின் குறியீட்டில் மட்டுமே எழுதும்). அங்கே Create GitHub App தட்டுங்கள்; அது தானாக இங்கே திரும்பும்."
 }

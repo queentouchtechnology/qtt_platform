@@ -9190,5 +9190,6 @@
  "Your website's code": "आपकी वेबसाइट का कोड",
  "{slug} on GitHub · {n} websites connected. Owners connect theirs from the website › Connect with GitHub.": "GitHub पर {slug} · {n} वेबसाइटें जुड़ी हैं। मालिक वेबसाइट › GitHub से जोड़ें से जोड़ते हैं।",
  "Connected — QTT is finishing it": "जुड़ा है — QTT पूरा कर रहा है",
- "Set up by QTT": "QTT ने सेट किया"
+ "Set up by QTT": "QTT ने सेट किया",
+ "Sign in to GitHub as queentouchtechnology first. GitHub opens with QTT OS filled in (it may write only to the code of repositories an owner picks). Tap Create GitHub App there; it comes back here by itself.": "पहले GitHub पर queentouchtechnology के रूप में साइन इन करें। QTT OS भरा हुआ GitHub खुलेगा (यह केवल मालिक की चुनी रिपॉज़िटरी के कोड में लिख सकता है)। वहाँ Create GitHub App दबाएँ; यह अपने आप यहाँ लौट आएगा।"
 }
