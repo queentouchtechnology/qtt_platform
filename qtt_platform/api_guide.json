@@ -11262,7 +11262,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.answerRequest",
    "screens": "admin/clients_view.dart › _StaffRequestPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:194",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:251",
    "status": "Not described"
   },
   {
@@ -11278,7 +11278,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.assignService",
    "screens": "admin/business_admin.dart › _AssignServicePageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:292",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:349",
    "status": "OK"
   },
   {
@@ -11294,7 +11294,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.automationKey",
    "screens": "admin/clients_view.dart › _ClientsViewState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:252",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:309",
    "status": "OK"
   },
   {
@@ -11310,7 +11310,23 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.automationLibrary",
    "screens": "admin/services_pricing_view.dart › _AutomationLibraryViewState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:489",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:546",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.admin.check_code_site",
+   "product": "Managed Services",
+   "area": "api.admin",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Can QTT commit to this code site? Reads the repository and branch with its token → {ok, message}.",
+   "details": "Can QTT commit to this code site? Reads the repository and branch with its token → {ok, message}.",
+   "arguments": "name",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.checkCodeSite",
+   "screens": "admin/clients_view.dart › _ClientConsoleState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:174",
    "status": "OK"
   },
   {
@@ -11326,7 +11342,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.checkAssetNow",
    "screens": "admin/clients_view.dart › _ClientConsoleState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:157",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:214",
    "status": "Not described"
   },
   {
@@ -11374,7 +11390,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.deleteAsset",
    "screens": "admin/clients_view.dart › _ClientConsoleState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:145",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:202",
    "status": "Not described"
   },
   {
@@ -11390,7 +11406,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.postUpdate",
    "screens": "admin/clients_view.dart › _ClientConsoleState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:166",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:223",
    "status": "OK"
   },
   {
@@ -11406,7 +11422,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.receptionistLive",
    "screens": "admin/receptionists_view.dart › _ReceptionistCard",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:371",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:428",
    "status": "OK"
   },
   {
@@ -11422,7 +11438,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.receptionists",
    "screens": "admin/receptionists_view.dart › (top level)\nadmin/receptionists_view.dart › _ReceptionistsViewState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:352",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:409",
    "status": "OK"
   },
   {
@@ -11438,7 +11454,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.clientRequest",
    "screens": "admin/clients_view.dart › _StaffRequestPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:183",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:240",
    "status": "Not described"
   },
   {
@@ -11470,7 +11486,23 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.saveAutomationType",
    "screens": "admin/services_pricing_view.dart › _AutomationLibraryViewState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:505",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:562",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.admin.save_code_site",
+   "product": "Managed Services",
+   "area": "api.admin",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "A website that is code (not WordPress): its GitHub repository, branch, articles folder and article address (with {slug}). Content Hub articles for it are then committed there — the push deploys the site. token (optional): one for this repository only (else Managed Services Settings › GitHub token). on=0: back to an ordinary website.",
+   "details": "A website that is code (not WordPress): its GitHub repository, branch, articles folder and article address\n(with {slug}). Content Hub articles for it are then committed there — the push deploys the site. token (optional): one\nfor this repository only (else Managed Services Settings › GitHub token). on=0: back to an ordinary website.",
+   "arguments": "name, repo, branch, articles_dir, article_url, token, on",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.saveCodeSite",
+   "screens": "admin/clients_view.dart › _ClientConsoleState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:145",
    "status": "OK"
   },
   {
@@ -11486,7 +11518,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.saveService\nqtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.saveServiceType",
    "screens": "admin/business_admin.dart › _TenantServicesSectionState\nadmin/clients_view.dart › _ClientConsoleState\nadmin/services_pricing_view.dart › _ServicePageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:436",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:493",
    "status": "OK"
   },
   {
@@ -11502,7 +11534,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.saveServicePlan",
    "screens": "admin/services_pricing_view.dart › _ServicePageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:460",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:517",
    "status": "OK"
   },
   {
@@ -11518,7 +11550,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.clientServerInstallCommand",
    "screens": "admin/clients_view.dart › _ClientConsoleState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:229",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:286",
    "status": "OK"
   },
   {
@@ -11534,7 +11566,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.serviceCatalog",
    "screens": "admin/business_admin.dart › _AssignServicePageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:265",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:322",
    "status": "OK"
   },
   {
@@ -11550,7 +11582,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.serviceToken",
    "screens": "admin/clients_view.dart › _ClientConsoleState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:215",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:272",
    "status": "OK"
   },
   {
@@ -11566,7 +11598,7 @@
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.servicesAdmin",
    "screens": "admin/services_pricing_view.dart › _ServicesPricingViewState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:415",
+   "source": "qtt-os/qtt_services/qtt_services/api/admin.py:472",
    "status": "OK"
   },
   {
@@ -11586,6 +11618,22 @@
    "status": "Not described"
   },
   {
+   "endpoint": "qtt_services.api.automation.articles_due",
+   "product": "Managed Services",
+   "area": "api.automation",
+   "http_methods": "POST",
+   "guest": 1,
+   "purpose": "n8n, every 15 minutes: code-site articles whose scheduled time has come go on their website now (one commit each). → {published: [names], failed: [names]} — a failed one shows in the app with why.",
+   "details": "n8n, every 15 minutes: code-site articles whose scheduled time has come go on their website now (one commit each).\n→ {published: [names], failed: [names]} — a failed one shows in the app with why.",
+   "arguments": "",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:265",
+   "status": "Not used by the app"
+  },
+  {
    "endpoint": "qtt_services.api.automation.daily_summary",
    "product": "Managed Services",
    "area": "api.automation",
@@ -11598,7 +11646,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 03-qttWf03DailyRpt0.json\nn8n: 09-qttWf09AskBiz00.json\nn8n: 10-qttWf10HrToday00.json\nn8n: QTT workflows",
-   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:120",
+   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:122",
    "status": "OK"
   },
   {
@@ -11614,7 +11662,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 02-qttWf02NewOrders.json\nn8n: 03-qttWf03DailyRpt0.json\nn8n: 04-qttWf04Reminders.json\nn8n: 05-qttWf05SiteRprt0.json\nn8n: 06-qttWf06Marketing.json\nn8n: 07-qttWf07Leads0000.json\nn8n: 08-qttWf08Reception.json\nn8n: 09-qttWf09AskBiz00.json\nn8n: 10-qttWf10HrToday00.json\nn8n: 11-qttWf11BuildSite.json\nn8n: 13-qttWf13BuyDomain.json\nn8n: 14-qttWf14StoreBld.json\nn8n: QTT workflows",
-   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:56",
+   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:58",
    "status": "Not described"
   },
   {
@@ -11630,7 +11678,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 00-qttWf00Errors000.json",
-   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:212",
+   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:214",
    "status": "OK"
   },
   {
@@ -11646,7 +11694,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 02-qttWf02NewOrders.json\nn8n: 03-qttWf03DailyRpt0.json\nn8n: 04-qttWf04Reminders.json\nn8n: 05-qttWf05SiteRprt0.json\nn8n: 06-qttWf06Marketing.json\nn8n: 07-qttWf07Leads0000.json\nn8n: 09-qttWf09AskBiz00.json\nn8n: 10-qttWf10HrToday00.json",
-   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:107",
+   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:109",
    "status": "Not described"
   },
   {
@@ -11662,7 +11710,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 05-qttWf05SiteRprt0.json\nn8n: QTT workflows",
-   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:192",
+   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:194",
    "status": "OK"
   },
   {
@@ -11678,7 +11726,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "n8n: 04-qttWf04Reminders.json\nn8n: 09-qttWf09AskBiz00.json\nn8n: QTT workflows",
-   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:165",
+   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:167",
    "status": "OK"
   },
   {
@@ -11694,7 +11742,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:239",
+   "source": "qtt-os/qtt_services/qtt_services/api/automation.py:241",
    "status": "Not used by the app"
   },
   {
@@ -12222,7 +12270,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingApprove",
    "screens": "products/services/screens/marketing_pages.dart › _PostEditorPageState\nproducts/services/screens/needs_ok.dart › (top level)\nproducts/services/screens/quick_post.dart › _CheckPostPageState\nproducts/services/screens/quick_post.dart › _ScheduledPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:279",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:280",
    "status": "OK"
   },
   {
@@ -12238,7 +12286,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.approveArticle",
    "screens": "products/services/screens/article_pages.dart › _ArticleEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:578",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:604",
    "status": "OK"
   },
   {
@@ -12254,7 +12302,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.articleIdeas",
    "screens": "products/services/screens/article_pages.dart › _ArticlesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:651",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:691",
    "status": "OK"
   },
   {
@@ -12270,7 +12318,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.articleImage",
    "screens": "products/services/screens/article_pages.dart › _ArticleEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:554",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:580",
    "status": "OK"
   },
   {
@@ -12286,7 +12334,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.articleTopics",
    "screens": "products/services/screens/content_hub.dart › _NewArticlePageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:687",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:727",
    "status": "OK"
   },
   {
@@ -12302,7 +12350,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.articlesPage",
    "screens": "products/services/screens/article_pages.dart › _ArticlesPageState\nproducts/services/screens/content_hub.dart › _ArticlesTabState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:510",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:524",
    "status": "OK"
   },
   {
@@ -12318,7 +12366,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.articlesOverview",
    "screens": "products/services/screens/article_pages.dart › _ArticlesPageState\nproducts/services/screens/content_hub.dart › _ArticlesTabState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:498",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:511",
    "status": "OK"
   },
   {
@@ -12334,7 +12382,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingConnect",
    "screens": "products/services/screens/social_alerts.dart › _PostFailedPageState\nproducts/services/screens/social_setup.dart › (top level)",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:180",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:181",
    "status": "OK"
   },
   {
@@ -12350,7 +12398,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingDisconnect",
    "screens": "products/services/screens/marketing_pages.dart › _MarketingPageState\nproducts/services/screens/social_home.dart › _ChannelCard\nproducts/services/screens/social_pages.dart › _YourPagesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:201",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:202",
    "status": "Not described"
   },
   {
@@ -12366,7 +12414,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingDraftIdeas",
    "screens": "products/services/screens/marketing_hub.dart › _MarketingIdeasPageState\nproducts/services/screens/marketing_pages.dart › (top level)",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:351",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:352",
    "status": "OK"
   },
   {
@@ -12382,7 +12430,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingOverview",
    "screens": "admin/marketing_view.dart › _MarketingViewState\nproducts/services/screens/design_library.dart › _DesignPreviewPageState\nproducts/services/screens/marketing_hub.dart › _MarketingHubPageState\nproducts/services/screens/marketing_pages.dart › (top level)\nproducts/services/screens/marketing_pages.dart › _MarketingPageState\nproducts/services/screens/social_calendar.dart › _PostCalendarState\nproducts/services/screens/social_home.dart › _SocialAlertsBellState\nproducts/services/screens/social_home.dart › _SocialHomeState\nproducts/services/screens/social_pages.dart › _YourPagesPageState\nproducts/services/screens/social_setup.dart › _SocialSetupPageState\nproducts/services/services_root.dart › _ServicesRootState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:145",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:146",
    "status": "Not described"
   },
   {
@@ -12398,7 +12446,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingPost",
    "screens": "products/services/screens/marketing_history.dart › _PostHistoryPageState\nproducts/services/screens/marketing_hub.dart › _MarketingHubPageState\nproducts/services/screens/marketing_pages.dart › (top level)\nproducts/services/screens/quick_post.dart › _CheckPostPageState\nproducts/services/screens/social_calendar.dart › _PostCalendarState\nproducts/services/screens/social_home.dart › _TodayTab",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:236",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:237",
    "status": "Not described"
   },
   {
@@ -12414,7 +12462,23 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingPosts",
    "screens": "products/services/screens/marketing_pages.dart › _MarketingPageState\nproducts/services/screens/social_home.dart › _FirstStepsState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:215",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:216",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.marketing.reject_article",
+   "product": "Managed Services",
+   "area": "api.marketing",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Turn an AI draft down (with why — later drafts avoid it). It stays in the list as Rejected; bring it back to edit.",
+   "details": "Turn an AI draft down (with why — later drafts avoid it). It stays in the list as Rejected; bring it back to edit.",
+   "arguments": "name, reason",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.rejectArticle",
+   "screens": "products/services/screens/article_pages.dart › _ArticleEditorPageState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:652",
    "status": "OK"
   },
   {
@@ -12430,7 +12494,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingRemove",
    "screens": "products/services/screens/marketing_history.dart › _PostHistoryPageState\nproducts/services/screens/marketing_pages.dart › _MarketingPageState\nproducts/services/screens/marketing_pages.dart › _PostEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:337",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:338",
    "status": "OK"
   },
   {
@@ -12439,14 +12503,30 @@
    "area": "api.marketing",
    "http_methods": "POST",
    "guest": 0,
-   "purpose": "Delete a draft; or take a published or scheduled article off the website.",
-   "details": "Delete a draft; or take a published or scheduled article off the website.",
+   "purpose": "Delete a draft; or take a published or scheduled article off the website (WordPress, or a commit removing it from a code site).",
+   "details": "Delete a draft; or take a published or scheduled article off the website (WordPress, or a commit removing it from a\ncode site).",
    "arguments": "name",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.removeArticle",
    "screens": "products/services/screens/article_pages.dart › _ArticleEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:634",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:675",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.marketing.reopen_article",
+   "product": "Managed Services",
+   "area": "api.marketing",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "A turned-down article back to Draft, to change and approve after all.",
+   "details": "A turned-down article back to Draft, to change and approve after all.",
+   "arguments": "name",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.reopenArticle",
+   "screens": "products/services/screens/article_pages.dart › _ArticleEditorPageState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:664",
    "status": "OK"
   },
   {
@@ -12462,7 +12542,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingSave",
    "screens": "products/services/screens/marketing_pages.dart › _PostEditorPageState\nproducts/services/screens/quick_post.dart › _CheckPostPageState\nproducts/services/screens/quick_post.dart › _ScheduledPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:241",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:242",
    "status": "OK"
   },
   {
@@ -12471,14 +12551,14 @@
    "area": "api.marketing",
    "http_methods": "POST",
    "guest": 0,
-   "purpose": "Write or change an article (drafts and ones that failed). body: simple text with headings and bullets. The picture's details for Google: image_alt (what it shows), image_title, image_caption (under it) and image_file (its file name on the website); image_url empty removes the picture — the article is then published without one.",
-   "details": "Write or change an article (drafts and ones that failed). body: simple text with headings and bullets. The picture's\ndetails for Google: image_alt (what it shows), image_title, image_caption (under it) and image_file (its file name on\nthe website); image_url empty removes the picture — the article is then published without one.",
-   "arguments": "title, body, excerpt, image_url, asset, scheduled_at, name, image_alt, image_title, image_caption, image_file",
+   "purpose": "Write or change an article (drafts and ones that failed). body: simple text with headings and bullets. The picture's details for Google: image_alt (what it shows), image_title, image_caption (under it) and image_file (its file name on the website); image_url empty removes the picture — the article is then published without one. For Google too: slug (its web address; from the title when empty), seo_description (under the title in search; the excerpt when empty) and questions (one per paragraph, t",
+   "details": "Write or change an article (drafts and ones that failed). body: simple text with headings and bullets. The picture's\ndetails for Google: image_alt (what it shows), image_title, image_caption (under it) and image_file (its file name on\nthe website); image_url empty removes the picture — the article is then published without one. For Google too: slug\n(its web address; from the title when empty), seo_description (under the title in search; the excerpt when empty) and\nquestions (one per paragraph, the question on the first line — shown under the article).",
+   "arguments": "title, body, excerpt, image_url, asset, scheduled_at, name, image_alt, image_title, image_caption, image_file, slug, seo_description, questions",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.saveArticle",
    "screens": "products/services/screens/article_pages.dart › _ArticleEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:526",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:540",
    "status": "OK"
   },
   {
@@ -12494,7 +12574,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.marketingUploadUrl",
    "screens": "products/services/screens/marketing_pages.dart › _PostEditorPageState\nproducts/services/screens/quick_post.dart › _MakePostPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:265",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:266",
    "status": "OK"
   },
   {
@@ -12510,7 +12590,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.writeArticle",
    "screens": "products/services/screens/content_hub.dart › _NewArticlePageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:666",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:706",
    "status": "OK"
   },
   {
