@@ -1264,6 +1264,17 @@ share.
   nothing to pay; you keep what you paid for and it switches at the next
   renewal. A change waiting shows on the page with **Pay now** and **Cancel
   the change**. A service not paid for yet can't change plan.
+- **Your website's code** (Business Suite › the website, for a website made of
+  code on GitHub — not WordPress): owners tap **Connect with GitHub**, choose
+  the website's repository on GitHub and tap **Install**, then come back. No
+  form to fill: QTT reads the code and sets everything up itself — where
+  articles go, their web address, how the site is built — and the card lists
+  what it found. If the site doesn't show articles yet, it says **Connected —
+  QTT is finishing it**: QTT adds the article pages once (a request is opened
+  for the QTT team by itself), then **Check again**. Gave QTT OS several
+  repositories? **Pick the repository**. **Disconnect** stops articles going
+  there (QTT OS can also be removed on GitHub › Settings › Applications).
+  After that, articles approved in Content Hub go on the website by themselves.
 - Blog (Manage your website › Blog): every post on the website — also ones
   written in WordPress — with search and All / Published / Drafts /
   Scheduled. **New post**: title, a picture (from the website's pictures or

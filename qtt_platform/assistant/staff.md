@@ -95,7 +95,13 @@ certificate close to expiring without renewing, or unreadable twice in a row; an
     rates (Desk › Managed Services Settings › WhatsApp costs — check Meta's rate card for India and update them),
     next to what it pays for AI & WhatsApp Automation, and the margin; smallest margin first. "QTT" = messages QTT
     sent for itself.
-- **Code sites** (QTT Admin › Clients › a business › Websites and systems › a website's ⋮): **Make it a code site** — a
+- **GitHub app** (QTT Admin › Clients › GitHub app, once): registers QTT's GitHub App (GitHub's own page opens filled in —
+  write access only to the code of repositories an owner picks; keys kept encrypted). Owners then connect their own
+  website's code with **Connect with GitHub** (no tokens): QTT checks with GitHub that the person installed it, reads the
+  repository and sets folder, address and branch itself (github_rules.detect). A site that doesn't show articles yet opens
+  a request "Show articles on <site>": add tools/site-articles/qtt-articles.mjs + a template there, then the owner taps
+  Check again. The app removed on GitHub disconnects the website by itself (webhook).
+- **Code sites** (QTT Admin › Clients › a business › Websites and systems › a website's ⋮): **Make it a code site** (by hand, for a site the owner can't connect) — a
   website that is code, not WordPress (queentouchtech.in, qtterp.in, quizmasterplus.in, truthofbible.org…). Set the
   **Repository** (owner/name on GitHub), **Branch**, **Articles folder** (content/articles) and **Article address**
   with {slug} (empty: the site + /articles/{slug}/). The business's Content Hub articles are then committed there
