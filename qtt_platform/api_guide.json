@@ -12114,6 +12114,182 @@
    "status": "OK"
   },
   {
+   "endpoint": "qtt_services.api.github.app_created",
+   "product": "Managed Services",
+   "area": "api.github",
+   "http_methods": "GET",
+   "guest": 1,
+   "purpose": "GitHub made QTT's app from the manifest: keep its id, name and keys (encrypted).",
+   "details": "GitHub made QTT's app from the manifest: keep its id, name and keys (encrypted).",
+   "arguments": "code, state",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/github.py:292",
+   "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_services.api.github.app_setup",
+   "product": "Managed Services",
+   "area": "api.github",
+   "http_methods": "GET",
+   "guest": 1,
+   "purpose": "QTT Admin's 15-minute link: a page that sends QTT's app (manifest) to GitHub's own Create GitHub App page.",
+   "details": "QTT Admin's 15-minute link: a page that sends QTT's app (manifest) to GitHub's own Create GitHub App page.",
+   "arguments": "t",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/github.py:276",
+   "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_services.api.github.app_setup_link",
+   "product": "Managed Services",
+   "area": "api.github",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "QTT Admin: a 15-minute link to GitHub's own page with QTT's app filled in. Create it there; GitHub sends it back.",
+   "details": "QTT Admin: a 15-minute link to GitHub's own page with QTT's app filled in. Create it there; GitHub sends it back.",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.githubAppSetupLink",
+   "screens": "admin/clients_view.dart › _ClientsViewState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/github.py:266",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.github.app_status",
+   "product": "Managed Services",
+   "area": "api.github",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "QTT Admin: is QTT's GitHub App registered (and its page on GitHub).",
+   "details": "QTT Admin: is QTT's GitHub App registered (and its page on GitHub).",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.githubAppStatus",
+   "screens": "admin/clients_view.dart › _ClientsViewState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/github.py:254",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.github.choose",
+   "product": "Managed Services",
+   "area": "api.github",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "This repository is the website's code: QTT reads it and sets everything up.",
+   "details": "This repository is the website's code: QTT reads it and sets everything up.",
+   "arguments": "asset, repo",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.githubChoose",
+   "screens": "products/services/screens/website_code.dart › _WebsiteCodeCardState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/github.py:189",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.github.connect_link",
+   "product": "Managed Services",
+   "area": "api.github",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "GitHub's page to install QTT OS on this website's repository. Opened in the browser; GitHub sends them back.",
+   "details": "GitHub's page to install QTT OS on this website's repository. Opened in the browser; GitHub sends them back.",
+   "arguments": "asset",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.githubConnectLink",
+   "screens": "products/services/screens/website_code.dart › _WebsiteCodeCardState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/github.py:81",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.github.disconnect",
+   "product": "Managed Services",
+   "area": "api.github",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "QTT stops putting articles on this website's code. (QTT OS can also be removed on GitHub › Settings › Applications.)",
+   "details": "QTT stops putting articles on this website's code. (QTT OS can also be removed on GitHub › Settings › Applications.)",
+   "arguments": "asset",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.githubDisconnect",
+   "screens": "products/services/screens/website_code.dart › _WebsiteCodeCardState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/github.py:212",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.github.installed",
+   "product": "Managed Services",
+   "area": "api.github",
+   "http_methods": "GET",
+   "guest": 1,
+   "purpose": "GitHub sends the owner back after installing QTT OS. Checked with GitHub (this person can see that installation), then the repository is read and the website set up — the page says what QTT found.",
+   "details": "GitHub sends the owner back after installing QTT OS. Checked with GitHub (this person can see that installation),\nthen the repository is read and the website set up — the page says what QTT found.",
+   "arguments": "installation_id, setup_action, state, code",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/github.py:92",
+   "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_services.api.github.recheck",
+   "product": "Managed Services",
+   "area": "api.github",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Read the repository again (QTT added the article pages, or the site changed).",
+   "details": "Read the repository again (QTT added the article pages, or the site changed).",
+   "arguments": "asset",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.githubRecheck",
+   "screens": "products/services/screens/website_code.dart › _WebsiteCodeCardState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/github.py:202",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.github.repos",
+   "product": "Managed Services",
+   "area": "api.github",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "The repositories this owner gave QTT OS on GitHub — to pick the website's own.",
+   "details": "The repositories this owner gave QTT OS on GitHub — to pick the website's own.",
+   "arguments": "asset",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.githubRepos",
+   "screens": "products/services/screens/website_code.dart › _WebsiteCodeCardState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/github.py:180",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.github.webhook",
+   "product": "Managed Services",
+   "area": "api.github",
+   "http_methods": "POST",
+   "guest": 1,
+   "purpose": "QTT OS removed from an account, or a repository taken away from it → those websites are disconnected.",
+   "details": "QTT OS removed from an account, or a repository taken away from it → those websites are disconnected.",
+   "arguments": "",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/github.py:228",
+   "status": "Not used by the app"
+  },
+  {
    "endpoint": "qtt_services.api.golive.approve",
    "product": "Managed Services",
    "area": "api.golive",
@@ -12286,7 +12462,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.approveArticle",
    "screens": "products/services/screens/article_pages.dart › _ArticleEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:604",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:607",
    "status": "OK"
   },
   {
@@ -12302,7 +12478,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.articleIdeas",
    "screens": "products/services/screens/article_pages.dart › _ArticlesPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:691",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:694",
    "status": "OK"
   },
   {
@@ -12318,7 +12494,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.articleImage",
    "screens": "products/services/screens/article_pages.dart › _ArticleEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:580",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:583",
    "status": "OK"
   },
   {
@@ -12334,7 +12510,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.articleTopics",
    "screens": "products/services/screens/content_hub.dart › _NewArticlePageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:727",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:730",
    "status": "OK"
   },
   {
@@ -12350,7 +12526,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.articlesPage",
    "screens": "products/services/screens/article_pages.dart › _ArticlesPageState\nproducts/services/screens/content_hub.dart › _ArticlesTabState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:524",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:527",
    "status": "OK"
   },
   {
@@ -12366,7 +12542,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.articlesOverview",
    "screens": "products/services/screens/article_pages.dart › _ArticlesPageState\nproducts/services/screens/content_hub.dart › _ArticlesTabState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:511",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:514",
    "status": "OK"
   },
   {
@@ -12478,7 +12654,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.rejectArticle",
    "screens": "products/services/screens/article_pages.dart › _ArticleEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:652",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:655",
    "status": "OK"
   },
   {
@@ -12510,7 +12686,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.removeArticle",
    "screens": "products/services/screens/article_pages.dart › _ArticleEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:675",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:678",
    "status": "OK"
   },
   {
@@ -12526,7 +12702,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.reopenArticle",
    "screens": "products/services/screens/article_pages.dart › _ArticleEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:664",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:667",
    "status": "OK"
   },
   {
@@ -12558,7 +12734,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.saveArticle",
    "screens": "products/services/screens/article_pages.dart › _ArticleEditorPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:540",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:543",
    "status": "OK"
   },
   {
@@ -12590,7 +12766,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.writeArticle",
    "screens": "products/services/screens/content_hub.dart › _NewArticlePageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:706",
+   "source": "qtt-os/qtt_services/qtt_services/api/marketing.py:709",
    "status": "OK"
   },
   {
@@ -14348,7 +14524,7 @@
    "arguments": "name",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.asset",
-   "screens": "app/app_gate.dart › _SplashState\nproducts/services/models.dart › SvcEvent\nproducts/services/screens/deploy_pages.dart › DeploymentsList\nproducts/services/screens/deploy_pages.dart › _DeploymentsListState\nproducts/services/screens/golive_pages.dart › _ConnectDomainPage\nproducts/services/screens/golive_pages.dart › _ConnectDomainPageState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/services_home.dart › _ActivityPageState\nproducts/services/screens/services_home.dart › _AssetPage\nproducts/services/screens/services_home.dart › _ConnectCard\nproducts/services/screens/services_home.dart › _DownCard\nproducts/services/screens/services_home.dart › _ProjectRows\nproducts/services/screens/services_home.dart › _ReviewCard\nproducts/services/screens/services_home.dart › _WebsiteTop\nproducts/services/screens/services_widgets.dart › AssetTile\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_blog.dart › PostEditorPage\nproducts/services/store/store_blog.dart › StoreBlogPage\nproducts/services/store/store_blog.dart › _MediaPicker\nproducts/services/store/store_blog.dart › _MediaPickerState\nproducts/services/store/store_blog.dart › _PostEditorPageState\nproducts/services/store/store_blog.dart › _StoreBlogPageState\nproducts/services/store/store_design.dart › FieldEditor\nproducts/services/store/store_design.dart › StoreDesignPage\nproducts/services/store/store_design.dart › _GroupEditPage\nproducts/services/store/store_design.dart › _GroupEditPageState\nproducts/services/store/store_design.dart › _ImageField\nproducts/services/store/store_design.dart › _ImageFieldState\nproducts/services/store/store_design.dart › _ItemEditPage\nproducts/services/store/store_design.dart › _ItemEditPageState\nproducts/services/store/store_design.dart › _ListField\nproducts/services/store/store_design.dart › _PageSectionsPage\nproducts/services/store/store_design.dart › _PageSectionsPageState\nproducts/services/store/store_design.dart › _StoreDesignPageState\nproducts/services/store/store_more.dart › StoreCouponsPage\nproducts/services/store/store_more.dart › StoreMarketingPage\nproducts/services/store/store_more.dart › StoreSettingsPage\nproducts/services/store/store_more.dart › _CouponForm\nproducts/services/store/store_more.dart › _CouponFormState\nproducts/services/store/store_more.dart › _SiteForm\nproducts/services/store/store_more.dart › _SiteFormState\nproducts/services/store/store_more.dart › _StoreCouponsPageState\nproducts/services/store/store_more.dart › _StoreMarketingPageState\nproducts/services/store/store_more.dart › _TrackingCard\nproducts/services/store/store_more.dart › _TrackingCardState\nproducts/services/store/store_pages.dart › StoreEntriesPage\nproducts/services/store/store_pages.dart › StoreHomePage\nproducts/services/store/store_pages.dart › StoreOrderPage\nproducts/services/store/store_pages.dart › StoreOrdersPage\nproducts/services/store/store_pages.dart › StoreProductEditPage\nproducts/services/store/store_pages.dart › StoreProductsPage\nproducts/services/store/store_pages.dart › _ProductForm\nproducts/services/store/store_pages.dart › _ProductFormState\nproducts/services/store/store_pages.dart › _StoreEntriesPageState\nproducts/services/store/store_pages.dart › _StoreOrderPageState\nproducts/services/store/store_pages.dart › _StoreOrdersPageState\nproducts/services/store/store_pages.dart › _StoreProductsPageState\nproducts/services/store/store_payments.dart › StorePaymentsPage\nproducts/services/store/store_payments.dart › _StorePaymentsPageState\nproducts/services/store/store_pictures.dart › PictureDetailPage\nproducts/services/store/store_pictures.dart › StorePicturesPage\nproducts/services/store/store_pictures.dart › _PictureDetailPageState\nproducts/services/store/store_pictures.dart › _StorePicturesPageState",
+   "screens": "app/app_gate.dart › _SplashState\nproducts/services/models.dart › SvcEvent\nproducts/services/screens/deploy_pages.dart › DeploymentsList\nproducts/services/screens/deploy_pages.dart › _DeploymentsListState\nproducts/services/screens/golive_pages.dart › _ConnectDomainPage\nproducts/services/screens/golive_pages.dart › _ConnectDomainPageState\nproducts/services/screens/services_home.dart › ServicesHome\nproducts/services/screens/services_home.dart › _ActivityPageState\nproducts/services/screens/services_home.dart › _AssetPage\nproducts/services/screens/services_home.dart › _ConnectCard\nproducts/services/screens/services_home.dart › _DownCard\nproducts/services/screens/services_home.dart › _ProjectRows\nproducts/services/screens/services_home.dart › _ReviewCard\nproducts/services/screens/services_home.dart › _WebsiteTop\nproducts/services/screens/services_widgets.dart › AssetTile\nproducts/services/screens/website_code.dart › WebsiteCodeCard\nproducts/services/screens/website_code.dart › _WebsiteCodeCardState\nproducts/services/services_root.dart › _ServicesRootState\nproducts/services/store/store_blog.dart › PostEditorPage\nproducts/services/store/store_blog.dart › StoreBlogPage\nproducts/services/store/store_blog.dart › _MediaPicker\nproducts/services/store/store_blog.dart › _MediaPickerState\nproducts/services/store/store_blog.dart › _PostEditorPageState\nproducts/services/store/store_blog.dart › _StoreBlogPageState\nproducts/services/store/store_design.dart › FieldEditor\nproducts/services/store/store_design.dart › StoreDesignPage\nproducts/services/store/store_design.dart › _GroupEditPage\nproducts/services/store/store_design.dart › _GroupEditPageState\nproducts/services/store/store_design.dart › _ImageField\nproducts/services/store/store_design.dart › _ImageFieldState\nproducts/services/store/store_design.dart › _ItemEditPage\nproducts/services/store/store_design.dart › _ItemEditPageState\nproducts/services/store/store_design.dart › _ListField\nproducts/services/store/store_design.dart › _PageSectionsPage\nproducts/services/store/store_design.dart › _PageSectionsPageState\nproducts/services/store/store_design.dart › _StoreDesignPageState\nproducts/services/store/store_more.dart › StoreCouponsPage\nproducts/services/store/store_more.dart › StoreMarketingPage\nproducts/services/store/store_more.dart › StoreSettingsPage\nproducts/services/store/store_more.dart › _CouponForm\nproducts/services/store/store_more.dart › _CouponFormState\nproducts/services/store/store_more.dart › _SiteForm\nproducts/services/store/store_more.dart › _SiteFormState\nproducts/services/store/store_more.dart › _StoreCouponsPageState\nproducts/services/store/store_more.dart › _StoreMarketingPageState\nproducts/services/store/store_more.dart › _TrackingCard\nproducts/services/store/store_more.dart › _TrackingCardState\nproducts/services/store/store_pages.dart › StoreEntriesPage\nproducts/services/store/store_pages.dart › StoreHomePage\nproducts/services/store/store_pages.dart › StoreOrderPage\nproducts/services/store/store_pages.dart › StoreOrdersPage\nproducts/services/store/store_pages.dart › StoreProductEditPage\nproducts/services/store/store_pages.dart › StoreProductsPage\nproducts/services/store/store_pages.dart › _ProductForm\nproducts/services/store/store_pages.dart › _ProductFormState\nproducts/services/store/store_pages.dart › _StoreEntriesPageState\nproducts/services/store/store_pages.dart › _StoreOrderPageState\nproducts/services/store/store_pages.dart › _StoreOrdersPageState\nproducts/services/store/store_pages.dart › _StoreProductsPageState\nproducts/services/store/store_payments.dart › StorePaymentsPage\nproducts/services/store/store_payments.dart › _StorePaymentsPageState\nproducts/services/store/store_pictures.dart › PictureDetailPage\nproducts/services/store/store_pictures.dart › StorePicturesPage\nproducts/services/store/store_pictures.dart › _PictureDetailPageState\nproducts/services/store/store_pictures.dart › _StorePicturesPageState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/portal.py:56",
    "status": "Not described"
