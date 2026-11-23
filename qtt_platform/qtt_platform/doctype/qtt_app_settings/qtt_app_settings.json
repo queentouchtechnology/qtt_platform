@@ -117,7 +117,9 @@
   "topup_site_amount",
   "topup_site_price",
   "section_app_status",
-  "app_status"
+  "app_status",
+  "section_internship",
+  "internship_email"
  ],
  "fields": [
   {
@@ -765,6 +767,20 @@
    "fieldtype": "Long Text",
    "label": "App status (JSON)",
    "description": "Set in QTT Admin › Apps › an app › Status: {\"hr\": {\"state\": \"maintenance\", \"message\": \"…\"}}. Keys: hr, erp, website, store, whatsapp, social, articles, studio. States: on, maintenance, off."
+  },
+  {
+   "fieldname": "section_internship",
+   "fieldtype": "Section Break",
+   "label": "Internship applications",
+   "collapsible": 1,
+   "description": "queentouchtech.in/internship/ — each application is saved in QTT Internship Application and emailed here, with the documents attached."
+  },
+  {
+   "fieldname": "internship_email",
+   "fieldtype": "Data",
+   "label": "Send applications to",
+   "default": "info@queentouchtech.com",
+   "description": "One or more email addresses, separated by commas. Empty: info@queentouchtech.com."
   }
  ],
  "permissions": [

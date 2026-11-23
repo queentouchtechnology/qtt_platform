@@ -100,8 +100,8 @@ certificate close to expiring without renewing, or unreadable twice in a row; an
   mandatory?, request letter?), technical background, what the college needs (report, certificate, progress reports,
   guidelines) — with the resume and college ID card (needed) and the request letter (if any), kept private. The applicant
   gets "QTT · Internship application received"; the team an email at info@queentouchtech.com ("QTT · New internship
-  application": every detail, the documents attached, Reply writes to the applicant; site_config qtt_internship_email
-  changes the address) and the owner a Telegram. Move each through Status (New → Shortlisted →
+  application": every detail, the documents attached, Reply writes to the applicant; the address is set in Desk ›
+  QTT App Settings › Internship applications) and the owner a Telegram. Move each through Status (New → Shortlisted →
   Interview → Selected / Rejected). Send applicants the link instead of the long WhatsApp message.
 - **QTT Admin layout** (a QTT staff account with no business of its own): five tabs — **Home** (key numbers, needs
   attention), **Businesses** (Workspaces, Clients, People, Invoices, Receptionists), **Apps & services** (Apps, App

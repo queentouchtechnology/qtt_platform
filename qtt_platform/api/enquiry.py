@@ -136,10 +136,20 @@ def record(*, name: str, email: str, phone: str, message: str = "", site: str, p
 	return lead.name
 
 
+def owner_telegram_chat() -> str | None:
+	"""Desk › QTT Ops Settings › Owner's private Telegram chat (the site config's old qtt_owner_telegram_chat until it's
+	filled in). Never the public channel."""
+	try:
+		chat = frappe.db.get_single_value("QTT Ops Settings", "owner_telegram_chat")
+	except Exception:
+		chat = None
+	return (chat or "").strip() or frappe.conf.get("qtt_owner_telegram_chat")
+
+
 def _telegram(lead: str, **e) -> None:
-	"""The owner's private Telegram (site_config qtt_owner_telegram_chat, the ops bot) — never the public channel:
-	an enquiry waited a week in Slack once (24 Oct 2026)."""
-	chat = frappe.conf.get("qtt_owner_telegram_chat")
+	"""The owner's private Telegram (owner_telegram_chat, the ops bot) — never the public channel: an enquiry waited a week
+	in Slack once (24 Oct 2026)."""
+	chat = owner_telegram_chat()
 	token = frappe.get_cached_doc("QTT Ops Settings").get_password("telegram_bot_token", raise_exception=False)
 	if not chat or not token:
 		return

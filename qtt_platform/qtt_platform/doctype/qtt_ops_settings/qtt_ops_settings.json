@@ -37,6 +37,7 @@
   "section_alerts_keys",
   "telegram_bot_token",
   "telegram_chat",
+  "owner_telegram_chat",
   "column_break_alerts_keys",
   "openai_admin_key",
   "section_errors",
@@ -200,6 +201,12 @@
    "fieldtype": "Data",
    "label": "Telegram chat / channel id",
    "description": "Where the bot posts (a channel id like -100…, or your user id)."
+  },
+  {
+   "fieldname": "owner_telegram_chat",
+   "fieldtype": "Data",
+   "label": "Owner's private Telegram chat",
+   "description": "The chat ID of the owner's own Telegram (not the public channel): website enquiries, internship applications and the WhatsApp number's daily check go here, through the same bot."
   },
   {
    "fieldname": "column_break_alerts_keys",

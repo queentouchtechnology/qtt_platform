@@ -2,7 +2,8 @@
 Internship applications from queentouchtech.in/internship/ (owner, 23 Nov 2026) → Desk › QTT Internship Application.
 No login. The same bot defence as the website's enquiry door (api/enquiry.py): a hidden trap field, a signed single-use
 form ticket (enquiry.ticket), a rate limit per address and a daily cap; bots are told "ok" and dropped quietly.
-The applicant gets an email ("QTT · Internship application received"); the team an email to info@queentouchtech.com
+The applicant gets an email ("QTT · Internship application received"); the team an email (Desk › QTT App Settings ›
+Internship applications, else info@queentouchtech.com)
 ("QTT · New internship application" — every detail, the documents attached, replies go to the applicant) and a Telegram. The same email again within
 7 days updates that application instead of making a second one.
 
@@ -90,7 +91,17 @@ def submit(**form) -> dict:
 	return {"ok": True}
 
 
-TEAM_EMAIL = "info@queentouchtech.com"  # site_config qtt_internship_email changes it
+TEAM_EMAIL = "info@queentouchtech.com"  # when Desk › QTT App Settings › Internship applications is empty
+
+
+def _team_addresses() -> list[str]:
+	"""Desk › QTT App Settings › Internship applications › Send applications to (commas between), else TEAM_EMAIL."""
+	try:
+		raw = frappe.db.get_single_value("QTT App Settings", "internship_email") or ""
+	except Exception:
+		raw = ""
+	out = [a.strip() for a in raw.replace(";", ",").split(",") if frappe.utils.validate_email_address(a.strip())]
+	return out or [TEAM_EMAIL]
 
 
 def _tell(doc, again: bool, files: dict | None = None) -> None:
@@ -122,7 +133,7 @@ def _team_email(doc, again: bool, files: dict) -> None:
 	try:
 		from qtt_platform import emails
 
-		emails.send("QTT · New internship application", [frappe.conf.get("qtt_internship_email") or TEAM_EMAIL],
+		emails.send("QTT · New internship application", _team_addresses(),
 					{"name": doc.applicant_name, "area": doc.area, "mode": doc.mode, "college": doc.college, "again": again,
 					 "rows": [[label, str(value)] for label, value in rows if value], "documents": ", ".join(a["fname"].split(" — ")[0] for a in attachments),
 					 "link": frappe.utils.get_url(f"/app/qtt-internship-application/{doc.name}"),
@@ -133,7 +144,7 @@ def _team_email(doc, again: bool, files: dict) -> None:
 
 
 def _telegram(doc, again: bool) -> None:
-	chat = frappe.conf.get("qtt_owner_telegram_chat")
+	chat = enquiry.owner_telegram_chat()
 	try:
 		token = frappe.get_cached_doc("QTT Ops Settings").get_password("telegram_bot_token", raise_exception=False)
 	except Exception:
