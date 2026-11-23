@@ -99,7 +99,9 @@ certificate close to expiring without renewing, or unreadable twice in a row; an
   the team's WhatsApp internship message — about them, the internship they need (duration, dates, online / offline,
   mandatory?, request letter?), technical background, what the college needs (report, certificate, progress reports,
   guidelines) — with the resume and college ID card (needed) and the request letter (if any), kept private. The applicant
-  gets "QTT · Internship application received"; the owner a Telegram. Move each through Status (New → Shortlisted →
+  gets "QTT · Internship application received"; the team an email at info@queentouchtech.com ("QTT · New internship
+  application": every detail, the documents attached, Reply writes to the applicant; site_config qtt_internship_email
+  changes the address) and the owner a Telegram. Move each through Status (New → Shortlisted →
   Interview → Selected / Rejected). Send applicants the link instead of the long WhatsApp message.
 - **QTT Admin layout** (a QTT staff account with no business of its own): five tabs — **Home** (key numbers, needs
   attention), **Businesses** (Workspaces, Clients, People, Invoices, Receptionists), **Apps & services** (Apps, App

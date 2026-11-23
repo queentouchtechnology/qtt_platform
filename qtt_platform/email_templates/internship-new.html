@@ -1,0 +1,15 @@
+<!-- name: QTT · New internship application -->
+<!-- subject: New internship application: {{ name }} — {{ area }} -->
+{% extends "templates/emails/qtt_layout.html" %}
+{% block body %}
+<h1 style="{{ s.h1 }}">{{ name }}{% if again %} (updated){% endif %}</h1>
+<p style="{{ s.p }}">{{ area }} · {{ mode }}{% if college %} · {{ college }}{% endif %}</p>
+<table style="width:100%;border-collapse:collapse;margin:0 0 18px;font-size:14px;">
+{% for label, value in rows %}{% if value %}
+<tr><td style="padding:6px 10px 6px 0;color:#64748b;vertical-align:top;width:42%;">{{ label }}</td><td style="padding:6px 0;vertical-align:top;white-space:pre-wrap;">{{ value }}</td></tr>
+{% endif %}{% endfor %}
+</table>
+<p style="{{ s.p }}">{% if documents %}Attached: {{ documents }}.{% else %}No documents came with it.{% endif %}</p>
+<p style="margin:0 0 18px;"><a href="{{ link }}" style="{{ s.button }}">Open it in Desk</a></p>
+<p style="{{ s.muted }}">Reply to this email to write to {{ name }}.</p>
+{% endblock %}

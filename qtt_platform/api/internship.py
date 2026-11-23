@@ -2,7 +2,8 @@
 Internship applications from queentouchtech.in/internship/ (owner, 23 Nov 2026) → Desk › QTT Internship Application.
 No login. The same bot defence as the website's enquiry door (api/enquiry.py): a hidden trap field, a signed single-use
 form ticket (enquiry.ticket), a rate limit per address and a daily cap; bots are told "ok" and dropped quietly.
-The applicant gets an email ("QTT · Internship application received"), the owner a Telegram. The same email again within
+The applicant gets an email ("QTT · Internship application received"); the team an email to info@queentouchtech.com
+("QTT · New internship application" — every detail, the documents attached, replies go to the applicant) and a Telegram. The same email again within
 7 days updates that application instead of making a second one.
 
   submit   multipart: the form's fields (internship_rules.clean — the team's WhatsApp message in full), the documents
@@ -76,12 +77,17 @@ def submit(**form) -> dict:
 							"attached_to_doctype": DOC, "attached_to_name": doc.name, "attached_to_field": key}).insert(ignore_permissions=True)
 		doc.db_set(key, f.file_url)
 	frappe.db.commit()
-	_tell(doc, again=bool(name))
+	_tell(doc, again=bool(name), files=files)
 	return {"ok": True}
 
 
-def _tell(doc, again: bool) -> None:
-	"""The applicant's email and the owner's Telegram — neither ever stops the application being saved."""
+TEAM_EMAIL = "info@queentouchtech.com"  # site_config qtt_internship_email changes it
+
+
+def _tell(doc, again: bool, files: dict | None = None) -> None:
+	"""The applicant's email, the team's email (every detail, the documents attached; reply goes to the applicant) and the
+	owner's Telegram — none of them ever stops the application being saved."""
+	_team_email(doc, again, files or {})
 	try:
 		from qtt_platform import emails
 
@@ -90,6 +96,34 @@ def _tell(doc, again: bool) -> None:
 					reference_doctype=DOC, reference_name=doc.name)
 	except Exception:
 		frappe.log_error(title="Internship application: email not sent")
+	_telegram(doc, again)
+
+
+def _team_email(doc, again: bool, files: dict) -> None:
+	rows = [("Contact number", doc.phone), ("Email", doc.email), ("College / university", doc.college),
+			("Department / specialization", doc.course), ("Current year", doc.year_of_study), ("Duration", doc.duration),
+			("Start → end", " → ".join(str(x) for x in (doc.start_date, doc.end_date) if x)), ("Mode", doc.mode),
+			("Mandatory as per curriculum", doc.mandatory), ("Request letter available", doc.has_request_letter),
+			("Programming languages", doc.languages), ("Tools / technologies", doc.tools), ("Previous projects", doc.projects),
+			("Previous internship", doc.previous_internship), ("Portfolio", doc.portfolio), ("Project report needed", doc.needs_report),
+			("Completion certificate needed", doc.needs_certificate), ("Progress reports needed", doc.needs_progress_reports),
+			("College guidelines", doc.college_guidelines)]
+	attachments = [{"fname": f"{label} — {doc.applicant_name} — {files[key][0][-60:]}", "fcontent": files[key][1]}
+				   for key, label, _n in rules.DOCUMENTS if key in files]
+	try:
+		from qtt_platform import emails
+
+		emails.send("QTT · New internship application", [frappe.conf.get("qtt_internship_email") or TEAM_EMAIL],
+					{"name": doc.applicant_name, "area": doc.area, "mode": doc.mode, "college": doc.college, "again": again,
+					 "rows": [[label, str(value)] for label, value in rows if value], "documents": ", ".join(a["fname"].split(" — ")[0] for a in attachments),
+					 "link": frappe.utils.get_url(f"/app/qtt-internship-application/{doc.name}"),
+					 "preheader": f"{doc.applicant_name} · {doc.area}"},
+					reply_to=doc.email, attachments=attachments, reference_doctype=DOC, reference_name=doc.name)
+	except Exception:
+		frappe.log_error(title="Internship application: team email not sent")
+
+
+def _telegram(doc, again: bool) -> None:
 	chat = frappe.conf.get("qtt_owner_telegram_chat")
 	try:
 		token = frappe.get_cached_doc("QTT Ops Settings").get_password("telegram_bot_token", raise_exception=False)
