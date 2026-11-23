@@ -12343,8 +12343,8 @@
    "area": "api.marketing",
    "http_methods": "POST",
    "guest": 0,
-   "purpose": "An AI article draft now (once a day per business; Growth and Pro also get them on the 1st of each month).",
-   "details": "An AI article draft now (once a day per business; Growth and Pro also get them on the 1st of each month).",
+   "purpose": "An AI article draft now (once a day per business; drafts also come on the 1st of each month).",
+   "details": "An AI article draft now (once a day per business; drafts also come on the 1st of each month).",
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.articleIdeas",
@@ -14334,7 +14334,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.changePlan",
    "screens": "products/services/screens/plan_change_page.dart › _PlanChangePageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/plan_change.py:112",
+   "source": "qtt-os/qtt_services/qtt_services/api/plan_change.py:113",
    "status": "OK"
   },
   {
@@ -14350,7 +14350,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.planChoices",
    "screens": "products/services/screens/plan_change_page.dart › _PlanChangePageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/plan_change.py:84",
+   "source": "qtt-os/qtt_services/qtt_services/api/plan_change.py:85",
    "status": "OK"
   },
   {
@@ -14366,7 +14366,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.planQuote",
    "screens": "products/services/screens/plan_change_page.dart › _PlanChangePageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/plan_change.py:105",
+   "source": "qtt-os/qtt_services/qtt_services/api/plan_change.py:106",
    "status": "OK"
   },
   {
@@ -14382,7 +14382,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.undoPlanChange",
    "screens": "products/services/screens/plan_change_page.dart › _PlanChangePageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/plan_change.py:156",
+   "source": "qtt-os/qtt_services/qtt_services/api/plan_change.py:157",
    "status": "OK"
   },
   {
@@ -14574,7 +14574,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.cancel",
    "screens": "admin/admin_repository.dart › AdminRepository\napp/app.dart › _QttOsAppState\napp/app_gate.dart › _SplashState\ncore/analytics/analytics.dart › Analytics\ncore/api/api_client.dart › ApiClient\ncore/config/remote_config.dart › RemoteConfigStore\ncore/offline/connection.dart › Connection\ncore/offline/saved_copies.dart › SavedCopies\ncore/push/push_service.dart › PushService\nplatform/auth/google_web_button_web.dart › _GoogleWebButtonState\nplatform/calendar/calendar_home.dart › _TimeGridState\nplatform/free_use/free_use_screens.dart › _OnePlanPageState\nplatform/onboarding/signup_screen.dart › _SignupScreenState\nplatform/session/app_session.dart › AppSession\nplatform/team/team_call.dart › _TeamCallPageState\nplatform/team/team_chat_page.dart › _TeamChatPageState\nplatform/team/team_screen.dart › _TeamScreenState\nplatform/team/team_voice.dart › VoiceRecorder\nplatform/team/team_voice.dart › _VoiceNotePlayerState\nplatform/workplace/remote_page.dart › _SetupComputerPageState\nproducts/office_pulse/office_pulse_root.dart › PulseState\nproducts/office_pulse/screens/pattern_who.dart › _PatternWhoState\nproducts/onbox/chat_controller.dart › ChatController\nproducts/onbox/onbox_provider.dart › OnboxProvider\nproducts/onbox/screens/conversation_list_pane.dart › _ConversationListPaneState\nproducts/orbitra/orbitra_root.dart › OrbitraState\nproducts/services/screens/deploy_pages.dart › _DeploymentPageState\nproducts/services/screens/golive_pages.dart › _DeletingDialogState\nproducts/services/screens/plan_change_page.dart › _PlanChangePageState\nproducts/services/screens/quick_post.dart › _MakingPageState\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › ServicesState\nproducts/studio/shorts_studio.dart › _ShortPageState\nshared/erp/erp_screens.dart › ErpApi\nshared/erp/erp_screens.dart › _ErpDocPageState\nshared/search/global_search.dart › _GlobalSearchScreenState\nshared/widgets/list_kit.dart › _SearchFilterBarState\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:378",
+   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:379",
    "status": "Not described"
   },
   {
@@ -14622,7 +14622,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.invoices\nqtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.invoicesPage",
    "screens": "admin/admin_repository.dart › AdminRepository\nadmin/invoices_view.dart › _InvoicesViewState\nadmin/saas_models.dart › WorkspaceBilling\nadmin/workspace_billing_view.dart › _WorkspaceBillingSectionState\nplatform/data/platform_models.dart › OnPlan\nplatform/free_use/free_use_screens.dart › _OnPlanView\nplatform/workspace/billing_section.dart › _BillingSectionState\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/orbitra/screens/sales_view.dart › _SalesViewState\nproducts/services/screens/order_pages.dart › _PaymentsPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:351",
+   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:352",
    "status": "OK"
   },
   {
@@ -14638,7 +14638,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.keep",
    "screens": "platform/data/platform_repository.dart › PlatformRepository\nproducts/onbox/screens/channel_access_screen.dart › _InboxMembersCardState\nproducts/services/screens/services_home.dart › _ServicePage",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:401",
+   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:402",
    "status": "OK"
   },
   {
@@ -14686,7 +14686,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.payLink",
    "screens": "products/services/screens/order_pages.dart › (top level)",
    "other_callers": "",
-   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:344",
+   "source": "qtt-os/qtt_services/qtt_services/api/shop.py:345",
    "status": "Not described"
   },
   {
