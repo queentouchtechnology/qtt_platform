@@ -5,8 +5,9 @@ form ticket (enquiry.ticket), a rate limit per address and a daily cap; bots are
 The applicant gets an email ("QTT · Internship application received"), the owner a Telegram. The same email again within
 7 days updates that application instead of making a second one.
 
-  submit   multipart: the form's fields (internship_rules.clean), an optional resume (PDF / Word, 5 MB), site, page,
-           ticket, website (the trap) → {ok}
+  submit   multipart: the form's fields (internship_rules.clean — the team's WhatsApp message in full), the documents
+           (resume and college ID card needed, request letter if there is one: PDF, Word or a photo, 5 MB each, kept
+           private), site, page, ticket, website (the trap) → {ok}
 """
 
 import frappe
@@ -39,14 +40,17 @@ def submit(**form) -> dict:
 		data = rules.clean(form, frappe.utils.getdate())
 	except rules.AppError as exc:
 		frappe.throw(_(str(exc)))
-	if enquiry.rules.spam_reason(data["applicant_name"], data["why"], data["college"]):
+	if enquiry.rules.spam_reason(data["applicant_name"], data["projects"] or data["why"], data["college"]):
 		return enquiry._drop("spam")
-	resume = frappe.request.files.get("resume") if frappe.request and frappe.request.files else None
-	content = resume.stream.read() if resume else b""
-	if resume and resume.filename:
-		problem = rules.resume_problem(resume.filename, len(content))
-		if problem:
-			frappe.throw(_(problem))
+	files = {}
+	for key, label, _needed in rules.DOCUMENTS:
+		f = frappe.request.files.get(key) if frappe.request and frappe.request.files else None
+		if f and f.filename:
+			content = f.stream.read()
+			problem = rules.file_problem(label, f.filename, len(content))
+			if problem:
+				frappe.throw(_(problem))
+			files[key] = (f.filename, content)
 	day = f"qtt_internship_count:{frappe.utils.today()}"
 	if int(frappe.cache.get_value(day) or 0) >= DAILY_CAP:
 		frappe.log_error(title="Internship applications: daily cap reached", message=f"{DAILY_CAP} today — later ones dropped")
@@ -56,6 +60,10 @@ def submit(**form) -> dict:
 
 	since = frappe.utils.add_days(frappe.utils.now_datetime(), -7)
 	name = frappe.db.get_value(DOC, {"email": data["email"], "creation": [">", since]}, "name")
+	have = set(files) | ({k for k, _l, _n in rules.DOCUMENTS if frappe.db.get_value(DOC, name, k)} if name else set())
+	missing = rules.missing_documents(have)
+	if missing:
+		frappe.throw(_(missing))
 	values = {**data, "site": site, "page": enquiry._clean(form.get("page"), 300)}
 	if name:  # the same person again this week: their application, updated
 		doc = frappe.get_doc(DOC, name)
@@ -63,10 +71,10 @@ def submit(**form) -> dict:
 		doc.save(ignore_permissions=True)
 	else:
 		doc = frappe.get_doc({"doctype": DOC, "status": "New", **values}).insert(ignore_permissions=True)
-	if resume and resume.filename and content:
-		f = frappe.get_doc({"doctype": "File", "file_name": f"resume-{doc.name}-{resume.filename[-60:]}", "content": content, "is_private": 1,
-							"attached_to_doctype": DOC, "attached_to_name": doc.name, "attached_to_field": "resume"}).insert(ignore_permissions=True)
-		doc.db_set("resume", f.file_url)
+	for key, (filename, content) in files.items():  # private: only the QTT team opens them in Desk
+		f = frappe.get_doc({"doctype": "File", "file_name": f"{key}-{doc.name}-{filename[-60:]}", "content": content, "is_private": 1,
+							"attached_to_doctype": DOC, "attached_to_name": doc.name, "attached_to_field": key}).insert(ignore_permissions=True)
+		doc.db_set(key, f.file_url)
 	frappe.db.commit()
 	_tell(doc, again=bool(name))
 	return {"ok": True}
@@ -94,7 +102,9 @@ def _tell(doc, again: bool) -> None:
 		f"{doc.applicant_name} · {doc.area}" + (f" · {doc.mode}" if doc.mode else ""),
 		" · ".join(x for x in (doc.college, doc.course, doc.year_of_study) if x),
 		" · ".join(x for x in (doc.phone, doc.email) if x),
-		"Resume attached" if doc.resume else "",
+		" · ".join(x for x in (f"{doc.duration}" if doc.duration else "", f"{doc.start_date} → {doc.end_date}" if doc.start_date and doc.end_date else "",
+							   "mandatory" if doc.mandatory == "Yes" else "", "certificate" if doc.needs_certificate == "Yes" else "") if x),
+		" · ".join(label for key, label, _n in rules.DOCUMENTS if doc.get(key)),
 		frappe.utils.get_url(f"/app/qtt-internship-application/{doc.name}")) if x)
 	try:
 		import requests

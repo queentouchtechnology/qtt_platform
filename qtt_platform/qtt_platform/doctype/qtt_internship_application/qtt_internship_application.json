@@ -12,7 +12,7 @@
  "engine": "InnoDB",
  "title_field": "applicant_name",
  "show_title_field_in_link": 1,
- "description": "Internship applications from queentouchtech.in/internship/ (qtt_platform.api.internship). The applicant gets an email; the owner gets a Telegram. Move each through Status.",
+ "description": "Internship applications from queentouchtech.in/internship/ (qtt_platform.api.internship) — the same details as the team's WhatsApp message (personal and academic, requirements, technical background, what the college needs, documents). The applicant gets an email; the owner a Telegram. Move each through Status.",
  "field_order": [
   "applicant_name",
   "email",
@@ -28,12 +28,28 @@
   "column_break_study",
   "year_of_study",
   "start_date",
+  "end_date",
   "duration",
+  "mandatory",
+  "has_request_letter",
   "section_about",
   "skills",
-  "why",
+  "languages",
+  "tools",
+  "projects",
+  "previous_internship",
   "portfolio",
+  "why",
+  "section_college",
+  "needs_report",
+  "needs_certificate",
+  "needs_progress_reports",
+  "column_break_college",
+  "college_guidelines",
+  "section_documents",
   "resume",
+  "college_id",
+  "request_letter",
   "section_team",
   "notes",
   "column_break_team",
@@ -91,8 +107,8 @@
   {
    "fieldname": "mode",
    "fieldtype": "Select",
-   "label": "Work from",
-   "options": "Remote\nIn the office\nEither"
+   "label": "Mode",
+   "options": "Online\nOffline\nEither"
   },
   {
    "fieldname": "section_study",
@@ -107,7 +123,7 @@
   {
    "fieldname": "course",
    "fieldtype": "Data",
-   "label": "Course and branch"
+   "label": "Department / specialization"
   },
   {
    "fieldname": "column_break_study",
@@ -116,19 +132,36 @@
   {
    "fieldname": "year_of_study",
    "fieldtype": "Select",
-   "label": "Year",
+   "label": "Current year",
    "options": "\n1st year\n2nd year\n3rd year\n4th year\nFinal year\nGraduated"
   },
   {
    "fieldname": "start_date",
    "fieldtype": "Date",
-   "label": "Can start from"
+   "label": "Start date"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End date"
   },
   {
    "fieldname": "duration",
    "fieldtype": "Select",
    "label": "Duration",
-   "options": "\n1 month\n2 months\n3 months\n6 months"
+   "options": "\n2 weeks\n1 month\n2 months\n3 months\n6 months"
+  },
+  {
+   "fieldname": "mandatory",
+   "fieldtype": "Select",
+   "label": "Mandatory as per curriculum",
+   "options": "\nYes\nNo"
+  },
+  {
+   "fieldname": "has_request_letter",
+   "fieldtype": "Select",
+   "label": "College request letter available",
+   "options": "\nYes\nNo"
   },
   {
    "fieldname": "section_about",
@@ -138,12 +171,28 @@
   {
    "fieldname": "skills",
    "fieldtype": "Small Text",
-   "label": "Skills"
+   "label": "Skills (older applications)",
+   "hidden": 1
   },
   {
-   "fieldname": "why",
+   "fieldname": "languages",
+   "fieldtype": "Small Text",
+   "label": "Programming languages"
+  },
+  {
+   "fieldname": "tools",
+   "fieldtype": "Small Text",
+   "label": "Tools / technologies"
+  },
+  {
+   "fieldname": "projects",
    "fieldtype": "Long Text",
-   "label": "Why this internship"
+   "label": "Previous projects"
+  },
+  {
+   "fieldname": "previous_internship",
+   "fieldtype": "Small Text",
+   "label": "Previous internship"
   },
   {
    "fieldname": "portfolio",
@@ -152,9 +201,61 @@
    "options": "URL"
   },
   {
+   "fieldname": "why",
+   "fieldtype": "Long Text",
+   "label": "Why this internship (optional)"
+  },
+  {
+   "fieldname": "section_college",
+   "fieldtype": "Section Break",
+   "label": "What the college needs"
+  },
+  {
+   "fieldname": "needs_report",
+   "fieldtype": "Select",
+   "label": "Project report needed",
+   "options": "\nYes\nNo"
+  },
+  {
+   "fieldname": "needs_certificate",
+   "fieldtype": "Select",
+   "label": "Completion certificate needed",
+   "options": "\nYes\nNo"
+  },
+  {
+   "fieldname": "needs_progress_reports",
+   "fieldtype": "Select",
+   "label": "Mentor evaluation / progress reports needed",
+   "options": "\nYes\nNo"
+  },
+  {
+   "fieldname": "column_break_college",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "college_guidelines",
+   "fieldtype": "Small Text",
+   "label": "College guidelines"
+  },
+  {
+   "fieldname": "section_documents",
+   "fieldtype": "Section Break",
+   "label": "Documents"
+  },
+  {
    "fieldname": "resume",
    "fieldtype": "Attach",
    "label": "Resume"
+  },
+  {
+   "fieldname": "college_id",
+   "fieldtype": "Attach",
+   "label": "College ID card"
+  },
+  {
+   "fieldname": "request_letter",
+   "fieldtype": "Attach",
+   "label": "Internship request letter"
   },
   {
    "fieldname": "section_team",

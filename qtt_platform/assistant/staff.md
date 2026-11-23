@@ -95,6 +95,12 @@ certificate close to expiring without renewing, or unreadable twice in a row; an
     rates (Desk › Managed Services Settings › WhatsApp costs — check Meta's rate card for India and update them),
     next to what it pays for AI & WhatsApp Automation, and the margin; smallest margin first. "QTT" = messages QTT
     sent for itself.
+- **Internship applications** (queentouchtech.in/internship/ → Desk › QTT Internship Application): the same details as
+  the team's WhatsApp internship message — about them, the internship they need (duration, dates, online / offline,
+  mandatory?, request letter?), technical background, what the college needs (report, certificate, progress reports,
+  guidelines) — with the resume and college ID card (needed) and the request letter (if any), kept private. The applicant
+  gets "QTT · Internship application received"; the owner a Telegram. Move each through Status (New → Shortlisted →
+  Interview → Selected / Rejected). Send applicants the link instead of the long WhatsApp message.
 - **QTT Admin layout** (a QTT staff account with no business of its own): five tabs — **Home** (key numbers, needs
   attention), **Businesses** (Workspaces, Clients, People, Invoices, Receptionists), **Apps & services** (Apps, App
   control, Plans, AI; Services and pricing, Automation library, Website designs, Marketing assistant, Studio; WhatsApp
