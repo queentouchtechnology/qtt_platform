@@ -1,5 +1,5 @@
 """
-The public price list: every app's public plans and every managed service's plans and add-ons — what
+The public price list: every app (each included in the one plan for all 8 apps) and every managed service's plans and add-ons — what
 queentouchtech.in/pricing/ shows live and website/export_data.py writes into the website's data. No login, read
 only, nothing about any business. Kept for 5 minutes (a price saved in QTT Admin shows within 5 minutes; saving a
 plan clears it at once) and rate-limited per address against bots.
@@ -13,7 +13,7 @@ TTL = 300
 
 
 def build() -> dict:
-	"""{apps: [{key, name, about, highlights, plans}], services: [{key, name, about, highlights, price_from, setup_from,
+	"""{apps: [{key, name, about, highlights, plans: [], included}], services: [{key, name, about, highlights, price_from, setup_from,
 	plans, addons}], one_plan: {…}} from the live plans and Desk's free use and one plan."""
 	from qtt_platform.api import explore
 
@@ -24,7 +24,7 @@ def build() -> dict:
 			continue
 		apps.append({"key": p.product_key, "name": p.display_name, "about": p.description,
 					 "highlights": [x.strip() for x in (p.get("highlights") or "").splitlines() if x.strip()],
-					 "plans": [{k: pl[k] for k in ("code", "name", "price", "period", "trial_days", "features")} for pl in explore._plans(p.product_key)]})
+					 "plans": [], "included": True})  # every app comes with QTT OS — the one plan below (no per-app plans)
 	services = []
 	if "qtt_services" in frappe.get_installed_apps():
 		from qtt_services.api.shop import explore_items

@@ -1,5 +1,6 @@
 """
-QTT Admin → SaaS: plans and pricing, customer actions, revenue.
+QTT Admin → SaaS: the one plan, a business's apps (usage and overrides), revenue. Every app comes with QTT OS (free
+until the free-use limits, then the one plan): no per-app plans or per-app plan changes (gone 23 Nov 2026).
 Platform Owners only (like api/platform_admin.py, which keeps the
 workspace list/detail and suspend/reactivate).
 
@@ -9,15 +10,12 @@ second), same events — rather than re-implementing lifecycle rules.
 Every action is audited.
 """
 
-import json
-
 import frappe
 from frappe import _
 from frappe.utils import add_days, getdate, today
 
 from qtt_platform import saas_admin_logic as logic
 from qtt_platform.audit import write_audit_event
-from qtt_platform.billing import service as billing_service
 from qtt_platform.entitlement.engine import get_entitlements_with_usage
 from qtt_platform.realtime import notify_users, tenant_users
 from qtt_platform.subscription import service as subscription_service
@@ -32,80 +30,21 @@ CURRENCY = "INR"  # QTT Plan prices and the Razorpay gateway are INR
 # --------------------------------------------------------------------------
 @frappe.whitelist(methods=["GET"])
 def list_plans(product: str | None = None) -> dict:
+	"""QTT Admin › Plans: the one plan for all 8 apps (monthly, yearly) with its subscribers. Its prices are set in QTT
+	Admin › Settings › Free use (one_plan.sync_prices copies them here); there are no per-app plans (gone 23 Nov 2026)."""
 	require_platform_owner()
-	filters = {"product": product} if product else {}
-	plans = frappe.get_all(
-		"QTT Plan",
-		filters=filters,
-		fields=["name", "plan_code", "product", "display_name", "base_price", "billing_period", "trial_days", "is_public"],
-		order_by="product asc, base_price asc",
-	)
-	features = frappe.get_all(
-		"QTT Plan Feature",
-		filters={"parenttype": "QTT Plan", "parent": ["in", [p.name for p in plans] or [""]]},
-		fields=["parent", "feature_key", "limit_value"],
-		order_by="idx asc",
-	)
-	by_plan: dict[str, list] = {}
-	for f in features:
-		by_plan.setdefault(f.parent, []).append({"feature_key": f.feature_key, "limit_value": f.limit_value})
+	from qtt_platform.house import ONE_PLAN_PRODUCT
+
+	plans = frappe.get_all("QTT Plan", filters={"product": ONE_PLAN_PRODUCT},
+						   fields=["name", "plan_code", "product", "display_name", "base_price", "billing_period", "trial_days", "is_public"],
+						   order_by="base_price asc")
 	counts = _current_subscription_counts()
 	for p in plans:
-		p["features"] = by_plan.get(p.name, [])
+		p["features"] = []
 		p["subscribers"] = counts.get(p.name, 0)
 		p["is_public"] = bool(p.is_public)
-	products = frappe.get_all("QTT Product", fields=["product_key", "display_name", "status"], order_by="display_name asc")
-	# The plan editor's features by name: limits and on / off switches, with the words the price list shows.
-	from qtt_platform import explore_rules
-
-	used: dict[str, set] = {}
-	for p in plans:
-		used.setdefault(p.product, set()).update(f["feature_key"] for f in p["features"])
-	catalog = {pr.product_key: explore_rules.feature_catalog(pr.product_key, used.get(pr.product_key)) for pr in products}
-	return {"plans": plans, "products": products, "currency": CURRENCY, "feature_catalog": catalog}
-
-
-@frappe.whitelist(methods=["POST"])
-def save_plan(plan, name: str | None = None) -> dict:
-	"""Create (no name) or edit a plan. A price/period change on a plan
-	already linked to Razorpay clears that link so the next subscription
-	creates a fresh gateway plan; existing subscribers keep their current
-	gateway price until their plan changes."""
-	require_platform_owner()
-	data = _json(plan)
-	clean = _clean(lambda: logic.clean_plan(data, is_new=not name))
-
-	if name:
-		doc = frappe.get_doc("QTT Plan", name)
-		before = {k: doc.get(k) for k in ("display_name", "base_price", "billing_period", "trial_days", "is_public")}
-		before["features"] = [{"feature_key": f.feature_key, "limit_value": f.limit_value} for f in doc.features]
-		gateway_reset = bool(doc.razorpay_plan_id) and logic.billing_changed(before, clean)
-	else:
-		if not frappe.db.exists("QTT Product", clean["product"]):
-			frappe.throw(_("Unknown product."))
-		if frappe.db.exists("QTT Plan", {"product": clean["product"], "plan_code": clean["plan_code"]}):
-			frappe.throw(_("This product already has a plan with that code."))
-		doc = frappe.new_doc("QTT Plan")
-		doc.product = clean["product"]
-		doc.plan_code = clean["plan_code"]
-		before, gateway_reset = {}, False
-
-	doc.update({k: clean[k] for k in ("display_name", "base_price", "billing_period", "trial_days", "is_public")})
-	doc.set("features", clean["features"])
-	if gateway_reset:
-		doc.razorpay_plan_id = None
-	doc.save(ignore_permissions=True) if name else doc.insert(ignore_permissions=True)
-
-	write_audit_event(
-		"plan_saved" if name else "plan_created",
-		product=doc.product,
-		target_doctype="QTT Plan",
-		target_name=doc.name,
-		before_state=before or None,
-		after_state={k: clean[k] for k in clean if k != "features"} | {"features": clean["features"]},
-		metadata={"plan_code": doc.plan_code, "gateway_plan_reset": gateway_reset},
-	)
-	return {**list_plans(), "saved": doc.name, "gateway_plan_reset": gateway_reset}
+	products = frappe.get_all("QTT Product", filters={"product_key": ONE_PLAN_PRODUCT}, fields=["product_key", "display_name", "status"])
+	return {"plans": plans, "products": products, "currency": CURRENCY, "feature_catalog": {}}
 
 
 # --------------------------------------------------------------------------
@@ -113,8 +52,8 @@ def save_plan(plan, name: str | None = None) -> dict:
 # --------------------------------------------------------------------------
 @frappe.whitelist(methods=["GET"])
 def workspace_billing(tenant: str) -> dict:
-	"""Per product: current subscription, usage against limits, overrides,
-	and the plans it could move to. Complements platform_admin.get_tenant."""
+	"""Per app: whether it's on, usage against limits and overrides (every app comes with QTT OS — no per-app plans).
+	Complements platform_admin.get_tenant."""
 	require_platform_owner()
 	_require_tenant(tenant)
 	products = []
@@ -152,19 +91,17 @@ def workspace_billing(tenant: str) -> dict:
 		)
 		for o in overrides:
 			o["expires_on"] = _d(o.expires_on)
-		plans = frappe.get_all(
-			"QTT Plan",
-			filters={"product": p.product_key},
-			fields=["name", "plan_code", "display_name", "base_price", "billing_period", "trial_days"],
-			order_by="base_price asc",
-		)
+		from qtt_platform import app_plans
+
+		included = app_plans.plan_for(p.product_key)
+		keys = frappe.get_all("QTT Plan Feature", filters={"parent": included or "", "parenttype": "QTT Plan"}, pluck="feature_key")
 		products.append({
 			"product": p.product_key,
 			"product_name": p.display_name,
 			"subscription": sub,
 			"usage": usage,
 			"overrides": overrides,
-			"plans": plans,
+			"feature_keys": sorted(k for k in keys if k),  # what an override can set (the app's one entry)
 		})
 	invoices = frappe.get_all(
 		"QTT Invoice",
@@ -196,21 +133,6 @@ def tenant_invoices(tenant: str, start: int = 0, page_length: int = 20, status: 
 	return {"invoices": rows, "has_more": len(rows) == length}
 
 
-@frappe.whitelist(methods=["POST"])
-def add_product(tenant: str, product: str, plan: str) -> dict:
-	"""Subscribe a workspace to a product (trial if the plan has trial
-	days). Refused while it already has an open subscription."""
-	require_platform_owner()
-	_require_tenant(tenant)
-	current = subscription_service.get_current_subscription(tenant, product)
-	if current and current.status in OPEN_SUBSCRIPTION_STATUSES:
-		frappe.throw(_("This workspace already has this product. Change its plan instead."))
-	sub = subscription_service.create_subscription(tenant, product, plan)
-	granted = _grant_owner_initial_role(tenant, product)
-	_audit("admin_product_added", tenant, product, sub.name, {"plan": plan, "owner_access": granted})
-	return workspace_billing(tenant)
-
-
 def _grant_owner_initial_role(tenant: str, product: str) -> str | None:
 	"""Same rule as self-service signup: the workspace owner gets the
 	product's initial role (e.g. Office Pulse → HR Admin) so someone can
@@ -226,81 +148,6 @@ def _grant_owner_initial_role(tenant: str, product: str) -> str | None:
 	frappe.get_doc({"doctype": "QTT Product Access", "membership": membership, "tenant": tenant, "product": product,
 					"product_role": role, "status": "active"}).insert(ignore_permissions=True)
 	return f"{owner}: {role}"
-
-
-@frappe.whitelist(methods=["POST"])
-def change_plan(tenant: str, product: str, plan: str) -> dict:
-	"""Immediate plan change by QTT (upgrade or downgrade). Razorpay is
-	updated first; if that fails nothing changes locally."""
-	require_platform_owner()
-	current = _open_subscription(tenant, product)
-	if current.cancel_at_period_end or current.cancellation_requested_at:
-		frappe.throw(_("A cancellation is pending. Undo it first, then change the plan."))
-	if current.plan == plan:
-		frappe.throw(_("The workspace is already on this plan."))
-	if frappe.db.get_value("QTT Plan", plan, "product") != product:
-		frappe.throw(_("That plan belongs to another product."))
-	try:
-		billing_service.sync_razorpay_plan_change(current.name, plan, immediate=True)
-	except Exception:
-		frappe.log_error(title=f"saas_admin.change_plan: Razorpay sync failed for {current.name}")
-		frappe.throw(_("Couldn't update the payment gateway (Razorpay). Nothing was changed."))
-	if current.scheduled_plan:
-		subscription_service.clear_scheduled_plan_change(tenant, product)
-	new_sub = subscription_service.change_plan(tenant, product, plan)
-	_audit("admin_plan_changed", tenant, product, new_sub.name, {"from": current.plan, "to": plan})
-	return workspace_billing(tenant)
-
-
-@frappe.whitelist(methods=["POST"])
-def extend_trial(tenant: str, product: str, days) -> dict:
-	require_platform_owner()
-	current = subscription_service.get_current_subscription(tenant, product)
-	if not current:
-		frappe.throw(_("Your business doesn't have this app."))
-	status, new_end = _clean(lambda: logic.extended_trial(
-		status=current.status,
-		trial_end=current.trial_end,
-		linked_to_gateway=bool(current.razorpay_subscription_id),
-		days=days,
-		today=getdate(today()),
-	))
-	before = {"status": current.status, "trial_end": _d(current.trial_end)}
-	current.status = status
-	current.trial_end = new_end
-	current.current_period_end = new_end
-	if not current.trial_start:
-		current.trial_start = getdate(today())
-	current.save(ignore_permissions=True)
-	_audit("admin_trial_extended", tenant, product, current.name, {"days": int(days)},
-		   before=before, after={"status": status, "trial_end": str(new_end)})
-	return workspace_billing(tenant)
-
-
-@frappe.whitelist(methods=["POST"])
-def cancel_product(tenant: str, product: str, immediately=0, reason: str | None = None) -> dict:
-	"""Cancel at period end (default) or now. Razorpay is cancelled too;
-	a gateway failure is logged and caught by the nightly reconcile, the
-	same as a customer-initiated cancel."""
-	require_platform_owner()
-	_open_subscription(tenant, product)
-	at_period_end = str(immediately).lower() not in ("1", "true", "yes")
-	reason = (reason or "").strip()[:500] or None
-	sub = subscription_service.cancel_subscription(tenant, product, at_period_end=at_period_end, reason=reason)
-	try:
-		billing_service.cancel_razorpay_subscription(sub.name, cancel_at_cycle_end=at_period_end)
-	except Exception:
-		frappe.log_error(title=f"saas_admin.cancel_product: Razorpay cancel failed for {sub.name}")
-	_audit("admin_product_cancelled", tenant, product, sub.name, {"at_period_end": at_period_end, "reason": reason})
-	return workspace_billing(tenant)
-
-
-@frappe.whitelist(methods=["POST"])
-def undo_cancellation(tenant: str, product: str) -> dict:
-	require_platform_owner()
-	sub = subscription_service.resume_subscription(tenant, product)
-	_audit("admin_cancellation_undone", tenant, product, sub.name, {})
-	return workspace_billing(tenant)
 
 
 @frappe.whitelist(methods=["POST"])
@@ -414,17 +261,6 @@ def revenue() -> dict:
 
 
 # --------------------------------------------------------------------------
-def _json(value) -> dict:
-	if isinstance(value, str):
-		try:
-			value = json.loads(value)
-		except ValueError:
-			frappe.throw(_("Invalid data."))
-	if not isinstance(value, dict):
-		frappe.throw(_("Invalid data."))
-	return value
-
-
 def _clean(fn):
 	try:
 		return fn()

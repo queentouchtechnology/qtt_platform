@@ -1,7 +1,7 @@
 """
 Launch (PROJ-0017) — "What do you want to launch today?", Help Me Choose and the dashboard counts. The app's home and
-its wizard read everything from here; starting things stays where it is: an app's free trial or plan through
-explore.activate, a QTT Business Suite service through its own order page (domain, design and set-up questions).
+its wizard read everything from here; starting things stays where it is: turning on an app through explore.activate
+(every app comes with QTT OS), a QTT Business Suite service through its own order page (domain, design and set-up questions).
 
   home       the four products (apps and QTT Business Suite) with what the business has of each, the goals for Help Me
              Choose, the dashboard counts (active products, websites, automations, team) and whether this person may

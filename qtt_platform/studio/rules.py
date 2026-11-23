@@ -15,15 +15,9 @@ PRODUCT = "QTT_STUDIO"
 ROLES = ("Studio Admin", "Designer")
 
 # (code, name, monthly price ₹, features) — seeded once, edited in Desk afterwards. A limit of 0 means unlimited.
-PLANS = (
-	("STARTER", "Studio Starter", 499, {"studio_designs": 30, "ai_credits_grant": 100, "studio_photos": 50, "studio_shorts": 2,
-										"studio_pages": 0, "studio_doc_templates": 3, "studio_design_mode": 0}),
-	("GROWTH", "Studio Growth", 999, {"studio_designs": 100, "ai_credits_grant": 400, "studio_photos": 200, "studio_shorts": 10,
-									  "studio_pages": 1, "studio_doc_templates": 10, "studio_design_mode": 1}),
-	("PRO", "Studio Pro", 1999, {"studio_designs": 400, "ai_credits_grant": 1200, "studio_photos": 600, "studio_shorts": 30,
-								 "studio_pages": 5, "studio_doc_templates": 0, "studio_design_mode": 1}),
-)
-TRIAL_DAYS = 14
+# Studio comes with QTT OS (the one plan): its one internal entry has every feature at the old top tier (app_plans).
+FEATURES = {"studio_designs": 400, "ai_credits_grant": 1200, "studio_photos": 600, "studio_shorts": 30, "studio_pages": 5,
+			"studio_doc_templates": 0, "studio_design_mode": 1}
 
 # AI credits each action takes (the plan's ai_credits_grant arrives every month; more can be bought).
 CREDITS = {"make": 1, "ask": 1, "letter": 1, "short_script": 2, "read_image": 3, "ai_background": 10, "ai_logo": 20}

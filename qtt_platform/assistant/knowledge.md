@@ -387,8 +387,9 @@ everyone in every business — no plan needed.
 - **Business** (owner / admin): Profile (logo, address, GSTIN, phone, bank,
   UPI — printed on invoices, payslips, PDFs); Team (invite by email, choose
   each person's apps and role, remove); Roles and access (below); **Plans and
-  billing** (each app's plan and trial end, Explore QTT OS to start another
-  app or service, and every invoice from QTT — apps and QTT Business Suite services
+  billing** (the one plan for all 8 apps — every app comes with QTT OS, there
+  are no plans per app — Explore QTT OS to turn on an app or order a service,
+  and every invoice from QTT — apps and QTT Business Suite services
   together, unpaid ones first, with **Pay now** for the owner and admins;
   everyone can see them).
 - **Invoices from QTT**: when QTT gives your business an app or a service, it
@@ -1908,15 +1909,16 @@ minutes"; it was called Managed Services before).
   automations, team members), anything still to finish from Help me choose
   ("Finish setting up …") and **Launch something new**.
 - **A product's page** (tap its card): what it does, its real screen, what
-  you get; apps: Start the free trial or See plans; QTT Business Suite: each
+  you get; apps: Open (or Turn on — every app comes with QTT OS, no plan to
+  choose); QTT Business Suite: each
   service with its price — tap one to order it on its own page.
 - **Help me choose** (owner): 1) choose your goals (get more customers, sell
   online, answer on WhatsApp, automate, manage the team, billing and stock,
   marketing content, a complete system) › 2) the products recommended for
   them, with why (View details opens the product) › 3) customize: apps
-  include everything (with their free trial); for QTT Business Suite tick
+  include everything (every app comes with QTT OS); for QTT Business Suite tick
   the services and pick the package › Solution summary › **Launch my
-  solution**: apps start their free trial at once; each Suite service is then
+  solution**: apps turn on at once; each Suite service is then
   finished on its own order page (your website address, design and
   details) — nothing is ordered or charged before you confirm there. The
   last screen shows each part's steps (setup → design and content → connect
@@ -1991,10 +1993,9 @@ passwords, codes or keys.
   › Post designs (114 designs + ready words), the brand kit and See your
   brand, Photos for your posts and Remove background, website and store
   kits, the default documents. **Making something new needs Studio.**
-- **Plans** (prices editable by QTT): Studio Starter ₹499 a month (30 new
-  designs, 100 AI credits), Studio Growth ₹999 (100 designs, 400 credits,
-  Design mode), Studio Pro ₹1,999 (400 designs, 1,200 credits). 14-day free
-  trial. AI credits arrive each month with the plan.
+- **Price**: Studio comes with QTT OS — free to start, then in the one plan
+  for all 8 apps; it has no plans of its own. A month: 400 new designs and
+  1,200 AI credits (arriving each month), Design mode on.
 - **Studio home** (since 24 Oct 2026): **What do you need today?** — type
   it or tap a quick choice (Festival wish, Offer, New product, We're hiring,
   Thank you) › **Make it**. A festival in the next 3 weeks shows a card
@@ -2115,7 +2116,7 @@ passwords, codes or keys.
   a real one: price, usual price, until, terms), event date / time / place,
   search title and description. Save; Preview opens a private link (not
   shown to Google); Publish puts it on the web, Take it off the web removes
-  it; views are counted. Live pages a plan: Starter none, Growth 1, Pro 5.
+  it; views are counted. Up to 5 live pages.
   Your own domain for a page comes later (QTT Sites).
 - **Shorts** (Studio home › Shorts): 9:16 videos (1080 × 1920, about 8–13
   seconds) for Instagram Reels, YouTube Shorts, Facebook and WhatsApp
@@ -2128,8 +2129,8 @@ passwords, codes or keys.
   slowly zooms under its caption, then an end card in the brand's colour
   with the logo, the line, phone and website. Then Play the video, Post it
   (a Marketing assistant post waiting for the owner's OK, video attached)
-  or Delete (asks first). Shorts a month: Starter 2, Growth 10, Pro 30 (a
-  failed one isn't counted). No voice or music yet — add music in the app
+  or Delete (asks first). Up to 30 Shorts a month (a failed one isn't
+  counted). No voice or music yet — add music in the app
   you post to.
 - **Print** (Studio home › Print): visiting card (89 × 51 mm, front and
   back; Colour band, Split, Minimal with a QR code, Luxe — dark with a fine
@@ -2197,7 +2198,6 @@ passwords, codes or keys.
   never redrawn). The photo itself never changes. Each result is a new
   picture in the Business Library: Add to my post photos, Open full size (to
   save or share it from the phone) or Delete (asks first).
-  Each counts towards the plan's photos a month (Starter 50, Growth 200,
-  Pro 600). Making photos bigger (upscale) and tap-to-select come later.
+  Up to 600 photos a month. Making photos bigger (upscale) and tap-to-select come later.
 - **Who**: the owner and admins, and team members given QTT Studio
   (Business › Team) as Studio Admin or Designer.

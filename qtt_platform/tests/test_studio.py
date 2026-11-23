@@ -11,13 +11,11 @@ from qtt_platform.studio import rules
 
 
 class Plans(unittest.TestCase):
-	def test_three_plans_bigger_each_time(self):
-		self.assertEqual([p[0] for p in rules.PLANS], ["STARTER", "GROWTH", "PRO"])
-		prices = [p[2] for p in rules.PLANS]
-		self.assertEqual(prices, sorted(prices))
-		for _, _, _, f in rules.PLANS:
-			self.assertIn("ai_credits_grant", f)  # granted every month by the platform's existing credit system
-		self.assertEqual(rules.PLANS[0][3]["studio_design_mode"], 0)
+	def test_one_entry_everything_on(self):
+		# Studio comes with QTT OS: one internal entry (no Starter / Growth / Pro since 23 Nov 2026)
+		self.assertFalse(hasattr(rules, "PLANS"))
+		self.assertIn("ai_credits_grant", rules.FEATURES)  # granted every month by the platform's credit system
+		self.assertEqual(rules.FEATURES["studio_design_mode"], 1)
 
 	def test_what_is_ready(self):
 		ready = [c[0] for c in rules.CATEGORIES if c[3]]

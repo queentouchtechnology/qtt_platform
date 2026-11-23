@@ -92,7 +92,11 @@ def _context(user: str, tenant: str) -> tuple[dict, set[str], str]:
 def _catalogue() -> tuple[str, str]:
 	products = {p.name: p.display_name for p in frappe.get_all("QTT Product", filters={"status": "active"}, fields=["name", "display_name"])
 				if not any(w in p.name.upper() for w in HIDDEN_PRODUCT_WORDS)}
-	plans = frappe.get_all("QTT Plan", filters={"product": ["in", list(products) or [""]]},
+	# The one plan for all 8 apps only — every app comes with QTT OS (no per-app plans since 23 Nov 2026); each app's
+	# internal ₹0 entry (app_plans.INCLUDED) is not a plan anyone buys and is never described.
+	from qtt_platform.house import ONE_PLAN_PRODUCT
+
+	plans = frappe.get_all("QTT Plan", filters={"product": ONE_PLAN_PRODUCT},
 						   fields=["name", "product", "plan_code", "display_name", "base_price", "billing_period", "trial_days"],
 						   order_by="product asc, base_price asc")
 	feats = frappe.get_all("QTT Plan Feature", filters={"parent": ["in", [p.name for p in plans] or [""]]},

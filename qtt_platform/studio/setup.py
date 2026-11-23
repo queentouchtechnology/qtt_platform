@@ -1,6 +1,6 @@
 """
-QTT Studio as a product (after_migrate, idempotent): the QTT Product row with its roles, and the three plans — created
-once; prices, limits and trial days are then edited in Desk (QTT Plan) and never overwritten here.
+QTT Studio as a product (after_migrate, idempotent): the QTT Product row with its roles, and its one internal entry
+(qtt_platform.app_plans) — Studio comes with QTT OS.
 """
 
 import frappe
@@ -22,12 +22,8 @@ def register() -> None:
 			"brand, saved to one library every app uses."),
 		roles=[{"role_key": r, "role_name": r} for r in rules.ROLES],
 	)
-	for code, name, price, features in rules.PLANS:
-		if frappe.db.exists("QTT Plan", {"product": rules.PRODUCT, "plan_code": code}):
-			continue
-		plan = frappe.get_doc({"doctype": "QTT Plan", "plan_code": code, "product": rules.PRODUCT, "display_name": name,
-							   "base_price": price, "billing_period": "monthly", "trial_days": rules.TRIAL_DAYS, "is_public": 1})
-		for key, value in features.items():
-			plan.append("features", {"feature_key": key, "limit_value": str(value)})
-		plan.insert(ignore_permissions=True)
+	# Studio comes with QTT OS (the one plan, PROJ-0024): one internal entry; the old Starter / Growth / Pro are gone.
+	from qtt_platform import app_plans
+
+	app_plans.seed(rules.PRODUCT, rules.FEATURES, "QTT Studio — with QTT OS")
 	frappe.db.commit()

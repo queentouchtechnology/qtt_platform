@@ -242,7 +242,7 @@ def home() -> dict:
 	recent = [_out(frappe.get_doc(DESIGN, n)) for n in frappe.get_all(DESIGN, filters={"tenant": tenant, "kind": "post"}, pluck="name", order_by="modified desc", limit=8)]
 	return {
 		"has_studio": bool(ent), "house": is_house(tenant),
-		"plan": frappe.db.get_value("QTT Plan", sub.plan, "display_name") if sub and ent else None,
+		"plan": "Included with QTT OS" if sub and ent else None,  # no Studio plans of its own (the one plan)
 		"status": sub.status if sub and ent else None, "trial_end": str(sub.trial_end) if sub and ent and sub.trial_end else None,
 		"designs": {"used": used, "left": rules.limit_left(ent.get("studio_designs", 0), used) if ent else 0},
 		"credits": _credits(tenant) if ent else 0,

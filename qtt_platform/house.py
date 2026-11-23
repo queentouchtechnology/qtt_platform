@@ -87,9 +87,10 @@ def entitlements(product: str, tenant: str | None = None) -> dict:
 
 
 def _house_plan(product: str) -> str | None:
-	"""The product's top plan (only a label for the house — features come from entitlements())."""
-	plans = frappe.get_all("QTT Plan", filters={"product": product}, fields=["name", "base_price"], order_by="base_price desc, creation desc")
-	return plans[0].name if plans else None
+	"""The app's one internal entry (qtt_platform.app_plans — only a label; features come from entitlements())."""
+	from qtt_platform import app_plans
+
+	return app_plans.plan_for(product)
 
 
 def ensure_house(tenant: str) -> list[str]:

@@ -9227,5 +9227,14 @@
  "No paying businesses yet": "لا توجد أنشطة تدفع بعد",
  "The one plan — all 8 apps": "الخطة الواحدة — كل التطبيقات الثمانية",
  "Old plans — not sold any more ({n})": "خطط قديمة — لم تعد تُباع ({n})",
- "Before 14 Nov each app had its own plans. Only QTT's own workspaces still use some of them, free.": "قبل 14 نوفمبر كان لكل تطبيق خططه. لا تستخدم بعضها الآن إلا مساحات QTT الخاصة، مجانًا."
+ "Before 14 Nov each app had its own plans. Only QTT's own workspaces still use some of them, free.": "قبل 14 نوفمبر كان لكل تطبيق خططه. لا تستخدم بعضها الآن إلا مساحات QTT الخاصة، مجانًا.",
+ "Change prices, free use and top-up packs": "غيّر الأسعار والاستخدام المجاني وباقات الشحن",
+ "Every app comes with QTT OS: free until the free-use limits, then this one plan. There are no plans per app.": "كل تطبيق يأتي مع QTT OS: مجاني حتى حدود الاستخدام المجاني، ثم هذه الخطة الواحدة. لا خطط لكل تطبيق.",
+ "Included with QTT OS": "مشمول في QTT OS",
+ "Included with QTT OS — free to start, then in the one plan for all 8 apps.": "مشمول في QTT OS — مجاني للبدء، ثم ضمن الخطة الواحدة لكل التطبيقات الثمانية.",
+ "Included with QTT OS — turns on when they open the app.": "مشمول في QTT OS — يعمل عندما يفتحون التطبيق.",
+ "Is every app included?": "هل كل تطبيق مشمول؟",
+ "Is it included?": "هل هو مشمول؟",
+ "Turning it on…": "جارٍ التشغيل…",
+ "When do I need the plan?": "متى أحتاج الخطة؟"
 }

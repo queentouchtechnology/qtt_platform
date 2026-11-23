@@ -9227,5 +9227,14 @@
  "No paying businesses yet": "இன்னும் கட்டணம் செலுத்தும் வணிகங்கள் இல்லை",
  "The one plan — all 8 apps": "ஒரே திட்டம் — 8 செயலிகளும்",
  "Old plans — not sold any more ({n})": "பழைய திட்டங்கள் — இனி விற்பனையில் இல்லை ({n})",
- "Before 14 Nov each app had its own plans. Only QTT's own workspaces still use some of them, free.": "நவ. 14-க்கு முன் ஒவ்வொரு செயலிக்கும் தனித் திட்டங்கள் இருந்தன. QTT-இன் சொந்த பணியிடங்கள் மட்டுமே சிலவற்றை இலவசமாகப் பயன்படுத்துகின்றன."
+ "Before 14 Nov each app had its own plans. Only QTT's own workspaces still use some of them, free.": "நவ. 14-க்கு முன் ஒவ்வொரு செயலிக்கும் தனித் திட்டங்கள் இருந்தன. QTT-இன் சொந்த பணியிடங்கள் மட்டுமே சிலவற்றை இலவசமாகப் பயன்படுத்துகின்றன.",
+ "Change prices, free use and top-up packs": "விலைகள், இலவசப் பயன்பாடு, கூடுதல் தொகுப்புகளை மாற்று",
+ "Every app comes with QTT OS: free until the free-use limits, then this one plan. There are no plans per app.": "ஒவ்வொரு செயலியும் QTT OS உடன் வருகிறது: இலவச வரம்பு வரை இலவசம், பின்னர் இந்த ஒரே திட்டம். செயலிக்குத் தனித் திட்டங்கள் இல்லை.",
+ "Included with QTT OS": "QTT OS உடன் சேர்ந்தது",
+ "Included with QTT OS — free to start, then in the one plan for all 8 apps.": "QTT OS உடன் சேர்ந்தது — தொடக்கத்தில் இலவசம், பின்னர் 8 செயலிகளுக்குமான ஒரே திட்டத்தில்.",
+ "Included with QTT OS — turns on when they open the app.": "QTT OS உடன் சேர்ந்தது — அவர்கள் செயலியைத் திறக்கும்போது இயங்கும்.",
+ "Is every app included?": "எல்லா செயலிகளும் சேர்ந்தவையா?",
+ "Is it included?": "இது சேர்ந்ததா?",
+ "Turning it on…": "இயக்குகிறது…",
+ "When do I need the plan?": "திட்டம் எப்போது தேவை?"
 }

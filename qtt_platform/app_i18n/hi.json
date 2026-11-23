@@ -9227,5 +9227,14 @@
  "No paying businesses yet": "अभी कोई भुगतान करने वाला व्यवसाय नहीं",
  "The one plan — all 8 apps": "एक प्लान — सभी 8 ऐप्स",
  "Old plans — not sold any more ({n})": "पुराने प्लान — अब नहीं बिकते ({n})",
- "Before 14 Nov each app had its own plans. Only QTT's own workspaces still use some of them, free.": "14 नवंबर से पहले हर ऐप के अपने प्लान थे। अब केवल QTT के अपने वर्कस्पेस इनमें से कुछ मुफ़्त में इस्तेमाल करते हैं।"
+ "Before 14 Nov each app had its own plans. Only QTT's own workspaces still use some of them, free.": "14 नवंबर से पहले हर ऐप के अपने प्लान थे। अब केवल QTT के अपने वर्कस्पेस इनमें से कुछ मुफ़्त में इस्तेमाल करते हैं।",
+ "Change prices, free use and top-up packs": "कीमतें, मुफ़्त उपयोग और टॉप-अप पैक बदलें",
+ "Every app comes with QTT OS: free until the free-use limits, then this one plan. There are no plans per app.": "हर ऐप QTT OS के साथ आता है: मुफ़्त सीमा तक मुफ़्त, फिर यही एक प्लान। हर ऐप के अलग प्लान नहीं हैं।",
+ "Included with QTT OS": "QTT OS में शामिल",
+ "Included with QTT OS — free to start, then in the one plan for all 8 apps.": "QTT OS में शामिल — शुरू में मुफ़्त, फिर सभी 8 ऐप्स के एक प्लान में।",
+ "Included with QTT OS — turns on when they open the app.": "QTT OS में शामिल — ऐप खोलने पर चालू हो जाता है।",
+ "Is every app included?": "क्या हर ऐप शामिल है?",
+ "Is it included?": "क्या यह शामिल है?",
+ "Turning it on…": "चालू कर रहे हैं…",
+ "When do I need the plan?": "प्लान कब चाहिए?"
 }
