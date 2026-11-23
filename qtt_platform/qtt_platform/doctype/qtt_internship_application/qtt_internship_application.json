@@ -1,0 +1,198 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Internship Application",
+ "module": "QTT Platform",
+ "custom": 0,
+ "istable": 0,
+ "issingle": 0,
+ "autoname": "hash",
+ "track_changes": 1,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "engine": "InnoDB",
+ "title_field": "applicant_name",
+ "show_title_field_in_link": 1,
+ "description": "Internship applications from queentouchtech.in/internship/ (qtt_platform.api.internship). The applicant gets an email; the owner gets a Telegram. Move each through Status.",
+ "field_order": [
+  "applicant_name",
+  "email",
+  "phone",
+  "city",
+  "column_break_who",
+  "status",
+  "area",
+  "mode",
+  "section_study",
+  "college",
+  "course",
+  "column_break_study",
+  "year_of_study",
+  "start_date",
+  "duration",
+  "section_about",
+  "skills",
+  "why",
+  "portfolio",
+  "resume",
+  "section_team",
+  "notes",
+  "column_break_team",
+  "site",
+  "page"
+ ],
+ "fields": [
+  {
+   "fieldname": "applicant_name",
+   "fieldtype": "Data",
+   "label": "Name",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "phone",
+   "fieldtype": "Data",
+   "label": "Phone or WhatsApp",
+   "options": "Phone"
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "label": "City"
+  },
+  {
+   "fieldname": "column_break_who",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "New\nShortlisted\nInterview\nSelected\nRejected\nWithdrawn",
+   "default": "New",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "area",
+   "fieldtype": "Select",
+   "label": "Area",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "options": "Flutter app development\nBackend (Python, Frappe)\nWebsites and SEO\nUI / UX design\nAI and automation\nDigital marketing and content\nSales and customer success\nOther"
+  },
+  {
+   "fieldname": "mode",
+   "fieldtype": "Select",
+   "label": "Work from",
+   "options": "Remote\nIn the office\nEither"
+  },
+  {
+   "fieldname": "section_study",
+   "fieldtype": "Section Break",
+   "label": "Study"
+  },
+  {
+   "fieldname": "college",
+   "fieldtype": "Data",
+   "label": "College or university"
+  },
+  {
+   "fieldname": "course",
+   "fieldtype": "Data",
+   "label": "Course and branch"
+  },
+  {
+   "fieldname": "column_break_study",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "year_of_study",
+   "fieldtype": "Select",
+   "label": "Year",
+   "options": "\n1st year\n2nd year\n3rd year\n4th year\nFinal year\nGraduated"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Can start from"
+  },
+  {
+   "fieldname": "duration",
+   "fieldtype": "Select",
+   "label": "Duration",
+   "options": "\n1 month\n2 months\n3 months\n6 months"
+  },
+  {
+   "fieldname": "section_about",
+   "fieldtype": "Section Break",
+   "label": "About them"
+  },
+  {
+   "fieldname": "skills",
+   "fieldtype": "Small Text",
+   "label": "Skills"
+  },
+  {
+   "fieldname": "why",
+   "fieldtype": "Long Text",
+   "label": "Why this internship"
+  },
+  {
+   "fieldname": "portfolio",
+   "fieldtype": "Data",
+   "label": "Portfolio, GitHub or LinkedIn",
+   "options": "URL"
+  },
+  {
+   "fieldname": "resume",
+   "fieldtype": "Attach",
+   "label": "Resume"
+  },
+  {
+   "fieldname": "section_team",
+   "fieldtype": "Section Break",
+   "label": "For the QTT team"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "column_break_team",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "site",
+   "fieldtype": "Data",
+   "label": "From site",
+   "read_only": 1
+  },
+  {
+   "fieldname": "page",
+   "fieldtype": "Data",
+   "label": "From page",
+   "read_only": 1
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "links": []
+}

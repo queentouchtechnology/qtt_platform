@@ -6530,6 +6530,22 @@
    "status": "OK"
   },
   {
+   "endpoint": "qtt_platform.api.internship.submit",
+   "product": "Platform",
+   "area": "api.internship",
+   "http_methods": "POST",
+   "guest": 1,
+   "purpose": "One internship application from queentouchtech.in (see the module note) → {ok}. A sentence to fix when needed.",
+   "details": "One internship application from queentouchtech.in (see the module note) → {ok}. A sentence to fix when needed.",
+   "arguments": "",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/internship.py:25",
+   "status": "Not used by the app"
+  },
+  {
    "endpoint": "qtt_platform.api.invitation.accept_invitation",
    "product": "Platform",
    "area": "api.invitation",

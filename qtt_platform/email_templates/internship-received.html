@@ -1,0 +1,10 @@
+<!-- name: QTT · Internship application received -->
+<!-- subject: We have your internship application, {{ name }} -->
+{% extends "templates/emails/qtt_layout.html" %}
+{% block body %}
+<h1 style="{{ s.h1 }}">Thank you, {{ name }}</h1>
+<p style="{{ s.p }}">We have your application for an internship at Queen Touch Technology{% if area %} in <b>{{ area }}</b>{% endif %}.</p>
+<p style="{{ s.p }}">Our team reads every application. If you're shortlisted, we'll write or call you to set up a short conversation — usually within a week.</p>
+<p style="margin:0 0 18px;"><a href="https://queentouchtech.in/" style="{{ s.button }}">See what we build</a></p>
+<p style="{{ s.muted }}">Want to add something, or send a newer resume? Reply to this email.</p>
+{% endblock %}
