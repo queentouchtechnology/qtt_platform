@@ -51,6 +51,15 @@ def submit(**form) -> dict:
 			problem = rules.file_problem(label, f.filename, len(content))
 			if problem:
 				frappe.throw(_(problem))
+			if f.filename.lower().endswith(".pdf"):  # Frappe refuses a broken PDF or one with scripts: say so in words
+				from frappe.utils.pdf import pdf_contains_js
+
+				try:
+					scripted = pdf_contains_js(content)
+				except Exception:
+					frappe.throw(_("{0}: that PDF can't be opened. Please save it again (or send a photo) and try.").format(label))
+				if scripted:
+					frappe.throw(_("{0}: that PDF can't be accepted. Please save it again as a plain PDF.").format(label))
 			files[key] = (f.filename, content)
 	day = f"qtt_internship_count:{frappe.utils.today()}"
 	if int(frappe.cache.get_value(day) or 0) >= DAILY_CAP:
