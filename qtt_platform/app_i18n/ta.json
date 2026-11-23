@@ -9236,5 +9236,19 @@
  "Is every app included?": "எல்லா செயலிகளும் சேர்ந்தவையா?",
  "Is it included?": "இது சேர்ந்ததா?",
  "Turning it on…": "இயக்குகிறது…",
- "When do I need the plan?": "திட்டம் எப்போது தேவை?"
+ "When do I need the plan?": "திட்டம் எப்போது தேவை?",
+ "Ask QTT to switch them on for you.": "உங்களுக்காக இயக்க QTT-யிடம் கேளுங்கள்.",
+ "Ask QTT to switch this on for you.": "உங்களுக்காக இதை இயக்க QTT-யிடம் கேளுங்கள்.",
+ "Couldn't open your add-ons": "உங்கள் கூடுதல்களைத் திறக்க முடியவில்லை",
+ "Email newsletters come with the Marketing assistant": "மின்னஞ்சல் செய்திமடல்கள் மார்க்கெட்டிங் உதவியாளருடன் வருகின்றன",
+ "Not switched on — ask QTT": "இயக்கப்படவில்லை — QTT-யிடம் கேளுங்கள்",
+ "Nothing to pay now. You keep it until the paid time ends; the change starts with the next renewal.": "இப்போது செலுத்த எதுவும் இல்லை. செலுத்திய காலம் முடியும் வரை அப்படியே இருக்கும்; மாற்றம் அடுத்த புதுப்பித்தலில் தொடங்கும்.",
+ "That's every page you can connect. Disconnect one to add another.": "இணைக்கக்கூடிய எல்லாப் பக்கங்களும் இணைந்துவிட்டன. மற்றொன்றைச் சேர்க்க ஒன்றைத் துண்டியுங்கள்.",
+ "Website articles come with the Marketing assistant": "இணையதளக் கட்டுரைகள் மார்க்கெட்டிங் உதவியாளருடன் வருகின்றன",
+ "What should we build?": "நாங்கள் எதை உருவாக்க வேண்டும்?",
+ "You have: {plan}": "உங்களிடம் உள்ளது: {plan}",
+ "Your website has {n} pages. Add \"3 more pages\" — you see the price before you pay, and it switches on as soon as it's paid.": "உங்கள் இணையதளத்தில் {n} பக்கங்கள் உள்ளன. \"மேலும் 3 பக்கங்கள்\" சேருங்கள் — செலுத்தும் முன் விலையைப் பார்ப்பீர்கள், செலுத்தியதும் இயங்கும்.",
+ "This website's add-ons can't be changed here. Ask QTT from Requests.": "இந்த இணையதளத்தின் கூடுதல்களை இங்கே மாற்ற முடியாது. Requests-இலிருந்து QTT-யிடம் கேளுங்கள்.",
+ "Website articles and newsletters": "இணையதளக் கட்டுரைகளும் செய்திமடல்களும்",
+ "Open the website's Add-ons: add 3 more pages, or change it to 5 pages (free).": "இணையதளத்தின் கூடுதல்களைத் திறங்கள்: மேலும் 3 பக்கங்களைச் சேருங்கள், அல்லது 5 பக்கங்களாக மாற்றுங்கள் (இலவசம்)."
 }

@@ -9236,5 +9236,19 @@
  "Is every app included?": "क्या हर ऐप शामिल है?",
  "Is it included?": "क्या यह शामिल है?",
  "Turning it on…": "चालू कर रहे हैं…",
- "When do I need the plan?": "प्लान कब चाहिए?"
+ "When do I need the plan?": "प्लान कब चाहिए?",
+ "Ask QTT to switch them on for you.": "इन्हें चालू करने के लिए QTT से कहें।",
+ "Ask QTT to switch this on for you.": "इसे चालू करने के लिए QTT से कहें।",
+ "Couldn't open your add-ons": "आपके ऐड-ऑन नहीं खुले",
+ "Email newsletters come with the Marketing assistant": "ईमेल न्यूज़लेटर मार्केटिंग असिस्टेंट के साथ आते हैं",
+ "Not switched on — ask QTT": "चालू नहीं — QTT से पूछें",
+ "Nothing to pay now. You keep it until the paid time ends; the change starts with the next renewal.": "अभी कुछ नहीं देना। भुगतान की अवधि खत्म होने तक यही रहेगा; बदलाव अगले नवीनीकरण से शुरू होगा।",
+ "That's every page you can connect. Disconnect one to add another.": "जुड़ने लायक सभी पेज जुड़ चुके हैं। दूसरा जोड़ने के लिए एक हटाएँ।",
+ "Website articles come with the Marketing assistant": "वेबसाइट लेख मार्केटिंग असिस्टेंट के साथ आते हैं",
+ "What should we build?": "हम क्या बनाएँ?",
+ "You have: {plan}": "आपके पास है: {plan}",
+ "Your website has {n} pages. Add \"3 more pages\" — you see the price before you pay, and it switches on as soon as it's paid.": "आपकी वेबसाइट में {n} पेज हैं। \"3 और पेज\" जोड़ें — भुगतान से पहले कीमत दिखेगी, और भुगतान होते ही चालू हो जाएगा।",
+ "This website's add-ons can't be changed here. Ask QTT from Requests.": "इस वेबसाइट के ऐड-ऑन यहाँ नहीं बदल सकते। Requests से QTT से पूछें।",
+ "Website articles and newsletters": "वेबसाइट लेख और न्यूज़लेटर",
+ "Open the website's Add-ons: add 3 more pages, or change it to 5 pages (free).": "वेबसाइट के ऐड-ऑन खोलें: 3 और पेज जोड़ें, या इसे 5 पेज का करें (मुफ़्त)।"
 }

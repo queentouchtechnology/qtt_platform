@@ -9236,5 +9236,19 @@
  "Is every app included?": "هل كل تطبيق مشمول؟",
  "Is it included?": "هل هو مشمول؟",
  "Turning it on…": "جارٍ التشغيل…",
- "When do I need the plan?": "متى أحتاج الخطة؟"
+ "When do I need the plan?": "متى أحتاج الخطة؟",
+ "Ask QTT to switch them on for you.": "اطلب من QTT تشغيلها لك.",
+ "Ask QTT to switch this on for you.": "اطلب من QTT تشغيل هذا لك.",
+ "Couldn't open your add-ons": "تعذّر فتح الإضافات",
+ "Email newsletters come with the Marketing assistant": "النشرات البريدية تأتي مع مساعد التسويق",
+ "Not switched on — ask QTT": "غير مفعّل — اسأل QTT",
+ "Nothing to pay now. You keep it until the paid time ends; the change starts with the next renewal.": "لا شيء لتدفعه الآن. يبقى كما هو حتى نهاية المدة المدفوعة؛ ويبدأ التغيير مع التجديد التالي.",
+ "That's every page you can connect. Disconnect one to add another.": "هذه كل الصفحات التي يمكنك ربطها. افصل واحدة لإضافة أخرى.",
+ "Website articles come with the Marketing assistant": "مقالات الموقع تأتي مع مساعد التسويق",
+ "What should we build?": "ماذا نبني لك؟",
+ "You have: {plan}": "لديك: {plan}",
+ "Your website has {n} pages. Add \"3 more pages\" — you see the price before you pay, and it switches on as soon as it's paid.": "يحتوي موقعك على {n} صفحات. أضف \"3 صفحات أخرى\" — ترى السعر قبل الدفع، ويعمل فور الدفع.",
+ "This website's add-ons can't be changed here. Ask QTT from Requests.": "لا يمكن تغيير إضافات هذا الموقع هنا. اسأل QTT من الطلبات.",
+ "Website articles and newsletters": "مقالات الموقع والنشرات",
+ "Open the website's Add-ons: add 3 more pages, or change it to 5 pages (free).": "افتح إضافات الموقع: أضف 3 صفحات أخرى، أو غيّره إلى 5 صفحات (مجانًا)."
 }

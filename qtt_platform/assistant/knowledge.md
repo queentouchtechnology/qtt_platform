@@ -1126,17 +1126,18 @@ settings).
 - Channel access (managers): choose which team members answer each channel.
 
 ## QTT Business Suite — QTT runs it for you
-**Since 14 Nov 2026 every service is free to start and includes everything**
-(see "Free while you try, then one plan"): the Starter / Growth / Pro choice
-below only picks the size you start with — there is nothing to pay, every
-feature (articles, newsletters, all automations) is on, and the monthly prices
-and "Comes with Growth / Pro" notes further down no longer apply. Only a
-domain you buy is charged. When a free amount runs out, the one plan for all 8
-apps covers everything.
+**Every service comes with QTT OS** (see "Free while you try, then one plan"):
+free to start, then in the one plan for all 8 apps — the same gate as the apps.
+There are no service packages (no Starter / Growth / Pro), no service prices,
+setup fees or yearly / 3-year terms. Every feature is on (articles,
+newsletters, every automation, unlimited products). What can cost: **add-ons**
+(work QTT's team does for you — business email, care plan, Google Business
+profile, moving a site…, monthly or once) and a **domain** QTT buys for you (at
+cost). QTT's own businesses pay for nothing.
 QTT offers four services, each set up, hosted and looked after by QTT:
-Website Development (a landing page, 3 pages or 5 pages), Managed E-Commerce
-Websites (an online store; Starter, Growth or Pro), AI & WhatsApp Automation
-(Starter, Growth or Pro) and the Marketing assistant (social posts written for you; Starter, Growth or Pro). Roles: **Owner** orders, pays, approves going live, changes the domain
+Website Development (a landing page, 3 pages or 5 pages — what to build),
+Managed E-Commerce Websites (an online store), AI & WhatsApp Automation and the
+Marketing assistant (social posts written for you). Roles: **Owner** orders, pays, approves going live, changes the domain
 or store settings and removes a website; **Member** sees everything and raises
 requests. The business owner orders; others see status. Services ordered earlier
 that are no longer listed keep running as before.
@@ -1149,32 +1150,26 @@ that are no longer listed keep running as before.
   minutes), your services, previews to review, activity.
 - Ordering: pick a service; websites let you choose a design and colours for
   your kind of business, hosting, and a website address (search a new domain
-  or use your own). Free services start at once; paid ones start when paid.
+  or use your own). It starts at once; with add-ons or a domain to pay, it
+  starts once that's paid.
 - Preview → Approve and go live: review the preview, ask for changes or
   approve; then connect your domain (3 DNS steps shown in the app; it goes
   live on its own once connected). The preview has an expiry date.
 - Requests: ask QTT for a change or help; mark urgent if something is broken.
-- Payments (QTT Business Suite › Payments): invoices; pay by UPI, card or net
-  banking. A new service starts once its first invoice is paid. The next
-  month's invoice comes 3 days before the paid period ends (15 days before for
-  yearly or 3-year terms). Not paid within 7 days after the paid period ends:
+- Payments (QTT Business Suite › Payments): invoices for add-ons and domains;
+  pay by UPI, card or net banking. A monthly add-on's next invoice comes 3 days
+  before the paid month ends. Not paid within 7 days after the paid period ends:
   the service is paused (the activity says so); pay the open invoice and it
   starts again at once. Stopping a service ends it at the end of the paid
   period, with no more invoices.
 - Stopping a service: from the service, "Stop this service" (keeps running
   until the end of the paid period; "Keep this service" undoes it).
-- Paying by term: some services can be paid monthly, yearly or for 3 years
-  ("How would you like to pay?" when ordering); longer terms save money and
-  show the saving. Each term is paid in advance and renews at its end (for a
-  year or more, the invoice comes 15 days early).
-- Sizes and plans: Website Development is ordered by choosing a size (plus
-  any add-ons); it replaces the older website offers (Business online in a
-  day, Website setup in a day, Landing pages, Site migration), which are no
-  longer sold — anyone who has one keeps it as it is. The
-  online store, AI & WhatsApp Automation and the Marketing assistant by
-  choosing Starter, Growth or Pro. Each has its own price, shown as you
-  choose. The catalogue shows "From …" (the cheapest choice). Your service
-  later shows what you chose. To move to a bigger plan, ask through Requests.
+- What you choose: Website Development — what to build (a landing page, 3 or
+  5 pages; free) plus any add-ons; it replaces the older website offers
+  (Business online in a day, Website setup in a day, Landing pages, Site
+  migration), which are no longer sold — anyone who has one keeps it as it is.
+  The online store — any add-ons. AI & WhatsApp Automation and the Marketing
+  assistant — nothing to choose. Your service later shows what you have.
 
 ## QTT Business Suite — Website Development (landing page, 3 pages, 5 pages)
 QTT designs, hosts, secures and looks after a website for the business, and
@@ -1198,7 +1193,7 @@ share.
   website (QTT moves your current site's words and pictures). QTT's team
   does the add-ons once the website starts and tells you when each is done.
   Then your website address (search a new one or use your own),
-  monthly, yearly or 3 years, and a few questions: business name, what you
+  and a few questions: business name, what you
   do, your address and a phone number. Then **Your website's words**: tap
   **Write my website text** (choose English, Tamil, Hindi or Arabic) and the
   headline, intro, about, what you offer, reasons to choose you and common
@@ -1253,18 +1248,16 @@ share.
   stays, so links keep working), Move up / down (the home page stays first),
   Show in / Hide from the menu, Remove page. A new page only when the plan
   has room — Landing page 1, 3 pages 3, 5 pages 5 (+3 with the "3 more pages"
-  add-on); "2 of 3 on your plan" shows how many. When it's full, **Add 3 more
-  pages** or **See bigger plans** opens Change plan (below) — you see the price
-  first, and the pages are there as soon as it's paid.
-- Change plan (the service's page › **Change plan**, owner): pick a bigger
-  size, tick or untick add-ons, and the price shows before anything happens.
-  Bigger or an add-on more: pay only what's new — its one-time setup (a bigger
-  size: just the setup it costs more than yours) and the price difference for
-  the days you've already paid for; it switches on the moment that's paid.
-  From the next renewal you pay the new price. Smaller or an add-on off:
-  nothing to pay; you keep what you paid for and it switches at the next
-  renewal. A change waiting shows on the page with **Pay now** and **Cancel
-  the change**. A service not paid for yet can't change plan.
+  add-on); "2 of 3" shows how many. When it's full, **Add 3 more pages** opens
+  Add-ons (below) — you see the price first, and the pages are there as soon
+  as it's paid.
+- **Add-ons** (the website's or store's page › **Add-ons**, owner): tick or
+  untick add-ons (a website can also change what it is: landing page, 3 or 5
+  pages — free), and the price shows before anything happens. An add-on more:
+  pay only what's new — its one-time setup and the rest of this month; it
+  switches on the moment that's paid. An add-on off: nothing to pay; it stops
+  at the next renewal. A change waiting shows with **Pay now** and **Cancel
+  the change**.
 - **Your website's code** (Business Suite › the website, for a website made of
   code on GitHub — not WordPress): owners tap **Connect with GitHub**, choose
   the website's repository on GitHub and tap **Install**, then come back. No
@@ -1297,9 +1290,8 @@ share.
 
 ## QTT Business Suite — AI & WhatsApp Automation
 The WhatsApp AI receptionist on the business's own number, plus the automations the owner chooses in the app
-(QTT Business Suite › your AI & WhatsApp service › **Automations**). Three plans (monthly, yearly — pays 10 months —
-or 3 years; ₹1,999 one-time setup): **Starter** ₹999 a month — the receptionist + any 3 automations; **Growth**
-₹2,499 — + any 8; **Pro** ₹4,999 — + every automation. (QTT may change prices; the app always shows the current ones.)
+(QTT Business Suite › your AI & WhatsApp service › **Automations**). Comes with QTT OS: the receptionist and every
+automation, no packages or prices of its own.
 The automations (each goes to the owner's — or a manager's — WhatsApp and shows in the app):
 - Team (needs Office Pulse): check-in report, check-out report (who's still in), late arrivals (after the shift's
   grace time), who's absent today, leave requests waiting, expense claims waiting.
@@ -1316,8 +1308,7 @@ The automations (each goes to the owner's — or a manager's — WhatsApp and sh
 - Owner: ask your business — ask on WhatsApp ("how much did we sell this month?", "who owes us?") and get the answer
   from your own data; it only reads.
 Switching on: tap the switch (owner only), then Settings for the number, time and language (UPI ID, when and tone for
-payment reminders; your own first reply for lead follow-up). A full plan can't switch on another — switch one off or
-move to a bigger plan. "Send me one now" tries the daily report or who's absent. A report with nothing to say isn't sent.
+payment reminders; your own first reply for lead follow-up). "Send me one now" tries the daily report or who's absent. A report with nothing to say isn't sent.
 
 ## QTT Business Suite — Your WhatsApp (your own WhatsApp number)
 For a business with AI & WhatsApp Automation whose own WhatsApp number is connected in QTT Business Suite › Inbox › Channels (WhatsApp
@@ -1374,21 +1365,18 @@ customers. Open it from QTT Business Suite › Home › **WhatsApp & AI** › st
   chat, it stays quiet in that chat.
 
 ## QTT Business Suite — Marketing assistant (posting to your pages)
-Its own managed service in three packages (QTT Business Suite › Explore ›
-Marketing assistant; monthly, yearly or 3 years — yearly pays 10 months):
-**Starter** ₹999 a month (posts on 2 pages, 3 post ideas a week), **Growth**
-₹1,999 (5 pages, 5 ideas a week and festival offers), **Pro** ₹2,999 (10
-pages, 7 ideas a week and festival offers). A full package can't connect
-another page — disconnect one or ask QTT for a bigger package.
+Its own managed service (QTT Business Suite › Explore › Marketing assistant),
+coming with QTT OS — no packages: posts on up to 10 pages, 7 post ideas a
+week and festival offers. With 10 pages connected, disconnect one to add
+another.
 Open it from QTT Business Suite › Home › Marketing assistant → **Marketing
 assistant** (businesses that ticked it inside AI & WhatsApp Automation before
 open it from that service).
 - **The first screen**: **Needs your OK** — posts, website articles and
   newsletters waiting, together (tap one to open it; **Review all**); **This
   week** — what goes out each day (Calendar); then four doors: **Social
-  media**, **Website articles** (Growth and Pro), **Email newsletters** (Pro)
-  and **Ideas & festivals**. A door the package doesn't have says which package
-  brings it (owner: tap to see plans). Articles and newsletters on autopilot,
+  media**, **Website articles**, **Email newsletters** and **Ideas &
+  festivals**. A door QTT has switched off says "Not switched on — ask QTT". Articles and newsletters on autopilot,
   and **Better posts** (how complete Business › Knowledge is, under 80%).
 - **Social media** has its own dashboard with one tab bar at the bottom:
   **Today · Calendar · ＋ Make a post · Results · More**. **Today**: for a new
@@ -1432,9 +1420,8 @@ open it from that service).
   within 15 minutes of its time). Newsletters: how many people get it (**See or add people**),
   **Needs you**, **Sent**, and **New newsletter**: **My latest articles** or
   **An offer or news** (one line), **Make it**, check it, **Send me a test
-  first**, **Approve**. A package without them shows a locked card saying which
-  plan (Articles: Growth and Pro; Newsletters: Pro) — owners tap it for the
-  plans. Settings: **Write on its own** (article and newsletter series), **Who
+  first**, **Approve**. If QTT has switched articles or newsletters off for a
+  business, a locked card says "Not switched on — ask QTT". Settings: **Write on its own** (article and newsletter series), **Who
   gets the newsletter**, **Business knowledge**, **Customers**.
 - **Leads** (Content Hub › Leads): **To do** (a next step due today or
   overdue, and new leads to say hello to), **All**, **Won**. **Add a lead**:
@@ -1702,17 +1689,16 @@ open it from that service).
   Tamil and English (Tamil on the picture, both in the caption). **Post on its own**: Wait for my OK
   (each post waits), This week, 10 days (then each waits for the OK again) or Until I stop it.
   Make the next post now, Pause, Carry on, Change, Stop (asks first), Delete
-  a stopped one (its posts stay). Series running at once: Starter 1, Growth
-  3, Pro 10.
+  a stopped one (its posts stay). Up to 10 series run at once.
 - **Suggestions** (Marketing assistant › Suggestions): festivals in the next
   3 weeks, your products not posted in the last 30 days and ready ideas for
   your kind of business — only ones with every fact they need. Make this post
   draws it in one of your designs (your own words and prices), on all your
   connected pages, waiting for your OK. **Something special?** Ask QTT for a
   custom AI poster — QTT replies in Requests with the price before making it.
-- **Posts a month**: a package sends a number of posts a month — Starter 12,
-  Growth 30, Pro 60 (approved by you or sent by a series); the Marketing
-  assistant shows how many are left. More come on the 1st.
+- **Posts a month**: counted by the one gate (free use, then the plan's posts
+  a month — approved by you or sent by a series); the Marketing assistant shows
+  how many are left. More come on the 1st, or add a top-up pack.
 - **Calendar** (Marketing assistant › Calendar, and Social media › Calendar): the
   next 60 days as a **List** (day by day), a **Week** (Monday first, a row a day,
   ‹ › for earlier or later weeks) or a **Month** (a dot a post — blue scheduled,
@@ -1724,7 +1710,7 @@ open it from that service).
   approved again. A scheduled post can be called off; a draft can be deleted.
 - Only the owner connects pages and approves; others in the business see the
   posts. Nothing is ever posted without the owner's OK.
-- **Website articles** (Growth: 2 a month, Pro: 4; Starter has none): Marketing
+- **Website articles** (counted by the one gate): Marketing
   assistant › **Website articles**. Blog articles for the business's
   QTT-built website, to bring customers from Google. New drafts come on the
   1st of each month (or **Get an article idea**, once a day). Open one: edit
@@ -1740,10 +1726,10 @@ open it from that service).
   (words for Google, like hannah-praying-at-the-temple). **Remove picture**
   takes it off the draft. No picture? The article is published without one —
   QTT never makes the picture for you. **Approve and publish** puts it on the website;
-  it counts toward the month ("1 of 2 articles published this month").
+  it counts toward the month ("1 of 4 articles published this month").
   "Take it off my website" removes a published one. Only for businesses
   with a website QTT built.
-- **Email newsletters** (Pro: 2 a month): Marketing assistant › **Email
+- **Email newsletters** (counted by the one gate): Marketing assistant › **Email
   newsletters**. **Your list**: Add my customers (your customers that have an
   email), Upload a list (a CSV file with an email column; a name column is
   used if there), Get website sign-ups (the newsletter form on your QTT
@@ -1787,9 +1773,8 @@ open it from that service).
   Newsletters use the layout you pick. Each one waits for your OK, or switch
   on Publish on its own / Send on its own (it still counts toward the month
   and stops at the package's limit). Write the next one now, Pause, Carry on,
-  Change, Stop. Articles need Growth or Pro and a QTT-built website;
-  newsletters need Pro. They share the package's series limit with post
-  series, and their days show on the Calendar. **Latest articles** (a third
+  Change, Stop. Articles need a website connected to QTT. They count toward
+  the 10 series running at once, with post series, and their days show on the Calendar. **Latest articles** (a third
   kind): each week, 2 weeks or month, the articles published on your website
   since the last one go out by email with their pictures and links; no new
   articles means nothing is sent that time.
@@ -1798,13 +1783,9 @@ open it from that service).
 QTT creates, hosts, secures and manages a full online store (WooCommerce) for
 the business, and the owner runs it from the app — there is no website login
 to remember or share.
-- Plans (monthly, yearly or 3 years — yearly pays 10 months; each has a
-  ₹4,999 one-time setup): **Starter** ₹1,499 a month — up to 50 products,
-  hosting, SSL and backups; **Growth** ₹2,999 — up to 500 products, online
-  payments, shipping, backups and support; **Pro** ₹5,999 — unlimited
-  products, marketing integrations and priority support. Payment gateway fees
-  and paid add-ons are not included. A full shop can't add another product
-  ("Your plan allows 50 products…") — move to a bigger plan through Requests.
+- Comes with QTT OS — no store plans: unlimited products, online payments,
+  shipping, hosting, SSL and backups. Payment gateway fees and paid add-ons are
+  not included.
 - Starting one (no charge — see "Free while you try"): its Start free tile on Home, or Explore QTT OS (or QTT Business Suite › Explore) ›
   E-Commerce Websites. First **choose your store's design** before anything
   is built: what you'll sell (fashion, grocery, electronics, jewellery,
@@ -1819,7 +1800,7 @@ to remember or share.
   line before ordering. Nothing is promised that you didn't tell us: no free
   delivery, return windows, discounts, reviews or numbers; cash on delivery
   and delivery areas only as you answered them.
-  **Add-ons (optional)**, chosen with the plan: Payment gateway setup (we
+  **Add-ons (optional, paid)**: Payment gateway setup (we
   help you open and connect Razorpay, Cashfree, PhonePe or PayU and test it),
   We add your products (up to 50, from your list), Google Shopping (your
   products in Google's free listings), Business email, Google Business
@@ -1828,11 +1809,11 @@ to remember or share.
   my existing store (from Shopify, Dukaan or WooCommerce) and Care plan (up to
   4 changes a month done for you). QTT's team does them once the store starts
   and tells you when each is done.
-  Then choose a plan, answer a few questions (business name, what you sell,
+  Then answer a few questions (business name, what you sell,
   what kind of store, how customers pay, where you deliver, a phone number;
   and, if you like, your delivery charge, free delivery above an amount,
   collection from your shop, returns, and which online payment service),
-  choose monthly, yearly or 3 years, pay the setup fee and the first term.
+  and pay for any add-ons or a domain (nothing else to pay).
 - Setting up takes a few minutes and shows step by step: creating the store,
   WordPress and WooCommerce, the design for what you sell, sample products
   with photos, connecting it to the app, security (https). Then "ready for
