@@ -345,7 +345,9 @@ everyone in every business — no plan needed.
   6-digit code sent to their email. Signing in with Google or a phone's
   fingerprint stays as it is. Someone in two businesses needs it if either has
   it on.
-- **Documents**: tap a Word, Excel, PowerPoint or PDF to open it in the
+- **PDFs and pictures**: tap one to read it in the app: a PDF with its pages,
+  zoom and next / previous; a picture with zoom and turn. Download is at the top.
+- **Documents**: tap a Word, Excel or PowerPoint file to open it in the
   editor (OnlyOffice, on QTT's own server): it saves as you type, and
   everyone who has it open edits together (you see their cursors). On a
   phone it opens in the app; on a computer or the web app, in a new tab.
@@ -1061,7 +1063,8 @@ told "Your role in Orbitra can't do this" — the owner can switch it on there.
 - **POS**: tap an item to put it on the bill; − and + on it change how many;
   tap it again to take it off. Search, code or barcode; choose a customer or walk-in,
   take payment by cash, UPI or card or split two ways; change is calculated;
-  any unpaid part stays on the customer; save the bill PDF.
+  any unpaid part stays on the customer; **View bill** opens the bill PDF
+  (Download is at the top).
 - **POS with no network**: finish the sale as usual — it's saved on this
   device ("Sale saved on this device"; the bill number and PDF come once it's
   sent). The POS shows "N sales saved on this device" with Send now; they go by
@@ -1071,7 +1074,8 @@ told "Your role in Orbitra can't do this" — the owner can switch it on there.
   enough stock, more than 7 days old) shows with its time and amount under
   "saved sale wasn't accepted" — enter that bill again.
 - **Sales**: invoices (unpaid first) and quotes; new invoice or quote;
-  receive payment; save / share PDF; take back items (credit note, stock
+  receive payment; **View PDF** (read it in the app, Download is at the top);
+  take back items (credit note, stock
   returns); turn a quote into an invoice.
 - **Inventory**: items and services with selling price, cost, GST rate,
   HSN/SAC, barcode, category, low-stock alert level; add stock, count stock,

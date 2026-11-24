@@ -3260,7 +3260,7 @@
    "arguments": "name",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.bill",
-   "screens": "products/orbitra/screens/purchases_view.dart › _BillDetailState",
+   "screens": "products/orbitra/screens/pos_view.dart › _SaleDone\nproducts/orbitra/screens/purchases_view.dart › _BillDetailState",
    "other_callers": "",
    "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/purchases.py:96",
    "status": "Not described"
@@ -3468,7 +3468,7 @@
    "arguments": "name",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.invoice",
-   "screens": "admin/admin_repository.dart › AdminRepository\nadmin/invoices_view.dart › _InvoiceScreenState\nadmin/invoices_view.dart › _InvoicesViewState\nplatform/data/platform_models.dart › AwaitingPayment\nplatform/data/platform_models.dart › PlanInvoice\nplatform/free_use/free_use_screens.dart › _OnPlanView\nplatform/free_use/free_use_screens.dart › _WaitingView\nplatform/workspace/billing_section.dart › InvoiceTile\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/sales_view.dart › _InvoiceDetailState",
+   "screens": "admin/admin_repository.dart › AdminRepository\nadmin/invoices_view.dart › _InvoiceScreenState\nadmin/invoices_view.dart › _InvoicesViewState\nplatform/data/platform_models.dart › AwaitingPayment\nplatform/data/platform_models.dart › PlanInvoice\nplatform/free_use/free_use_screens.dart › _OnPlanView\nplatform/free_use/free_use_screens.dart › _WaitingView\nplatform/workspace/billing_section.dart › InvoiceTile\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/sales_view.dart › _InvoiceDetailState\nproducts/orbitra/screens/sales_view.dart › _SellEditorState",
    "other_callers": "",
    "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/sales.py:73",
    "status": "Not described"
@@ -4172,7 +4172,7 @@
    "arguments": "name",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.invoice",
-   "screens": "admin/invoices_view.dart › _InvoiceScreenState\nadmin/invoices_view.dart › _InvoicesViewState\nplatform/data/platform_models.dart › AwaitingPayment\nplatform/data/platform_models.dart › PlanInvoice\nplatform/free_use/free_use_screens.dart › _OnPlanView\nplatform/free_use/free_use_screens.dart › _WaitingView\nplatform/workspace/billing_section.dart › InvoiceTile\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/orbitra/screens/sales_view.dart › _InvoiceDetailState",
+   "screens": "admin/invoices_view.dart › _InvoiceScreenState\nadmin/invoices_view.dart › _InvoicesViewState\nplatform/data/platform_models.dart › AwaitingPayment\nplatform/data/platform_models.dart › PlanInvoice\nplatform/free_use/free_use_screens.dart › _OnPlanView\nplatform/free_use/free_use_screens.dart › _WaitingView\nplatform/workspace/billing_section.dart › InvoiceTile\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/orbitra/screens/sales_view.dart › _InvoiceDetailState\nproducts/orbitra/screens/sales_view.dart › _SellEditorState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/admin_invoices.py:90",
    "status": "OK"
