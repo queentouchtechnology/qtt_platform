@@ -102,9 +102,11 @@ certificate close to expiring without renewing, or unreadable twice in a row; an
   gets "QTT · Internship application received"; the team an email at info@queentouchtech.com ("QTT · New internship
   application": every detail, the documents attached, Reply writes to the applicant; the address is set in Desk ›
   QTT App Settings › Internship applications) and the owner a Telegram. Move each through Status (New → Shortlisted →
-  Interview → Selected / Rejected). Send applicants the link instead of the long WhatsApp message.
+  Interview → Selected / Rejected) in **QTT Admin › Businesses › Internship applications**: search, filter by status,
+  open the documents, Call / WhatsApp / Email, notes for the team (the applicant isn't told of a status change). Send applicants the link instead of the long WhatsApp message.
 - **QTT Admin layout** (a QTT staff account with no business of its own): five tabs — **Home** (key numbers, needs
-  attention), **Businesses** (Workspaces, Clients, People, Invoices, Receptionists), **Apps & services** (Apps, App
+  attention), **Businesses** (Workspaces, Clients, People, Internship applications, Invoices,
+  Receptionists), **Apps & services** (Apps, App
   control, Plans, AI; Services and pricing, Automation library, Website designs, Marketing assistant, Studio; WhatsApp
   templates and number), **Growth** (Revenue, Reports, Usage, QTT's own Marketing), **System** (Servers, Builds,
   Settings, App Map, All of QTT Admin). Your account: your photo at the top. A staff member who also has a business
