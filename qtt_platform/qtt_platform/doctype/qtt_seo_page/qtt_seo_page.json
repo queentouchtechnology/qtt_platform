@@ -1,0 +1,83 @@
+{
+ "doctype": "DocType",
+ "name": "QTT SEO Page",
+ "module": "QTT Platform",
+ "custom": 0,
+ "engine": "InnoDB",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "field_order": [
+  "page",
+  "app",
+  "main_keyword",
+  "other_keywords",
+  "column_break_page",
+  "title",
+  "description",
+  "heading",
+  "old_address"
+ ],
+ "fields": [
+  {
+   "fieldname": "page",
+   "fieldtype": "Data",
+   "label": "Page address",
+   "reqd": 1,
+   "in_list_view": 1,
+   "columns": 2,
+   "description": "On queentouchtech.in, e.g. /billing-software/ — the website's own pages."
+  },
+  {
+   "fieldname": "app",
+   "fieldtype": "Data",
+   "label": "App or page",
+   "in_list_view": 1,
+   "columns": 2
+  },
+  {
+   "fieldname": "main_keyword",
+   "fieldtype": "Data",
+   "label": "Main keyword",
+   "in_list_view": 1,
+   "columns": 2
+  },
+  {
+   "fieldname": "other_keywords",
+   "fieldtype": "Small Text",
+   "label": "Also use on the page"
+  },
+  {
+   "fieldname": "column_break_page",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Search title",
+   "in_list_view": 1,
+   "columns": 4,
+   "description": "Up to 60 characters, the main keyword first."
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Search description",
+   "description": "110 to 160 characters."
+  },
+  {
+   "fieldname": "heading",
+   "fieldtype": "Data",
+   "label": "Heading on the page"
+  },
+  {
+   "fieldname": "old_address",
+   "fieldtype": "Data",
+   "label": "Old address",
+   "description": "Sends people on to the page address."
+  }
+ ],
+ "permissions": [],
+ "istable": 1,
+ "editable_grid": 1
+}

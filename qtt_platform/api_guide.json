@@ -8354,6 +8354,22 @@
    "status": "OK"
   },
   {
+   "endpoint": "qtt_platform.api.seo.pages",
+   "product": "Platform",
+   "area": "api.seo",
+   "http_methods": "GET",
+   "guest": 1,
+   "purpose": "{pages: [{page, title, description}]} — the website's search titles and descriptions as set in Desk › QTT SEO Plan.",
+   "details": "{pages: [{page, title, description}]} — the website's search titles and descriptions as set in Desk › QTT SEO Plan.",
+   "arguments": "",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/seo.py:12",
+   "status": "Not used by the app"
+  },
+  {
    "endpoint": "qtt_platform.api.servers.ingest",
    "product": "Platform",
    "area": "api.servers",

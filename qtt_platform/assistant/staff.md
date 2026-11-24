@@ -104,6 +104,9 @@ certificate close to expiring without renewing, or unreadable twice in a row; an
   QTT App Settings › Internship applications) and the owner a Telegram. Move each through Status (New → Shortlisted →
   Interview → Selected / Rejected) in **QTT Admin › Businesses › Internship applications**: search, filter by status,
   open the documents, Call / WhatsApp / Email, notes for the team (the applicant isn't told of a status change). Send applicants the link instead of the long WhatsApp message.
+- **SEO plan of queentouchtech.in** (Desk › QTT SEO Plan): one main keyword per page in plain words (billing software, HR
+  software…, never product names), the search title (up to 60 characters) and description (110–160), old addresses, word
+  rules, order of work and article topics. Titles and descriptions changed there go live with the next website deploy.
 - **QTT Admin layout** (a QTT staff account with no business of its own): five tabs — **Home** (key numbers, needs
   attention), **Businesses** (Workspaces, Clients, People, Internship applications, Invoices,
   Receptionists), **Apps & services** (Apps, App

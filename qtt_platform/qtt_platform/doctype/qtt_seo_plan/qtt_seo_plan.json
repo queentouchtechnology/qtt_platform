@@ -1,0 +1,77 @@
+{
+ "doctype": "DocType",
+ "name": "QTT SEO Plan",
+ "module": "QTT Platform",
+ "custom": 0,
+ "engine": "InnoDB",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "field_order": [
+  "pages",
+  "section_plan",
+  "rules",
+  "order_of_work",
+  "column_break_plan",
+  "articles",
+  "avoid",
+  "sources"
+ ],
+ "fields": [
+  {
+   "fieldname": "pages",
+   "fieldtype": "Table",
+   "label": "Pages",
+   "options": "QTT SEO Page",
+   "description": "Search titles and descriptions changed here go on queentouchtech.in with its next deploy. Keywords are the plan; headings and addresses are in the website itself."
+  },
+  {
+   "fieldname": "section_plan",
+   "fieldtype": "Section Break",
+   "label": "The plan"
+  },
+  {
+   "fieldname": "rules",
+   "fieldtype": "Text",
+   "label": "Word rules"
+  },
+  {
+   "fieldname": "order_of_work",
+   "fieldtype": "Text",
+   "label": "Order of work"
+  },
+  {
+   "fieldname": "column_break_plan",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "articles",
+   "fieldtype": "Text",
+   "label": "Article topics"
+  },
+  {
+   "fieldname": "avoid",
+   "fieldtype": "Text",
+   "label": "Words to avoid"
+  },
+  {
+   "fieldname": "sources",
+   "fieldtype": "Text",
+   "label": "Where the words came from"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "share": 1
+  }
+ ],
+ "issingle": 1,
+ "track_changes": 1,
+ "description": "The keyword plan of queentouchtech.in: one main keyword per page."
+}
