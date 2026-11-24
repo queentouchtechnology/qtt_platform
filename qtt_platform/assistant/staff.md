@@ -103,7 +103,8 @@ certificate close to expiring without renewing, or unreadable twice in a row; an
   application": every detail, the documents attached, Reply writes to the applicant; the address is set in Desk ›
   QTT App Settings › Internship applications) and the owner a Telegram. Move each through Status (New → Shortlisted →
   Interview → Selected / Rejected) in **QTT Admin › Businesses › Internship applications**: search, filter by status,
-  open the documents, Call / WhatsApp / Email, notes for the team (the applicant isn't told of a status change). Send applicants the link instead of the long WhatsApp message.
+  open the documents in the app (a PDF in the reader with its pages; a card or photo with zoom and turn; a Word file is
+  download only) or download them, Call / WhatsApp / Email, notes for the team (the applicant isn't told of a status change). Send applicants the link instead of the long WhatsApp message.
 - **SEO plan of queentouchtech.in** (Desk › QTT SEO Plan): one main keyword per page in plain words (billing software, HR
   software…, never product names), the search title (up to 60 characters) and description (110–160), old addresses, word
   rules, order of work and article topics. Titles and descriptions changed there go live with the next website deploy.
