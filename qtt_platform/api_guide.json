@@ -3468,7 +3468,7 @@
    "arguments": "name",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.invoice",
-   "screens": "admin/admin_repository.dart › AdminRepository\nadmin/invoices_view.dart › _InvoiceScreenState\nadmin/invoices_view.dart › _InvoicesViewState\nplatform/data/platform_models.dart › AwaitingPayment\nplatform/data/platform_models.dart › PlanInvoice\nplatform/free_use/free_use_screens.dart › _OnPlanView\nplatform/free_use/free_use_screens.dart › _WaitingView\nplatform/workspace/billing_section.dart › InvoiceTile\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/sales_view.dart › _InvoiceDetailState\nproducts/orbitra/screens/sales_view.dart › _SellEditorState",
+   "screens": "admin/admin_repository.dart › AdminRepository\nadmin/invoices_view.dart › _InvoiceScreenState\nadmin/invoices_view.dart › _InvoicesViewState\nplatform/data/platform_models.dart › AwaitingPayment\nplatform/data/platform_models.dart › PlanInvoice\nplatform/free_use/free_use_screens.dart › _OnPlanView\nplatform/free_use/free_use_screens.dart › _WaitingView\nplatform/workspace/billing_section.dart › InvoiceTile\nplatform/workspace/billing_section.dart › _BillingSectionState\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/screens/sales_view.dart › _InvoiceDetailState\nproducts/orbitra/screens/sales_view.dart › _SellEditorState",
    "other_callers": "",
    "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/sales.py:73",
    "status": "Not described"
@@ -4172,7 +4172,7 @@
    "arguments": "name",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.invoice",
-   "screens": "admin/invoices_view.dart › _InvoiceScreenState\nadmin/invoices_view.dart › _InvoicesViewState\nplatform/data/platform_models.dart › AwaitingPayment\nplatform/data/platform_models.dart › PlanInvoice\nplatform/free_use/free_use_screens.dart › _OnPlanView\nplatform/free_use/free_use_screens.dart › _WaitingView\nplatform/workspace/billing_section.dart › InvoiceTile\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/orbitra/screens/sales_view.dart › _InvoiceDetailState\nproducts/orbitra/screens/sales_view.dart › _SellEditorState",
+   "screens": "admin/invoices_view.dart › _InvoiceScreenState\nadmin/invoices_view.dart › _InvoicesViewState\nplatform/data/platform_models.dart › AwaitingPayment\nplatform/data/platform_models.dart › PlanInvoice\nplatform/free_use/free_use_screens.dart › _OnPlanView\nplatform/free_use/free_use_screens.dart › _WaitingView\nplatform/workspace/billing_section.dart › InvoiceTile\nplatform/workspace/billing_section.dart › _BillingSectionState\nproducts/orbitra/orbitra_root.dart › _OrbitraRootState\nproducts/orbitra/repository.dart › OrbitraRepository\nproducts/orbitra/screens/sales_view.dart › _InvoiceDetailState\nproducts/orbitra/screens/sales_view.dart › _SellEditorState",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/admin_invoices.py:90",
    "status": "OK"
@@ -4222,7 +4222,7 @@
    "app_calls": "",
    "screens": "",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/admin_invoices.py:241",
+   "source": "qtt_platform/qtt_platform/api/admin_invoices.py:194",
    "status": "Not used by the app"
   },
   {
@@ -4687,6 +4687,22 @@
    "screens": "",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/billing.py:40",
+   "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_platform.api.billing.invoice_pdf",
+   "product": "Platform",
+   "area": "api.billing",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "One of the business's own invoices from QTT as a PDF (Business › Plans and billing). Everyone in the business who sees the list can open it; another business's invoice, or one not sent yet, is \"Not found.\".",
+   "details": "One of the business's own invoices from QTT as a PDF (Business › Plans and billing). Everyone in the business who\nsees the list can open it; another business's invoice, or one not sent yet, is \"Not found.\".",
+   "arguments": "name",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/billing.py:179",
    "status": "Not used by the app"
   },
   {

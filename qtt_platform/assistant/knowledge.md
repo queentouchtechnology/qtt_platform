@@ -393,7 +393,7 @@ everyone in every business — no plan needed.
   are no plans per app — Explore QTT OS to turn on an app or order a service,
   and every invoice from QTT — apps and QTT Business Suite services
   together, unpaid ones first, with **Pay now** for the owner and admins;
-  everyone can see them).
+  everyone can see them — tap one to read its PDF, Download is at the top).
 - **Invoices from QTT**: when QTT gives your business an app or a service, it
   starts at once and an invoice comes, due in 7 days (Home shows "An invoice to
   pay"). Pay with Pay now (UPI, card, net banking). The next one comes 3 days

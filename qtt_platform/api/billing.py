@@ -173,3 +173,18 @@ def my_bills(start: int = 0, page_length: int = 20, status: str | None = None) -
 					"lines": lines, "pay_url": paylink.payment_url(inv.name) if inv.status == "open" and can_pay else None})
 	return {"invoices": out, "has_more": len(rows) == length, "can_pay": can_pay,
 			"online_payments": paylink.online_payments_on()}
+
+
+@frappe.whitelist(methods=["GET"])
+def invoice_pdf(name: str):
+	"""One of the business's own invoices from QTT as a PDF (Business › Plans and billing). Everyone in the business who
+	sees the list can open it; another business's invoice, or one not sent yet, is "Not found."."""
+	from qtt_platform import invoice_pdf as pdf
+
+	tenant = resolve_active_tenant(frappe.session.user)
+	if not tenant:
+		frappe.throw(_("Choose your business first."), frappe.PermissionError)
+	require_tenant_membership(tenant)
+	if not frappe.db.exists("QTT Invoice", {"name": str(name), "tenant": tenant, "status": ["in", ["open", "paid", "void"]]}):
+		frappe.throw(_("Not found."), frappe.DoesNotExistError)
+	pdf.respond(str(name))
