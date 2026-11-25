@@ -1076,7 +1076,7 @@ told "Your role in Orbitra can't do this" — the owner can switch it on there.
 - **Sales**: invoices (unpaid first) and quotes; new invoice or quote;
   receive payment; **View PDF** (read it in the app, Download is at the top);
   take back items (credit note, stock
-  returns); turn a quote into an invoice.
+  returns); turn a quote into an invoice; **View PDF** on a quote too.
 - **Inventory**: items and services with selling price, cost, GST rate,
   HSN/SAC, barcode, category, low-stock alert level; add stock, count stock,
   move stock between stores; hide an item from POS and new bills. A new item

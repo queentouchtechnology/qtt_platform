@@ -115,6 +115,8 @@ certificate close to expiring without renewing, or unreadable twice in a row; an
   templates and number), **Growth** (Revenue, Reports, Usage, QTT's own Marketing), **System** (Servers, Builds,
   Settings, App Map, All of QTT Admin). Your account: your photo at the top. A staff member who also has a business
   keeps the business tabs and opens QTT Admin from its tab.
+- **QTT's own documents** (invoices from QTT, QTT's quotes from Leads and Sales) use the look of Desk › Print Format "QTT
+  Proposal": change its styles there and these follow. Other businesses' documents keep their own logo and style.
 - **GitHub app** (QTT Admin › Clients › GitHub app, once): registers QTT's GitHub App (GitHub's own page opens filled in —
   write access only to the code of repositories an owner picks; keys kept encrypted). Owners then connect their own
   website's code with **Connect with GitHub** (no tokens): QTT checks with GitHub that the person installed it, reads the

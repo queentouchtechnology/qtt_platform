@@ -3422,7 +3422,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.convertQuotation",
    "screens": "products/orbitra/screens/sales_view.dart › QuoteDetail",
    "other_callers": "",
-   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/sales.py:183",
+   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/sales.py:220",
    "status": "OK"
   },
   {
@@ -3454,7 +3454,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.createQuotation",
    "screens": "products/orbitra/screens/sales_view.dart › _SellEditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/sales.py:175",
+   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/sales.py:212",
    "status": "Not described"
   },
   {
@@ -3520,6 +3520,22 @@
    "other_callers": "",
    "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/sales.py:165",
    "status": "Not described"
+  },
+  {
+   "endpoint": "qtt_orbitra.api.sales.quotation_pdf",
+   "product": "Orbitra",
+   "area": "api.sales",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "The quote as a PDF {file_name, data}: QTT's own in the look of the print format \"QTT Proposal\", any other business's in its own (Orbitra Quotation).",
+   "details": "The quote as a PDF {file_name, data}: QTT's own in the look of the print format \"QTT Proposal\", any other business's\nin its own (Orbitra Quotation).",
+   "arguments": "name",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/orbitra/repository.dart › OrbitraRepository.quotationPdf",
+   "screens": "products/orbitra/screens/sales_view.dart › QuoteDetail",
+   "other_callers": "",
+   "source": "qtt-os/qtt_orbitra/qtt_orbitra/api/sales.py:175",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_orbitra.api.sales.quotations",
@@ -6926,7 +6942,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.leadClose",
    "screens": "products/services/screens/lead_pages.dart › _LeadPageState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/leads.py:530",
+   "source": "qtt_platform/qtt_platform/api/leads.py:545",
    "status": "OK"
   },
   {

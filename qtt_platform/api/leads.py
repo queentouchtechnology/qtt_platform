@@ -501,6 +501,16 @@ def _quote_pdf(tenant: str, deal, q: dict, currency: str) -> str:
 
 	rows = [{**r, "qty_text": qty(r["qty"]), "rate_text": rules.money(r["rate"], currency), "amount_text": rules.money(r["amount"], currency)}
 			for r in q["rows"]]
+	from qtt_platform import qtt_look
+
+	if qtt_look.is_qtt(tenant):  # QTT's own quotes: the look of the print format "QTT Proposal"
+		pdf = qtt_look.render(
+			title="Quotation", left=f"Date: {frappe.utils.formatdate(frappe.utils.today(), 'd MMMM yyyy')}  ·  Quotation No: {deal.name.replace('CRM-DEAL-', 'Q-')}",
+			right="Quotation Validity: 15 days", to_label="Prepared for", to=[_display(deal), deal.mobile_no],
+			columns=["Service", "Qty", "Price", "Amount"], rows=[[r["name"], r["qty_text"], r["rate_text"], r["amount_text"]] for r in rows],
+			totals=[("Subtotal", rules.money(q["net"], currency), False)]
+			+ ([(f"GST {qty(q['gst'])}%", rules.money(q["tax"], currency), False)] if q["tax"] else []) + [("Total", rules.money(q["total"], currency), True)])
+		return _save_quote(deal, pdf)
 	logo = b.logo if not b.logo or b.logo.startswith("http") else get_url(b.logo)
 	html = frappe.render_template(_QUOTE_HTML, {
 		"b": b, "logo": logo, "q": {**q, "rows": rows}, "number": deal.name.replace("CRM-DEAL-", "Q-"),
@@ -508,7 +518,12 @@ def _quote_pdf(tenant: str, deal, q: dict, currency: str) -> str:
 		"net": rules.money(q["net"], currency), "tax": rules.money(q["tax"], currency), "total": rules.money(q["total"], currency),
 		"gst": qty(q["gst"]),
 	})
-	pdf = get_pdf(html, {"page-size": "A4", "margin-top": "12mm", "margin-bottom": "12mm", "margin-left": "12mm", "margin-right": "12mm"})
+	return _save_quote(deal, get_pdf(html, {"page-size": "A4", "margin-top": "12mm", "margin-bottom": "12mm", "margin-left": "12mm", "margin-right": "12mm"}))
+
+
+def _save_quote(deal, pdf: bytes) -> str:
+	from frappe.utils import get_url
+
 	for old in frappe.get_all("File", filters={"attached_to_doctype": DEAL, "attached_to_name": deal.name, "file_name": ["like", "Quote-%"]},
 							  pluck="name"):
 		frappe.delete_doc("File", old, ignore_permissions=True, force=True)
