@@ -400,6 +400,17 @@ everyone in every business — no plan needed.
   after it — pay for 1 year, then QTT renews it ("Being renewed" until the new
   date shows). An email comes 30, 14, 7 and 1 days before, and once if it
   expires. Without the domain, the website address and the email on it stop.
+- **DNS** (Business › Plans and billing › Domains › tap the domain; owner and
+  admins): the domain's records in plain words — Website and addresses, Email,
+  Proof it's yours, Other. **Add a record**: paste everything your email or
+  website provider gave you (it finds the records; check them, then Add them),
+  or choose what you want: Open a website, Point a name somewhere, Receive
+  email, Who may send your email (SPF), Email signature (DKIM), Protection from
+  fake email (DMARC: only watch / send to Spam / refuse), Prove it's yours, Any
+  other text. ⋮ on a record: Is it working? (can the internet see it yet), Copy
+  the value, Change, Remove (it says what may stop). **Latest changes** has
+  **Undo** while nothing else changed that record. New records can take up to
+  an hour. Name servers aren't changed here — ask QTT.
 - **Invoices from QTT**: when QTT gives your business an app or a service, it
   starts at once and an invoice comes, due in 7 days (Home shows "An invoice to
   pay"). Pay with Pay now (UPI, card, net banking). The next one comes 3 days

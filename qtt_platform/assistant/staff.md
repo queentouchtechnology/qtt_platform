@@ -120,6 +120,8 @@ certificate close to expiring without renewing, or unreadable twice in a row; an
   can renew it. Paid → renewed by itself when Managed Services Settings › Renewing domains is on (within the month's limit),
   else (or if it's refused or unclear) a task "Renew <domain> (paid)": renew 1 year in the registrar's panel, auto-renewal
   off; the app closes the task when the date moves. Let go = hidden from the client, no reminders.
+- **Client domains** (QTT Admin › Businesses › Client domains): every Managed Domain, soonest to expire first; tap one for the
+  same DNS page the client has. Each change is kept with what was there before (Desk › Managed Domain Change) and audited.
 - **QTT's own documents** (invoices from QTT, QTT's quotes from Leads and Sales) use the look of Desk › Print Format "QTT
   Proposal": change its styles there and these follow. Other businesses' documents keep their own logo and style.
 - **GitHub app** (QTT Admin › Clients › GitHub app, once): registers QTT's GitHub App (GitHub's own page opens filled in —
