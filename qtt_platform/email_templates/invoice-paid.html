@@ -1,0 +1,11 @@
+<!-- name: QTT · Invoice paid -->
+<!-- subject: Payment received: {{ invoice }} for {{ business }} — {{ amount }} -->
+{% extends "templates/emails/qtt_layout.html" %}
+{% block body %}
+<p style="{{ s.muted }}">{{ business }} · {{ invoice }}</p>
+<h1 style="{{ s.h1 }}">Thank you, we received your payment</h1>
+<p style="{{ s.p }}">Hello {{ name }}, your payment of <b>{{ amount }}</b> on {{ date }} is recorded. The invoice is attached as a PDF.</p>
+{% if lines %}<div style="{{ s.box }}">{% for l in lines %}<div>{{ l }}</div>{% endfor %}</div>{% endif %}
+<p style="margin:0 0 18px;"><a href="https://queentouchtech.in/app/" style="{{ s.button }}">Open QTT OS</a></p>
+<p style="{{ s.muted }}">It is also kept in the app: Business › Plans and billing. Questions? Just reply to this email.</p>
+{% endblock %}
