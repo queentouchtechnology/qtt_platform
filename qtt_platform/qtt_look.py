@@ -8,6 +8,7 @@ Other businesses' documents keep their own look (print_brand).
 import base64
 import os
 import re
+from html import unescape
 
 import frappe
 
@@ -36,7 +37,7 @@ _HTML = """<style>{{ css }}
   <div class="for"><b>{{ to_label | e }}:</b> {{ to | select | map("e") | join(" &nbsp;·&nbsp; ") }}</div>
   <table class="items">
     <tr>{% for c in columns %}<th{% if not loop.first %} class="r"{% endif %}>{{ c | e }}</th>{% endfor %}</tr>
-    {% for r in rows %}<tr>{% for c in r %}<td{% if not loop.first %} class="r"{% endif %}>{{ c | e }}</td>{% endfor %}</tr>{% endfor %}
+    {% for r in rows %}<tr>{% for c in r %}<td{% if not loop.first %} class="r"{% endif %}>{% for line in c.splitlines() %}{% if loop.first %}{{ line | e }}{% else %}<div class="desc">{{ line | e }}</div>{% endif %}{% endfor %}</td>{% endfor %}</tr>{% endfor %}
   </table>
   <table class="sum">{% for label, value, strong in totals %}<tr{% if strong %} class="tot"{% endif %}><td>{{ label | e }}</td><td class="r">{{ value | e }}</td></tr>{% endfor %}</table>
   {% if note %}<div class="note">{{ note | e }}</div>{% endif %}
@@ -51,9 +52,16 @@ _HTML = """<style>{{ css }}
 
 
 def css_of(html: str | None) -> str:
-	"""The styles of the print format (without web fonts: a slow font server must never hold a PDF up); "" when none."""
+	"""The styles of the print format; "" when it has none."""
 	found = re.search(r"<style[^>]*>(.*?)</style>", html or "", re.S | re.I)
-	return re.sub(r"@import[^;]+;", "", found.group(1)).strip() if found else ""
+	return found.group(1).strip() if found else ""
+
+
+def details(name: str, description: str | None) -> str:
+	"""A service and its deliverables, one line each (• points on their own lines); just the name when they're the same."""
+	text = re.sub(r"<br\s*/?>|</li>|</p>|</div>", "\n", description or "")
+	lines = [" ".join(x.split()) for x in unescape(frappe.utils.strip_html(text)).replace("•", "\n•").split("\n")]
+	return "\n".join([name] + [x for x in lines if x.strip("• ") and x != name])
 
 
 def is_qtt(tenant: str | None) -> bool:
@@ -64,7 +72,7 @@ def is_qtt(tenant: str | None) -> bool:
 
 def render(*, title: str, left: str, right: str, to_label: str, to: list, columns: list, rows: list, totals: list, note: str = "",
 		   terms: str = "", color: str = "") -> bytes:
-	"""One of QTT's documents as a PDF. rows: text cells under `columns`; totals: (label, amount, strong). `terms` is the
+	"""One of QTT's documents as a PDF. rows: text cells under `columns` (a new line in the first one is small text under it); totals: (label, amount, strong). `terms` is the
 	document's own safe HTML; everything else is escaped."""
 	from frappe.utils.pdf import get_pdf
 
