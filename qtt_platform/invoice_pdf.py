@@ -11,7 +11,7 @@ from qtt_platform import invoice_billing_rules as rules
 
 _PDF_HTML = """
 <div style="font-family: Helvetica, Arial, sans-serif; color: #1E293B; font-size: 12px; padding: 8px 4px">
-  <table style="width: 100%; border-collapse: collapse"><tr>
+  <table style="width: 100%; border-collapse: collapse; font-size: 12px"><tr>
     <td style="vertical-align: top">
       {% if logo %}<img src="{{ logo }}" style="max-height: 56px; max-width: 180px; margin-bottom: 6px"><br>{% endif %}
       <div style="font-size: 18px; font-weight: bold; color: {{ b.color }}">{{ b.name }}</div>
@@ -19,7 +19,7 @@ _PDF_HTML = """
       {% if b.gstin %}<div style="color: #64748B">GSTIN {{ b.gstin }}</div>{% endif %}
       <div style="color: #64748B">{{ [b.phone, b.email, b.website] | select | join(" · ") }}</div>
     </td>
-    <td style="vertical-align: top; text-align: right">
+    <td style="vertical-align: top; text-align: right; white-space: nowrap">
       <div style="font-size: 22px; font-weight: bold; color: {{ b.color }}">INVOICE</div>
       <div style="color: #64748B">{{ inv.name }}</div>
       <div style="color: #64748B">{{ date }}</div>
@@ -33,7 +33,7 @@ _PDF_HTML = """
     {% for line in to.address %}<div style="color: #64748B">{{ line }}</div>{% endfor %}
     {% if to.gstin %}<div style="color: #64748B">GSTIN {{ to.gstin }}</div>{% endif %}
   </div>
-  <table style="width: 100%; border-collapse: collapse">
+  <table style="width: 100%; border-collapse: collapse; font-size: 12px">
     <tr style="background: {{ b.color }}; color: #FFFFFF">
       <th style="text-align: left; padding: 8px">#</th><th style="text-align: left; padding: 8px">Description</th>
       <th style="text-align: right; padding: 8px">Amount</th>
@@ -45,7 +45,7 @@ _PDF_HTML = """
     </tr>
     {% endfor %}
   </table>
-  <table style="width: 46%; margin-left: 54%; margin-top: 10px; border-collapse: collapse">
+  <table style="width: 46%; margin-left: 54%; margin-top: 10px; border-collapse: collapse; font-size: 12px">
     <tr><td style="padding: 8px; font-weight: bold; border-top: 2px solid {{ b.color }}">Total</td>
         <td style="padding: 8px; text-align: right; font-weight: bold; font-size: 15px; border-top: 2px solid {{ b.color }}">{{ total }}</td></tr>
   </table>
