@@ -115,6 +115,11 @@ certificate close to expiring without renewing, or unreadable twice in a row; an
   templates and number), **Growth** (Revenue, Reports, Usage, QTT's own Marketing), **System** (Servers, Builds,
   Settings, App Map, All of QTT Admin). Your account: your photo at the top. A staff member who also has a business
   keeps the business tabs and opens QTT Admin from its tab.
+- **Clients' domains** (Desk › Managed Domain): a domain QTT bought for a client — one bought by the app is added by itself; add
+  one bought by hand (business + domain; renewal price empty = cost + margin). The client sees it in Plans and billing and
+  can renew it. Paid → renewed by itself when Managed Services Settings › Renewing domains is on (within the month's limit),
+  else (or if it's refused or unclear) a task "Renew <domain> (paid)": renew 1 year in the registrar's panel, auto-renewal
+  off; the app closes the task when the date moves. Let go = hidden from the client, no reminders.
 - **QTT's own documents** (invoices from QTT, QTT's quotes from Leads and Sales) use the look of Desk › Print Format "QTT
   Proposal": change its styles there and these follow. Other businesses' documents keep their own logo and style.
 - **GitHub app** (QTT Admin › Clients › GitHub app, once): registers QTT's GitHub App (GitHub's own page opens filled in —

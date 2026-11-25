@@ -394,6 +394,12 @@ everyone in every business — no plan needed.
   and every invoice from QTT — apps and QTT Business Suite services
   together, unpaid ones first, with **Pay now** for the owner and admins;
   everyone can see them — tap one to read its PDF, Download is at the top).
+- **Domains** (Business › Plans and billing › Domains): the domains QTT holds for
+  the business and until when each is yours. A domain doesn't renew by itself:
+  **Renew** (owner and admins) shows from 90 days before the date to 25 days
+  after it — pay for 1 year, then QTT renews it ("Being renewed" until the new
+  date shows). An email comes 30, 14, 7 and 1 days before, and once if it
+  expires. Without the domain, the website address and the email on it stop.
 - **Invoices from QTT**: when QTT gives your business an app or a service, it
   starts at once and an invoice comes, due in 7 days (Home shows "An invoice to
   pay"). Pay with Pay now (UPI, card, net banking). The next one comes 3 days

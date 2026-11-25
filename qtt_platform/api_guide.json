@@ -8444,7 +8444,7 @@
    "arguments": "",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/admin/admin_repository.dart › AdminRepository.domains",
-   "screens": "admin/servers_models.dart › DomainsData\nadmin/servers_view.dart › _DomainsSectionState",
+   "screens": "admin/servers_models.dart › DomainsData\nadmin/servers_view.dart › _DomainsSectionState\nplatform/data/platform_repository.dart › PlatformRepository",
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/servers.py:176",
    "status": "Not described"
@@ -13551,6 +13551,38 @@
    "screens": "products/services/screens/automation_pages.dart › _AutomationsPageState\nproducts/services/screens/content_hub.dart › _FollowUpSwitchState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/my_automations.py:110",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.my_domains.domains",
+   "product": "Managed Services",
+   "area": "api.my_domains",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "{domains: [{name, domain, expires_on, days_left, can_renew, price, renewing, opens_on, pay_url}], online_payments}.",
+   "details": "{domains: [{name, domain, expires_on, days_left, can_renew, price, renewing, opens_on, pay_url}], online_payments}.",
+   "arguments": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.myDomains",
+   "screens": "platform/workspace/domains_section.dart › _DomainsSectionState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_domains.py:43",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_services.api.my_domains.renew",
+   "product": "Managed Services",
+   "area": "api.my_domains",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "The owner or an admin renews a domain for one year: its invoice (the same one if it's still open) and payment link. Once it's paid, QTT renews it. {invoice, pay_url}",
+   "details": "The owner or an admin renews a domain for one year: its invoice (the same one if it's still open) and payment link.\nOnce it's paid, QTT renews it. {invoice, pay_url}",
+   "arguments": "name",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.renewDomain",
+   "screens": "platform/workspace/domains_section.dart › _DomainsSectionState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_services/qtt_services/api/my_domains.py:53",
    "status": "OK"
   },
   {
