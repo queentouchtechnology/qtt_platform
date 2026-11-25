@@ -50,6 +50,7 @@ _PDF_HTML = """
         <td style="padding: 8px; text-align: right; font-weight: bold; font-size: 15px; border-top: 2px solid {{ b.color }}">{{ total }}</td></tr>
   </table>
   {% if paid %}<div style="margin-top: 18px; color: #15803D">Paid {{ paid }} — thank you.</div>
+  {% elif status == "PAID" %}<div style="margin-top: 18px; color: #15803D">Paid — thank you.</div>
   {% elif void %}<div style="margin-top: 18px; color: #64748B">This invoice was cancelled. Nothing to pay.</div>
   {% else %}<div style="margin-top: 18px; color: #64748B">Pay in QTT OS › Business › Plans and billing.</div>{% endif %}
   <div style="margin-top: 28px; color: #64748B">Thank you — {{ b.name }}</div>
