@@ -27,11 +27,12 @@ def _allowed() -> str:
 @frappe.whitelist(allow_guest=True, methods=["POST"])
 @rate_limit(limit=300, seconds=3600)
 def check(kind: str, number: str, ifsc: str | None = None, name: str | None = None, ref: str | None = None) -> dict:
-	"""One check for a partner site (token in X-QTT-Token): result and a one-line summary, PAN and account masked."""
+	"""One check for a partner site (token in X-QTT-Token): result and a one-line summary, PAN and account masked. `name` may
+	hold several names to compare, separated by | (the business and its owner): the best match counts."""
 	source = _allowed()
 	frappe.set_user("Administrator")  # the check record is written by the site's token, not a person
 	try:
-		return verification.check(kind, number, ifsc=ifsc, name=name, source=source, subject=ref)
+		return verification.check(kind, number, ifsc=ifsc, name=[x.strip() for x in str(name or "").split("|")], source=source, subject=ref)
 	except verification.VerificationUnavailable as e:
 		frappe.local.response.http_status_code = 503
 		return {"result": "failed", "summary": str(e)}

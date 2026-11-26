@@ -411,6 +411,14 @@ everyone in every business — no plan needed.
   the value, Change, Remove (it says what may stop). **Latest changes** has
   **Undo** while nothing else changed that record. New records can take up to
   an hour. Name servers aren't changed here — ask QTT.
+- **Verify your business** (Business › Profile, owner and admins): the GSTIN,
+  PAN and default bank account saved on the profile, checked against
+  government records — it shows the name on each record and whether it
+  matches the business name. PAN and bank ask you to confirm first (the bank
+  check may send ₹1 to the account). "Verified business" shows once the GSTIN
+  or PAN is found and the name matches. A few checks of each kind a month are
+  free; checking the same number again within 30 days doesn't count. Changed a
+  number? Save the profile, then check again.
 - **Invoices from QTT**: when QTT gives your business an app or a service, it
   starts at once and an invoice comes, due in 7 days (Home shows "An invoice to
   pay"). Pay with Pay now (UPI, card, net banking). The next one comes 3 days

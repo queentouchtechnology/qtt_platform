@@ -122,6 +122,10 @@ certificate close to expiring without renewing, or unreadable twice in a row; an
   off; the app closes the task when the date moves. Let go = hidden from the client, no reminders.
 - **Client domains** (QTT Admin › Businesses › Client domains): every Managed Domain, soonest to expire first; tap one for the
   same DNS page the client has. Each change is kept with what was there before (Desk › Managed Domain Change) and audited.
+- **Verification** (Desk › QTT Verification Settings): on/off, test key (sample answers, free) or live key, the most to
+  spend a month (₹500), free checks a month per business and kind (3), name match level (80), Edenza's token. Desk › QTT
+  Verification Check lists every check (PAN and account masked; never an Aadhaar number). The service behind it is never
+  named to businesses or sellers. Wallet empty or key refused → the owner's Telegram once a day.
 - **QTT's own documents** (invoices from QTT, QTT's quotes from Leads and Sales) use the look of Desk › Print Format "QTT
   Proposal": change its styles there and these follow. Other businesses' documents keep their own logo and style.
 - **GitHub app** (QTT Admin › Clients › GitHub app, once): registers QTT's GitHub App (GitHub's own page opens filled in —

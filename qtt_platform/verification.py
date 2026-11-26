@@ -46,7 +46,7 @@ def _cached(fp: str, test: bool):
 							   ["name", "result", "record_name", "details"], as_dict=True, order_by="creation desc")
 
 
-def check(kind: str, number: str, *, ifsc: str | None = None, name: str | None = None, source: str, tenant: str | None = None,
+def check(kind: str, number: str, *, ifsc: str | None = None, name: str | list | None = None, source: str, tenant: str | None = None,
 		  subject: str | None = None) -> dict:
 	s = settings()
 	if not s.get("enabled"):
@@ -77,7 +77,12 @@ def check(kind: str, number: str, *, ifsc: str | None = None, name: str | None =
 			raise VerificationUnavailable(_("Couldn't check right now. Please try again in a few minutes."))
 		result, record_name, details = got["result"], got["record_name"], got["details"]
 		cost = 0 if test or result == "invalid" else rules.COST[kind]
-	score = rules.name_score(record_name, name) if name and record_name else None
+	# The business, its legal name or its owner (a sole proprietor's PAN and GST are in the owner's name); the GST trade
+	# name counts too. The best match is kept, with the name it matched.
+	names = [x for x in ([name] if isinstance(name, str) else (name or [])) if x and str(x).strip()]
+	on_record = [x for x in (record_name, details.get("trade_name")) if x]
+	pairs = [(rules.name_score(r, n), n) for r in on_record for n in names]
+	score, name = max(pairs) if pairs else (None, names[0] if names else None)
 	doc = frappe.get_doc({"doctype": CHECK, "kind": kind, "number": rules.mask(kind, n), "fingerprint": fp, "source": source, "tenant": tenant,
 						  "subject": (subject or "")[:140], "result": result, "record_name": record_name, "given_name": (name or "")[:140],
 						  "name_score": score or 0, "name_match": 1 if score is not None and score >= threshold else 0,

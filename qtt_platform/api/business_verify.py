@@ -32,11 +32,12 @@ def _subject(tenant: str) -> dict:
 	"""The numbers on the profile now, and the name each should match."""
 	t = frappe.db.get_value("QTT Tenant", tenant, ["tenant_name", "legal_name"], as_dict=True) or frappe._dict()
 	p = frappe.db.get_value("QTT Business Profile", tenant, ["gstin", "pan", "bank_account_number", "bank_ifsc", "bank_account_name"], as_dict=True) or frappe._dict()
-	business = t.legal_name or t.tenant_name or ""
+	owner = frappe.db.get_value("QTT Tenant", tenant, "owner_user")
+	business = [x for x in (t.legal_name, t.tenant_name, frappe.utils.get_fullname(owner) if owner else None) if x]
 	return {
 		"gstin": {"number": p.gstin or "", "ifsc": None, "name": business},
 		"pan": {"number": p.pan or "", "ifsc": None, "name": business},
-		"bank": {"number": p.bank_account_number or "", "ifsc": p.bank_ifsc or "", "name": p.bank_account_name or business},
+		"bank": {"number": p.bank_account_number or "", "ifsc": p.bank_ifsc or "", "name": [p.bank_account_name] + business if p.bank_account_name else business},
 	}
 
 

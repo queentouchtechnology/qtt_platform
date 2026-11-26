@@ -5098,12 +5098,12 @@
    "purpose": "{verified (the business), items: [{kind, title, number, result, summary, record_name, checked_at, checks_left, has_number}]}",
    "details": "{verified (the business), items: [{kind, title, number, result, summary, record_name, checked_at, checks_left, has_number}]}",
    "arguments": "",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.businessVerification",
+   "screens": "platform/workspace/verify_business.dart › _VerifyBusinessCardState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/business_verify.py:48",
-   "status": "Not used by the app"
+   "source": "qtt_platform/qtt_platform/api/business_verify.py:49",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.business_verify.verify",
@@ -5114,12 +5114,12 @@
    "purpose": "Checks the profile's GSTIN, PAN or bank account. PAN and bank need the owner's consent (it's personal data; the bank check may send ₹1 to the account). Answers like status().",
    "details": "Checks the profile's GSTIN, PAN or bank account. PAN and bank need the owner's consent (it's personal data; the bank\ncheck may send ₹1 to the account). Answers like status().",
    "arguments": "kind, consent",
-   "used_by": "—",
-   "app_calls": "",
-   "screens": "",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/platform/data/platform_repository.dart › PlatformRepository.verifyBusiness",
+   "screens": "platform/workspace/verify_business.dart › _VerifyBusinessCardState",
    "other_callers": "",
-   "source": "qtt_platform/qtt_platform/api/business_verify.py:78",
-   "status": "Not used by the app"
+   "source": "qtt_platform/qtt_platform/api/business_verify.py:79",
+   "status": "OK"
   },
   {
    "endpoint": "qtt_platform.api.calendar.items",
@@ -10711,8 +10711,8 @@
    "area": "api.verify_service",
    "http_methods": "POST",
    "guest": 1,
-   "purpose": "One check for a partner site (token in X-QTT-Token): result and a one-line summary, PAN and account masked.",
-   "details": "One check for a partner site (token in X-QTT-Token): result and a one-line summary, PAN and account masked.",
+   "purpose": "One check for a partner site (token in X-QTT-Token): result and a one-line summary, PAN and account masked. `name` may hold several names to compare, separated by | (the business and its owner): the best match counts.",
+   "details": "One check for a partner site (token in X-QTT-Token): result and a one-line summary, PAN and account masked. `name` may\nhold several names to compare, separated by | (the business and its owner): the best match counts.",
    "arguments": "kind, number, ifsc, name, ref",
    "used_by": "—",
    "app_calls": "",
