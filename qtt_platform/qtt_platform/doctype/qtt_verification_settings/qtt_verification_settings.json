@@ -1,0 +1,98 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Verification Settings",
+ "module": "QTT Platform",
+ "custom": 0,
+ "engine": "InnoDB",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "modified": "2026-11-26 15:00:00.000000",
+ "field_order": [
+  "enabled",
+  "use_test_key",
+  "live_key",
+  "test_key",
+  "column_break_main",
+  "monthly_limit",
+  "free_per_month",
+  "match_threshold",
+  "section_partners",
+  "edenza_token"
+ ],
+ "fields": [
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Verification on",
+   "default": "0",
+   "description": "Business › Profile › Verify your business, and Edenza's seller checks."
+  },
+  {
+   "fieldname": "use_test_key",
+   "fieldtype": "Check",
+   "label": "Use the test key",
+   "default": "1",
+   "description": "Sample answers, nothing charged. Untick to check real records."
+  },
+  {
+   "fieldname": "live_key",
+   "fieldtype": "Password",
+   "label": "Service key (live)"
+  },
+  {
+   "fieldname": "test_key",
+   "fieldtype": "Password",
+   "label": "Service key (test)"
+  },
+  {
+   "fieldname": "column_break_main",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "monthly_limit",
+   "fieldtype": "Currency",
+   "label": "Most to spend a month (₹)",
+   "default": "500",
+   "description": "Checks stop for the month when it's reached, and the owner is told on Telegram."
+  },
+  {
+   "fieldname": "free_per_month",
+   "fieldtype": "Int",
+   "label": "Free checks a month for each business (per kind)",
+   "default": "3"
+  },
+  {
+   "fieldname": "match_threshold",
+   "fieldtype": "Int",
+   "label": "Names match at (0–100)",
+   "default": "80",
+   "description": "How close the name on the record must be to the business or seller name."
+  },
+  {
+   "fieldname": "section_partners",
+   "fieldtype": "Section Break",
+   "label": "Partner sites"
+  },
+  {
+   "fieldname": "edenza_token",
+   "fieldtype": "Password",
+   "label": "Edenza token",
+   "description": "Edenza's seller onboarding sends this in X-QTT-Token."
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "issingle": 1,
+ "track_changes": 1,
+ "description": "Checks of GSTIN, PAN, bank account and company CIN against government records (verification.py). The service behind it is never shown to businesses or sellers."
+}

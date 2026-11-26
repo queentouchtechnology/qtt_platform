@@ -1,0 +1,157 @@
+{
+ "doctype": "DocType",
+ "name": "QTT Verification Check",
+ "module": "QTT Platform",
+ "custom": 0,
+ "engine": "InnoDB",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "modified": "2026-11-26 15:00:00.000000",
+ "field_order": [
+  "kind",
+  "number",
+  "result",
+  "record_name",
+  "given_name",
+  "name_score",
+  "name_match",
+  "column_break_main",
+  "source",
+  "tenant",
+  "subject",
+  "cost_paise",
+  "test",
+  "cached",
+  "call_id",
+  "fingerprint",
+  "details"
+ ],
+ "fields": [
+  {
+   "fieldname": "kind",
+   "fieldtype": "Select",
+   "label": "Check",
+   "options": "gstin\npan\nbank\ncin",
+   "in_list_view": 1,
+   "reqd": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "number",
+   "fieldtype": "Data",
+   "label": "Number (PAN and account masked)",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "result",
+   "fieldtype": "Select",
+   "label": "Result",
+   "options": "verified\nnot_found\ninactive\ninvalid\nfailed",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "record_name",
+   "fieldtype": "Data",
+   "label": "Name on the record",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "given_name",
+   "fieldtype": "Data",
+   "label": "Name it was compared with",
+   "read_only": 1
+  },
+  {
+   "fieldname": "name_score",
+   "fieldtype": "Int",
+   "label": "Name score",
+   "read_only": 1
+  },
+  {
+   "fieldname": "name_match",
+   "fieldtype": "Check",
+   "label": "Names match",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_main",
+   "fieldtype": "Column Break",
+   "label": "",
+   "read_only": 1
+  },
+  {
+   "fieldname": "source",
+   "fieldtype": "Select",
+   "label": "From",
+   "options": "QTT OS\nEdenza",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "label": "Business",
+   "options": "QTT Tenant",
+   "search_index": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "subject",
+   "fieldtype": "Data",
+   "label": "For",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cost_paise",
+   "fieldtype": "Int",
+   "label": "Cost (paise)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "test",
+   "fieldtype": "Check",
+   "label": "Test",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cached",
+   "fieldtype": "Check",
+   "label": "Reused (no charge)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "call_id",
+   "fieldtype": "Data",
+   "label": "Service reference",
+   "read_only": 1
+  },
+  {
+   "fieldname": "fingerprint",
+   "fieldtype": "Data",
+   "label": "Fingerprint",
+   "search_index": 1,
+   "hidden": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "details",
+   "fieldtype": "Code",
+   "label": "Details",
+   "options": "JSON",
+   "read_only": 1
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "track_changes": 0,
+ "description": "Each verification: what was checked (PAN and bank account masked), the result and the name on the record."
+}

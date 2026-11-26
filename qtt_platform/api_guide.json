@@ -5090,6 +5090,38 @@
    "status": "OK"
   },
   {
+   "endpoint": "qtt_platform.api.business_verify.status",
+   "product": "Platform",
+   "area": "api.business_verify",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "{verified (the business), items: [{kind, title, number, result, summary, record_name, checked_at, checks_left, has_number}]}",
+   "details": "{verified (the business), items: [{kind, title, number, result, summary, record_name, checked_at, checks_left, has_number}]}",
+   "arguments": "",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/business_verify.py:48",
+   "status": "Not used by the app"
+  },
+  {
+   "endpoint": "qtt_platform.api.business_verify.verify",
+   "product": "Platform",
+   "area": "api.business_verify",
+   "http_methods": "POST",
+   "guest": 0,
+   "purpose": "Checks the profile's GSTIN, PAN or bank account. PAN and bank need the owner's consent (it's personal data; the bank check may send ₹1 to the account). Answers like status().",
+   "details": "Checks the profile's GSTIN, PAN or bank account. PAN and bank need the owner's consent (it's personal data; the bank\ncheck may send ₹1 to the account). Answers like status().",
+   "arguments": "kind, consent",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/business_verify.py:78",
+   "status": "Not used by the app"
+  },
+  {
    "endpoint": "qtt_platform.api.calendar.items",
    "product": "Platform",
    "area": "api.calendar",
@@ -10672,6 +10704,22 @@
    "other_callers": "",
    "source": "qtt_platform/qtt_platform/api/verify.py:97",
    "status": "Not described"
+  },
+  {
+   "endpoint": "qtt_platform.api.verify_service.check",
+   "product": "Platform",
+   "area": "api.verify_service",
+   "http_methods": "POST",
+   "guest": 1,
+   "purpose": "One check for a partner site (token in X-QTT-Token): result and a one-line summary, PAN and account masked.",
+   "details": "One check for a partner site (token in X-QTT-Token): result and a one-line summary, PAN and account masked.",
+   "arguments": "kind, number, ifsc, name, ref",
+   "used_by": "—",
+   "app_calls": "",
+   "screens": "",
+   "other_callers": "",
+   "source": "qtt_platform/qtt_platform/api/verify_service.py:29",
+   "status": "Not used by the app"
   },
   {
    "endpoint": "qtt_platform.api.view_as.start",
