@@ -1214,7 +1214,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.assignStructure",
    "screens": "products/office_pulse/screens/payroll_view.dart › _TemplateEditorState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:244",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:276",
    "status": "OK"
   },
   {
@@ -1262,7 +1262,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.createRun",
    "screens": "products/office_pulse/screens/payroll_view.dart › _PayrollViewState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:318",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:350",
    "status": "OK"
   },
   {
@@ -1294,7 +1294,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.employeePay",
    "screens": "products/office_pulse/screens/payroll_view.dart › _EmployeeSalaryState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:275",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:307",
    "status": "Not described"
   },
   {
@@ -1310,7 +1310,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.extrasPreview",
    "screens": "products/office_pulse/screens/payroll_view.dart › _PayrollViewState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:439",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:471",
    "status": "OK"
   },
   {
@@ -1326,7 +1326,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.finaliseRun",
    "screens": "products/office_pulse/screens/payroll_view.dart › _RunDetailState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:448",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:480",
    "status": "OK"
   },
   {
@@ -1342,7 +1342,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.myPayslips\nqtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.payslipsPage",
    "screens": "products/office_pulse/screens/payslips_view.dart › _PayslipsViewState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:467",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:499",
    "status": "OK"
   },
   {
@@ -1358,7 +1358,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.paySettings",
    "screens": "products/office_pulse/screens/payroll_view.dart › _PaySettingsPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:417",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:449",
    "status": "Not described"
   },
   {
@@ -1374,7 +1374,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.payslip",
    "screens": "products/office_pulse/office_pulse_root.dart › _OfficePulseRootState\nproducts/office_pulse/screens/payslips_view.dart › PayslipDetail\nproducts/office_pulse/screens/pulse_shell.dart › PulseShell",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:490",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:522",
    "status": "Not described"
   },
   {
@@ -1390,7 +1390,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.payslipPdf",
    "screens": "products/office_pulse/screens/payslips_view.dart › PayslipDetail",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:504",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:536",
    "status": "Not described"
   },
   {
@@ -1406,7 +1406,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.run",
    "screens": "admin/builds_view.dart › _BuildTile\nadmin/builds_view.dart › _LogSheet\nadmin/workspace_billing_view.dart › _ProductCard\nmain.dart › (top level)\nproducts/office_pulse/screens/payroll_view.dart › _RunDetailState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:375",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:407",
    "status": "Not described"
   },
   {
@@ -1422,7 +1422,23 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.runs\nqtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.runsPage",
    "screens": "admin/marketing_dashboard_models.dart › AutomationRun\nadmin/marketing_dashboard_models.dart › AutomationWeek\nadmin/marketing_overview.dart › _Automations\nadmin/marketing_reports_view.dart › DayReportBody\nproducts/office_pulse/screens/payroll_view.dart › _PayrollViewState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:293",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:325",
+   "status": "OK"
+  },
+  {
+   "endpoint": "qtt_office_pulse.api.payroll.salary_preview",
+   "product": "Office Pulse",
+   "area": "api.payroll",
+   "http_methods": "GET",
+   "guest": 0,
+   "purpose": "What a monthly salary (base) comes to with a template, for a full month: each pay item worked out in order (formulas see base and earlier items' short codes), totals and take-home. An item whose formula needs something only known at pay time (days worked, a condition) comes back with amount None. Shown while giving a template, before saving.",
+   "details": "What a monthly salary (base) comes to with a template, for a full month: each pay item worked out in order\n(formulas see base and earlier items' short codes), totals and take-home. An item whose formula needs\nsomething only known at pay time (days worked, a condition) comes back with amount None.\nShown while giving a template, before saving.",
+   "arguments": "structure, base",
+   "used_by": "App",
+   "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.salaryPreview",
+   "screens": "products/office_pulse/screens/payroll_view.dart › _SetSalaryDialogState",
+   "other_callers": "",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:244",
    "status": "OK"
   },
   {
@@ -1454,7 +1470,7 @@
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.savePaySettings",
    "screens": "products/office_pulse/screens/payroll_view.dart › _PaySettingsPageState",
    "other_callers": "",
-   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:424",
+   "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:456",
    "status": "Not described"
   },
   {
@@ -1484,7 +1500,7 @@
    "arguments": "name",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/office_pulse/repository.dart › PulseRepository.structure",
-   "screens": "products/office_pulse/screens/payroll_view.dart › _TemplateEditorState",
+   "screens": "products/office_pulse/screens/payroll_view.dart › _SetSalaryDialog\nproducts/office_pulse/screens/payroll_view.dart › _SetSalaryDialogState\nproducts/office_pulse/screens/payroll_view.dart › _TemplateEditorState",
    "other_callers": "",
    "source": "qtt-os/qtt_office_pulse/qtt_office_pulse/api/payroll.py:163",
    "status": "Not described"
@@ -14908,7 +14924,7 @@
    "arguments": "service",
    "used_by": "App",
    "app_calls": "qtt-os/qtt_app/lib/products/services/repository.dart › ServicesRepository.cancel",
-   "screens": "admin/admin_repository.dart › AdminRepository\napp/app.dart › _QttOsAppState\napp/app_gate.dart › _SplashState\ncore/analytics/analytics.dart › Analytics\ncore/api/api_client.dart › ApiClient\ncore/config/remote_config.dart › RemoteConfigStore\ncore/offline/connection.dart › Connection\ncore/offline/saved_copies.dart › SavedCopies\ncore/push/push_service.dart › PushService\nplatform/auth/google_web_button_web.dart › _GoogleWebButtonState\nplatform/calendar/calendar_home.dart › _TimeGridState\nplatform/free_use/free_use_screens.dart › _OnePlanPageState\nplatform/onboarding/signup_screen.dart › _SignupScreenState\nplatform/session/app_session.dart › AppSession\nplatform/team/team_call.dart › _TeamCallPageState\nplatform/team/team_chat_page.dart › _TeamChatPageState\nplatform/team/team_screen.dart › _TeamScreenState\nplatform/team/team_voice.dart › VoiceRecorder\nplatform/team/team_voice.dart › _VoiceNotePlayerState\nplatform/workplace/remote_page.dart › _SetupComputerPageState\nproducts/office_pulse/office_pulse_root.dart › PulseState\nproducts/office_pulse/screens/pattern_who.dart › _PatternWhoState\nproducts/onbox/chat_controller.dart › ChatController\nproducts/onbox/onbox_provider.dart › OnboxProvider\nproducts/onbox/screens/conversation_list_pane.dart › _ConversationListPaneState\nproducts/orbitra/orbitra_root.dart › OrbitraState\nproducts/services/screens/deploy_pages.dart › _DeploymentPageState\nproducts/services/screens/golive_pages.dart › _DeletingDialogState\nproducts/services/screens/plan_change_page.dart › _PlanChangePageState\nproducts/services/screens/quick_post.dart › _MakingPageState\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › ServicesState\nproducts/studio/shorts_studio.dart › _ShortPageState\nshared/erp/erp_screens.dart › ErpApi\nshared/erp/erp_screens.dart › _ErpDocPageState\nshared/search/global_search.dart › _GlobalSearchScreenState\nshared/widgets/list_kit.dart › _SearchFilterBarState\nshell/home_shell.dart › _HomeShellState",
+   "screens": "admin/admin_repository.dart › AdminRepository\napp/app.dart › _QttOsAppState\napp/app_gate.dart › _SplashState\ncore/analytics/analytics.dart › Analytics\ncore/api/api_client.dart › ApiClient\ncore/config/remote_config.dart › RemoteConfigStore\ncore/offline/connection.dart › Connection\ncore/offline/saved_copies.dart › SavedCopies\ncore/push/push_service.dart › PushService\nplatform/auth/google_web_button_web.dart › _GoogleWebButtonState\nplatform/calendar/calendar_home.dart › _TimeGridState\nplatform/free_use/free_use_screens.dart › _OnePlanPageState\nplatform/onboarding/signup_screen.dart › _SignupScreenState\nplatform/session/app_session.dart › AppSession\nplatform/team/team_call.dart › _TeamCallPageState\nplatform/team/team_chat_page.dart › _TeamChatPageState\nplatform/team/team_screen.dart › _TeamScreenState\nplatform/team/team_voice.dart › VoiceRecorder\nplatform/team/team_voice.dart › _VoiceNotePlayerState\nplatform/workplace/remote_page.dart › _SetupComputerPageState\nproducts/office_pulse/office_pulse_root.dart › PulseState\nproducts/office_pulse/screens/pattern_who.dart › _PatternWhoState\nproducts/office_pulse/screens/payroll_view.dart › _SetSalaryDialogState\nproducts/onbox/chat_controller.dart › ChatController\nproducts/onbox/onbox_provider.dart › OnboxProvider\nproducts/onbox/screens/conversation_list_pane.dart › _ConversationListPaneState\nproducts/orbitra/orbitra_root.dart › OrbitraState\nproducts/services/screens/deploy_pages.dart › _DeploymentPageState\nproducts/services/screens/golive_pages.dart › _DeletingDialogState\nproducts/services/screens/plan_change_page.dart › _PlanChangePageState\nproducts/services/screens/quick_post.dart › _MakingPageState\nproducts/services/screens/services_home.dart › _ServicePage\nproducts/services/services_root.dart › ServicesState\nproducts/studio/shorts_studio.dart › _ShortPageState\nshared/erp/erp_screens.dart › ErpApi\nshared/erp/erp_screens.dart › _ErpDocPageState\nshared/search/global_search.dart › _GlobalSearchScreenState\nshared/widgets/list_kit.dart › _SearchFilterBarState\nshell/home_shell.dart › _HomeShellState",
    "other_callers": "",
    "source": "qtt-os/qtt_services/qtt_services/api/shop.py:379",
    "status": "Not described"
